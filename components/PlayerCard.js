@@ -206,7 +206,7 @@ const PlayerCard = ({ player, gameweeks }) => {
                 backgroundColor: "muted",
               }}
             >
-              {+(player.stats.season_xgi_per_90 || 0).toFixed?.(2)}
+              {+(player.stats?.season_xgi_per_90 || 0).toFixed?.(2)}
             </CenterFlex>
           </Grid>
           <Grid gap={0} columns={[6]}>
@@ -235,7 +235,7 @@ const PlayerCard = ({ player, gameweeks }) => {
                 backgroundColor: "muted",
               }}
             >
-              {+(player.stats.season_xga_per_90 || 0).toFixed?.(2)}
+              {+(player.stats?.season_xga_per_90 || 0).toFixed?.(2)}
             </CenterFlex>
           </Grid>
         </>

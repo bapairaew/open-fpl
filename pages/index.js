@@ -128,7 +128,7 @@ export const getStaticProps = async () => {
         stats: playerStats
           ? (function () {
               // TODO: handle the case where a player moved mid-season to another PL team
-              const playerTeam = playerStats.groupsData.season[0].team;
+              const playerTeam = playerStats?.groupsData?.season[0].team;
               const last5Matches = playerStats?.matchesData
                 .slice(0, 5)
                 .reverse();
