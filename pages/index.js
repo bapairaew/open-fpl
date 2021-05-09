@@ -149,7 +149,7 @@ export const getStaticProps = async () => {
                       fplTeams.find((t) => t.id === +fplOpponentId)
                         ?.short_name || null,
                     is_home: isHome,
-                    match_xgi_per_90: ((+m.xA + +m.xG) * 90) / +m.time,
+                    match_xgi_per_90: +m.xA + +m.xG,
                     match_xga_per_90: +opponent?.datesData.find(
                       (d) => m.id === d.id
                     )?.xG?.[isHome ? "a" : "h"],
