@@ -1,0 +1,39 @@
+{
+  "name": "open-fpl",
+  "version": "0.0.0",
+  "scripts": {
+    "init-data": "babel-node scripts/init-data.js",
+    "init-links": "babel-node scripts/init-links.js",
+    "init-teamcolorcodes": "babel-node scripts/init-teamcolorcodes.js",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@theme-ui/match-media": "^0.8.4",
+    "fuse.js": "^6.4.6",
+    "next": "^10.2.0",
+    "next-seo": "^4.24.0",
+    "react": "^17.0.2",
+    "react-annotation": "^2.2.1",
+    "react-dom": "^17.0.2",
+    "react-ga": "^3.3.0",
+    "react-icons": "^4.2.0",
+    "react-virtualized-auto-sizer": "^1.0.5",
+    "react-window": "^1.8.6",
+    "search-query-parser": "^1.5.5",
+    "theme-ui": "^0.8.3",
+    "use-debounce": "^6.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/node": "^7.13.13",
+    "glob": "^7.1.6",
+    "glob-promise": "^4.1.0",
+    "node-fetch": "^2.6.1",
+    "node-html-parser": "^3.2.0",
+    "p-retry": "^4.5.0",
+    "string-similarity": "^4.0.4",
+    "tiny-async-pool": "^1.2.0"
+  }
+}

@@ -1,0 +1,164 @@
+[
+  {
+    "team": "Arsenal",
+    "background": "#d80919",
+    "text": "white",
+    "highlight": "#063672"
+  },
+  {
+    "team": "Aston Villa",
+    "background": "#95bfe5",
+    "text": "white",
+    "highlight": "#670e36"
+  },
+  {
+    "team": "AFC Bournemouth",
+    "background": "#d41e2a",
+    "text": "white",
+    "highlight": "#000"
+  },
+  {
+    "team": "Brighton",
+    "background": "#0a56a3",
+    "text": "white",
+    "highlight": "#F8BC1B"
+  },
+  {
+    "team": "Burnley",
+    "background": "#80234c",
+    "text": "#f9ec34",
+    "highlight": "#91D2F2"
+  },
+  {
+    "team": "Chelsea",
+    "background": "#034694",
+    "text": "#fff",
+    "highlight": "#ED1C24"
+  },
+  {
+    "team": "Crystal Palace",
+    "background": "#1b458f",
+    "text": "white",
+    "highlight": "#C4122E"
+  },
+  {
+    "team": "Everton",
+    "background": "#063a99",
+    "text": "white",
+    "highlight": "#fff"
+  },
+  {
+    "team": "Leicester",
+    "background": "#1358a1",
+    "text": "white",
+    "highlight": "#FAB92C"
+  },
+  {
+    "team": "Liverpool",
+    "background": "#e0202c",
+    "text": "#fef667",
+    "highlight": "#19A78E"
+  },
+  {
+    "team": "Manchester City",
+    "background": "#99c5e7",
+    "text": "#022a5d",
+    "highlight": "#022A5D"
+  },
+  {
+    "team": "Manchester United",
+    "background": "#dc1f29",
+    "text": "#fae935",
+    "highlight": "#000"
+  },
+  {
+    "team": "Newcastle United",
+    "background": "#000000",
+    "text": "white",
+    "highlight": "#C2A475"
+  },
+  {
+    "team": "Norwhich City",
+    "background": "#fff200",
+    "text": "black",
+    "highlight": "#00A650"
+  },
+  {
+    "team": "Sheffield United",
+    "background": "#ee2737",
+    "text": "white",
+    "highlight": "#0D171A"
+  },
+  {
+    "team": "Southampton",
+    "background": "#d41e29",
+    "text": "white",
+    "highlight": "#FFC20E"
+  },
+  {
+    "team": "Tottenham",
+    "background": "#11214b",
+    "text": "white",
+    "highlight": "#11214b"
+  },
+  {
+    "team": "Watford FC",
+    "background": "#feeb00",
+    "text": "#e40f18",
+    "highlight": "#000"
+  },
+  {
+    "team": "West Ham",
+    "background": "#7a263a",
+    "text": "#f3d459",
+    "highlight": "#2AB2E5"
+  },
+  {
+    "team": "Wolverhampton Wanderers",
+    "background": "#231f20",
+    "text": null,
+    "highlight": "#FDB913"
+  },
+  {
+    "team": "Cardiff City",
+    "background": "#0070b5",
+    "text": "#fff",
+    "highlight": "#D11524"
+  },
+  {
+    "team": "Fulham",
+    "background": "#cc0000",
+    "text": null,
+    "highlight": "#000"
+  },
+  {
+    "team": "Huddersfield Town",
+    "background": "#0e63ad",
+    "text": "white",
+    "highlight": "#fff"
+  },
+  {
+    "team": "Leeds",
+    "background": "#005b9e",
+    "text": "white",
+    "highlight": "#ffcd00"
+  },
+  {
+    "team": "Stoke City",
+    "background": "#d41e29",
+    "text": "white",
+    "highlight": "#02225f"
+  },
+  {
+    "team": "Swansea City",
+    "background": "#121212",
+    "text": "white",
+    "highlight": "#000"
+  },
+  {
+    "team": "West Bromwich Albion",
+    "background": "#122f67",
+    "text": "white",
+    "highlight": "#122f67"
+  }
+]

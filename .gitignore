@@ -1,0 +1,9 @@
+.next
+node_modules
+data/*
+
+# These datasets are to be overridden manually
+!data/links
+!data/teamcolorcodes
+
+*.temp.*
