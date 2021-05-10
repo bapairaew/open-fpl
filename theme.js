@@ -1,6 +1,4 @@
 const theme = {
-  useCustomProperties: true,
-  initialColorMode: "system",
   colors: {
     text: "#000",
     background: "#fff",
