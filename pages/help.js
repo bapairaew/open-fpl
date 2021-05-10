@@ -1,9 +1,9 @@
 import { Box, Flex, Heading, Link as A, Text } from "@theme-ui/components";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
+import { AnnotationCalloutRect } from "react-annotation";
 import PlayerCard from "~/components/PlayerCard";
 import PlayerSearchBar from "~/components/PlayerSearchBar";
-import { AnnotationCalloutRect } from "react-annotation";
 
 const player = {
   id: 302,
@@ -188,7 +188,7 @@ function HelpPage() {
   return (
     <>
       <NextSeo title="How to use | Open FPL" />
-      <Box mt={2} p={2}>
+      <Box mt={2} mb={4} py={2} px={4}>
         <Heading as="h1" sx={{ fontWeight: "display" }} my={4}>
           Player Explorer
         </Heading>
@@ -197,7 +197,7 @@ function HelpPage() {
           <Link href="/" passHref>
             <A>Player Explorer</A>
           </Link>{" "}
-          page
+          page.
         </Text>
         <Heading as="h2" sx={{ fontWeight: "display" }} my={4}>
           Player Card
@@ -232,12 +232,22 @@ function HelpPage() {
             <AnnotationCalloutRect
               x={255}
               y={172}
-              dx={108}
-              dy={-58}
+              dx={55}
+              dy={-70}
               note={{
                 title: "Player name",
               }}
               subject={{ width: 241, height: 47 }}
+            />
+            <AnnotationCalloutRect
+              x={461}
+              y={200}
+              dx={-1}
+              dy={-54}
+              note={{
+                title: "FPL ID",
+              }}
+              subject={{ width: 36, height: 19 }}
             />
             <AnnotationCalloutRect
               x={542}
@@ -275,7 +285,7 @@ function HelpPage() {
               dx={-52}
               dy={24}
               note={{
-                title: "Previous fixtures points",
+                title: "Previous fixtures FPL points",
               }}
               subject={{ width: 400, height: 63 }}
             />
@@ -304,62 +314,103 @@ function HelpPage() {
         <Heading as="h2" sx={{ fontWeight: "display" }} my={3}>
           Player Search Bar
         </Heading>
+        <Heading as="h3" sx={{ fontWeight: "display" }} my={3}>
+          Filtering
+        </Heading>
+        <Text mt={4} mb={2} as="p">
+          Player Search Bar supports free text search which will do fuzzy search
+          on players' full name hence if you typed "Paul", the search results
+          would show (Paul) Pogba and (Paul) Dummett.
+        </Text>
         <Box sx={{ pointerEvents: "none" }}>
-          <Text mt={4} mb={2} as="p">
-            Player Search Bar supports free text search which will do fuzzy
-            search on players' full name hence if you typed "Paul", the search
-            results would show (Paul) Pogba and (Paul) Dummett.
-          </Text>
           <PlayerSearchBar initialSeachQuery="Paul" />
-          <Text mt={4} mb={2} as="p">
-            It also supports search query syntax like when you do email search.
-            For example, if you want to specifically find a player based on
-            their name FPL page you can use field search <code>name</code> like
-            shown below:
-          </Text>
+        </Box>
+        <Text mt={4} mb={2} as="p">
+          It also supports search query syntax like when you do email search.
+          For example, if you want to specifically find a player based on their
+          name FPL page you can use field search <code>name</code> like shown
+          below:
+        </Text>
+        <Box sx={{ pointerEvents: "none" }}>
           <PlayerSearchBar initialSeachQuery="name:Pogba" />
-          <Box mt={4} mb={2}>
-            Currently, it supports the following fields:
-            <ul>
-              <li>
-                <Text>
-                  <code>name</code> - FPL web name
-                </Text>
+        </Box>
+        <Box mt={4} mb={2}>
+          Currently, it supports the following fields:
+          <ul>
+            <li>
+              <Text>
+                <code>id</code> - FPL ID
+              </Text>
+              <Box sx={{ pointerEvents: "none" }}>
+                <PlayerSearchBar initialSeachQuery="id:296" />
+              </Box>
+            </li>
+            <li>
+              <Text>
+                <code>name</code> - FPL web name
+              </Text>
+              <Box sx={{ pointerEvents: "none" }}>
                 <PlayerSearchBar initialSeachQuery="name:Pogba" />
-              </li>
-              <li>
-                <Text>
-                  <code>price</code> - FPL price range
-                </Text>
+              </Box>
+            </li>
+            <li>
+              <Text>
+                <code>cost</code> - FPL player's cost range
+              </Text>
+              <Box sx={{ pointerEvents: "none" }}>
                 <PlayerSearchBar initialSeachQuery="price:4-10" />
-              </li>
-              <li>
-                <Text>
-                  <code>position</code> - FPL positon (FWD, MID, DEF, GKP)
-                </Text>
+              </Box>
+            </li>
+            <li>
+              <Text>
+                <code>position</code> - FPL positon (FWD, MID, DEF, GKP)
+              </Text>
+              <Box sx={{ pointerEvents: "none" }}>
                 <PlayerSearchBar initialSeachQuery="position:MID" />
-              </li>
-              <li>
-                <Text>
-                  <code>team</code> - FPL short team name (e.g. MUN, LIV, MCI)
-                </Text>
+              </Box>
+            </li>
+            <li>
+              <Text>
+                <code>team</code> - FPL short team name (e.g. MUN, LIV, MCI)
+              </Text>
+              <Box sx={{ pointerEvents: "none" }}>
                 <PlayerSearchBar initialSeachQuery="team:MUN" />
-              </li>
-            </ul>
-          </Box>
-          <Text mt={4} mb={2} as="p">
-            You can also do field keyword combination to expand your search
-            results, for example, if you want to search for players from
-            Manchester United OR Liverpool you can do the following:
-          </Text>
+              </Box>
+            </li>
+          </ul>
+        </Box>
+        <Text mt={4} mb={2} as="p">
+          You can also do field keyword combination to expand your search
+          results, for example, if you want to search for players from
+          Manchester United OR Liverpool you can do the following:
+        </Text>
+        <Box sx={{ pointerEvents: "none" }}>
           <PlayerSearchBar initialSeachQuery="name:MUN,LIV" />
-          <Text mt={4} mb={2} as="p">
-            Or if you want to narrow down your search result you could append
-            anoter field search query, for example, the following will show
-            Manchester United midfield players
-          </Text>
+        </Box>
+        <Text mt={4} mb={2} as="p">
+          Or if you want to narrow down your search result you could append
+          anoter field search query, for example, the following will show
+          Manchester United midfield players
+        </Text>
+        <Box sx={{ pointerEvents: "none" }}>
           <PlayerSearchBar initialSeachQuery="team:MUN position:MID" />
         </Box>
+        <Text mt={4} mb={2} as="p">
+          You can also exclude some search results use exclusion prefix `-` like
+          shown below how to exclude Pogba from search results. Please also note
+          that range search (e.g. cost) DOES NOT support exclusion yet.
+        </Text>
+        <Box sx={{ pointerEvents: "none" }}>
+          <PlayerSearchBar initialSeachQuery="team:MUN position:MID -name:Pogba" />
+        </Box>
+        <Heading as="h3" sx={{ fontWeight: "display" }} my={3}>
+          Sorting
+        </Heading>
+        <Text mt={4} mb={2} as="p">
+          You can sort the results by using the dropdown besides the search text
+          box. The default is "Best Fixtures" which is calculated from FPL match
+          difficulty.
+        </Text>
       </Box>
     </>
   );

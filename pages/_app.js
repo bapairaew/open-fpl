@@ -54,11 +54,11 @@ export default function App({ Component, pageProps }) {
               </NavLink>
             </Box>
           </Box>
-          <Grid p={3} row={[2]} gap={2}>
+          <Grid p={3} row={[2]} gap={3}>
             <Link href="/help" passHref>
               <Button as="a">How to use this?</Button>
             </Link>
-            <Text color="gray" sx={{ fontSize: 1 }}>
+            <Text color="gray" sx={{ fontSize: 1, textAlign: "center" }}>
               Version: {p.version}
             </Text>
           </Grid>

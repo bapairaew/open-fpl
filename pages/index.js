@@ -136,6 +136,7 @@ export const getStaticProps = async () => {
                 (t) => t.title === playerTeam
               );
               return {
+                id: playerStats.id,
                 matches: last5Matches.map((m) => {
                   const isHome = m.h_team === playerTeam;
                   const opponent = isHome
@@ -215,7 +216,7 @@ function HomePage({ players: allPlayers, gameweeks }) {
   return (
     <>
       <NextSeo title="Player Explorer | Open FPL" />
-      <PlayerSearchBar onResult={setPlayers} players={allPlayers} />
+      <PlayerSearchBar onResults={setPlayers} players={allPlayers} />
       <AutoSizer>
         {({ height, width }) => (
           <List

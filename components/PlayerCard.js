@@ -1,4 +1,4 @@
-import { Box, Card, Flex, Grid } from "@theme-ui/components";
+import { Card, Flex, Grid, Text } from "@theme-ui/components";
 import React from "react";
 
 const positionColorCodes = {
@@ -54,8 +54,22 @@ const CenterFlex = ({ sx, ...props }) => (
 const PlayerCard = ({ player, gameweeks }) => {
   return (
     <Card
+      as="a"
+      href={
+        player.stats
+          ? `https://understat.com/player/${player.stats.id}`
+          : `https://understat.com/league/EPL`
+      }
+      target="_blank"
+      rel="noreferrer noopener"
       variant="bare"
-      sx={{ display: "flex", flexDirection: "column", height: "100%" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        textDecoration: "inherit",
+        color: "inherit",
+      }}
     >
       <Flex>
         <CenterFlex
@@ -70,9 +84,27 @@ const PlayerCard = ({ player, gameweeks }) => {
         >
           {player.team.short_name}
         </CenterFlex>
-        <Box sx={{ flexGrow: 1, fontWeight: "bold", fontSize: 3 }} p={2}>
-          {player.web_name}
-        </Box>
+        <Flex
+          sx={{ flexGrow: 1, flexDirection: "column", position: "relative" }}
+          p={2}
+          rows={["1fr 10px"]}
+        >
+          <Text sx={{ flexGrow: 1, fontWeight: "bold", fontSize: 3 }}>
+            {player.web_name}
+          </Text>
+          <Text
+            sx={{
+              textAlign: "right",
+              color: "gray",
+              fontSize: 1,
+              position: "absolute",
+              bottom: 0,
+              right: 1,
+            }}
+          >
+            {player.id}
+          </Text>
+        </Flex>
         <CenterFlex
           sx={{
             backgroundColor:
@@ -195,7 +227,7 @@ const PlayerCard = ({ player, gameweeks }) => {
                     : "",
                 }}
               >
-                {+(s.match_xgi_per_90 || 0).toFixed?.(2)}
+                {(+(s.match_xgi_per_90 || 0)).toFixed?.(2)}
               </CenterFlex>
             ))}
             <CenterFlex
@@ -206,7 +238,7 @@ const PlayerCard = ({ player, gameweeks }) => {
                 backgroundColor: "muted",
               }}
             >
-              {+(player.stats?.season_xgi_per_90 || 0).toFixed?.(2)}
+              {(+(player.stats?.season_xgi_per_90 || 0)).toFixed?.(2)}
             </CenterFlex>
           </Grid>
           <Grid gap={0} columns={[6]}>
@@ -224,7 +256,7 @@ const PlayerCard = ({ player, gameweeks }) => {
                     : "",
                 }}
               >
-                {+(s.match_xga_per_90 || 0).toFixed?.(2)}
+                {(+(s.match_xga_per_90 || 0)).toFixed?.(2)}
               </CenterFlex>
             ))}
             <CenterFlex
@@ -235,7 +267,7 @@ const PlayerCard = ({ player, gameweeks }) => {
                 backgroundColor: "muted",
               }}
             >
-              {+(player.stats?.season_xga_per_90 || 0).toFixed?.(2)}
+              {(+(player.stats?.season_xga_per_90 || 0)).toFixed?.(2)}
             </CenterFlex>
           </Grid>
         </>
