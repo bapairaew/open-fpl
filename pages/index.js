@@ -93,14 +93,21 @@ export const getStaticProps = async () => {
         chance_of_playing_next_round: player.chance_of_playing_next_round,
         chance_of_playing_this_round: player.chance_of_playing_this_round,
         total_points: player.total_points,
+        transfers_in_event: player.transfers_in_event,
+        transfers_out_event: player.transfers_out_event,
+        // TODO: move this to another props to make it is clear that this is not from FPL data
+        transfers_delta_event:
+          player.transfers_in_event - player.transfers_out_event,
         element_type: {
           singular_name_short: player.element_type.singular_name_short,
         },
         team: {
           id: player.team.id,
           short_name: player.team.short_name,
+          // TODO: move this out and map it in ui to reduce bundle size
           ...teamsMap[player.team.id],
         },
+        // TODO: move this to another props to make it is clear that this is not from FPL data
         previous_gameweeks: player.history
           .filter((h) => h.team_h_score !== null) // Only show the game the already played
           .slice(-5)
@@ -114,6 +121,7 @@ export const getStaticProps = async () => {
             bps: h.bps,
             minutes: h.minutes,
           })),
+        // TODO: move this to another props to make it is clear that this is not from FPL data
         next_gameweeks: player.fixtures
           .filter((f) => nextGameweeks.includes(f.event))
           .map((f) => ({
@@ -221,7 +229,7 @@ function HomePage({ players: allPlayers, gameweeks }) {
           <List
             height={height - SEARCH_BAR_HEIGHT}
             itemCount={Math.ceil(players.length / columnsCount)}
-            itemSize={260}
+            itemSize={255}
             width={width}
           >
             {Row}

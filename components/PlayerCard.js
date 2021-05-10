@@ -1,6 +1,6 @@
 import { Box, Card, Flex, Grid, Text } from "@theme-ui/components";
 import { IoIosWarning } from "react-icons/io";
-import React from "react";
+import { nFormatter } from "~/libs/numbers";
 
 const positionColorCodes = {
   FWD: {
@@ -24,7 +24,7 @@ const positionColorCodes = {
 const difficultyColorCodes = {
   1: {
     background: "rgb(1, 252, 122)",
-    text: "white",
+    text: "black",
   },
   2: {
     background: "rgb(1, 252, 122)",
@@ -52,10 +52,26 @@ const statusColorCodes = {
   s: "danger", // Suspended
 };
 
+const deltaColorCodes = {
+  positive: {
+    background: "rgb(1, 252, 122)",
+    text: "black",
+  },
+  zero: {
+    background: "rgb(231, 231, 231)",
+    text: "black",
+  },
+  negative: {
+    background: "rgb(255, 23, 81)",
+    text: "white",
+  },
+};
+
 const CenterFlex = ({ sx, ...props }) => (
   <Flex
     sx={{ justifyContent: "center", alignItems: "center", ...sx }}
-    p={2}
+    py={1}
+    px={2}
     {...props}
   />
 );
@@ -77,6 +93,7 @@ const PlayerCard = ({ player, gameweeks }) => {
         ]
       : player.stats.matches
     : [];
+
   return (
     <Card
       as="a"
@@ -94,98 +111,106 @@ const PlayerCard = ({ player, gameweeks }) => {
         height: "100%",
         textDecoration: "inherit",
         color: "inherit",
+        height: "auto",
       }}
     >
       <Flex>
-        <CenterFlex
-          sx={{
-            backgroundColor: player.team.color_codes.text
-              ? player.team.color_codes.background
-              : player.team.color_codes.highlight,
-            color: player.team.color_codes.text
-              ? player.team.color_codes.text
-              : player.team.color_codes.background,
-          }}
-        >
-          {player.team.short_name}
-        </CenterFlex>
-        <Box
-          p={2}
-          sx={{
-            flexGrow: 1,
-            position: "relative",
-          }}
-        >
-          <Flex
-            pr={4}
+        <Flex sx={{ flexDirection: "column" }}>
+          <CenterFlex
             sx={{
-              alignItems: "center",
-              fontWeight: "display",
-              fontSize: 3,
+              backgroundColor: player.team.color_codes.text
+                ? player.team.color_codes.background
+                : player.team.color_codes.highlight,
+              color: player.team.color_codes.text
+                ? player.team.color_codes.text
+                : player.team.color_codes.background,
             }}
           >
-            {player.status !== "a" && (
-              <Flex
-                mr={1}
-                sx={{
-                  justifyContent: "center",
-                  color: statusColorCodes[player.status],
-                }}
-                title={`${player.status} ${player.news}`}
-              >
-                <IoIosWarning />
-              </Flex>
-            )}
-            <Box
-              sx={{
-                display: "-webkit-box",
-                WebkitLineClamp: "1",
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              {player.web_name}
-            </Box>
-          </Flex>
+            {player.team.short_name}
+          </CenterFlex>
+          <CenterFlex
+            sx={{
+              backgroundColor:
+                positionColorCodes[player.element_type.singular_name_short]
+                  .background,
+              color:
+                positionColorCodes[player.element_type.singular_name_short]
+                  .text,
+            }}
+          >
+            {player.element_type.singular_name_short}
+          </CenterFlex>
+        </Flex>
+        {player.status !== "a" && (
+          <CenterFlex
+            sx={{
+              backgroundColor: statusColorCodes[player.status],
+            }}
+            title={player.news}
+          >
+            <IoIosWarning />
+          </CenterFlex>
+        )}
+        <Flex px={2} py={1} sx={{ flexDirection: "column", flexGrow: 1 }}>
           <Text
             sx={{
-              textAlign: "right",
-              color: "gray",
-              fontSize: 1,
-              position: "absolute",
-              bottom: 0,
-              right: 1,
+              fontWeight: "display",
+              fontSize: 3,
+              display: "-webkit-box",
+              WebkitLineClamp: "1",
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
-            {player.id}
+            {player.web_name}
           </Text>
-        </Box>
-        <CenterFlex
-          sx={{
-            backgroundColor:
-              positionColorCodes[player.element_type.singular_name_short]
-                .background,
-            color:
-              positionColorCodes[player.element_type.singular_name_short].text,
-          }}
-        >
-          {player.element_type.singular_name_short}
-        </CenterFlex>
-        <CenterFlex sx={{ minWidth: 50, fontWeight: "bold" }}>
-          £{(player.now_cost / 10).toFixed(1)}
-        </CenterFlex>
+          <Text variant="subtitle">ID: {player.id}</Text>
+        </Flex>
+        <Flex sx={{ flexDirection: "column" }}>
+          <CenterFlex
+            sx={{ fontWeight: "bold", backgroundColor: "muted", flexGrow: 1 }}
+          >
+            £{(player.now_cost / 10).toFixed(1)}
+          </CenterFlex>
+          <CenterFlex
+            sx={{
+              backgroundColor:
+                player.transfers_delta_event === 0
+                  ? deltaColorCodes.zero.background
+                  : player.transfers_delta_event > 0
+                  ? deltaColorCodes.positive.background
+                  : deltaColorCodes.negative.background,
+              color:
+                player.transfers_delta_event === 0
+                  ? deltaColorCodes.zero.text
+                  : player.transfers_delta_event > 0
+                  ? deltaColorCodes.positive.text
+                  : deltaColorCodes.negative.text,
+            }}
+          >
+            <Text
+              variant="subtitle"
+              sx={{
+                color: "inherit",
+              }}
+            >
+              {nFormatter(Math.abs(player.transfers_delta_event), 1)}
+            </Text>
+          </CenterFlex>
+        </Flex>
       </Flex>
-      <Grid gap={0} columns={[5]} sx={{ flexGrow: 1 }}>
+      <Grid gap={0} columns={[5]} sx={{ height: 45 }}>
         {gameweeks.map((w) => {
           const games = player.next_gameweeks.filter((n) => n.event === w.id);
           return (
-            <Grid key={w.id} gap={0} rows={games.map(() => "1fr").join(" ")}>
+            <Flex key={w.id} sx={{ flexDirection: "column" }}>
               {games.length === 0 ? (
                 <CenterFlex
                   sx={{
                     backgroundColor: "text",
                     color: "background",
+                    height: "100%",
                   }}
                 >
                   -
@@ -194,8 +219,8 @@ const PlayerCard = ({ player, gameweeks }) => {
                 games.map((g, i) => (
                   <CenterFlex
                     key={i}
-                    py={games.length > 1 ? 0 : 2}
                     sx={{
+                      height: 45 / games.length,
                       fontSize: games.length > 1 ? 1 : 2,
                       backgroundColor:
                         difficultyColorCodes[g.difficulty].background,
@@ -206,7 +231,7 @@ const PlayerCard = ({ player, gameweeks }) => {
                   </CenterFlex>
                 ))
               )}
-            </Grid>
+            </Flex>
           );
         })}
       </Grid>
@@ -247,93 +272,103 @@ const PlayerCard = ({ player, gameweeks }) => {
           {player.total_points}
         </CenterFlex>
       </Grid>
-      {player.stats ? (
-        <>
-          <Grid gap={0} columns={[6]}>
-            {matches.map((s, i) => (
+      <Box sx={{ height: 80 }}>
+        {player.stats ? (
+          <>
+            <Grid gap={0} columns={[6]}>
+              {matches.map((s, i) => (
+                <CenterFlex
+                  key={i}
+                  p={0.5}
+                  sx={{
+                    fontSize: 1,
+                    color: "gray",
+                    backgroundColor: "muted",
+                  }}
+                >
+                  {(s.opponent_short_title || "")[
+                    s.is_home ? "toUpperCase" : "toLowerCase"
+                  ]()}
+                </CenterFlex>
+              ))}
               <CenterFlex
-                key={i}
                 p={0.5}
                 sx={{ fontSize: 1, color: "gray", backgroundColor: "muted" }}
               >
-                {(s.opponent_short_title || "")[
-                  s.is_home ? "toUpperCase" : "toLowerCase"
-                ]()}
+                x̅
               </CenterFlex>
-            ))}
-            <CenterFlex
-              p={0.5}
-              sx={{ fontSize: 1, color: "gray", backgroundColor: "muted" }}
-            >
-              x̅
-            </CenterFlex>
-          </Grid>
-          <Grid gap={0} columns={[6]}>
-            {matches.map((s, i) => (
+            </Grid>
+            <Grid gap={0} columns={[6]}>
+              {matches.map((s, i) => (
+                <CenterFlex
+                  key={i}
+                  p={1}
+                  sx={{
+                    fontSize: 1,
+                    backgroundColor: s.match_xgi
+                      ? `rgba(0, 255, 0, ${Math.min(
+                          100,
+                          (+(s.match_xgi || 0) * 100) / 2
+                        )}%)`
+                      : "",
+                  }}
+                >
+                  {(+(s.match_xgi || 0)).toFixed?.(2)}
+                </CenterFlex>
+              ))}
               <CenterFlex
-                key={i}
                 p={1}
                 sx={{
                   fontSize: 1,
-                  backgroundColor: s.match_xgi
-                    ? `rgba(0, 255, 0, ${Math.min(
-                        100,
-                        (+(s.match_xgi || 0) * 100) / 2
-                      )}%)`
-                    : "",
+                  fontWeight: "bold",
+                  backgroundColor: "muted",
                 }}
               >
-                {(+(s.match_xgi || 0)).toFixed?.(2)}
+                {(+(player.stats?.season_xgi || 0)).toFixed?.(2)}
               </CenterFlex>
-            ))}
-            <CenterFlex
-              p={1}
-              sx={{
-                fontSize: 1,
-                fontWeight: "bold",
-                backgroundColor: "muted",
-              }}
-            >
-              {(+(player.stats?.season_xgi || 0)).toFixed?.(2)}
-            </CenterFlex>
-          </Grid>
-          <Grid gap={0} columns={[6]}>
-            {matches.map((s, i) => (
+            </Grid>
+            <Grid gap={0} columns={[6]}>
+              {matches.map((s, i) => (
+                <CenterFlex
+                  key={i}
+                  p={1}
+                  sx={{
+                    fontSize: 1,
+                    backgroundColor: s.match_xga
+                      ? `rgba(0, 255, 0, ${Math.min(
+                          100,
+                          (1 - +(s.match_xga || 0)) * 100
+                        )}%)`
+                      : "",
+                  }}
+                >
+                  {(+(s.match_xga || 0)).toFixed?.(2)}
+                </CenterFlex>
+              ))}
               <CenterFlex
-                key={i}
                 p={1}
                 sx={{
                   fontSize: 1,
-                  backgroundColor: s.match_xga
-                    ? `rgba(0, 255, 0, ${Math.min(
-                        100,
-                        (1 - +(s.match_xga || 0)) * 100
-                      )}%)`
-                    : "",
+                  fontWeight: "bold",
+                  backgroundColor: "muted",
                 }}
               >
-                {(+(s.match_xga || 0)).toFixed?.(2)}
+                {(+(player.stats?.season_xga || 0)).toFixed?.(2)}
               </CenterFlex>
-            ))}
-            <CenterFlex
-              p={1}
-              sx={{
-                fontSize: 1,
-                fontWeight: "bold",
-                backgroundColor: "muted",
-              }}
-            >
-              {(+(player.stats?.season_xga || 0)).toFixed?.(2)}
-            </CenterFlex>
-          </Grid>
-        </>
-      ) : (
-        <Flex
-          sx={{ height: 100, justifyContent: "center", alignItems: "center" }}
-        >
-          No stats available
-        </Flex>
-      )}
+            </Grid>
+          </>
+        ) : (
+          <Flex
+            sx={{
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            No stats available
+          </Flex>
+        )}
+      </Box>
     </Card>
   );
 };

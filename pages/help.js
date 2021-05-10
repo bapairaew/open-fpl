@@ -15,7 +15,10 @@ const player = {
   photo: "141746.jpg",
   chance_of_playing_next_round: null,
   chance_of_playing_this_round: null,
+  status: "d",
+  news: "",
   total_points: 221,
+  transfers_delta_event: 103458,
   element_type: {
     singular_name_short: "MID",
   },
@@ -82,7 +85,7 @@ const player = {
     {
       opponent: "AVL",
       is_home: false,
-      event: 35,
+      event: 34,
       finished: false,
       difficulty: 3,
     },
@@ -155,18 +158,25 @@ const player = {
 
 const gameweeks = [
   {
-    id: 35,
+    id: 34,
     deadline_time: "2021-05-23T13:30:00Z",
     is_previous: false,
     is_current: true,
     is_next: false,
   },
   {
-    id: 36,
+    id: 35,
     deadline_time: "2021-05-23T13:30:00Z",
     is_previous: false,
     is_current: false,
     is_next: true,
+  },
+  {
+    id: 36,
+    deadline_time: "2021-05-23T13:30:00Z",
+    is_previous: false,
+    is_current: false,
+    is_next: false,
   },
   {
     id: 37,
@@ -221,93 +231,113 @@ function HelpPage() {
           <Box as="svg" sx={{ width: 800, height: 600, position: "absolute" }}>
             <AnnotationCalloutRect
               x={255}
-              y={172}
-              dx={-26}
-              dy={-57}
+              y={177}
+              dx={-78}
+              dy={-44}
+              subject={{ width: -54, height: 32 }}
               note={{
                 title: "Team",
               }}
-              subject={{ width: -54, height: 47 }}
             />
             <AnnotationCalloutRect
               x={255}
-              y={172}
-              dx={55}
-              dy={-70}
-              note={{
-                title: "Player name",
-              }}
-              subject={{ width: 241, height: 47 }}
-            />
-            <AnnotationCalloutRect
-              x={461}
-              y={200}
-              dx={-1}
-              dy={-54}
-              note={{
-                title: "FPL ID",
-              }}
-              subject={{ width: 36, height: 19 }}
-            />
-            <AnnotationCalloutRect
-              x={542}
-              y={172}
-              dx={-24}
-              dy={-100}
+              y={209}
+              dx={-139}
+              dy={-6}
+              subject={{ width: -54, height: 32 }}
               note={{
                 title: "Position",
               }}
-              subject={{ width: -46, height: 47 }}
             />
             <AnnotationCalloutRect
-              x={542}
-              y={172}
+              x={255}
+              y={177}
+              dx={-2}
+              dy={-98}
+              subject={{ width: 32, height: 64 }}
+              note={{
+                title: "Player status",
+              }}
+            />
+            <AnnotationCalloutRect
+              x={287}
+              y={177}
+              dx={16}
+              dy={-48}
+              subject={{ width: 139, height: 37 }}
+              note={{
+                title: "Player name",
+              }}
+            />
+            <AnnotationCalloutRect
+              x={357}
+              y={214}
+              dx={96}
+              dy={-76}
+              subject={{ width: -70, height: 19 }}
+              note={{
+                title: "FPL ID",
+              }}
+            />
+            <AnnotationCalloutRect
+              x={539}
+              y={176}
               dx={79}
               dy={-64}
+              subject={{ width: 60, height: 37 }}
               note={{
                 title: "Cost",
               }}
-              subject={{ width: 58, height: 47 }}
+            />
+            <AnnotationCalloutRect
+              x={539}
+              y={213}
+              dx={137}
+              dy={-32}
+              subject={{ width: 60, height: 28 }}
+              note={{
+                title: "Transfer gain/loss",
+              }}
             />
             <AnnotationCalloutRect
               x={200}
-              y={219}
-              dx={-52}
-              dy={24}
+              y={241}
+              dx={-57}
+              dy={13}
+              subject={{ width: 400, height: 45 }}
               note={{
                 title: "Next fixtures",
               }}
-              subject={{ width: 400, height: 63 }}
             />
             <AnnotationCalloutRect
               x={200}
-              y={282}
-              dx={-52}
-              dy={24}
+              y={286}
+              dx={-50}
+              dy={52}
+              subject={{ width: 400, height: 55 }}
               note={{
                 title: "Previous fixtures FPL points",
               }}
-              subject={{ width: 400, height: 63 }}
             />
             <AnnotationCalloutRect
               x={200}
-              y={366}
+              y={363}
               dx={470}
               dy={-44}
+              subject={{ width: 400, height: 28 }}
               note={{
                 title: "Previous fixtures xGI",
               }}
-              subject={{ width: 400, height: 30 }}
             />
             <AnnotationCalloutRect
               x={200}
-              y={396}
-              dx={453}
-              dy={79}
+              y={391}
+              dx={465}
+              dy={78}
+              subject={{ width: 400, height: 29 }}
               note={{
                 title: "Previous fixtures xGC",
               }}
-              subject={{ width: 400, height: 30 }}
             />
           </Box>
         </Flex>

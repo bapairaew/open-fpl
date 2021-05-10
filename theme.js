@@ -8,8 +8,9 @@ const theme = {
     highlight: "#33e",
     gray: "#777",
     accent: "#609",
-    danger: "red",
-    warning: "orange",
+    danger: "rgb(255, 23, 81)",
+    warning: "rgb(255, 171, 27)",
+    success: "rgb(1, 252, 122)",
     modes: {
       dark: {
         text: "#fff",

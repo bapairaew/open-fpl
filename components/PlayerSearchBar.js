@@ -73,6 +73,18 @@ const sortOptions = [
     value: "price-desc",
     sortFn: (a, b) => (a.now_cost > b.now_cost ? -1 : 1),
   },
+  {
+    label: "Ownership gain",
+    value: "transfers-delta-desc",
+    sortFn: (a, b) =>
+      a.transfers_delta_event > b.transfers_delta_event ? -1 : 1,
+  },
+  {
+    label: "Ownership loss",
+    value: "transfers-delta-asc",
+    sortFn: (a, b) =>
+      a.transfers_delta_event < b.transfers_delta_event ? -1 : 1,
+  },
 ];
 
 const includeFilter = ({ players, filterValue, getFieldValue }) => {
