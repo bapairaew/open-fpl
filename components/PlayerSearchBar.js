@@ -30,7 +30,11 @@ const sortOptions = [
       // Sort reversed difficulty value (5 is better than 1), and sum them all which makes the value the more the better (more matches and easier)
       const sumA = a.next_gameweeks.reduce((s, g) => s + (5 - g.difficulty), 0);
       const sumB = b.next_gameweeks.reduce((s, g) => s + (5 - g.difficulty), 0);
-      return sumA === sumB ? 0 : sumA > sumB ? -1 : 1;
+      return sumA === sumB
+        ? a.team.short_name.localeCompare(b.team.short_name) // Make sure same team is group together in the result
+        : sumA > sumB
+        ? -1
+        : 1;
     },
   },
   {
