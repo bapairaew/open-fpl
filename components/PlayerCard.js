@@ -1,4 +1,5 @@
-import { Card, Flex, Grid, Text } from "@theme-ui/components";
+import { Box, Card, Flex, Grid, Text } from "@theme-ui/components";
+import { IoIosWarning } from "react-icons/io";
 import React from "react";
 
 const positionColorCodes = {
@@ -43,6 +44,14 @@ const difficultyColorCodes = {
   },
 };
 
+const statusColorCodes = {
+  a: "background", // Available
+  d: "warning", // Injured but have chance to play
+  i: "danger", // Injured
+  n: "danger", // Ineligible to play (e.g. with parent club)
+  s: "danger", // Suspended
+};
+
 const CenterFlex = ({ sx, ...props }) => (
   <Flex
     sx={{ justifyContent: "center", alignItems: "center", ...sx }}
@@ -84,25 +93,45 @@ const PlayerCard = ({ player, gameweeks }) => {
         >
           {player.team.short_name}
         </CenterFlex>
-        <Flex
-          sx={{ flexGrow: 1, flexDirection: "column", position: "relative" }}
+        <Box
           p={2}
-          rows={["1fr 10px"]}
+          sx={{
+            flexGrow: 1,
+            position: "relative",
+          }}
         >
-          <Text
+          <Flex
+            pr={4}
             sx={{
-              flexGrow: 1,
+              alignItems: "center",
               fontWeight: "display",
               fontSize: 3,
-              display: "-webkit-box",
-              WebkitLineClamp: "1",
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
             }}
           >
-            {player.web_name}
-          </Text>
+            {player.status !== "a" && (
+              <Flex
+                mr={1}
+                sx={{
+                  justifyContent: "center",
+                  color: statusColorCodes[player.status],
+                }}
+                title={`${player.status} ${player.news}`}
+              >
+                <IoIosWarning />
+              </Flex>
+            )}
+            <Box
+              sx={{
+                display: "-webkit-box",
+                WebkitLineClamp: "1",
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {player.web_name}
+            </Box>
+          </Flex>
           <Text
             sx={{
               textAlign: "right",
@@ -115,7 +144,7 @@ const PlayerCard = ({ player, gameweeks }) => {
           >
             {player.id}
           </Text>
-        </Flex>
+        </Box>
         <CenterFlex
           sx={{
             backgroundColor:
