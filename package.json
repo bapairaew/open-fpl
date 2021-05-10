@@ -1,6 +1,6 @@
 {
   "name": "open-fpl",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "scripts": {
     "init-data": "babel-node scripts/init-data.js",
     "init-links": "babel-node scripts/init-links.js",
