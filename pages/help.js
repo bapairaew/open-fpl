@@ -358,7 +358,7 @@ function HelpPage() {
                 <code>cost</code> - FPL player's cost range
               </Text>
               <Box sx={{ pointerEvents: "none" }}>
-                <PlayerSearchBar initialSeachQuery="price:4-10" />
+                <PlayerSearchBar initialSeachQuery="cost:4-10" />
               </Box>
             </li>
             <li>
