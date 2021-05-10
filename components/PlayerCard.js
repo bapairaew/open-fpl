@@ -89,7 +89,18 @@ const PlayerCard = ({ player, gameweeks }) => {
           p={2}
           rows={["1fr 10px"]}
         >
-          <Text sx={{ flexGrow: 1, fontWeight: "bold", fontSize: 3 }}>
+          <Text
+            sx={{
+              flexGrow: 1,
+              fontWeight: "display",
+              fontSize: 3,
+              display: "-webkit-box",
+              WebkitLineClamp: "1",
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
             {player.web_name}
           </Text>
           <Text
