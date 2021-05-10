@@ -150,16 +150,15 @@ export const getStaticProps = async () => {
                       fplTeams.find((t) => t.id === +fplOpponentId)
                         ?.short_name || null,
                     is_home: isHome,
-                    match_xgi_per_90: +m.xA + +m.xG,
-                    match_xga_per_90: +opponent?.datesData.find(
-                      (d) => m.id === d.id
-                    )?.xG?.[isHome ? "a" : "h"],
+                    match_xgi: +m.xA + +m.xG,
+                    match_xga: +opponent?.datesData.find((d) => m.id === d.id)
+                      ?.xG?.[isHome ? "a" : "h"],
                   };
                 }),
-                season_xgi_per_90:
+                season_xgi:
                   ((+playerStats.xA + +playerStats.xG) * 90) /
                   +playerStats.time,
-                season_xga_per_90:
+                season_xga:
                   playerTeamUnderstat?.history.reduce((x, m) => +m.xGA + x, 0) /
                   playerTeamUnderstat?.history.length,
               };

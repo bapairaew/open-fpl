@@ -43,8 +43,8 @@ const sortOptions = [
     sortFn: (a, b) => {
       if (!a.stats) return 1;
       if (!b.stats) return -1;
-      if (a.stats.season_xgi_per_90 < b.stats.season_xgi_per_90) return 1;
-      if (a.stats.season_xgi_per_90 > b.stats.season_xgi_per_90) return -1;
+      if (a.stats.season_xgi < b.stats.season_xgi) return 1;
+      if (a.stats.season_xgi > b.stats.season_xgi) return -1;
       return 0;
     },
   },
@@ -54,8 +54,8 @@ const sortOptions = [
     sortFn: (a, b) => {
       if (!a.stats) return 1;
       if (!b.stats) return -1;
-      if (a.stats.season_xga_per_90 > b.stats.season_xga_per_90) return 1;
-      if (a.stats.season_xga_per_90 < b.stats.season_xga_per_90) return -1;
+      if (a.stats.season_xga > b.stats.season_xga) return 1;
+      if (a.stats.season_xga < b.stats.season_xga) return -1;
       return 0;
     },
   },

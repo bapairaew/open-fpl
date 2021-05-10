@@ -259,15 +259,15 @@ const PlayerCard = ({ player, gameweeks }) => {
                 p={1}
                 sx={{
                   fontSize: 1,
-                  backgroundColor: s.match_xgi_per_90
+                  backgroundColor: s.match_xgi
                     ? `rgba(0, 255, 0, ${Math.min(
                         100,
-                        (+(s.match_xgi_per_90 || 0) * 100) / 2
+                        (+(s.match_xgi || 0) * 100) / 2
                       )}%)`
                     : "",
                 }}
               >
-                {(+(s.match_xgi_per_90 || 0)).toFixed?.(2)}
+                {(+(s.match_xgi || 0)).toFixed?.(2)}
               </CenterFlex>
             ))}
             <CenterFlex
@@ -278,7 +278,7 @@ const PlayerCard = ({ player, gameweeks }) => {
                 backgroundColor: "muted",
               }}
             >
-              {(+(player.stats?.season_xgi_per_90 || 0)).toFixed?.(2)}
+              {(+(player.stats?.season_xgi || 0)).toFixed?.(2)}
             </CenterFlex>
           </Grid>
           <Grid gap={0} columns={[6]}>
@@ -288,15 +288,15 @@ const PlayerCard = ({ player, gameweeks }) => {
                 p={1}
                 sx={{
                   fontSize: 1,
-                  backgroundColor: s.match_xga_per_90
+                  backgroundColor: s.match_xga
                     ? `rgba(0, 255, 0, ${Math.min(
                         100,
-                        (1 - +(s.match_xga_per_90 || 0)) * 100
+                        (1 - +(s.match_xga || 0)) * 100
                       )}%)`
                     : "",
                 }}
               >
-                {(+(s.match_xga_per_90 || 0)).toFixed?.(2)}
+                {(+(s.match_xga || 0)).toFixed?.(2)}
               </CenterFlex>
             ))}
             <CenterFlex
@@ -307,7 +307,7 @@ const PlayerCard = ({ player, gameweeks }) => {
                 backgroundColor: "muted",
               }}
             >
-              {(+(player.stats?.season_xga_per_90 || 0)).toFixed?.(2)}
+              {(+(player.stats?.season_xga || 0)).toFixed?.(2)}
             </CenterFlex>
           </Grid>
         </>
