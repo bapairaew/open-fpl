@@ -38,24 +38,28 @@ const sortOptions = [
     },
   },
   {
-    label: "Best xGI",
+    label: "Best recent xGI",
     value: "best-xgi",
     sortFn: (a, b) => {
       if (!a.stats) return 1;
       if (!b.stats) return -1;
-      if (a.stats.season_xgi < b.stats.season_xgi) return 1;
-      if (a.stats.season_xgi > b.stats.season_xgi) return -1;
+      const sumA = a.stats.matches.reduce((sum, m) => m.match_xgi + sum, 0);
+      const sumB = b.stats.matches.reduce((sum, m) => m.match_xgi + sum, 0);
+      if (sumA < sumB) return 1;
+      if (sumA > sumB) return -1;
       return 0;
     },
   },
   {
-    label: "Best xGA",
+    label: "Best recent xGA",
     value: "best-xga",
     sortFn: (a, b) => {
       if (!a.stats) return 1;
       if (!b.stats) return -1;
-      if (a.stats.season_xga > b.stats.season_xga) return 1;
-      if (a.stats.season_xga < b.stats.season_xga) return -1;
+      const sumA = a.stats.matches.reduce((sum, m) => m.match_xga + sum, 0);
+      const sumB = b.stats.matches.reduce((sum, m) => m.match_xga + sum, 0);
+      if (sumA < sumB) return -1;
+      if (sumA > sumB) return 1;
       return 0;
     },
   },
