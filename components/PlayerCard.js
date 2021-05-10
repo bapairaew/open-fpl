@@ -60,7 +60,23 @@ const CenterFlex = ({ sx, ...props }) => (
   />
 );
 
+const createEmptyMatch = (length) => {
+  return Array.from({ length }).fill({
+    opponent_short_title: "",
+    match_xga: 0,
+    match_xgi: 0,
+  });
+};
+
 const PlayerCard = ({ player, gameweeks }) => {
+  const matches = player.stats?.matches
+    ? player.stats?.matches?.length < 5
+      ? [
+          ...createEmptyMatch(5 - player.stats.matches.length),
+          ...player.stats.matches,
+        ]
+      : player.stats.matches
+    : [];
   return (
     <Card
       as="a"
@@ -234,13 +250,13 @@ const PlayerCard = ({ player, gameweeks }) => {
       {player.stats ? (
         <>
           <Grid gap={0} columns={[6]}>
-            {player.stats.matches.map((s, i) => (
+            {matches.map((s, i) => (
               <CenterFlex
                 key={i}
                 p={0.5}
                 sx={{ fontSize: 1, color: "gray", backgroundColor: "muted" }}
               >
-                {(s.opponent_short_title || "N/A")[
+                {(s.opponent_short_title || "")[
                   s.is_home ? "toUpperCase" : "toLowerCase"
                 ]()}
               </CenterFlex>
@@ -253,7 +269,7 @@ const PlayerCard = ({ player, gameweeks }) => {
             </CenterFlex>
           </Grid>
           <Grid gap={0} columns={[6]}>
-            {player.stats.matches.map((s, i) => (
+            {matches.map((s, i) => (
               <CenterFlex
                 key={i}
                 p={1}
@@ -282,7 +298,7 @@ const PlayerCard = ({ player, gameweeks }) => {
             </CenterFlex>
           </Grid>
           <Grid gap={0} columns={[6]}>
-            {player.stats.matches.map((s, i) => (
+            {matches.map((s, i) => (
               <CenterFlex
                 key={i}
                 p={1}
