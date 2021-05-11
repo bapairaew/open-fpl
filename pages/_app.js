@@ -11,12 +11,12 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid columns={["300px 1fr"]}>
+      <Grid columns={["300px 1fr"]} sx={{ height: "100%" }}>
         <Flex
           px={4}
           pt={1}
           as="nav"
-          sx={{ height: "100vh", flexDirection: "column" }}
+          sx={{ height: "100%", flexDirection: "column" }}
         >
           <Box as="ul" sx={{ p: 0, listStyle: "none", flexGrow: 1 }}>
             <Box my={4} p={2} as="li">
@@ -63,7 +63,7 @@ export default function App({ Component, pageProps }) {
             </Text>
           </Grid>
         </Flex>
-        <Box sx={{ height: "100vh", overflow: "auto" }}>
+        <Box sx={{ height: "100%", overflow: "auto" }}>
           <Component {...pageProps} />
         </Box>
       </Grid>
