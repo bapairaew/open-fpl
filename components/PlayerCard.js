@@ -84,6 +84,14 @@ const createEmptyMatch = (length) => {
   });
 };
 
+const createEmptyGameweek = (length) => {
+  return Array.from({ length }).fill({
+    opponent_team_short_name: "",
+    was_home: true,
+    total_points: 0,
+  });
+};
+
 const PlayerCard = ({ player, nextGameweeks }) => {
   const matches = player.stats?.matches
     ? player.stats?.matches?.length < 5
@@ -93,6 +101,14 @@ const PlayerCard = ({ player, nextGameweeks }) => {
         ]
       : player.stats.matches
     : [];
+
+  const previousGameweeks =
+    player.previous_gameweeks?.length < 5
+      ? [
+          ...createEmptyGameweek(5 - player.previous_gameweeks.length),
+          ...player.previous_gameweeks,
+        ]
+      : player.previous_gameweeks;
 
   return (
     <Card
@@ -236,7 +252,7 @@ const PlayerCard = ({ player, nextGameweeks }) => {
         })}
       </Grid>
       <Grid gap={0} columns={[6]}>
-        {player.previous_gameweeks.map((h, i) => (
+        {previousGameweeks.map((h, i) => (
           <CenterFlex
             key={i}
             p={0.5}
@@ -255,7 +271,7 @@ const PlayerCard = ({ player, nextGameweeks }) => {
         </CenterFlex>
       </Grid>
       <Grid gap={0} columns={[6]}>
-        {player.previous_gameweeks.map((h, i) => (
+        {previousGameweeks.map((h, i) => (
           <CenterFlex
             key={i}
             sx={{ backgroundColor: `rgba(0, 255, 0, ${h.bps * 2}%)` }}
