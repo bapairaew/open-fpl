@@ -12,7 +12,7 @@ export function nFormatter(num, digits) {
   var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
   var i;
   for (i = si.length - 1; i > 0; i--) {
-    if (num >= si[i].value) {
+    if (Math.abs(num) >= si[i].value) {
       break;
     }
   }

@@ -40,18 +40,18 @@ export const getStaticProps = async () => {
 
   const fplTeamsMap = fplTeams.reduce((map, t) => ({ ...map, [t.id]: t }), {});
 
-  const gameweeks = fplGameweeks
-    .filter((g) => !g.finished && !g.current)
+  const nextGameweeks = fplGameweeks
+    .filter((g) => !g.finished && !g.is_current)
     .slice(0, 5)
     .map((gw) => ({
       id: gw.id,
-      deadline_time: "2021-05-23T13:30:00Z",
+      deadline_time: gw.deadline_time,
       is_previous: gw.is_previous,
       is_current: gw.is_current,
       is_next: gw.is_next,
     }));
 
-  const nextGameweeks = gameweeks.map((x) => x.id);
+  const nextGameweekIds = nextGameweeks.map((x) => x.id);
 
   const teams = fplTeams.map((team) => {
     const stats = teamsLinks[team.id]
@@ -109,7 +109,7 @@ export const getStaticProps = async () => {
         },
         // TODO: move this to another props to make it is clear that this is not from FPL data
         previous_gameweeks: player.history
-          .filter((h) => h.team_h_score !== null) // Only show the game the already played
+          .filter((h) => !nextGameweekIds.includes(h.round)) // Only show the game the already played
           .slice(-5)
           .map((h) => ({
             opponent_team_short_name: fplTeams.find(
@@ -123,7 +123,7 @@ export const getStaticProps = async () => {
           })),
         // TODO: move this to another props to make it is clear that this is not from FPL data
         next_gameweeks: player.fixtures
-          .filter((f) => nextGameweeks.includes(f.event))
+          .filter((f) => nextGameweekIds.includes(f.event))
           .map((f) => ({
             opponent: f.is_home
               ? fplTeamsMap[f.team_a].short_name
@@ -179,12 +179,12 @@ export const getStaticProps = async () => {
     props: {
       players,
       teams,
-      gameweeks,
+      nextGameweeks,
     },
   };
 };
 
-function HomePage({ players: allPlayers, gameweeks }) {
+function HomePage({ players: allPlayers, nextGameweeks }) {
   const columnsSettings = [1, 2, 3];
   const columnsCount = useResponsiveValue(columnsSettings);
   const [players, setPlayers] = useState(allPlayers);
@@ -197,7 +197,7 @@ function HomePage({ players: allPlayers, gameweeks }) {
         if (player) {
           content.push(
             <Box key={player.id} sx={{ height: "100%" }}>
-              <PlayerCard player={player} gameweeks={gameweeks} />
+              <PlayerCard player={player} nextGameweeks={nextGameweeks} />
             </Box>
           );
         }
@@ -217,7 +217,7 @@ function HomePage({ players: allPlayers, gameweeks }) {
         </div>
       );
     },
-    [players, gameweeks, columnsCount]
+    [players, nextGameweeks, columnsCount]
   );
 
   return (

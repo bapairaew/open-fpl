@@ -156,7 +156,7 @@ const player = {
   },
 };
 
-const gameweeks = [
+const nextGameweeks = [
   {
     id: 34,
     deadline_time: "2021-05-23T13:30:00Z",
@@ -226,7 +226,7 @@ function HelpPage() {
           }}
         >
           <Box sx={{ width: 400 }}>
-            <PlayerCard player={player} gameweeks={gameweeks} />
+            <PlayerCard player={player} nextGameweeks={nextGameweeks} />
           </Box>
           <Box as="svg" sx={{ width: 800, height: 600, position: "absolute" }}>
             <AnnotationCalloutRect
@@ -296,7 +296,7 @@ function HelpPage() {
               dy={-32}
               subject={{ width: 60, height: 28 }}
               note={{
-                title: "Transfer gain/loss",
+                title: "Net transfers",
               }}
             />
             <AnnotationCalloutRect

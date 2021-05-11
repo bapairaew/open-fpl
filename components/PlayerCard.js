@@ -84,7 +84,7 @@ const createEmptyMatch = (length) => {
   });
 };
 
-const PlayerCard = ({ player, gameweeks }) => {
+const PlayerCard = ({ player, nextGameweeks }) => {
   const matches = player.stats?.matches
     ? player.stats?.matches?.length < 5
       ? [
@@ -195,13 +195,13 @@ const PlayerCard = ({ player, gameweeks }) => {
                 color: "inherit",
               }}
             >
-              {nFormatter(Math.abs(player.transfers_delta_event), 1)}
+              {nFormatter(player.transfers_delta_event, 1)}
             </Text>
           </CenterFlex>
         </Flex>
       </Flex>
       <Grid gap={0} columns={[5]} sx={{ height: 45 }}>
-        {gameweeks.map((w) => {
+        {nextGameweeks.map((w) => {
           const games = player.next_gameweeks.filter((n) => n.event === w.id);
           return (
             <Flex key={w.id} sx={{ flexDirection: "column" }}>
