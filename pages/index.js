@@ -159,8 +159,9 @@ export const getStaticProps = async () => {
                         ?.short_name || null,
                     is_home: isHome,
                     match_xgi: +m.xA + +m.xG,
-                    match_xga: +opponent?.datesData.find((d) => m.id === d.id)
-                      ?.xG?.[isHome ? "a" : "h"],
+                    match_xga: +playerTeamUnderstat?.datesData.find(
+                      (d) => m.id === d.id
+                    )?.xG?.[isHome ? "a" : "h"],
                   };
                 }),
                 season_xgi:

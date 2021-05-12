@@ -6,6 +6,7 @@ import { BiSortDown } from "react-icons/bi";
 import { IoSearchSharp } from "react-icons/io5";
 import searchQueryParser from "search-query-parser";
 import { useDebounce } from "use-debounce";
+import { isNullOrUndefined } from "~/libs/datatype";
 
 export const SEARCH_BAR_HEIGHT = 80;
 
@@ -41,8 +42,18 @@ const sortOptions = [
     label: "Best recent xGI",
     value: "best-xgi",
     sortFn: (a, b) => {
-      if (!a.stats || a.stats.matches.length < 5) return 1;
-      if (!b.stats || b.stats.matches.length < 5) return -1;
+      if (
+        !a.stats ||
+        a.stats.matches.filter((m) => !isNullOrUndefined(m.match_xgi)).length <
+          5
+      )
+        return 1;
+      if (
+        !b.stats ||
+        b.stats.matches.filter((m) => !isNullOrUndefined(m.match_xgi)).length <
+          5
+      )
+        return -1;
       const sumA = a.stats.matches.reduce((sum, m) => m.match_xgi + sum, 0);
       const sumB = b.stats.matches.reduce((sum, m) => m.match_xgi + sum, 0);
       if (sumA < sumB) return 1;
@@ -54,8 +65,18 @@ const sortOptions = [
     label: "Best recent xGA",
     value: "best-xga",
     sortFn: (a, b) => {
-      if (!a.stats || a.stats.matches.length < 5) return 1;
-      if (!b.stats || b.stats.matches.length < 5) return -1;
+      if (
+        !a.stats ||
+        a.stats.matches.filter((m) => !isNullOrUndefined(m.match_xga)).length <
+          5
+      )
+        return 1;
+      if (
+        !b.stats ||
+        b.stats.matches.filter((m) => !isNullOrUndefined(m.match_xga)).length <
+          5
+      )
+        return -1;
       const sumA = a.stats.matches.reduce((sum, m) => m.match_xga + sum, 0);
       const sumB = b.stats.matches.reduce((sum, m) => m.match_xga + sum, 0);
       if (sumA < sumB) return -1;

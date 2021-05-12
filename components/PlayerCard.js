@@ -1,6 +1,7 @@
 import { Box, Card, Flex, Grid, Text } from "@theme-ui/components";
 import { IoIosWarning } from "react-icons/io";
 import { nFormatter } from "~/libs/numbers";
+import { isNullOrUndefined } from "~/libs/datatype";
 
 const positionColorCodes = {
   FWD: {
@@ -78,9 +79,9 @@ const CenterFlex = ({ sx, ...props }) => (
 
 const createEmptyMatch = (length) => {
   return Array.from({ length }).fill({
-    opponent_short_title: "",
-    match_xga: 0,
-    match_xgi: 0,
+    opponent_short_title: null,
+    match_xga: null,
+    match_xgi: null,
   });
 };
 
@@ -109,6 +110,8 @@ const PlayerCard = ({ player, nextGameweeks }) => {
           ...player.previous_gameweeks,
         ]
       : player.previous_gameweeks;
+
+  console.log(player)
 
   return (
     <Card
@@ -329,7 +332,9 @@ const PlayerCard = ({ player, nextGameweeks }) => {
                       : "",
                   }}
                 >
-                  {(+(s.match_xgi || 0)).toFixed?.(2)}
+                  {!isNullOrUndefined(s.match_xgi)
+                    ? (+s.match_xgi).toFixed?.(2)
+                    : ""}
                 </CenterFlex>
               ))}
               <CenterFlex
@@ -340,7 +345,9 @@ const PlayerCard = ({ player, nextGameweeks }) => {
                   backgroundColor: "muted",
                 }}
               >
-                {(+(player.stats?.season_xgi || 0)).toFixed?.(2)}
+                {!isNullOrUndefined(player.stats?.season_xgi)
+                  ? (+player.stats?.season_xgi).toFixed?.(2)
+                  : "N/A"}
               </CenterFlex>
             </Grid>
             <Grid gap={0} columns={[6]}>
@@ -358,7 +365,9 @@ const PlayerCard = ({ player, nextGameweeks }) => {
                       : "",
                   }}
                 >
-                  {(+(s.match_xga || 0)).toFixed?.(2)}
+                  {!isNullOrUndefined(s.match_xga)
+                    ? (+s.match_xga).toFixed?.(2)
+                    : ""}
                 </CenterFlex>
               ))}
               <CenterFlex
@@ -369,7 +378,9 @@ const PlayerCard = ({ player, nextGameweeks }) => {
                   backgroundColor: "muted",
                 }}
               >
-                {(+(player.stats?.season_xga || 0)).toFixed?.(2)}
+                {!isNullOrUndefined(player.stats?.season_xga)
+                  ? +(player.stats?.season_xga).toFixed?.(2)
+                  : "N/A"}
               </CenterFlex>
             </Grid>
           </>
