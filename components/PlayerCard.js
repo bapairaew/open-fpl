@@ -214,7 +214,7 @@ const PlayerCard = ({ player, gameweeks }) => {
                 color: "inherit",
               }}
             >
-              {nFormatter(player.transfers_delta_event, 1)}
+              {nFormatter(player.linked_data.transfers_delta_event, 1)}
             </Text>
           </CenterFlex>
         </Flex>
