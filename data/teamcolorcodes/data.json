@@ -60,19 +60,19 @@
     "highlight": "#19A78E"
   },
   {
-    "team": "Manchester City",
+    "team": "Man City",
     "background": "#99c5e7",
     "text": "#022a5d",
     "highlight": "#022A5D"
   },
   {
-    "team": "Manchester United",
+    "team": "Man Utd",
     "background": "#dc1f29",
     "text": "#fae935",
     "highlight": "#000"
   },
   {
-    "team": "Newcastle United",
+    "team": "Newcastle",
     "background": "#000000",
     "text": "white",
     "highlight": "#C2A475"
@@ -84,7 +84,7 @@
     "highlight": "#00A650"
   },
   {
-    "team": "Sheffield United",
+    "team": "Sheffield Utd",
     "background": "#ee2737",
     "text": "white",
     "highlight": "#0D171A"
@@ -96,7 +96,7 @@
     "highlight": "#FFC20E"
   },
   {
-    "team": "Tottenham",
+    "team": "Spurs",
     "background": "#11214b",
     "text": "white",
     "highlight": "#11214b"
@@ -114,7 +114,7 @@
     "highlight": "#2AB2E5"
   },
   {
-    "team": "Wolverhampton Wanderers",
+    "team": "Wolves",
     "background": "#231f20",
     "text": null,
     "highlight": "#FDB913"
@@ -156,7 +156,7 @@
     "highlight": "#000"
   },
   {
-    "team": "West Bromwich Albion",
+    "team": "West Brom",
     "background": "#122f67",
     "text": "white",
     "highlight": "#122f67"

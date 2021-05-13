@@ -38,9 +38,7 @@ export const getStaticProps = async () => {
     fs.promises.readFile("./data/teamcolorcodes/data.json").then(JSON.parse),
   ]);
 
-  const fplTeamsMap = fplTeams.reduce((map, t) => ({ ...map, [t.id]: t }), {});
-
-  const nextGameweeks = fplGameweeks
+  const gameweeks = fplGameweeks
     .filter((g) => !g.finished && !g.is_current)
     .slice(0, 5)
     .map((gw) => ({
@@ -51,28 +49,15 @@ export const getStaticProps = async () => {
       is_next: gw.is_next,
     }));
 
-  const nextGameweekIds = nextGameweeks.map((x) => x.id);
+  const nextGameweekIds = gameweeks.map((x) => x.id);
 
-  const teams = fplTeams.map((team) => {
-    const stats = teamsLinks[team.id]
-      ? understatTeams.find((t) => t.id === teamsLinks[team.id])
-      : null;
-    return {
-      id: team.id,
-      name: team.name,
-      short_name: team.short_name,
-      strength_overall_home: team.strength_overall_home,
-      strength_overall_away: team.strength_overall_away,
-      strength_attack_home: team.strength_attack_home,
-      strength_attack_away: team.strength_attack_away,
-      strength_defence_home: team.strength_defence_home,
-      strength_defence_away: team.strength_defence_away,
-      color_codes: teamcolorcodes.find((c) => c.team === stats.title) || null,
-    };
-  });
-
-  const teamsMap = teams.reduce(
-    (map, team) => ({ ...map, [team.id]: team }),
+  const fplTeamsMap = fplTeams.reduce((map, t) => ({ ...map, [t.id]: t }), {});
+  const understatTeamsMap = understatTeams.reduce(
+    (map, t) => ({ ...map, [t.title]: t }),
+    {}
+  );
+  const teamcolorcodesMap = teamcolorcodes.reduce(
+    (map, code) => ({ ...map, [code.team]: code }),
     {}
   );
 
@@ -80,8 +65,13 @@ export const getStaticProps = async () => {
     .filter((p) => p.status !== "u")
     .map((player) => {
       const playerStats = playersLinks[player.id]
-        ? understat.find((p) => p.id === playersLinks[player.id])
+        ? understat.find((p) => p.id === playersLinks[player.id]) || null
         : null;
+      // TODO: handle the case where a player moved mid-season to another PL team
+      const playerTeam = playerStats?.groupsData?.season[0].team;
+      const pastMatches =
+        playerStats?.matchesData.slice(0, 5).reverse() || null;
+      const playerTeamUnderstat = understatTeamsMap[playerTeam];
       return {
         id: player.id,
         name: player.name,
@@ -95,97 +85,79 @@ export const getStaticProps = async () => {
         total_points: player.total_points,
         transfers_in_event: player.transfers_in_event,
         transfers_out_event: player.transfers_out_event,
-        // TODO: move this to another props to make it is clear that this is not from FPL data
-        transfers_delta_event:
-          player.transfers_in_event - player.transfers_out_event,
         element_type: {
           singular_name_short: player.element_type.singular_name_short,
         },
         team: {
           id: player.team.id,
           short_name: player.team.short_name,
-          // TODO: move this out and map it in ui to reduce bundle size
-          ...teamsMap[player.team.id],
         },
-        // TODO: move this to another props to make it is clear that this is not from FPL data
-        previous_gameweeks: player.history
-          .filter((h) => !nextGameweekIds.includes(h.round)) // Only show the game the already played
-          .slice(-5)
-          .map((h) => ({
-            opponent_team_short_name: fplTeams.find(
-              (t) => t.id === h.opponent_team
-            ).short_name,
-            was_home: h.was_home,
-            kickoff_time: h.kickoff_time,
-            total_points: h.total_points,
-            bps: h.bps,
-            minutes: h.minutes,
-          })),
-        // TODO: move this to another props to make it is clear that this is not from FPL data
-        next_gameweeks: player.fixtures
-          .filter((f) => nextGameweekIds.includes(f.event))
-          .map((f) => ({
-            opponent: f.is_home
-              ? fplTeamsMap[f.team_a].short_name
-              : fplTeamsMap[f.team_h].short_name,
-            is_home: f.is_home,
-            event: f.event,
-            finished: f.finished,
-            difficulty: f.difficulty,
-          })),
-        stats: playerStats
-          ? (function () {
-              // TODO: handle the case where a player moved mid-season to another PL team
-              const playerTeam = playerStats?.groupsData?.season[0].team;
-              const last5Matches = playerStats?.matchesData
-                .slice(0, 5)
-                .reverse();
-              const playerTeamUnderstat = understatTeams.find(
-                (t) => t.title === playerTeam
+        linked_data: {
+          understat_id: playerStats?.id || null,
+          past_matches:
+            pastMatches?.map((m) => {
+              const isHome = m.h_team === playerTeam;
+              const opponent = isHome
+                ? understatTeamsMap[m.a_team]
+                : understatTeamsMap[m.h_team];
+              const fplOpponentId = Object.keys(teamsLinks).find(
+                (key) => teamsLinks[key] === opponent?.id
               );
               return {
-                id: playerStats.id,
-                matches: last5Matches.map((m) => {
-                  const isHome = m.h_team === playerTeam;
-                  const opponent = isHome
-                    ? understatTeams.find((t) => t.title === m.a_team)
-                    : understatTeams.find((t) => t.title === m.h_team);
-                  const fplOpponentId = Object.keys(teamsLinks).find(
-                    (key) => teamsLinks[key] === opponent?.id
-                  );
-                  return {
-                    opponent_short_title:
-                      fplTeams.find((t) => t.id === +fplOpponentId)
-                        ?.short_name || null,
-                    is_home: isHome,
-                    match_xgi: +m.xA + +m.xG,
-                    match_xga: +playerTeamUnderstat?.datesData.find(
-                      (d) => m.id === d.id
-                    )?.xG?.[isHome ? "a" : "h"],
-                  };
-                }),
-                season_xgi:
-                  ((+playerStats.xA + +playerStats.xG) * 90) /
-                  +playerStats.time,
-                season_xga:
-                  playerTeamUnderstat?.history.reduce((x, m) => +m.xGA + x, 0) /
-                  playerTeamUnderstat?.history.length,
+                opponent_short_title:
+                  fplTeamsMap[+fplOpponentId]?.short_name || null,
+                is_home: isHome,
+                match_xgi: +m.xA + +m.xG,
+                match_xga: +playerTeamUnderstat?.datesData.find(
+                  (d) => m.id === d.id
+                )?.xG?.[isHome ? "a" : "h"],
               };
-            })()
-          : null,
+            }) || null,
+          season_xgi:
+            playerStats &&
+            ((+playerStats.xA + +playerStats.xG) * 90) / +playerStats.time,
+          season_xga:
+            playerStats &&
+            playerTeamUnderstat?.history.reduce((x, m) => +m.xGA + x, 0) /
+              playerTeamUnderstat?.history.length,
+          teamcolorcodes: teamcolorcodesMap[player.team.name] || null,
+          transfers_delta_event:
+            player.transfers_in_event - player.transfers_out_event,
+          previous_gameweeks: player.history
+            .filter((h) => !nextGameweekIds.includes(h.round)) // Only show the game the already played
+            .slice(-5)
+            .map((h) => ({
+              opponent_team_short_name: fplTeamsMap[h.opponent_team].short_name,
+              was_home: h.was_home,
+              kickoff_time: h.kickoff_time,
+              total_points: h.total_points,
+              bps: h.bps,
+              minutes: h.minutes,
+            })),
+          next_gameweeks: player.fixtures
+            .filter((f) => nextGameweekIds.includes(f.event))
+            .map((f) => ({
+              opponent_team_short_name: f.is_home
+                ? fplTeamsMap[f.team_a].short_name
+                : fplTeamsMap[f.team_h].short_name,
+              is_home: f.is_home,
+              event: f.event,
+              finished: f.finished,
+              difficulty: f.difficulty,
+            })),
+        },
       };
     });
 
   return {
     props: {
       players,
-      teams,
-      nextGameweeks,
+      gameweeks,
     },
   };
 };
 
-function HomePage({ players: allPlayers, nextGameweeks }) {
+function HomePage({ players: allPlayers, gameweeks }) {
   const columnsSettings = [1, 2, 3];
   const columnsCount = useResponsiveValue(columnsSettings);
   const [players, setPlayers] = useState(allPlayers);
@@ -198,7 +170,7 @@ function HomePage({ players: allPlayers, nextGameweeks }) {
         if (player) {
           content.push(
             <Box key={player.id} sx={{ height: "100%" }}>
-              <PlayerCard player={player} nextGameweeks={nextGameweeks} />
+              <PlayerCard player={player} gameweeks={gameweeks} />
             </Box>
           );
         }
@@ -218,7 +190,7 @@ function HomePage({ players: allPlayers, nextGameweeks }) {
         </div>
       );
     },
-    [players, nextGameweeks, columnsCount]
+    [players, gameweeks, columnsCount]
   );
 
   return (

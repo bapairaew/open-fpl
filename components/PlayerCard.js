@@ -93,32 +93,32 @@ const createEmptyGameweek = (length) => {
   });
 };
 
-const PlayerCard = ({ player, nextGameweeks }) => {
-  const matches = player.stats?.matches
-    ? player.stats?.matches?.length < 5
+const PlayerCard = ({ player, gameweeks }) => {
+  const pastMatches = player.linked_data.past_matches
+    ? player.linked_data.past_matches.length < 5
       ? [
-          ...createEmptyMatch(5 - player.stats.matches.length),
-          ...player.stats.matches,
+          ...createEmptyMatch(5 - player.linked_data.past_matches.length),
+          ...player.linked_data.past_matches,
         ]
-      : player.stats.matches
+      : player.linked_data.past_matches
     : [];
 
   const previousGameweeks =
-    player.previous_gameweeks?.length < 5
+    player.linked_data.previous_gameweeks?.length < 5
       ? [
-          ...createEmptyGameweek(5 - player.previous_gameweeks.length),
-          ...player.previous_gameweeks,
+          ...createEmptyGameweek(
+            5 - player.linked_data.previous_gameweeks.length
+          ),
+          ...player.linked_data.previous_gameweeks,
         ]
-      : player.previous_gameweeks;
-
-  console.log(player)
+      : player.linked_data.previous_gameweeks;
 
   return (
     <Card
       as="a"
       href={
-        player.stats
-          ? `https://understat.com/player/${player.stats.id}`
+        player.understat_id
+          ? `https://understat.com/player/${player.understat_id}`
           : `https://understat.com/league/EPL`
       }
       target="_blank"
@@ -137,12 +137,12 @@ const PlayerCard = ({ player, nextGameweeks }) => {
         <Flex sx={{ flexDirection: "column" }}>
           <CenterFlex
             sx={{
-              backgroundColor: player.team.color_codes.text
-                ? player.team.color_codes.background
-                : player.team.color_codes.highlight,
-              color: player.team.color_codes.text
-                ? player.team.color_codes.text
-                : player.team.color_codes.background,
+              backgroundColor: player.linked_data.teamcolorcodes.text
+                ? player.linked_data.teamcolorcodes.background
+                : player.linked_data.teamcolorcodes.highlight,
+              color: player.linked_data.teamcolorcodes.text
+                ? player.linked_data.teamcolorcodes.text
+                : player.linked_data.teamcolorcodes.background,
             }}
           >
             {player.team.short_name}
@@ -195,15 +195,15 @@ const PlayerCard = ({ player, nextGameweeks }) => {
           <CenterFlex
             sx={{
               backgroundColor:
-                player.transfers_delta_event === 0
+                player.linked_data.transfers_delta_event === 0
                   ? deltaColorCodes.zero.background
-                  : player.transfers_delta_event > 0
+                  : player.linked_data.transfers_delta_event > 0
                   ? deltaColorCodes.positive.background
                   : deltaColorCodes.negative.background,
               color:
-                player.transfers_delta_event === 0
+                player.linked_data.transfers_delta_event === 0
                   ? deltaColorCodes.zero.text
-                  : player.transfers_delta_event > 0
+                  : player.linked_data.transfers_delta_event > 0
                   ? deltaColorCodes.positive.text
                   : deltaColorCodes.negative.text,
             }}
@@ -220,8 +220,10 @@ const PlayerCard = ({ player, nextGameweeks }) => {
         </Flex>
       </Flex>
       <Grid gap={0} columns={[5]} sx={{ height: 45 }}>
-        {nextGameweeks.map((w) => {
-          const games = player.next_gameweeks.filter((n) => n.event === w.id);
+        {gameweeks.map((w) => {
+          const games = player.linked_data.next_gameweeks.filter(
+            (n) => n.event === w.id
+          );
           return (
             <Flex key={w.id} sx={{ flexDirection: "column" }}>
               {games.length === 0 ? (
@@ -246,7 +248,9 @@ const PlayerCard = ({ player, nextGameweeks }) => {
                       color: difficultyColorCodes[g.difficulty].text,
                     }}
                   >
-                    {g.opponent[g.is_home ? "toUpperCase" : "toLowerCase"]()}
+                    {g.opponent_team_short_name[
+                      g.is_home ? "toUpperCase" : "toLowerCase"
+                    ]()}
                   </CenterFlex>
                 ))
               )}
@@ -292,10 +296,10 @@ const PlayerCard = ({ player, nextGameweeks }) => {
         </CenterFlex>
       </Grid>
       <Box sx={{ height: 80 }}>
-        {player.stats ? (
+        {pastMatches?.length > 0 ? (
           <>
             <Grid gap={0} columns={[6]}>
-              {matches.map((s, i) => (
+              {pastMatches.map((s, i) => (
                 <CenterFlex
                   key={i}
                   p={0.5}
@@ -318,7 +322,7 @@ const PlayerCard = ({ player, nextGameweeks }) => {
               </CenterFlex>
             </Grid>
             <Grid gap={0} columns={[6]}>
-              {matches.map((s, i) => (
+              {pastMatches.map((s, i) => (
                 <CenterFlex
                   key={i}
                   p={1}
@@ -345,13 +349,13 @@ const PlayerCard = ({ player, nextGameweeks }) => {
                   backgroundColor: "muted",
                 }}
               >
-                {!isNullOrUndefined(player.stats?.season_xgi)
-                  ? (+player.stats?.season_xgi).toFixed?.(2)
+                {!isNullOrUndefined(player.linked_data.season_xgi)
+                  ? (+player.linked_data.season_xgi).toFixed?.(2)
                   : "N/A"}
               </CenterFlex>
             </Grid>
             <Grid gap={0} columns={[6]}>
-              {matches.map((s, i) => (
+              {pastMatches.map((s, i) => (
                 <CenterFlex
                   key={i}
                   p={1}
@@ -378,8 +382,8 @@ const PlayerCard = ({ player, nextGameweeks }) => {
                   backgroundColor: "muted",
                 }}
               >
-                {!isNullOrUndefined(player.stats?.season_xga)
-                  ? +(player.stats?.season_xga).toFixed?.(2)
+                {!isNullOrUndefined(player.linked_data.season_xga)
+                  ? +player.linked_data.season_xga.toFixed?.(2)
                   : "N/A"}
               </CenterFlex>
             </Grid>

@@ -29,8 +29,14 @@ const sortOptions = [
     value: "best-fixtures",
     sortFn: (a, b) => {
       // Sort reversed difficulty value (5 is better than 1), and sum them all which makes the value the more the better (more matches and easier)
-      const sumA = a.next_gameweeks.reduce((s, g) => s + (5 - g.difficulty), 0);
-      const sumB = b.next_gameweeks.reduce((s, g) => s + (5 - g.difficulty), 0);
+      const sumA = a.linked_data.next_gameweeks.reduce(
+        (s, g) => s + (5 - g.difficulty),
+        0
+      );
+      const sumB = b.linked_data.next_gameweeks.reduce(
+        (s, g) => s + (5 - g.difficulty),
+        0
+      );
       return sumA === sumB
         ? a.team.short_name.localeCompare(b.team.short_name) // Make sure same team is group together in the result
         : sumA > sumB
@@ -43,19 +49,27 @@ const sortOptions = [
     value: "best-xgi",
     sortFn: (a, b) => {
       if (
-        !a.stats ||
-        a.stats.matches.filter((m) => !isNullOrUndefined(m.match_xgi)).length <
-          5
+        !a.linked_data.past_matches ||
+        a.linked_data.past_matches.filter(
+          (m) => !isNullOrUndefined(m.match_xgi)
+        ).length < 5
       )
         return 1;
       if (
-        !b.stats ||
-        b.stats.matches.filter((m) => !isNullOrUndefined(m.match_xgi)).length <
-          5
+        !b.linked_data.past_matches ||
+        b.linked_data.past_matches.filter(
+          (m) => !isNullOrUndefined(m.match_xgi)
+        ).length < 5
       )
         return -1;
-      const sumA = a.stats.matches.reduce((sum, m) => m.match_xgi + sum, 0);
-      const sumB = b.stats.matches.reduce((sum, m) => m.match_xgi + sum, 0);
+      const sumA = a.linked_data.past_matches.reduce(
+        (sum, m) => m.match_xgi + sum,
+        0
+      );
+      const sumB = b.linked_data.past_matches.reduce(
+        (sum, m) => m.match_xgi + sum,
+        0
+      );
       if (sumA < sumB) return 1;
       if (sumA > sumB) return -1;
       return 0;
@@ -66,19 +80,27 @@ const sortOptions = [
     value: "best-xga",
     sortFn: (a, b) => {
       if (
-        !a.stats ||
-        a.stats.matches.filter((m) => !isNullOrUndefined(m.match_xga)).length <
-          5
+        !a.linked_data.past_matches ||
+        a.linked_data.past_matches.filter(
+          (m) => !isNullOrUndefined(m.match_xga)
+        ).length < 5
       )
         return 1;
       if (
-        !b.stats ||
-        b.stats.matches.filter((m) => !isNullOrUndefined(m.match_xga)).length <
-          5
+        !b.linked_data.past_matches ||
+        b.linked_data.past_matches.filter(
+          (m) => !isNullOrUndefined(m.match_xga)
+        ).length < 5
       )
         return -1;
-      const sumA = a.stats.matches.reduce((sum, m) => m.match_xga + sum, 0);
-      const sumB = b.stats.matches.reduce((sum, m) => m.match_xga + sum, 0);
+      const sumA = a.linked_data.past_matches.reduce(
+        (sum, m) => m.match_xga + sum,
+        0
+      );
+      const sumB = b.linked_data.past_matches.reduce(
+        (sum, m) => m.match_xga + sum,
+        0
+      );
       if (sumA < sumB) return -1;
       if (sumA > sumB) return 1;
       return 0;
