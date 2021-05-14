@@ -120,13 +120,17 @@ const sortOptions = [
     label: "Ownership gain",
     value: "transfers-delta-desc",
     sortFn: (a, b) =>
-      a.transfers_delta_event > b.transfers_delta_event ? -1 : 1,
+      a.linked_data.transfers_delta_event > b.linked_data.transfers_delta_event
+        ? -1
+        : 1,
   },
   {
     label: "Ownership loss",
     value: "transfers-delta-asc",
     sortFn: (a, b) =>
-      a.transfers_delta_event < b.transfers_delta_event ? -1 : 1,
+      a.linked_data.transfers_delta_event < b.linked_data.transfers_delta_event
+        ? -1
+        : 1,
   },
 ];
 
