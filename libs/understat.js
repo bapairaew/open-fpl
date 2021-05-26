@@ -35,17 +35,15 @@ function getDataFromScripts(scripts) {
     .map((s) =>
       s.textContent.match(/([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*JSON.parse\('(.*)'\)/)
     )
-    .reduce(
-      (obj, match) => ({
-        ...obj,
-        [match[1]]: JSON.parse(
-          match[2].replace(/\\x([0-9a-f]{2})/gi, function (_, pair) {
-            return String.fromCharCode(parseInt(pair, 16));
-          })
-        ),
-      }),
-      {}
-    );
+    .reduce((data, match) => {
+      const [_, name, value] = match;
+      data[name] = JSON.parse(
+        value.replace(/\\x([0-9a-f]{2})/gi, function (_, pair) {
+          return String.fromCharCode(parseInt(pair, 16));
+        })
+      );
+      return data;
+    }, {});
 }
 
 export const getUnderstatPlayerData = (id) => {

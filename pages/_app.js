@@ -1,10 +1,43 @@
-import { Box, Button, Flex, Grid, NavLink, Text } from "@theme-ui/components";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  NavLink as A,
+  Text,
+} from "@theme-ui/components";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { IoPeopleCircle, IoSwapHorizontalSharp } from "react-icons/io5";
 import { ThemeProvider } from "theme-ui";
 import useAnalytics from "~/libs/useAnalytics";
 import p from "~/package.json";
 import theme from "~/theme";
+
+const SideBarNav = ({ href, icon, children }) => {
+  const router = useRouter();
+  const isActive = router.route === href;
+  return (
+    <Box
+      my={2}
+      p={2}
+      as="li"
+      sx={{
+        color: isActive ? "primary" : "text",
+        borderRadius: "default",
+      }}
+    >
+      <Link href={href} passHref>
+        <A as="a" sx={{ display: "flex", alignItems: "center" }}>
+          {icon}
+          <Text ml={3} sx={{ fontWeight: "bold" }}>
+            {children}
+          </Text>
+        </A>
+      </Link>
+    </Box>
+  );
+};
 
 export default function App({ Component, pageProps }) {
   useAnalytics();
@@ -21,38 +54,22 @@ export default function App({ Component, pageProps }) {
           <Box as="ul" sx={{ p: 0, listStyle: "none", flexGrow: 1 }}>
             <Box my={4} p={2} as="li">
               <Link href="/" passHref>
-                <NavLink as="a" sx={{ display: "flex", alignItems: "center" }}>
+                <A as="a" sx={{ display: "flex", alignItems: "center" }}>
                   <Text sx={{ fontWeight: "display", fontSize: 5 }}>
                     Open FPL
                   </Text>
-                </NavLink>
+                </A>
               </Link>
             </Box>
-            <Box my={2} p={2} as="li">
-              <Link href="/" passHref>
-                <NavLink as="a" sx={{ display: "flex", alignItems: "center" }}>
-                  <IoPeopleCircle size="2rem" />
-                  <Text ml={3} sx={{ fontWeight: "bold" }}>
-                    Player Explorer
-                  </Text>
-                </NavLink>
-              </Link>
-            </Box>
-            <Box my={2} p={2} as="li">
-              <NavLink
-                sx={{
-                  opacity: 0.5,
-                  display: "flex",
-                  alignItems: "center",
-                  pointerEvents: "none",
-                }}
-              >
-                <IoSwapHorizontalSharp size="2rem" />
-                <Text ml={3} sx={{ fontWeight: "bold" }}>
-                  Transfer Planner
-                </Text>
-              </NavLink>
-            </Box>
+            <SideBarNav href="/" icon={<IoPeopleCircle size="2rem" />}>
+              Player Explorer
+            </SideBarNav>
+            <SideBarNav
+              href="/transfers"
+              icon={<IoSwapHorizontalSharp size="2rem" />}
+            >
+              Transfer Planner
+            </SideBarNav>
           </Box>
           <Grid p={3} row={[2]} gap={3}>
             <Link href="/help" passHref>

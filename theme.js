@@ -3,7 +3,7 @@ const theme = {
     text: "#000",
     background: "#fff",
     primary: "#33e",
-    secondary: "#33e",
+    secondary: "red",
     muted: "#e8e8e8",
     highlight: "#33e",
     gray: "#777",
@@ -13,8 +13,7 @@ const theme = {
     success: "rgb(1, 252, 122)",
   },
   fonts: {
-    body:
-      '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
+    body: '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
     heading: "inherit",
     monospace: "Menlo, monospace",
   },
@@ -112,9 +111,10 @@ const theme = {
       ".comment": {
         fontStyle: "italic",
       },
-      ".property, .tag, .boolean, .number, .constant, .symbol, .deleted, .function, .class-name, .regex, .important, .variable": {
-        color: "accent",
-      },
+      ".property, .tag, .boolean, .number, .constant, .symbol, .deleted, .function, .class-name, .regex, .important, .variable":
+        {
+          color: "accent",
+        },
       ".atrule, .attr-value, .keyword": {
         color: "primary",
       },

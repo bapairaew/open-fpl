@@ -68,16 +68,20 @@ const deltaColorCodes = {
   },
 };
 
-const CenterFlex = ({ sx, ...props }) => (
-  <Flex
-    sx={{ justifyContent: "center", alignItems: "center", ...sx }}
-    py={1}
-    px={2}
-    {...props}
-  />
-);
+const CenterFlex = ({ mini, sx, ...props }) => {
+  const py = mini ? 0.5 : 1;
+  const px = mini ? 1 : 2;
+  return (
+    <Flex
+      sx={{ justifyContent: "center", alignItems: "center", ...sx }}
+      px={px}
+      py={py}
+      {...props}
+    />
+  );
+};
 
-const createEmptyMatch = (length) => {
+const makeEmptyMatch = (length) => {
   return Array.from({ length }).fill({
     opponent_short_title: null,
     match_xga: null,
@@ -85,7 +89,7 @@ const createEmptyMatch = (length) => {
   });
 };
 
-const createEmptyGameweek = (length) => {
+const makeEmptyGameweek = (length) => {
   return Array.from({ length }).fill({
     opponent_team_short_name: "",
     was_home: true,
@@ -93,201 +97,202 @@ const createEmptyGameweek = (length) => {
   });
 };
 
-const PlayerCard = ({ player, gameweeks }) => {
-  const pastMatches = player.linked_data.past_matches
-    ? player.linked_data.past_matches.length < 5
-      ? [
-          ...createEmptyMatch(5 - player.linked_data.past_matches.length),
-          ...player.linked_data.past_matches,
-        ]
-      : player.linked_data.past_matches
-    : [];
+const NameSection = ({ mini, player }) => {
+  const nameFontSize = mini ? 2 : 3;
+  const defaultFontSize = mini ? 1 : 2;
+  const showId = mini ? false : true;
+  return (
+    <Flex sx={{ fontSize: defaultFontSize }}>
+      <Flex sx={{ flexDirection: "column" }}>
+        <CenterFlex
+          mini={mini}
+          sx={{
+            backgroundColor: player.linked_data.teamcolorcodes.text
+              ? player.linked_data.teamcolorcodes.background
+              : player.linked_data.teamcolorcodes.highlight,
+            color: player.linked_data.teamcolorcodes.text
+              ? player.linked_data.teamcolorcodes.text
+              : player.linked_data.teamcolorcodes.background,
+          }}
+        >
+          {player.team.short_name}
+        </CenterFlex>
+        <CenterFlex
+          mini={mini}
+          sx={{
+            backgroundColor:
+              positionColorCodes[player.element_type.singular_name_short]
+                .background,
+            color:
+              positionColorCodes[player.element_type.singular_name_short].text,
+          }}
+        >
+          {player.element_type.singular_name_short}
+        </CenterFlex>
+      </Flex>
+      {player.status !== "a" && (
+        <CenterFlex
+          mini={mini}
+          sx={{
+            backgroundColor: statusColorCodes[player.status],
+          }}
+          title={player.news}
+        >
+          <IoIosWarning />
+        </CenterFlex>
+      )}
+      <Flex px={2} py={1} sx={{ flexDirection: "column", flexGrow: 1 }}>
+        <Text
+          sx={{
+            fontSize: nameFontSize,
+            fontWeight: "display",
+            display: "-webkit-box",
+            WebkitLineClamp: "1",
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {player.web_name}
+        </Text>
+        {showId && <Text variant="subtitle">ID: {player.id}</Text>}
+      </Flex>
+      <Flex sx={{ flexDirection: "column" }}>
+        <CenterFlex
+          mini={mini}
+          sx={{ fontWeight: "bold", backgroundColor: "muted", flexGrow: 1 }}
+        >
+          £{(player.now_cost / 10).toFixed(1)}
+        </CenterFlex>
+        <CenterFlex
+          mini={mini}
+          sx={{
+            backgroundColor:
+              player.linked_data.transfers_delta_event === 0
+                ? deltaColorCodes.zero.background
+                : player.linked_data.transfers_delta_event > 0
+                ? deltaColorCodes.positive.background
+                : deltaColorCodes.negative.background,
+            color:
+              player.linked_data.transfers_delta_event === 0
+                ? deltaColorCodes.zero.text
+                : player.linked_data.transfers_delta_event > 0
+                ? deltaColorCodes.positive.text
+                : deltaColorCodes.negative.text,
+          }}
+        >
+          {nFormatter(player.linked_data.transfers_delta_event, 1)}
+        </CenterFlex>
+      </Flex>
+    </Flex>
+  );
+};
 
+const FixturesSection = ({ mini, player, gameweeks }) => {
+  const height = mini ? 30 : 45;
+
+  return (
+    <Grid gap={0} columns={[5]} sx={{ height }}>
+      {gameweeks.map((w) => {
+        const games = player.linked_data.next_gameweeks.filter(
+          (n) => n.event === w.id
+        );
+        const gameFontSize = mini ? 1 : games.length > 1 ? 1 : 2;
+        return (
+          <Flex key={w.id} sx={{ flexDirection: "column" }}>
+            {games.length === 0 ? (
+              <CenterFlex
+                mini={mini}
+                sx={{
+                  backgroundColor: "text",
+                  color: "background",
+                  height: "100%",
+                }}
+              >
+                -
+              </CenterFlex>
+            ) : (
+              games.map((g, i) => (
+                <CenterFlex
+                  key={i}
+                  mini={mini}
+                  sx={{
+                    height: height / games.length,
+                    fontSize: gameFontSize,
+                    backgroundColor:
+                      difficultyColorCodes[g.difficulty].background,
+                    color: difficultyColorCodes[g.difficulty].text,
+                  }}
+                >
+                  {g.opponent_team_short_name[
+                    g.is_home ? "toUpperCase" : "toLowerCase"
+                  ]()}
+                </CenterFlex>
+              ))
+            )}
+          </Flex>
+        );
+      })}
+    </Grid>
+  );
+};
+
+const PointsSection = ({ mini, player }) => {
   const previousGameweeks =
     player.linked_data.previous_gameweeks?.length < 5
       ? [
-          ...createEmptyGameweek(
+          ...makeEmptyGameweek(
             5 - player.linked_data.previous_gameweeks.length
           ),
           ...player.linked_data.previous_gameweeks,
         ]
       : player.linked_data.previous_gameweeks;
 
+  const showTeamsName = mini ? false : true;
+  const pointsFontSize = mini ? 1 : 2;
+
   return (
-    <Card
-      as="a"
-      href={
-        player.understat_id
-          ? `https://understat.com/player/${player.understat_id}`
-          : `https://understat.com/league/EPL`
-      }
-      target="_blank"
-      rel="noreferrer noopener"
-      variant="bare"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        textDecoration: "inherit",
-        color: "inherit",
-        height: "auto",
-      }}
-    >
-      <Flex>
-        <Flex sx={{ flexDirection: "column" }}>
-          <CenterFlex
-            sx={{
-              backgroundColor: player.linked_data.teamcolorcodes.text
-                ? player.linked_data.teamcolorcodes.background
-                : player.linked_data.teamcolorcodes.highlight,
-              color: player.linked_data.teamcolorcodes.text
-                ? player.linked_data.teamcolorcodes.text
-                : player.linked_data.teamcolorcodes.background,
-            }}
-          >
-            {player.team.short_name}
-          </CenterFlex>
-          <CenterFlex
-            sx={{
-              backgroundColor:
-                positionColorCodes[player.element_type.singular_name_short]
-                  .background,
-              color:
-                positionColorCodes[player.element_type.singular_name_short]
-                  .text,
-            }}
-          >
-            {player.element_type.singular_name_short}
-          </CenterFlex>
-        </Flex>
-        {player.status !== "a" && (
-          <CenterFlex
-            sx={{
-              backgroundColor: statusColorCodes[player.status],
-            }}
-            title={player.news}
-          >
-            <IoIosWarning />
-          </CenterFlex>
-        )}
-        <Flex px={2} py={1} sx={{ flexDirection: "column", flexGrow: 1 }}>
-          <Text
-            sx={{
-              fontWeight: "display",
-              fontSize: 3,
-              display: "-webkit-box",
-              WebkitLineClamp: "1",
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {player.web_name}
-          </Text>
-          <Text variant="subtitle">ID: {player.id}</Text>
-        </Flex>
-        <Flex sx={{ flexDirection: "column" }}>
-          <CenterFlex
-            sx={{ fontWeight: "bold", backgroundColor: "muted", flexGrow: 1 }}
-          >
-            £{(player.now_cost / 10).toFixed(1)}
-          </CenterFlex>
-          <CenterFlex
-            sx={{
-              backgroundColor:
-                player.linked_data.transfers_delta_event === 0
-                  ? deltaColorCodes.zero.background
-                  : player.linked_data.transfers_delta_event > 0
-                  ? deltaColorCodes.positive.background
-                  : deltaColorCodes.negative.background,
-              color:
-                player.linked_data.transfers_delta_event === 0
-                  ? deltaColorCodes.zero.text
-                  : player.linked_data.transfers_delta_event > 0
-                  ? deltaColorCodes.positive.text
-                  : deltaColorCodes.negative.text,
-            }}
-          >
-            <Text
-              variant="subtitle"
-              sx={{
-                color: "inherit",
-              }}
+    <>
+      {showTeamsName && (
+        <Grid gap={0} columns={[6]}>
+          {previousGameweeks.map((h, i) => (
+            <CenterFlex
+              key={i}
+              mini={mini}
+              p={0.5}
+              sx={{ fontSize: 1, color: "gray", backgroundColor: "muted" }}
             >
-              {nFormatter(player.linked_data.transfers_delta_event, 1)}
-            </Text>
-          </CenterFlex>
-        </Flex>
-      </Flex>
-      <Grid gap={0} columns={[5]} sx={{ height: 45 }}>
-        {gameweeks.map((w) => {
-          const games = player.linked_data.next_gameweeks.filter(
-            (n) => n.event === w.id
-          );
-          return (
-            <Flex key={w.id} sx={{ flexDirection: "column" }}>
-              {games.length === 0 ? (
-                <CenterFlex
-                  sx={{
-                    backgroundColor: "text",
-                    color: "background",
-                    height: "100%",
-                  }}
-                >
-                  -
-                </CenterFlex>
-              ) : (
-                games.map((g, i) => (
-                  <CenterFlex
-                    key={i}
-                    sx={{
-                      height: 45 / games.length,
-                      fontSize: games.length > 1 ? 1 : 2,
-                      backgroundColor:
-                        difficultyColorCodes[g.difficulty].background,
-                      color: difficultyColorCodes[g.difficulty].text,
-                    }}
-                  >
-                    {g.opponent_team_short_name[
-                      g.is_home ? "toUpperCase" : "toLowerCase"
-                    ]()}
-                  </CenterFlex>
-                ))
-              )}
-            </Flex>
-          );
-        })}
-      </Grid>
-      <Grid gap={0} columns={[6]}>
-        {previousGameweeks.map((h, i) => (
+              {h.opponent_team_short_name[
+                h.was_home ? "toUpperCase" : "toLowerCase"
+              ]()}
+            </CenterFlex>
+          ))}
           <CenterFlex
-            key={i}
             p={0.5}
+            mini={mini}
             sx={{ fontSize: 1, color: "gray", backgroundColor: "muted" }}
           >
-            {h.opponent_team_short_name[
-              h.was_home ? "toUpperCase" : "toLowerCase"
-            ]()}
+            Σ
           </CenterFlex>
-        ))}
-        <CenterFlex
-          p={0.5}
-          sx={{ fontSize: 1, color: "gray", backgroundColor: "muted" }}
-        >
-          Σ
-        </CenterFlex>
-      </Grid>
+        </Grid>
+      )}
       <Grid gap={0} columns={[6]}>
         {previousGameweeks.map((h, i) => (
           <CenterFlex
             key={i}
-            sx={{ backgroundColor: `rgba(0, 255, 0, ${h.bps * 2}%)` }}
+            mini={mini}
+            sx={{
+              fontSize: pointsFontSize,
+              backgroundColor: `rgba(0, 255, 0, ${h.bps * 2}%)`,
+            }}
           >
             {h.total_points}
           </CenterFlex>
         ))}
         <CenterFlex
+          mini={mini}
           sx={{
+            fontSize: pointsFontSize,
             fontWeight: "bold",
             backgroundColor: "muted",
           }}
@@ -295,12 +300,33 @@ const PlayerCard = ({ player, gameweeks }) => {
           {player.total_points}
         </CenterFlex>
       </Grid>
-      <Box sx={{ height: 80 }}>
-        {pastMatches?.length > 0 ? (
-          <>
-            <Grid gap={0} columns={[6]}>
+    </>
+  );
+};
+
+const PreviousStatsSection = ({ mini, player }) => {
+  const pastMatches = player.linked_data.past_matches
+    ? player.linked_data.past_matches.length < 5
+      ? [
+          ...makeEmptyMatch(5 - player.linked_data.past_matches.length),
+          ...player.linked_data.past_matches,
+        ]
+      : player.linked_data.past_matches
+    : [];
+
+  const showTeamsName = mini ? false : true;
+  const height = mini ? 58 : 80;
+  const decimal = mini ? 1 : 2;
+
+  return (
+    <Box sx={{ height }}>
+      {pastMatches?.length > 0 ? (
+        <Grid gap={0} columns={[6]}>
+          {showTeamsName && (
+            <>
               {pastMatches.map((s, i) => (
                 <CenterFlex
+                  mini={mini}
                   key={i}
                   p={0.5}
                   sx={{
@@ -315,91 +341,110 @@ const PlayerCard = ({ player, gameweeks }) => {
                 </CenterFlex>
               ))}
               <CenterFlex
+                mini={mini}
                 p={0.5}
                 sx={{ fontSize: 1, color: "gray", backgroundColor: "muted" }}
               >
                 x̅
               </CenterFlex>
-            </Grid>
-            <Grid gap={0} columns={[6]}>
-              {pastMatches.map((s, i) => (
-                <CenterFlex
-                  key={i}
-                  p={1}
-                  sx={{
-                    fontSize: 1,
-                    backgroundColor: s.match_xgi
-                      ? `rgba(0, 255, 0, ${Math.min(
-                          100,
-                          (+(s.match_xgi || 0) * 100) / 2
-                        )}%)`
-                      : "",
-                  }}
-                >
-                  {!isNullOrUndefined(s.match_xgi)
-                    ? (+s.match_xgi).toFixed?.(2)
-                    : ""}
-                </CenterFlex>
-              ))}
-              <CenterFlex
-                p={1}
-                sx={{
-                  fontSize: 1,
-                  fontWeight: "bold",
-                  backgroundColor: "muted",
-                }}
-              >
-                {!isNullOrUndefined(player.linked_data.season_xgi)
-                  ? (+player.linked_data.season_xgi).toFixed?.(2)
-                  : "N/A"}
-              </CenterFlex>
-            </Grid>
-            <Grid gap={0} columns={[6]}>
-              {pastMatches.map((s, i) => (
-                <CenterFlex
-                  key={i}
-                  p={1}
-                  sx={{
-                    fontSize: 1,
-                    backgroundColor: s.match_xga
-                      ? `rgba(0, 255, 0, ${Math.min(
-                          100,
-                          (1 - +(s.match_xga || 0)) * 100
-                        )}%)`
-                      : "",
-                  }}
-                >
-                  {!isNullOrUndefined(s.match_xga)
-                    ? (+s.match_xga).toFixed?.(2)
-                    : ""}
-                </CenterFlex>
-              ))}
-              <CenterFlex
-                p={1}
-                sx={{
-                  fontSize: 1,
-                  fontWeight: "bold",
-                  backgroundColor: "muted",
-                }}
-              >
-                {!isNullOrUndefined(player.linked_data.season_xga)
-                  ? +player.linked_data.season_xga.toFixed?.(2)
-                  : "N/A"}
-              </CenterFlex>
-            </Grid>
-          </>
-        ) : (
-          <Flex
+            </>
+          )}
+          {pastMatches.map((s, i) => (
+            <CenterFlex
+              key={i}
+              mini={mini}
+              p={1}
+              sx={{
+                fontSize: 1,
+                backgroundColor: s.match_xgi
+                  ? `rgba(0, 255, 0, ${Math.min(
+                      100,
+                      (+(s.match_xgi || 0) * 100) / 2
+                    )}%)`
+                  : "",
+              }}
+            >
+              {!isNullOrUndefined(s.match_xgi)
+                ? (+s.match_xgi).toFixed?.(decimal)
+                : ""}
+            </CenterFlex>
+          ))}
+          <CenterFlex
+            p={1}
+            mini={mini}
             sx={{
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
+              fontSize: 1,
+              fontWeight: "bold",
+              backgroundColor: "muted",
             }}
           >
-            No stats available
-          </Flex>
-        )}
-      </Box>
+            {!isNullOrUndefined(player.linked_data.season_xgi)
+              ? (+player.linked_data.season_xgi).toFixed?.(decimal)
+              : "N/A"}
+          </CenterFlex>
+          {pastMatches.map((s, i) => (
+            <CenterFlex
+              key={i}
+              mini={mini}
+              p={1}
+              sx={{
+                fontSize: 1,
+                backgroundColor: s.match_xga
+                  ? `rgba(0, 255, 0, ${Math.min(
+                      100,
+                      (1 - +(s.match_xga || 0)) * 100
+                    )}%)`
+                  : "",
+              }}
+            >
+              {!isNullOrUndefined(s.match_xga)
+                ? (+s.match_xga).toFixed?.(decimal)
+                : ""}
+            </CenterFlex>
+          ))}
+          <CenterFlex
+            p={1}
+            mini={mini}
+            sx={{
+              fontSize: 1,
+              fontWeight: "bold",
+              backgroundColor: "muted",
+            }}
+          >
+            {!isNullOrUndefined(player.linked_data.season_xga)
+              ? +player.linked_data.season_xga.toFixed?.(decimal)
+              : "N/A"}
+          </CenterFlex>
+        </Grid>
+      ) : (
+        <Flex
+          sx={{
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          No stats available
+        </Flex>
+      )}
+    </Box>
+  );
+};
+
+const PlayerCard = ({ mini, player, gameweeks }) => {
+  return (
+    <Card
+      variant="bare"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "auto",
+      }}
+    >
+      <NameSection mini={mini} player={player} />
+      <FixturesSection mini={mini} player={player} gameweeks={gameweeks} />
+      <PointsSection mini={mini} player={player} />
+      <PreviousStatsSection mini={mini} player={player} />
     </Card>
   );
 };
