@@ -1,6 +1,6 @@
 {
   "name": "open-fpl",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "scripts": {
     "init-data": "babel-node scripts/init-data.js",
     "init-links": "babel-node scripts/init-links.js",
@@ -11,11 +11,16 @@
     "start": "next start"
   },
   "dependencies": {
-    "@theme-ui/match-media": "^0.8.4",
+    "@chakra-ui/react": "^1.6.3",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@rehooks/local-storage": "^2.4.1",
     "diacritics": "^1.3.0",
+    "framer-motion": "^4",
     "fuse.js": "^6.4.6",
     "next": "^10.2.0",
     "next-seo": "^4.24.0",
+    "nextjs-progressbar": "^0.0.9",
     "react": "^17.0.2",
     "react-annotation": "^2.2.1",
     "react-dom": "^17.0.2",
@@ -24,7 +29,6 @@
     "react-virtualized-auto-sizer": "^1.0.5",
     "react-window": "^1.8.6",
     "search-query-parser": "^1.5.5",
-    "theme-ui": "^0.8.3",
     "use-debounce": "^6.0.1"
   },
   "devDependencies": {

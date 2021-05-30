@@ -1,7 +1,7 @@
 import fs from "fs";
 import glob from "glob-promise";
 import { NextSeo } from "next-seo";
-import PlayersExplorer from "~/components/PlayersExplorer";
+import PlayersExplorer from "~/components/PlayersExplorer/PlayersExplorer";
 import { makePlayersData } from "~/libs/players";
 
 const getDataFromFiles = async (pattern) => {
@@ -55,7 +55,7 @@ function HomePage({ players, gameweeks }) {
     <>
       <NextSeo title="Player Explorer | Open FPL" />
       <PlayersExplorer
-        columnsSettings={[1, 2, 3]}
+        columnsSettings={{ xs: 1, sm: 1, md: 2, lg: 3, xl: 4, "2xl": 5 }}
         players={players}
         gameweeks={gameweeks}
       />

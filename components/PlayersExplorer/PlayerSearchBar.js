@@ -1,14 +1,20 @@
-import { Box, Grid, Input, Select } from "@theme-ui/components";
+import {
+  Flex,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Select,
+  Spacer,
+  Stack,
+  Box,
+} from "@chakra-ui/react";
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
 import { useEffect, useMemo, useState } from "react";
-import { BiSortDown } from "react-icons/bi";
-import { IoSearchSharp } from "react-icons/io5";
+import { IoSearchOutline } from "react-icons/io5";
 import searchQueryParser from "search-query-parser";
 import { useDebounce } from "use-debounce";
 import { isNullOrUndefined } from "~/libs/datatype";
-
-export const SEARCH_BAR_HEIGHT = 80;
 
 const filterOptions = {
   keywords: [
@@ -157,6 +163,7 @@ const excludeFilter = ({ players, filterValue, getFieldValue }) => {
 };
 
 const PlayerSearchBar = ({
+  direction = "row",
   initialSeachQuery = "",
   onResults = () => {},
   players: inputPlayers = [],
@@ -256,53 +263,19 @@ const PlayerSearchBar = ({
   }, [inputPlayers, filterQueryObject, sort]);
 
   return (
-    <Grid
-      columns={["1fr 240px"]}
-      gap={2}
-      px={1}
-      sx={{ alignItems: "center", height: SEARCH_BAR_HEIGHT }}
-    >
-      <Box
-        variant="bare"
-        sx={{
-          alignItems: "center",
-          width: "100%",
-          position: "relative",
-          borderWidth: 1,
-          borderColor: "text",
-          borderStyle: "solid",
-          borderRadius: "default",
-        }}
-      >
-        <Box ml={1} p={2} sx={{ position: "absolute" }}>
-          <IoSearchSharp size="1.3rem" />
-        </Box>
+    <Stack direction={direction} spacing={2}>
+      <InputGroup variant="filled">
+        <InputLeftElement pointerEvents="none" children={<IoSearchOutline />} />
         <Input
-          pl={40}
-          sx={{ border: 0 }}
           placeholder="Search"
           value={filterQuery}
           onChange={(e) => setFilterQuery(e.target.value)}
         />
-      </Box>
-      <Box
-        variant="bare"
-        sx={{
-          alignItems: "center",
-          width: "100%",
-          position: "relative",
-          borderWidth: 1,
-          borderColor: "text",
-          borderStyle: "solid",
-          borderRadius: "default",
-        }}
-      >
-        <Box ml={1} p={2} sx={{ position: "absolute" }}>
-          <BiSortDown size="1.3rem" />
-        </Box>
+      </InputGroup>
+      <Box>
         <Select
-          pl={40}
-          sx={{ border: 0 }}
+          flexBasis="220px"
+          variant="filled"
           value={sort}
           onChange={(e) => setSort(e.target.value)}
         >
@@ -313,7 +286,7 @@ const PlayerSearchBar = ({
           ))}
         </Select>
       </Box>
-    </Grid>
+    </Stack>
   );
 };
 

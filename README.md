@@ -1,6 +1,10 @@
-# TODO
+# Roadmap
 
-- Better custom page properties organisation
-- Transfer planer page
-- Dark mode
-- Documentation
+# 0.2.4 -
+
+- [] Move to Chakra UI
+
+# 0.3.0 - before next season
+
+- [] Transfer planer page
+- [] Documentation

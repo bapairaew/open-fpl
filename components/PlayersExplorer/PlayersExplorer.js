@@ -1,15 +1,12 @@
-import { Box, Grid } from "@theme-ui/components";
-import { useResponsiveValue } from "@theme-ui/match-media";
+import { Box, Grid, useBreakpointValue } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
-import PlayerCard from "~/components/PlayerCard";
-import PlayerSearchBar, {
-  SEARCH_BAR_HEIGHT,
-} from "~/components/PlayerSearchBar";
+import PlayerCard from "~/components/PlayerCard/PlayerCard";
+import PlayerSearchBar from "~/components/PlayersExplorer/PlayerSearchBar";
 
 const PlayersExplorer = ({ players, gameweeks, columnsSettings }) => {
-  const columnsCount = useResponsiveValue(columnsSettings);
+  const columnsCount = useBreakpointValue(columnsSettings);
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
 
   const Row = useMemo(
@@ -31,10 +28,6 @@ const PlayersExplorer = ({ players, gameweeks, columnsSettings }) => {
                 }
                 target="_blank"
                 rel="noreferrer noopener"
-                sx={{
-                  textDecoration: "inherit",
-                  color: "inherit",
-                }}
               >
                 <PlayerCard player={player} gameweeks={gameweeks} />
               </Box>
@@ -45,11 +38,11 @@ const PlayersExplorer = ({ players, gameweeks, columnsSettings }) => {
         return (
           <div key={`${rowIndex}`} style={style}>
             <Grid
-              columns={columnsSettings}
+              templateColumns={`repeat(${columnsCount}, 1fr)`}
               gap={2}
               py={1}
               px={1}
-              sx={{ height: "100%" }}
+              height="100%"
             >
               {content}
             </Grid>
@@ -61,14 +54,16 @@ const PlayersExplorer = ({ players, gameweeks, columnsSettings }) => {
 
   return (
     <>
-      <PlayerSearchBar onResults={setDisplayedPlayers} players={players} />
+      <Box px={4} py={2}>
+        <PlayerSearchBar onResults={setDisplayedPlayers} players={players} />
+      </Box>
       <AutoSizer>
         {({ height, width }) => (
           <List
-            height={height - SEARCH_BAR_HEIGHT}
-            itemCount={Math.ceil(displayedPlayers.length / columnsCount)}
-            itemSize={255}
+            height={height - 55}
             width={width}
+            itemCount={Math.ceil(displayedPlayers.length / columnsCount)}
+            itemSize={260}
           >
             {Row}
           </List>

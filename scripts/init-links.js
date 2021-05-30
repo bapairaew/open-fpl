@@ -1,7 +1,6 @@
 import Fuse from "fuse.js";
 import fs from "fs";
 import glob from "glob-promise";
-import PlayerCard from "~/components/PlayerCard";
 
 async function createTeamsLinks() {
   const [fplTeams, understatTeams] = await Promise.all([
