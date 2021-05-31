@@ -24,34 +24,42 @@ const TransferPlanner = ({
   const planningGameweek = currentGameweek + gameweekDelta;
 
   const team = useMemo(() => {
-    const picks = initialPicks?.map((p) => {
-      const latestTransfer = transfers?.find((t) => t.element_in === p.element);
-      const { now_cost, cost_change_start } = players.find(
-        (pl) => pl.id === p.element
+    if (players && initialPicks && transfers) {
+      const picks = initialPicks?.map((p) => {
+        const latestTransfer = transfers?.find(
+          (t) => t.element_in === p.element
+        );
+        const { now_cost, cost_change_start } = players.find(
+          (pl) => pl.id === p.element
+        );
+        const originalCost = now_cost - cost_change_start;
+        const purchase_price = latestTransfer?.element_in_cost ?? originalCost;
+
+        const increasedPrice = Math.floor((now_cost - purchase_price) / 2);
+        const selling_price = purchase_price + increasedPrice;
+
+        return {
+          ...p,
+          now_cost,
+          selling_price,
+          purchase_price,
+        };
+      });
+
+      const team = processChanges(
+        picks,
+        changes.filter((c) => c.gameweek <= planningGameweek)
       );
-      const originalCost = now_cost - cost_change_start;
-      const purchase_price = latestTransfer?.element_in_cost ?? originalCost;
 
-      const increasedPrice = Math.floor((now_cost - purchase_price) / 2);
-      const selling_price = purchase_price + increasedPrice;
+      return team.map((p) => {
+        return {
+          ...players?.find((pl) => pl.id === p?.element),
+          pick: p,
+        };
+      });
+    }
 
-      return {
-        ...p,
-        now_cost,
-        selling_price,
-        purchase_price,
-      };
-    });
-    const team = processChanges(
-      picks,
-      changes.filter((c) => c.gameweek <= planningGameweek)
-    );
-    return team.map((p) => {
-      return {
-        ...players?.find((pl) => pl.id === p?.element),
-        pick: p,
-      };
-    });
+    return [];
   }, [initialPicks, transfers, players, changes]);
 
   const bank = useMemo(() => {
