@@ -1,4 +1,12 @@
-import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+  useOutsideClick,
+} from "@chakra-ui/react";
+import { useRef } from "react";
 import { AiOutlinePushpin } from "react-icons/ai";
 import AutoSizer from "react-virtualized-auto-sizer";
 import PlayerCard from "~/components/PlayerCard/PlayerCard";
@@ -37,7 +45,7 @@ const teamPlayerVariants = {
   },
 };
 
-const TeamPlayer = ({ children, variant, onClick }) => {
+const TeamPlayer = ({ variant, onClick, children }) => {
   const variantProps = teamPlayerVariants[variant] ?? varaints.default;
   return (
     <Box
@@ -97,16 +105,25 @@ const SelectedTeam = ({
   gameweeks,
   selectedPlayer,
   onPlayerClick,
+  onOutsideClick,
 }) => {
   const { transferPlannerPinnedBench, setTransferPlannerPinnedBench } =
     useUser();
+
   const benchProps = transferPlannerPinnedBench
     ? { position: "sticky", bottom: 0 }
     : {};
+
   const { GKP, DEF, MID, FWD, bench } = teamObject;
 
+  const makeHandlePlayerClick = (p) => (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onPlayerClick(p);
+  };
+
   return (
-    <Box height="100%">
+    <Box height="100%" onClick={onOutsideClick}>
       <AutoSizer>
         {({ height, width }) => {
           return (
@@ -118,7 +135,7 @@ const SelectedTeam = ({
                       {group.map((p) => (
                         <TeamPlayer
                           key={p.id}
-                          onClick={() => onPlayerClick(p)}
+                          onClick={makeHandlePlayerClick(p)}
                           variant={getVariant(selectedPlayer, p, teamObject)}
                         >
                           <PlayerCard mini player={p} gameweeks={gameweeks} />
@@ -150,7 +167,7 @@ const SelectedTeam = ({
                     {bench.map((p) => (
                       <TeamPlayer
                         key={p.id}
-                        onClick={() => onPlayerClick(p)}
+                        onClick={makeHandlePlayerClick(p)}
                         variant={getVariant(selectedPlayer, p, teamObject)}
                       >
                         <PlayerCard mini player={p} gameweeks={gameweeks} />

@@ -62,7 +62,13 @@ const TeamManager = ({ team, players, gameweeks, onSwap, onTransfer }) => {
     } else if (isSwapable(selectedPlayer, targetPlayer, teamObject)) {
       onSwap(selectedPlayer, targetPlayer);
       setSelectedPlayer(null);
+    } else {
+      setSelectedPlayer(null);
     }
+  };
+
+  const handleOutsideClick = () => {
+    setSelectedPlayer(null);
   };
 
   const handleTransferSectionPlayerClick = (targetPlayer) => {
@@ -80,6 +86,7 @@ const TeamManager = ({ team, players, gameweeks, onSwap, onTransfer }) => {
           gameweeks={gameweeks}
           selectedPlayer={selectedPlayer}
           onPlayerClick={handlePlayerClick}
+          onOutsideClick={handleOutsideClick}
         />
       </Box>
       <Box height="100%">
