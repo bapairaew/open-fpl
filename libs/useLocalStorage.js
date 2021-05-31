@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 function useLocalStorage(key, defaultValue) {
   const [storedValue, setStoredValue] = useState(defaultValue);
+  const [isInitialised, setIsInitialised] = useState(false);
 
   const storeEventListener = (e) => {
     if (e.detail.key === key) {
@@ -30,6 +31,8 @@ function useLocalStorage(key, defaultValue) {
       window.addEventListener("storage", storeEventListener);
     } catch (error) {
       // Ignore error
+    } finally {
+      setIsInitialised(true);
     }
 
     return () => window.addEventListener("storage", storeEventListener);
@@ -40,7 +43,7 @@ function useLocalStorage(key, defaultValue) {
     [key]
   );
 
-  return [storedValue, setValue];
+  return [storedValue, setValue, isInitialised];
 }
 
 export default useLocalStorage;

@@ -8,6 +8,8 @@ import {
 import TeamManager from "~/components/TransferPlanner/TeamManager";
 import TransferLog from "~/components/TransferPlanner/TransferLog";
 import TransferToolbar from "~/components/TransferPlanner/TransferToolbar";
+import useLocalStorage from "~/libs/useLocalStorage";
+import { useUser } from "~/components/User/UserContext";
 
 const TransferPlanner = ({
   initialPicks,
@@ -16,8 +18,9 @@ const TransferPlanner = ({
   gameweeks,
   transfers,
 }) => {
-  // TODO: save to localstorage
-  const [changes, setChanges] = useState([]);
+  const { teamId } = useUser();
+  // TODO: auto remove/invalidate previous gameweek changes
+  const [changes, setChanges] = useLocalStorage(`${teamId}-changes`, []);
   const [gameweekDelta, setGameweekDelta] = useState(0);
 
   const currentGameweek = +gameweeks?.[0].id || 0;

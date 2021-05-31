@@ -74,6 +74,7 @@ const UserModal = ({ isOpen, onClose }) => {
               onChange={(e) => setFormTeamId(e.target.value)}
             />
           </form>
+          {/* TODO: Storage manager */}
         </DrawerBody>
 
         <DrawerFooter>

@@ -3,16 +3,20 @@ import { useEffect } from "react";
 import { useUser } from "~/components/User/UserContext";
 
 const useTransferRedirect = () => {
-  const { teamId } = useUser();
+  const { teamId, isInitialised } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (teamId) {
-      router.push(`/transfers/${teamId}`);
-    } else {
-      router.push(`/transfers`);
+    if (isInitialised) {
+      if (teamId) {
+        router.push(`/transfers/${teamId}`);
+      } else {
+        router.push(`/transfers`);
+      }
     }
   }, [teamId]);
+
+  return { teamId, isInitialised };
 };
 
 export default useTransferRedirect;
