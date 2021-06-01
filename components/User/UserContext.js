@@ -1,7 +1,8 @@
 import { useDisclosure } from "@chakra-ui/hooks";
-import useLocalStorage from "~/libs/useLocalStorage";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext } from "react";
 import UserModal from "~/components/User/UserModal";
+import useLocalStorage from "~/libs/useLocalStorage";
+import { getTransferPlannerPinnedBenchKey, getUserTeamIdKey } from "./storage";
 
 const UserContext = createContext({
   isInitialised: false,
@@ -15,9 +16,12 @@ const UserContext = createContext({
 });
 
 export const UserContextProvider = ({ children, ...props }) => {
-  const [teamId, setTeamId, isInitialised] = useLocalStorage("teamId", null);
+  const [teamId, setTeamId, isInitialised] = useLocalStorage(
+    getUserTeamIdKey(),
+    null
+  );
   const [transferPlannerPinnedBench, setTransferPlannerPinnedBench] =
-    useLocalStorage("transferPlannerPinnedBench", true);
+    useLocalStorage(getTransferPlannerPinnedBenchKey(), true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <UserContext.Provider

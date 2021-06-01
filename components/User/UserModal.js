@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -7,18 +8,21 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
-  Input,
   FormLabel,
+  Input,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
+import { getUserTeamChangesKey } from "~/components/User/storage";
 import { useUser } from "~/components/User/UserContext";
-import { useToast } from "@chakra-ui/react";
+import UserStorage from "~/components/User/UserStorage";
 
 const UserModal = ({ isOpen, onClose }) => {
   const toast = useToast();
   const initialFocusRef = useRef();
   const { teamId, setTeamId } = useUser();
   const [formTeamId, setFormTeamId] = useState(teamId);
+  const [plansToRemove, setPlansToRemove] = useState([]);
 
   useEffect(() => {
     if (isOpen) {
@@ -29,12 +33,18 @@ const UserModal = ({ isOpen, onClose }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     setTeamId(formTeamId);
+    if (plansToRemove) {
+      plansToRemove.forEach((plan) => {
+        window.localStorage.removeItem(getUserTeamChangesKey(plan.teamId));
+      });
+      setPlansToRemove([]);
+    }
     onClose();
     if (formTeamId) {
       toast({
         position: "bottom-right",
-        title: "Team ID saved.",
-        description: "All features have been unlocked!",
+        title: "Your details have been saved!",
+        description: "Please enjoy using Open FPL!",
         status: "success",
         duration: 9000,
         isClosable: true,
@@ -42,13 +52,20 @@ const UserModal = ({ isOpen, onClose }) => {
     } else {
       toast({
         position: "bottom-right",
-        title: "Team ID removed.",
-        description: "Set up your team ID again to get all features unlocked!",
+        title: "Your details have been saved!",
+        description:
+          "Please set up your team ID again to get all features unlocked!",
         status: "success",
         duration: 9000,
         isClosable: true,
       });
     }
+  };
+
+  const storage = typeof window !== "undefined" ? window.localStorage : null;
+
+  const handleStorageChange = ({ plansToRemove }) => {
+    setPlansToRemove(plansToRemove);
   };
 
   return (
@@ -74,7 +91,15 @@ const UserModal = ({ isOpen, onClose }) => {
               onChange={(e) => setFormTeamId(e.target.value)}
             />
           </form>
-          {/* TODO: Storage manager */}
+          {/* TODO: Team ID help */}
+          <Box my={4}>
+            <FormLabel>Storage</FormLabel>
+            <UserStorage
+              storage={storage}
+              plansToRemove={plansToRemove}
+              onStorageChange={handleStorageChange}
+            />
+          </Box>
         </DrawerBody>
 
         <DrawerFooter>

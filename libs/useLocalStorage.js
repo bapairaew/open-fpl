@@ -5,8 +5,8 @@ function useLocalStorage(key, defaultValue) {
   const [isInitialised, setIsInitialised] = useState(false);
 
   const storeEventListener = (e) => {
-    if (e.detail.key === key) {
-      setStoredValue(e.detail.value);
+    if (e.key === key) {
+      setStoredValue(e.newValue);
     }
   };
 
@@ -35,7 +35,7 @@ function useLocalStorage(key, defaultValue) {
       setIsInitialised(true);
     }
 
-    return () => window.addEventListener("storage", storeEventListener);
+    return () => window.removeEventListener("storage", storeEventListener);
   }, [key]);
 
   const setValue = useCallback(

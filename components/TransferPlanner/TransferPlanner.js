@@ -10,6 +10,7 @@ import TransferLog from "~/components/TransferPlanner/TransferLog";
 import TransferToolbar from "~/components/TransferPlanner/TransferToolbar";
 import useLocalStorage from "~/libs/useLocalStorage";
 import { useUser } from "~/components/User/UserContext";
+import { getUserTeamChangesKey } from "~/components/User/storage";
 
 const TransferPlanner = ({
   initialPicks,
@@ -20,7 +21,10 @@ const TransferPlanner = ({
 }) => {
   const { teamId } = useUser();
   // TODO: auto remove/invalidate previous gameweek changes
-  const [changes, setChanges] = useLocalStorage(`${teamId}-changes`, []);
+  const [changes, setChanges] = useLocalStorage(
+    getUserTeamChangesKey(teamId),
+    []
+  );
   const [gameweekDelta, setGameweekDelta] = useState(0);
 
   const currentGameweek = +gameweeks?.[0].id || 0;

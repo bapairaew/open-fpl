@@ -14,7 +14,6 @@
     "@chakra-ui/react": "^1.6.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@rehooks/local-storage": "^2.4.1",
     "diacritics": "^1.3.0",
     "framer-motion": "^4",
     "fuse.js": "^6.4.6",

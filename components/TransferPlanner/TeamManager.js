@@ -98,8 +98,8 @@ const TeamManager = ({ team, players, gameweeks, onSwap, onTransfer }) => {
             onPlayerClick={handleTransferSectionPlayerClick}
           />
         ) : (
-          <Box py={10} textAlign="center" color="gray">
-            Click on a player below to make a transfer
+          <Box py={10} px={4} textAlign="center" color="gray">
+            Click on a player on the left to make a transfer
           </Box>
         )}
       </Box>
