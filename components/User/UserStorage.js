@@ -1,4 +1,13 @@
-import { VStack, Box, Heading, Text, IconButton, Icon } from "@chakra-ui/react";
+import {
+  VStack,
+  Box,
+  Heading,
+  Text,
+  IconButton,
+  Icon,
+  HStack,
+  Flex,
+} from "@chakra-ui/react";
 import { useMemo } from "react";
 import { IoTrashBinOutline, IoArrowUndoCircleOutline } from "react-icons/io5";
 import { getUserTeamChangesKey } from "~/components/User/storage";
@@ -6,47 +15,49 @@ import { nFormatter } from "~/libs/numbers";
 
 const transferPlanVariants = {
   default: {
+    textContainer: {},
+    buttonVaraint: "ghost",
     iconLabel: "revert",
     icon: IoTrashBinOutline,
   },
   remove: {
-    textDecoration: "line-through",
-    opacity: 0.5,
+    textContainer: {
+      textDecoration: "line-through",
+      opacity: 0.5,
+    },
+    buttonVaraint: "solid",
     iconLabel: "remove",
     icon: IoArrowUndoCircleOutline,
   },
 };
 
 const TransferPlan = ({ plan, onRemoveClick, variant }) => {
-  const { icon, iconLabel, ...variantProp } =
+  const { buttonVaraint, icon, iconLabel, textContainer } =
     transferPlanVariants[variant] ?? transferPlanVariants.default;
   return (
-    <Box
-      borderWidth={1}
-      borderRadius="md"
-      width="100%"
-      px={4}
-      py={2}
-      position="relative"
-      {...variantProp}
-    >
-      <Heading size="xs" my={2}>
-        Transfer plan {plan.teamId}
-      </Heading>
-      <Text color="gray" fontSize="xs">
-        Size {nFormatter(plan.size, 1)}b
-      </Text>
-      <IconButton
-        position="absolute"
-        top={2}
-        right={2}
-        size="sm"
-        variant="ghost"
-        aria-label={iconLabel}
-        icon={<Icon as={icon} />}
-        onClick={() => onRemoveClick(plan)}
-      />
-    </Box>
+    <Flex borderWidth={1} borderRadius="md" width="100%">
+      <Box flexGrow={1} px={4} py={2} {...textContainer}>
+        <Heading size="xs" my={2}>
+          Transfer plan {plan.teamId}
+        </Heading>
+        <Text color="gray" fontSize="xs">
+          Size {nFormatter(plan.size, 1)}b
+        </Text>
+      </Box>
+      <Box flexShrink={0}>
+        <IconButton
+          width="100%"
+          height="100%"
+          size="lg"
+          borderTopLeftRadius={0}
+          borderBottomLeftRadius={0}
+          variant={buttonVaraint}
+          aria-label={iconLabel}
+          icon={<Icon as={icon} />}
+          onClick={() => onRemoveClick(plan)}
+        />
+      </Box>
+    </Flex>
   );
 };
 
