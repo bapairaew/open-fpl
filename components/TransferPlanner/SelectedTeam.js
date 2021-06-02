@@ -2,8 +2,8 @@ import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
 import { AiOutlinePushpin } from "react-icons/ai";
 import AutoSizer from "react-virtualized-auto-sizer";
 import PlayerCard from "~/components/PlayerCard/PlayerCard";
+import { useSettings } from "~/components/Settings/SettingsContext";
 import { isSwapable } from "~/components/TransferPlanner/changes";
-import { useUser } from "~/components/User/UserContext";
 
 const getVariant = (selectedPlayer, targetPlayer, teamObject) => {
   if (!selectedPlayer) {
@@ -100,7 +100,7 @@ const SelectedTeam = ({
   onOutsideClick,
 }) => {
   const { transferPlannerPinnedBench, setTransferPlannerPinnedBench } =
-    useUser();
+    useSettings();
 
   const benchProps = transferPlannerPinnedBench
     ? { position: "sticky", bottom: 0 }

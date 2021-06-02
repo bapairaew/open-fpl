@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useUser } from "~/components/User/UserContext";
+import { useSettings } from "~/components/Settings/SettingsContext";
 
 const useTransferRedirect = () => {
-  const { teamId, isInitialised } = useUser();
+  const { teamId, isInitialised } = useSettings();
   const router = useRouter();
 
   useEffect(() => {

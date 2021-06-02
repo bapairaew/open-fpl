@@ -1,21 +1,21 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import { createContext, useContext } from "react";
-import UserModal from "~/components/User/UserModal";
+import SettingsModal from "~/components/Settings/SettingsModal";
 import useLocalStorage from "~/libs/useLocalStorage";
-import { getTransferPlannerPinnedBenchKey, getTeamIdKey } from "./storage";
+import { getTeamIdKey, getTransferPlannerPinnedBenchKey } from "./storage";
 
-const UserContext = createContext({
+const SettingsContext = createContext({
   isInitialised: false,
   teamId: null,
   setTeamId: () => {},
   transferPlannerPinnedBench: true,
   setTransferPlannerPinnedBench: () => {},
-  isUserModalOpen: false,
-  onUserModalOpen: () => {},
-  onUserModalClsoe: () => {},
+  isSettingsModalOpen: false,
+  onSettingsModalOpen: () => {},
+  onSettingsModalClsoe: () => {},
 });
 
-export const UserContextProvider = ({ children, ...props }) => {
+export const SettingsContextProvider = ({ children, ...props }) => {
   const [teamId, setTeamId, isInitialised] = useLocalStorage(
     getTeamIdKey(),
     null
@@ -24,23 +24,23 @@ export const UserContextProvider = ({ children, ...props }) => {
     useLocalStorage(getTransferPlannerPinnedBenchKey(), true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <UserContext.Provider
+    <SettingsContext.Provider
       value={{
         isInitialised,
         teamId,
         setTeamId,
         transferPlannerPinnedBench,
         setTransferPlannerPinnedBench,
-        isUserModelOpen: isOpen,
-        onUserModalOpen: onOpen,
-        onUserModalClsoe: onClose,
+        isSettingsModelOpen: isOpen,
+        onSettingsModalOpen: onOpen,
+        onSettingsModalClsoe: onClose,
       }}
       {...props}
     >
-      <UserModal isOpen={isOpen} onClose={onClose} />
+      <SettingsModal isOpen={isOpen} onClose={onClose} />
       {children}
-    </UserContext.Provider>
+    </SettingsContext.Provider>
   );
 };
 
-export const useUser = () => useContext(UserContext);
+export const useSettings = () => useContext(SettingsContext);

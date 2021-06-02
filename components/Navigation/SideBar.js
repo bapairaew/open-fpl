@@ -18,7 +18,7 @@ import {
   IoPeopleCircleOutline,
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
-import { useUser } from "~/components/User/UserContext";
+import { useSettings } from "~/components/Settings/SettingsContext";
 import p from "~/package.json";
 
 const SideBarItem = ({ href, icon, getIsActive, children }) => {
@@ -55,7 +55,7 @@ const SideBarItem = ({ href, icon, getIsActive, children }) => {
 };
 
 const SideBar = () => {
-  const { onUserModalOpen, teamId } = useUser();
+  const { onSettingsModalOpen, teamId } = useSettings();
   return (
     <Flex
       h="100%"
@@ -84,7 +84,7 @@ const SideBar = () => {
           variant={teamId ? "ghost" : "solid"}
           size="sm"
           width="100%"
-          onClick={onUserModalOpen}
+          onClick={onSettingsModalOpen}
         >
           {teamId ? `Team ID: ${teamId}` : "Set up your team"}
         </Button>

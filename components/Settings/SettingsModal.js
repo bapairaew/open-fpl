@@ -14,6 +14,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -21,15 +22,13 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-  Portal,
   useToast,
-  Link,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { IoHelpCircleOutline, IoOpenOutline } from "react-icons/io5";
-import { getTransferPlanKey } from "~/components/User/storage";
-import { useUser } from "~/components/User/UserContext";
-import UserStorage from "~/components/User/UserStorage";
+import { useSettings } from "~/components/Settings/SettingsContext";
+import SettingsStorage from "~/components/Settings/SettingsStorage";
+import { getTransferPlanKey } from "~/components/Settings/storage";
 
 const TeamIDHelpButton = () => (
   <Popover>
@@ -54,10 +53,10 @@ const TeamIDHelpButton = () => (
   </Popover>
 );
 
-const UserModal = ({ isOpen, onClose }) => {
+const SettingsModal = ({ isOpen, onClose }) => {
   const toast = useToast();
   const initialFocusRef = useRef();
-  const { teamId, setTeamId } = useUser();
+  const { teamId, setTeamId } = useSettings();
   const [formTeamId, setFormTeamId] = useState(teamId);
   const [plansToRemove, setPlansToRemove] = useState([]);
 
@@ -134,7 +133,7 @@ const UserModal = ({ isOpen, onClose }) => {
           </form>
           <Box my={4}>
             <FormLabel>Storage</FormLabel>
-            <UserStorage
+            <SettingsStorage
               storage={storage}
               plansToRemove={plansToRemove}
               onStorageChange={handleStorageChange}
@@ -155,4 +154,4 @@ const UserModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default UserModal;
+export default SettingsModal;

@@ -1,16 +1,15 @@
 import {
-  VStack,
   Box,
-  Heading,
-  Text,
-  IconButton,
-  Icon,
-  HStack,
   Flex,
+  Heading,
+  Icon,
+  IconButton,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import { useMemo } from "react";
-import { IoTrashBinOutline, IoArrowUndoCircleOutline } from "react-icons/io5";
-import { getTransferPlanKey } from "~/components/User/storage";
+import { IoArrowUndoCircleOutline, IoTrashBinOutline } from "react-icons/io5";
+import { getTransferPlanKey } from "~/components/Settings/storage";
 import { nFormatter } from "~/libs/numbers";
 
 const transferPlanVariants = {
@@ -61,7 +60,7 @@ const TransferPlan = ({ plan, onRemoveClick, variant }) => {
   );
 };
 
-const UserStorage = ({ storage, plansToRemove, onStorageChange }) => {
+const SettingsStorage = ({ storage, plansToRemove, onStorageChange }) => {
   const userTeamChangesPattern = getTransferPlanKey("(\\d+)");
   const transferPlans = useMemo(() => {
     if (!storage) return [];
@@ -115,4 +114,4 @@ const UserStorage = ({ storage, plansToRemove, onStorageChange }) => {
   );
 };
 
-export default UserStorage;
+export default SettingsStorage;

@@ -1,12 +1,12 @@
 import { Button, Heading, Link as A, VStack } from "@chakra-ui/react";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
+import { useSettings } from "~/components/Settings/SettingsContext";
 import useTransferRedirect from "~/components/TransferPlanner/useTransferRedirect";
-import { useUser } from "~/components/User/UserContext";
 
 const TransferPlannerSetupPage = () => {
   const { teamId } = useTransferRedirect();
-  const { onUserModalOpen } = useUser();
+  const { onSettingsModalOpen } = useSettings();
 
   return (
     <>
@@ -24,7 +24,7 @@ const TransferPlannerSetupPage = () => {
             </Heading>
             <Link href={`/transfers/${teamId}`} passHref>
               <A>
-                <Button size="md" onClick={onUserModalOpen} variant="link">
+                <Button size="md" onClick={onSettingsModalOpen} variant="link">
                   Click here if it does not work
                 </Button>
               </A>
@@ -35,7 +35,7 @@ const TransferPlannerSetupPage = () => {
             <Heading size="lg" fontWeight="black">
               Set up your Team ID to access Transfer Planner
             </Heading>
-            <Button size="md" onClick={onUserModalOpen}>
+            <Button size="md" onClick={onSettingsModalOpen}>
               Set up your team
             </Button>
           </>

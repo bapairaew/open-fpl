@@ -1,17 +1,17 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
+import { getTransferPlanKey } from "~/components/Settings/storage";
+import { useSettings } from "~/components/Settings/SettingsContext";
 import {
   addChange,
+  getChangesFromTransferPlan,
   processChanges,
   removeChange,
-  getChangesFromTransferPlan,
 } from "~/components/TransferPlanner/changes";
 import TeamManager from "~/components/TransferPlanner/TeamManager";
 import TransferLog from "~/components/TransferPlanner/TransferLog";
 import TransferToolbar from "~/components/TransferPlanner/TransferToolbar";
 import useLocalStorage from "~/libs/useLocalStorage";
-import { useUser } from "~/components/User/UserContext";
-import { getTransferPlanKey } from "~/components/User/storage";
 
 const TransferPlanner = ({
   initialPicks,
@@ -20,7 +20,7 @@ const TransferPlanner = ({
   gameweeks,
   transfers,
 }) => {
-  const { teamId } = useUser();
+  const { teamId } = useSettings();
   const [transferPlan, setTransferPlan] = useLocalStorage(
     getTransferPlanKey(teamId),
     []
