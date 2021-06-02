@@ -25,10 +25,15 @@ const difficultyColorCodes = {
 };
 
 const FixturesSection = ({ mini, player, gameweeks }) => {
-  const height = mini ? 30 : 45;
+  const height = mini ? "30px" : "45px";
 
   return (
-    <Grid gap={0} templateColumns="repeat(5, 1fr)" height={height}>
+    <Grid
+      flexShrink={0}
+      gap={0}
+      templateColumns="repeat(5, 1fr)"
+      height={height}
+    >
       {gameweeks.map((w) => {
         const games = player.linked_data.next_gameweeks.filter(
           (n) => n.event === w.id
