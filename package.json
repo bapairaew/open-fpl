@@ -6,7 +6,7 @@
     "init-links": "babel-node scripts/init-links.js",
     "init-teamcolorcodes": "babel-node scripts/init-teamcolorcodes.js",
     "dev": "next dev",
-    "prebuild": "yarn init-data",
+    "prebuild": "yarn init-data && cp -r ./data ./public/data",
     "build": "next build",
     "start": "next start"
   },
