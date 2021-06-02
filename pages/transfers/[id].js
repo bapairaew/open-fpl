@@ -1,10 +1,13 @@
 import fs from "fs";
 import glob from "glob-promise";
 import { NextSeo } from "next-seo";
+import path from "path";
 import TransferPlanner from "~/components/TransferPlanner/TransferPlanner";
 import useTransferRedirect from "~/components/TransferPlanner/useTransferRedirect";
 import { getTeamPicks, getTeamTransfers } from "~/libs/fpl";
 import { makePlayersData } from "~/libs/players";
+
+const mp = (p) => path.join(process.cwd(), p);
 
 const getDataFromFiles = async (pattern) => {
   return Promise.all(
@@ -30,14 +33,14 @@ export const getStaticProps = async ({ params }) => {
     fplGameweeks,
     teamcolorcodes,
   ] = await Promise.all([
-    await getDataFromFiles("./data/fpl/*.json"),
-    await getDataFromFiles("./data/understat/*.json"),
-    fs.promises.readFile("./data/fpl_teams/data.json").then(JSON.parse),
-    await getDataFromFiles("./data/understat_teams/*.json"),
-    fs.promises.readFile("./data/links/players.json").then(JSON.parse),
-    fs.promises.readFile("./data/links/teams.json").then(JSON.parse),
-    fs.promises.readFile("./data/fpl_gameweeks/data.json").then(JSON.parse),
-    fs.promises.readFile("./data/teamcolorcodes/data.json").then(JSON.parse),
+    await getDataFromFiles(mp("data/fpl/*.json")),
+    await getDataFromFiles(mp("data/understat/*.json")),
+    fs.promises.readFile(mp("data/fpl_teams/data.json")).then(JSON.parse),
+    await getDataFromFiles(mp("data/understat_teams/*.json")),
+    fs.promises.readFile(mp("data/links/players.json")).then(JSON.parse),
+    fs.promises.readFile(mp("data/links/teams.json")).then(JSON.parse),
+    fs.promises.readFile(mp("data/fpl_gameweeks/data.json")).then(JSON.parse),
+    fs.promises.readFile(mp("data/teamcolorcodes/data.json")).then(JSON.parse),
   ]);
 
   const { players, gameweeks } = makePlayersData({
