@@ -18,7 +18,7 @@ const getDataFromFiles = async (pattern) => {
 export async function getStaticPaths() {
   return {
     paths: [],
-    fallback: true,
+    fallback: false,
   };
 }
 
