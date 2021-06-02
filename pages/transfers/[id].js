@@ -7,7 +7,7 @@ import useTransferRedirect from "~/components/TransferPlanner/useTransferRedirec
 import { getTeamPicks, getTeamTransfers } from "~/libs/fpl";
 import { makePlayersData } from "~/libs/players";
 
-const mp = (p) => path.resolve(process.cwd(), p);
+const mp = (p) => path.resolve(`./public/${p}`);
 
 const getDataFromFiles = async (pattern) => {
   return Promise.all(

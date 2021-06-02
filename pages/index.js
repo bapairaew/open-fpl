@@ -5,7 +5,7 @@ import path from "path";
 import PlayersExplorer from "~/components/PlayersExplorer/PlayersExplorer";
 import { makePlayersData } from "~/libs/players";
 
-const mp = (p) => path.join(process.cwd(), p);
+const mp = (p) => path.resolve(`./public/${p}`);
 
 const getDataFromFiles = async (pattern) => {
   return Promise.all(
