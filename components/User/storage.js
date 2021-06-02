@@ -1,4 +1,4 @@
-export const getUserTeamChangesKey = (teamId) => `${teamId}-transfer-plan`;
-export const getUserTeamIdKey = () => "teamId";
+export const getTransferPlanKey = (teamId) => `${teamId}-transfer-plan`;
+export const getTeamIdKey = () => "teamId";
 export const getTransferPlannerPinnedBenchKey = () =>
   "transferPlannerPinnedBench";

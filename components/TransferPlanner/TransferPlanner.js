@@ -4,13 +4,14 @@ import {
   addChange,
   processChanges,
   removeChange,
+  getChangesFromTransferPlan,
 } from "~/components/TransferPlanner/changes";
 import TeamManager from "~/components/TransferPlanner/TeamManager";
 import TransferLog from "~/components/TransferPlanner/TransferLog";
 import TransferToolbar from "~/components/TransferPlanner/TransferToolbar";
 import useLocalStorage from "~/libs/useLocalStorage";
 import { useUser } from "~/components/User/UserContext";
-import { getUserTeamChangesKey } from "~/components/User/storage";
+import { getTransferPlanKey } from "~/components/User/storage";
 
 const TransferPlanner = ({
   initialPicks,
@@ -20,12 +21,16 @@ const TransferPlanner = ({
   transfers,
 }) => {
   const { teamId } = useUser();
-  // TODO: auto remove/invalidate previous gameweek changes
-  const [changes, setChanges] = useLocalStorage(
-    getUserTeamChangesKey(teamId),
+  const [transferPlan, setTransferPlan] = useLocalStorage(
+    getTransferPlanKey(teamId),
     []
   );
   const [gameweekDelta, setGameweekDelta] = useState(0);
+
+  const changes = useMemo(
+    () => getChangesFromTransferPlan(transferPlan, players),
+    [transferPlan, players]
+  );
 
   const currentGameweek = gameweeks?.[0]?.id ?? 38;
   const planningGameweek = currentGameweek + gameweekDelta;
@@ -119,7 +124,7 @@ const TransferPlanner = ({
   );
 
   const onSwap = (selectedPlayer, targetPlayer) =>
-    setChanges(
+    setTransferPlan(
       addChange(changes, {
         type: "swap",
         selectedPlayer,
@@ -129,7 +134,7 @@ const TransferPlanner = ({
     );
 
   const onTransfer = (selectedPlayer, targetPlayer) =>
-    setChanges(
+    setTransferPlan(
       addChange(changes, {
         type: "transfer",
         selectedPlayer,
@@ -138,7 +143,7 @@ const TransferPlanner = ({
       })
     );
 
-  const onRemove = (change) => setChanges(removeChange(changes, change));
+  const onRemove = (change) => setTransferPlan(removeChange(changes, change));
 
   return (
     <Flex overflow="hidden" height="100%" flexDirection="column">

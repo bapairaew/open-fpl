@@ -79,14 +79,48 @@ export const addChange = (changes, newChange) => {
   //     ];
   //   }
   // }
-  return [...changes, newChange];
+  return [
+    ...changes,
+    {
+      id: Math.random(), // Set ID for easier management later
+      ...newChange,
+    },
+  ].map((change) => ({
+    ...change,
+    // Minimise the size saved in storage by saving only ID and non-static data
+    selectedPlayer: {
+      id: change.selectedPlayer.id,
+      pick: change.selectedPlayer.pick,
+    },
+    targetPlayer: {
+      id: change.targetPlayer.id,
+      pick: change.targetPlayer.pick,
+    },
+  }));
 };
 
 // NOTE: this might be buggy if it is done in the middle of a long chain
 // (e.g. transfer in A and then transfer out A and then remove the first action)
 // TODO: may need another function to "purify" the existinging changes after the removal
 export const removeChange = (changes, removingChange) => {
-  return changes.filter((c) => c !== removingChange);
+  return changes.filter((c) => c.id !== removingChange.id);
+};
+
+export const getChangesFromTransferPlan = (transferPlan, players) => {
+  return players
+    ? transferPlan.map((plan) => ({
+        ...plan,
+        // Dehydrate player data
+        selectedPlayer: {
+          ...players.find((p) => p.id === plan.selectedPlayer.id),
+          pick: plan.selectedPlayer.pick,
+        },
+        targetPlayer: {
+          ...players.find((p) => p.id === plan.targetPlayer.id),
+          pick: plan.targetPlayer.pick,
+        },
+      }))
+    : [];
 };
 
 export const isSwapable = (

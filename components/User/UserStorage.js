@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { IoTrashBinOutline, IoArrowUndoCircleOutline } from "react-icons/io5";
-import { getUserTeamChangesKey } from "~/components/User/storage";
+import { getTransferPlanKey } from "~/components/User/storage";
 import { nFormatter } from "~/libs/numbers";
 
 const transferPlanVariants = {
@@ -62,7 +62,7 @@ const TransferPlan = ({ plan, onRemoveClick, variant }) => {
 };
 
 const UserStorage = ({ storage, plansToRemove, onStorageChange }) => {
-  const userTeamChangesPattern = getUserTeamChangesKey("(\\d+)");
+  const userTeamChangesPattern = getTransferPlanKey("(\\d+)");
   const transferPlans = useMemo(() => {
     if (!storage) return [];
     return Object.keys(storage).reduce((plans, key) => {

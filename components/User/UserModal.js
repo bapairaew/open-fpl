@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { IoHelpCircleOutline, IoOpenOutline } from "react-icons/io5";
-import { getUserTeamChangesKey } from "~/components/User/storage";
+import { getTransferPlanKey } from "~/components/User/storage";
 import { useUser } from "~/components/User/UserContext";
 import UserStorage from "~/components/User/UserStorage";
 
@@ -72,7 +72,7 @@ const UserModal = ({ isOpen, onClose }) => {
     setTeamId(formTeamId);
     if (plansToRemove) {
       plansToRemove.forEach((plan) => {
-        window.localStorage.removeItem(getUserTeamChangesKey(plan.teamId));
+        window.localStorage.removeItem(getTransferPlanKey(plan.teamId));
       });
       setPlansToRemove([]);
     }

@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Icon,
-  IconButton,
-  useOutsideClick,
-} from "@chakra-ui/react";
-import { useRef } from "react";
+import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
 import { AiOutlinePushpin } from "react-icons/ai";
 import AutoSizer from "react-virtualized-auto-sizer";
 import PlayerCard from "~/components/PlayerCard/PlayerCard";
