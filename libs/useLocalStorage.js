@@ -6,7 +6,7 @@ function useLocalStorage(key, defaultValue) {
 
   const storeEventListener = (e) => {
     if (e.key === key) {
-      setStoredValue(e.newValue);
+      setStoredValue(JSON.parse(e.newValue));
     }
   };
 
