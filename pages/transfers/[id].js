@@ -7,7 +7,7 @@ import useTransferRedirect from "~/components/TransferPlanner/useTransferRedirec
 import { getTeamPicks, getTeamTransfers } from "~/libs/fpl";
 import { makePlayersData } from "~/libs/players";
 
-const mp = (p) => path.join(process.cwd(), p);
+const mp = (p) => path.resolve(process.cwd(), p);
 
 const getDataFromFiles = async (pattern) => {
   return Promise.all(
@@ -15,14 +15,7 @@ const getDataFromFiles = async (pattern) => {
   );
 };
 
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: false,
-  };
-}
-
-export const getStaticProps = async ({ params }) => {
+export const getServerSideProps = async ({ params }) => {
   const [
     fpl,
     understat,
