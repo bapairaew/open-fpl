@@ -1,42 +1,63 @@
 // Apply the changes against the given team
 export const processChanges = (team, changes) => {
   const updatedTeam = team ? [...team] : [];
+  const invalidChanges = [];
   for (const change of changes) {
+    const sourceIndex = updatedTeam.findIndex(
+      (p) => p.element === change.selectedPlayer.id
+    );
+    const targetIndex = updatedTeam.findIndex(
+      (p) => p.element === change.targetPlayer.id
+    );
+
     if (change.type === "swap") {
-      const sourceIndex = updatedTeam.findIndex(
-        (p) => p.element === change.selectedPlayer.id
-      );
-      const targetIndex = updatedTeam.findIndex(
-        (p) => p.element === change.targetPlayer.id
-      );
+      if (sourceIndex === -1 || targetIndex === -1) {
+        const invalidPlayer =
+          sourceIndex === -1
+            ? change.selectedPlayer.web_name
+            : change.targetPlayer.web_name;
+        invalidChanges.push({
+          type: "swap_non_existed_player",
+          message: `${invalidPlayer} is not in the team.`,
+          change,
+        });
+      } else {
+        updatedTeam[sourceIndex] = {
+          ...updatedTeam[sourceIndex],
+          element: change.targetPlayer.id,
+          position: change.selectedPlayer.pick.position,
+        };
 
-      updatedTeam[sourceIndex] = {
-        ...updatedTeam[sourceIndex],
-        element: change.targetPlayer.id,
-        position: change.selectedPlayer.pick.position,
-      };
-
-      updatedTeam[targetIndex] = {
-        ...updatedTeam[targetIndex],
-        element: change.selectedPlayer.id,
-        position: change.targetPlayer.pick.position,
-      };
+        updatedTeam[targetIndex] = {
+          ...updatedTeam[targetIndex],
+          element: change.selectedPlayer.id,
+          position: change.targetPlayer.pick.position,
+        };
+      }
     } else if (change.type === "transfer") {
-      const sourceIndex = updatedTeam.findIndex(
-        (p) => p.element === change.selectedPlayer.id
-      );
-
-      updatedTeam[sourceIndex] = {
-        ...updatedTeam[sourceIndex],
-        element: change.targetPlayer.id,
-        position: change.selectedPlayer.pick.position,
-        now_cost: change.targetPlayer.now_cost,
-        selling_price: change.targetPlayer.now_cost,
-        purchase_price: change.targetPlayer.now_cost,
-      };
+      if (sourceIndex === -1) {
+        const invalidPlayer = change.selectedPlayer.web_name;
+        invalidChanges.push({
+          type: "transfer_non_existed_player",
+          message: `${invalidPlayer} is not in the team.`,
+          change,
+        });
+      } else {
+        updatedTeam[sourceIndex] = {
+          ...updatedTeam[sourceIndex],
+          element: change.targetPlayer.id,
+          position: change.selectedPlayer.pick.position,
+          now_cost: change.targetPlayer.now_cost,
+          selling_price: change.targetPlayer.now_cost,
+          purchase_price: change.targetPlayer.now_cost,
+        };
+      }
     }
   }
-  return updatedTeam;
+  return {
+    updatedTeam,
+    invalidChanges,
+  };
 };
 
 // Merge the change by either add newChange to the list or remove prior opposite change

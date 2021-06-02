@@ -4,6 +4,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import PlayerCard from "~/components/PlayerCard/PlayerCard";
 import { useSettings } from "~/components/Settings/SettingsContext";
 import { isSwapable } from "~/components/TransferPlanner/changes";
+import TransferablePlayer from "~/components/TransferPlanner/TransferablePlayer";
 
 const getVariant = (selectedPlayer, targetPlayer, teamObject) => {
   if (!selectedPlayer) {
@@ -15,50 +16,6 @@ const getVariant = (selectedPlayer, targetPlayer, teamObject) => {
   } else {
     return "disabled";
   }
-};
-
-const teamPlayerVariants = {
-  default: {
-    cursor: "pointer",
-    _hover: {
-      boxShadow: "md",
-    },
-  },
-  selected: {
-    cursor: "pointer",
-    bg: "highlight",
-    boxShadow: "lg",
-  },
-  swapable: {
-    cursor: "pointer",
-  },
-  disabled: {
-    opacity: 0.1,
-  },
-};
-
-const TeamPlayer = ({ variant, onClick, children }) => {
-  const variantProps = teamPlayerVariants[variant] ?? varaints.default;
-  return (
-    <Box
-      p={1}
-      flexBasis="200px"
-      borderRadius="md"
-      transition="all 300ms"
-      onClick={onClick}
-      {...variantProps}
-    >
-      {children}
-    </Box>
-  );
-};
-
-const SelectedTeamRow = ({ children }) => {
-  return (
-    <Flex justifyContent="center" alignItems="center">
-      {children}
-    </Flex>
-  );
 };
 
 const SelectedTeamSection = ({
@@ -123,17 +80,21 @@ const SelectedTeam = ({
               <SelectedTeamSection heading="Starting XI" height="740px">
                 {[GKP, DEF, MID, FWD].map((group, index) => {
                   return (
-                    <SelectedTeamRow key={index}>
+                    <Flex
+                      key={index}
+                      justifyContent="center"
+                      alignItems="center"
+                    >
                       {group.map((p) => (
-                        <TeamPlayer
+                        <TransferablePlayer
                           key={p.id}
                           onClick={makeHandlePlayerClick(p)}
                           variant={getVariant(selectedPlayer, p, teamObject)}
                         >
                           <PlayerCard mini player={p} gameweeks={gameweeks} />
-                        </TeamPlayer>
+                        </TransferablePlayer>
                       ))}
-                    </SelectedTeamRow>
+                    </Flex>
                   );
                 })}
               </SelectedTeamSection>
@@ -155,17 +116,17 @@ const SelectedTeam = ({
                   }
                   height="200px"
                 >
-                  <SelectedTeamRow>
+                  <Flex justifyContent="center" alignItems="center">
                     {bench.map((p) => (
-                      <TeamPlayer
+                      <TransferablePlayer
                         key={p.id}
                         onClick={makeHandlePlayerClick(p)}
                         variant={getVariant(selectedPlayer, p, teamObject)}
                       >
                         <PlayerCard mini player={p} gameweeks={gameweeks} />
-                      </TeamPlayer>
+                      </TransferablePlayer>
                     ))}
-                  </SelectedTeamRow>
+                  </Flex>
                 </SelectedTeamSection>
               </Box>
             </Box>

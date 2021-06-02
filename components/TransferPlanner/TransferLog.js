@@ -1,45 +1,64 @@
-import {
-  Box,
-  Divider,
-  Flex,
-  Heading,
-  HStack,
-  Icon,
-  IconButton,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { Fragment, useMemo } from "react";
-import {
-  IoArrowBackOutline,
-  IoArrowForwardOutline,
-  IoCloseOutline,
-  IoSwapVerticalOutline,
-} from "react-icons/io5";
+import { Box, Flex, Heading, HStack } from "@chakra-ui/react";
+import { useMemo } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
+import TransferChange from "~/components/TransferPlanner/TransferChange";
 
-const Change = ({ change }) => {
-  const selectedColor = change.type === "swap" ? undefined : "red";
-  const targetColor = change.type === "swap" ? undefined : "green";
-  const SelectedIcon =
-    change.type === "swap" ? IoSwapVerticalOutline : IoArrowForwardOutline;
-  const TargetIcon =
-    change.type === "swap" ? IoSwapVerticalOutline : IoArrowBackOutline;
+const GameweekChanges = ({
+  height,
+  gameweek,
+  currentGameweek,
+  invalidChanges,
+  changes,
+  onRemove,
+}) => {
   return (
-    <VStack spacing={0} width="100px">
-      <Text fontSize="xs" noOfLines={1}>
-        <Icon as={SelectedIcon} mr={1} color={selectedColor} />
-        {change.selectedPlayer?.web_name}
-      </Text>
-      <Text fontSize="xs" noOfLines={1}>
-        <Icon as={TargetIcon} mr={1} color={targetColor} />
-        {change.targetPlayer?.web_name}
-      </Text>
-    </VStack>
+    <>
+      <Flex
+        position="sticky"
+        left={0}
+        bg="white"
+        zIndex="sticky"
+        textAlign="center"
+        alignItems="center"
+        height={`${height - 2}px`}
+        height="100%"
+        borderRightWidth={1}
+      >
+        <Heading size="xs" width="80px">
+          GW {gameweek}
+        </Heading>
+      </Flex>
+      {changes.map((change, index) => {
+        const isOutdated = change.gameweek < currentGameweek;
+        const invalidity = invalidChanges.find(
+          (c) => c.change.id === change.id
+        );
+        const variant = isOutdated
+          ? "outdated"
+          : invalidity
+          ? "invalid"
+          : "default";
+        return (
+          <Box key={index} borderRightWidth={1} height="100%">
+            <TransferChange
+              variant={variant}
+              errorLabel={invalidity?.message}
+              change={change}
+              onRemoveClick={() => onRemove(change)}
+            />
+          </Box>
+        );
+      })}
+    </>
   );
 };
 
-const TransferLog = ({ changes, onRemove }) => {
+const TransferLog = ({
+  changes,
+  currentGameweek,
+  invalidChanges,
+  onRemove,
+}) => {
   const groupedChanges = useMemo(() => {
     const reversedChanges = [...changes].reverse();
     return reversedChanges.reduce((group, change) => {
@@ -66,40 +85,23 @@ const TransferLog = ({ changes, onRemove }) => {
       ) : (
         <AutoSizer>
           {({ height, width }) => (
-            <HStack height={`${height}px`} width={`${width}px`} overflow="auto">
+            <HStack
+              height={`${height}px`}
+              width={`${width}px`}
+              overflow="auto"
+              spacing={0}
+            >
               {reversedGroupedKeys.map((gameweek) => {
                 return (
-                  <Fragment key={gameweek}>
-                    <Flex
-                      position="sticky"
-                      left={0}
-                      bg="white"
-                      zIndex="sticky"
-                      textAlign="center"
-                      alignItems="center"
-                      height={`${height - 2}px`}
-                    >
-                      <Heading size="xs" width="80px">
-                        GW {gameweek}
-                      </Heading>
-                      <Divider orientation="vertical" />
-                    </Flex>
-                    {groupedChanges[gameweek].map((change, index) => (
-                      <Fragment key={index}>
-                        <HStack pl={1} spacing={0}>
-                          <Change change={change} />
-                          <IconButton
-                            onClick={() => onRemove(change)}
-                            variant="ghost"
-                            size="xs"
-                            aria-label="remove"
-                            icon={<Icon as={IoCloseOutline} />}
-                          />
-                        </HStack>
-                        <Divider orientation="vertical" />
-                      </Fragment>
-                    ))}
-                  </Fragment>
+                  <GameweekChanges
+                    key={gameweek}
+                    height={height}
+                    gameweek={gameweek}
+                    currentGameweek={currentGameweek}
+                    invalidChanges={invalidChanges}
+                    onRemove={onRemove}
+                    changes={groupedChanges[gameweek]}
+                  />
                 );
               })}
             </HStack>

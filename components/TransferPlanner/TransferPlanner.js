@@ -27,15 +27,15 @@ const TransferPlanner = ({
   );
   const [gameweekDelta, setGameweekDelta] = useState(0);
 
+  const currentGameweek = gameweeks?.[0]?.id ?? 38;
+  const planningGameweek = currentGameweek + gameweekDelta;
+
   const changes = useMemo(
     () => getChangesFromTransferPlan(transferPlan, players),
     [transferPlan, players]
   );
 
-  const currentGameweek = gameweeks?.[0]?.id ?? 38;
-  const planningGameweek = currentGameweek + gameweekDelta;
-
-  const team = useMemo(() => {
+  const { team, invalidChanges } = useMemo(() => {
     if (players && initialPicks && transfers) {
       const picks = initialPicks?.map((p) => {
         const latestTransfer = transfers?.find(
@@ -58,21 +58,49 @@ const TransferPlanner = ({
         };
       });
 
-      const team = processChanges(
+      const { updatedTeam, invalidChanges } = processChanges(
         picks,
         changes.filter((c) => c.gameweek <= planningGameweek)
       );
 
-      return team.map((p) => {
-        return {
-          ...players?.find((pl) => pl.id === p?.element),
-          pick: p,
-        };
+      return {
+        team: updatedTeam.map((p) => {
+          return {
+            ...players?.find((pl) => pl.id === p?.element),
+            pick: p,
+          };
+        }),
+        invalidChanges,
+      };
+    }
+
+    return { team: [], invalidChanges: [] };
+  }, [initialPicks, transfers, players, changes, planningGameweek]);
+
+  const teamInvalidities = useMemo(() => {
+    const invalidities = [];
+
+    const teamMap = team.reduce((map, player) => {
+      if (map[player.team.short_name]) map[player.team.short_name] += 1;
+      else map[player.team.short_name] = 1;
+      return map;
+    }, {});
+
+    const exceedLimitTeams = Object.entries(teamMap).filter(
+      ([team, count]) => count > 3
+    );
+
+    if (exceedLimitTeams.length > 0) {
+      invalidities.push({
+        type: "exceed_limit_team",
+        message: `You cannot select more than 3 players from a same team (${exceedLimitTeams
+          .map((t) => t[0])
+          .join(", ")})`,
       });
     }
 
-    return [];
-  }, [initialPicks, transfers, players, changes]);
+    return invalidities;
+  }, [team]);
 
   const bank = useMemo(() => {
     if (entryHistory) {
@@ -157,7 +185,17 @@ const TransferPlanner = ({
         onPreviousClick={() => setGameweekDelta(gameweekDelta - 1)}
         onNextClick={() => setGameweekDelta(gameweekDelta + 1)}
       />
-      <TransferLog changes={changes} onRemove={onRemove} />
+      <TransferLog
+        currentGameweek={currentGameweek}
+        changes={changes}
+        invalidChanges={invalidChanges}
+        onRemove={onRemove}
+      />
+      {teamInvalidities.length > 0 && (
+        <Box width="100%" py={2} px={4} bg="red.500" color="white">
+          {teamInvalidities.map((i) => i.message).join(", ")}
+        </Box>
+      )}
       <Box flexGrow={1}>
         <TeamManager
           team={team}
