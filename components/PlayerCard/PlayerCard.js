@@ -5,7 +5,7 @@ import PointsSection from "~/components/PlayerCard/PointsSection";
 import PreviousStatsSection from "~/components/PlayerCard/PreviousStatsSection";
 
 const PlayerCard = ({ mini, player, gameweeks }) => {
-  const height = mini ? 165 : 250;
+  const height = mini ? 165 : 218;
   return (
     <Flex flexDirection="column" borderWidth={1} height={height}>
       <NameSection mini={mini} player={player} />

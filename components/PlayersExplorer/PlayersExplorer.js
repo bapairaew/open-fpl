@@ -63,7 +63,7 @@ const PlayersExplorer = ({ players, gameweeks, columnsSettings }) => {
             height={height - 55}
             width={width}
             itemCount={Math.ceil(displayedPlayers.length / columnsCount)}
-            itemSize={260}
+            itemSize={225}
           >
             {Row}
           </List>
