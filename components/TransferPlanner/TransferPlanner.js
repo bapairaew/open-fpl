@@ -27,7 +27,7 @@ const TransferPlanner = ({
   );
   const [gameweekDelta, setGameweekDelta] = useState(0);
 
-  const currentGameweek = +gameweeks?.[0].id || 0;
+  const currentGameweek = gameweeks?.[0]?.id ?? 38;
   const planningGameweek = currentGameweek + gameweekDelta;
 
   const team = useMemo(() => {

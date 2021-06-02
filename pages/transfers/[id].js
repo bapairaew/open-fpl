@@ -51,7 +51,7 @@ export const getStaticProps = async ({ params }) => {
     teamcolorcodes,
   });
 
-  const event = gameweeks[0].id;
+  const event = gameweeks?.[0]?.id ?? 38;
   const { picks, entry_history } = await getTeamPicks(params.id, event);
   const transfers = await getTeamTransfers(params.id);
 
