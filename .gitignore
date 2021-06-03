@@ -1,9 +1,13 @@
 .next
 node_modules
+
 public/data/*
 
 # These datasets are to be overridden manually
 !public/data/links
 !public/data/teamcolorcodes
+
+# This is required to make build on Vercel works
+data/*
 
 *.temp.*
