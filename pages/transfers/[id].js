@@ -13,7 +13,11 @@ const getDataFromFiles = async (pattern) => {
   );
 };
 
-export const getServerSideProps = async ({ params }) => {
+export const getStaticPaths = () => {
+  return { paths: [], fallback: true };
+};
+
+export const getStaticPropsProps = async ({ params }) => {
   const [
     fpl,
     understat,
