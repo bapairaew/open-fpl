@@ -56,10 +56,9 @@ const SelectedTeam = ({
   onPlayerClick,
   onOutsideClick,
 }) => {
-  const { transferPlannerPinnedBench, setTransferPlannerPinnedBench } =
-    useSettings();
+  const { settings, setSettings } = useSettings();
 
-  const benchProps = transferPlannerPinnedBench
+  const benchProps = settings.transferPlannerPinnedBench
     ? { position: "sticky", bottom: 0 }
     : {};
 
@@ -106,11 +105,15 @@ const SelectedTeam = ({
                       size="xs"
                       aria-label="pin bench"
                       icon={<Icon as={AiOutlinePushpin} />}
-                      variant={transferPlannerPinnedBench ? "solid" : "ghost"}
+                      variant={
+                        settings.transferPlannerPinnedBench ? "solid" : "ghost"
+                      }
                       onClick={() =>
-                        setTransferPlannerPinnedBench(
-                          !transferPlannerPinnedBench
-                        )
+                        setSettings({
+                          ...settings,
+                          transferPlannerPinnedBench:
+                            !settings.transferPlannerPinnedBench,
+                        })
                       }
                     />
                   }

@@ -1,154 +1,85 @@
 import {
   Box,
-  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
-  FormLabel,
-  Icon,
-  IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Link,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import { IoHelpCircleOutline, IoOpenOutline } from "react-icons/io5";
+import AddProfile from "~/components/Settings/AddProfile";
 import { useSettings } from "~/components/Settings/SettingsContext";
-import SettingsStorage from "~/components/Settings/SettingsStorage";
-import { getTransferPlanKey } from "~/components/Settings/storage";
-
-const TeamIDHelpButton = () => (
-  <Popover>
-    <PopoverTrigger>
-      <IconButton
-        variant="ghost"
-        icon={<Icon aria-label="help" as={IoHelpCircleOutline} />}
-      />
-    </PopoverTrigger>
-    <PopoverContent>
-      <PopoverArrow />
-      <PopoverCloseButton />
-      <PopoverHeader>Find your team ID</PopoverHeader>
-      <PopoverBody>
-        Don't know where to find it? Just follow this{" "}
-        <Link color="brand.500" href="https://fpl.team/find-id" isExternal>
-          find your team ID guide <Icon as={IoOpenOutline} />
-        </Link>
-        !
-      </PopoverBody>
-    </PopoverContent>
-  </Popover>
-);
+import SettingsProfilesList from "~/components/Settings/SettingsProfilesList";
+import { getSettingsKey, getTransferPlanKey } from "./storage";
 
 const SettingsModal = ({ isOpen, onClose }) => {
   const toast = useToast();
-  const initialFocusRef = useRef();
-  const { teamId, setTeamId } = useSettings();
-  const [formTeamId, setFormTeamId] = useState(teamId);
-  const [plansToRemove, setPlansToRemove] = useState([]);
+  const { teamId, setTeamId, profiles, setProfiles } = useSettings();
 
-  useEffect(() => {
-    if (isOpen) {
-      setFormTeamId(teamId || "");
-    }
-  }, [isOpen]);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setTeamId(formTeamId);
-    if (plansToRemove) {
-      plansToRemove.forEach((plan) => {
-        window.localStorage.removeItem(getTransferPlanKey(plan.teamId));
-      });
-      setPlansToRemove([]);
-    }
-    onClose();
-    if (formTeamId) {
+  const handleAddProfile = (teamId) => {
+    if (!profiles.includes(teamId)) {
+      setProfiles([...profiles, teamId]);
+      setTeamId(teamId);
       toast({
-        position: "bottom-right",
-        title: "Your details have been saved!",
-        description: "Please enjoy using Open FPL!",
+        title: "Profile created.",
+        description: `${teamId} profile has been successfully created.`,
         status: "success",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
       });
     } else {
+      setTeamId(teamId);
       toast({
-        position: "bottom-right",
-        title: "Your details have been saved!",
-        description:
-          "Please set up your team ID again to get all features unlocked!",
+        title: "Profile existed.",
+        description: `${teamId} profile is already existed so we reactivated this profile for you.`,
         status: "success",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
       });
     }
   };
 
-  const storage = typeof window !== "undefined" ? window.localStorage : null;
+  const handleActiveProfileChange = (teamId) => {
+    setTeamId(teamId);
+  };
 
-  const handleStorageChange = ({ plansToRemove }) => {
-    setPlansToRemove(plansToRemove);
+  const handleRemoveProfile = (removingTeamId) => {
+    setProfiles(profiles.filter((p) => p !== removingTeamId));
+    window.localStorage.removeItem(getSettingsKey(removingTeamId));
+    window.localStorage.removeItem(getTransferPlanKey(removingTeamId));
+    if (teamId === removingTeamId) {
+      setTeamId(null);
+    }
+    toast({
+      title: "Profile removed.",
+      description: `${teamId} is removed successfully.`,
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
   };
 
   return (
-    <Drawer
-      isOpen={isOpen}
-      placement="right"
-      onClose={onClose}
-      initialFocusRef={initialFocusRef}
-    >
+    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader borderBottomWidth="1px">Settings</DrawerHeader>
-
+        <DrawerHeader fontWeight="black">Profiles</DrawerHeader>
         <DrawerBody>
-          <form id="set-up-form" onSubmit={onSubmit}>
-            <FormLabel htmlFor="teamId">Team ID</FormLabel>
-
-            <InputGroup>
-              <Input
-                ref={initialFocusRef}
-                id="teamId"
-                placeholder="e.g. 254181"
-                value={formTeamId}
-                onChange={(e) => setFormTeamId(e.target.value)}
-              />
-              <InputRightElement children={<TeamIDHelpButton />} />
-            </InputGroup>
-          </form>
+          <AddProfile
+            hasExistedProfile={profiles?.length > 0}
+            onAddProfile={handleAddProfile}
+          />
           <Box my={4}>
-            <FormLabel>Storage</FormLabel>
-            <SettingsStorage
-              storage={storage}
-              plansToRemove={plansToRemove}
-              onStorageChange={handleStorageChange}
+            <SettingsProfilesList
+              activeProfile={teamId}
+              profiles={profiles}
+              onActiveProfileChange={handleActiveProfileChange}
+              onRemoveProfile={handleRemoveProfile}
             />
           </Box>
         </DrawerBody>
-
-        <DrawerFooter>
-          <Button variant="outline" mr={3} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" form="set-up-form">
-            Save
-          </Button>
-        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

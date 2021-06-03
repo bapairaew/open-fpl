@@ -33,10 +33,10 @@ const TransferPlannerSetupPage = () => {
         ) : (
           <>
             <Heading size="lg" fontWeight="black">
-              Set up your Team ID to access Transfer Planner
+              Set up a profile with your Team ID to access Transfer Planner
             </Heading>
             <Button size="md" onClick={onSettingsModalOpen}>
-              Set up your team
+              Set up your profile
             </Button>
           </>
         )}

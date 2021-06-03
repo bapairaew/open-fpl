@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import {
   IoLogoGithub,
   IoPeopleCircleOutline,
+  IoSettingsOutline,
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
 import { useSettings } from "~/components/Settings/SettingsContext";
@@ -85,8 +86,9 @@ const SideBar = () => {
           size="sm"
           width="100%"
           onClick={onSettingsModalOpen}
+          leftIcon={teamId ? <IoSettingsOutline /> : undefined}
         >
-          {teamId ? `Team ID: ${teamId}` : "Set up your team"}
+          {teamId ? `${teamId}` : "Set up your profile"}
         </Button>
         <HStack color="gray" fontSize="xs" spacing={1}>
           <Text>{p.version}</Text>

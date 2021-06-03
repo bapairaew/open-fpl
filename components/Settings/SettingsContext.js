@@ -1,36 +1,55 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import { createContext, useContext } from "react";
 import SettingsModal from "~/components/Settings/SettingsModal";
+import {
+  getActiveProfileKey,
+  getProfilesKey,
+  getSettingsKey,
+  getTransferPlanKey,
+} from "~/components/Settings/storage";
 import useLocalStorage from "~/libs/useLocalStorage";
-import { getTeamIdKey, getTransferPlannerPinnedBenchKey } from "./storage";
 
 const SettingsContext = createContext({
   isInitialised: false,
+  profiles: [],
+  setProfiles: () => {},
   teamId: null,
   setTeamId: () => {},
-  transferPlannerPinnedBench: true,
-  setTransferPlannerPinnedBench: () => {},
+  settings: { transferPlannerPinnedBench: false },
+  setSettings: () => {},
+  transferPlan: [],
+  setTransferPlan: () => {},
   isSettingsModalOpen: false,
   onSettingsModalOpen: () => {},
   onSettingsModalClsoe: () => {},
 });
 
 export const SettingsContextProvider = ({ children, ...props }) => {
-  const [teamId, setTeamId, isInitialised] = useLocalStorage(
-    getTeamIdKey(),
-    null
+  const [profiles, setProfiles, isInitialised] = useLocalStorage(
+    getProfilesKey(),
+    []
   );
-  const [transferPlannerPinnedBench, setTransferPlannerPinnedBench] =
-    useLocalStorage(getTransferPlannerPinnedBenchKey(), true);
+  const [teamId, setTeamId] = useLocalStorage(getActiveProfileKey(), null);
+  const [settings, setSettings] = useLocalStorage(getSettingsKey(teamId), {
+    transferPlannerPinnedBench: false,
+  });
+  const [transferPlan, setTransferPlan] = useLocalStorage(
+    getTransferPlanKey(teamId),
+    []
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <SettingsContext.Provider
       value={{
         isInitialised,
+        profiles,
         teamId,
+        settings,
+        transferPlan,
+        setProfiles,
         setTeamId,
-        transferPlannerPinnedBench,
-        setTransferPlannerPinnedBench,
+        setSettings,
+        setTransferPlan,
         isSettingsModelOpen: isOpen,
         onSettingsModalOpen: onOpen,
         onSettingsModalClsoe: onClose,
