@@ -26,7 +26,7 @@ export async function fetchData({ saveFn, retires, concurrent, delay } = {}) {
   ]);
 
   return Promise.all([
-    asyncPool(concurrent?.fpl || 1, fplPlayers.slice(0, 1), (p) =>
+    asyncPool(concurrent?.fpl || 1, fplPlayers, (p) =>
       pRetry(
         async () => {
           try {
@@ -42,7 +42,7 @@ export async function fetchData({ saveFn, retires, concurrent, delay } = {}) {
         { retries: retires?.fpl || 5 }
       )
     ),
-    asyncPool(concurrent?.understat || 1, understatPlayers.slice(0, 1), (p) =>
+    asyncPool(concurrent?.understat || 1, understatPlayers, (p) =>
       pRetry(
         async () => {
           try {
