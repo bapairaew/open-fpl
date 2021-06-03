@@ -17,7 +17,7 @@ export const getStaticPaths = () => {
   return { paths: [], fallback: true };
 };
 
-export const getStaticPropsProps = async ({ params }) => {
+export const getStaticProps = async ({ params }) => {
   const [
     fpl,
     understat,
