@@ -50,16 +50,7 @@ export const getStaticProps = async ({ params }) => {
       .then(JSON.parse),
   ]);
 
-  console.log([
-    fpl,
-    understat,
-    fplTeams,
-    understatTeams,
-    playersLinks,
-    teamsLinks,
-    fplGameweeks,
-    teamcolorcodes,
-  ]);
+  console.log(fpl);
 
   const { players, gameweeks } = makePlayersData({
     fpl,
