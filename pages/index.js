@@ -22,24 +22,37 @@ export const getStaticProps = async () => {
     fplGameweeks,
     teamcolorcodes,
   ] = await Promise.all([
-    await getDataFromFiles(path.resolve("data/fpl/*.json")),
-    await getDataFromFiles(path.resolve("data/understat/*.json")),
+    await getDataFromFiles(path.resolve("./public/data/fpl/*.json")),
+    await getDataFromFiles(path.resolve("./public/data/understat/*.json")),
     fs.promises
-      .readFile(path.resolve("data/fpl_teams/data.json"))
+      .readFile(path.resolve("./public/data/fpl_teams/data.json"))
       .then(JSON.parse),
-    await getDataFromFiles(path.resolve("data/understat_teams/*.json")),
+    await getDataFromFiles(
+      path.resolve("./public/data/understat_teams/*.json")
+    ),
     fs.promises
-      .readFile(path.resolve("data/links/players.json"))
-      .then(JSON.parse),
-    fs.promises
-      .readFile(path.resolve("data/links/teams.json"))
-      .then(JSON.parse),
-    fs.promises
-      .readFile(path.resolve("data/fpl_gameweeks/data.json"))
+      .readFile(path.resolve("./public/data/links/players.json"))
       .then(JSON.parse),
     fs.promises
-      .readFile(path.resolve("data/teamcolorcodes/data.json"))
+      .readFile(path.resolve("./public/data/links/teams.json"))
       .then(JSON.parse),
+    fs.promises
+      .readFile(path.resolve("./public/data/fpl_gameweeks/data.json"))
+      .then(JSON.parse),
+    fs.promises
+      .readFile(path.resolve("./public/data/teamcolorcodes/data.json"))
+      .then(JSON.parse),
+  ]);
+
+  console.log([
+    fpl,
+    understat,
+    fplTeams,
+    understatTeams,
+    playersLinks,
+    teamsLinks,
+    fplGameweeks,
+    teamcolorcodes,
   ]);
 
   const { players, gameweeks } = makePlayersData({
