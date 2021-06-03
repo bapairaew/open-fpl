@@ -4,10 +4,10 @@ import glob from "glob-promise";
 
 async function createTeamsLinks() {
   const [fplTeams, understatTeams] = await Promise.all([
-    fs.promises.readFile("./data/fpl_teams/data.json").then(JSON.parse),
+    fs.promises.readFile("./public/data/fpl_teams/data.json").then(JSON.parse),
     Promise.all(
       (
-        await glob("./data/understat_teams/*.json")
+        await glob("./public/data/understat_teams/*.json")
       ).map((p) => fs.promises.readFile(p).then(JSON.parse))
     ),
   ]);
@@ -37,12 +37,12 @@ async function createPlayersLinks(teamsLinks) {
   const [fpl, understat] = await Promise.all([
     Promise.all(
       (
-        await glob("./data/fpl/*.json")
+        await glob("./public/data/fpl/*.json")
       ).map((p) => fs.promises.readFile(p).then(JSON.parse))
     ),
     Promise.all(
       (
-        await glob("./data/understat/*.json")
+        await glob("./public/data/understat/*.json")
       ).map((p) => fs.promises.readFile(p).then(JSON.parse))
     ),
   ]);
@@ -93,11 +93,11 @@ async function createPlayersLinks(teamsLinks) {
   const teamsLinks = await createTeamsLinks();
   const playersLinks = await createPlayersLinks(teamsLinks);
   await fs.promises.writeFile(
-    `./data/links/teams.json`,
+    `./public/data/links/teams.json`,
     JSON.stringify(teamsLinks, null, 2)
   );
   await fs.promises.writeFile(
-    `./data/links/players.json`,
+    `./public/data/links/players.json`,
     JSON.stringify(playersLinks, null, 2)
   );
   console.log(`Time elapsed: ${(new Date() - start).toLocaleString()}ms`);

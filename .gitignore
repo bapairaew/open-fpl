@@ -1,9 +1,9 @@
 .next
 node_modules
-data/*
+public/data/*
 
 # These datasets are to be overridden manually
-!data/links
-!data/teamcolorcodes
+!public/data/links
+!public/data/teamcolorcodes
 
 *.temp.*

@@ -8,16 +8,16 @@ import stringSimilarity from "string-similarity";
 async function printPlayerLinks() {
   const [fpl, understat, links] = await Promise.all([
     Promise.all(
-      (await glob("./data/fpl/*.json")).map((p) =>
-        fs.promises.readFile(p).then(JSON.parse)
-      )
+      (
+        await glob("./public/data/fpl/*.json")
+      ).map((p) => fs.promises.readFile(p).then(JSON.parse))
     ),
     Promise.all(
-      (await glob("./data/understat/*.json")).map((p) =>
-        fs.promises.readFile(p).then(JSON.parse)
-      )
+      (
+        await glob("./public/data/understat/*.json")
+      ).map((p) => fs.promises.readFile(p).then(JSON.parse))
     ),
-    fs.promises.readFile("./data/links/players.json").then(JSON.parse),
+    fs.promises.readFile("./public/data/links/players.json").then(JSON.parse),
   ]);
 
   const tsv = Object.entries(links)

@@ -5,16 +5,16 @@ import { fetchData } from "../libs/data";
   const start = new Date();
   console.log(`Updates started: ${start}`);
   await Promise.all([
-    fs.promises.mkdir("./data/fpl", { recursive: true }),
-    fs.promises.mkdir("./data/understat", { recursive: true }),
-    fs.promises.mkdir("./data/fpl_teams", { recursive: true }),
-    fs.promises.mkdir("./data/understat_teams", { recursive: true }),
-    fs.promises.mkdir("./data/fpl_gameweeks", { recursive: true }),
+    fs.promises.mkdir("./public/data/fpl", { recursive: true }),
+    fs.promises.mkdir("./public/data/understat", { recursive: true }),
+    fs.promises.mkdir("./public/data/fpl_teams", { recursive: true }),
+    fs.promises.mkdir("./public/data/understat_teams", { recursive: true }),
+    fs.promises.mkdir("./public/data/fpl_gameweeks", { recursive: true }),
   ]);
   await fetchData({
     saveFn: (data, type) => {
       return fs.promises.writeFile(
-        `./data/${type}/${data.id || "data"}.json`,
+        `./public/data/${type}/${data.id || "data"}.json`,
         JSON.stringify(data, null, 2)
       );
     },
