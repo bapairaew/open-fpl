@@ -30,27 +30,23 @@ const SideBarItem = ({ href, icon, getIsActive, children }) => {
 
   return (
     <Link href={href} passHref>
-      <A
+      <ListItem
+        as="a"
+        m={2}
+        px={4}
+        py={2}
+        display="block"
+        borderRadius="md"
+        fontSize="sm"
+        fontWeight="bold"
+        bg={isActive ? "gray.100" : "transparent"}
         _hover={{
-          textDecoration: "none",
+          bg: "brand.50",
         }}
       >
-        <ListItem
-          m={2}
-          px={4}
-          py={2}
-          borderRadius="md"
-          fontSize="sm"
-          fontWeight="bold"
-          bg={isActive ? "gray.100" : "transparent"}
-          _hover={{
-            bg: "brand.50",
-          }}
-        >
-          {icon && <ListIcon fontSize="lg" as={icon} />}
-          {children}
-        </ListItem>
-      </A>
+        {icon && <ListIcon fontSize="lg" as={icon} />}
+        {children}
+      </ListItem>
     </Link>
   );
 };
