@@ -85,7 +85,11 @@ const TransferPlannerPage = ({
   useTransferRedirect();
   return (
     <>
-      <NextSeo title="Transfer Planner | Open FPL" />
+      <NextSeo
+        title="Transfer Planner | Open FPL"
+        description="Plan your transfer, starting lineup and your bench ahead of upcoming Fantasy Premier League gameweeks"
+        noindex={true}
+      />
       <TransferPlanner
         initialPicks={initialPicks}
         entryHistory={entry_history}

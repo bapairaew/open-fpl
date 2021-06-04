@@ -18,7 +18,10 @@ import TransferPlannerHelp from "~/components/TransferPlanner/TransferPlannerHel
 const HelpPage = () => {
   return (
     <>
-      <NextSeo title="How to use | Open FPL" />
+      <NextSeo
+        title="How to use | Open FPL"
+        description="How to use each open-source tool on OpenFPL to help you enjoy Fantasy Premier League more."
+      />
       <Box height="100%" overflow="auto">
         <Tabs>
           <TabList position="sticky" top={0} bg="white" zIndex="sticky">
