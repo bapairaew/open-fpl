@@ -129,7 +129,7 @@ export const removeChange = (changes, removingChange) => {
 
 export const getChangesFromTransferPlan = (transferPlan, players) => {
   return players
-    ? transferPlan.map((plan) => ({
+    ? transferPlan?.map((plan) => ({
         ...plan,
         // Dehydrate player data
         selectedPlayer: {

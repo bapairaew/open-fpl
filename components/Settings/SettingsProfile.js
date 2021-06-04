@@ -23,7 +23,10 @@ import {
   IoRadioButtonOnOutline,
   IoTrashBinOutline,
 } from "react-icons/io5";
-import { getTransferPlanKey } from "~/components/Settings/storage";
+import {
+  getSettingsKey,
+  getTransferPlanKey,
+} from "~/components/Settings/storage";
 import { nFormatter } from "~/libs/numbers";
 import useLocalStorage from "~/libs/useLocalStorage";
 
@@ -32,6 +35,8 @@ const SettingsProfile = (props) => {
   const { teamId, isChecked, onRemove } = props;
   const { onOpen, onClose, isOpen } = useDisclosure();
   const firstFieldRef = useRef();
+
+  const [settings] = useLocalStorage(getSettingsKey(teamId), {});
 
   const input = getInputProps();
   const checkbox = getCheckboxProps();
@@ -77,10 +82,13 @@ const SettingsProfile = (props) => {
         </Flex>
         <Box px={2} py={4} flexGrow={1}>
           <Heading size="sm" mb={1}>
-            Team {teamId}
+            {settings?.name ?? `Team ${teamId}`}
           </Heading>
           <Text color="gray" fontSize="xs">
-            Transfer plan size {nFormatter(transferPlanSize, 1)}b
+            Team ID: {teamId}
+          </Text>
+          <Text color="gray" fontSize="xs">
+            Transfer plan size: {nFormatter(transferPlanSize, 1)}b
           </Text>
         </Box>
         <Flex>

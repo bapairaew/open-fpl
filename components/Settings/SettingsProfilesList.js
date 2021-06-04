@@ -12,6 +12,7 @@ const SettingsProfilesList = ({
     (value) => onActiveProfileChange(value),
     300
   );
+
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "profiles",
     onChange: debounced,

@@ -1,12 +1,48 @@
 import { useCallback, useEffect, useState } from "react";
 
+const MANUAL_LOCAL_STORAGE_CHANGE = "manualLocalStorageChange";
+
+export function getLocalStorageItem(key, defaultValue) {
+  try {
+    return JSON.parse(window.localStorage.getItem(key));
+  } catch (e) {
+    return defaultValue;
+  }
+}
+
+export function setLocalStorageItem(key, value) {
+  window.localStorage.setItem(key, JSON.stringify(value));
+  window.dispatchEvent(
+    new CustomEvent(MANUAL_LOCAL_STORAGE_CHANGE, {
+      detail: { key, value },
+    })
+  );
+}
+
+export function removeLocalStorageItem(key) {
+  window.localStorage.removeItem(key);
+  window.dispatchEvent(
+    new CustomEvent(MANUAL_LOCAL_STORAGE_CHANGE, {
+      detail: { key, value: undefined },
+    })
+  );
+}
+
 function useLocalStorage(key, defaultValue) {
   const [storedValue, setStoredValue] = useState(defaultValue);
   const [isInitialised, setIsInitialised] = useState(false);
 
   const storeEventListener = (e) => {
-    if (e.key === key) {
-      setStoredValue(JSON.parse(e.newValue));
+    if (e.type === MANUAL_LOCAL_STORAGE_CHANGE) {
+      if (e.detail.key === key) {
+        setStoredValue(
+          e.detail.value === undefined ? defaultValue : e.detail.value
+        );
+      }
+    } else {
+      if (e.key === key) {
+        setStoredValue(JSON.parse(e.newValue));
+      }
     }
   };
 
@@ -29,13 +65,22 @@ function useLocalStorage(key, defaultValue) {
 
       // Listen change from other browser tabs
       window.addEventListener("storage", storeEventListener);
+
+      // Listen change from outside of hook
+      window.addEventListener(MANUAL_LOCAL_STORAGE_CHANGE, storeEventListener);
     } catch (error) {
       // Ignore error
     } finally {
       setIsInitialised(true);
     }
 
-    return () => window.removeEventListener("storage", storeEventListener);
+    return () => {
+      window.removeEventListener("storage", storeEventListener);
+      window.removeEventListener(
+        MANUAL_LOCAL_STORAGE_CHANGE,
+        storeEventListener
+      );
+    };
   }, [key]);
 
   const setValue = useCallback(

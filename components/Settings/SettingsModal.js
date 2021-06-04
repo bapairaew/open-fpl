@@ -6,35 +6,48 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  useToast,
+  useToast
 } from "@chakra-ui/react";
 import AddProfile from "~/components/Settings/AddProfile";
 import { useSettings } from "~/components/Settings/SettingsContext";
 import SettingsProfilesList from "~/components/Settings/SettingsProfilesList";
+import {
+  getLocalStorageItem,
+  removeLocalStorageItem,
+  setLocalStorageItem
+} from "~/libs/useLocalStorage";
 import { getSettingsKey, getTransferPlanKey } from "./storage";
 
 const SettingsModal = ({ isOpen, onClose }) => {
   const toast = useToast();
   const { teamId, setTeamId, profiles, setProfiles } = useSettings();
 
-  const handleAddProfile = (teamId) => {
+  const handleAddProfile = async (teamId) => {
     if (!profiles.includes(teamId)) {
+      const { name } = await (await fetch(`/api/team/${teamId}`)).json();
+      setLocalStorageItem(getSettingsKey(teamId), {
+        ...getLocalStorageItem(getSettingsKey(teamId), {
+          transferPlannerPinnedBench: false,
+        }),
+        name,
+      });
       setProfiles([...profiles, teamId]);
       setTeamId(teamId);
       toast({
         title: "Profile created.",
-        description: `${teamId} profile has been successfully created.`,
+        description: `${name ?? teamId} profile has been successfully created.`,
         status: "success",
-        duration: 5000,
         isClosable: true,
       });
     } else {
       setTeamId(teamId);
+      const { name } = getLocalStorageItem(getSettingsKey(teamId), {});
       toast({
         title: "Profile existed.",
-        description: `${teamId} profile is already existed so we reactivated this profile for you.`,
+        description: `${
+          name ?? teamId
+        } profile is already existed so we reactivated this profile for you.`,
         status: "success",
-        duration: 5000,
         isClosable: true,
       });
     }
@@ -45,17 +58,17 @@ const SettingsModal = ({ isOpen, onClose }) => {
   };
 
   const handleRemoveProfile = (removingTeamId) => {
+    const { name } = getLocalStorageItem(getSettingsKey(removingTeamId), {});
     setProfiles(profiles.filter((p) => p !== removingTeamId));
-    window.localStorage.removeItem(getSettingsKey(removingTeamId));
-    window.localStorage.removeItem(getTransferPlanKey(removingTeamId));
+    removeLocalStorageItem(getSettingsKey(removingTeamId));
+    removeLocalStorageItem(getTransferPlanKey(removingTeamId));
     if (teamId === removingTeamId) {
       setTeamId(null);
     }
     toast({
       title: "Profile removed.",
-      description: `${teamId} is removed successfully.`,
+      description: `${name ?? removingTeamId} is removed successfully.`,
       status: "success",
-      duration: 5000,
       isClosable: true,
     });
   };

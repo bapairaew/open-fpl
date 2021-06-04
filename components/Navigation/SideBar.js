@@ -56,7 +56,7 @@ const SideBarItem = ({ href, icon, getIsActive, children }) => {
 };
 
 const SideBar = () => {
-  const { onSettingsModalOpen, teamId } = useSettings();
+  const { onSettingsModalOpen, teamId, settings } = useSettings();
   return (
     <Flex
       h="100%"
@@ -88,7 +88,7 @@ const SideBar = () => {
           onClick={onSettingsModalOpen}
           leftIcon={teamId ? <IoSettingsOutline /> : undefined}
         >
-          {teamId ? `${teamId}` : "Set up your profile"}
+          {teamId ? `${settings?.name ?? teamId}` : "Set up your profile"}
         </Button>
         <HStack color="gray" fontSize="xs" spacing={1}>
           <Text>{p.version}</Text>

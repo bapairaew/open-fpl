@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { IoHelpCircleOutline, IoOpenOutline } from "react-icons/io5";
@@ -47,11 +48,25 @@ const TeamIDHelpButton = () => (
 const AddProfile = ({ hasExistedProfile, onAddProfile }) => {
   const [formTeamId, setFormTeamId] = useState("");
   const [expanded, setExpanded] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const toast = useToast();
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    onAddProfile(formTeamId);
-    setExpanded(false);
+  const onSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      setIsAdding(true);
+      await onAddProfile(formTeamId);
+      setExpanded(false);
+    } catch (e) {
+      toast({
+        title: "Something went wrong.",
+        description: e.toString(),
+        status: "error",
+        isClosable: true,
+      });
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   useEffect(() => {
@@ -98,7 +113,13 @@ const AddProfile = ({ hasExistedProfile, onAddProfile }) => {
             />
             <InputRightElement children={<TeamIDHelpButton />} />
           </InputGroup>
-          <Button mt={2} width="100%" type="submit">
+          <Button
+            isLoading={isAdding}
+            loadingText="Adding your profile"
+            mt={2}
+            width="100%"
+            type="submit"
+          >
             Add
           </Button>
         </Box>
