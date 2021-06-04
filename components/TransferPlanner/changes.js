@@ -149,7 +149,11 @@ export const isSwapable = (
   targetPlayer,
   { GKP, DEF, MID, FWD, bench }
 ) => {
-  if (!selectedPlayer || targetPlayer.id === selectedPlayer.id) {
+  if (
+    !selectedPlayer ||
+    !targetPlayer ||
+    targetPlayer.id === selectedPlayer.id
+  ) {
     return false;
   }
 

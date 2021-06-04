@@ -53,8 +53,7 @@ const SelectedTeam = ({
   teamObject,
   gameweeks,
   selectedPlayer,
-  onPlayerClick,
-  onOutsideClick,
+  onPlayerSelect,
 }) => {
   const { settings, setSettings } = useSettings();
 
@@ -64,14 +63,24 @@ const SelectedTeam = ({
 
   const { GKP, DEF, MID, FWD, bench } = teamObject;
 
-  const makeHandlePlayerClick = (p) => (e) => {
+  const handlePlayerClick = (e, p) => {
     e.preventDefault();
     e.stopPropagation();
-    onPlayerClick(p);
+    onPlayerSelect?.(p);
+  };
+
+  const handleOutsideClick = () => {
+    onPlayerSelect?.(null);
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.key === "Escape") {
+      onPlayerSelect?.(null);
+    }
   };
 
   return (
-    <Box height="100%" onClick={onOutsideClick}>
+    <Box height="100%" onKeyUp={handleKeyUp} onClick={handleOutsideClick}>
       <AutoSizer>
         {({ height, width }) => {
           return (
@@ -87,8 +96,8 @@ const SelectedTeam = ({
                       {group.map((p) => (
                         <TransferablePlayer
                           key={p.id}
-                          onClick={makeHandlePlayerClick(p)}
                           variant={getVariant(selectedPlayer, p, teamObject)}
+                          onClick={(e) => handlePlayerClick(e, p)}
                         >
                           <PlayerCard mini player={p} gameweeks={gameweeks} />
                         </TransferablePlayer>
@@ -123,8 +132,8 @@ const SelectedTeam = ({
                     {bench.map((p) => (
                       <TransferablePlayer
                         key={p.id}
-                        onClick={makeHandlePlayerClick(p)}
                         variant={getVariant(selectedPlayer, p, teamObject)}
+                        onClick={(e) => handlePlayerClick(e, p)}
                       >
                         <PlayerCard mini player={p} gameweeks={gameweeks} />
                       </TransferablePlayer>

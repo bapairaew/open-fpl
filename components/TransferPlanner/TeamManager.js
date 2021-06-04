@@ -54,10 +54,10 @@ const TeamManager = ({ team, players, gameweeks, onSwap, onTransfer }) => {
     );
   }, [players, selectedPlayer]);
 
-  const handlePlayerClick = (targetPlayer) => {
+  const handlePlayerSelect = (targetPlayer) => {
     if (!selectedPlayer) {
       setSelectedPlayer(targetPlayer);
-    } else if (targetPlayer.id === selectedPlayer.id) {
+    } else if (targetPlayer?.id === selectedPlayer.id) {
       setSelectedPlayer(null);
     } else if (isSwapable(selectedPlayer, targetPlayer, teamObject)) {
       onSwap(selectedPlayer, targetPlayer);
@@ -67,11 +67,7 @@ const TeamManager = ({ team, players, gameweeks, onSwap, onTransfer }) => {
     }
   };
 
-  const handleOutsideClick = () => {
-    setSelectedPlayer(null);
-  };
-
-  const handleTransferSectionPlayerClick = (targetPlayer) => {
+  const handleTransferSectionPlayerSelect = (targetPlayer) => {
     if (team.every((p) => p.id !== targetPlayer.id)) {
       onTransfer(selectedPlayer, targetPlayer);
       setSelectedPlayer(null);
@@ -85,8 +81,7 @@ const TeamManager = ({ team, players, gameweeks, onSwap, onTransfer }) => {
           teamObject={teamObject}
           gameweeks={gameweeks}
           selectedPlayer={selectedPlayer}
-          onPlayerClick={handlePlayerClick}
-          onOutsideClick={handleOutsideClick}
+          onPlayerSelect={handlePlayerSelect}
         />
       </Box>
       <Box height="100%">
@@ -95,7 +90,7 @@ const TeamManager = ({ team, players, gameweeks, onSwap, onTransfer }) => {
             team={team}
             players={transferablePlayers}
             gameweeks={gameweeks}
-            onPlayerClick={handleTransferSectionPlayerClick}
+            onPlayerSelect={handleTransferSectionPlayerSelect}
           />
         ) : (
           <Box py={10} px={4} textAlign="center" color="gray">

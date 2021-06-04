@@ -5,7 +5,7 @@ import { FixedSizeList as List } from "react-window";
 import PlayerCard from "~/components/PlayerCard/PlayerCard";
 import PlayerSearchBar from "~/components/PlayersExplorer/PlayerSearchBar";
 
-const TransferMarket = ({ team, players, gameweeks, onPlayerClick }) => {
+const TransferMarket = ({ team, players, gameweeks, onPlayerSelect }) => {
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
 
   const Row = useMemo(
@@ -13,19 +13,30 @@ const TransferMarket = ({ team, players, gameweeks, onPlayerClick }) => {
       ({ index, style }) => {
         const player = displayedPlayers[index];
         const isInTeam = team.some((p) => p.id === player.id);
+        const handleClick = (e) => {
+          e.preventDefault();
+          onPlayerSelect?.(player);
+        };
 
         return (
           <div
             key={`${index}`}
             style={{
               ...style,
-              cursor: isInTeam ? "not-allowed" : "pointer",
-              opacity: isInTeam ? 0.5 : 1,
-              pointerEvents: isInTeam ? "none" : "inherit",
+              padding: 1,
             }}
-            onClick={() => onPlayerClick(player)}
           >
-            <PlayerCard mini player={player} gameweeks={gameweeks} />
+            <Box
+              as="button"
+              disabled={isInTeam}
+              tabIndex={1}
+              onClick={handleClick}
+              width="100%"
+              opacity={isInTeam ? 0.2 : 1}
+              cursor={isInTeam ? "default" : "pointer"}
+            >
+              <PlayerCard mini player={player} gameweeks={gameweeks} />
+            </Box>
           </div>
         );
       },
@@ -51,7 +62,7 @@ const TransferMarket = ({ team, players, gameweeks, onPlayerClick }) => {
             {({ height, width }) => (
               <List
                 height={height - 100}
-                width={width}
+                width={width - 2}
                 itemCount={Math.ceil(displayedPlayers.length)}
                 itemSize={170}
               >
