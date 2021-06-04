@@ -85,9 +85,8 @@ const PlayerSearchBar = ({
           onChange={(e) => setFilterQuery(e.target.value)}
         />
       </InputGroup>
-      <Box>
+      <Box flexShrink={0}>
         <Select
-          flexBasis="220px"
           variant="filled"
           value={sort}
           onChange={(e) => setSort(e.target.value)}
