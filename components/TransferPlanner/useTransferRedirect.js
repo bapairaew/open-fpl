@@ -8,10 +8,14 @@ const useTransferRedirect = () => {
 
   useEffect(() => {
     if (isInitialised) {
+      let redirectPath;
       if (teamId) {
-        router.push(`/transfers/${teamId}`);
+        redirectPath = `/transfers/${teamId}`;
       } else {
-        router.push(`/transfers`);
+        redirectPath = "/transfers";
+      }
+      if (router.route !== redirectPath) {
+        router.push(redirectPath);
       }
     }
   }, [teamId]);

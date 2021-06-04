@@ -47,7 +47,7 @@ const TeamIDHelpButton = () => (
 
 const AddProfile = ({ hasExistedProfile, onAddProfile }) => {
   const [formTeamId, setFormTeamId] = useState("");
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(!hasExistedProfile);
   const [isAdding, setIsAdding] = useState(false);
   const toast = useToast();
 
