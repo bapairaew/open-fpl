@@ -22,8 +22,8 @@ const PlayersExplorer = ({ players, gameweeks, columnsSettings }) => {
                 key={player.id}
                 as="a"
                 href={
-                  player.understat_id
-                    ? `https://understat.com/player/${player.understat_id}`
+                  player.linked_data?.understat_id
+                    ? `https://understat.com/player/${player.linked_data.understat_id}`
                     : `https://understat.com/league/EPL`
                 }
                 target="_blank"
