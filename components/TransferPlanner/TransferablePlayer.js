@@ -22,6 +22,7 @@ const teamPlayerVariants = {
     cursor: "default",
     opacity: 0.1,
     disabled: true,
+    pointerEvents: "none",
   },
 };
 

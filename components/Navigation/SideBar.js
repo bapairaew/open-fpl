@@ -9,7 +9,7 @@ import {
   ListIcon,
   ListItem,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -18,8 +18,9 @@ import {
   IoLogoTwitter,
   IoPeopleCircleOutline,
   IoSettingsOutline,
-  IoSwapHorizontalOutline,
+  IoSwapHorizontalOutline
 } from "react-icons/io5";
+import externalLinks from "~/components/Navigation/externalLinks";
 import { useSettings } from "~/components/Settings/SettingsContext";
 import p from "~/package.json";
 
@@ -88,31 +89,22 @@ const SideBar = () => {
           {teamId ? `${settings?.name ?? teamId}` : "Set up your profile"}
         </Button>
         <HStack color="gray" fontSize="xs" spacing={1}>
-          <Link
-            href="https://github.com/bapairaew/open-fpl/blob/main/CHANGELOG.md"
-            passHref
-          >
-            <A fontSize="xs" color="gray" isExternal>
-              {p.version}
-            </A>
-          </Link>
+          <A href={externalLinks.changelog} isExternal>
+            {p.version}
+          </A>
           <Text>·</Text>
           <Link href="/help" passHref>
             <A>Help</A>
           </Link>
         </HStack>
         <HStack color="gray" fontSize="xs" spacing={1}>
-          <Link href="https://github.com/bapairaew/open-fpl" passHref>
-            <A isExternal>
-              Github <Icon as={IoLogoGithub} />
-            </A>
-          </Link>
+          <A href={externalLinks.github} isExternal>
+            Github <Icon as={IoLogoGithub} />
+          </A>
           <Text>·</Text>
-          <Link href="https://twitter.com/openfpl" passHref>
-            <A isExternal>
-              Twitter <Icon as={IoLogoTwitter} />
-            </A>
-          </Link>
+          <A href={externalLinks.twitter} isExternal>
+            Twitter <Icon as={IoLogoTwitter} />
+          </A>
         </HStack>
       </VStack>
     </Flex>
