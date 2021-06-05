@@ -1,7 +1,6 @@
 import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
 import { AiOutlinePushpin } from "react-icons/ai";
 import AutoSizer from "react-virtualized-auto-sizer";
-import PlayerCard from "~/components/PlayerCard/PlayerCard";
 import { useSettings } from "~/components/Settings/SettingsContext";
 import { isSwapable } from "~/components/TransferPlanner/changes";
 import TransferablePlayer from "~/components/TransferPlanner/TransferablePlayer";
@@ -30,6 +29,7 @@ const SelectedTeamSection = ({
         px={4}
         py={2}
         bg="white"
+        zIndex="sticky"
         position="sticky"
         top={0}
         borderBottomWidth={1}
@@ -98,9 +98,9 @@ const SelectedTeam = ({
                           key={p.id}
                           variant={getVariant(selectedPlayer, p, teamObject)}
                           onClick={(e) => handlePlayerClick(e, p)}
-                        >
-                          <PlayerCard mini player={p} gameweeks={gameweeks} />
-                        </TransferablePlayer>
+                          player={p}
+                          gameweeks={gameweeks}
+                        />
                       ))}
                     </Flex>
                   );
@@ -134,9 +134,9 @@ const SelectedTeam = ({
                         key={p.id}
                         variant={getVariant(selectedPlayer, p, teamObject)}
                         onClick={(e) => handlePlayerClick(e, p)}
-                      >
-                        <PlayerCard mini player={p} gameweeks={gameweeks} />
-                      </TransferablePlayer>
+                        player={p}
+                        gameweeks={gameweeks}
+                      />
                     ))}
                   </Flex>
                 </SelectedTeamSection>
