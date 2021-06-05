@@ -63,7 +63,7 @@ const TransferablePlayer = ({ ref, variant, onClick, player, gameweeks }) => {
           </Text>
         </Box>
       </Tooltip>
-      <PlayerCard mini player={player} gameweeks={gameweeks} />
+      <PlayerCard variant="mini" player={player} gameweeks={gameweeks} />
     </Box>
   );
 };

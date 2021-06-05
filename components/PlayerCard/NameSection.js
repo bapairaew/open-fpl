@@ -45,16 +45,28 @@ const deltaColorCodes = {
   },
 };
 
-const NameSection = ({ mini, player }) => {
-  const nameFontSize = mini ? "sm" : "lg";
-  const defaultFontSize = mini ? "sm" : "md";
-  const showId = mini ? false : true;
+const variants = {
+  mini: {
+    nameFontSize: "sm",
+    defaultFontSize: "sm",
+    showId: false,
+  },
+  default: {
+    nameFontSize: "lg",
+    defaultFontSize: "md",
+    showId: true,
+  },
+};
+
+const NameSection = ({ variant, player }) => {
+  const { nameFontSize, defaultFontSize, showId } =
+    variants[variant] ?? variants.default;
 
   return (
     <Flex fontSize={defaultFontSize}>
       <Flex flexDirection="column">
         <CenterFlex
-          mini={mini}
+          variant={variant}
           bg={
             player.linked_data.teamcolorcodes.text
               ? player.linked_data.teamcolorcodes.background
@@ -69,7 +81,7 @@ const NameSection = ({ mini, player }) => {
           {player.team.short_name}
         </CenterFlex>
         <CenterFlex
-          mini={mini}
+          variant={variant}
           bg={
             positionColorCodes[player.element_type.singular_name_short]
               .background
@@ -84,7 +96,7 @@ const NameSection = ({ mini, player }) => {
       {player.status !== "a" && (
         <Tooltip hasArrow label={player.news}>
           <Flex>
-            <CenterFlex mini={mini} bg={statusColorCodes[player.status]}>
+            <CenterFlex variant={variant} bg={statusColorCodes[player.status]}>
               <IoWarningOutline />
             </CenterFlex>
           </Flex>
@@ -101,11 +113,11 @@ const NameSection = ({ mini, player }) => {
         {showId && <Text color="gray">ID: {player.id}</Text>}
       </Flex>
       <Flex flexDirection="column">
-        <CenterFlex mini={mini} bg="gray.100" fontWeight="bold">
+        <CenterFlex variant={variant} bg="gray.100" fontWeight="bold">
           £{(player.now_cost / 10).toFixed(1)}
         </CenterFlex>
         <CenterFlex
-          mini={mini}
+          variant={variant}
           bg={
             player.linked_data.transfers_delta_event === 0
               ? deltaColorCodes.zero.background

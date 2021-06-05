@@ -24,8 +24,8 @@ const difficultyColorCodes = {
   },
 };
 
-const FixturesSection = ({ mini, player, gameweeks }) => {
-  const height = mini ? 30 : 45;
+const FixturesSection = ({ variant, player, gameweeks }) => {
+  const height = variant === "mini" ? "30px" : "45px";
 
   return (
     <Grid
@@ -39,19 +39,25 @@ const FixturesSection = ({ mini, player, gameweeks }) => {
           (n) => n.event === w.id
         );
 
-        const gameFontSize = mini ? "sm" : games.length > 1 ? "sm" : "md";
+        const gameFontSize =
+          variant === "mini" ? "sm" : games.length > 1 ? "sm" : "md";
 
         return (
           <Flex key={w.id} flexDirection="column">
             {games.length === 0 ? (
-              <CenterFlex mini={mini} bg="black" color="white" height="100%">
+              <CenterFlex
+                variant={variant}
+                bg="black"
+                color="white"
+                height="100%"
+              >
                 -
               </CenterFlex>
             ) : (
               games.map((g, i) => (
                 <CenterFlex
                   key={i}
-                  mini={mini}
+                  variant={variant}
                   height={`${height / games.length}px`}
                   fontSize={gameFontSize}
                   bg={difficultyColorCodes[g.difficulty].background}

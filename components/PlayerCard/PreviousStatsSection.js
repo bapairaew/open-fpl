@@ -10,7 +10,20 @@ const makeEmptyMatch = (length) => {
   });
 };
 
-const PreviousStatsSection = ({ mini, player }) => {
+const variants = {
+  mini: {
+    showTeamsName: false,
+    height: "58px",
+    decimal: 1,
+  },
+  default: {
+    showTeamsName: true,
+    height: "80px",
+    default: 2,
+  },
+};
+
+const PreviousStatsSection = ({ variant, player }) => {
   const pastMatches = player.linked_data.past_matches
     ? player.linked_data.past_matches.length < 5
       ? [
@@ -20,9 +33,8 @@ const PreviousStatsSection = ({ mini, player }) => {
       : player.linked_data.past_matches
     : [];
 
-  const showTeamsName = mini ? false : true;
-  const height = mini ? 58 : 80;
-  const decimal = mini ? 1 : 2;
+  const { showTeamsName, height, decimal } =
+    variants[variant] ?? variants.default;
 
   return (
     <Box height={height}>
@@ -32,7 +44,7 @@ const PreviousStatsSection = ({ mini, player }) => {
             <>
               {pastMatches.map((s, i) => (
                 <CenterFlex
-                  mini={mini}
+                  variant={variant}
                   key={i}
                   p={0.5}
                   fontSize="sm"
@@ -45,7 +57,7 @@ const PreviousStatsSection = ({ mini, player }) => {
                 </CenterFlex>
               ))}
               <CenterFlex
-                mini={mini}
+                variant={variant}
                 p={0.5}
                 fontSize="sm"
                 color="gray"
@@ -58,7 +70,7 @@ const PreviousStatsSection = ({ mini, player }) => {
           {pastMatches.map((s, i) => (
             <CenterFlex
               key={i}
-              mini={mini}
+              variant={variant}
               p={1}
               fontSize="sm"
               bg={
@@ -75,7 +87,7 @@ const PreviousStatsSection = ({ mini, player }) => {
                 : ""}
             </CenterFlex>
           ))}
-          <CenterFlex mini={mini} p={1} fontSize="sm" bg="gray.100">
+          <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
             {!isNullOrUndefined(player.linked_data.season_xgi)
               ? (+player.linked_data.season_xgi).toFixed?.(decimal)
               : "N/A"}
@@ -83,7 +95,7 @@ const PreviousStatsSection = ({ mini, player }) => {
           {pastMatches.map((s, i) => (
             <CenterFlex
               key={i}
-              mini={mini}
+              variant={variant}
               p={1}
               fontSize="sm"
               bg={
@@ -100,7 +112,7 @@ const PreviousStatsSection = ({ mini, player }) => {
                 : ""}
             </CenterFlex>
           ))}
-          <CenterFlex mini={mini} p={1} fontSize="sm" bg="gray.100">
+          <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
             {!isNullOrUndefined(player.linked_data.season_xga)
               ? +player.linked_data.season_xga.toFixed?.(decimal)
               : "N/A"}

@@ -42,7 +42,11 @@ const TransferMarket = ({ team, players, gameweeks, onPlayerSelect }) => {
               onKeyUp={handleKeyUp}
               onClick={handleClick}
             >
-              <PlayerCard mini player={player} gameweeks={gameweeks} />
+              <PlayerCard
+                variant="mini"
+                player={player}
+                gameweeks={gameweeks}
+              />
             </Box>
           </div>
         );

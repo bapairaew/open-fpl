@@ -9,7 +9,18 @@ const makeEmptyGameweek = (length) => {
   });
 };
 
-const PointsSection = ({ mini, player }) => {
+const variants = {
+  mini: {
+    showTeamsName: false,
+    pointsFontSize: "sm",
+  },
+  default: {
+    showTeamsName: true,
+    pointsFontSize: "md",
+  },
+};
+
+const PointsSection = ({ variant, player }) => {
   const previousGameweeks =
     player.linked_data.previous_gameweeks?.length < 5
       ? [
@@ -20,8 +31,8 @@ const PointsSection = ({ mini, player }) => {
         ]
       : player.linked_data.previous_gameweeks;
 
-  const showTeamsName = mini ? false : true;
-  const pointsFontSize = mini ? "sm" : "md";
+  const { showTeamsName, pointsFontSize } =
+    variants[variant] ?? variants.default;
 
   return (
     <>
@@ -30,7 +41,7 @@ const PointsSection = ({ mini, player }) => {
           {previousGameweeks.map((h, i) => (
             <CenterFlex
               key={i}
-              mini={mini}
+              variant={variant}
               p={0.5}
               fontSize="sm"
               color="gray"
@@ -43,7 +54,7 @@ const PointsSection = ({ mini, player }) => {
           ))}
           <CenterFlex
             p={0.5}
-            mini={mini}
+            variant={variant}
             fontSize="sm"
             color="gray"
             bg="gray.100"
@@ -56,7 +67,7 @@ const PointsSection = ({ mini, player }) => {
         {previousGameweeks.map((h, i) => (
           <CenterFlex
             key={i}
-            mini={mini}
+            variant={variant}
             fontSize={pointsFontSize}
             bg={`rgba(0, 255, 0, ${h.bps * 2}%)`}
           >
@@ -64,7 +75,7 @@ const PointsSection = ({ mini, player }) => {
           </CenterFlex>
         ))}
         <CenterFlex
-          mini={mini}
+          variant={variant}
           fontSize={pointsFontSize}
           fontWeight="bold"
           bg="gray.100"
