@@ -23,15 +23,12 @@ export const processChanges = (team, changes) => {
         });
       } else {
         updatedTeam[sourceIndex] = {
-          ...updatedTeam[sourceIndex],
-          element: change.targetPlayer.id,
-          position: change.selectedPlayer.pick.position,
+          ...team[targetIndex],
+          position: sourceIndex + 1,
         };
-
         updatedTeam[targetIndex] = {
-          ...updatedTeam[targetIndex],
-          element: change.selectedPlayer.id,
-          position: change.targetPlayer.pick.position,
+          ...team[sourceIndex],
+          position: targetIndex + 1,
         };
       }
     } else if (change.type === "transfer") {
