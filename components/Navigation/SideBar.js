@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   IoLogoGithub,
+  IoLogoTwitter,
   IoPeopleCircleOutline,
   IoSettingsOutline,
   IoSwapHorizontalOutline,
@@ -87,15 +88,29 @@ const SideBar = () => {
           {teamId ? `${settings?.name ?? teamId}` : "Set up your profile"}
         </Button>
         <HStack color="gray" fontSize="xs" spacing={1}>
-          <Text>{p.version}</Text>
+          <Link
+            href="https://github.com/bapairaew/open-fpl/blob/main/CHANGELOG.md"
+            passHref
+          >
+            <A fontSize="xs" color="gray" isExternal>
+              {p.version}
+            </A>
+          </Link>
           <Text>·</Text>
           <Link href="/help" passHref>
             <A>Help</A>
           </Link>
-          <Text>·</Text>
+        </HStack>
+        <HStack color="gray" fontSize="xs" spacing={1}>
           <Link href="https://github.com/bapairaew/open-fpl" passHref>
             <A isExternal>
               Github <Icon as={IoLogoGithub} />
+            </A>
+          </Link>
+          <Text>·</Text>
+          <Link href="https://twitter.com/openfpl" passHref>
+            <A isExternal>
+              Twitter <Icon as={IoLogoTwitter} />
             </A>
           </Link>
         </HStack>
