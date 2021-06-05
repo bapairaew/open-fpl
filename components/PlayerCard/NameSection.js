@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, Tooltip } from "@chakra-ui/react";
 import { IoWarningOutline } from "react-icons/io5";
 import CenterFlex from "~/components/PlayerCard/CenterFlex";
 import { nFormatter } from "~/libs/numbers";
@@ -82,13 +82,13 @@ const NameSection = ({ mini, player }) => {
         </CenterFlex>
       </Flex>
       {player.status !== "a" && (
-        <CenterFlex
-          mini={mini}
-          bg={statusColorCodes[player.status]}
-          title={player.news}
-        >
-          <IoWarningOutline />
-        </CenterFlex>
+        <Tooltip hasArrow label={player.news}>
+          <Flex>
+            <CenterFlex mini={mini} bg={statusColorCodes[player.status]}>
+              <IoWarningOutline />
+            </CenterFlex>
+          </Flex>
+        </Tooltip>
       )}
       <Flex px={2} py={1} flexDirection="column" flexGrow={1}>
         <Text

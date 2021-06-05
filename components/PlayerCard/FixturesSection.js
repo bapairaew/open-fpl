@@ -25,7 +25,7 @@ const difficultyColorCodes = {
 };
 
 const FixturesSection = ({ mini, player, gameweeks }) => {
-  const height = mini ? "30px" : "45px";
+  const height = mini ? 30 : 45;
 
   return (
     <Grid
@@ -52,7 +52,7 @@ const FixturesSection = ({ mini, player, gameweeks }) => {
                 <CenterFlex
                   key={i}
                   mini={mini}
-                  height={height / games.length}
+                  height={`${height / games.length}px`}
                   fontSize={gameFontSize}
                   bg={difficultyColorCodes[g.difficulty].background}
                   color={difficultyColorCodes[g.difficulty].text}
