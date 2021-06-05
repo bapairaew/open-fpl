@@ -19,7 +19,7 @@ import {
   PopoverTrigger,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoHelpCircleOutline, IoOpenOutline } from "react-icons/io5";
 
 const TeamIDHelpButton = () => (
@@ -45,7 +45,7 @@ const TeamIDHelpButton = () => (
   </Popover>
 );
 
-const AddProfile = ({ hasExistedProfile, onAddProfile }) => {
+const AddProfile = ({ initialFocusRef, hasExistedProfile, onAddProfile }) => {
   const [formTeamId, setFormTeamId] = useState("");
   const [expanded, setExpanded] = useState(!hasExistedProfile);
   const [isAdding, setIsAdding] = useState(false);
@@ -75,10 +75,24 @@ const AddProfile = ({ hasExistedProfile, onAddProfile }) => {
     }
   }, [expanded]);
 
+  useEffect(() => {
+    if (!hasExistedProfile) {
+      setExpanded(true);
+    }
+  }, [hasExistedProfile]);
+
+  useEffect(() => {
+    // Once the last profile is removed the input box should be auto focused
+    if (!hasExistedProfile && expanded) {
+      initialFocusRef.current.focus();
+    }
+  }, [hasExistedProfile, expanded]);
+
   return (
     <>
       <Collapse in={!expanded} animateOpacity>
         <Button
+          ref={expanded ? undefined : initialFocusRef}
           width="100%"
           variant={hasExistedProfile ? "outline" : "solid"}
           onClick={() => setExpanded(true)}
@@ -97,15 +111,18 @@ const AddProfile = ({ hasExistedProfile, onAddProfile }) => {
           borderWidth={1}
           position="relative"
         >
-          <CloseButton
-            position="absolute"
-            top={1}
-            right={1}
-            onClick={() => setExpanded(false)}
-          />
+          {hasExistedProfile && (
+            <CloseButton
+              position="absolute"
+              top={1}
+              right={1}
+              onClick={() => setExpanded(false)}
+            />
+          )}
           <FormLabel htmlFor="teamId">Team ID</FormLabel>
           <InputGroup>
             <Input
+              ref={expanded ? initialFocusRef : undefined}
               id="teamId"
               placeholder="e.g. 254181"
               value={formTeamId}

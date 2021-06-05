@@ -6,21 +6,23 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
+import { useRef } from "react";
 import AddProfile from "~/components/Settings/AddProfile";
 import { useSettings } from "~/components/Settings/SettingsContext";
 import SettingsProfilesList from "~/components/Settings/SettingsProfilesList";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
-  setLocalStorageItem
+  setLocalStorageItem,
 } from "~/libs/useLocalStorage";
 import { getSettingsKey, getTransferPlanKey } from "./storage";
 
 const SettingsModal = ({ isOpen, onClose }) => {
   const toast = useToast();
   const { teamId, setTeamId, profiles, setProfiles } = useSettings();
+  const initialFocusRef = useRef();
 
   const handleAddProfile = async (teamId) => {
     if (!profiles.includes(teamId)) {
@@ -74,13 +76,19 @@ const SettingsModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+    <Drawer
+      isOpen={isOpen}
+      placement="right"
+      onClose={onClose}
+      initialFocusRef={initialFocusRef}
+    >
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerHeader fontWeight="black">Profiles</DrawerHeader>
         <DrawerBody>
           <AddProfile
+            initialFocusRef={initialFocusRef}
             hasExistedProfile={profiles?.length > 0}
             onAddProfile={handleAddProfile}
           />
