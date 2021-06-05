@@ -18,6 +18,12 @@ const TransferMarket = ({ team, players, gameweeks, onPlayerSelect }) => {
           onPlayerSelect?.(player);
         };
 
+        const handleKeyUp = (e) => {
+          if (e.key === "Escape") {
+            onPlayerSelect?.(null);
+          }
+        };
+
         return (
           <div
             key={`${index}`}
@@ -30,10 +36,11 @@ const TransferMarket = ({ team, players, gameweeks, onPlayerSelect }) => {
               as="button"
               disabled={isInTeam}
               tabIndex={1}
-              onClick={handleClick}
               width="100%"
               opacity={isInTeam ? 0.2 : 1}
               cursor={isInTeam ? "default" : "pointer"}
+              onKeyUp={handleKeyUp}
+              onClick={handleClick}
             >
               <PlayerCard mini player={player} gameweeks={gameweeks} />
             </Box>

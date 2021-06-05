@@ -68,7 +68,9 @@ const TeamManager = ({ team, players, gameweeks, onSwap, onTransfer }) => {
   };
 
   const handleTransferSectionPlayerSelect = (targetPlayer) => {
-    if (team.every((p) => p.id !== targetPlayer.id)) {
+    if (!targetPlayer) {
+      setSelectedPlayer(null);
+    } else if (team.every((p) => p.id !== targetPlayer.id)) {
       onTransfer(selectedPlayer, targetPlayer);
       setSelectedPlayer(null);
     }
