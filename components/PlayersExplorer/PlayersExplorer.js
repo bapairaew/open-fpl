@@ -53,7 +53,7 @@ const PlayersExplorer = ({ players, gameweeks, columnsSettings }) => {
   );
 
   return (
-    <>
+    <Box overflow="hidden" height="100%">
       <Box px={4} py={2}>
         <PlayerSearchBar onResults={setDisplayedPlayers} players={players} />
       </Box>
@@ -69,7 +69,7 @@ const PlayersExplorer = ({ players, gameweeks, columnsSettings }) => {
           </List>
         )}
       </AutoSizer>
-    </>
+    </Box>
   );
 };
 
