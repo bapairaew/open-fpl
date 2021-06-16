@@ -1,4 +1,5 @@
-import { Button, Flex, Heading, Link, Text } from "@chakra-ui/react";
+import { Button, Flex, Heading, Text } from "@chakra-ui/react";
+import Link from "next/link";
 
 const NotFound = () => {
   return (

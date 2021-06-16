@@ -1,5 +1,6 @@
-import { Flex, Heading, Link, Text } from "@chakra-ui/react";
+import { Flex, Heading, Link as A, Text, Button } from "@chakra-ui/react";
 import externalLinks from "~/features/Navigation/externalLinks";
+import Link from "next/link";
 
 const Error = () => {
   return (
@@ -18,15 +19,20 @@ const Error = () => {
       <Text my={4}>
         To be honest, we are not too sure what happened so please tell us what
         you did on{" "}
-        <Link href={externalLinks.github} isExternal color="brand.500">
+        <A href={externalLinks.github} isExternal color="brand.500">
           Github
-        </Link>{" "}
+        </A>{" "}
         or{" "}
-        <Link href={externalLinks.twitter} isExternal color="brand.500">
+        <A href={externalLinks.twitter} isExternal color="brand.500">
           Twitter
-        </Link>
+        </A>
         .
       </Text>
+      <Link href="/" passHref>
+        <Button as="a" variant="link">
+          Click here to get back home
+        </Button>
+      </Link>
     </Flex>
   );
 };

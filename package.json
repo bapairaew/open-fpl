@@ -18,7 +18,7 @@
     "framer-motion": "^4",
     "fuse.js": "^6.4.6",
     "ga-4-react": "^0.1.281",
-    "next": "^10.2.3",
+    "next": "^11.0.0",
     "next-seo": "^4.24.0",
     "nextjs-progressbar": "^0.0.9",
     "react": "^17.0.2",
