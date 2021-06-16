@@ -2,9 +2,9 @@
   "name": "open-fpl",
   "version": "0.3.0-pre.16",
   "scripts": {
-    "init-data": "babel-node scripts/init-data.js",
-    "init-links": "babel-node scripts/init-links.js",
-    "init-teamcolorcodes": "babel-node scripts/init-teamcolorcodes.js",
+    "init-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-data.ts",
+    "init-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register  scripts/init-links.ts",
+    "init-teamcolorcodes": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-teamcolorcodes.ts",
     "dev": "next dev",
     "prebuild": "yarn init-data && cp -r ./public/data ./data",
     "build": "next build",
@@ -31,14 +31,16 @@
     "use-debounce": "^6.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.0",
-    "@babel/node": "^7.13.13",
+    "@types/react": "^17.0.9",
     "glob": "^7.1.6",
     "glob-promise": "^4.2.0",
     "node-fetch": "^2.6.1",
     "node-html-parser": "^3.2.0",
     "p-retry": "^4.5.0",
     "string-similarity": "^4.0.4",
-    "tiny-async-pool": "^1.2.0"
+    "tiny-async-pool": "^1.2.0",
+    "ts-node": "^10.0.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.3.2"
   }
 }

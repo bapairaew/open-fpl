@@ -1,0 +1,106 @@
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+
+const MANUAL_LOCAL_STORAGE_CHANGE = "manualLocalStorageChange";
+
+export function getLocalStorageItem<T>(
+  key: string,
+  defaultValue: T | null | undefined
+): T {
+  try {
+    return JSON.parse(window.localStorage.getItem(key));
+  } catch (e) {
+    return defaultValue;
+  }
+}
+
+export function setLocalStorageItem<T>(key: string, value: T | null): void {
+  window.localStorage.setItem(key, JSON.stringify(value));
+  window.dispatchEvent(
+    new CustomEvent(MANUAL_LOCAL_STORAGE_CHANGE, {
+      detail: { key, value },
+    })
+  );
+}
+
+export function removeLocalStorageItem(key: string): void {
+  window.localStorage.removeItem(key);
+  window.dispatchEvent(
+    new CustomEvent(MANUAL_LOCAL_STORAGE_CHANGE, {
+      detail: { key, value: undefined },
+    })
+  );
+}
+
+function useLocalStorage<T>(
+  key: string,
+  defaultValue: T | null | undefined
+): [T, Dispatch<SetStateAction<T>>, boolean] {
+  const [storedValue, setStoredValue] = useState<T>(defaultValue);
+  const [isInitialised, setIsInitialised] = useState<boolean>(false);
+
+  const storeEventListener = (e: CustomEvent | StorageEvent): void => {
+    if (e instanceof StorageEvent) {
+      if (e.key === key) {
+        setStoredValue(JSON.parse(e.newValue));
+      }
+    } else {
+      if (e.detail.key === key) {
+        setStoredValue(
+          e.detail.value === undefined ? defaultValue : e.detail.value
+        );
+      }
+    }
+  };
+
+  const writeDataAndSetValue = (key: string, value: T): void => {
+    try {
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      // Ignore error
+    }
+  };
+
+  useEffect(() => {
+    // Only initialise localStorage data on client side and on key changed
+    try {
+      const item = window.localStorage.getItem(key);
+      setStoredValue(item ? JSON.parse(item) : defaultValue);
+
+      // Listen change from other browser tabs
+      window.addEventListener("storage", storeEventListener);
+
+      // Listen change from outside of hook
+      window.addEventListener(MANUAL_LOCAL_STORAGE_CHANGE, storeEventListener);
+    } catch (error) {
+      // Ignore error
+    } finally {
+      setIsInitialised(true);
+    }
+
+    return () => {
+      window.removeEventListener("storage", storeEventListener);
+      window.removeEventListener(
+        MANUAL_LOCAL_STORAGE_CHANGE,
+        storeEventListener
+      );
+    };
+  }, [key]);
+
+  const setValue = useCallback(
+    (value: T) => writeDataAndSetValue(key, value),
+    [key]
+  );
+
+  return [storedValue, setValue, isInitialised];
+}
+
+export default useLocalStorage;
