@@ -1,4 +1,5 @@
 import pRetry from "p-retry";
+// @ts-ignore
 import asyncPool from "tiny-async-pool";
 import { getFPLData, getFPLPlayerSummaryData } from "~/features/AppData/fpl";
 import {
@@ -7,6 +8,8 @@ import {
   getUnderstatData,
   getUnderstatTeamData,
 } from "~/features/AppData/understat";
+import { Element } from "./fplTypes";
+import { LeagueTeamStat, PlayerStatSummary } from "./understatTypes";
 
 type FetchDataConfigOption = {
   fpl: number;
@@ -47,7 +50,7 @@ export async function fetchData(config: FetchDataConfig): Promise<any> {
   ]);
 
   return Promise.all([
-    asyncPool(concurrent?.fpl || 1, fplPlayers, (p) =>
+    asyncPool(concurrent?.fpl || 1, fplPlayers, (p: Element) =>
       pRetry(
         async () => {
           try {
@@ -63,40 +66,46 @@ export async function fetchData(config: FetchDataConfig): Promise<any> {
         { retries: retries?.fpl || 5 }
       )
     ),
-    asyncPool(concurrent?.understat || 1, understatPlayers, (p) =>
-      pRetry(
-        async () => {
-          try {
-            const stats = await getUnderstatPlayerData(p.id);
-            const data = { ...p, ...stats };
-            await saveFn?.(data, "understat");
-            delay?.understat && (await wait(delay.understat));
-            return data;
-          } catch (e) {
-            throw e;
-          }
-        },
-        { retries: retries?.understat || 5 }
-      )
+    asyncPool(
+      concurrent?.understat || 1,
+      understatPlayers,
+      (p: PlayerStatSummary) =>
+        pRetry(
+          async () => {
+            try {
+              const stats = await getUnderstatPlayerData(p.id);
+              const data = { ...p, ...stats };
+              await saveFn?.(data, "understat");
+              delay?.understat && (await wait(delay.understat));
+              return data;
+            } catch (e) {
+              throw e;
+            }
+          },
+          { retries: retries?.understat || 5 }
+        )
     ),
     saveFn?.(fplTeams, "fpl_teams"),
     saveFn?.(fplElementTypes, "fpl_element_types"),
-    asyncPool(concurrent?.understat_teams || 1, Object.values(teamsData), (p) =>
-      pRetry(
-        async () => {
-          try {
-            p.id = p.title.replace(/ /g, "_"); // title is being used as reference instead of actual id in other dataset
-            const stats = await getUnderstatTeamData(p.id);
-            const data = { ...p, ...stats };
-            await saveFn?.(data, "understat_teams");
-            delay?.understat_teams && (await wait(delay.understat_teams));
-            return data;
-          } catch (e) {
-            throw e;
-          }
-        },
-        { retries: retries?.understat_teams || 5 }
-      )
+    asyncPool(
+      concurrent?.understat_teams || 1,
+      Object.values(teamsData),
+      (p: LeagueTeamStat) =>
+        pRetry(
+          async () => {
+            try {
+              p.id = p.title.replace(/ /g, "_"); // title is being used as reference instead of actual id in other dataset
+              const stats = await getUnderstatTeamData(p.id);
+              const data = { ...p, ...stats };
+              await saveFn?.(data, "understat_teams");
+              delay?.understat_teams && (await wait(delay.understat_teams));
+              return data;
+            } catch (e) {
+              throw e;
+            }
+          },
+          { retries: retries?.understat_teams || 5 }
+        )
     ),
     saveFn?.(fplGameWeeks, "fpl_gameweeks"),
   ]);

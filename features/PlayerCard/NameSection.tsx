@@ -7,27 +7,25 @@ import CenterFlex, {
 } from "~/features/PlayerCard/CenterFlex";
 import { ElementStatus } from "~/features/AppData/fplTypes";
 
-const positionColorCodes: Record<
-  "FWD" | "MID" | "DEF" | "GKP",
-  { background: string; text: string }
-> = {
-  FWD: {
-    background: "rgb(233, 0, 82)",
-    text: "white",
-  },
-  MID: {
-    background: "rgb(5, 240, 255)",
-    text: "rgb(55, 0, 60)",
-  },
-  DEF: {
-    background: "rgb(0, 255, 135)",
-    text: "rgb(55, 0, 60)",
-  },
-  GKP: {
-    background: "rgb(235, 255, 0)",
-    text: "rgb(55, 0, 60)",
-  },
-};
+const positionColorCodes: Record<string, { background: string; text: string }> =
+  {
+    FWD: {
+      background: "rgb(233, 0, 82)",
+      text: "white",
+    },
+    MID: {
+      background: "rgb(5, 240, 255)",
+      text: "rgb(55, 0, 60)",
+    },
+    DEF: {
+      background: "rgb(0, 255, 135)",
+      text: "rgb(55, 0, 60)",
+    },
+    GKP: {
+      background: "rgb(235, 255, 0)",
+      text: "rgb(55, 0, 60)",
+    },
+  };
 
 const statusColorCodes: Record<ElementStatus, string> = {
   a: "transparent", // Available
@@ -88,14 +86,18 @@ const NameSection = ({
         <CenterFlex
           variant={variant}
           bg={
-            player.linked_data.teamcolorcodes.text
-              ? player.linked_data.teamcolorcodes.background
-              : player.linked_data.teamcolorcodes.highlight
+            player.linked_data.teamcolorcodes
+              ? player.linked_data.teamcolorcodes.text
+                ? player.linked_data.teamcolorcodes.background!
+                : player.linked_data.teamcolorcodes.highlight!
+              : undefined
           }
           color={
-            player.linked_data.teamcolorcodes.text
+            player.linked_data.teamcolorcodes
               ? player.linked_data.teamcolorcodes.text
-              : player.linked_data.teamcolorcodes.background
+                ? player.linked_data.teamcolorcodes.text!
+                : player.linked_data.teamcolorcodes.background!
+              : undefined
           }
         >
           {player.team.short_name}

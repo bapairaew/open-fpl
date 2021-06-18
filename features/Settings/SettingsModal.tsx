@@ -33,10 +33,11 @@ const SettingsModal = ({
 }) => {
   const toast = useToast();
   const { teamId, setTeamId, profiles, setProfiles } = useSettings();
-  const initialFocusRef = useRef<HTMLInputElement | HTMLButtonElement>();
+  const initialFocusRef =
+    useRef<HTMLInputElement | HTMLButtonElement | null>(null);
 
   const handleAddProfile = async (teamId: string) => {
-    if (!profiles.includes(teamId)) {
+    if (profiles && !profiles.includes(teamId)) {
       const {
         data: { name } = {},
         // Ignore error case
@@ -61,10 +62,8 @@ const SettingsModal = ({
       });
     } else {
       setTeamId(teamId);
-      const { name } = getLocalStorageItem<Preference>(
-        getPreferenceKey(teamId),
-        {}
-      );
+      const { name } =
+        getLocalStorageItem<Preference>(getPreferenceKey(teamId), {}) || {};
       toast({
         title: "Profile existed.",
         description: `${
@@ -81,11 +80,10 @@ const SettingsModal = ({
   };
 
   const handleRemoveProfile = (removingTeamId: string) => {
-    const { name } = getLocalStorageItem<Preference>(
-      getPreferenceKey(removingTeamId),
-      {}
-    );
-    setProfiles(profiles.filter((p) => p !== removingTeamId));
+    const { name } =
+      getLocalStorageItem<Preference>(getPreferenceKey(removingTeamId), {}) ||
+      {};
+    setProfiles(profiles ? profiles.filter((p) => p !== removingTeamId) : []);
     removeLocalStorageItem(getPreferenceKey(removingTeamId));
     removeLocalStorageItem(getTransferPlanKey(removingTeamId));
     if (teamId === removingTeamId) {
@@ -113,7 +111,7 @@ const SettingsModal = ({
         <DrawerBody>
           <AddProfile
             initialFocusRef={initialFocusRef}
-            hasExistedProfile={profiles?.length > 0}
+            hasExistedProfile={profiles ? profiles.length > 0 : false}
             onAddProfile={handleAddProfile}
           />
           <Box my={4}>

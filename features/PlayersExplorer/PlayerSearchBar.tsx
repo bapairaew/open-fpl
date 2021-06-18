@@ -7,6 +7,7 @@ import {
   Stack,
   StackDirection,
 } from "@chakra-ui/react";
+// @ts-ignore
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
 import { useEffect, useMemo, useState } from "react";

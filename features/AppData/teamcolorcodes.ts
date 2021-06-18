@@ -4,7 +4,7 @@ import { TeamColorCodes } from "~/features/AppData/teamcolorcodesTypes";
 
 // node-html-parser does not parse `element.style`
 // TODO: find a better way to extract color
-const getStyleValue = (parts: string[], indicator: string): string => {
+const getStyleValue = (parts: string[], indicator: string): string | null => {
   const index = parts.findIndex((x) => x === indicator);
   return index === -1 ? null : parts[index + 1]?.replace(/;/, "");
 };
@@ -26,10 +26,7 @@ export const getTeamColorCodes = (): Promise<TeamColorCodes[]> => {
         "sec-fetch-user": "?1",
         "upgrade-insecure-requests": "1",
       },
-      referrerPolicy: "strict-origin-when-cross-origin",
-      body: null,
       method: "GET",
-      mode: "cors",
     }
   )
     .then((r) => r.text())

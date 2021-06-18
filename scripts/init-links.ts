@@ -27,7 +27,7 @@ async function createTeamsLinks(): Promise<Record<string, string>> {
     }
   );
 
-  const links: Record<string, string> = fplTeams.reduce((links, team) => {
+  const links = fplTeams.reduce((links, team) => {
     const matched =
       team.short_name === "MUN" // HOTFIX invalid man city / man utd matching
         ? { item: "Manchester United" }
@@ -35,7 +35,7 @@ async function createTeamsLinks(): Promise<Record<string, string>> {
           teamsNameFuse.search(team.short_name)?.[0];
     if (matched?.item) links[team.id] = matched.item.replace(/ /g, "_"); // title is being used as reference instead of actual id in other dataset
     return links;
-  }, {});
+  }, {} as Record<string, string>);
 
   return links;
 }
@@ -60,19 +60,16 @@ async function createPlayersLinks(
     ),
   ]);
 
-  const teamPlayersMap: Record<string, PlayerStat[]> = understat.reduce(
-    (teamPlayersMap, player) => {
-      for (const team of player.teams.split(", ")) {
-        if (teamPlayersMap[team]) {
-          teamPlayersMap[team].push(player);
-        } else {
-          teamPlayersMap[team] = [player];
-        }
+  const teamPlayersMap = understat.reduce((teamPlayersMap, player) => {
+    for (const team of player.teams.split(", ")) {
+      if (teamPlayersMap[team]) {
+        teamPlayersMap[team].push(player);
+      } else {
+        teamPlayersMap[team] = [player];
       }
-      return teamPlayersMap;
-    },
-    {}
-  );
+    }
+    return teamPlayersMap;
+  }, {} as Record<string, PlayerStat[]>);
 
   const teams = Object.keys(teamPlayersMap);
 
@@ -83,9 +80,9 @@ async function createPlayersLinks(
       threshold: 0.4,
     });
     return teamsFuse;
-  }, {});
+  }, {} as Record<string, Fuse<PlayerStat>>);
 
-  const links: Record<string, string> = fpl.reduce((links, p) => {
+  const links = fpl.reduce((links, p) => {
     const teamTitle = teamsLinks[p.team].replace(/_/g, " "); // reverse id back to title
 
     const results =
@@ -99,7 +96,7 @@ async function createPlayersLinks(
     }
 
     return links;
-  }, {});
+  }, {} as Record<string, string>);
 
   return links;
 }

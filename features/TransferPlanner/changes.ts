@@ -151,18 +151,29 @@ export const getChangesFromTransferPlan = (
   players: Player[]
 ): Change<FullChangePlayer>[] => {
   return players
-    ? transferPlan?.map((plan) => ({
-        ...plan,
-        // Dehydrate player data
-        selectedPlayer: {
-          ...players.find((p) => p.id === plan.selectedPlayer.id),
-          pick: plan.selectedPlayer.pick,
-        },
-        targetPlayer: {
-          ...players.find((p) => p.id === plan.targetPlayer.id),
-          pick: plan.targetPlayer.pick,
-        },
-      }))
+    ? transferPlan?.reduce((changes, plan) => {
+        const selectedPlayer = players.find(
+          (p) => p.id === plan.selectedPlayer.id
+        );
+        const targetPlayer = players.find((p) => p.id === plan.targetPlayer.id);
+        // Leave out invalid change
+        // TODO: return invalid change as well?
+        if (selectedPlayer && targetPlayer) {
+          changes.push({
+            ...plan,
+            // Dehydrate player data
+            selectedPlayer: {
+              ...players.find((p) => p.id === plan.selectedPlayer.id)!,
+              pick: plan.selectedPlayer.pick,
+            },
+            targetPlayer: {
+              ...players.find((p) => p.id === plan.targetPlayer.id)!,
+              pick: plan.targetPlayer.pick,
+            },
+          });
+        }
+        return changes;
+      }, [] as Change<FullChangePlayer>[])
     : [];
 };
 
@@ -180,19 +191,21 @@ export const isSwapable = (
     return false;
   }
 
-  const minStartingPosition = {
+  const minStartingPosition: Record<string, number> = {
     GKP: 1,
     DEF: 3,
     MID: 2,
     FWD: 1,
   };
 
-  const maxStartingPosition = {
+  const maxStartingPosition: Record<string, number> = {
     GKP: 1,
     DEF: 5,
     MID: 5,
     FWD: 3,
   };
+
+  const startingMap: Record<string, Player[]> = { GKP, DEF, MID, FWD };
 
   const isTargetPlayerSamePosition =
     targetPlayer.element_type.singular_name_short ===
@@ -200,8 +213,6 @@ export const isSwapable = (
 
   const isTargetPlayerOnBench = bench.some((p) => p.id === targetPlayer.id);
   const isSelectedPlayerOnBench = bench.some((p) => p.id === selectedPlayer.id);
-
-  const startingMap = { GKP, DEF, MID, FWD };
 
   const currentStartingWithSameSelectedPosition =
     startingMap[selectedPlayer.element_type.singular_name_short].length;

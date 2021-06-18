@@ -1,14 +1,18 @@
 import { useDisclosure } from "@chakra-ui/hooks";
-import { createContext, useContext } from "react";
+import { createContext, ReactNode, useContext } from "react";
+import useLocalStorage from "~/features/Common/useLocalStorage";
 import SettingsModal from "~/features/Settings/SettingsModal";
+import { Preference, Settings } from "~/features/Settings/settingsTypes";
 import {
   getActiveProfileKey,
-  getProfilesKey,
   getPreferenceKey,
+  getProfilesKey,
   getTransferPlanKey,
 } from "~/features/Settings/storageKeys";
-import useLocalStorage from "~/features/Common/useLocalStorage";
-import { Settings } from "~/features/Settings/settingsTypes";
+import {
+  Change,
+  ChangePlayer,
+} from "~/features/TransferPlanner/transferPlannerTypes";
 
 const SettingsContext = createContext<Settings>({
   isInitialised: false,
@@ -25,20 +29,25 @@ const SettingsContext = createContext<Settings>({
   onSettingsModalClsoe: () => {},
 });
 
-export const SettingsContextProvider = ({ children, ...props }) => {
-  const [profiles, setProfiles, isInitialised] = useLocalStorage(
-    getProfilesKey(),
-    []
+export const SettingsContextProvider = ({
+  children,
+  ...props
+}: {
+  children: ReactNode;
+}) => {
+  const [profiles, setProfiles, isInitialised] = useLocalStorage<
+    string[] | null | undefined
+  >(getProfilesKey(), []);
+  const [teamId, setTeamId] = useLocalStorage<string | null | undefined>(
+    getActiveProfileKey(),
+    null
   );
-  const [teamId, setTeamId] = useLocalStorage(getActiveProfileKey(), null);
-  const [preference, setPreference] = useLocalStorage(
-    getPreferenceKey(teamId),
-    {}
-  );
-  const [transferPlan, setTransferPlan] = useLocalStorage(
-    getTransferPlanKey(teamId),
-    []
-  );
+  const [preference, setPreference] = useLocalStorage<
+    Preference | null | undefined
+  >(teamId ?? getPreferenceKey(teamId), {});
+  const [transferPlan, setTransferPlan] = useLocalStorage<
+    Change<ChangePlayer>[] | null | undefined
+  >(teamId ?? getTransferPlanKey(teamId), []);
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <SettingsContext.Provider

@@ -7,11 +7,11 @@ import {
   IoArrowForwardOutline,
   IoCloseOutline,
   IoSwapVerticalOutline,
-  IoWarningOutline
+  IoWarningOutline,
 } from "react-icons/io5";
 import {
   Change,
-  FullChangePlayer
+  FullChangePlayer,
 } from "~/features/TransferPlanner/transferPlannerTypes";
 
 export type TransferChangeVariant = "invalid" | "outdated" | "default";
@@ -44,7 +44,7 @@ const TransferChange = ({
   onRemoveClick,
 }: {
   variant: TransferChangeVariant;
-  errorLabel: string;
+  errorLabel?: string;
   change: Change<FullChangePlayer>;
   onRemoveClick: MouseEventHandler<HTMLButtonElement>;
 }) => {

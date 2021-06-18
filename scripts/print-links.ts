@@ -3,6 +3,7 @@
 
 import fs from "fs";
 import glob from "glob-promise";
+// @ts-ignore
 import stringSimilarity from "string-similarity";
 
 async function printPlayerLinks() {

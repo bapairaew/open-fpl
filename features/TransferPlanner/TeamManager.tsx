@@ -1,5 +1,6 @@
 import { Box, Grid } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
+import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import { isSwapable } from "~/features/TransferPlanner/changes";
 import SelectedTeam from "~/features/TransferPlanner/SelectedTeam";
 import TransferMarket from "~/features/TransferPlanner/TransferMarket";
@@ -8,14 +9,13 @@ import {
   FullChangePlayer,
   GroupedTeam,
 } from "~/features/TransferPlanner/transferPlannerTypes";
-import { Gameweek, Player } from "../AppData/appDataTypes";
 
 const makeTeamGroupObject = (team: FullChangePlayer[]): GroupedTeam => {
-  const GKP = [];
-  const DEF = [];
-  const MID = [];
-  const FWD = [];
-  const bench = [];
+  const GKP: FullChangePlayer[] = [];
+  const DEF: FullChangePlayer[] = [];
+  const MID: FullChangePlayer[] = [];
+  const FWD: FullChangePlayer[] = [];
+  const bench: FullChangePlayer[] = [];
 
   team.forEach((player) => {
     if (player.pick.position <= 11) {
@@ -58,10 +58,7 @@ const TeamManager = ({
   players: Player[];
   gameweeks: Gameweek[];
   onSwap: (selectedPlayer: ChangePlayer, targetPlayer: ChangePlayer) => void;
-  onTransfer: (
-    selectedPlayer: ChangePlayer,
-    targetPlayer: ChangePlayer
-  ) => void;
+  onTransfer: (selectedPlayer: ChangePlayer, targetPlayer: Player) => void;
 }) => {
   const teamObject = makeTeamGroupObject(team);
   const [selectedPlayer, setSelectedPlayer] =
@@ -76,27 +73,29 @@ const TeamManager = ({
     );
   }, [players, selectedPlayer]);
 
-  const handlePlayerSelect = (targetPlayer: FullChangePlayer) => {
-    if (!selectedPlayer) {
-      setSelectedPlayer(targetPlayer);
-    } else if (targetPlayer?.id === selectedPlayer.id) {
-      setSelectedPlayer(null);
-    } else if (isSwapable(selectedPlayer, targetPlayer, teamObject)) {
-      onSwap(selectedPlayer, targetPlayer);
-      setSelectedPlayer(null);
-    } else {
-      setSelectedPlayer(null);
+  const handlePlayerSelect = (targetPlayer: FullChangePlayer | null) => {
+    if (targetPlayer) {
+      if (!selectedPlayer) {
+        setSelectedPlayer(targetPlayer);
+      } else if (targetPlayer?.id === selectedPlayer.id) {
+        setSelectedPlayer(null);
+      } else if (isSwapable(selectedPlayer, targetPlayer, teamObject)) {
+        onSwap(selectedPlayer, targetPlayer);
+        setSelectedPlayer(null);
+      } else {
+        setSelectedPlayer(null);
+      }
     }
   };
 
-  const handleTransferSectionPlayerSelect = (
-    targetPlayer: FullChangePlayer
-  ) => {
-    if (!targetPlayer) {
-      setSelectedPlayer(null);
-    } else if (team.every((p) => p.id !== targetPlayer.id)) {
-      onTransfer(selectedPlayer, targetPlayer);
-      setSelectedPlayer(null);
+  const handleTransferSectionPlayerSelect = (targetPlayer: Player | null) => {
+    if (selectedPlayer) {
+      if (!targetPlayer) {
+        setSelectedPlayer(null);
+      } else if (team.every((p) => p.id !== targetPlayer.id)) {
+        onTransfer(selectedPlayer, targetPlayer);
+        setSelectedPlayer(null);
+      }
     }
   };
 

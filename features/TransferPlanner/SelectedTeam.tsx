@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { KeyboardEvent, MouseEvent, ReactNode } from "react";
 import { AiOutlinePushpin } from "react-icons/ai";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Gameweek } from "~/features/AppData/appDataTypes";
@@ -14,7 +14,7 @@ import {
 } from "~/features/TransferPlanner/transferPlannerTypes";
 
 const getVariant = (
-  selectedPlayer: FullChangePlayer,
+  selectedPlayer: FullChangePlayer | null,
   targetPlayer: FullChangePlayer,
   teamObject: GroupedTeam
 ): TransferablePlayerVariant => {
@@ -74,14 +74,17 @@ const SelectedTeam = ({
 }: {
   teamObject: GroupedTeam;
   gameweeks: Gameweek[];
-  selectedPlayer: FullChangePlayer;
-  onPlayerSelect: (player: FullChangePlayer) => void;
+  selectedPlayer: FullChangePlayer | null;
+  onPlayerSelect: (player: FullChangePlayer | null) => void;
 }) => {
   const { preference, setPreference } = useSettings();
 
   const { GKP, DEF, MID, FWD, bench } = teamObject;
 
-  const handlePlayerClick = (e, p) => {
+  const handlePlayerClick = (
+    e: MouseEvent<HTMLButtonElement>,
+    p: FullChangePlayer
+  ) => {
     e.preventDefault();
     e.stopPropagation();
     onPlayerSelect?.(p);
@@ -91,7 +94,7 @@ const SelectedTeam = ({
     onPlayerSelect?.(null);
   };
 
-  const handleKeyUp = (e) => {
+  const handleKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Escape") {
       onPlayerSelect?.(null);
     }
@@ -126,7 +129,7 @@ const SelectedTeam = ({
               </SelectedTeamSection>
               <Box
                 position={
-                  preference.transferPlannerPinnedBench ? "sticky" : undefined
+                  preference?.transferPlannerPinnedBench ? "sticky" : undefined
                 }
                 bottom={0}
                 borderTopWidth={1}
@@ -140,7 +143,7 @@ const SelectedTeam = ({
                       aria-label="pin bench"
                       icon={<Icon as={AiOutlinePushpin} />}
                       variant={
-                        preference.transferPlannerPinnedBench
+                        preference?.transferPlannerPinnedBench
                           ? "solid"
                           : "ghost"
                       }
@@ -148,7 +151,7 @@ const SelectedTeam = ({
                         setPreference({
                           ...preference,
                           transferPlannerPinnedBench:
-                            !preference.transferPlannerPinnedBench,
+                            !preference?.transferPlannerPinnedBench,
                         })
                       }
                     />

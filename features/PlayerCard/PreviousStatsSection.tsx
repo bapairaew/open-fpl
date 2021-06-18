@@ -100,13 +100,13 @@ const PreviousStatsSection = ({
               }
             >
               {!isNullOrUndefined(s.match_xgi)
-                ? (+s.match_xgi).toFixed?.(decimal)
+                ? (+s.match_xgi!).toFixed?.(decimal)
                 : ""}
             </CenterFlex>
           ))}
           <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
             {!isNullOrUndefined(player.linked_data.season_xgi)
-              ? (+player.linked_data.season_xgi).toFixed?.(decimal)
+              ? (+player.linked_data.season_xgi!).toFixed?.(decimal)
               : "N/A"}
           </CenterFlex>
           {pastMatches.map((s, i) => (
@@ -125,13 +125,13 @@ const PreviousStatsSection = ({
               }
             >
               {!isNullOrUndefined(s.match_xga)
-                ? (+s.match_xga).toFixed?.(decimal)
+                ? (+s.match_xga!).toFixed?.(decimal)
                 : ""}
             </CenterFlex>
           ))}
           <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
             {!isNullOrUndefined(player.linked_data.season_xga)
-              ? +player.linked_data.season_xga.toFixed?.(decimal)
+              ? +player.linked_data.season_xga!.toFixed?.(decimal)
               : "N/A"}
           </CenterFlex>
         </Grid>

@@ -8,8 +8,8 @@ const SettingsProfilesList = ({
   onActiveProfileChange,
   onRemoveProfile,
 }: {
-  profiles: string[];
-  activeProfile: string;
+  profiles: string[] | null | undefined;
+  activeProfile: string | null | undefined;
   onActiveProfileChange: (id: string) => void;
   onRemoveProfile: (id: string) => void;
 }) => {
@@ -21,7 +21,7 @@ const SettingsProfilesList = ({
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "profiles",
     onChange: debounced,
-    value: activeProfile,
+    value: activeProfile ?? undefined,
   });
 
   const group = getRootProps();

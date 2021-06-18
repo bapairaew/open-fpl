@@ -69,11 +69,11 @@ export const sortOptions: SortOptionsConfig[] = [
       )
         return -1;
       const sumA = a.linked_data.past_matches.reduce(
-        (sum, m) => m.match_xgi + sum,
+        (sum, m) => (m.match_xgi || 0) + sum,
         0
       );
       const sumB = b.linked_data.past_matches.reduce(
-        (sum, m) => m.match_xgi + sum,
+        (sum, m) => (m.match_xgi || 0) + sum,
         0
       );
       if (sumA < sumB) return 1;
@@ -100,11 +100,11 @@ export const sortOptions: SortOptionsConfig[] = [
       )
         return -1;
       const sumA = a.linked_data.past_matches.reduce(
-        (sum, m) => m.match_xga + sum,
+        (sum, m) => (m.match_xga || 0) + sum,
         0
       );
       const sumB = b.linked_data.past_matches.reduce(
-        (sum, m) => m.match_xga + sum,
+        (sum, m) => (m.match_xga || 0) + sum,
         0
       );
       if (sumA < sumB) return -1;

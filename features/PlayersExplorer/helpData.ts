@@ -3,11 +3,14 @@ import { ElementStatus } from "~/features/AppData/fplTypes";
 
 export const player: Player = {
   id: 302,
+  first_name: "Bruno",
+  second_name: "Fernandes",
   web_name: "Fernandes",
   news: "Too good",
   status: ElementStatus.INJURED,
   now_cost: 115,
   photo: "141746.jpg",
+  cost_change_start: 5,
   chance_of_playing_next_round: null,
   chance_of_playing_this_round: null,
   total_points: 228,
@@ -21,6 +24,7 @@ export const player: Player = {
     short_name: "MUN",
   },
   linked_data: {
+    transfers_delta_event: -29114,
     understat_id: "1228",
     past_matches: [
       {
@@ -62,7 +66,6 @@ export const player: Player = {
       text: "#fae935",
       highlight: "#000",
     },
-    transfers_delta_event: -29114,
     previous_gameweeks: [
       {
         opponent_team_short_name: "BUR",

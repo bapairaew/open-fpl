@@ -9,6 +9,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import Link from "next/link";
+// @ts-ignore
 import { AnnotationCalloutRect } from "react-annotation";
 import PlayerCard from "~/features/PlayerCard/PlayerCard";
 import { gameweeks, player } from "~/features/PlayersExplorer/helpData";

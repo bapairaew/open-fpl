@@ -1,3 +1,4 @@
+// @ts-ignore
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
 import { SearchParserResult } from "search-query-parser";
@@ -83,15 +84,14 @@ export const filterPlayers = (
     // Range search does not support exclusion
     for (const range of filterOptions.ranges) {
       if (filterQueryObject[range.field]) {
-        const getFieldValue: (player: Player) => number =
-          filterOptions.ranges.find(
-            (r) => r.field === range.field
-          )?.getFieldValue;
+        const getFieldValue = filterOptions.ranges.find(
+          (r) => r.field === range.field
+        )?.getFieldValue;
         players = players.filter(
           (p) =>
-            getFieldValue(p) >= +filterQueryObject[range.field].from &&
+            getFieldValue?.(p) >= +filterQueryObject[range.field].from &&
             (filterQueryObject.cost.to
-              ? getFieldValue(p) <= filterQueryObject[range.field].to
+              ? getFieldValue?.(p) <= filterQueryObject[range.field].to
               : true)
         );
       }

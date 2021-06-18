@@ -19,7 +19,7 @@ import {
   PopoverTrigger,
   useToast,
 } from "@chakra-ui/react";
-import { MutableRefObject, useEffect, useState } from "react";
+import { FormEvent, MutableRefObject, useEffect, useState } from "react";
 import { IoHelpCircleOutline, IoOpenOutline } from "react-icons/io5";
 
 const TeamIDHelpButton = () => (
@@ -51,9 +51,9 @@ const AddProfile = ({
   hasExistedProfile,
   onAddProfile,
 }: {
-  initialFocusRef:
-    | MutableRefObject<HTMLInputElement>
-    | MutableRefObject<HTMLButtonElement>;
+  initialFocusRef: MutableRefObject<
+    HTMLInputElement | HTMLButtonElement | null
+  >;
   hasExistedProfile: boolean;
   onAddProfile?: (teamId: string) => void;
 }) => {
@@ -62,7 +62,7 @@ const AddProfile = ({
   const [isAdding, setIsAdding] = useState(false);
   const toast = useToast();
 
-  const onSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       setIsAdding(true);
@@ -121,48 +121,42 @@ const AddProfile = ({
       </Collapse>
 
       <Collapse in={expanded} animateOpacity>
-        <Box
-          as="form"
-          id="set-up-form"
-          onSubmit={onSubmit}
-          p={4}
-          borderRadius="md"
-          borderWidth={1}
-          position="relative"
-        >
-          {hasExistedProfile && (
-            <CloseButton
-              position="absolute"
-              top={1}
-              right={1}
-              onClick={() => setExpanded(false)}
-            />
-          )}
-          <FormLabel htmlFor="teamId">Team ID</FormLabel>
-          <InputGroup>
-            <Input
-              ref={
-                expanded
-                  ? (initialFocusRef as MutableRefObject<HTMLInputElement>)
-                  : undefined
-              }
-              id="teamId"
-              placeholder="e.g. 254181"
-              value={formTeamId}
-              onChange={(e) => setFormTeamId(e.target.value)}
-            />
-            <InputRightElement children={<TeamIDHelpButton />} />
-          </InputGroup>
-          <Button
-            isLoading={isAdding}
-            loadingText="Adding your profile"
-            mt={2}
-            width="100%"
-            type="submit"
-          >
-            Add
-          </Button>
-        </Box>
+        <form id="add-profile-form" onSubmit={handleSubmit}>
+          <Box p={4} borderRadius="md" borderWidth={1} position="relative">
+            {hasExistedProfile && (
+              <CloseButton
+                position="absolute"
+                top={1}
+                right={1}
+                onClick={() => setExpanded(false)}
+              />
+            )}
+            <FormLabel htmlFor="teamId">Team ID</FormLabel>
+            <InputGroup>
+              <Input
+                ref={
+                  expanded
+                    ? (initialFocusRef as MutableRefObject<HTMLInputElement>)
+                    : undefined
+                }
+                id="teamId"
+                placeholder="e.g. 254181"
+                value={formTeamId}
+                onChange={(e) => setFormTeamId(e.target.value)}
+              />
+              <InputRightElement children={<TeamIDHelpButton />} />
+            </InputGroup>
+            <Button
+              isLoading={isAdding}
+              loadingText="Adding your profile"
+              mt={2}
+              width="100%"
+              type="submit"
+            >
+              Add
+            </Button>
+          </Box>
+        </form>
       </Collapse>
     </>
   );

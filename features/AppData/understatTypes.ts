@@ -309,3 +309,15 @@ export interface TeamStat {
   }[];
   playersData: PlayerStatSummary[];
 }
+
+export interface LeagueTeamStat {
+  id: string;
+  title: string;
+  history: TeamHistoryStat[];
+}
+
+export interface LeagueStat {
+  datesData: DatesData[];
+  playersData: PlayerStatSummary[];
+  teamsData: Record<string, LeagueTeamStat>;
+}

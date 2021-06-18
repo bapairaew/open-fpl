@@ -45,7 +45,8 @@ const TransferPlanner = ({
   const planningGameweek = currentGameweek + gameweekDelta;
 
   const changes: Change<FullChangePlayer>[] = useMemo(
-    () => getChangesFromTransferPlan(transferPlan, players),
+    () =>
+      transferPlan ? getChangesFromTransferPlan(transferPlan, players) : [],
     [transferPlan, players]
   );
 
@@ -57,26 +58,30 @@ const TransferPlanner = ({
     invalidChanges: InvalidChange<FullChangePlayer>[];
   } = useMemo(() => {
     if (players && initialPicks && transfers) {
-      const picks: Pick[] = initialPicks?.map((p) => {
+      const picks = initialPicks?.reduce((picks, p) => {
         const latestTransfer = transfers?.find(
           (t) => t.element_in === p.element
         );
-        const { now_cost, cost_change_start } = players.find(
-          (pl) => pl.id === p.element
-        );
-        const originalCost = now_cost - cost_change_start;
-        const purchase_price = latestTransfer?.element_in_cost ?? originalCost;
+        const player = players.find((pl) => pl.id === p.element);
+        // Ignore invalid players
+        if (player) {
+          const { now_cost, cost_change_start } = player;
+          const originalCost = now_cost - cost_change_start;
+          const purchase_price =
+            latestTransfer?.element_in_cost ?? originalCost;
 
-        const increasedPrice = Math.floor((now_cost - purchase_price) / 2);
-        const selling_price = purchase_price + increasedPrice;
+          const increasedPrice = Math.floor((now_cost - purchase_price) / 2);
+          const selling_price = purchase_price + increasedPrice;
 
-        return {
-          ...p,
-          now_cost,
-          selling_price,
-          purchase_price,
-        };
-      });
+          picks.push({
+            ...p,
+            now_cost,
+            selling_price,
+            purchase_price,
+          });
+        }
+        return picks;
+      }, [] as Pick[]);
 
       const { updatedPicks, invalidChanges } = processChanges(
         picks,
@@ -104,7 +109,7 @@ const TransferPlanner = ({
       if (map[player.team.short_name]) map[player.team.short_name] += 1;
       else map[player.team.short_name] = 1;
       return map;
-    }, {});
+    }, {} as Record<string, number>);
 
     const exceedLimitTeams = Object.entries(teamMap).filter(
       ([, count]) => count > 3
@@ -171,7 +176,10 @@ const TransferPlanner = ({
     freeTransfersCount - planningGameweekTransferCount
   );
 
-  const onSwap = (selectedPlayer: ChangePlayer, targetPlayer: ChangePlayer) =>
+  const handleSwap = (
+    selectedPlayer: ChangePlayer,
+    targetPlayer: ChangePlayer
+  ) =>
     setTransferPlan(
       addChange(changes, {
         type: "swap",
@@ -181,15 +189,12 @@ const TransferPlanner = ({
       })
     );
 
-  const onTransfer = (
-    selectedPlayer: ChangePlayer,
-    targetPlayer: ChangePlayer
-  ) =>
+  const handleTransfer = (selectedPlayer: ChangePlayer, targetPlayer: Player) =>
     setTransferPlan(
       addChange(changes, {
         type: "transfer",
         selectedPlayer,
-        targetPlayer,
+        targetPlayer: targetPlayer as FullChangePlayer,
         gameweek: planningGameweek,
       })
     );
@@ -224,8 +229,8 @@ const TransferPlanner = ({
           team={team}
           players={players}
           gameweeks={gameweeks}
-          onSwap={onSwap}
-          onTransfer={onTransfer}
+          onSwap={handleSwap}
+          onTransfer={handleTransfer}
         />
       </Box>
     </Flex>

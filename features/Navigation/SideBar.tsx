@@ -34,7 +34,7 @@ const SideBarItem = ({
 }: {
   href: string;
   icon?: IconType;
-  getIsActive?: (string) => boolean;
+  getIsActive?: (href: string) => boolean;
   children?: ReactNode;
 }) => {
   const router = useRouter();

@@ -1,5 +1,5 @@
 import fs from "fs";
-import { InferGetStaticPropsType } from "next";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import path from "path";
 import { makeAppData } from "~/features/AppData/appData";
@@ -25,83 +25,91 @@ export const getStaticPaths = () => {
   return { paths: [], fallback: true };
 };
 
-export const getStaticProps = async ({ params }) => {
-  const [
-    fpl,
-    understat,
-    fplTeams,
-    fplElementTypes,
-    understatTeams,
-    playersLinks,
-    teamsLinks,
-    fplGameweeks,
-    teamcolorcodes,
-  ] = await Promise.all([
-    (await getDataFromFiles(path.resolve("./public/data/fpl"))) as FPLElement[],
-    (await getDataFromFiles(
-      path.resolve("./public/data/understat")
-    )) as PlayerStat[],
-    fs.promises
-      .readFile(path.resolve("./public/data/fpl_teams/data.json"), {
-        encoding: "utf-8",
-      })
-      .then(JSON.parse) as Promise<Team[]>,
-    fs.promises
-      .readFile(path.resolve("./public/data/fpl_element_types/data.json"), {
-        encoding: "utf-8",
-      })
-      .then(JSON.parse) as Promise<ElementTypes[]>,
-    (await getDataFromFiles(
-      path.resolve("./public/data/understat_teams")
-    )) as TeamStat[],
-    fs.promises
-      .readFile(path.resolve("./public/data/links/players.json"), {
-        encoding: "utf-8",
-      })
-      .then(JSON.parse) as Promise<Record<string, string>>,
-    fs.promises
-      .readFile(path.resolve("./public/data/links/teams.json"), {
-        encoding: "utf-8",
-      })
-      .then(JSON.parse) as Promise<Record<string, string>>,
-    fs.promises
-      .readFile(path.resolve("./public/data/fpl_gameweeks/data.json"), {
-        encoding: "utf-8",
-      })
-      .then(JSON.parse) as Promise<Event[]>,
-    fs.promises
-      .readFile(path.resolve("./public/data/teamcolorcodes/data.json"), {
-        encoding: "utf-8",
-      })
-      .then(JSON.parse) as Promise<TeamColorCodes[]>,
-  ]);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  if (params && params.id) {
+    const [
+      fpl,
+      understat,
+      fplTeams,
+      fplElementTypes,
+      understatTeams,
+      playersLinks,
+      teamsLinks,
+      fplGameweeks,
+      teamcolorcodes,
+    ] = await Promise.all([
+      (await getDataFromFiles(
+        path.resolve("./public/data/fpl")
+      )) as FPLElement[],
+      (await getDataFromFiles(
+        path.resolve("./public/data/understat")
+      )) as PlayerStat[],
+      fs.promises
+        .readFile(path.resolve("./public/data/fpl_teams/data.json"), {
+          encoding: "utf-8",
+        })
+        .then(JSON.parse) as Promise<Team[]>,
+      fs.promises
+        .readFile(path.resolve("./public/data/fpl_element_types/data.json"), {
+          encoding: "utf-8",
+        })
+        .then(JSON.parse) as Promise<ElementTypes[]>,
+      (await getDataFromFiles(
+        path.resolve("./public/data/understat_teams")
+      )) as TeamStat[],
+      fs.promises
+        .readFile(path.resolve("./public/data/links/players.json"), {
+          encoding: "utf-8",
+        })
+        .then(JSON.parse) as Promise<Record<string, string>>,
+      fs.promises
+        .readFile(path.resolve("./public/data/links/teams.json"), {
+          encoding: "utf-8",
+        })
+        .then(JSON.parse) as Promise<Record<string, string>>,
+      fs.promises
+        .readFile(path.resolve("./public/data/fpl_gameweeks/data.json"), {
+          encoding: "utf-8",
+        })
+        .then(JSON.parse) as Promise<Event[]>,
+      fs.promises
+        .readFile(path.resolve("./public/data/teamcolorcodes/data.json"), {
+          encoding: "utf-8",
+        })
+        .then(JSON.parse) as Promise<TeamColorCodes[]>,
+    ]);
 
-  // TODO: move this to client level?
-  const { players, gameweeks } = makeAppData({
-    fpl,
-    understat,
-    fplTeams,
-    fplElementTypes,
-    understatTeams,
-    playersLinks,
-    teamsLinks,
-    fplGameweeks,
-    teamcolorcodes,
-  });
+    // TODO: move this to client level?
+    const { players, gameweeks } = makeAppData({
+      fpl,
+      understat,
+      fplTeams,
+      fplElementTypes,
+      understatTeams,
+      playersLinks,
+      teamsLinks,
+      fplGameweeks,
+      teamcolorcodes,
+    });
 
-  const event = gameweeks?.[0]?.id ?? 38;
-  const { picks, entry_history } = await getTeamPicks(params.id, event);
-  const transfers = await getTeamTransfers(params.id);
+    const event = gameweeks?.[0]?.id ?? 38;
+    const { picks, entry_history } = await getTeamPicks(+params.id, event);
+    const transfers = await getTeamTransfers(+params.id);
 
-  return {
-    props: {
-      players,
-      gameweeks,
-      picks,
-      entry_history,
-      transfers,
-    },
-  };
+    return {
+      props: {
+        players,
+        gameweeks,
+        picks,
+        entry_history,
+        transfers,
+      },
+    };
+  } else {
+    return {
+      props: {},
+    };
+  }
 };
 
 const TransferPlannerPage = ({

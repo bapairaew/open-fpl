@@ -8,16 +8,16 @@ export default function useAnalytics() {
   const router = useRouter();
   const [isInitialised, setIsInitialised] = useState(false);
 
-  const ga = new GA4React(google_analytics_id);
+  const ga = google_analytics_id ? new GA4React(google_analytics_id) : null;
 
   useEffect(() => {
-    if (google_analytics_id && !isInitialised) {
+    if (ga && !isInitialised) {
       setIsInitialised(true);
       ga.initialize().then(() => logPageView(router.route));
     }
-    const logPageView = (url) => {
+    const logPageView = (url: string) => {
       try {
-        ga.pageview(url);
+        ga?.pageview(url);
       } catch (e) {
         // Ignore error
       }

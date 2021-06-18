@@ -10,13 +10,13 @@ export interface Preference {
 
 export interface Settings {
   isInitialised: boolean;
-  profiles: string[];
-  setProfiles: (profiles: string[]) => void;
-  teamId: string | null;
-  setTeamId: (id: string) => void;
-  preference: Preference;
-  setPreference: (preference: Preference) => void;
-  transferPlan: Change<ChangePlayer>[];
+  profiles: string[] | null | undefined;
+  setProfiles: (profiles: string[] | null | undefined) => void;
+  teamId: string | null | undefined;
+  setTeamId: (id: string | null | undefined) => void;
+  preference: Preference | null | undefined;
+  setPreference: (preference: Preference | null | undefined) => void;
+  transferPlan: Change<ChangePlayer>[] | null | undefined;
   setTransferPlan: (changes: Change<ChangePlayer>[]) => void;
   isSettingsModalOpen: boolean;
   onSettingsModalOpen: () => void;

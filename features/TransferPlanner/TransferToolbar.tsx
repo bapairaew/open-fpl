@@ -7,7 +7,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { MouseEventHandler, ReactNode } from "react";
+import { ReactNode } from "react";
 import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 
 const ToolbarStat = ({

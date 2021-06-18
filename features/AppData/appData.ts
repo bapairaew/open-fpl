@@ -37,32 +37,24 @@ export const makeAppData = ({
 
   const nextGameweekIds = gameweeks.map((x) => x.id);
 
-  const fplTeamsMap: Record<number, Team> = fplTeams.reduce(
-    (fplTeamsMap, t) => {
-      fplTeamsMap[t.id] = t;
-      return fplTeamsMap;
-    },
-    {}
-  );
-  const fplElementTypesMap: Record<number, ElementTypes> =
-    fplElementTypes.reduce((fplElementTypesMap, t) => {
-      fplElementTypesMap[t.id] = t;
-      return fplElementTypesMap;
-    }, {});
-  const understatTeamsMap: Record<string, TeamStat> = understatTeams.reduce(
-    (understatTeamsMap, t) => {
-      understatTeamsMap[t.title] = t;
-      return understatTeamsMap;
-    },
-    {}
-  );
-  const teamcolorcodesMap: Record<string, TeamColorCodes> =
-    teamcolorcodes.reduce((teamcolorcodesMap, code) => {
-      teamcolorcodesMap[code.team] = code;
-      return teamcolorcodesMap;
-    }, {});
+  const fplTeamsMap = fplTeams.reduce((fplTeamsMap, t) => {
+    fplTeamsMap[t.id] = t;
+    return fplTeamsMap;
+  }, {} as Record<number, Team>);
+  const fplElementTypesMap = fplElementTypes.reduce((fplElementTypesMap, t) => {
+    fplElementTypesMap[t.id] = t;
+    return fplElementTypesMap;
+  }, {} as Record<number, ElementTypes>);
+  const understatTeamsMap = understatTeams.reduce((understatTeamsMap, t) => {
+    understatTeamsMap[t.title] = t;
+    return understatTeamsMap;
+  }, {} as Record<string, TeamStat>);
+  const teamcolorcodesMap = teamcolorcodes.reduce((teamcolorcodesMap, code) => {
+    teamcolorcodesMap[code.team] = code;
+    return teamcolorcodesMap;
+  }, {} as Record<string, TeamColorCodes>);
 
-  const players: Player[] = fpl.map((player) => {
+  const players = fpl.map((player) => {
     const playerUnderstat = playersLinks[player.id]
       ? understat.find((p) => p.id === playersLinks[player.id]) || null
       : null;
@@ -102,30 +94,35 @@ export const makeAppData = ({
       linked_data: {
         understat_id: playerUnderstat?.id || null,
         past_matches:
-          pastMatches?.map((m) => {
-            const isHome = m.h_team === playerUnderstatTeam.id;
-            const opponent = isHome
-              ? understatTeamsMap[m.a_team]
-              : understatTeamsMap[m.h_team];
-            const fplOpponentId = Object.keys(teamsLinks).find(
-              (key) => teamsLinks[key] === opponent?.id
-            );
-            return {
-              opponent_short_title:
-                fplTeamsMap[+fplOpponentId]?.short_name || null,
-              is_home: isHome,
-              match_xgi: +m.xA + +m.xG,
-              match_xga: +playerUnderstatTeam?.datesData.find(
-                (d) => m.id === d.id
-              )?.xG?.[isHome ? "a" : "h"],
-            };
-          }) || null,
+          playerUnderstatTeam && pastMatches
+            ? pastMatches?.map((m) => {
+                const isHome = m.h_team === playerUnderstatTeam.id;
+                const opponent = isHome
+                  ? understatTeamsMap[m.a_team]
+                  : understatTeamsMap[m.h_team];
+                const fplOpponentId = Object.keys(teamsLinks).find(
+                  (key) => teamsLinks[key] === opponent?.id
+                );
+                const xga =
+                  playerUnderstatTeam.datesData.find((d) => m.id === d.id)
+                    ?.xG?.[isHome ? "a" : "h"] || null;
+                return {
+                  opponent_short_title: fplOpponentId
+                    ? fplTeamsMap[+fplOpponentId]?.short_name
+                    : null,
+                  is_home: isHome,
+                  match_xgi: +m.xA + +m.xG,
+                  match_xga: xga ? +xga : null,
+                };
+              })
+            : null,
         season_xgi:
           playerUnderstat &&
           ((+playerUnderstat.xA + +playerUnderstat.xG) * 90) /
             +playerUnderstat.time,
         season_xga:
           playerUnderstat &&
+          playerUnderstatTeam &&
           playerUnderstatTeam?.history.reduce((x, m) => +m.xGA + x, 0) /
             playerUnderstatTeam?.history.length,
         teamcolorcodes: teamcolorcodesMap[fplPlayerTeam.name] || null,
@@ -154,7 +151,7 @@ export const makeAppData = ({
             difficulty: f.difficulty,
           })),
       },
-    };
+    } as Player;
   });
 
   return {

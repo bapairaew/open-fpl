@@ -48,7 +48,7 @@ const SettingsProfile = ({
   const { getInputProps, getCheckboxProps } = useRadio(radioProps);
   const { isChecked } = radioProps;
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const firstFieldRef = useRef();
+  const firstFieldRef = useRef(null);
 
   const [preference] = useLocalStorage<Preference>(
     getPreferenceKey(teamId),

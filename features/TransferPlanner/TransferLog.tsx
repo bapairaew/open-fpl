@@ -84,7 +84,7 @@ const TransferLog = ({
         group[change.gameweek] = [change];
       }
       return group;
-    }, {});
+    }, {} as Record<number, Change<FullChangePlayer>[]>);
   }, [changes]);
 
   const reversedGroupedKeys = useMemo(
@@ -116,7 +116,7 @@ const TransferLog = ({
                     currentGameweek={currentGameweek}
                     invalidChanges={invalidChanges}
                     onRemove={onRemove}
-                    changes={groupedChanges[gameweek]}
+                    changes={groupedChanges[+gameweek]}
                   />
                 );
               })}

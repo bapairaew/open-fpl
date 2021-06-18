@@ -15,8 +15,9 @@ const PlayersExplorer = ({
   gameweeks: Gameweek[];
   columnsSettings: Record<string, number>;
 }) => {
-  const columnsCount = useBreakpointValue(columnsSettings);
+  const _columnsCount = useBreakpointValue(columnsSettings);
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
+  const columnsCount = _columnsCount ?? 1;
 
   const Row = useMemo(
     () =>
