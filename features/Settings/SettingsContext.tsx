@@ -1,7 +1,7 @@
 import { useDisclosure } from "@chakra-ui/hooks";
+import dynamic from "next/dynamic";
 import { createContext, ReactNode, useContext } from "react";
 import useLocalStorage from "~/features/Common/useLocalStorage";
-import SettingsModal from "~/features/Settings/SettingsModal";
 import { Preference, Settings } from "~/features/Settings/settingsTypes";
 import {
   getActiveProfileKey,
@@ -13,6 +13,10 @@ import {
   Change,
   ChangePlayer,
 } from "~/features/TransferPlanner/transferPlannerTypes";
+
+const SettingsModal = dynamic(
+  () => import("~/features/Settings/SettingsModal")
+);
 
 const SettingsContext = createContext<Settings>({
   isInitialised: false,
