@@ -65,7 +65,7 @@ const PreviousStatsSection = ({
                   key={i}
                   p={0.5}
                   fontSize="sm"
-                  color="gray"
+                  color="gray.600"
                   bg="gray.100"
                 >
                   {(s.opponent_short_title || "")[
@@ -77,7 +77,7 @@ const PreviousStatsSection = ({
                 variant={variant}
                 p={0.5}
                 fontSize="sm"
-                color="gray"
+                color="gray.600"
                 bg="gray.100"
               >
                 x̅

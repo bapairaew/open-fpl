@@ -118,7 +118,7 @@ const TeamManager = ({
             onPlayerSelect={handleTransferSectionPlayerSelect}
           />
         ) : (
-          <Box py={10} px={4} textAlign="center" color="gray">
+          <Box py={10} px={4} textAlign="center" color="gray.600">
             Click on a player on the left to make a transfer
           </Box>
         )}

@@ -104,10 +104,10 @@ const SettingsProfile = ({
           <Heading size="sm" mb={1}>
             {preference?.name ?? `Team ${teamId}`}
           </Heading>
-          <Text color="gray" fontSize="xs">
+          <Text color="gray.600" fontSize="xs">
             Team ID: {teamId}
           </Text>
-          <Text color="gray" fontSize="xs">
+          <Text color="gray.600" fontSize="xs">
             Transfer plan size: {nFormatter(transferPlanSize, 1)}b
           </Text>
         </Box>

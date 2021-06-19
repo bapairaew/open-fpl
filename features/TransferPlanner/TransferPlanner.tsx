@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import {
@@ -31,7 +31,8 @@ const TransferPlanner = ({
   players,
   gameweeks,
   transfers,
-}: {
+  ...props
+}: BoxProps & {
   initialPicks: EntryEventPick[];
   entryHistory: EntryEventHistory;
   players: Player[];
@@ -203,7 +204,7 @@ const TransferPlanner = ({
     setTransferPlan(removeChange(changes, change));
 
   return (
-    <Flex overflow="hidden" height="100%" flexDirection="column">
+    <Flex overflow="hidden" height="100%" flexDirection="column" {...props}>
       <TransferToolbar
         bank={bank}
         hits={hits}

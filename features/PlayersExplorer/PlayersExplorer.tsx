@@ -1,4 +1,4 @@
-import { Box, Grid, useBreakpointValue } from "@chakra-ui/react";
+import { Box, BoxProps, Grid, useBreakpointValue } from "@chakra-ui/react";
 import { CSSProperties, ReactNode, useMemo, useState } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
@@ -10,7 +10,8 @@ const PlayersExplorer = ({
   players,
   gameweeks,
   columnsSettings,
-}: {
+  ...props
+}: BoxProps & {
   players: Player[];
   gameweeks: Gameweek[];
   columnsSettings: Record<string, number>;
@@ -63,7 +64,7 @@ const PlayersExplorer = ({
   );
 
   return (
-    <Box overflow="hidden" height="100%">
+    <Box overflow="hidden" height="100%" {...props}>
       <Box px={4} py={2}>
         <PlayerSearchBar onResults={setDisplayedPlayers} players={players} />
       </Box>

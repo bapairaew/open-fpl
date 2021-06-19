@@ -49,6 +49,7 @@ const SideBarItem = ({
         m={2}
         px={4}
         py={2}
+        role="listitem"
         display="block"
         borderRadius="md"
         fontSize="sm"
@@ -72,7 +73,7 @@ const SideBar = () => {
       h="100%"
       flexDirection="column"
       role="navigation"
-      aria-label="main"
+      as="aside"
       borderRightWidth={1}
     >
       <Box px={6} py={6} fontWeight="black" fontSize="2xl">
@@ -100,7 +101,7 @@ const SideBar = () => {
         >
           {teamId ? `${preference?.name ?? teamId}` : "Set up your profile"}
         </Button>
-        <HStack color="gray" fontSize="xs" spacing={1}>
+        <HStack color="gray.600" fontSize="xs" spacing={1}>
           <A href={externalLinks.changelog} isExternal>
             {p.version}
           </A>
@@ -109,7 +110,7 @@ const SideBar = () => {
             <A>Help</A>
           </Link>
         </HStack>
-        <HStack color="gray" fontSize="xs" spacing={1}>
+        <HStack color="gray.600" fontSize="xs" spacing={1}>
           <A href={externalLinks.github} isExternal>
             Github <Icon as={IoLogoGithub} />
           </A>

@@ -9,7 +9,7 @@ export default function Custom404() {
         description="This page does not exist."
         noindex
       />
-      <NotFound />
+      <NotFound as="main" />
     </>
   );
 }

@@ -82,7 +82,7 @@ const TransferablePlayer = ({
           <Text fontWeight="bold" fontSize="sm">
             £{adjustedSellingPrice}
           </Text>
-          <Text fontSize="xs" color="gray">
+          <Text fontSize="xs" color="gray.600">
             (£{adjustedPurchasePrice})
           </Text>
         </Box>

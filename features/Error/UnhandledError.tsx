@@ -1,8 +1,15 @@
-import { Flex, Heading, Link as A, Text, Button } from "@chakra-ui/react";
-import externalLinks from "~/features/Navigation/externalLinks";
+import {
+  BoxProps,
+  Button,
+  Flex,
+  Heading,
+  Link as A,
+  Text,
+} from "@chakra-ui/react";
 import Link from "next/link";
+import externalLinks from "~/features/Navigation/externalLinks";
 
-const Error = () => {
+const Error = (props: BoxProps) => {
   return (
     <Flex
       h="100%"
@@ -11,6 +18,7 @@ const Error = () => {
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
+      {...props}
     >
       <Heading size="4xl" my={4}>
         (´～`)

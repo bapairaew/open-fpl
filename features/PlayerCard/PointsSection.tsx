@@ -63,7 +63,7 @@ const PointsSection = ({
               variant={variant}
               p={0.5}
               fontSize="sm"
-              color="gray"
+              color="gray.600"
               bg="gray.100"
             >
               {h.opponent_team_short_name[
@@ -75,7 +75,7 @@ const PointsSection = ({
             p={0.5}
             variant={variant}
             fontSize="sm"
-            color="gray"
+            color="gray.600"
             bg="gray.100"
           >
             Σ

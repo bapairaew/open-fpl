@@ -9,7 +9,7 @@ export default function Custom500() {
         description="This page does not exist."
         noindex
       />
-      <UnhandledError />
+      <UnhandledError as="main" />
     </>
   );
 }

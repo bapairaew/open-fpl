@@ -128,6 +128,7 @@ const TransferPlannerPage = ({
         noindex={true}
       />
       <TransferPlanner
+        as="main"
         initialPicks={initialPicks}
         entryHistory={entry_history}
         players={players}

@@ -83,7 +83,7 @@ const TransferMarket = ({
         />
       </Box>
       {displayedPlayers.length === 0 ? (
-        <Box py={10} textAlign="center" color="gray">
+        <Box py={10} textAlign="center" color="gray.600">
           No players found
         </Box>
       ) : (

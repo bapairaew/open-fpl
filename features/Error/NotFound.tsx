@@ -1,7 +1,7 @@
-import { Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { BoxProps, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
-const NotFound = () => {
+const NotFound = (props: BoxProps) => {
   return (
     <Flex
       h="100%"
@@ -10,6 +10,7 @@ const NotFound = () => {
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
+      {...props}
     >
       <Heading size="4xl" my={4}>
         「(°ヘ°)

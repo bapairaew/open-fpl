@@ -95,7 +95,7 @@ const TransferLog = ({
   return (
     <Box height="50px" borderBottomWidth={1}>
       {changes.length === 0 ? (
-        <Flex px={4} height="100%" alignItems="center" color="gray">
+        <Flex px={4} height="100%" alignItems="center" color="gray.600">
           Click on a player below to make a transfer
         </Flex>
       ) : (
