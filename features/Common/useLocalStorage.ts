@@ -39,7 +39,7 @@ export function removeLocalStorageItem(key: string): void {
 }
 
 function useLocalStorage<T>(
-  key: string | null | undefined,
+  key: string,
   defaultValue: T | null | undefined
 ): [T | null | undefined, (value: T | null | undefined) => void, boolean] {
   const [storedValue, setStoredValue] =
@@ -79,7 +79,7 @@ function useLocalStorage<T>(
   useEffect(() => {
     // Only initialise localStorage data on client side and on key changed
     try {
-      const item = key ? window.localStorage.getItem(key) : null;
+      const item = window.localStorage.getItem(key);
       setStoredValue(item ? JSON.parse(item) : defaultValue);
 
       // Listen change from other browser tabs

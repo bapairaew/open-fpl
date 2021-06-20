@@ -42,17 +42,22 @@ export const SettingsContextProvider = ({
   const [profiles, setProfiles, isInitialised] = useLocalStorage<
     string[] | null | undefined
   >(getProfilesKey(), []);
+
   const [teamId, setTeamId] = useLocalStorage<string | null | undefined>(
     getActiveProfileKey(),
     null
   );
+
   const [preference, setPreference] = useLocalStorage<
     Preference | null | undefined
-  >(teamId ?? getPreferenceKey(teamId), {});
+  >(getPreferenceKey(teamId), {});
+
   const [transferPlan, setTransferPlan] = useLocalStorage<
     Change<ChangePlayer>[] | null | undefined
-  >(teamId ?? getTransferPlanKey(teamId), []);
+  >(getTransferPlanKey(teamId), []);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <SettingsContext.Provider
       value={{
