@@ -1,7 +1,16 @@
-import { AppData, Player, FPLElement } from "~/features/AppData/appDataTypes";
+import {
+  AppData,
+  FPLElement,
+  MatchStat,
+  Player,
+} from "~/features/AppData/appDataTypes";
 import { ElementTypes, Event, Team } from "~/features/AppData/fplTypes";
 import { TeamColorCodes } from "~/features/AppData/teamcolorcodesTypes";
-import { PlayerStat, TeamStat } from "~/features/AppData/understatTypes";
+import {
+  MatchData,
+  PlayerStat,
+  TeamStat,
+} from "~/features/AppData/understatTypes";
 
 export const makeAppData = ({
   fpl,
@@ -68,6 +77,29 @@ export const makeAppData = ({
       ? understatTeamsMap[latestPlayerEPLTeam.team]
       : null;
     const fplPlayerTeam = fplTeamsMap[player.team];
+
+    const mapPastMaches = (m: MatchData): MatchStat => {
+      const isHome = m.h_team === playerUnderstatTeam!.title;
+      const opponent = isHome
+        ? understatTeamsMap[m.a_team]
+        : understatTeamsMap[m.h_team];
+      const fplOpponentId = Object.keys(teamsLinks).find(
+        (key) => teamsLinks[key] === opponent?.id
+      );
+      const xga =
+        playerUnderstatTeam!.datesData.find((d) => m.id === d.id)?.xG?.[
+          isHome ? "a" : "h"
+        ] || null;
+      return {
+        opponent_short_title: fplOpponentId
+          ? fplTeamsMap[+fplOpponentId]?.short_name
+          : null,
+        is_home: isHome,
+        match_xgi: +m.xA + +m.xG,
+        match_xga: xga ? +xga : null,
+      };
+    };
+
     return {
       id: player.id,
       first_name: player.first_name,
@@ -95,26 +127,7 @@ export const makeAppData = ({
         understat_id: playerUnderstat?.id || null,
         past_matches:
           playerUnderstatTeam && pastMatches
-            ? pastMatches?.map((m) => {
-                const isHome = m.h_team === playerUnderstatTeam.id;
-                const opponent = isHome
-                  ? understatTeamsMap[m.a_team]
-                  : understatTeamsMap[m.h_team];
-                const fplOpponentId = Object.keys(teamsLinks).find(
-                  (key) => teamsLinks[key] === opponent?.id
-                );
-                const xga =
-                  playerUnderstatTeam.datesData.find((d) => m.id === d.id)
-                    ?.xG?.[isHome ? "a" : "h"] || null;
-                return {
-                  opponent_short_title: fplOpponentId
-                    ? fplTeamsMap[+fplOpponentId]?.short_name
-                    : null,
-                  is_home: isHome,
-                  match_xgi: +m.xA + +m.xG,
-                  match_xga: xga ? +xga : null,
-                };
-              })
+            ? pastMatches?.map(mapPastMaches)
             : null,
         season_xgi:
           playerUnderstat &&
@@ -123,8 +136,8 @@ export const makeAppData = ({
         season_xga:
           playerUnderstat &&
           playerUnderstatTeam &&
-          playerUnderstatTeam?.history.reduce((x, m) => +m.xGA + x, 0) /
-            playerUnderstatTeam?.history.length,
+          playerUnderstatTeam.history.reduce((x, m) => +m.xGA + x, 0) /
+            playerUnderstatTeam.history.length,
         teamcolorcodes: teamcolorcodesMap[fplPlayerTeam.name] || null,
         transfers_delta_event:
           player.transfers_in_event - player.transfers_out_event,
