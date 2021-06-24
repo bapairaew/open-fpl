@@ -201,7 +201,6 @@ export interface PlayerStat {
   npxG: string;
   xGChain: string;
   xGBuildup: string;
-  teams: string;
   groupsData: {
     season: SeasonStat[];
     position: Record<Season, Record<Position, PositionStat>>;

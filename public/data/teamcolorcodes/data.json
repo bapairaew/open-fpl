@@ -78,7 +78,7 @@
     "highlight": "#C2A475"
   },
   {
-    "team": "Norwhich City",
+    "team": "Norwich",
     "background": "#fff200",
     "text": "black",
     "highlight": "#00A650"
@@ -102,7 +102,7 @@
     "highlight": "#11214b"
   },
   {
-    "team": "Watford FC",
+    "team": "Watford",
     "background": "#feeb00",
     "text": "#e40f18",
     "highlight": "#000"
@@ -160,5 +160,11 @@
     "background": "#122f67",
     "text": "white",
     "highlight": "#122f67"
+  },
+  {
+    "team": "Brentford",
+    "background": "#e30613",
+    "text": "#140e0c",
+    "highlight": "#fbb800"
   }
 ]

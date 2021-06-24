@@ -1,39 +1,43 @@
 import fs from "fs";
 import Fuse from "fuse.js";
-import glob from "glob-promise";
+import path from "path";
 import { FPLElement } from "~/features/AppData/appDataTypes";
+import { getDataFromFiles } from "~/features/AppData/dataUtilis";
 import { Team } from "~/features/AppData/fplTypes";
-import { PlayerStat, TeamStat } from "~/features/AppData/understatTypes";
+import { PlayerStat } from "~/features/AppData/understatTypes";
+
+// FPL team's short_name, Understat team's title (underscore case)
+// NOTE: underscore case is being used in the mapping in pages data while normal case is being used only here
+const teamMap: Record<string, string | null> = {
+  ARS: "Arsenal",
+  AVL: "Aston_Villa",
+  BRE: null,
+  BHA: "Brighton",
+  BUR: "Burnley",
+  CHE: "Chelsea",
+  CRY: "Crystal_Palace",
+  EVE: "Everton",
+  LEI: "Leicester",
+  LEE: "Leeds",
+  LIV: "Liverpool",
+  MCI: "Manchester_City",
+  MUN: "Manchester_United",
+  NEW: "Newcastle_United",
+  NOR: null,
+  SOU: "Southampton",
+  TOT: "Tottenham",
+  WAT: null,
+  WHU: "West_Ham",
+  WOL: "Wolverhampton_Wanderers",
+};
 
 async function createTeamsLinks(): Promise<Record<string, string>> {
-  const [fplTeams, understatTeams]: [Team[], TeamStat[]] = await Promise.all([
-    fs.promises
-      .readFile("./public/data/fpl_teams/data.json", { encoding: "utf-8" })
-      .then(JSON.parse),
-    Promise.all(
-      (
-        await glob("./public/data/understat_teams/*.json")
-      ).map((p) =>
-        fs.promises.readFile(p, { encoding: "utf-8" }).then(JSON.parse)
-      )
-    ),
-  ]);
-
-  const teamsNameFuse = new Fuse(
-    understatTeams.map((t) => t.title),
-    {
-      includeScore: true,
-      threshold: 0.5,
-    }
-  );
-
+  const fplTeams = (await fs.promises
+    .readFile("./public/data/fpl_teams/data.json", { encoding: "utf-8" })
+    .then(JSON.parse)) as Team[];
   const links = fplTeams.reduce((links, team) => {
-    const matched =
-      team.short_name === "MUN" // HOTFIX invalid man city / man utd matching
-        ? { item: "Manchester United" }
-        : teamsNameFuse.search(team.name)?.[0] ||
-          teamsNameFuse.search(team.short_name)?.[0];
-    if (matched?.item) links[team.id] = matched.item.replace(/ /g, "_"); // title is being used as reference instead of actual id in other dataset
+    const matched = teamMap[team.short_name];
+    if (matched) links[team.id] = matched;
     return links;
   }, {} as Record<string, string>);
 
@@ -43,25 +47,15 @@ async function createTeamsLinks(): Promise<Record<string, string>> {
 async function createPlayersLinks(
   teamsLinks: Record<string, string>
 ): Promise<Record<string, string>> {
-  const [fpl, understat]: [FPLElement[], PlayerStat[]] = await Promise.all([
-    Promise.all(
-      (
-        await glob("./public/data/fpl/*.json")
-      ).map((p) =>
-        fs.promises.readFile(p, { encoding: "utf-8" }).then(JSON.parse)
-      )
-    ),
-    Promise.all(
-      (
-        await glob("./public/data/understat/*.json")
-      ).map((p) =>
-        fs.promises.readFile(p, { encoding: "utf-8" }).then(JSON.parse)
-      )
-    ),
+  const [fpl, understat] = await Promise.all([
+    (await getDataFromFiles(path.resolve("./public/data/fpl"))) as FPLElement[],
+    (await getDataFromFiles(
+      path.resolve("./public/data/understat")
+    )) as PlayerStat[],
   ]);
 
   const teamPlayersMap = understat.reduce((teamPlayersMap, player) => {
-    for (const team of player.teams.split(", ")) {
+    for (const team of player.team_title.split(", ")) {
       if (teamPlayersMap[team]) {
         teamPlayersMap[team].push(player);
       } else {
@@ -83,18 +77,19 @@ async function createPlayersLinks(
   }, {} as Record<string, Fuse<PlayerStat>>);
 
   const links = fpl.reduce((links, p) => {
-    const teamTitle = teamsLinks[p.team].replace(/_/g, " "); // reverse id back to title
+    if (teamsLinks[p.team]) {
+      const teamTitle = teamsLinks[p.team].replace(/_/g, " "); // reverse id back to title
 
-    const results =
-      teamsFuse[teamTitle].search(`${p.first_name} ${p.second_name}`)?.[0] ||
-      teamsFuse[teamTitle].search(p.web_name)?.[0] ||
-      teamsFuse[teamTitle].search(p.first_name)?.[0] ||
-      teamsFuse[teamTitle].search(p.second_name)?.[0];
+      const results =
+        teamsFuse[teamTitle].search(`${p.first_name} ${p.second_name}`)?.[0] ||
+        teamsFuse[teamTitle].search(p.web_name)?.[0] ||
+        teamsFuse[teamTitle].search(p.first_name)?.[0] ||
+        teamsFuse[teamTitle].search(p.second_name)?.[0];
 
-    if (results) {
-      links[p.id] = results.item.id;
+      if (results) {
+        links[p.id] = results.item.id;
+      }
     }
-
     return links;
   }, {} as Record<string, string>);
 
