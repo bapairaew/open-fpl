@@ -1,6 +1,7 @@
-import { Button, Heading, Link as A, VStack } from "@chakra-ui/react";
+import { Button, Spinner, Link as A, VStack, Text } from "@chakra-ui/react";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
+import FullScreenMessage from "~/features/Layout/FullScreenMessage";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import useTransferRedirect from "~/features/TransferPlanner/useTransferRedirect";
 
@@ -14,36 +15,46 @@ const TransferPlannerSetupPage = () => {
         title="Transfer Planner | Open FPL"
         description="Plan your transfer, starting lineup and your bench ahead of upcoming Fantasy Premier League gameweeks."
       />
-      <VStack
-        justifyContent="center"
-        alignItems="center"
-        height="100%"
-        spacing={6}
-      >
-        {teamId ? (
-          <>
-            <Heading size="lg" fontWeight="black">
-              Please wait while you are being redirected to Transfer Planner
-            </Heading>
-            <Link href={`/transfers/${teamId}`} passHref>
-              <A>
-                <Button size="md" onClick={onSettingsModalOpen} variant="link">
-                  Click here if it does not work
-                </Button>
-              </A>
-            </Link>
-          </>
-        ) : (
-          <>
-            <Heading size="lg" fontWeight="black">
-              Set up a profile with your Team ID to access Transfer Planner
-            </Heading>
-            <Button size="md" onClick={onSettingsModalOpen}>
-              Set up your profile
-            </Button>
-          </>
-        )}
-      </VStack>
+      {teamId ? (
+        <FullScreenMessage
+          symbol={<Spinner size="xl" />}
+          heading="Almost there..."
+          text={
+            <VStack spacing={6}>
+              <Text>
+                Please wait while we are bringing you to your Transfer Planner
+                page.
+              </Text>
+              <Link href={`/transfers/${teamId}`} passHref>
+                <A>
+                  <Button
+                    size="md"
+                    onClick={onSettingsModalOpen}
+                    variant="link"
+                  >
+                    Click here if it does not work
+                  </Button>
+                </A>
+              </Link>
+            </VStack>
+          }
+        />
+      ) : (
+        <FullScreenMessage
+          symbol="((((つ•̀ω•́)つ"
+          heading="Set up a profile to get started"
+          text={
+            <VStack spacing={6}>
+              <Text>
+                Set up a profile with your Team ID to access Transfer Planner
+              </Text>
+              <Button size="md" onClick={onSettingsModalOpen}>
+                Set up your profile
+              </Button>
+            </VStack>
+          }
+        />
+      )}
     </>
   );
 };

@@ -1,5 +1,5 @@
 import fs from "fs";
-import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import path from "path";
 import { makeAppData } from "~/features/AppData/appData";
@@ -10,6 +10,8 @@ import { TeamColorCodes } from "~/features/AppData/teamcolorcodesTypes";
 import { PlayerStat, TeamStat } from "~/features/AppData/understatTypes";
 import TransferPlanner from "~/features/TransferPlanner/TransferPlanner";
 import useTransferRedirect from "~/features/TransferPlanner/useTransferRedirect";
+import { Box, Flex, Heading } from "@chakra-ui/react";
+import FullScreenMessage from "~/features/Layout/FullScreenMessage";
 
 const getDataFromFiles = async (dirPath: string) => {
   return Promise.all(
@@ -25,7 +27,7 @@ export const getStaticPaths = () => {
   return { paths: [], fallback: true };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
   if (params && params.id) {
     const [
       fpl,
@@ -93,7 +95,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     });
 
     const event = gameweeks?.[0]?.id ?? 38;
-    const { picks, entry_history } = await getTeamPicks(+params.id, event);
+    const { picks = [], entry_history = null } = await getTeamPicks(
+      +params.id,
+      event
+    );
     const transfers = await getTeamTransfers(+params.id);
 
     return {
@@ -120,6 +125,25 @@ const TransferPlannerPage = ({
   transfers,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   useTransferRedirect();
+
+  const mainComponent =
+    initialPicks && entry_history && players && gameweeks && transfers ? (
+      <TransferPlanner
+        as="main"
+        initialPicks={initialPicks!}
+        entryHistory={entry_history!}
+        players={players!}
+        gameweeks={gameweeks!}
+        transfers={transfers!}
+      />
+    ) : (
+      <FullScreenMessage
+        symbol="<(_ _)>"
+        heading="Sorry, we are not ready yet."
+        text="Due to a technical limitation, Transfer Planner would not be working until the first gameweek started."
+      />
+    );
+
   return (
     <>
       <NextSeo
@@ -127,14 +151,7 @@ const TransferPlannerPage = ({
         description="Plan your transfer, starting lineup and your bench ahead of upcoming Fantasy Premier League gameweeks"
         noindex={true}
       />
-      <TransferPlanner
-        as="main"
-        initialPicks={initialPicks}
-        entryHistory={entry_history}
-        players={players}
-        gameweeks={gameweeks}
-        transfers={transfers}
-      />
+      {mainComponent}
     </>
   );
 };

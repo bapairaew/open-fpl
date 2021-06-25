@@ -129,20 +129,17 @@ const TransferPlanner = ({
   }, [team]);
 
   const bank = useMemo(() => {
-    if (entryHistory) {
-      const transfers = changes.filter(
-        (c) => c.type === "transfer" && c.gameweek <= planningGameweek
+    const transfers = changes.filter(
+      (c) => c.type === "transfer" && c.gameweek <= planningGameweek
+    );
+    const diff = transfers?.reduce((sum, change) => {
+      return (
+        sum +
+        (change.selectedPlayer.pick.selling_price -
+          change.targetPlayer.now_cost)
       );
-      const diff = transfers?.reduce((sum, change) => {
-        return (
-          sum +
-          (change.selectedPlayer.pick.selling_price -
-            change.targetPlayer.now_cost)
-        );
-      }, 0);
-      return (entryHistory.bank + diff) / 10;
-    }
-    return 0;
+    }, 0);
+    return (entryHistory.bank + diff) / 10;
   }, [changes, planningGameweek, entryHistory]);
 
   const freeTransfersCount = useMemo(() => {

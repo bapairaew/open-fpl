@@ -1,27 +1,22 @@
-import { BoxProps, Flex, Heading, Text } from "@chakra-ui/react";
+import { BoxProps, Text } from "@chakra-ui/react";
+import FullScreenMessage from "~/features/Layout/FullScreenMessage";
 
 const NotSupportSmallScreen = (props: BoxProps) => {
   return (
-    <Flex
-      h="100%"
-      w="100%"
-      px={6}
-      justifyContent="center"
-      flexDirection="column"
+    <FullScreenMessage
+      symbol="<(_ _)>"
+      heading={
+        <>
+          Sorry,{" "}
+          <Text as="strong" fontWeight="black">
+            Open FPL
+          </Text>{" "}
+          does not support smaller screen yet.
+        </>
+      }
+      text="Please come back on a desktop or tablet device."
       {...props}
-    >
-      <Heading size="4xl" my={4}>
-        :'(
-      </Heading>
-      <Heading my={4}>
-        Sorry,{" "}
-        <Text as="strong" fontWeight="black">
-          Open FPL
-        </Text>{" "}
-        does not support smaller screen yet
-      </Heading>
-      <Text my={4}>Please come back on a desktop or tablet device.</Text>
-    </Flex>
+    />
   );
 };
 
