@@ -1,34 +1,9 @@
 import { Flex, Grid } from "@chakra-ui/react";
+import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import { difficultyColorCodes } from "~/features/AppData/fplColors";
 import CenterFlex, {
   CenterFlexVariant,
 } from "~/features/PlayerCard/CenterFlex";
-import { Gameweek, Player } from "~/features/AppData/appDataTypes";
-
-const difficultyColorCodes: Record<
-  number,
-  { background: string; text: string }
-> = {
-  1: {
-    background: "rgb(1, 252, 122)",
-    text: "black",
-  },
-  2: {
-    background: "rgb(1, 252, 122)",
-    text: "black",
-  },
-  3: {
-    background: "rgb(231, 231, 231)",
-    text: "black",
-  },
-  4: {
-    background: "rgb(255, 23, 81)",
-    text: "white",
-  },
-  5: {
-    background: "rgb(128, 7, 45)",
-    text: "white",
-  },
-};
 
 const FixturesSection = ({
   variant,

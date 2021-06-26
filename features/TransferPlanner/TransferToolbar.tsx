@@ -45,7 +45,7 @@ const TransferToolbar = ({
   onNextClick?: () => void;
 }) => {
   return (
-    <HStack pl={2} spacing={2} height="50px" borderBottomWidth={1}>
+    <HStack px={2} spacing={2} height="50px" borderBottomWidth={1}>
       <IconButton
         disabled={currentGameweek === planningGameweek}
         onClick={onPreviousClick}

@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import {
+  IoCalendarClearOutline,
   IoLogoGithub,
   IoLogoTwitter,
   IoPeopleCircleOutline,
@@ -89,6 +90,9 @@ const SideBar = () => {
           getIsActive={(href) => href?.startsWith("/transfers")}
         >
           Transfer Planner
+        </SideBarItem>
+        <SideBarItem href="/fixtures" icon={IoCalendarClearOutline}>
+          Fixtures
         </SideBarItem>
       </List>
       <VStack p={3} spacing={3} borderTopWidth={1}>
