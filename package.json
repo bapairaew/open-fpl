@@ -1,6 +1,6 @@
 {
   "name": "open-fpl",
-  "version": "0.3.0-pre.20",
+  "version": "0.3.0-pre.21",
   "scripts": {
     "init-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-data.ts",
     "init-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register  scripts/init-links.ts",
