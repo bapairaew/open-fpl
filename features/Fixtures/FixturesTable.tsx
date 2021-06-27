@@ -19,7 +19,6 @@ import { difficultyColorCodes } from "~/features/AppData/fplColors";
 import CompareTeamsPopover from "~/features/Fixtures/CompareTeamsPopover";
 import { FullTeamFixtures } from "~/features/Fixtures/fixturesDataTypes";
 import TeamStrengthPopover from "~/features/Fixtures/TeamStrengthPopover";
-import { useSettings } from "~/features/Settings/SettingsContext";
 
 interface SortableFullTeamFixtures extends FullTeamFixtures {
   id: string;
