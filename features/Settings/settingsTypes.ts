@@ -18,6 +18,8 @@ export interface Settings {
   setPreference: (preference: Preference | null | undefined) => void;
   transferPlan: Change<ChangePlayer>[] | null | undefined;
   setTransferPlan: (changes: Change<ChangePlayer>[]) => void;
+  fixturesTeamsOrder: string[] | null | undefined;
+  setFixturesTeamsOrder: (order: string[] | null) => void;
   isSettingsModalOpen: boolean;
   onSettingsModalOpen: () => void;
   onSettingsModalClsoe: () => void;

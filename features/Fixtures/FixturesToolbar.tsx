@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Divider,
   Heading,
   HStack,
@@ -16,7 +17,6 @@ import {
   Radio,
   RadioGroup,
   Text,
-  VStack,
 } from "@chakra-ui/react";
 import { IoHelpCircleOutline } from "react-icons/io5";
 import { difficultyColorCodes } from "~/features/AppData/fplColors";
@@ -97,9 +97,11 @@ const HelpButton = () => {
 const FixturesToolbar = ({
   mode,
   onModeChange,
+  onResetSortClick,
 }: {
   mode: string;
   onModeChange: (mode: string) => void;
+  onResetSortClick: () => void;
 }) => {
   return (
     <HStack alignItems="center" height="50px" borderBottomWidth={1}>
@@ -117,6 +119,9 @@ const FixturesToolbar = ({
         </HStack>
       </RadioGroup>
       <Divider orientation="vertical" />
+      <Button variant="ghost" onClick={onResetSortClick}>
+        Reset fixtures sorting
+      </Button>
     </HStack>
   );
 };

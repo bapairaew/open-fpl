@@ -5,6 +5,7 @@ import { makeFullFixtures } from "~/features/Fixtures/fixturesData";
 import { TeamFixtures } from "~/features/Fixtures/fixturesDataTypes";
 import FixturesTable from "~/features/Fixtures/FixturesTable";
 import FixturesToolbar from "~/features/Fixtures/FixturesToolbar";
+import { useSettings } from "~/features/Settings/SettingsContext";
 
 const Fixtures = ({
   teamFixtures,
@@ -13,16 +14,34 @@ const Fixtures = ({
   teamFixtures: TeamFixtures[];
   fplTeams: Team[];
 }) => {
+  const { fixturesTeamsOrder, setFixturesTeamsOrder } = useSettings();
+
   const fullFixtures = useMemo(() => {
-    return makeFullFixtures({ teamFixtures, fplTeams });
-  }, [teamFixtures, fplTeams]);
+    const fullFixtures = makeFullFixtures({ teamFixtures, fplTeams });
+
+    return fixturesTeamsOrder
+      ? fixturesTeamsOrder.map((o) => {
+          return fullFixtures.find((f) => f.short_name === o)!;
+        })
+      : fullFixtures;
+  }, [teamFixtures, fplTeams, fixturesTeamsOrder]);
 
   const [mode, setMode] = useState("attack");
 
+  const handleResetSortClick = () => setFixturesTeamsOrder(null);
+
   return (
     <Box overflow="hidden" height="100%">
-      <FixturesToolbar mode={mode} onModeChange={setMode} />
-      <FixturesTable mode={mode} fullFixtures={fullFixtures} />
+      <FixturesToolbar
+        mode={mode}
+        onModeChange={setMode}
+        onResetSortClick={handleResetSortClick}
+      />
+      <FixturesTable
+        mode={mode}
+        fullFixtures={fullFixtures}
+        onFixturesOrderChange={setFixturesTeamsOrder}
+      />
     </Box>
   );
 };

@@ -53,29 +53,43 @@ const TeamStrengthPopover = ({
 
   return (
     <Popover strategy="fixed" isLazy placement="bottom">
-      <PopoverTrigger>
-        <Box
-          p={4}
-          role="button"
-          // textDecorationLine="underline"
-          // textDecorationStyle="dotted"
-          // textUnderlineOffset="3px"
-        >
-          {children}
-        </Box>
-      </PopoverTrigger>
-      <Portal>
-        <Box zIndex="popover" position="fixed">
-          <PopoverContent>
-            <PopoverArrow />
-            <PopoverCloseButton />
-            <PopoverHeader fontWeight="black">{team.name}</PopoverHeader>
-            <PopoverBody>
-              <Radar type="radar" data={chartData} options={chartOptions} />
-            </PopoverBody>
-          </PopoverContent>
-        </Box>
-      </Portal>
+      {({ isOpen }) => {
+        return (
+          <>
+            <PopoverTrigger>
+              <Box
+                p={4}
+                role="button"
+                // textDecorationLine="underline"
+                // textDecorationStyle="dotted"
+                // textUnderlineOffset="3px"
+              >
+                {children}
+              </Box>
+            </PopoverTrigger>
+            {isOpen && (
+              <Portal>
+                <Box zIndex="popover" position="fixed">
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverHeader fontWeight="black">
+                      {team.name}
+                    </PopoverHeader>
+                    <PopoverBody>
+                      <Radar
+                        type="radar"
+                        data={chartData}
+                        options={chartOptions}
+                      />
+                    </PopoverBody>
+                  </PopoverContent>
+                </Box>
+              </Portal>
+            )}
+          </>
+        );
+      }}
     </Popover>
   );
 };

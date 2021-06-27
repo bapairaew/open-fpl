@@ -1,17 +1,53 @@
-import { Box, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  forwardRef,
+  Icon,
+  Table,
+  TableBodyProps,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
+import { useMemo } from "react";
+import { IoReorderFourOutline } from "react-icons/io5";
+import { ReactSortable } from "react-sortablejs";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { difficultyColorCodes } from "~/features/AppData/fplColors";
 import CompareTeamsPopover from "~/features/Fixtures/CompareTeamsPopover";
 import { FullTeamFixtures } from "~/features/Fixtures/fixturesDataTypes";
 import TeamStrengthPopover from "~/features/Fixtures/TeamStrengthPopover";
+import { useSettings } from "~/features/Settings/SettingsContext";
+
+interface SortableFullTeamFixtures extends FullTeamFixtures {
+  id: string;
+}
+
+const ForwardableTbody = forwardRef<TableBodyProps, "tbody">((props, ref) => {
+  return <Tbody ref={ref}>{props.children}</Tbody>;
+});
 
 const FixturesTable = ({
   mode,
   fullFixtures,
+  onFixturesOrderChange,
 }: {
   mode: string;
   fullFixtures: FullTeamFixtures[];
+  onFixturesOrderChange: (newOrder: string[]) => void;
 }) => {
+  const sortedFullFixtures = useMemo<SortableFullTeamFixtures[]>(() => {
+    return fullFixtures.map((f) => ({ id: f.short_name, ...f }));
+  }, [fullFixtures]);
+
+  const handleOnFixturesOrderChange = (
+    newOrder: SortableFullTeamFixtures[]
+  ) => {
+    onFixturesOrderChange(newOrder.map((f) => f.id));
+  };
+
   return (
     <AutoSizer>
       {({ height, width }) => (
@@ -34,8 +70,15 @@ const FixturesTable = ({
               ))}
             </Tr>
           </Thead>
-          <Tbody>
-            {fullFixtures.map((team) => (
+          <ReactSortable
+            // TODO: Figure out how to satisfy the warning
+            // @ts-ignore
+            tag={ForwardableTbody}
+            list={sortedFullFixtures}
+            setList={handleOnFixturesOrderChange}
+            handle=".handle"
+          >
+            {sortedFullFixtures.map((team) => (
               <Tr key={team.short_name}>
                 <Td
                   position="sticky"
@@ -45,9 +88,22 @@ const FixturesTable = ({
                   textAlign="center"
                   p={0}
                 >
-                  <TeamStrengthPopover team={team}>
-                    {team.short_name}
-                  </TeamStrengthPopover>
+                  <Flex
+                    className="handle"
+                    p={2}
+                    opacity={0.5}
+                    position="absolute"
+                    height="100%"
+                    alignItems="center"
+                    cursor="grab"
+                  >
+                    <Icon as={IoReorderFourOutline} />
+                  </Flex>
+                  <Box flexGrow={1}>
+                    <TeamStrengthPopover team={team}>
+                      {team.short_name}
+                    </TeamStrengthPopover>
+                  </Box>
                 </Td>
                 {team.fixtures.map((fixture) => {
                   const difficulty =
@@ -57,6 +113,7 @@ const FixturesTable = ({
                   const { background, text } = difficultyColorCodes[difficulty];
                   return (
                     <Td textAlign="center" bg={background} color={text} p={0}>
+                      {/* TODO: perf issue */}
                       <CompareTeamsPopover
                         mode={mode}
                         isHome={fixture.is_home}
@@ -72,7 +129,7 @@ const FixturesTable = ({
                 })}
               </Tr>
             ))}
-          </Tbody>
+          </ReactSortable>
         </Table>
       )}
     </AutoSizer>
