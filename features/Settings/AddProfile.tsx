@@ -17,13 +17,14 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Portal,
   useToast,
 } from "@chakra-ui/react";
 import { FormEvent, MutableRefObject, useEffect, useState } from "react";
 import { IoHelpCircleOutline, IoOpenOutline } from "react-icons/io5";
 
 const TeamIDHelpButton = () => (
-  <Popover>
+  <Popover strategy="fixed">
     <PopoverTrigger>
       <IconButton
         aria-label="help"
@@ -31,18 +32,22 @@ const TeamIDHelpButton = () => (
         icon={<Icon aria-label="help" as={IoHelpCircleOutline} />}
       />
     </PopoverTrigger>
-    <PopoverContent>
-      <PopoverArrow />
-      <PopoverCloseButton />
-      <PopoverHeader>Find your team ID</PopoverHeader>
-      <PopoverBody>
-        Don't know where to find it? Just follow this{" "}
-        <Link color="brand.500" href="https://fpl.team/find-id" isExternal>
-          find your team ID guide <Icon as={IoOpenOutline} />
-        </Link>
-        !
-      </PopoverBody>
-    </PopoverContent>
+    <Portal>
+      <Box zIndex="popover" position="fixed">
+        <PopoverContent>
+          <PopoverArrow />
+          <PopoverCloseButton />
+          <PopoverHeader fontWeight="black">Find your team ID</PopoverHeader>
+          <PopoverBody>
+            Don't know where to find it? Just follow this{" "}
+            <Link color="brand.500" href="https://fpl.team/find-id" isExternal>
+              find your team ID guide <Icon as={IoOpenOutline} />
+            </Link>
+            !
+          </PopoverBody>
+        </PopoverContent>
+      </Box>
+    </Portal>
   </Popover>
 );
 

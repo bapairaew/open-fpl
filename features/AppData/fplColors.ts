@@ -5,8 +5,8 @@ export const difficultyColorCodes: Record<
   { background: string; text: string }
 > = {
   1: {
-    background: "rgb(1, 252, 122)",
-    text: "black",
+    background: "rgb(0, 111, 55)",
+    text: "white",
   },
   2: {
     background: "rgb(1, 252, 122)",

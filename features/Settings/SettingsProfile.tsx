@@ -13,6 +13,7 @@ import {
   PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
+  Portal,
   Text,
   useDisclosure,
   useRadio,
@@ -24,13 +25,13 @@ import {
   IoRadioButtonOnOutline,
   IoTrashBinOutline,
 } from "react-icons/io5";
+import useLocalStorage from "~/features/Common/useLocalStorage";
 import { nFormatter } from "~/features/Common/utils";
 import { Preference } from "~/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
   getTransferPlanKey,
 } from "~/features/Settings/storageKeys";
-import useLocalStorage from "~/features/Common/useLocalStorage";
 import {
   Change,
   ChangePlayer,
@@ -128,29 +129,35 @@ const SettingsProfile = ({
                 icon={<Icon as={IoTrashBinOutline} />}
               />
             </PopoverTrigger>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverCloseButton onClick={onClose} />
-              <PopoverHeader>Delete profile</PopoverHeader>
-              <PopoverBody>
-                Are you sure you want to remove this profile, its settings and
-                transfer plan?
-              </PopoverBody>
-              <PopoverFooter display="flex" justifyContent="flex-end">
-                <Button
-                  ref={firstFieldRef}
-                  variant="outline"
-                  size="sm"
-                  mr={1}
-                  onClick={onClose}
-                >
-                  Cancel
-                </Button>
-                <Button size="sm" onClick={() => onRemove(teamId)}>
-                  Remove
-                </Button>
-              </PopoverFooter>
-            </PopoverContent>
+            <Portal>
+              <Box zIndex="popover" position="fixed">
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverCloseButton onClick={onClose} />
+                  <PopoverHeader fontWeight="black">
+                    Delete profile
+                  </PopoverHeader>
+                  <PopoverBody>
+                    Are you sure you want to remove this profile, its settings
+                    and transfer plan?
+                  </PopoverBody>
+                  <PopoverFooter display="flex" justifyContent="flex-end">
+                    <Button
+                      ref={firstFieldRef}
+                      variant="outline"
+                      size="sm"
+                      mr={1}
+                      onClick={onClose}
+                    >
+                      Cancel
+                    </Button>
+                    <Button size="sm" onClick={() => onRemove(teamId)}>
+                      Remove
+                    </Button>
+                  </PopoverFooter>
+                </PopoverContent>
+              </Box>
+            </Portal>
           </Popover>
         </Flex>
       </Flex>

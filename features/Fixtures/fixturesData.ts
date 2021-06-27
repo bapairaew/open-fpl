@@ -1,10 +1,10 @@
 import { FPLElement } from "~/features/AppData/appDataTypes";
 import { Team } from "~/features/AppData/fplTypes";
-import { isNullOrUndefined } from "~/features/Common/utils";
 import {
   FullTeamFixtures,
   TeamFixture,
   TeamFixtures,
+  TeamInfo,
 } from "~/features/Fixtures/fixturesDataTypes";
 
 export const makeTeamFixtures = ({
@@ -31,20 +31,25 @@ export const makeTeamFixtures = ({
   return teamFixtures;
 };
 
-const getDifficulty = (
-  strength: number | null | undefined,
-  opponentStrength: number | null | undefined
-): number | null => {
-  if (isNullOrUndefined(strength) || isNullOrUndefined(opponentStrength))
-    return null;
-
+const getDifficulty = (strength: number, opponentStrength: number): number => {
   const diff = strength! - opponentStrength!;
 
-  if (diff >= 300) return 1;
-  if (diff >= 100) return 2;
-  if (diff >= 0) return 3;
+  if (diff >= 150) return 1;
+  if (diff >= 50) return 2;
+  if (diff >= -50) return 3;
   if (diff >= -150) return 4;
   return 5;
+};
+
+const makeTeamInfo = (team: Team): TeamInfo => {
+  return {
+    name: team.name,
+    short_name: team.short_name,
+    strength_attack_home: team.strength_attack_home,
+    strength_attack_away: team.strength_attack_away,
+    strength_defence_home: team.strength_defence_home,
+    strength_defence_away: team.strength_defence_away,
+  };
 };
 
 // Full mapped data for UI usage
@@ -61,64 +66,73 @@ export const makeFullFixtures = ({
     const fplTeam = fplTeams.find((t) => t.id === team.id);
     if (fplTeam) {
       const fullFixture = {
-        short_name: fplTeam.short_name || "",
+        name: fplTeam.name,
+        short_name: fplTeam.short_name,
+        strength_attack_home: fplTeam.strength_attack_home,
+        strength_attack_away: fplTeam.strength_attack_away,
+        strength_defence_home: fplTeam.strength_defence_home,
+        strength_defence_away: fplTeam.strength_defence_away,
         fixtures: [] as TeamFixture[],
       } as FullTeamFixtures;
 
       for (const history of team.history) {
         const opponent = fplTeams.find((t) => t.id === history.opponent_team);
-        fullFixture.fixtures.push({
-          is_finished: true,
-          opponent_short_name: opponent?.short_name || "",
-          is_home: history.was_home,
-          attack_difficulty: history.was_home
-            ? getDifficulty(
-                fplTeam.strength_attack_home,
-                opponent?.strength_defence_away
-              )
-            : getDifficulty(
-                fplTeam.strength_attack_away,
-                opponent?.strength_defence_home
-              ),
-          defence_difficulty: history.was_home
-            ? getDifficulty(
-                fplTeam.strength_defence_home,
-                opponent?.strength_attack_away
-              )
-            : getDifficulty(
-                fplTeam.strength_defence_away,
-                opponent?.strength_attack_home
-              ),
-        });
+        if (opponent) {
+          fullFixture.fixtures.push({
+            is_finished: true,
+            is_home: history.was_home,
+            attack_difficulty: history.was_home
+              ? getDifficulty(
+                  fplTeam.strength_attack_home,
+                  opponent.strength_defence_away
+                )
+              : getDifficulty(
+                  fplTeam.strength_attack_away,
+                  opponent.strength_defence_home
+                ),
+            defence_difficulty: history.was_home
+              ? getDifficulty(
+                  fplTeam.strength_defence_home,
+                  opponent.strength_attack_away
+                )
+              : getDifficulty(
+                  fplTeam.strength_defence_away,
+                  opponent.strength_attack_home
+                ),
+            opponent: makeTeamInfo(opponent),
+          });
+        }
       }
 
       for (const fixture of team.fixtures) {
         const opponent = fplTeams.find(
           (t) => t.id === (fixture.is_home ? fixture.team_a : fixture.team_h)
         );
-        fullFixture.fixtures.push({
-          is_finished: false,
-          opponent_short_name: opponent?.short_name || "",
-          is_home: fixture.is_home,
-          attack_difficulty: fixture.is_home
-            ? getDifficulty(
-                fplTeam.strength_attack_home,
-                opponent?.strength_defence_away
-              )
-            : getDifficulty(
-                fplTeam.strength_attack_away,
-                opponent?.strength_defence_home
-              ),
-          defence_difficulty: fixture.is_home
-            ? getDifficulty(
-                fplTeam.strength_defence_home,
-                opponent?.strength_attack_away
-              )
-            : getDifficulty(
-                fplTeam.strength_defence_away,
-                opponent?.strength_attack_home
-              ),
-        });
+        if (opponent) {
+          fullFixture.fixtures.push({
+            is_finished: false,
+            is_home: fixture.is_home,
+            attack_difficulty: fixture.is_home
+              ? getDifficulty(
+                  fplTeam.strength_attack_home,
+                  opponent.strength_defence_away
+                )
+              : getDifficulty(
+                  fplTeam.strength_attack_away,
+                  opponent.strength_defence_home
+                ),
+            defence_difficulty: fixture.is_home
+              ? getDifficulty(
+                  fplTeam.strength_defence_home,
+                  opponent.strength_attack_away
+                )
+              : getDifficulty(
+                  fplTeam.strength_defence_away,
+                  opponent.strength_attack_home
+                ),
+            opponent: makeTeamInfo(opponent),
+          });
+        }
       }
 
       fullFixtures.push(fullFixture);

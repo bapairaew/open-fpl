@@ -9,16 +9,25 @@ export interface TeamFixtures {
   fixtures: ElementSummaryUpcomingFixture[];
 }
 
+export interface TeamInfo {
+  name: string;
+  short_name: string;
+  strength_attack_home: number;
+  strength_attack_away: number;
+  strength_defence_home: number;
+  strength_defence_away: number;
+}
+
 // For UI usage
 export interface TeamFixture {
   is_finished: boolean;
-  opponent_short_name: string;
   is_home: boolean;
-  attack_difficulty: number | null;
-  defence_difficulty: number | null;
+  attack_difficulty: number;
+  defence_difficulty: number;
+  opponent: TeamInfo;
 }
 
-export interface FullTeamFixtures {
-  short_name: string;
+// For UI usage
+export interface FullTeamFixtures extends TeamInfo {
   fixtures: TeamFixture[];
 }
