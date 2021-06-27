@@ -55,7 +55,7 @@ const TeamStrengthPopover = ({
     <Popover strategy="fixed" isLazy placement="bottom">
       <PopoverTrigger>
         <Box
-          p={2}
+          p={4}
           role="button"
           // textDecorationLine="underline"
           // textDecorationStyle="dotted"
