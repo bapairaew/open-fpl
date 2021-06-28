@@ -74,11 +74,9 @@ const NameSection = ({
       </Flex>
       {player.status !== "a" && (
         <Tooltip hasArrow label={player.news}>
-          <Flex>
-            <CenterFlex variant={variant} bg={statusColorCodes[player.status]}>
-              <IoWarningOutline />
-            </CenterFlex>
-          </Flex>
+          <CenterFlex variant={variant} bg={statusColorCodes[player.status]}>
+            <IoWarningOutline />
+          </CenterFlex>
         </Tooltip>
       )}
       <Flex
@@ -102,24 +100,8 @@ const NameSection = ({
         <CenterFlex variant={variant} bg="gray.100" fontWeight="bold">
           £{(player.now_cost / 10).toFixed(1)}
         </CenterFlex>
-        <CenterFlex
-          variant={variant}
-          bg={
-            player.linked_data.transfers_delta_event === 0
-              ? deltaColorCodes.neutral.background
-              : player.linked_data.transfers_delta_event > 0
-              ? deltaColorCodes.positive.background
-              : deltaColorCodes.negative.background
-          }
-          color={
-            player.linked_data.transfers_delta_event === 0
-              ? deltaColorCodes.neutral.text
-              : player.linked_data.transfers_delta_event > 0
-              ? deltaColorCodes.positive.text
-              : deltaColorCodes.negative.text
-          }
-        >
-          {nFormatter(player.linked_data.transfers_delta_event, 1)}
+        <CenterFlex variant={variant} bg="gray.100">
+          {nFormatter(+player.selected_by_percent, 1)}%
         </CenterFlex>
       </Flex>
     </Flex>

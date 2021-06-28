@@ -1,4 +1,4 @@
-import { BoxProps, Flex } from "@chakra-ui/react";
+import { BoxProps, Flex, forwardRef } from "@chakra-ui/react";
 
 export type CenterFlexVariant = "mini" | "default";
 
@@ -13,19 +13,25 @@ const variants = {
   },
 };
 
-const CenterFlex = ({
-  variant = "default",
-  ...props
-}: BoxProps & { variant: CenterFlexVariant }) => {
-  const variantProps = variants[variant] ?? variants.default;
-  return (
-    <Flex
-      justifyContent="center"
-      alignItems="center"
-      {...variantProps}
-      {...props}
-    />
-  );
-};
+const CenterFlex = forwardRef(
+  (
+    {
+      variant = "default",
+      ...props
+    }: BoxProps & { variant: CenterFlexVariant },
+    ref
+  ) => {
+    const variantProps = variants[variant] ?? variants.default;
+    return (
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        ref={ref}
+        {...variantProps}
+        {...props}
+      />
+    );
+  }
+);
 
 export default CenterFlex;

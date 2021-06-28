@@ -14,6 +14,7 @@ export const player: Player = {
   chance_of_playing_next_round: null,
   chance_of_playing_this_round: null,
   total_points: 228,
+  selected_by_percent: "50.4",
   transfers_in_event: 2524,
   transfers_out_event: 31638,
   element_type: {

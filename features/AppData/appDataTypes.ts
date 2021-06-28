@@ -59,6 +59,7 @@ export interface Player {
   total_points: number;
   transfers_in_event: number;
   transfers_out_event: number;
+  selected_by_percent: string;
   element_type: {
     singular_name_short: string;
   };

@@ -115,6 +115,7 @@ export const makeAppData = ({
       total_points: player.total_points,
       transfers_in_event: player.transfers_in_event,
       transfers_out_event: player.transfers_out_event,
+      selected_by_percent: player.selected_by_percent,
       element_type: {
         singular_name_short:
           fplElementTypesMap[player.element_type].singular_name_short,

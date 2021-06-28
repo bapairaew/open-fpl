@@ -134,7 +134,7 @@ const PlayerExplorerHelp = () => {
             dy={-32}
             subject={{ width: 60, height: 32 }}
             note={{
-              title: "Net transfers",
+              title: "Ownership",
             }}
           />
           <AnnotationCalloutRect

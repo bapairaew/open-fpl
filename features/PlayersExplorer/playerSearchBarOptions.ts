@@ -123,19 +123,15 @@ export const sortOptions: SortOptionsConfig[] = [
     sortFn: (a, b) => (a.now_cost > b.now_cost ? -1 : 1),
   },
   {
-    label: "Ownership gain",
-    value: "transfers-delta-desc",
+    label: "Ownership: low to high",
+    value: "ownership-asc",
     sortFn: (a, b) =>
-      a.linked_data.transfers_delta_event > b.linked_data.transfers_delta_event
-        ? -1
-        : 1,
+      +a.selected_by_percent > +b.selected_by_percent ? 1 : -1,
   },
   {
-    label: "Ownership loss",
-    value: "transfers-delta-asc",
+    label: "Ownership: high to low",
+    value: "ownership-desc",
     sortFn: (a, b) =>
-      a.linked_data.transfers_delta_event < b.linked_data.transfers_delta_event
-        ? -1
-        : 1,
+      +a.selected_by_percent < +b.selected_by_percent ? 1 : -1,
   },
 ];
