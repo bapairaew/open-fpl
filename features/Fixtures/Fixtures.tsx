@@ -28,15 +28,9 @@ const Fixtures = ({
 
   const [mode, setMode] = useState("attack");
 
-  const handleResetSortClick = () => setFixturesTeamsOrder(null);
-
   return (
     <Box overflow="hidden" height="100%">
-      <FixturesToolbar
-        mode={mode}
-        onModeChange={setMode}
-        onResetSortClick={handleResetSortClick}
-      />
+      <FixturesToolbar mode={mode} onModeChange={setMode} />
       <FixturesTable
         mode={mode}
         fullFixtures={fullFixtures}

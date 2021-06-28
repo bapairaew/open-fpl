@@ -1,32 +1,48 @@
 import {
-  Box,
-  Flex,
   forwardRef,
-  Icon,
   Table,
   TableBodyProps,
   Tbody,
-  Td,
-  Th,
   Thead,
-  Tr,
 } from "@chakra-ui/react";
 import { useMemo } from "react";
-import { IoReorderFourOutline } from "react-icons/io5";
 import { ReactSortable } from "react-sortablejs";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { difficultyColorCodes } from "~/features/AppData/fplColors";
-import CompareTeamsPopover from "~/features/Fixtures/CompareTeamsPopover";
-import { FullTeamFixtures } from "~/features/Fixtures/fixturesDataTypes";
-import TeamStrengthPopover from "~/features/Fixtures/TeamStrengthPopover";
-
-interface SortableFullTeamFixtures extends FullTeamFixtures {
-  id: string;
-}
+import {
+  FullTeamFixtures,
+  SortableFullTeamFixtures,
+} from "~/features/Fixtures/fixturesDataTypes";
+import FixturesTableBodyRow from "~/features/Fixtures/FixturesTableBodyRow";
+import FixturesTableHeaderRow from "~/features/Fixtures/FixturesTableHeaderRow";
 
 const ForwardableTbody = forwardRef<TableBodyProps, "tbody">((props, ref) => {
   return <Tbody ref={ref}>{props.children}</Tbody>;
 });
+
+const makeSortedFixturesOrder = (
+  sortableFullFixtures: SortableFullTeamFixtures[],
+  mode: string,
+  gameweek: number,
+  compareFactor: -1 | 1
+) => {
+  return [...sortableFullFixtures]
+    .sort((a, b) => {
+      const diffA =
+        mode === "attack"
+          ? a.fixtures[gameweek - 1].attack_difficulty
+          : a.fixtures[gameweek - 1].defence_difficulty;
+      const diffB =
+        mode === "attack"
+          ? b.fixtures[gameweek - 1].attack_difficulty
+          : b.fixtures[gameweek - 1].defence_difficulty;
+      return diffA === diffB
+        ? 0
+        : diffA > diffB
+        ? -1 * compareFactor
+        : 1 * compareFactor;
+    })
+    .map((f) => f.id);
+};
 
 const FixturesTable = ({
   mode,
@@ -35,17 +51,23 @@ const FixturesTable = ({
 }: {
   mode: string;
   fullFixtures: FullTeamFixtures[];
-  onFixturesOrderChange: (newOrder: string[]) => void;
+  onFixturesOrderChange: (newOrder: string[] | null) => void;
 }) => {
   const sortedFullFixtures = useMemo<SortableFullTeamFixtures[]>(() => {
     return fullFixtures.map((f) => ({ id: f.short_name, ...f }));
   }, [fullFixtures]);
 
-  const handleOnFixturesOrderChange = (
-    newOrder: SortableFullTeamFixtures[]
-  ) => {
+  const handleFixturesOrderChange = (newOrder: SortableFullTeamFixtures[]) =>
     onFixturesOrderChange(newOrder.map((f) => f.id));
-  };
+  const handleResetSortClick = () => onFixturesOrderChange(null);
+  const handleHardFixtureSortClick = (gameweek: number) =>
+    onFixturesOrderChange(
+      makeSortedFixturesOrder(sortedFullFixtures, mode, gameweek, 1)
+    );
+  const handleEasyFixtureSortClick = (gameweek: number) =>
+    onFixturesOrderChange(
+      makeSortedFixturesOrder(sortedFullFixtures, mode, gameweek, -1)
+    );
 
   return (
     <AutoSizer>
@@ -58,75 +80,26 @@ const FixturesTable = ({
           width={`${width}px`}
         >
           <Thead position="sticky" top={0} zIndex="sticky">
-            <Tr>
-              <Th position="sticky" left={0} bgColor="white" textAlign="center">
-                <Box width="100px">Team</Box>
-              </Th>
-              {Array.from({ length: 38 }).map((_, i) => (
-                <Th textAlign="center" key={i} bgColor="white">
-                  <Box width="45px">GW {i + 1}</Box>
-                </Th>
-              ))}
-            </Tr>
+            <FixturesTableHeaderRow
+              onResetSortClick={handleResetSortClick}
+              onHardFixtureSortClick={handleHardFixtureSortClick}
+              onEasyFixtureSortClick={handleEasyFixtureSortClick}
+            />
           </Thead>
           <ReactSortable
             // TODO: Figure out how to satisfy the warning
             // @ts-ignore
             tag={ForwardableTbody}
             list={sortedFullFixtures}
-            setList={handleOnFixturesOrderChange}
+            setList={handleFixturesOrderChange}
             handle=".handle"
           >
             {sortedFullFixtures.map((team) => (
-              <Tr key={team.short_name}>
-                <Td
-                  position="sticky"
-                  left={0}
-                  fontWeight="black"
-                  bgColor="white"
-                  textAlign="center"
-                  p={0}
-                >
-                  <Flex
-                    className="handle"
-                    p={2}
-                    opacity={0.5}
-                    position="absolute"
-                    height="100%"
-                    alignItems="center"
-                    cursor="grab"
-                  >
-                    <Icon as={IoReorderFourOutline} />
-                  </Flex>
-                  <Box flexGrow={1}>
-                    <TeamStrengthPopover team={team}>
-                      {team.short_name}
-                    </TeamStrengthPopover>
-                  </Box>
-                </Td>
-                {team.fixtures.map((fixture) => {
-                  const difficulty =
-                    mode === "attack"
-                      ? fixture.attack_difficulty
-                      : fixture.defence_difficulty;
-                  const { background, text } = difficultyColorCodes[difficulty];
-                  return (
-                    <Td textAlign="center" bg={background} color={text} p={0}>
-                      {/* TODO: perf issue */}
-                      <CompareTeamsPopover
-                        mode={mode}
-                        isHome={fixture.is_home}
-                        team={team}
-                        opponent={fixture.opponent}
-                      >
-                        {fixture.is_home
-                          ? fixture.opponent.short_name.toUpperCase()
-                          : fixture.opponent.short_name.toLocaleLowerCase()}
-                      </CompareTeamsPopover>
-                    </Td>
-                  );
-                })}
-              </Tr>
+              <FixturesTableBodyRow
+                key={team.short_name}
+                team={team}
+                mode={mode}
+              />
             ))}
           </ReactSortable>
         </Table>

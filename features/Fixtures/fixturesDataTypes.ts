@@ -18,7 +18,6 @@ export interface TeamInfo {
   strength_defence_away: number;
 }
 
-// For UI usage
 export interface TeamFixture {
   is_finished: boolean;
   is_home: boolean;
@@ -27,7 +26,10 @@ export interface TeamFixture {
   opponent: TeamInfo;
 }
 
-// For UI usage
 export interface FullTeamFixtures extends TeamInfo {
   fixtures: TeamFixture[];
+}
+
+export interface SortableFullTeamFixtures extends FullTeamFixtures {
+  id: string;
 }
