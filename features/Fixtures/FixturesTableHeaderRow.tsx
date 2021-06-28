@@ -46,7 +46,14 @@ const FixturesTableHeaderRow = ({
 }) => {
   return (
     <Tr>
-      <Th p={0} left={0} position="sticky" bgColor="white" textAlign="center">
+      <Th
+        p={0}
+        left={0}
+        position="sticky"
+        zIndex="sticky"
+        bgColor="white"
+        textAlign="center"
+      >
         <CellWrapper width="140px">
           <Text flexGrow={1}>Team</Text>
           <Menu isLazy>
