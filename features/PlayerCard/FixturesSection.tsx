@@ -34,14 +34,7 @@ const FixturesSection = ({
         return (
           <Flex key={w.id} flexDirection="column">
             {games.length === 0 ? (
-              <CenterFlex
-                variant={variant}
-                bg="black"
-                color="white"
-                height="100%"
-              >
-                -
-              </CenterFlex>
+              <CenterFlex variant={variant} height="100%" />
             ) : (
               games.map((g, i) => (
                 <CenterFlex

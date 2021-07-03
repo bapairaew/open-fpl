@@ -1,28 +1,39 @@
 import { Player } from "~/features/AppData/appDataTypes";
 import { Invalid } from "~/features/Common/errorTypes";
 
-export type ChangeType = "swap" | "transfer";
+export type ChangeType = "swap" | "transfer" | "preseason";
 
 export interface ChangePlayer {
   id: number;
   pick: Pick;
 }
 
-export interface FullChangePlayer extends ChangePlayer, Player {}
+export interface FullChangePlayer extends ChangePlayer, Player {
+  isPlaceholder?: boolean;
+}
 
-export interface Change<T extends ChangePlayer> {
-  id?: number;
-  type: ChangeType;
+export interface TeamChange<T extends ChangePlayer> extends Change {
+  type: "swap" | "transfer";
   selectedPlayer: T;
   targetPlayer: T;
+}
+
+export interface PreseasonChange<T extends ChangePlayer> extends Change {
+  type: "preseason";
+  team: T[];
+}
+
+export interface Change {
+  id?: number;
+  type: ChangeType;
   gameweek: number;
 }
 
-export interface InvalidChange<T extends ChangePlayer> extends Invalid {
-  change: Change<T>;
+export interface InvalidChange extends Invalid {
+  change: Change;
 }
 
-// Recuded set of ~/features/AppData/fplTypes > MyTeamPick
+// Reduced set of ~/features/AppData/fplTypes > MyTeamPick
 export interface Pick {
   element: number;
   position: number;

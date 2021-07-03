@@ -1,7 +1,4 @@
-import {
-  Change,
-  ChangePlayer,
-} from "~/features/TransferPlanner/transferPlannerTypes";
+import { Change } from "~/features/TransferPlanner/transferPlannerTypes";
 
 export interface Preference {
   name?: string;
@@ -16,8 +13,8 @@ export interface Settings {
   setTeamId: (id: string | null | undefined) => void;
   preference: Preference | null | undefined;
   setPreference: (preference: Preference | null | undefined) => void;
-  transferPlan: Change<ChangePlayer>[] | null | undefined;
-  setTransferPlan: (changes: Change<ChangePlayer>[]) => void;
+  transferPlan: Change[] | null | undefined;
+  setTransferPlan: (changes: Change[]) => void;
   fixturesTeamsOrder: string[] | null | undefined;
   setFixturesTeamsOrder: (order: string[] | null) => void;
   isSettingsModalOpen: boolean;

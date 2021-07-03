@@ -18,7 +18,7 @@ const TransferPlannerSetupPage = () => {
       {teamId ? (
         <FullScreenMessage
           symbol={<Spinner size="xl" />}
-          heading="Almost there..."
+          heading="One moment..."
           text={
             <VStack spacing={6}>
               <Text>

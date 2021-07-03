@@ -10,8 +10,10 @@ import { Invalid } from "~/features/Common/errorTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import {
   addChange,
-  getChangesFromTransferPlan,
-  processChanges,
+  dehydrateFromTransferPlan,
+  processPreseasonTransfer,
+  processPreseasonSwap,
+  processTransferPlan,
   removeChange,
 } from "~/features/TransferPlanner/changes";
 import TeamManager from "~/features/TransferPlanner/TeamManager";
@@ -21,7 +23,8 @@ import {
   ChangePlayer,
   FullChangePlayer,
   InvalidChange,
-  Pick,
+  PreseasonChange,
+  TeamChange,
 } from "~/features/TransferPlanner/transferPlannerTypes";
 import TransferToolbar from "~/features/TransferPlanner/TransferToolbar";
 
@@ -33,8 +36,8 @@ const TransferPlanner = ({
   transfers,
   ...props
 }: BoxProps & {
-  initialPicks: EntryEventPick[];
-  entryHistory: EntryEventHistory;
+  initialPicks: EntryEventPick[] | null;
+  entryHistory: EntryEventHistory | null;
   players: Player[];
   gameweeks: Gameweek[];
   transfers: Transfer[];
@@ -42,104 +45,67 @@ const TransferPlanner = ({
   const { transferPlan, setTransferPlan } = useSettings();
   const [gameweekDelta, setGameweekDelta] = useState(0);
 
-  const currentGameweek = gameweeks?.[0]?.id ?? 38;
+  const isStartedFromFirstGameweek =
+    initialPicks === null && entryHistory === null;
+
+  const currentGameweek = gameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
   const planningGameweek = currentGameweek + gameweekDelta;
 
-  const changes: Change<FullChangePlayer>[] = useMemo(
+  const transferManagerMode =
+    planningGameweek === 1 && isStartedFromFirstGameweek
+      ? "preseason"
+      : "default";
+
+  const changes: Change[] = useMemo(
     () =>
-      transferPlan ? getChangesFromTransferPlan(transferPlan, players) : [],
+      transferPlan ? dehydrateFromTransferPlan(transferPlan, players) : [],
     [transferPlan, players]
   );
 
   const {
     team,
     invalidChanges,
+    teamInvalidities,
   }: {
     team: FullChangePlayer[];
-    invalidChanges: InvalidChange<FullChangePlayer>[];
-  } = useMemo(() => {
-    if (players && initialPicks && transfers) {
-      const picks = initialPicks?.reduce((picks, p) => {
-        const latestTransfer = transfers?.find(
-          (t) => t.element_in === p.element
-        );
-        const player = players.find((pl) => pl.id === p.element);
-        // Ignore invalid players
-        if (player) {
-          const { now_cost, cost_change_start } = player;
-          const originalCost = now_cost - cost_change_start;
-          const purchase_price =
-            latestTransfer?.element_in_cost ?? originalCost;
-
-          const increasedPrice = Math.floor((now_cost - purchase_price) / 2);
-          const selling_price = purchase_price + increasedPrice;
-
-          picks.push({
-            ...p,
-            now_cost,
-            selling_price,
-            purchase_price,
-          });
-        }
-        return picks;
-      }, [] as Pick[]);
-
-      const { updatedPicks, invalidChanges } = processChanges(
-        picks,
-        changes.filter((c) => c.gameweek <= planningGameweek)
-      );
-
-      return {
-        team: updatedPicks.map((p) => {
-          return {
-            ...players?.find((pl) => pl.id === p?.element),
-            pick: p,
-          };
-        }) as FullChangePlayer[],
-        invalidChanges,
-      };
-    }
-
-    return { team: [], invalidChanges: [] };
-  }, [initialPicks, transfers, players, changes, planningGameweek]);
-
-  const teamInvalidities: Invalid[] = useMemo(() => {
-    const invalidities = [];
-
-    const teamMap = team.reduce((map, player) => {
-      if (map[player.team.short_name]) map[player.team.short_name] += 1;
-      else map[player.team.short_name] = 1;
-      return map;
-    }, {} as Record<string, number>);
-
-    const exceedLimitTeams = Object.entries(teamMap).filter(
-      ([, count]) => count > 3
-    );
-
-    if (exceedLimitTeams.length > 0) {
-      invalidities.push({
-        type: "exceed_limit_team",
-        message: `You cannot select more than 3 players from a same team (${exceedLimitTeams
-          .map((t) => t[0])
-          .join(", ")})`,
-      });
-    }
-
-    return invalidities;
-  }, [team]);
+    invalidChanges: InvalidChange[];
+    teamInvalidities: Invalid[];
+  } = useMemo(
+    () =>
+      processTransferPlan(
+        initialPicks,
+        transfers,
+        players,
+        changes,
+        planningGameweek
+      ),
+    [initialPicks, transfers, players, changes, planningGameweek]
+  );
 
   const bank = useMemo(() => {
+    const currentBank = entryHistory?.bank ?? 1000; // entryHistory is null before the first gameweek
     const transfers = changes.filter(
-      (c) => c.type === "transfer" && c.gameweek <= planningGameweek
+      (c) =>
+        (c.type === "transfer" || c.type === "preseason") &&
+        c.gameweek <= planningGameweek
     );
     const diff = transfers?.reduce((sum, change) => {
-      return (
-        sum +
-        (change.selectedPlayer.pick.selling_price -
-          change.targetPlayer.now_cost)
-      );
+      if (change.type === "transfer") {
+        const sellingPrice = (change as TeamChange<FullChangePlayer>)
+          .selectedPlayer.pick.selling_price;
+        const nowCost = (change as TeamChange<FullChangePlayer>).targetPlayer
+          .now_cost;
+        return sum + (sellingPrice - nowCost);
+      } else if (change.type === "preseason") {
+        const total = (change as PreseasonChange<FullChangePlayer>).team.reduce(
+          (sum, player) => sum + player.now_cost,
+          0
+        );
+        return sum - total;
+      }
+      return sum;
     }, 0);
-    return (entryHistory.bank + diff) / 10;
+    return (currentBank + diff) / 10;
   }, [changes, planningGameweek, entryHistory]);
 
   const freeTransfersCount = useMemo(() => {
@@ -184,7 +150,7 @@ const TransferPlanner = ({
         selectedPlayer,
         targetPlayer,
         gameweek: planningGameweek,
-      })
+      } as TeamChange<FullChangePlayer>)
     );
 
   const handleTransfer = (selectedPlayer: ChangePlayer, targetPlayer: Player) =>
@@ -194,10 +160,34 @@ const TransferPlanner = ({
         selectedPlayer,
         targetPlayer: targetPlayer as FullChangePlayer,
         gameweek: planningGameweek,
-      })
+      } as TeamChange<FullChangePlayer>)
     );
 
-  const onRemove = (change: Change<ChangePlayer>) =>
+  const handlePreseasonSwap = (
+    selectedPlayer: FullChangePlayer,
+    targetPlayer: FullChangePlayer
+  ) =>
+    setTransferPlan(
+      addChange(changes, {
+        type: "preseason",
+        team: processPreseasonSwap(team, selectedPlayer, targetPlayer),
+        gameweek: 1, // Make preseason transfer always at gameweek 1 to support placeholder player in later gameweeks
+      } as PreseasonChange<FullChangePlayer>)
+    );
+
+  const handlePreseasonTransfer = (
+    selectedPlayer: FullChangePlayer,
+    targetPlayer: Player
+  ) =>
+    setTransferPlan(
+      addChange(changes, {
+        type: "preseason",
+        team: processPreseasonTransfer(team, selectedPlayer, targetPlayer),
+        gameweek: 1, // Make preseason transfer always at gameweek 1 to support placeholder player in later gameweeks
+      } as PreseasonChange<FullChangePlayer>)
+    );
+
+  const onRemove = (change: Change) =>
     setTransferPlan(removeChange(changes, change));
 
   return (
@@ -224,11 +214,14 @@ const TransferPlanner = ({
       )}
       <Box flexGrow={1}>
         <TeamManager
+          mode={transferManagerMode}
           team={team}
           players={players}
           gameweeks={gameweeks}
           onSwap={handleSwap}
           onTransfer={handleTransfer}
+          onPreseasonSwap={handlePreseasonSwap}
+          onPreseasonTransfer={handlePreseasonTransfer}
         />
       </Box>
     </Flex>

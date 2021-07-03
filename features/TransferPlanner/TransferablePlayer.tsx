@@ -1,5 +1,5 @@
 import { Box, Button, ButtonProps, Text, Tooltip } from "@chakra-ui/react";
-import { MouseEventHandler, MutableRefObject } from "react";
+import { MouseEventHandler } from "react";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import PlayerCard from "~/features/PlayerCard/PlayerCard";
 import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
@@ -36,13 +36,11 @@ const teamPlayerVariants: Record<TransferablePlayerVariant, ButtonProps> = {
 };
 
 const TransferablePlayer = ({
-  ref,
   variant,
   onClick,
   player,
   gameweeks,
 }: {
-  ref?: MutableRefObject<HTMLButtonElement>;
   variant: TransferablePlayerVariant;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   player: FullChangePlayer;
@@ -54,7 +52,6 @@ const TransferablePlayer = ({
   const adjustedPurchasePrice = player.pick.purchase_price / 10;
   return (
     <Button
-      ref={ref}
       variant="unstyled"
       m={1}
       flexBasis="200px"
@@ -83,7 +80,7 @@ const TransferablePlayer = ({
             £{adjustedSellingPrice}
           </Text>
           <Text fontSize="xs" color="gray.600">
-            (£{adjustedPurchasePrice})
+            £{adjustedPurchasePrice}
           </Text>
         </Box>
       </Tooltip>

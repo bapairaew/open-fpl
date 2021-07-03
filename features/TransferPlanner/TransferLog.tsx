@@ -4,7 +4,6 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import TransferChange from "~/features/TransferPlanner/TransferChange";
 import {
   Change,
-  FullChangePlayer,
   InvalidChange,
 } from "~/features/TransferPlanner/transferPlannerTypes";
 
@@ -19,9 +18,9 @@ const GameweekChanges = ({
   height: number;
   gameweek: string | number;
   currentGameweek: number;
-  invalidChanges: InvalidChange<FullChangePlayer>[];
-  changes: Change<FullChangePlayer>[];
-  onRemove: (change: Change<FullChangePlayer>) => void;
+  invalidChanges: InvalidChange[];
+  changes: Change[];
+  onRemove: (change: Change) => void;
 }) => {
   return (
     <>
@@ -70,10 +69,10 @@ const TransferLog = ({
   invalidChanges,
   onRemove,
 }: {
-  changes: Change<FullChangePlayer>[];
+  changes: Change[];
   currentGameweek: number;
-  invalidChanges: InvalidChange<FullChangePlayer>[];
-  onRemove: (change: Change<FullChangePlayer>) => void;
+  invalidChanges: InvalidChange[];
+  onRemove: (change: Change) => void;
 }) => {
   const groupedChanges = useMemo(() => {
     const reversedChanges = [...changes].reverse();
@@ -84,7 +83,7 @@ const TransferLog = ({
         group[change.gameweek] = [change];
       }
       return group;
-    }, {} as Record<number, Change<FullChangePlayer>[]>);
+    }, {} as Record<number, Change[]>);
   }, [changes]);
 
   const reversedGroupedKeys = useMemo(

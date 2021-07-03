@@ -12,6 +12,7 @@ import {
 import {
   Change,
   FullChangePlayer,
+  TeamChange,
 } from "~/features/TransferPlanner/transferPlannerTypes";
 
 export type TransferChangeVariant = "invalid" | "outdated" | "default";
@@ -45,9 +46,26 @@ const TransferChange = ({
 }: {
   variant: TransferChangeVariant;
   errorLabel?: string;
-  change: Change<FullChangePlayer>;
+  change: Change;
   onRemoveClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
+  if (change.type === "preseason") {
+    return (
+      <Flex alignItems="center" height="100%" px={2}>
+        <Text fontSize="xs" noOfLines={1} pr={2}>
+          Initial team set up
+        </Text>
+        <IconButton
+          onClick={onRemoveClick}
+          variant="ghost"
+          size="xs"
+          aria-label="remove"
+          icon={<Icon as={IoCloseOutline} />}
+        />
+      </Flex>
+    );
+  }
+
   const selectedColor = change.type === "swap" ? undefined : "red";
   const targetColor = change.type === "swap" ? undefined : "green";
   const SelectedIcon =
@@ -58,7 +76,7 @@ const TransferChange = ({
   const variantProp = changeVariants[variant] ?? changeVariants.default;
 
   return (
-    <Flex alignItems="center" height="100%">
+    <Flex alignItems="center" height="100%" px={2}>
       {variantProp.showIcon && (
         <Tooltip label={errorLabel || variantProp.label} hasArrow>
           <Flex
@@ -72,14 +90,14 @@ const TransferChange = ({
           </Flex>
         </Tooltip>
       )}
-      <Box width="120px" px={2}>
+      <Box width="120px" pr={2}>
         <Text fontSize="xs" noOfLines={1}>
           <Icon as={SelectedIcon} mr={1} color={selectedColor} />
-          {change.selectedPlayer?.web_name}
+          {(change as TeamChange<FullChangePlayer>).selectedPlayer?.web_name}
         </Text>
         <Text fontSize="xs" noOfLines={1}>
           <Icon as={TargetIcon} mr={1} color={targetColor} />
-          {change.targetPlayer?.web_name}
+          {(change as TeamChange<FullChangePlayer>).targetPlayer?.web_name}
         </Text>
       </Box>
       <IconButton

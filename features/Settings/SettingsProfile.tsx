@@ -32,10 +32,7 @@ import {
   getPreferenceKey,
   getTransferPlanKey,
 } from "~/features/Settings/storageKeys";
-import {
-  Change,
-  ChangePlayer,
-} from "~/features/TransferPlanner/transferPlannerTypes";
+import { Change } from "~/features/TransferPlanner/transferPlannerTypes";
 
 const SettingsProfile = ({
   teamId,
@@ -59,7 +56,7 @@ const SettingsProfile = ({
   const input = getInputProps();
   const checkbox = getCheckboxProps();
 
-  const [transferPlan] = useLocalStorage<Change<ChangePlayer>[]>(
+  const [transferPlan] = useLocalStorage<Change[]>(
     getTransferPlanKey(teamId),
     null
   );

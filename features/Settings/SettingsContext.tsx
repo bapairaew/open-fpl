@@ -10,10 +10,7 @@ import {
   getProfilesKey,
   getTransferPlanKey,
 } from "~/features/Settings/storageKeys";
-import {
-  Change,
-  ChangePlayer,
-} from "~/features/TransferPlanner/transferPlannerTypes";
+import { Change } from "~/features/TransferPlanner/transferPlannerTypes";
 
 const SettingsModal = dynamic(
   () => import("~/features/Settings/SettingsModal")
@@ -56,7 +53,7 @@ export const SettingsContextProvider = ({
   >(getPreferenceKey(teamId), {});
 
   const [transferPlan, setTransferPlan] = useLocalStorage<
-    Change<ChangePlayer>[] | null | undefined
+    Change[] | null | undefined
   >(getTransferPlanKey(teamId), []);
 
   const [fixturesTeamsOrder, setFixturesTeamsOrder] = useLocalStorage<
