@@ -12,17 +12,24 @@ import CenterFlex, {
 
 const variants: Record<
   CenterFlexVariant,
-  { nameFontSize: string; defaultFontSize: string; showId: boolean }
+  {
+    nameFontSize: string;
+    defaultFontSize: string;
+    showId: boolean;
+    priceWidth: string;
+  }
 > = {
   mini: {
     nameFontSize: "sm",
     defaultFontSize: "sm",
     showId: false,
+    priceWidth: "50px",
   },
   default: {
     nameFontSize: "lg",
     defaultFontSize: "md",
     showId: true,
+    priceWidth: "70px",
   },
 };
 
@@ -33,7 +40,7 @@ const NameSection = ({
   variant: CenterFlexVariant;
   player: Player;
 }) => {
-  const { nameFontSize, defaultFontSize, showId } =
+  const { nameFontSize, defaultFontSize, showId, priceWidth } =
     variants[variant] ?? variants.default;
 
   return (
@@ -95,7 +102,7 @@ const NameSection = ({
         </Text>
         {showId && <Text color="gray">ID: {player.id}</Text>}
       </Flex>
-      <Flex flexDirection="column">
+      <Flex flexDirection="column" width={priceWidth}>
         <CenterFlex variant={variant} bg="gray.100" fontWeight="bold">
           £{(player.now_cost / 10).toFixed(1)}
         </CenterFlex>

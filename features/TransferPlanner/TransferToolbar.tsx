@@ -54,7 +54,7 @@ const TransferToolbar = ({
         aria-label="previous gameweek"
         icon={<Icon as={IoArrowBackOutline} />}
       />
-      <Heading size="sm" fontWeight="black">
+      <Heading size="sm" fontWeight="black" width="120px">
         Gameweek {planningGameweek}
       </Heading>
       <IconButton

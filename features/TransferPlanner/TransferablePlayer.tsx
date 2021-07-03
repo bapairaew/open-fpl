@@ -1,5 +1,19 @@
-import { Box, Button, ButtonProps, Text, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Button,
+  ButtonProps,
+  Flex,
+  Icon,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Tooltip,
+} from "@chakra-ui/react";
 import { MouseEventHandler } from "react";
+import { IoStarOutline } from "react-icons/io5";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import PlayerCard from "~/features/PlayerCard/PlayerCard";
 import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
@@ -37,55 +51,101 @@ const teamPlayerVariants: Record<TransferablePlayerVariant, ButtonProps> = {
 
 const TransferablePlayer = ({
   variant,
-  onClick,
   player,
   gameweeks,
+  showCaptainButton = false,
+  onPlayerClick,
+  onSetCaptainClick,
+  onSetViceCaptainClick,
+  ...props
 }: {
   variant: TransferablePlayerVariant;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
   player: FullChangePlayer;
   gameweeks: Gameweek[];
-}) => {
+  showCaptainButton?: boolean;
+  onPlayerClick?: MouseEventHandler<HTMLButtonElement>;
+  onSetCaptainClick?: MouseEventHandler<HTMLButtonElement>;
+  onSetViceCaptainClick?: MouseEventHandler<HTMLButtonElement>;
+} & BoxProps) => {
   const variantProps =
     teamPlayerVariants[variant] ?? teamPlayerVariants.default;
   const adjustedSellingPrice = player.pick.selling_price / 10;
   const adjustedPurchasePrice = player.pick.purchase_price / 10;
+  const captainTooltipText = player.pick.is_captain
+    ? "Captain"
+    : player.pick.is_vice_captain
+    ? "Vice Captain"
+    : "Set as captain";
   return (
-    <Button
-      variant="unstyled"
-      m={1}
-      flexBasis="200px"
-      borderRadius="md"
-      transition="all 300ms"
-      onClick={onClick}
-      position="relative"
-      height="auto"
-      {...variantProps}
-    >
-      <Tooltip
-        hasArrow
-        label={`Sell for £${adjustedSellingPrice} | Purchased at £${adjustedPurchasePrice}`}
+    <Box position="relative" m={1} {...props}>
+      <Button
+        width="100%"
+        height="auto"
+        variant="unstyled"
+        transition="all 300ms"
+        onClick={onPlayerClick}
+        {...variantProps}
       >
-        <Box
-          position="absolute"
-          top="1px"
-          right="1px"
-          bg="white"
-          width="55px"
-          height="50px"
-          boxShadow="xs"
-          p={1}
+        <PlayerCard variant="mini" player={player} gameweeks={gameweeks} />
+      </Button>
+      <Flex
+        position="absolute"
+        top="1px"
+        right="1px"
+        bg="white"
+        width="50px"
+        height="50px"
+        boxShadow="xs"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <Tooltip
+          hasArrow
+          label={`Sell for £${adjustedSellingPrice} | Purchased at £${adjustedPurchasePrice}`}
         >
-          <Text fontWeight="bold" fontSize="sm">
+          <Flex
+            fontWeight="bold"
+            fontSize="sm"
+            flexBasis="50%"
+            justifyContent="center"
+            alignItems="center"
+          >
             £{adjustedSellingPrice}
-          </Text>
-          <Text fontSize="xs" color="gray.600">
-            £{adjustedPurchasePrice}
-          </Text>
-        </Box>
-      </Tooltip>
-      <PlayerCard variant="mini" player={player} gameweeks={gameweeks} />
-    </Button>
+          </Flex>
+        </Tooltip>
+        {showCaptainButton && (
+          <Tooltip hasArrow label={captainTooltipText}>
+            <Box flexBasis="50%" width="100%">
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  size="xs"
+                  width="100%"
+                  aria-label={captainTooltipText}
+                  variant={
+                    player.pick.is_captain
+                      ? "solid"
+                      : player.pick.is_vice_captain
+                      ? "outline"
+                      : "ghost"
+                  }
+                  borderRadius="none"
+                  icon={<Icon aria-label="help" as={IoStarOutline} />}
+                />
+                <MenuList>
+                  <MenuItem onClick={onSetCaptainClick}>
+                    Set as captain
+                  </MenuItem>
+                  <MenuItem onClick={onSetViceCaptainClick}>
+                    Set as vice captain
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Box>
+          </Tooltip>
+        )}
+      </Flex>
+    </Box>
   );
 };
 

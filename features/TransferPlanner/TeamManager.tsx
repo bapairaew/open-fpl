@@ -19,6 +19,8 @@ const TeamManager = ({
   onTransfer,
   onPreseasonSwap,
   onPreseasonTransfer,
+  onSetCaptain,
+  onSetViceCaptain,
 }: {
   mode?: "default" | "preseason";
   team: FullChangePlayer[];
@@ -34,12 +36,12 @@ const TeamManager = ({
     selectedPlayer: FullChangePlayer,
     targetPlayer: Player
   ) => void;
+  onSetCaptain: (player: FullChangePlayer) => void;
+  onSetViceCaptain: (player: FullChangePlayer) => void;
 }) => {
   const [selectedPlayer, setSelectedPlayer] = useState<FullChangePlayer | null>(
     null
   );
-
-  console.log(team);
 
   const teamObject = useMemo(() => makeTeamGroupObject(team), [team, mode]);
 
@@ -98,6 +100,8 @@ const TeamManager = ({
           gameweeks={gameweeks}
           selectedPlayer={selectedPlayer}
           onPlayerSelect={handlePlayerSelect}
+          onSetCaptain={onSetCaptain}
+          onSetViceCaptain={onSetViceCaptain}
         />
       </Box>
       <Box height="100%">

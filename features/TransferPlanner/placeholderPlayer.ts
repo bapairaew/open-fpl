@@ -73,6 +73,9 @@ export function makePlaceholderFullChangePlayerFromPosition(
       now_cost: 0,
       selling_price: 0,
       purchase_price: 0,
+      multiplier: 1,
+      is_captain: false,
+      is_vice_captain: false,
     },
   };
 }

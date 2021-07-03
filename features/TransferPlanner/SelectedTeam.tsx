@@ -71,11 +71,15 @@ const SelectedTeam = ({
   gameweeks,
   selectedPlayer,
   onPlayerSelect,
+  onSetCaptain,
+  onSetViceCaptain,
 }: {
   teamObject: GroupedTeam;
   gameweeks: Gameweek[];
   selectedPlayer: FullChangePlayer | null;
   onPlayerSelect: (player: FullChangePlayer | null) => void;
+  onSetCaptain: (player: FullChangePlayer) => void;
+  onSetViceCaptain: (player: FullChangePlayer) => void;
 }) => {
   const { preference, setPreference } = useSettings();
 
@@ -87,16 +91,34 @@ const SelectedTeam = ({
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    onPlayerSelect?.(p);
+    onPlayerSelect(p);
+  };
+
+  const handleSetCaptainClick = (
+    e: MouseEvent<HTMLButtonElement>,
+    p: FullChangePlayer
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onSetCaptain(p);
+  };
+
+  const onSetViceCaptainClick = (
+    e: MouseEvent<HTMLButtonElement>,
+    p: FullChangePlayer
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onSetViceCaptain(p);
   };
 
   const handleOutsideClick = () => {
-    onPlayerSelect?.(null);
+    onPlayerSelect(null);
   };
 
   const handleKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Escape") {
-      onPlayerSelect?.(null);
+      onPlayerSelect(null);
     }
   };
 
@@ -117,10 +139,16 @@ const SelectedTeam = ({
                       {group.map((p) => (
                         <TransferablePlayer
                           key={p.id}
-                          variant={getVariant(selectedPlayer, p, teamObject)}
-                          onClick={(e) => handlePlayerClick(e, p)}
                           player={p}
                           gameweeks={gameweeks}
+                          flexBasis="200px"
+                          showCaptainButton
+                          variant={getVariant(selectedPlayer, p, teamObject)}
+                          onPlayerClick={(e) => handlePlayerClick(e, p)}
+                          onSetCaptainClick={(e) => handleSetCaptainClick(e, p)}
+                          onSetViceCaptainClick={(e) =>
+                            onSetViceCaptainClick(e, p)
+                          }
                         />
                       ))}
                     </Flex>
@@ -162,10 +190,11 @@ const SelectedTeam = ({
                     {bench.map((p) => (
                       <TransferablePlayer
                         key={p.id}
-                        variant={getVariant(selectedPlayer, p, teamObject)}
-                        onClick={(e) => handlePlayerClick(e, p)}
                         player={p}
                         gameweeks={gameweeks}
+                        flexBasis="200px"
+                        variant={getVariant(selectedPlayer, p, teamObject)}
+                        onPlayerClick={(e) => handlePlayerClick(e, p)}
                       />
                     ))}
                   </Flex>

@@ -6,10 +6,13 @@ import {
   IoArrowBackOutline,
   IoArrowForwardOutline,
   IoCloseOutline,
+  IoStar,
+  IoStarOutline,
   IoSwapVerticalOutline,
   IoWarningOutline,
 } from "react-icons/io5";
 import {
+  CaptainChange,
   Change,
   FullChangePlayer,
   TeamChange,
@@ -17,25 +20,21 @@ import {
 
 export type TransferChangeVariant = "invalid" | "outdated" | "default";
 
-const changeVariants: Record<
+export const changeVariants: Record<
   TransferChangeVariant,
-  { showIcon: boolean; icon?: IconType; color?: string; label?: string }
+  { icon?: IconType; color?: string; label?: string }
 > = {
   invalid: {
-    showIcon: true,
     icon: IoAlertCircleOutline,
     color: "red.500",
     label: "Invalid change",
   },
   outdated: {
-    showIcon: true,
     icon: IoWarningOutline,
     color: "yellow.500",
     label: "Outdated change",
   },
-  default: {
-    showIcon: false,
-  },
+  default: {},
 };
 
 const TransferChange = ({
@@ -49,36 +48,62 @@ const TransferChange = ({
   change: Change;
   onRemoveClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
+  const variantProp = changeVariants[variant] ?? changeVariants.default;
+  const label = errorLabel || variantProp.label;
+
+  let mainComponent = null;
+
   if (change.type === "preseason") {
-    return (
-      <Flex alignItems="center" height="100%" px={2}>
-        <Text fontSize="xs" noOfLines={1} pr={2}>
-          Initial team set up
+    mainComponent = (
+      <Text fontSize="xs" noOfLines={1} pr={2}>
+        Initial Team Setup
+      </Text>
+    );
+  } else if (change.type === "swap" || change.type === "transfer") {
+    const selectedColor = change.type === "swap" ? undefined : "red";
+    const targetColor = change.type === "swap" ? undefined : "green";
+    const SelectedIcon =
+      change.type === "swap" ? IoSwapVerticalOutline : IoArrowForwardOutline;
+    const TargetIcon =
+      change.type === "swap" ? IoSwapVerticalOutline : IoArrowBackOutline;
+
+    mainComponent = (
+      <Box width="120px" pr={2}>
+        <Text fontSize="xs" noOfLines={1}>
+          <Icon as={SelectedIcon} mr={1} color={selectedColor} />
+          {(change as TeamChange<FullChangePlayer>).selectedPlayer?.web_name}
         </Text>
-        <IconButton
-          onClick={onRemoveClick}
-          variant="ghost"
-          size="xs"
-          aria-label="remove"
-          icon={<Icon as={IoCloseOutline} />}
-        />
-      </Flex>
+        <Text fontSize="xs" noOfLines={1}>
+          <Icon as={TargetIcon} mr={1} color={targetColor} />
+          {(change as TeamChange<FullChangePlayer>).targetPlayer?.web_name}
+        </Text>
+      </Box>
+    );
+  } else if (
+    change.type === "set-captain" ||
+    change.type === "set-vice-captain"
+  ) {
+    const ChangeIcon = change.type === "set-captain" ? IoStar : IoStarOutline;
+    mainComponent = (
+      <Box width="120px" pr={2}>
+        <Text fontSize="xs" noOfLines={1}>
+          <Icon as={ChangeIcon} mr={2} color="brand.500" />
+          {(change as CaptainChange<FullChangePlayer>).player?.web_name}
+        </Text>
+      </Box>
+    );
+  } else {
+    mainComponent = (
+      <Text fontSize="xs" noOfLines={1} pr={2}>
+        Unknown Change
+      </Text>
     );
   }
 
-  const selectedColor = change.type === "swap" ? undefined : "red";
-  const targetColor = change.type === "swap" ? undefined : "green";
-  const SelectedIcon =
-    change.type === "swap" ? IoSwapVerticalOutline : IoArrowForwardOutline;
-  const TargetIcon =
-    change.type === "swap" ? IoSwapVerticalOutline : IoArrowBackOutline;
-
-  const variantProp = changeVariants[variant] ?? changeVariants.default;
-
   return (
     <Flex alignItems="center" height="100%" px={2}>
-      {variantProp.showIcon && (
-        <Tooltip label={errorLabel || variantProp.label} hasArrow>
+      {label && (
+        <Tooltip label={label} hasArrow>
           <Flex
             flexShrink={0}
             pl={2}
@@ -90,16 +115,7 @@ const TransferChange = ({
           </Flex>
         </Tooltip>
       )}
-      <Box width="120px" pr={2}>
-        <Text fontSize="xs" noOfLines={1}>
-          <Icon as={SelectedIcon} mr={1} color={selectedColor} />
-          {(change as TeamChange<FullChangePlayer>).selectedPlayer?.web_name}
-        </Text>
-        <Text fontSize="xs" noOfLines={1}>
-          <Icon as={TargetIcon} mr={1} color={targetColor} />
-          {(change as TeamChange<FullChangePlayer>).targetPlayer?.web_name}
-        </Text>
-      </Box>
+      {mainComponent}
       <IconButton
         onClick={onRemoveClick}
         variant="ghost"

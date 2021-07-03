@@ -22,6 +22,7 @@ const FixturesSection = ({
       gap={0}
       templateColumns="repeat(5, 1fr)"
       height={`${height}px`}
+      width="100%"
     >
       {gameweeks.map((w) => {
         const games = player.linked_data.next_gameweeks.filter(
@@ -45,9 +46,9 @@ const FixturesSection = ({
                   bg={difficultyColorCodes[g.difficulty].background}
                   color={difficultyColorCodes[g.difficulty].text}
                 >
-                  {g.opponent_team_short_name[
-                    g.is_home ? "toUpperCase" : "toLowerCase"
-                  ]()}
+                  {g.is_home
+                    ? g.opponent_team_short_name.toUpperCase()
+                    : g.opponent_team_short_name.toLowerCase()}
                 </CenterFlex>
               ))
             )}

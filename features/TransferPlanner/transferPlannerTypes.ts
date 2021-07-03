@@ -1,7 +1,12 @@
 import { Player } from "~/features/AppData/appDataTypes";
 import { Invalid } from "~/features/Common/errorTypes";
 
-export type ChangeType = "swap" | "transfer" | "preseason";
+export type ChangeType =
+  | "swap"
+  | "transfer"
+  | "preseason"
+  | "set-captain"
+  | "set-vice-captain";
 
 export interface ChangePlayer {
   id: number;
@@ -16,6 +21,11 @@ export interface TeamChange<T extends ChangePlayer> extends Change {
   type: "swap" | "transfer";
   selectedPlayer: T;
   targetPlayer: T;
+}
+
+export interface CaptainChange<T extends ChangePlayer> extends Change {
+  type: "set-captain" | "set-vice-captain";
+  player: T;
 }
 
 export interface PreseasonChange<T extends ChangePlayer> extends Change {
@@ -40,6 +50,9 @@ export interface Pick {
   now_cost: number;
   selling_price: number;
   purchase_price: number;
+  multiplier: number;
+  is_captain: boolean;
+  is_vice_captain: boolean;
 }
 
 export interface GroupedTeam {

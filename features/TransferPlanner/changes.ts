@@ -3,6 +3,7 @@ import { EntryEventPick, Transfer } from "~/features/AppData/fplTypes";
 import { Invalid } from "~/features/Common/errorTypes";
 import { makePlaceholderPlayerFromId } from "~/features/TransferPlanner/placeholderPlayer";
 import {
+  CaptainChange,
   Change,
   ChangePlayer,
   FullChangePlayer,
@@ -98,6 +99,35 @@ const processPicks = (
           };
         }
       }
+    } else if (
+      change.type === "set-captain" ||
+      change.type === "set-vice-captain"
+    ) {
+      const captainChange = change as CaptainChange<FullChangePlayer>;
+      const fieldName =
+        change.type === "set-captain" ? "is_captain" : "is_vice_captain";
+
+      const currentCaptainIndex = picks.findIndex((p) => p[fieldName] === true);
+      if (currentCaptainIndex !== -1)
+        picks[currentCaptainIndex] = {
+          ...picks[currentCaptainIndex],
+          [fieldName]: false,
+        };
+      const newCaptainIndex = picks.findIndex(
+        (p) => p.element === captainChange.player.id
+      );
+      if (newCaptainIndex !== -1) {
+        picks[newCaptainIndex] = {
+          ...picks[newCaptainIndex],
+          [fieldName]: true,
+        };
+      } else {
+        invalidChanges.push({
+          type: "captain_non_existed_player",
+          message: `${captainChange.player.web_name} is not in the team.`,
+          change,
+        });
+      }
     } else if (change.type === "preseason") {
       const preseasonChange = change as PreseasonChange<FullChangePlayer>;
       for (const player of preseasonChange.team) {
@@ -127,7 +157,11 @@ export const processTransferPlan = (
     initialPicks,
     transfers,
     players,
-    changes.filter((c) => c.gameweek <= planningGameweek)
+    changes
+      .sort((a, b) =>
+        a.gameweek > b.gameweek ? 1 : a.gameweek < b.gameweek ? -1 : 0
+      )
+      .filter((c) => c.gameweek <= planningGameweek)
   );
 
   const team = picks.map((p) => {
@@ -236,9 +270,28 @@ export const addChange = (changes: Change[], newChange: Change): Change[] => {
         },
       } as TeamChange<ChangePlayer>;
       cleanedChanges.push(reducedTeamChange);
+    } else if (
+      change.type === "set-captain" ||
+      change.type === "set-vice-captain"
+    ) {
+      // Always replace existing set-captain / set-vice-captain changes within the same gameweek
+      cleanedChanges = cleanedChanges.filter(
+        // TODO
+        (c) => c.gameweek !== change.gameweek || c.type !== change.type
+      );
+      const captainChange = change as CaptainChange<FullChangePlayer>;
+      const reduceCaptainChange = {
+        id: captainChange.id,
+        type: captainChange.type,
+        gameweek: captainChange.gameweek,
+        player: {
+          id: captainChange.player.id,
+        },
+      } as CaptainChange<ChangePlayer>;
+      cleanedChanges.push(reduceCaptainChange);
     } else if (change.type === "preseason") {
       // Always replace existing preseason changes
-      cleanedChanges = cleanedChanges.filter((c) => c.type !== "preseason");
+      cleanedChanges = cleanedChanges.filter((c) => c.type !== change.type);
       const preseasonChange = change as PreseasonChange<FullChangePlayer>;
       const reducedPreseasonChange = {
         id: change.id,
@@ -279,6 +332,9 @@ export const processPreseasonTransfer = (
     now_cost: targetPlayer.now_cost,
     selling_price: targetPlayer.now_cost,
     purchase_price: targetPlayer.now_cost,
+    multiplier: 1,
+    is_captain: false,
+    is_vice_captain: false,
   };
 
   const updatedTeam: ChangePlayer[] = team.map((player) => ({
@@ -326,7 +382,10 @@ export const processPreseasonSwap = (
       now_cost: targetPlayer.now_cost,
       selling_price: targetPlayer.now_cost,
       purchase_price: targetPlayer.now_cost,
-    },
+      multiplier: targetPlayer.pick.multiplier,
+      is_captain: targetPlayer.pick.is_captain,
+      is_vice_captain: targetPlayer.pick.is_vice_captain,
+    } as Pick,
   };
 
   const targetPlayerObject = {
@@ -337,7 +396,10 @@ export const processPreseasonSwap = (
       now_cost: selectedPlayer.now_cost,
       selling_price: selectedPlayer.now_cost,
       purchase_price: selectedPlayer.now_cost,
-    },
+      multiplier: selectedPlayer.pick.multiplier,
+      is_captain: selectedPlayer.pick.is_captain,
+      is_vice_captain: selectedPlayer.pick.is_vice_captain,
+    } as Pick,
   };
 
   const sourceIndex = team.findIndex((p) => p.id === selectedPlayer.id);
@@ -356,6 +418,34 @@ export const processPreseasonSwap = (
   }
 
   return updatedTeam;
+};
+
+export const processPreseasonSetCaptain = (
+  team: FullChangePlayer[],
+  player: FullChangePlayer,
+  type: "set-captain" | "set-vice-captain"
+): ChangePlayer[] => {
+  return team.map((p) => {
+    if (type === "set-captain") {
+      return {
+        ...p,
+        pick: {
+          ...p.pick,
+          is_captain: player.id === p.id,
+        },
+      };
+    } else if (type === "set-vice-captain") {
+      return {
+        ...p,
+        pick: {
+          ...p.pick,
+          is_vice_captain: player.id === p.id,
+        },
+      };
+    }
+
+    return player;
+  });
 };
 
 // Dehydrate the reduced form transferPlan
@@ -390,6 +480,19 @@ export const dehydrateFromTransferPlan = (
           },
         } as TeamChange<FullChangePlayer>;
         changes.push(fullTeamChange);
+      }
+    } else if (
+      plan.type === "set-captain" ||
+      plan.type === "set-vice-captain"
+    ) {
+      const captainChange = plan as CaptainChange<ChangePlayer>;
+      const player = players.find((p) => p.id === captainChange.player.id);
+      if (player) {
+        const fullCaptainChange = {
+          ...plan,
+          player,
+        } as CaptainChange<FullChangePlayer>;
+        changes.push(fullCaptainChange);
       }
     } else if (plan.type === "preseason") {
       const preseasonChange = plan as PreseasonChange<ChangePlayer>;

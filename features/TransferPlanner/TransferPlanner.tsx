@@ -11,14 +11,16 @@ import { useSettings } from "~/features/Settings/SettingsContext";
 import {
   addChange,
   dehydrateFromTransferPlan,
-  processPreseasonTransfer,
+  processPreseasonSetCaptain,
   processPreseasonSwap,
+  processPreseasonTransfer,
   processTransferPlan,
   removeChange,
 } from "~/features/TransferPlanner/changes";
 import TeamManager from "~/features/TransferPlanner/TeamManager";
 import TransferLog from "~/features/TransferPlanner/TransferLog";
 import {
+  CaptainChange,
   Change,
   ChangePlayer,
   FullChangePlayer,
@@ -109,6 +111,9 @@ const TransferPlanner = ({
   }, [changes, planningGameweek, entryHistory]);
 
   const freeTransfersCount = useMemo(() => {
+    if (currentGameweek + gameweekDelta === 1) {
+      return 0;
+    }
     if (gameweekDelta === 0) {
       const lastGameweekTransfersCount = transfers?.filter(
         (t) => t.event === currentGameweek - 1
@@ -118,7 +123,9 @@ const TransferPlanner = ({
       return currentGameweekFreeTransfers;
     } else {
       const lastGameweekTransfersCount = changes.filter(
-        (c) => c.type === "transfer" && c.gameweek === planningGameweek - 1
+        (c) =>
+          (c.type === "transfer" || c.type === "preseason") &&
+          c.gameweek === planningGameweek - 1
       ).length;
       const currentGameweekFreeTransfers =
         lastGameweekTransfersCount >= 1 ? 1 : 2;
@@ -187,6 +194,37 @@ const TransferPlanner = ({
       } as PreseasonChange<FullChangePlayer>)
     );
 
+  const handleSetCaptaincy = (
+    player: FullChangePlayer,
+    type: "set-captain" | "set-vice-captain"
+  ) => {
+    if (transferManagerMode === "preseason") {
+      setTransferPlan(
+        addChange(changes, {
+          type: "preseason",
+          team: processPreseasonSetCaptain(team, player, type),
+          gameweek: 1, // Make preseason transfer always at gameweek 1 to support placeholder player in later gameweeks
+        } as PreseasonChange<FullChangePlayer>)
+      );
+    } else {
+      setTransferPlan(
+        addChange(changes, {
+          type,
+          player,
+          gameweek: planningGameweek,
+        } as CaptainChange<FullChangePlayer>)
+      );
+    }
+  };
+
+  const handleSetCaptain = (player: FullChangePlayer) => {
+    handleSetCaptaincy(player, "set-captain");
+  };
+
+  const handleSetViceCaptain = (player: FullChangePlayer) => {
+    handleSetCaptaincy(player, "set-vice-captain");
+  };
+
   const onRemove = (change: Change) =>
     setTransferPlan(removeChange(changes, change));
 
@@ -222,6 +260,8 @@ const TransferPlanner = ({
           onTransfer={handleTransfer}
           onPreseasonSwap={handlePreseasonSwap}
           onPreseasonTransfer={handlePreseasonTransfer}
+          onSetCaptain={handleSetCaptain}
+          onSetViceCaptain={handleSetViceCaptain}
         />
       </Box>
     </Flex>
