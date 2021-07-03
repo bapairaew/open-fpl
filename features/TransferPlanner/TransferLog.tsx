@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, HStack } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, HStack } from "@chakra-ui/react";
 import { useMemo } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import TransferChange from "~/features/TransferPlanner/TransferChange";
@@ -14,19 +14,22 @@ const GameweekChanges = ({
   invalidChanges,
   changes,
   onRemove,
+  onMoveToGameweek,
 }: {
   height: number;
-  gameweek: string | number;
+  gameweek: number;
   currentGameweek: number;
   invalidChanges: InvalidChange[];
   changes: Change[];
   onRemove: (change: Change) => void;
+  onMoveToGameweek: (gameweek: number) => void;
 }) => {
   return (
     <>
       <Flex
         position="sticky"
         left={0}
+        p="2px"
         bg="white"
         zIndex="sticky"
         textAlign="center"
@@ -34,9 +37,15 @@ const GameweekChanges = ({
         height={`${height - 2}px`}
         borderRightWidth={1}
       >
-        <Heading size="xs" width="80px">
-          GW {gameweek}
-        </Heading>
+        <Button
+          variant="unstyled"
+          width="80px"
+          height="100%"
+          borderRadius="none"
+          onClick={() => onMoveToGameweek(gameweek)}
+        >
+          <Heading size="xs">GW {gameweek}</Heading>
+        </Button>
       </Flex>
       {changes.map((change, index) => {
         const isOutdated = change.gameweek < currentGameweek;
@@ -68,11 +77,13 @@ const TransferLog = ({
   currentGameweek,
   invalidChanges,
   onRemove,
+  onMoveToGameweek,
 }: {
   changes: Change[];
   currentGameweek: number;
   invalidChanges: InvalidChange[];
   onRemove: (change: Change) => void;
+  onMoveToGameweek: (gameweek: number) => void;
 }) => {
   const groupedChanges = useMemo(() => {
     const reversedChanges = [...changes].reverse();
@@ -111,11 +122,12 @@ const TransferLog = ({
                   <GameweekChanges
                     key={gameweek}
                     height={height}
-                    gameweek={gameweek}
+                    gameweek={+gameweek}
                     currentGameweek={currentGameweek}
                     invalidChanges={invalidChanges}
-                    onRemove={onRemove}
                     changes={groupedChanges[+gameweek]}
+                    onRemove={onRemove}
+                    onMoveToGameweek={onMoveToGameweek}
                   />
                 );
               })}

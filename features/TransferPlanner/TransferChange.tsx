@@ -69,14 +69,30 @@ const TransferChange = ({
 
     mainComponent = (
       <Box width="120px" pr={2}>
-        <Text fontSize="xs" noOfLines={1}>
-          <Icon as={SelectedIcon} mr={1} color={selectedColor} />
-          {(change as TeamChange<FullChangePlayer>).selectedPlayer?.web_name}
-        </Text>
-        <Text fontSize="xs" noOfLines={1}>
-          <Icon as={TargetIcon} mr={1} color={targetColor} />
-          {(change as TeamChange<FullChangePlayer>).targetPlayer?.web_name}
-        </Text>
+        <Flex>
+          <Icon
+            as={SelectedIcon}
+            fontSize="xs"
+            mt={0.5}
+            mr={1}
+            color={selectedColor}
+          />
+          <Text fontSize="xs" noOfLines={1}>
+            {(change as TeamChange<FullChangePlayer>).selectedPlayer?.web_name}
+          </Text>
+        </Flex>
+        <Flex>
+          <Icon
+            as={TargetIcon}
+            fontSize="xs"
+            mt={0.5}
+            mr={1}
+            color={targetColor}
+          />
+          <Text fontSize="xs" noOfLines={1}>
+            {(change as TeamChange<FullChangePlayer>).targetPlayer?.web_name}
+          </Text>
+        </Flex>
       </Box>
     );
   } else if (
@@ -85,12 +101,12 @@ const TransferChange = ({
   ) {
     const ChangeIcon = change.type === "set-captain" ? IoStar : IoStarOutline;
     mainComponent = (
-      <Box width="120px" pr={2}>
+      <Flex width="120px" pr={2}>
+        <Icon as={ChangeIcon} fontSize="xs" mt={0.5} mr={2} color="brand.500" />
         <Text fontSize="xs" noOfLines={1}>
-          <Icon as={ChangeIcon} mr={2} color="brand.500" />
           {(change as CaptainChange<FullChangePlayer>).player?.web_name}
         </Text>
-      </Box>
+      </Flex>
     );
   } else {
     mainComponent = (

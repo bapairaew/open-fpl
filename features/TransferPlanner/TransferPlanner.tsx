@@ -225,8 +225,11 @@ const TransferPlanner = ({
     handleSetCaptaincy(player, "set-vice-captain");
   };
 
-  const onRemove = (change: Change) =>
+  const handleRemove = (change: Change) =>
     setTransferPlan(removeChange(changes, change));
+
+  const handleMoveToGameweek = (gameweek: number) =>
+    setGameweekDelta(gameweek - currentGameweek);
 
   return (
     <Flex overflow="hidden" height="100%" flexDirection="column" {...props}>
@@ -243,7 +246,8 @@ const TransferPlanner = ({
         currentGameweek={currentGameweek}
         changes={changes}
         invalidChanges={invalidChanges}
-        onRemove={onRemove}
+        onRemove={handleRemove}
+        onMoveToGameweek={handleMoveToGameweek}
       />
       {teamInvalidities.length > 0 && (
         <Box width="100%" py={2} px={4} bg="red.500" color="white">
