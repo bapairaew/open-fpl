@@ -71,14 +71,16 @@ const processPicks = (
             change,
           });
         } else {
-          picks[sourceIndex] = {
+          const newSourcePick = {
             ...picks[targetIndex],
-            position: sourceIndex + 1,
+            position: picks[sourceIndex].position,
           };
-          picks[targetIndex] = {
+          const newTargetPick = {
             ...picks[sourceIndex],
-            position: targetIndex + 1,
+            position: picks[targetIndex].position,
           };
+          picks[sourceIndex] = newSourcePick;
+          picks[targetIndex] = newTargetPick;
         }
       } else if (change.type === "transfer") {
         if (sourceIndex === -1) {
@@ -157,7 +159,7 @@ export const processTransferPlan = (
     initialPicks,
     transfers,
     players,
-    changes
+    [...changes]
       .sort((a, b) =>
         a.gameweek > b.gameweek ? 1 : a.gameweek < b.gameweek ? -1 : 0
       )
