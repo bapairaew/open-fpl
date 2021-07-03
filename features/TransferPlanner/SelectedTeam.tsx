@@ -127,7 +127,12 @@ const SelectedTeam = ({
       <AutoSizer>
         {({ height, width }) => {
           return (
-            <Box overflow="auto" height={`${height}px`} width={`${width}px`}>
+            <Box
+              overflow="auto"
+              height={`${height}px`}
+              width={`${width}px`}
+              overflowX="hidden"
+            >
               <SelectedTeamSection heading="Starting XI" height="740px">
                 {[GKP, DEF, MID, FWD].map((group, index) => {
                   return (
