@@ -3,6 +3,7 @@ import {
   Bootstrap,
   ElementSummary,
   EntryEvent,
+  EntryHistory,
   Team,
   Transfer,
 } from "~/features/AppData/fplTypes";
@@ -53,6 +54,13 @@ export const getTeamPicks = (
 
 export const getTeamTransfers = (id: number): Promise<Transfer[]> => {
   return fetch(`https://fantasy.premierleague.com/api/entry/${id}/transfers/`, {
+    headers,
+    method: "GET",
+  }).then((r) => r.json());
+};
+
+export const getTeamHistory = (id: number): Promise<EntryHistory> => {
+  return fetch(`https://fantasy.premierleague.com/api/entry/${id}/history/`, {
     headers,
     method: "GET",
   }).then((r) => r.json());

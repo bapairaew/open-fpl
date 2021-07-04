@@ -1,7 +1,9 @@
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import {
+  ChipName,
+  EntryChipPlay,
   EntryEventHistory,
   EntryEventPick,
   Transfer,
@@ -20,13 +22,15 @@ import {
 import TeamManager from "~/features/TransferPlanner/TeamManager";
 import TransferLog from "~/features/TransferPlanner/TransferLog";
 import {
-  CaptainChange,
   Change,
   ChangePlayer,
+  ChipChange,
+  ChipUsage,
   FullChangePlayer,
   InvalidChange,
-  PreseasonChange,
+  SinglePlayerChange,
   TeamChange,
+  TwoPlayersChange,
 } from "~/features/TransferPlanner/transferPlannerTypes";
 import TransferToolbar from "~/features/TransferPlanner/TransferToolbar";
 
@@ -36,6 +40,7 @@ const TransferPlanner = ({
   players,
   gameweeks,
   transfers,
+  chips,
   ...props
 }: BoxProps & {
   initialPicks: EntryEventPick[] | null;
@@ -43,6 +48,7 @@ const TransferPlanner = ({
   players: Player[];
   gameweeks: Gameweek[];
   transfers: Transfer[];
+  chips: EntryChipPlay[];
 }) => {
   const { transferPlan, setTransferPlan } = useSettings();
   const [gameweekDelta, setGameweekDelta] = useState(0);
@@ -52,11 +58,7 @@ const TransferPlanner = ({
 
   const currentGameweek = gameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
   const planningGameweek = currentGameweek + gameweekDelta;
-
-  const upcomingGameweeks = useMemo(
-    () => gameweeks.slice(Math.max(0, gameweekDelta)),
-    [gameweeks, gameweekDelta]
-  );
+  const upcomingGameweeks = gameweeks.slice(Math.max(0, gameweekDelta));
 
   const transferManagerMode =
     planningGameweek === 1 && isStartedFromFirstGameweek
@@ -71,10 +73,12 @@ const TransferPlanner = ({
 
   const {
     team,
+    chipUsages,
     invalidChanges,
     teamInvalidities,
   }: {
     team: FullChangePlayer[];
+    chipUsages: ChipUsage[];
     invalidChanges: InvalidChange[];
     teamInvalidities: Invalid[];
   } = useMemo(
@@ -82,11 +86,12 @@ const TransferPlanner = ({
       processTransferPlan(
         initialPicks,
         transfers,
+        chips,
         players,
         changes,
         planningGameweek
       ),
-    [initialPicks, transfers, players, changes, planningGameweek]
+    [initialPicks, transfers, chips, players, changes, planningGameweek]
   );
 
   const bank = useMemo(() => {
@@ -98,13 +103,13 @@ const TransferPlanner = ({
     );
     const diff = transfers?.reduce((sum, change) => {
       if (change.type === "transfer") {
-        const sellingPrice = (change as TeamChange<FullChangePlayer>)
+        const sellingPrice = (change as TwoPlayersChange<FullChangePlayer>)
           .selectedPlayer.pick.selling_price;
-        const nowCost = (change as TeamChange<FullChangePlayer>).targetPlayer
-          .now_cost;
+        const nowCost = (change as TwoPlayersChange<FullChangePlayer>)
+          .targetPlayer.now_cost;
         return sum + (sellingPrice - nowCost);
       } else if (change.type === "preseason") {
-        const total = (change as PreseasonChange<FullChangePlayer>).team.reduce(
+        const total = (change as TeamChange<FullChangePlayer>).team.reduce(
           (sum, player) => sum + player.now_cost,
           0
         );
@@ -142,10 +147,11 @@ const TransferPlanner = ({
     (c) => c.type === "transfer" && c.gameweek === planningGameweek
   ).length;
 
-  const hits = Math.min(
-    0,
-    -4 * (planningGameweekTransferCount - freeTransfersCount)
-  );
+  const hits = chipUsages.some(
+    (c) => (c.name === "wildcard" || c.name === "freehit") && c.isActive
+  )
+    ? 0
+    : Math.min(0, -4 * (planningGameweekTransferCount - freeTransfersCount));
 
   const remainingFreeTransfers = Math.max(
     0,
@@ -162,7 +168,7 @@ const TransferPlanner = ({
         selectedPlayer,
         targetPlayer,
         gameweek: planningGameweek,
-      } as TeamChange<FullChangePlayer>)
+      } as TwoPlayersChange<FullChangePlayer>)
     );
 
   const handleTransfer = (selectedPlayer: ChangePlayer, targetPlayer: Player) =>
@@ -172,7 +178,7 @@ const TransferPlanner = ({
         selectedPlayer,
         targetPlayer: targetPlayer as FullChangePlayer,
         gameweek: planningGameweek,
-      } as TeamChange<FullChangePlayer>)
+      } as TwoPlayersChange<FullChangePlayer>)
     );
 
   const handlePreseasonSwap = (
@@ -184,7 +190,7 @@ const TransferPlanner = ({
         type: "preseason",
         team: processPreseasonSwap(team, selectedPlayer, targetPlayer),
         gameweek: 1, // Make preseason transfer always at gameweek 1 to support placeholder player in later gameweeks
-      } as PreseasonChange<FullChangePlayer>)
+      } as TeamChange<FullChangePlayer>)
     );
 
   const handlePreseasonTransfer = (
@@ -196,7 +202,7 @@ const TransferPlanner = ({
         type: "preseason",
         team: processPreseasonTransfer(team, selectedPlayer, targetPlayer),
         gameweek: 1, // Make preseason transfer always at gameweek 1 to support placeholder player in later gameweeks
-      } as PreseasonChange<FullChangePlayer>)
+      } as TeamChange<FullChangePlayer>)
     );
 
   const handleSetCaptaincy = (
@@ -209,7 +215,7 @@ const TransferPlanner = ({
           type: "preseason",
           team: processPreseasonSetCaptain(team, player, type),
           gameweek: 1, // Make preseason transfer always at gameweek 1 to support placeholder player in later gameweeks
-        } as PreseasonChange<FullChangePlayer>)
+        } as TeamChange<FullChangePlayer>)
       );
     } else {
       setTransferPlan(
@@ -217,17 +223,34 @@ const TransferPlanner = ({
           type,
           player,
           gameweek: planningGameweek,
-        } as CaptainChange<FullChangePlayer>)
+        } as SinglePlayerChange<FullChangePlayer>)
       );
     }
   };
 
-  const handleSetCaptain = (player: FullChangePlayer) => {
+  const handleSetCaptain = (player: FullChangePlayer) =>
     handleSetCaptaincy(player, "set-captain");
-  };
 
-  const handleSetViceCaptain = (player: FullChangePlayer) => {
+  const handleSetViceCaptain = (player: FullChangePlayer) =>
     handleSetCaptaincy(player, "set-vice-captain");
+
+  const handleChipChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value) {
+      setTransferPlan(
+        addChange(changes, {
+          type: "use-chip",
+          chip: e.target.value as ChipName,
+          gameweek: planningGameweek,
+        } as ChipChange)
+      );
+    } else {
+      const planningGameweekChip = changes.find(
+        (c) => c.type === "use-chip" && c.gameweek === planningGameweek
+      );
+      if (planningGameweekChip) {
+        setTransferPlan(removeChange(changes, planningGameweekChip));
+      }
+    }
   };
 
   const handleRemove = (change: Change) =>
@@ -241,11 +264,13 @@ const TransferPlanner = ({
       <TransferToolbar
         bank={bank}
         hits={hits}
+        chipUsages={chipUsages}
         currentGameweek={currentGameweek}
         planningGameweek={planningGameweek}
         remainingFreeTransfers={remainingFreeTransfers}
         onPreviousClick={() => setGameweekDelta(gameweekDelta - 1)}
         onNextClick={() => setGameweekDelta(gameweekDelta + 1)}
+        onActivatedChipSelectChange={handleChipChange}
       />
       <TransferLog
         currentGameweek={currentGameweek}

@@ -5,7 +5,11 @@ import { NextSeo } from "next-seo";
 import path from "path";
 import { makeAppData } from "~/features/AppData/appData";
 import { FPLElement } from "~/features/AppData/appDataTypes";
-import { getTeamPicks, getTeamTransfers } from "~/features/AppData/fpl";
+import {
+  getTeamHistory,
+  getTeamPicks,
+  getTeamTransfers,
+} from "~/features/AppData/fpl";
 import { ElementTypes, Event, Team } from "~/features/AppData/fplTypes";
 import { TeamColorCodes } from "~/features/AppData/teamcolorcodesTypes";
 import { PlayerStat, TeamStat } from "~/features/AppData/understatTypes";
@@ -99,11 +103,12 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
   });
 
   const event = gameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
-  const { picks = null, entry_history = null } = await getTeamPicks(
-    +params!.id!,
-    event
-  );
-  const transfers = await getTeamTransfers(+params!.id!);
+  const [{ picks = null, entry_history = null }, transfers, { chips = null }] =
+    await Promise.all([
+      getTeamPicks(+params!.id!, event),
+      getTeamTransfers(+params!.id!),
+      getTeamHistory(+params!.id!),
+    ]);
 
   return {
     props: {
@@ -112,6 +117,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
       picks,
       entry_history,
       transfers,
+      chips,
     },
   };
 };
@@ -122,6 +128,7 @@ const TransferPlannerPage = ({
   players,
   gameweeks,
   transfers,
+  chips,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   useTransferRedirect();
 
@@ -131,16 +138,18 @@ const TransferPlannerPage = ({
     players,
     gameweeks,
     transfers,
+    chips,
   ].every((x) => x !== undefined);
 
   const mainComponent = isReady ? (
     <TransferPlanner
       as="main"
-      initialPicks={initialPicks!}
-      entryHistory={entry_history!}
+      initialPicks={initialPicks ?? null}
+      entryHistory={entry_history ?? null}
       players={players!}
       gameweeks={gameweeks!}
       transfers={transfers!}
+      chips={chips!}
     />
   ) : (
     <FullScreenMessage

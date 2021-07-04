@@ -1,12 +1,14 @@
 import { Player } from "~/features/AppData/appDataTypes";
 import { Invalid } from "~/features/Common/errorTypes";
+import { ChipName } from "../AppData/fplTypes";
 
 export type ChangeType =
   | "swap"
   | "transfer"
   | "preseason"
   | "set-captain"
-  | "set-vice-captain";
+  | "set-vice-captain"
+  | "use-chip";
 
 export interface ChangePlayer {
   id: number;
@@ -17,20 +19,25 @@ export interface FullChangePlayer extends ChangePlayer, Player {
   isPlaceholder?: boolean;
 }
 
-export interface TeamChange<T extends ChangePlayer> extends Change {
+export interface SinglePlayerChange<T extends ChangePlayer> extends Change {
+  type: "set-captain" | "set-vice-captain";
+  player: T;
+}
+
+export interface TwoPlayersChange<T extends ChangePlayer> extends Change {
   type: "swap" | "transfer";
   selectedPlayer: T;
   targetPlayer: T;
 }
 
-export interface CaptainChange<T extends ChangePlayer> extends Change {
-  type: "set-captain" | "set-vice-captain";
-  player: T;
-}
-
-export interface PreseasonChange<T extends ChangePlayer> extends Change {
+export interface TeamChange<T extends ChangePlayer> extends Change {
   type: "preseason";
   team: T[];
+}
+
+export interface ChipChange extends Change {
+  type: "use-chip";
+  chip: ChipName;
 }
 
 export interface Change {
@@ -41,6 +48,12 @@ export interface Change {
 
 export interface InvalidChange extends Invalid {
   change: Change;
+}
+
+export interface ChipUsage {
+  name: ChipName;
+  isActive: boolean;
+  isUsed: boolean;
 }
 
 // Reduced set of ~/features/AppData/fplTypes > MyTeamPick

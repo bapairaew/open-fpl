@@ -6,17 +6,20 @@ import {
   IoArrowBackOutline,
   IoArrowForwardOutline,
   IoCloseOutline,
+  IoDiscOutline,
   IoStar,
   IoStarOutline,
   IoSwapVerticalOutline,
   IoWarningOutline,
 } from "react-icons/io5";
 import {
-  CaptainChange,
   Change,
+  ChipChange,
   FullChangePlayer,
-  TeamChange,
+  SinglePlayerChange,
+  TwoPlayersChange,
 } from "~/features/TransferPlanner/transferPlannerTypes";
+import { getChipDisplayName } from "~/features/TransferPlanner/chips";
 
 export type TransferChangeVariant = "invalid" | "outdated" | "default";
 
@@ -78,7 +81,10 @@ const TransferChange = ({
             color={selectedColor}
           />
           <Text fontSize="xs" noOfLines={1}>
-            {(change as TeamChange<FullChangePlayer>).selectedPlayer?.web_name}
+            {
+              (change as TwoPlayersChange<FullChangePlayer>).selectedPlayer
+                ?.web_name
+            }
           </Text>
         </Flex>
         <Flex>
@@ -90,7 +96,10 @@ const TransferChange = ({
             color={targetColor}
           />
           <Text fontSize="xs" noOfLines={1}>
-            {(change as TeamChange<FullChangePlayer>).targetPlayer?.web_name}
+            {
+              (change as TwoPlayersChange<FullChangePlayer>).targetPlayer
+                ?.web_name
+            }
           </Text>
         </Flex>
       </Box>
@@ -104,7 +113,22 @@ const TransferChange = ({
       <Flex width="120px" pr={2}>
         <Icon as={ChangeIcon} fontSize="xs" mt={0.5} mr={2} color="brand.500" />
         <Text fontSize="xs" noOfLines={1}>
-          {(change as CaptainChange<FullChangePlayer>).player?.web_name}
+          {(change as SinglePlayerChange<FullChangePlayer>).player?.web_name}
+        </Text>
+      </Flex>
+    );
+  } else if (change.type === "use-chip") {
+    mainComponent = (
+      <Flex width="120px" pr={2}>
+        <Icon
+          as={IoDiscOutline}
+          fontSize="xs"
+          mt={0.5}
+          mr={2}
+          color="brand.500"
+        />
+        <Text fontSize="xs" noOfLines={1}>
+          {getChipDisplayName((change as ChipChange).chip)}
         </Text>
       </Flex>
     );

@@ -1,29 +1,59 @@
 import { Player } from "~/features/AppData/appDataTypes";
-import { EntryEventPick, Transfer } from "~/features/AppData/fplTypes";
+import {
+  ChipName,
+  EntryChipPlay,
+  EntryEventPick,
+  Transfer,
+} from "~/features/AppData/fplTypes";
 import { Invalid } from "~/features/Common/errorTypes";
 import { makePlaceholderPlayerFromId } from "~/features/TransferPlanner/placeholderPlayer";
 import {
-  CaptainChange,
   Change,
   ChangePlayer,
+  ChipChange,
+  ChipUsage,
   FullChangePlayer,
   GroupedTeam,
   InvalidChange,
   Pick,
-  PreseasonChange,
+  SinglePlayerChange,
   TeamChange,
+  TwoPlayersChange,
 } from "~/features/TransferPlanner/transferPlannerTypes";
 
 // Apply the changes against the given team
-const processPicks = (
+const processChanges = (
   initialPicks: EntryEventPick[] | null,
   transfers: Transfer[],
+  chips: EntryChipPlay[],
   players: Player[],
-  changes: Change[]
+  allChanges: Change[],
+  planningGameweek: number
 ): {
   picks: Pick[];
+  chipUsages: ChipUsage[];
   invalidChanges: InvalidChange[];
 } => {
+  const freeHitUsage = allChanges.find(
+    (c) => c.type === "use-chip" && (c as ChipChange).chip === "freehit"
+  );
+
+  const changes = [...allChanges]
+    .sort((a, b) =>
+      a.gameweek > b.gameweek ? 1 : a.gameweek < b.gameweek ? -1 : 0
+    )
+    .filter(
+      (c) =>
+        c.gameweek <= planningGameweek &&
+        // Ignore transfer/swap/set-captain/set-vice-captain changes in the freehitted gameweek in the following gameweeks
+        (!freeHitUsage ||
+          !["transfer", "swap", "set-captain", "set-vice-catpain"].includes(
+            c.type
+          ) ||
+          planningGameweek === freeHitUsage.gameweek ||
+          c.gameweek !== freeHitUsage.gameweek)
+    );
+
   const picks = [] as Pick[];
   if (initialPicks) {
     for (const p of initialPicks) {
@@ -48,23 +78,32 @@ const processPicks = (
     }
   }
 
+  const chipUsages = ["bboost", "3xc", "freehit", "wildcard"].map<ChipUsage>(
+    (name) => ({
+      name: name as ChipName,
+      isActive: false,
+      isUsed: chips.some((c) => c.name === name),
+    })
+  );
+
   const invalidChanges = [] as InvalidChange[];
+
   for (const change of changes) {
     if (change.type === "swap" || change.type === "transfer") {
-      const teamChange = change as TeamChange<FullChangePlayer>;
+      const twoPlayersChange = change as TwoPlayersChange<FullChangePlayer>;
       const sourceIndex = picks.findIndex(
-        (p) => p.element === teamChange.selectedPlayer.id
+        (p) => p.element === twoPlayersChange.selectedPlayer.id
       );
       const targetIndex = picks.findIndex(
-        (p) => p.element === teamChange.targetPlayer.id
+        (p) => p.element === twoPlayersChange.targetPlayer.id
       );
 
       if (change.type === "swap") {
         if (sourceIndex === -1 || targetIndex === -1) {
           const invalidPlayer =
             sourceIndex === -1
-              ? teamChange.selectedPlayer.web_name
-              : teamChange.targetPlayer.web_name;
+              ? twoPlayersChange.selectedPlayer.web_name
+              : twoPlayersChange.targetPlayer.web_name;
           invalidChanges.push({
             type: "swap_non_existed_player",
             message: `${invalidPlayer} is not in the team.`,
@@ -84,7 +123,7 @@ const processPicks = (
         }
       } else if (change.type === "transfer") {
         if (sourceIndex === -1) {
-          const invalidPlayer = teamChange.selectedPlayer.web_name;
+          const invalidPlayer = twoPlayersChange.selectedPlayer.web_name;
           invalidChanges.push({
             type: "transfer_non_existed_player",
             message: `${invalidPlayer} is not in the team.`,
@@ -93,11 +132,11 @@ const processPicks = (
         } else {
           picks[sourceIndex] = {
             ...picks[sourceIndex],
-            element: teamChange.targetPlayer.id,
-            position: teamChange.selectedPlayer.pick.position,
-            now_cost: teamChange.targetPlayer.now_cost,
-            selling_price: teamChange.targetPlayer.now_cost,
-            purchase_price: teamChange.targetPlayer.now_cost,
+            element: twoPlayersChange.targetPlayer.id,
+            position: twoPlayersChange.selectedPlayer.pick.position,
+            now_cost: twoPlayersChange.targetPlayer.now_cost,
+            selling_price: twoPlayersChange.targetPlayer.now_cost,
+            purchase_price: twoPlayersChange.targetPlayer.now_cost,
           };
         }
       }
@@ -105,7 +144,7 @@ const processPicks = (
       change.type === "set-captain" ||
       change.type === "set-vice-captain"
     ) {
-      const captainChange = change as CaptainChange<FullChangePlayer>;
+      const singlePlayerChange = change as SinglePlayerChange<FullChangePlayer>;
       const fieldName =
         change.type === "set-captain" ? "is_captain" : "is_vice_captain";
 
@@ -116,7 +155,7 @@ const processPicks = (
           [fieldName]: false,
         };
       const newCaptainIndex = picks.findIndex(
-        (p) => p.element === captainChange.player.id
+        (p) => p.element === singlePlayerChange.player.id
       );
       if (newCaptainIndex !== -1) {
         picks[newCaptainIndex] = {
@@ -126,19 +165,36 @@ const processPicks = (
       } else {
         invalidChanges.push({
           type: "captain_non_existed_player",
-          message: `${captainChange.player.web_name} is not in the team.`,
+          message: `${singlePlayerChange.player.web_name} is not in the team.`,
           change,
         });
       }
     } else if (change.type === "preseason") {
-      const preseasonChange = change as PreseasonChange<FullChangePlayer>;
-      for (const player of preseasonChange.team) {
+      const teamChange = change as TeamChange<FullChangePlayer>;
+      for (const player of teamChange.team) {
         picks.push(player.pick);
+      }
+    } else if (change.type === "use-chip") {
+      const chipChange = change as ChipChange;
+      const matched = chipUsages.find((c) => c.name === chipChange.chip);
+      if (matched) {
+        if (matched.isUsed) {
+          invalidChanges.push({
+            type: "chip_already_used",
+            message: `${matched.name} is already used.`,
+            change,
+          });
+        } else {
+          matched.isUsed = true;
+          matched.isActive = planningGameweek === change.gameweek;
+        }
       }
     }
   }
+
   return {
     picks,
+    chipUsages,
     invalidChanges,
   };
 };
@@ -147,23 +203,23 @@ const processPicks = (
 export const processTransferPlan = (
   initialPicks: EntryEventPick[] | null,
   transfers: Transfer[],
+  chips: EntryChipPlay[],
   players: Player[],
   changes: Change[],
   planningGameweek: number
 ): {
   team: FullChangePlayer[];
+  chipUsages: ChipUsage[];
   invalidChanges: InvalidChange[];
   teamInvalidities: Invalid[];
 } => {
-  const { picks, invalidChanges } = processPicks(
+  const { picks, chipUsages, invalidChanges } = processChanges(
     initialPicks,
     transfers,
+    chips,
     players,
-    [...changes]
-      .sort((a, b) =>
-        a.gameweek > b.gameweek ? 1 : a.gameweek < b.gameweek ? -1 : 0
-      )
-      .filter((c) => c.gameweek <= planningGameweek)
+    changes,
+    planningGameweek
   );
 
   const team = picks.map((p) => {
@@ -200,6 +256,7 @@ export const processTransferPlan = (
 
   return {
     team,
+    chipUsages,
     invalidChanges,
     teamInvalidities,
   };
@@ -257,20 +314,20 @@ export const addChange = (changes: Change[], newChange: Change): Change[] => {
 
   for (const change of addedChanges) {
     if (change.type === "swap" || change.type === "transfer") {
-      const teamChange = change as TeamChange<FullChangePlayer>;
+      const twoPlayersChange = change as TwoPlayersChange<FullChangePlayer>;
       const reducedTeamChange = {
         id: change.id,
         type: change.type,
         gameweek: change.gameweek,
         selectedPlayer: {
-          id: teamChange.selectedPlayer.id,
-          pick: teamChange.selectedPlayer.pick,
+          id: twoPlayersChange.selectedPlayer.id,
+          pick: twoPlayersChange.selectedPlayer.pick,
         },
         targetPlayer: {
-          id: teamChange.targetPlayer.id,
-          pick: teamChange.targetPlayer.pick,
+          id: twoPlayersChange.targetPlayer.id,
+          pick: twoPlayersChange.targetPlayer.pick,
         },
-      } as TeamChange<ChangePlayer>;
+      } as TwoPlayersChange<ChangePlayer>;
       cleanedChanges.push(reducedTeamChange);
     } else if (
       change.type === "set-captain" ||
@@ -278,33 +335,39 @@ export const addChange = (changes: Change[], newChange: Change): Change[] => {
     ) {
       // Always replace existing set-captain / set-vice-captain changes within the same gameweek
       cleanedChanges = cleanedChanges.filter(
-        // TODO
         (c) => c.gameweek !== change.gameweek || c.type !== change.type
       );
-      const captainChange = change as CaptainChange<FullChangePlayer>;
-      const reduceCaptainChange = {
-        id: captainChange.id,
-        type: captainChange.type,
-        gameweek: captainChange.gameweek,
+      const singlePlayerChange = change as SinglePlayerChange<FullChangePlayer>;
+      const reduceSinglePlayerChange = {
+        id: singlePlayerChange.id,
+        type: singlePlayerChange.type,
+        gameweek: singlePlayerChange.gameweek,
         player: {
-          id: captainChange.player.id,
+          id: singlePlayerChange.player.id,
         },
-      } as CaptainChange<ChangePlayer>;
-      cleanedChanges.push(reduceCaptainChange);
+      } as SinglePlayerChange<ChangePlayer>;
+      cleanedChanges.push(reduceSinglePlayerChange);
+    } else if (change.type === "use-chip") {
+      // Always replace existing set-captain / set-vice-captain changes within the same gameweek
+      cleanedChanges = cleanedChanges.filter(
+        (c) => c.gameweek !== change.gameweek || c.type !== change.type
+      );
+      const chipChange = change as ChipChange;
+      cleanedChanges.push(chipChange);
     } else if (change.type === "preseason") {
       // Always replace existing preseason changes
       cleanedChanges = cleanedChanges.filter((c) => c.type !== change.type);
-      const preseasonChange = change as PreseasonChange<FullChangePlayer>;
-      const reducedPreseasonChange = {
+      const teamChange = change as TeamChange<FullChangePlayer>;
+      const reducedTeamChange = {
         id: change.id,
         type: change.type,
         gameweek: change.gameweek,
-        team: preseasonChange.team.map((player) => ({
+        team: teamChange.team.map((player) => ({
           id: player.id,
           pick: player.pick,
         })),
-      } as PreseasonChange<ChangePlayer>;
-      cleanedChanges.push(reducedPreseasonChange);
+      } as TeamChange<ChangePlayer>;
+      cleanedChanges.push(reducedTeamChange);
     }
   }
 
@@ -422,6 +485,8 @@ export const processPreseasonSwap = (
   return updatedTeam;
 };
 
+// Handle set captain with probable placeholder players
+// To save storage space preseason change save a whole instead of transaction
 export const processPreseasonSetCaptain = (
   team: FullChangePlayer[],
   player: FullChangePlayer,
@@ -459,12 +524,12 @@ export const dehydrateFromTransferPlan = (
 
   for (const plan of transferPlan) {
     if (plan.type === "swap" || plan.type === "transfer") {
-      const teamChange = plan as TeamChange<ChangePlayer>;
+      const twoPlayersChange = plan as TwoPlayersChange<ChangePlayer>;
       const selectedPlayer = players.find(
-        (p) => p.id === teamChange.selectedPlayer.id
+        (p) => p.id === twoPlayersChange.selectedPlayer.id
       );
       const targetPlayer = players.find(
-        (p) => p.id === teamChange.targetPlayer.id
+        (p) => p.id === twoPlayersChange.targetPlayer.id
       );
       // Leave out invalid change
       // TODO: return invalid change as well?
@@ -473,34 +538,36 @@ export const dehydrateFromTransferPlan = (
           ...plan,
           // Dehydrate player data
           selectedPlayer: {
-            ...players.find((p) => p.id === teamChange.selectedPlayer.id)!,
-            pick: teamChange.selectedPlayer.pick,
+            ...players.find(
+              (p) => p.id === twoPlayersChange.selectedPlayer.id
+            )!,
+            pick: twoPlayersChange.selectedPlayer.pick,
           },
           targetPlayer: {
-            ...players.find((p) => p.id === teamChange.targetPlayer.id)!,
-            pick: teamChange.targetPlayer.pick,
+            ...players.find((p) => p.id === twoPlayersChange.targetPlayer.id)!,
+            pick: twoPlayersChange.targetPlayer.pick,
           },
-        } as TeamChange<FullChangePlayer>;
+        } as TwoPlayersChange<FullChangePlayer>;
         changes.push(fullTeamChange);
       }
     } else if (
       plan.type === "set-captain" ||
       plan.type === "set-vice-captain"
     ) {
-      const captainChange = plan as CaptainChange<ChangePlayer>;
-      const player = players.find((p) => p.id === captainChange.player.id);
+      const singlePlayerChange = plan as SinglePlayerChange<ChangePlayer>;
+      const player = players.find((p) => p.id === singlePlayerChange.player.id);
       if (player) {
-        const fullCaptainChange = {
+        const fullSinglePlayerChange = {
           ...plan,
           player,
-        } as CaptainChange<FullChangePlayer>;
-        changes.push(fullCaptainChange);
+        } as SinglePlayerChange<FullChangePlayer>;
+        changes.push(fullSinglePlayerChange);
       }
     } else if (plan.type === "preseason") {
-      const preseasonChange = plan as PreseasonChange<ChangePlayer>;
-      const fullPreseasonChange = {
-        ...preseasonChange,
-        team: preseasonChange.team.reduce((team, player) => {
+      const teamChange = plan as TeamChange<ChangePlayer>;
+      const fullTeamChange = {
+        ...teamChange,
+        team: teamChange.team.reduce((team, player) => {
           const fullPlayer = players.find((p) => p.id === player.id);
           if (fullPlayer) {
             team.push({
@@ -515,8 +582,11 @@ export const dehydrateFromTransferPlan = (
           }
           return team;
         }, [] as FullChangePlayer[]),
-      } as PreseasonChange<FullChangePlayer>;
-      changes.push(fullPreseasonChange);
+      } as TeamChange<FullChangePlayer>;
+      changes.push(fullTeamChange);
+    } else {
+      // For use-chip and unexpected changes
+      changes.push(plan);
     }
   }
 
