@@ -55,17 +55,15 @@ const TransferMarket = ({
               disabled={isInTeam}
               tabIndex={1}
               width="100%"
+              height="auto"
+              fontWeight="inherit"
+              textAlign="inherit"
               opacity={isInTeam ? 0.2 : 1}
               cursor={isInTeam ? "default" : "pointer"}
               onKeyUp={handleKeyUp}
               onClick={handleClick}
-              height="auto"
             >
-              <PlayerCard
-                variant="mini"
-                player={player}
-                gameweeks={gameweeks}
-              />
+              <PlayerCard player={player} gameweeks={gameweeks} />
             </Button>
           </div>
         );
@@ -94,7 +92,7 @@ const TransferMarket = ({
                 height={height - 100}
                 width={width - 2}
                 itemCount={Math.ceil(displayedPlayers.length)}
-                itemSize={170}
+                itemSize={260}
               >
                 {Row}
               </List>

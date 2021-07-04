@@ -93,7 +93,7 @@ const TeamManager = ({
   };
 
   return (
-    <Grid templateColumns="auto 250px" height="100%">
+    <Grid templateColumns="auto 270px" height="100%">
       <Box borderRightWidth={1} height="100%">
         <SelectedTeam
           teamObject={teamObject}

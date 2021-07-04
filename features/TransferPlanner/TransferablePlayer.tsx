@@ -79,9 +79,11 @@ const TransferablePlayer = ({
   return (
     <Box position="relative" m={1} {...props}>
       <Button
+        variant="unstyled"
         width="100%"
         height="auto"
-        variant="unstyled"
+        fontWeight="inherit"
+        textAlign="inherit"
         transition="all 300ms"
         onClick={onPlayerClick}
         {...variantProps}
