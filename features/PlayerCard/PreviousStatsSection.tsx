@@ -55,7 +55,7 @@ const PreviousStatsSection = ({
 
   return (
     <Box height={height}>
-      {pastMatches?.length > 0 ? (
+      {pastMatches.length > 0 ? (
         <Grid gap={0} templateColumns="repeat(6, 1fr)">
           {showTeamsName && (
             <>

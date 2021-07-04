@@ -48,6 +48,7 @@ const NameSection = ({
       <Flex flexDirection="column">
         <CenterFlex
           variant={variant}
+          flexBasis="50%"
           bg={
             player.linked_data.teamcolorcodes
               ? player.linked_data.teamcolorcodes.text
@@ -67,6 +68,7 @@ const NameSection = ({
         </CenterFlex>
         <CenterFlex
           variant={variant}
+          flexBasis="50%"
           bg={
             positionColorCodes[player.element_type.singular_name_short]
               .background

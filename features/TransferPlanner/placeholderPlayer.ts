@@ -39,12 +39,12 @@ export function makePlaceholderPlayerFromId(id: number): Player {
     },
     team: {
       id,
-      short_name: "N/A",
+      short_name: "",
     },
     linked_data: {
       transfers_delta_event: 0,
       understat_id: null,
-      past_matches: [],
+      past_matches: null,
       season_xgi: 0,
       season_xga: 0,
       teamcolorcodes: {
@@ -53,8 +53,8 @@ export function makePlaceholderPlayerFromId(id: number): Player {
         text: "#000",
         highlight: "#000",
       },
-      previous_gameweeks: [],
-      next_gameweeks: [],
+      previous_gameweeks: null,
+      next_gameweeks: null,
     },
   };
 }

@@ -25,16 +25,16 @@ const FixturesSection = ({
       width="100%"
     >
       {gameweeks.map((w) => {
-        const games = player.linked_data.next_gameweeks.filter(
+        const games = player.linked_data.next_gameweeks?.filter(
           (n) => n.event === w.id
         );
 
         const gameFontSize =
-          variant === "mini" ? "sm" : games.length > 1 ? "sm" : "md";
+          variant === "mini" ? "sm" : games && games.length > 1 ? "sm" : "md";
 
         return (
           <Flex key={w.id} flexDirection="column">
-            {games.length === 0 ? (
+            {!games ? (
               <CenterFlex variant={variant} height="100%" />
             ) : (
               games.map((g, i) => (

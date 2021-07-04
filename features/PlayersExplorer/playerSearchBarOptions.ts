@@ -35,14 +35,16 @@ export const sortOptions: SortOptionsConfig[] = [
     value: "best-fixtures",
     sortFn: (a, b) => {
       // Sort reversed difficulty value (5 is better than 1), and sum them all which makes the value the more the better (more matches and easier)
-      const sumA = a.linked_data.next_gameweeks.reduce(
-        (s, g) => s + (5 - g.difficulty),
-        0
-      );
-      const sumB = b.linked_data.next_gameweeks.reduce(
-        (s, g) => s + (5 - g.difficulty),
-        0
-      );
+      const sumA =
+        a.linked_data.next_gameweeks?.reduce(
+          (s, g) => s + (5 - g.difficulty),
+          0
+        ) || 0;
+      const sumB =
+        b.linked_data.next_gameweeks?.reduce(
+          (s, g) => s + (5 - g.difficulty),
+          0
+        ) || 0;
       return sumA === sumB
         ? a.team.short_name.localeCompare(b.team.short_name) // Make sure same team is group together in the result
         : sumA > sumB

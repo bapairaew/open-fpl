@@ -41,7 +41,8 @@ const PointsSection = ({
   player: Player;
 }) => {
   const previousGameweeks =
-    player.linked_data.previous_gameweeks?.length < 5
+    player.linked_data.previous_gameweeks &&
+    player.linked_data.previous_gameweeks.length < 5
       ? [
           ...makeEmptyGameweeks(
             5 - player.linked_data.previous_gameweeks.length
@@ -57,7 +58,7 @@ const PointsSection = ({
     <>
       {showTeamsName && (
         <Grid gap={0} templateColumns="repeat(6, 1fr)">
-          {previousGameweeks.map((h, i) => (
+          {previousGameweeks?.map((h, i) => (
             <CenterFlex
               key={i}
               variant={variant}
@@ -83,7 +84,7 @@ const PointsSection = ({
         </Grid>
       )}
       <Grid gap={0} templateColumns="repeat(6, 1fr)">
-        {previousGameweeks.map((h, i) => (
+        {previousGameweeks?.map((h, i) => (
           <CenterFlex
             key={i}
             variant={variant}
@@ -93,14 +94,16 @@ const PointsSection = ({
             {h.total_points}
           </CenterFlex>
         ))}
-        <CenterFlex
-          variant={variant}
-          fontSize={pointsFontSize}
-          fontWeight="bold"
-          bg="gray.100"
-        >
-          {player.total_points}
-        </CenterFlex>
+        {previousGameweeks && (
+          <CenterFlex
+            variant={variant}
+            fontSize={pointsFontSize}
+            fontWeight="bold"
+            bg="gray.100"
+          >
+            {player.total_points}
+          </CenterFlex>
+        )}
       </Grid>
     </>
   );

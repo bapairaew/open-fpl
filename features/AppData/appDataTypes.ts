@@ -39,9 +39,9 @@ export interface LinkedData {
   season_xgi: number | null;
   season_xga: number | null;
   teamcolorcodes: TeamColorCodes | null;
-  past_matches: MatchStat[];
-  previous_gameweeks: PastGameweek[];
-  next_gameweeks: UpcomingGameweek[];
+  past_matches: MatchStat[] | null;
+  previous_gameweeks: PastGameweek[] | null;
+  next_gameweeks: UpcomingGameweek[] | null;
 }
 
 export interface Player {
