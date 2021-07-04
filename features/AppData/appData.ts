@@ -35,7 +35,6 @@ export const makeAppData = ({
 }): AppData => {
   const gameweeks = fplGameweeks
     .filter((g) => !g.finished && !g.is_current)
-    .slice(0, 5)
     .map((gw) => ({
       id: gw.id,
       deadline_time: gw.deadline_time,

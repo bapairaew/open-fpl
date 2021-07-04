@@ -24,7 +24,7 @@ const FixturesSection = ({
       height={`${height}px`}
       width="100%"
     >
-      {gameweeks.map((w) => {
+      {gameweeks.slice(0, 5).map((w) => {
         const games = player.linked_data.next_gameweeks?.filter(
           (n) => n.event === w.id
         );

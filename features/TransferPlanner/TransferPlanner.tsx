@@ -53,6 +53,11 @@ const TransferPlanner = ({
   const currentGameweek = gameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
   const planningGameweek = currentGameweek + gameweekDelta;
 
+  const upcomingGameweeks = useMemo(
+    () => gameweeks.slice(Math.max(0, gameweekDelta)),
+    [gameweeks, gameweekDelta]
+  );
+
   const transferManagerMode =
     planningGameweek === 1 && isStartedFromFirstGameweek
       ? "preseason"
@@ -259,7 +264,7 @@ const TransferPlanner = ({
           mode={transferManagerMode}
           team={team}
           players={players}
-          gameweeks={gameweeks}
+          gameweeks={upcomingGameweeks}
           onSwap={handleSwap}
           onTransfer={handleTransfer}
           onPreseasonSwap={handlePreseasonSwap}
