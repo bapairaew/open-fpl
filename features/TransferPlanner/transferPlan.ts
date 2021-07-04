@@ -2,6 +2,7 @@ import { Player } from "~/features/AppData/appDataTypes";
 import {
   ChipName,
   EntryChipPlay,
+  EntryEventHistory,
   EntryEventPick,
   Transfer,
 } from "~/features/AppData/fplTypes";
@@ -199,17 +200,51 @@ const processChanges = (
   };
 };
 
+// Get remaining bank balance from changes
+const getRemainingBank = (
+  entryHistory: EntryEventHistory | null,
+  changes: Change[],
+  planningGameweek: number
+) => {
+  const currentBank = entryHistory?.bank ?? 1000; // entryHistory is null before the first gameweek
+  const transfers = changes.filter(
+    (c) =>
+      (c.type === "transfer" || c.type === "preseason") &&
+      c.gameweek <= planningGameweek
+  );
+  const diff = transfers?.reduce((sum, change) => {
+    if (change.type === "transfer") {
+      const sellingPrice = (change as TwoPlayersChange<FullChangePlayer>)
+        .selectedPlayer.pick.selling_price;
+      const nowCost = (change as TwoPlayersChange<FullChangePlayer>)
+        .targetPlayer.now_cost;
+      return sum + (sellingPrice - nowCost);
+    } else if (change.type === "preseason") {
+      const total = (change as TeamChange<FullChangePlayer>).team.reduce(
+        (sum, player) => sum + player.now_cost,
+        0
+      );
+      return sum - total;
+    }
+    return sum;
+  }, 0);
+
+  return (currentBank + diff) / 10;
+};
+
 // Combine initialPicks, transfers from API and changes from localStorage to make team and detect invalidities
 export const processTransferPlan = (
   initialPicks: EntryEventPick[] | null,
   transfers: Transfer[],
   chips: EntryChipPlay[],
   players: Player[],
+  entryHistory: EntryEventHistory | null,
   changes: Change[],
   planningGameweek: number
 ): {
   team: FullChangePlayer[];
   chipUsages: ChipUsage[];
+  bank: number;
   invalidChanges: InvalidChange[];
   teamInvalidities: Invalid[];
 } => {
@@ -221,6 +256,8 @@ export const processTransferPlan = (
     changes,
     planningGameweek
   );
+
+  const bank = getRemainingBank(entryHistory, changes, planningGameweek);
 
   const team = picks.map((p) => {
     const player =
@@ -257,6 +294,7 @@ export const processTransferPlan = (
   return {
     team,
     chipUsages,
+    bank,
     invalidChanges,
     teamInvalidities,
   };

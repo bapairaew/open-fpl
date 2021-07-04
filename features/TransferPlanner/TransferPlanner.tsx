@@ -10,6 +10,8 @@ import {
 } from "~/features/AppData/fplTypes";
 import { Invalid } from "~/features/Common/errorTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
+import TeamManager from "~/features/TransferPlanner/TeamManager";
+import TransferLog from "~/features/TransferPlanner/TransferLog";
 import {
   addChange,
   dehydrateFromTransferPlan,
@@ -18,9 +20,7 @@ import {
   processPreseasonTransfer,
   processTransferPlan,
   removeChange,
-} from "~/features/TransferPlanner/changes";
-import TeamManager from "~/features/TransferPlanner/TeamManager";
-import TransferLog from "~/features/TransferPlanner/TransferLog";
+} from "~/features/TransferPlanner/transferPlan";
 import {
   Change,
   ChangePlayer,
@@ -74,11 +74,13 @@ const TransferPlanner = ({
   const {
     team,
     chipUsages,
+    bank,
     invalidChanges,
     teamInvalidities,
   }: {
     team: FullChangePlayer[];
     chipUsages: ChipUsage[];
+    bank: number;
     invalidChanges: InvalidChange[];
     teamInvalidities: Invalid[];
   } = useMemo(
@@ -88,37 +90,20 @@ const TransferPlanner = ({
         transfers,
         chips,
         players,
+        entryHistory,
         changes,
         planningGameweek
       ),
-    [initialPicks, transfers, chips, players, changes, planningGameweek]
+    [
+      initialPicks,
+      transfers,
+      chips,
+      players,
+      entryHistory,
+      changes,
+      planningGameweek,
+    ]
   );
-
-  const bank = useMemo(() => {
-    const currentBank = entryHistory?.bank ?? 1000; // entryHistory is null before the first gameweek
-    const transfers = changes.filter(
-      (c) =>
-        (c.type === "transfer" || c.type === "preseason") &&
-        c.gameweek <= planningGameweek
-    );
-    const diff = transfers?.reduce((sum, change) => {
-      if (change.type === "transfer") {
-        const sellingPrice = (change as TwoPlayersChange<FullChangePlayer>)
-          .selectedPlayer.pick.selling_price;
-        const nowCost = (change as TwoPlayersChange<FullChangePlayer>)
-          .targetPlayer.now_cost;
-        return sum + (sellingPrice - nowCost);
-      } else if (change.type === "preseason") {
-        const total = (change as TeamChange<FullChangePlayer>).team.reduce(
-          (sum, player) => sum + player.now_cost,
-          0
-        );
-        return sum - total;
-      }
-      return sum;
-    }, 0);
-    return (currentBank + diff) / 10;
-  }, [changes, planningGameweek, entryHistory]);
 
   const freeTransfersCount = useMemo(() => {
     if (currentGameweek + gameweekDelta === 1) {

@@ -1,10 +1,10 @@
 import { Box, Grid } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
-import { isSwapable } from "~/features/TransferPlanner/changes";
 import SelectedTeam from "~/features/TransferPlanner/SelectedTeam";
 import { makeTeamGroupObject } from "~/features/TransferPlanner/teamGroupObject";
 import TransferMarket from "~/features/TransferPlanner/TransferMarket";
+import { isSwapable } from "~/features/TransferPlanner/transferPlan";
 import {
   ChangePlayer,
   FullChangePlayer,
