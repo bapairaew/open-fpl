@@ -1,15 +1,19 @@
 import {
   Box,
   BoxProps,
+  Flex,
+  forwardRef,
   Icon,
   IconButton,
   TabList,
+  TabListProps,
   TabPanel,
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IoAdd } from "react-icons/io5";
+import { ItemInterface, ReactSortable } from "react-sortablejs";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import {
   EntryChipPlay,
@@ -17,15 +21,15 @@ import {
   EntryEventPick,
   Transfer,
 } from "~/features/AppData/fplTypes";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import TransferPlannerPanel from "~/features/TransferPlanner/TransferPlannerPanel";
-import TransferPlannerTab from "~/features/TransferPlanner/TransferPlannerTab";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
   setLocalStorageItem,
 } from "~/features/Common/useLocalStorage";
+import { useSettings } from "~/features/Settings/SettingsContext";
 import { getTransferPlanKey } from "~/features/Settings/storageKeys";
+import TransferPlannerPanel from "~/features/TransferPlanner/TransferPlannerPanel";
+import TransferPlannerTab from "~/features/TransferPlanner/TransferPlannerTab";
 
 const getDefaultName = (transferPlans: string[]) => {
   const maxDefaultNameIndex =
@@ -37,6 +41,16 @@ const getDefaultName = (transferPlans: string[]) => {
     ) + 1;
   return `Plan ${maxDefaultNameIndex}`;
 };
+
+const ForwardableTransferPlannerTabList = forwardRef<TabListProps, "div">(
+  (props, ref) => {
+    return (
+      <TabList ref={ref} pl={2}>
+        {props.children}
+      </TabList>
+    );
+  }
+);
 
 const TransferPlanner = ({
   initialPicks,
@@ -56,14 +70,14 @@ const TransferPlanner = ({
 }) => {
   const { teamId, transferPlans, setTransferPlans } = useSettings();
   const [tabIndex, setTabIndex] = useState(0);
+  const sortableTransferPlans = useMemo<ItemInterface[]>(
+    () => transferPlans?.map((id) => ({ id })) ?? [],
+    [transferPlans]
+  );
 
-  useEffect(() => {
-    setTabIndex(0);
-  }, [teamId]);
+  useEffect(() => setTabIndex(0), [teamId]);
 
-  const handleTabsChange = (index: number) => {
-    setTabIndex(index);
-  };
+  const handleTabsChange = (index: number) => setTabIndex(index);
 
   const handleAddNewTransferPlan = () => {
     if (transferPlans) {
@@ -118,6 +132,14 @@ const TransferPlanner = ({
     }
   };
 
+  const handleTransferPlansChange = (newOrder: ItemInterface[]) => {
+    const nextTransferPlans = newOrder.map((i) => `${i.id}`);
+    setTransferPlans(nextTransferPlans);
+    setTabIndex(
+      nextTransferPlans.findIndex((t) => t === transferPlans?.[tabIndex])
+    );
+  };
+
   return (
     <Box height="100%" overflow="hidden" {...props}>
       <Tabs
@@ -128,16 +150,26 @@ const TransferPlanner = ({
         index={tabIndex}
         onChange={handleTabsChange}
       >
-        <TabList pl={2} bg="gray.50">
-          {transferPlans?.map((plan) => (
-            <TransferPlannerTab
-              key={plan}
-              plan={plan}
-              onNameChange={(newName: string) => handleRename(newName, plan)}
-              onRemoveClick={() => handleRemove(plan)}
-              onDuplicateClick={() => handleDuplicate(plan)}
-            />
-          ))}
+        <Flex bg="gray.50">
+          <ReactSortable
+            // NOTE: react-sortablejs typescript is not well-defined so just ignore it
+            // @ts-ignore
+            tag={ForwardableTransferPlannerTabList}
+            list={sortableTransferPlans}
+            setList={handleTransferPlansChange}
+          >
+            {sortableTransferPlans?.map(({ id: plan }) => (
+              <TransferPlannerTab
+                key={plan}
+                plan={`${plan}`}
+                onNameChange={(newName: string) =>
+                  handleRename(newName, `${plan}`)
+                }
+                onRemoveClick={() => handleRemove(`${plan}`)}
+                onDuplicateClick={() => handleDuplicate(`${plan}`)}
+              />
+            ))}
+          </ReactSortable>
           <IconButton
             width="60px"
             height="100%"
@@ -147,7 +179,7 @@ const TransferPlanner = ({
             aria-label="add a new plan"
             onClick={handleAddNewTransferPlan}
           />
-        </TabList>
+        </Flex>
         <TabPanels display="flex" flexGrow={1} flexDirection="column">
           {transferPlans?.map((plan) => (
             <TabPanel

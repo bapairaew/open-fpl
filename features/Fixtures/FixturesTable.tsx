@@ -87,7 +87,7 @@ const FixturesTable = ({
             />
           </Thead>
           <ReactSortable
-            // TODO: Figure out how to satisfy the warning
+            // NOTE: react-sortablejs typescript is not well-defined so just ignore it
             // @ts-ignore
             tag={ForwardableTbody}
             list={sortedFullFixtures}
