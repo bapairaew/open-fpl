@@ -1,38 +1,42 @@
-import { Box, BoxProps, Flex } from "@chakra-ui/react";
-import { ChangeEvent, useMemo, useState } from "react";
+import {
+  Box,
+  BoxProps,
+  Icon,
+  IconButton,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { IoAdd } from "react-icons/io5";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import {
-  ChipName,
   EntryChipPlay,
   EntryEventHistory,
   EntryEventPick,
   Transfer,
 } from "~/features/AppData/fplTypes";
-import { Invalid } from "~/features/Common/errorTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
-import TeamManager from "~/features/TransferPlanner/TeamManager";
-import TransferLog from "~/features/TransferPlanner/TransferLog";
+import TransferPlannerPanel from "~/features/TransferPlanner/TransferPlannerPanel";
+import TransferPlannerTab from "~/features/TransferPlanner/TransferPlannerTab";
 import {
-  addChange,
-  dehydrateFromTransferPlan,
-  processPreseasonSetCaptain,
-  processPreseasonSwap,
-  processPreseasonTransfer,
-  processTransferPlan,
-  removeChange,
-} from "~/features/TransferPlanner/transferPlan";
-import {
-  Change,
-  ChangePlayer,
-  ChipChange,
-  ChipUsage,
-  FullChangePlayer,
-  InvalidChange,
-  SinglePlayerChange,
-  TeamChange,
-  TwoPlayersChange,
-} from "~/features/TransferPlanner/transferPlannerTypes";
-import TransferToolbar from "~/features/TransferPlanner/TransferToolbar";
+  getLocalStorageItem,
+  removeLocalStorageItem,
+  setLocalStorageItem,
+} from "~/features/Common/useLocalStorage";
+import { getTransferPlanKey } from "~/features/Settings/storageKeys";
+
+const getDefaultName = (transferPlans: string[]) => {
+  const maxDefaultNameIndex =
+    Math.max(
+      0,
+      ...transferPlans
+        .map((x) => x.match(/Plan (\d+)/)?.[1])
+        .map((x) => (x ? +x : 0))
+    ) + 1;
+  return `Plan ${maxDefaultNameIndex}`;
+};
 
 const TransferPlanner = ({
   initialPicks,
@@ -50,240 +54,126 @@ const TransferPlanner = ({
   transfers: Transfer[];
   chips: EntryChipPlay[];
 }) => {
-  const { transferPlan, setTransferPlan } = useSettings();
-  const [gameweekDelta, setGameweekDelta] = useState(0);
+  const { teamId, transferPlans, setTransferPlans } = useSettings();
+  const [tabIndex, setTabIndex] = useState(0);
 
-  const isStartedFromFirstGameweek =
-    initialPicks === null && entryHistory === null;
+  useEffect(() => {
+    setTabIndex(0);
+  }, [teamId]);
 
-  const currentGameweek = gameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
-  const planningGameweek = currentGameweek + gameweekDelta;
-  const upcomingGameweeks = gameweeks.slice(Math.max(0, gameweekDelta));
+  const handleTabsChange = (index: number) => {
+    setTabIndex(index);
+  };
 
-  const transferManagerMode =
-    planningGameweek === 1 && isStartedFromFirstGameweek
-      ? "preseason"
-      : "default";
-
-  const changes: Change[] = useMemo(
-    () =>
-      transferPlan ? dehydrateFromTransferPlan(transferPlan, players) : [],
-    [transferPlan, players]
-  );
-
-  const {
-    team,
-    chipUsages,
-    bank,
-    invalidChanges,
-    teamInvalidities,
-  }: {
-    team: FullChangePlayer[];
-    chipUsages: ChipUsage[];
-    bank: number;
-    invalidChanges: InvalidChange[];
-    teamInvalidities: Invalid[];
-  } = useMemo(
-    () =>
-      processTransferPlan(
-        initialPicks,
-        transfers,
-        chips,
-        players,
-        entryHistory,
-        changes,
-        planningGameweek
-      ),
-    [
-      initialPicks,
-      transfers,
-      chips,
-      players,
-      entryHistory,
-      changes,
-      planningGameweek,
-    ]
-  );
-
-  const freeTransfersCount = useMemo(() => {
-    if (currentGameweek + gameweekDelta === 1) {
-      return 0;
-    }
-    if (gameweekDelta === 0) {
-      const lastGameweekTransfersCount = transfers?.filter(
-        (t) => t.event === currentGameweek - 1
-      ).length;
-      const currentGameweekFreeTransfers =
-        lastGameweekTransfersCount >= 1 ? 1 : 2;
-      return currentGameweekFreeTransfers;
-    } else {
-      const lastGameweekTransfersCount = changes.filter(
-        (c) =>
-          (c.type === "transfer" || c.type === "preseason") &&
-          c.gameweek === planningGameweek - 1
-      ).length;
-      const currentGameweekFreeTransfers =
-        lastGameweekTransfersCount >= 1 ? 1 : 2;
-      return currentGameweekFreeTransfers;
-    }
-  }, [transfers, changes, gameweekDelta]);
-
-  const planningGameweekTransferCount = changes.filter(
-    (c) => c.type === "transfer" && c.gameweek === planningGameweek
-  ).length;
-
-  const hits = chipUsages.some(
-    (c) => (c.name === "wildcard" || c.name === "freehit") && c.isActive
-  )
-    ? 0
-    : Math.min(0, -4 * (planningGameweekTransferCount - freeTransfersCount));
-
-  const remainingFreeTransfers = Math.max(
-    0,
-    freeTransfersCount - planningGameweekTransferCount
-  );
-
-  const handleSwap = (
-    selectedPlayer: ChangePlayer,
-    targetPlayer: ChangePlayer
-  ) =>
-    setTransferPlan(
-      addChange(changes, {
-        type: "swap",
-        selectedPlayer,
-        targetPlayer,
-        gameweek: planningGameweek,
-      } as TwoPlayersChange<FullChangePlayer>)
-    );
-
-  const handleTransfer = (selectedPlayer: ChangePlayer, targetPlayer: Player) =>
-    setTransferPlan(
-      addChange(changes, {
-        type: "transfer",
-        selectedPlayer,
-        targetPlayer: targetPlayer as FullChangePlayer,
-        gameweek: planningGameweek,
-      } as TwoPlayersChange<FullChangePlayer>)
-    );
-
-  const handlePreseasonSwap = (
-    selectedPlayer: FullChangePlayer,
-    targetPlayer: FullChangePlayer
-  ) =>
-    setTransferPlan(
-      addChange(changes, {
-        type: "preseason",
-        team: processPreseasonSwap(team, selectedPlayer, targetPlayer),
-        gameweek: 1, // Make preseason transfer always at gameweek 1 to support placeholder player in later gameweeks
-      } as TeamChange<FullChangePlayer>)
-    );
-
-  const handlePreseasonTransfer = (
-    selectedPlayer: FullChangePlayer,
-    targetPlayer: Player
-  ) =>
-    setTransferPlan(
-      addChange(changes, {
-        type: "preseason",
-        team: processPreseasonTransfer(team, selectedPlayer, targetPlayer),
-        gameweek: 1, // Make preseason transfer always at gameweek 1 to support placeholder player in later gameweeks
-      } as TeamChange<FullChangePlayer>)
-    );
-
-  const handleSetCaptaincy = (
-    player: FullChangePlayer,
-    type: "set-captain" | "set-vice-captain"
-  ) => {
-    if (transferManagerMode === "preseason") {
-      setTransferPlan(
-        addChange(changes, {
-          type: "preseason",
-          team: processPreseasonSetCaptain(team, player, type),
-          gameweek: 1, // Make preseason transfer always at gameweek 1 to support placeholder player in later gameweeks
-        } as TeamChange<FullChangePlayer>)
-      );
-    } else {
-      setTransferPlan(
-        addChange(changes, {
-          type,
-          player,
-          gameweek: planningGameweek,
-        } as SinglePlayerChange<FullChangePlayer>)
-      );
+  const handleAddNewTransferPlan = () => {
+    if (transferPlans) {
+      const nextIndex = transferPlans.length;
+      setTransferPlans([...transferPlans, getDefaultName(transferPlans)]);
+      setTabIndex(nextIndex);
     }
   };
 
-  const handleSetCaptain = (player: FullChangePlayer) =>
-    handleSetCaptaincy(player, "set-captain");
-
-  const handleSetViceCaptain = (player: FullChangePlayer) =>
-    handleSetCaptaincy(player, "set-vice-captain");
-
-  const handleChipChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value) {
-      setTransferPlan(
-        addChange(changes, {
-          type: "use-chip",
-          chip: e.target.value as ChipName,
-          gameweek: planningGameweek,
-        } as ChipChange)
-      );
-    } else {
-      const planningGameweekChip = changes.find(
-        (c) => c.type === "use-chip" && c.gameweek === planningGameweek
-      );
-      if (planningGameweekChip) {
-        setTransferPlan(removeChange(changes, planningGameweekChip));
+  const handleRename = (newName: string, oldName: string) => {
+    if (transferPlans && newName !== oldName) {
+      const nextTransferPlans = [...transferPlans];
+      const index = nextTransferPlans.findIndex((p) => p === oldName);
+      if (index !== -1) {
+        nextTransferPlans[index] = newName;
+        setTransferPlans(nextTransferPlans);
+        const data = getLocalStorageItem(
+          getTransferPlanKey(teamId, oldName),
+          []
+        );
+        setLocalStorageItem(getTransferPlanKey(teamId, newName), data);
       }
     }
   };
 
-  const handleRemove = (change: Change) =>
-    setTransferPlan(removeChange(changes, change));
+  const handleDuplicate = (plan: string) => {
+    if (transferPlans) {
+      const nextIndex = transferPlans.length;
+      const name = getDefaultName(transferPlans);
+      setTransferPlans([...transferPlans, name]);
+      setLocalStorageItem(
+        getTransferPlanKey(teamId, name),
+        getLocalStorageItem(getTransferPlanKey(teamId, plan), [])
+      );
+      setTabIndex(nextIndex);
+    }
+  };
 
-  const handleMoveToGameweek = (gameweek: number) =>
-    setGameweekDelta(gameweek - currentGameweek);
+  const handleRemove = (plan: string) => {
+    if (transferPlans) {
+      const nextTransferPlans = transferPlans?.filter((p) => p !== plan);
+
+      if (nextTransferPlans.length === 0) {
+        setTransferPlans([getDefaultName(nextTransferPlans)]);
+        setTabIndex(0);
+      } else {
+        setTransferPlans(nextTransferPlans);
+        setTabIndex(nextTransferPlans.length - 1);
+      }
+
+      removeLocalStorageItem(getTransferPlanKey(teamId, plan));
+    }
+  };
 
   return (
-    <Flex overflow="hidden" height="100%" flexDirection="column" {...props}>
-      <TransferToolbar
-        bank={bank}
-        hits={hits}
-        chipUsages={chipUsages}
-        currentGameweek={currentGameweek}
-        planningGameweek={planningGameweek}
-        remainingFreeTransfers={remainingFreeTransfers}
-        onPreviousClick={() => setGameweekDelta(gameweekDelta - 1)}
-        onNextClick={() => setGameweekDelta(gameweekDelta + 1)}
-        onActivatedChipSelectChange={handleChipChange}
-      />
-      <TransferLog
-        currentGameweek={currentGameweek}
-        changes={changes}
-        invalidChanges={invalidChanges}
-        onRemove={handleRemove}
-        onMoveToGameweek={handleMoveToGameweek}
-      />
-      {teamInvalidities.length > 0 && (
-        <Box width="100%" py={2} px={4} bg="red.500" color="white">
-          {teamInvalidities.map((i) => i.message).join(", ")}
-        </Box>
-      )}
-      <Box flexGrow={1}>
-        <TeamManager
-          mode={transferManagerMode}
-          team={team}
-          players={players}
-          gameweeks={upcomingGameweeks}
-          onSwap={handleSwap}
-          onTransfer={handleTransfer}
-          onPreseasonSwap={handlePreseasonSwap}
-          onPreseasonTransfer={handlePreseasonTransfer}
-          onSetCaptain={handleSetCaptain}
-          onSetViceCaptain={handleSetViceCaptain}
-        />
-      </Box>
-    </Flex>
+    <Box height="100%" overflow="hidden" {...props}>
+      <Tabs
+        variant="enclosed-colored"
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        index={tabIndex}
+        onChange={handleTabsChange}
+      >
+        <TabList pl={2} bg="gray.50">
+          {transferPlans?.map((plan) => (
+            <TransferPlannerTab
+              key={plan}
+              plan={plan}
+              onNameChange={(newName: string) => handleRename(newName, plan)}
+              onRemoveClick={() => handleRemove(plan)}
+              onDuplicateClick={() => handleDuplicate(plan)}
+            />
+          ))}
+          <IconButton
+            width="60px"
+            height="100%"
+            variant="ghost"
+            borderRadius="none"
+            icon={<Icon as={IoAdd} />}
+            aria-label="add a new plan"
+            onClick={handleAddNewTransferPlan}
+          />
+        </TabList>
+        <TabPanels display="flex" flexGrow={1} flexDirection="column">
+          {transferPlans?.map((plan) => (
+            <TabPanel
+              key={plan}
+              p={0}
+              flexGrow={1}
+              display="flex"
+              flexDirection="column"
+            >
+              {teamId && (
+                <TransferPlannerPanel
+                  teamId={teamId}
+                  transferPlanKey={plan}
+                  initialPicks={initialPicks}
+                  entryHistory={entryHistory}
+                  players={players}
+                  gameweeks={gameweeks}
+                  transfers={transfers}
+                  chips={chips}
+                />
+              )}
+            </TabPanel>
+          ))}
+        </TabPanels>
+      </Tabs>
+    </Box>
   );
 };
 

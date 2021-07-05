@@ -9,8 +9,8 @@ interface ManualLocalStorageChangeType {
 
 export function getLocalStorageItem<T>(
   key: string,
-  defaultValue: T | null | undefined
-): T | null | undefined {
+  defaultValue: T | null
+): T | null {
   try {
     const storageString = window.localStorage.getItem(key);
     if (storageString !== null) return JSON.parse(storageString);
@@ -40,10 +40,9 @@ export function removeLocalStorageItem(key: string): void {
 
 function useLocalStorage<T>(
   key: string,
-  defaultValue: T | null | undefined
-): [T | null | undefined, (value: T | null | undefined) => void, boolean] {
-  const [storedValue, setStoredValue] =
-    useState<T | null | undefined>(defaultValue);
+  defaultValue: T | null
+): [T | null, (value: T | null) => void, boolean] {
+  const [storedValue, setStoredValue] = useState<T | null>(defaultValue);
   const [isInitialised, setIsInitialised] = useState<boolean>(false);
 
   const storeEventListener = (
@@ -62,15 +61,10 @@ function useLocalStorage<T>(
     }
   };
 
-  const writeDataAndSetValue = (
-    key: string,
-    value: T | null | undefined
-  ): void => {
+  const writeDataAndSetValue = (key: string, value: T | null): void => {
     try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      setStoredValue(value);
+      window.localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
       // Ignore error
     }
@@ -80,6 +74,9 @@ function useLocalStorage<T>(
     // Only initialise localStorage data on client side and on key changed
     try {
       const item = window.localStorage.getItem(key);
+      if (item === null) {
+        setLocalStorageItem(key, defaultValue);
+      }
       setStoredValue(item ? JSON.parse(item) : defaultValue);
 
       // Listen change from other browser tabs
@@ -106,7 +103,7 @@ function useLocalStorage<T>(
   }, [key]);
 
   const setValue = useCallback(
-    (value: T | null | undefined) => {
+    (value: T | null) => {
       if (key) {
         writeDataAndSetValue(key, value);
       }

@@ -7,17 +7,17 @@ export interface Preference {
 
 export interface Settings {
   isInitialised: boolean;
-  profiles: string[] | null | undefined;
-  setProfiles: (profiles: string[] | null | undefined) => void;
-  teamId: string | null | undefined;
-  setTeamId: (id: string | null | undefined) => void;
-  preference: Preference | null | undefined;
-  setPreference: (preference: Preference | null | undefined) => void;
-  transferPlan: Change[] | null | undefined;
-  setTransferPlan: (changes: Change[]) => void;
-  fixturesTeamsOrder: string[] | null | undefined;
+  profiles: string[] | null;
+  setProfiles: (profiles: string[] | null) => void;
+  teamId: string | null;
+  setTeamId: (id: string | null) => void;
+  preference: Preference | null;
+  setPreference: (preference: Preference | null) => void;
+  fixturesTeamsOrder: string[] | null;
   setFixturesTeamsOrder: (order: string[] | null) => void;
   isSettingsModalOpen: boolean;
+  transferPlans: string[] | null;
+  setTransferPlans: (plans: string[] | null) => void;
   onSettingsModalOpen: () => void;
   onSettingsModalClsoe: () => void;
 }

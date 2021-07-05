@@ -8,8 +8,8 @@ const SettingsProfilesList = ({
   onActiveProfileChange,
   onRemoveProfile,
 }: {
-  profiles: string[] | null | undefined;
-  activeProfile: string | null | undefined;
+  profiles: string[] | null;
+  activeProfile: string | null;
   onActiveProfileChange: (id: string) => void;
   onRemoveProfile: (id: string) => void;
 }) => {
@@ -34,8 +34,8 @@ const SettingsProfilesList = ({
           <SettingsProfile
             key={teamId}
             teamId={teamId}
-            onRemove={() => onRemoveProfile(teamId)}
             radioProps={radio}
+            onRemoveClick={() => onRemoveProfile(teamId)}
           />
         );
       })}

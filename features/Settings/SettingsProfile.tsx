@@ -1,164 +1,171 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   Flex,
   Heading,
   Icon,
   IconButton,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
-  PopoverTrigger,
-  Portal,
   Text,
-  useDisclosure,
   useRadio,
   UseRadioProps,
 } from "@chakra-ui/react";
-import { useMemo, useRef } from "react";
+import {
+  MouseEvent,
+  MouseEventHandler,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   IoRadioButtonOffOutline,
   IoRadioButtonOnOutline,
   IoTrashBinOutline,
 } from "react-icons/io5";
-import useLocalStorage from "~/features/Common/useLocalStorage";
+import useLocalStorage, {
+  getLocalStorageItem,
+} from "~/features/Common/useLocalStorage";
 import { nFormatter } from "~/features/Common/utils";
 import { Preference } from "~/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
   getTransferPlanKey,
+  getTransferPlansKey,
 } from "~/features/Settings/storageKeys";
 import { Change } from "~/features/TransferPlanner/transferPlannerTypes";
 
 const SettingsProfile = ({
   teamId,
-  onRemove,
   radioProps,
+  onRemoveClick,
 }: {
-  radioProps: UseRadioProps;
   teamId: string;
-  onRemove: (id: string) => void;
+  radioProps: UseRadioProps;
+  onRemoveClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   const { getInputProps, getCheckboxProps } = useRadio(radioProps);
   const { isChecked } = radioProps;
-  const { onOpen, onClose, isOpen } = useDisclosure();
-  const firstFieldRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => setIsOpen(false);
+  const cancelRef = useRef<HTMLButtonElement>(null);
+
+  const input = getInputProps();
+  const checkbox = getCheckboxProps();
 
   const [preference] = useLocalStorage<Preference>(
     getPreferenceKey(teamId),
     {}
   );
 
-  const input = getInputProps();
-  const checkbox = getCheckboxProps();
+  const [transferPlans] = useLocalStorage<string[]>(
+    getTransferPlansKey(teamId),
+    ["Plan 1"]
+  );
 
-  const [transferPlan] = useLocalStorage<Change[]>(
-    getTransferPlanKey(teamId),
-    null
-  );
-  const transferPlanSize = useMemo(
-    () =>
-      transferPlan
-        ? new TextEncoder().encode(JSON.stringify(transferPlan)).length
-        : 0,
-    [transferPlan]
-  );
+  const storageSize = useMemo(() => {
+    const allTransferPlans = transferPlans?.map((name) =>
+      getLocalStorageItem<Change[]>(getTransferPlanKey(teamId, name), [])
+    );
+
+    const allData = [preference, allTransferPlans, transferPlans];
+
+    return new TextEncoder().encode(JSON.stringify([allData])).length;
+  }, [preference, transferPlans]);
+
+  const displayName = preference?.name ?? `Team ${teamId}`;
+
+  const handleConfirmRemove = (e: MouseEvent<HTMLButtonElement>) => {
+    onClose();
+    onRemoveClick(e);
+  };
 
   return (
-    <Box as="label" width="100%">
-      <input {...input} />
-      <Flex
-        {...checkbox}
-        cursor="pointer"
-        borderWidth={1}
-        borderRadius="md"
-        _hover={{
-          boxShadow: "sm",
-        }}
-        _focus={{
-          boxShadow: "outline",
-        }}
-        _checked={{
-          borderColor: "green",
-        }}
+    <>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
       >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Remove Profile
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              You are removing "{displayName}" profile. Are you sure? You can't
+              undo this action afterwards.
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button variant="outline" ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="red" onClick={handleConfirmRemove} ml={3}>
+                Remove
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+      <Box as="label" width="100%">
+        <input {...input} />
         <Flex
-          pt={5}
-          pl={4}
-          flexBasis="24px"
-          justifyContent="center"
-          alignItems="flex-start"
+          {...checkbox}
+          cursor="pointer"
+          borderWidth={1}
+          borderRadius="md"
+          _hover={{
+            boxShadow: "sm",
+          }}
+          _focus={{
+            boxShadow: "outline",
+          }}
+          _checked={{
+            borderColor: "green",
+          }}
         >
-          <Icon
-            color={isChecked ? "green" : undefined}
-            as={isChecked ? IoRadioButtonOnOutline : IoRadioButtonOffOutline}
-          />
-        </Flex>
-        <Box px={2} py={4} flexGrow={1}>
-          <Heading size="sm" mb={1}>
-            {preference?.name ?? `Team ${teamId}`}
-          </Heading>
-          <Text color="gray.600" fontSize="xs">
-            Team ID: {teamId}
-          </Text>
-          <Text color="gray.600" fontSize="xs">
-            Transfer plan size: {nFormatter(transferPlanSize, 1)}b
-          </Text>
-        </Box>
-        <Flex>
-          <Popover
-            isOpen={isOpen}
-            initialFocusRef={firstFieldRef}
-            onOpen={onOpen}
+          <Flex
+            pt={5}
+            pl={4}
+            flexBasis="24px"
+            justifyContent="center"
+            alignItems="flex-start"
           >
-            <PopoverTrigger>
-              <IconButton
-                variant="ghost"
-                aria-label="remove"
-                height="100%"
-                width="100%"
-                borderTopLeftRadius={0}
-                borderBottomLeftRadius={0}
-                icon={<Icon as={IoTrashBinOutline} />}
-              />
-            </PopoverTrigger>
-            <Portal>
-              <Box zIndex="popover" position="fixed">
-                <PopoverContent>
-                  <PopoverArrow />
-                  <PopoverCloseButton onClick={onClose} />
-                  <PopoverHeader fontWeight="black">
-                    Delete profile
-                  </PopoverHeader>
-                  <PopoverBody>
-                    Are you sure you want to remove this profile, its settings
-                    and transfer plan?
-                  </PopoverBody>
-                  <PopoverFooter display="flex" justifyContent="flex-end">
-                    <Button
-                      ref={firstFieldRef}
-                      variant="outline"
-                      size="sm"
-                      mr={1}
-                      onClick={onClose}
-                    >
-                      Cancel
-                    </Button>
-                    <Button size="sm" onClick={() => onRemove(teamId)}>
-                      Remove
-                    </Button>
-                  </PopoverFooter>
-                </PopoverContent>
-              </Box>
-            </Portal>
-          </Popover>
+            <Icon
+              color={isChecked ? "green" : undefined}
+              as={isChecked ? IoRadioButtonOnOutline : IoRadioButtonOffOutline}
+            />
+          </Flex>
+          <Box px={2} py={4} flexGrow={1}>
+            <Heading size="sm" mb={1}>
+              {displayName}
+            </Heading>
+            <Text color="gray.600" fontSize="xs">
+              Team ID: {teamId}
+            </Text>
+            <Text color="gray.600" fontSize="xs">
+              Storage size: {nFormatter(storageSize, 1)}b
+            </Text>
+          </Box>
+          <Flex>
+            <IconButton
+              variant="ghost"
+              aria-label="remove"
+              height="100%"
+              width="100%"
+              borderTopLeftRadius={0}
+              borderBottomLeftRadius={0}
+              icon={<Icon as={IoTrashBinOutline} />}
+              onClick={() => setIsOpen(true)}
+            />
+          </Flex>
         </Flex>
-      </Flex>
-    </Box>
+      </Box>
+    </>
   );
 };
 

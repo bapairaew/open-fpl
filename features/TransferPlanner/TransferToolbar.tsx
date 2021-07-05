@@ -1,4 +1,5 @@
 import {
+  BoxProps,
   Divider,
   Heading,
   HStack,
@@ -13,6 +14,30 @@ import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 import { getChipDisplayName } from "~/features/TransferPlanner/chips";
 import { ChipUsage } from "~/features/TransferPlanner/transferPlannerTypes";
 
+const ToolbarSection = ({
+  label,
+  children,
+  ...props
+}: BoxProps & {
+  label: ReactNode;
+  children: ReactNode;
+}) => {
+  return (
+    <VStack spacing={0} px={2} {...props}>
+      <Heading
+        size="xs"
+        fontWeight="normal"
+        noOfLines={1}
+        width="100%"
+        color="gray.600"
+      >
+        {label}
+      </Heading>
+      {children}
+    </VStack>
+  );
+};
+
 const ToolbarStat = ({
   label,
   data,
@@ -20,20 +45,11 @@ const ToolbarStat = ({
   label: ReactNode;
   data: ReactNode;
 }) => (
-  <VStack spacing={0} width="60px" textAlign="right" px={2}>
-    <Heading
-      size="xs"
-      fontWeight="normal"
-      noOfLines={1}
-      width="100%"
-      color="gray.600"
-    >
-      {label}
-    </Heading>
+  <ToolbarSection label={label} width="80px" textAlign="right">
     <Text fontWeight="bold" noOfLines={1} width="100%">
       {data}
     </Text>
-  </VStack>
+  </ToolbarSection>
 );
 
 const TransferToolbar = ({
@@ -85,16 +101,7 @@ const TransferToolbar = ({
       <Divider orientation="vertical" />
       <ToolbarStat label="Hits" data={hits} />
       <Divider orientation="vertical" />
-      <VStack spacing={0} width="160px" textAlign="left">
-        <Heading
-          size="xs"
-          fontWeight="normal"
-          noOfLines={1}
-          width="100%"
-          color="gray.600"
-        >
-          Chip
-        </Heading>
+      <ToolbarSection label="Chip" width="160px" textAlign="left">
         <Select
           height="20px"
           fontWeight="bold"
@@ -109,7 +116,7 @@ const TransferToolbar = ({
             </option>
           ))}
         </Select>
-      </VStack>
+      </ToolbarSection>
       <Divider orientation="vertical" />
     </HStack>
   );

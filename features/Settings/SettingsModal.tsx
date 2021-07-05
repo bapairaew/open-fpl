@@ -9,20 +9,21 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useRef } from "react";
-import AddProfile from "~/features/Settings/AddProfile";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import SettingsProfilesList from "~/features/Settings/SettingsProfilesList";
-import {
-  getPreferenceKey,
-  getTransferPlanKey,
-} from "~/features/Settings/storageKeys";
+import { TeamApiResponse } from "~/features/Api/apiTypes";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
   setLocalStorageItem,
 } from "~/features/Common/useLocalStorage";
+import AddProfile from "~/features/Settings/AddProfile";
+import { useSettings } from "~/features/Settings/SettingsContext";
+import SettingsProfilesList from "~/features/Settings/SettingsProfilesList";
 import { Preference } from "~/features/Settings/settingsTypes";
-import { TeamApiResponse } from "~/features/Api/apiTypes";
+import {
+  getPreferenceKey,
+  getTransferPlanKey,
+  getTransferPlansKey,
+} from "~/features/Settings/storageKeys";
 
 const SettingsModal = ({
   isOpen,
@@ -33,8 +34,9 @@ const SettingsModal = ({
 }) => {
   const toast = useToast();
   const { teamId, setTeamId, profiles, setProfiles } = useSettings();
-  const initialFocusRef =
-    useRef<HTMLInputElement | HTMLButtonElement | null>(null);
+  const initialFocusRef = useRef<HTMLInputElement | HTMLButtonElement | null>(
+    null
+  );
 
   const handleAddProfile = async (teamId: string) => {
     if (profiles && !profiles.includes(teamId)) {
@@ -83,9 +85,15 @@ const SettingsModal = ({
     const { name } =
       getLocalStorageItem<Preference>(getPreferenceKey(removingTeamId), {}) ||
       {};
+    const transferPlans =
+      getLocalStorageItem<string[]>(getTransferPlansKey(removingTeamId), []) ||
+      [];
     setProfiles(profiles ? profiles.filter((p) => p !== removingTeamId) : []);
     removeLocalStorageItem(getPreferenceKey(removingTeamId));
-    removeLocalStorageItem(getTransferPlanKey(removingTeamId));
+    transferPlans?.forEach((id) =>
+      removeLocalStorageItem(getTransferPlanKey(removingTeamId, id))
+    );
+    removeLocalStorageItem(getTransferPlansKey(removingTeamId));
     if (teamId === removingTeamId) {
       setTeamId(null);
     }

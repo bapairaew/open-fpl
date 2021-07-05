@@ -5,12 +5,12 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import TransferablePlayer, {
-  TransferablePlayerVariant
+  TransferablePlayerVariant,
 } from "~/features/TransferPlanner/TransferablePlayer";
 import { isSwapable } from "~/features/TransferPlanner/transferPlan";
 import {
   FullChangePlayer,
-  GroupedTeam
+  GroupedTeam,
 } from "~/features/TransferPlanner/transferPlannerTypes";
 
 const getVariant = (
