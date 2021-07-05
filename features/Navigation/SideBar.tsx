@@ -101,7 +101,11 @@ const SideBar = () => {
           size="sm"
           width="100%"
           onClick={onSettingsModalOpen}
-          leftIcon={teamId ? <IoSettingsOutline /> : undefined}
+          leftIcon={
+            teamId ? (
+              <Icon aria-label="Settings" as={IoSettingsOutline} />
+            ) : undefined
+          }
         >
           {teamId ? `${preference?.name ?? teamId}` : "Set up your profile"}
         </Button>
@@ -113,14 +117,13 @@ const SideBar = () => {
           <Link href="/help" passHref>
             <A>Help</A>
           </Link>
-        </HStack>
-        <HStack color="gray.600" fontSize="xs" spacing={1}>
+          <Text>·</Text>
           <A href={externalLinks.github} isExternal>
-            Github <Icon as={IoLogoGithub} />
+            <Icon aria-label="Github" as={IoLogoGithub} />
           </A>
           <Text>·</Text>
           <A href={externalLinks.twitter} isExternal>
-            Twitter <Icon as={IoLogoTwitter} />
+            <Icon aria-label="Twitter" as={IoLogoTwitter} />
           </A>
         </HStack>
       </VStack>
