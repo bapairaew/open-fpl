@@ -76,7 +76,7 @@ const FixturesTable = ({
           colorScheme="gray"
           display="block"
           overflow="auto"
-          height={`${height - 50}px`}
+          height={`${height}px`}
           width={`${width}px`}
         >
           <Thead position="sticky" top={0} zIndex="sticky">

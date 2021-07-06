@@ -114,7 +114,8 @@ const TransferLog = ({
             <HStack
               height={`${height}px`}
               width={`${width}px`}
-              overflow="auto"
+              overflowX="auto"
+              overflowY="hidden"
               spacing={0}
             >
               {reversedGroupedKeys.map((gameweek) => {

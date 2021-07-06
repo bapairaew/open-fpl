@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Flex,
   Input,
   InputGroup,
   InputLeftElement,
@@ -87,7 +88,7 @@ const TransferMarket = ({
   );
 
   return (
-    <>
+    <Flex flexDirection="column" height="100%">
       <Box p={2}>
         <VStack spacing={2}>
           <InputGroup variant="filled">
@@ -121,11 +122,11 @@ const TransferMarket = ({
           No players found
         </Box>
       ) : (
-        <Box px={2} height="100%">
+        <Box flexGrow={1} px={2} height="100%">
           <AutoSizer>
             {({ height, width }) => (
               <List
-                height={height - 100}
+                height={height}
                 width={width - 2}
                 itemCount={Math.ceil(displayedPlayers.length)}
                 itemSize={260}
@@ -136,7 +137,7 @@ const TransferMarket = ({
           </AutoSizer>
         </Box>
       )}
-    </>
+    </Flex>
   );
 };
 

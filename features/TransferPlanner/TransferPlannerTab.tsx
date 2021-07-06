@@ -136,42 +136,48 @@ const TransferPlannerTab = ({
             />
           </Box>
         )}
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            position="absolute"
-            top={2}
-            right={1}
-            size="xs"
-            zIndex="docked"
-            variant="ghost"
-            aria-label="menu"
-            icon={<Icon as={IoEllipsisVerticalOutline} />}
-          />
-          <Portal>
-            <MenuList zIndex="popover">
-              <MenuItem
-                onClick={handleRenameClick}
-                icon={<Icon as={IoPencilOutline} />}
-              >
-                Rename
-              </MenuItem>
-              <MenuItem
-                onClick={onDuplicateClick}
-                icon={<Icon as={IoDuplicateOutline} />}
-              >
-                Duplicate
-              </MenuItem>
-              <MenuDivider />
-              <MenuItem
-                color="red.600"
-                onClick={() => setIsConfirmRemoveOpen(true)}
-                icon={<Icon as={IoTrashBinOutline} />}
-              >
-                Remove
-              </MenuItem>
-            </MenuList>
-          </Portal>
+        <Menu isLazy>
+          {({ isOpen }) => (
+            <>
+              <MenuButton
+                as={IconButton}
+                position="absolute"
+                top={2}
+                right={1}
+                size="xs"
+                zIndex="docked"
+                variant="ghost"
+                aria-label="menu"
+                icon={<Icon as={IoEllipsisVerticalOutline} />}
+              />
+              {isOpen && (
+                <Portal>
+                  <MenuList zIndex="popover">
+                    <MenuItem
+                      onClick={handleRenameClick}
+                      icon={<Icon as={IoPencilOutline} />}
+                    >
+                      Rename
+                    </MenuItem>
+                    <MenuItem
+                      onClick={onDuplicateClick}
+                      icon={<Icon as={IoDuplicateOutline} />}
+                    >
+                      Duplicate
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuItem
+                      color="red.600"
+                      onClick={() => setIsConfirmRemoveOpen(true)}
+                      icon={<Icon as={IoTrashBinOutline} />}
+                    >
+                      Remove
+                    </MenuItem>
+                  </MenuList>
+                </Portal>
+              )}
+            </>
+          )}
         </Menu>
       </Flex>
     </>

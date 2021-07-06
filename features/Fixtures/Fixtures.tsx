@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { Team } from "~/features/AppData/fplTypes";
 import { makeFullFixtures } from "~/features/Fixtures/fixturesData";
@@ -29,14 +29,16 @@ const Fixtures = ({
   const [mode, setMode] = useState("attack");
 
   return (
-    <Box overflow="hidden" height="100%">
+    <Flex flexDirection="column" height="100%">
       <FixturesToolbar mode={mode} onModeChange={setMode} />
-      <FixturesTable
-        mode={mode}
-        fullFixtures={fullFixtures}
-        onFixturesOrderChange={setFixturesTeamsOrder}
-      />
-    </Box>
+      <Box flexGrow={1}>
+        <FixturesTable
+          mode={mode}
+          fullFixtures={fullFixtures}
+          onFixturesOrderChange={setFixturesTeamsOrder}
+        />
+      </Box>
+    </Flex>
   );
 };
 
