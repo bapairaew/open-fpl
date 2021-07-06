@@ -10,6 +10,17 @@ export interface FilterOptions {
   ranges: FilterOptionsConfig[];
 }
 
+export interface SortOptionsConfig {
+  label: string;
+  value: string;
+  sortFn: (a: Player, b: Player) => number;
+}
+
+export interface DisplayOptionsConfig {
+  label: string;
+  value: string;
+}
+
 export const filterOptions: FilterOptions = {
   keywords: [
     { field: "id", getFieldValue: (p) => `${p.id}` },
@@ -23,33 +34,7 @@ export const filterOptions: FilterOptions = {
   ranges: [{ field: "cost", getFieldValue: (p) => p.now_cost / 10 }],
 };
 
-export interface SortOptionsConfig {
-  label: string;
-  value: string;
-  sortFn: (a: Player, b: Player) => number;
-}
-
 export const sortOptions: SortOptionsConfig[] = [
-  {
-    label: "Best fixtures",
-    value: "best-fixtures",
-    sortFn: (a, b) => {
-      // Sort reversed difficulty value (5 is better than 1), and sum them all which makes the value the more the better (more matches and easier)
-      const sumA =
-        a.linked_data.next_gameweeks
-          ?.slice(0, 5)
-          .reduce((s, g) => s + (5 - g.difficulty), 0) || 0;
-      const sumB =
-        b.linked_data.next_gameweeks
-          ?.slice(0, 5)
-          .reduce((s, g) => s + (5 - g.difficulty), 0) || 0;
-      return sumA === sumB
-        ? a.team.short_name.localeCompare(b.team.short_name) // Make sure same team is group together in the result
-        : sumA > sumB
-        ? -1
-        : 1;
-    },
-  },
   {
     label: "Best recent xGI",
     value: "best-xgi",
@@ -113,6 +98,26 @@ export const sortOptions: SortOptionsConfig[] = [
     },
   },
   {
+    label: "Best fixtures",
+    value: "best-fixtures",
+    sortFn: (a, b) => {
+      // Sort reversed difficulty value (5 is better than 1), and sum them all which makes the value the more the better (more matches and easier)
+      const sumA =
+        a.linked_data.next_gameweeks
+          ?.slice(0, 5)
+          .reduce((s, g) => s + (5 - g.difficulty), 0) || 0;
+      const sumB =
+        b.linked_data.next_gameweeks
+          ?.slice(0, 5)
+          .reduce((s, g) => s + (5 - g.difficulty), 0) || 0;
+      return sumA === sumB
+        ? a.team.short_name.localeCompare(b.team.short_name) // Make sure same team is group together in the result
+        : sumA > sumB
+        ? -1
+        : 1;
+    },
+  },
+  {
     label: "Price: low to high",
     value: "price-asc",
     sortFn: (a, b) => (a.now_cost < b.now_cost ? -1 : 1),
@@ -135,3 +140,18 @@ export const sortOptions: SortOptionsConfig[] = [
       +a.selected_by_percent < +b.selected_by_percent ? 1 : -1,
   },
 ];
+
+export const displayOptions = [
+  {
+    label: "Grid",
+    value: "grid",
+  },
+  {
+    label: "Table",
+    value: "table",
+  },
+  {
+    label: "Chart",
+    value: "chart",
+  },
+] as DisplayOptionsConfig[];

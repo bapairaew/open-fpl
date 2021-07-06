@@ -15,7 +15,7 @@ import {
 import { MouseEventHandler } from "react";
 import { IoStarOutline } from "react-icons/io5";
 import { Gameweek } from "~/features/AppData/appDataTypes";
-import PlayerCard from "~/features/PlayerCard/PlayerCard";
+import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
 import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
 
 export type TransferablePlayerVariant =
@@ -88,7 +88,7 @@ const TransferablePlayer = ({
         onClick={onPlayerClick}
         {...variantProps}
       >
-        <PlayerCard variant="mini" player={player} gameweeks={gameweeks} />
+        <PlayerGridCard variant="mini" player={player} gameweeks={gameweeks} />
       </Button>
       <Flex
         position="absolute"

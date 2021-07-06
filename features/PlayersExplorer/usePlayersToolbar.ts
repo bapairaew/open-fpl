@@ -1,25 +1,15 @@
-import {
-  Box,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Select,
-  Stack,
-  StackDirection,
-} from "@chakra-ui/react";
 // @ts-ignore
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
 import { useEffect, useMemo, useState } from "react";
-import { IoSearchOutline } from "react-icons/io5";
 import searchQueryParser from "search-query-parser";
 import { useDebounce } from "use-debounce";
+import { Player } from "~/features/AppData/appDataTypes";
 import { filterPlayers } from "~/features/PlayersExplorer/playerSearchBarFilters";
 import {
   filterOptions,
   sortOptions,
-} from "~/features/PlayersExplorer/playerSearchBarOptions";
-import { Player } from "~/features/AppData/appDataTypes";
+} from "~/features/PlayersExplorer/playersToolbarOptions";
 
 const freeTextFuseSettings: Fuse.IFuseOptions<Player> = {
   getFn: (player, path) => {
@@ -45,16 +35,14 @@ const freeTextFuseSettings: Fuse.IFuseOptions<Player> = {
   ],
 };
 
-const PlayerSearchBar = ({
-  direction = "row",
+const usePlayersToolbar = ({
   initialSeachQuery = "",
-  onResults = () => {},
   players: inputPlayers = [],
+  onResults = () => {},
 }: {
-  direction?: StackDirection;
   initialSeachQuery?: string;
-  onResults?: (players: Player[]) => void;
   players?: Player[];
+  onResults?: (players: Player[]) => void;
 }) => {
   const [filterQuery, setFilterQuery] = useState(initialSeachQuery);
   const [debouncedFilterQuery] = useDebounce(filterQuery, 300);
@@ -87,31 +75,7 @@ const PlayerSearchBar = ({
     onResults(processedPlayers);
   }, [inputPlayers, filterQueryObject, sort]);
 
-  return (
-    <Stack direction={direction} spacing={2}>
-      <InputGroup variant="filled">
-        <InputLeftElement pointerEvents="none" children={<IoSearchOutline />} />
-        <Input
-          placeholder="Search"
-          value={filterQuery}
-          onChange={(e) => setFilterQuery(e.target.value)}
-        />
-      </InputGroup>
-      <Box flexShrink={0}>
-        <Select
-          variant="filled"
-          value={sort}
-          onChange={(e) => setSort(e.target.value)}
-        >
-          {sortOptions.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </Select>
-      </Box>
-    </Stack>
-  );
+  return { filterQuery, setFilterQuery, sort, setSort };
 };
 
-export default PlayerSearchBar;
+export default usePlayersToolbar;

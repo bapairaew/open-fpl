@@ -11,9 +11,9 @@ import {
 import Link from "next/link";
 // @ts-ignore
 import { AnnotationCalloutRect } from "react-annotation";
-import PlayerCard from "~/features/PlayerCard/PlayerCard";
+import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
 import { gameweeks, player } from "~/features/PlayersExplorer/helpData";
-import PlayerSearchBar from "~/features/PlayersExplorer/PlayerSearchBar";
+import PlayersExplorerToolbar from "~/features/PlayersExplorer/PlayersExplorerToolbar";
 
 const PlayerExplorerHelp = () => {
   return (
@@ -64,7 +64,7 @@ const PlayerExplorerHelp = () => {
         position="relative"
       >
         <Box width={400}>
-          <PlayerCard player={player} gameweeks={gameweeks} />
+          <PlayerGridCard player={player} gameweeks={gameweeks} />
         </Box>
         <Box as="svg" sx={{ width: 800, height: 600, position: "absolute" }}>
           <AnnotationCalloutRect
@@ -195,7 +195,7 @@ const PlayerExplorerHelp = () => {
           would show (Paul) Pogba and (Paul) Dummett.
         </Text>
         <Box my={4} pointerEvents="none">
-          <PlayerSearchBar initialSeachQuery="Paul" />
+          <PlayersExplorerToolbar initialSeachQuery="Paul" />
         </Box>
         <Text my={4} as="p">
           It also supports search query syntax like when you do email search.
@@ -204,7 +204,7 @@ const PlayerExplorerHelp = () => {
           below:
         </Text>
         <Box my={4} pointerEvents="none">
-          <PlayerSearchBar initialSeachQuery="name:Pogba" />
+          <PlayersExplorerToolbar initialSeachQuery="name:Pogba" />
         </Box>
         <Box mt={4} mb={2}>
           Currently, it supports the following fields:
@@ -214,7 +214,7 @@ const PlayerExplorerHelp = () => {
                 <code>id</code> - FPL ID
               </Text>
               <Box my={4} pointerEvents="none">
-                <PlayerSearchBar initialSeachQuery="id:296" />
+                <PlayersExplorerToolbar initialSeachQuery="id:296" />
               </Box>
             </ListItem>
             <ListItem my={2}>
@@ -222,7 +222,7 @@ const PlayerExplorerHelp = () => {
                 <code>name</code> - FPL web name
               </Text>
               <Box my={4} pointerEvents="none">
-                <PlayerSearchBar initialSeachQuery="name:Pogba" />
+                <PlayersExplorerToolbar initialSeachQuery="name:Pogba" />
               </Box>
             </ListItem>
             <ListItem my={2}>
@@ -230,7 +230,7 @@ const PlayerExplorerHelp = () => {
                 <code>cost</code> - FPL player's cost range
               </Text>
               <Box my={4} pointerEvents="none">
-                <PlayerSearchBar initialSeachQuery="cost:4-10" />
+                <PlayersExplorerToolbar initialSeachQuery="cost:4-10" />
               </Box>
             </ListItem>
             <ListItem my={2}>
@@ -238,7 +238,7 @@ const PlayerExplorerHelp = () => {
                 <code>position</code> - FPL positon (FWD, MID, DEF, GKP)
               </Text>
               <Box my={4} pointerEvents="none">
-                <PlayerSearchBar initialSeachQuery="position:MID" />
+                <PlayersExplorerToolbar initialSeachQuery="position:MID" />
               </Box>
             </ListItem>
             <ListItem my={2}>
@@ -246,7 +246,7 @@ const PlayerExplorerHelp = () => {
                 <code>team</code> - FPL short team name (e.g. MUN, LIV, MCI)
               </Text>
               <Box my={4} pointerEvents="none">
-                <PlayerSearchBar initialSeachQuery="team:MUN" />
+                <PlayersExplorerToolbar initialSeachQuery="team:MUN" />
               </Box>
             </ListItem>
           </UnorderedList>
@@ -257,7 +257,7 @@ const PlayerExplorerHelp = () => {
           Manchester United OR Liverpool you can do the following:
         </Text>
         <Box my={4} pointerEvents="none">
-          <PlayerSearchBar initialSeachQuery="name:MUN,LIV" />
+          <PlayersExplorerToolbar initialSeachQuery="name:MUN,LIV" />
         </Box>
         <Text my={4} as="p">
           Or if you want to narrow down your search result you could append
@@ -265,7 +265,7 @@ const PlayerExplorerHelp = () => {
           Manchester United midfield players
         </Text>
         <Box my={4} pointerEvents="none">
-          <PlayerSearchBar initialSeachQuery="team:MUN position:MID" />
+          <PlayersExplorerToolbar initialSeachQuery="team:MUN position:MID" />
         </Box>
         <Text my={4} as="p">
           You can also exclude some search results use exclusion prefix `-` like
@@ -273,7 +273,7 @@ const PlayerExplorerHelp = () => {
           that range search (e.g. cost) DOES NOT support exclusion yet.
         </Text>
         <Box my={4} pointerEvents="none">
-          <PlayerSearchBar initialSeachQuery="team:MUN position:MID -name:Pogba" />
+          <PlayersExplorerToolbar initialSeachQuery="team:MUN position:MID -name:Pogba" />
         </Box>
 
         <Heading my={4} as="h3" size="sm" fontWeight="black">

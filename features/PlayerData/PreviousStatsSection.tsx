@@ -1,9 +1,9 @@
 import { Box, Flex, Grid } from "@chakra-ui/react";
+import { MatchStat, Player } from "~/features/AppData/appDataTypes";
+import { isNullOrUndefined } from "~/features/Common/utils";
 import CenterFlex, {
   CenterFlexVariant,
-} from "~/features/PlayerCard/CenterFlex";
-import { isNullOrUndefined } from "~/features/Common/utils";
-import { Player, MatchStat } from "~/features/AppData/appDataTypes";
+} from "~/features/PlayerData/CenterFlex";
 
 const makeEmptyMatches = (length: number): MatchStat[] => {
   const matches: MatchStat[] = [];
@@ -68,9 +68,9 @@ const PreviousStatsSection = ({
                   color="gray.600"
                   bg="gray.100"
                 >
-                  {(s.opponent_short_title || "")[
-                    s.is_home ? "toUpperCase" : "toLowerCase"
-                  ]()}
+                  {s.is_home
+                    ? (s.opponent_short_title || "").toUpperCase()
+                    : (s.opponent_short_title || "").toLocaleLowerCase()}
                 </CenterFlex>
               ))}
               <CenterFlex

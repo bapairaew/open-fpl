@@ -2,7 +2,7 @@
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
 import { SearchParserResult } from "search-query-parser";
-import { FilterOptions } from "~/features/PlayersExplorer/playerSearchBarOptions";
+import { FilterOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
 import { Player } from "~/features/AppData/appDataTypes";
 
 interface FilterParams {

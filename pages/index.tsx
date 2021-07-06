@@ -100,12 +100,7 @@ function HomePage({
         title="Player Explorer | Open FPL"
         description="Explore Fantasy Premier League player statistics to make a better decision on your team."
       />
-      <PlayersExplorer
-        as="main"
-        columnsSettings={{ xs: 1, sm: 1, md: 2, lg: 3, xl: 4, "2xl": 5 }}
-        players={players}
-        gameweeks={gameweeks}
-      />
+      <PlayersExplorer as="main" players={players} gameweeks={gameweeks} />
     </>
   );
 }

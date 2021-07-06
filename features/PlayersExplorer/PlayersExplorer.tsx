@@ -2,25 +2,45 @@ import { Box, BoxProps, Grid, useBreakpointValue } from "@chakra-ui/react";
 import { CSSProperties, ReactNode, useMemo, useState } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
-import PlayerCard from "~/features/PlayerCard/PlayerCard";
-import PlayerSearchBar from "~/features/PlayersExplorer/PlayerSearchBar";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
+import PlayerChartCard from "~/features/PlayerData/PlayerChartCard";
+import PlayersExplorerToolbar from "~/features/PlayersExplorer/PlayersExplorerToolbar";
+import { displayOptions } from "./playersToolbarOptions";
 
 const PlayersExplorer = ({
   players,
   gameweeks,
-  columnsSettings,
   ...props
 }: BoxProps & {
   players: Player[];
   gameweeks: Gameweek[];
-  columnsSettings: Record<string, number>;
 }) => {
-  const _columnsCount = useBreakpointValue(columnsSettings);
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
-  const columnsCount = _columnsCount ?? 1;
+  const [display, setDisplay] = useState(displayOptions[0].value);
+  const itemSize = display === "table" ? 30 : 260;
+  const columnsCount =
+    useBreakpointValue(
+      display === "table"
+        ? {
+            xs: 1,
+            sm: 1,
+            md: 1,
+            lg: 1,
+            xl: 1,
+            "2xl": 1,
+          }
+        : {
+            xs: 1,
+            sm: 1,
+            md: 2,
+            lg: 3,
+            xl: 4,
+            "2xl": 5,
+          }
+    ) ?? 1;
 
-  const Row = useMemo(
+  const row = useMemo(
     () =>
       ({ index: rowIndex, style }: { index: number; style: CSSProperties }) => {
         const content: ReactNode[] = [];
@@ -40,7 +60,13 @@ const PlayersExplorer = ({
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                <PlayerCard player={player} gameweeks={gameweeks} />
+                {display === "table" ? (
+                  player.web_name
+                ) : display === "chart" ? (
+                  <PlayerChartCard player={player} />
+                ) : (
+                  <PlayerGridCard player={player} gameweeks={gameweeks} />
+                )}
               </Box>
             );
           }
@@ -60,23 +86,26 @@ const PlayersExplorer = ({
           </div>
         );
       },
-    [displayedPlayers, gameweeks, columnsCount]
+    [gameweeks, displayedPlayers, columnsCount, display]
   );
 
   return (
     <Box overflow="hidden" height="100%" {...props}>
-      <Box px={4} py={2}>
-        <PlayerSearchBar onResults={setDisplayedPlayers} players={players} />
-      </Box>
+      <PlayersExplorerToolbar
+        players={players}
+        onSearchResults={setDisplayedPlayers}
+        initialDisplay={display}
+        onDisplayChange={setDisplay}
+      />
       <AutoSizer>
         {({ height, width }) => (
           <List
-            height={height - 55}
+            height={height - 50}
             width={width}
+            itemSize={itemSize}
             itemCount={Math.ceil(displayedPlayers.length / columnsCount)}
-            itemSize={260}
           >
-            {Row}
+            {row}
           </List>
         )}
       </AutoSizer>

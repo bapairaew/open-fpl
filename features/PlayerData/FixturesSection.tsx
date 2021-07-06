@@ -3,7 +3,7 @@ import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import { difficultyColorCodes } from "~/features/AppData/fplColors";
 import CenterFlex, {
   CenterFlexVariant,
-} from "~/features/PlayerCard/CenterFlex";
+} from "~/features/PlayerData/CenterFlex";
 
 const FixturesSection = ({
   variant,

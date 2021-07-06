@@ -8,7 +8,7 @@ import {
 import { nFormatter } from "~/features/Common/utils";
 import CenterFlex, {
   CenterFlexVariant,
-} from "~/features/PlayerCard/CenterFlex";
+} from "~/features/PlayerData/CenterFlex";
 
 const variants: Record<
   CenterFlexVariant,
@@ -34,10 +34,10 @@ const variants: Record<
 };
 
 const NameSection = ({
-  variant,
+  variant = "default",
   player,
 }: {
-  variant: CenterFlexVariant;
+  variant?: CenterFlexVariant;
   player: Player;
 }) => {
   const { nameFontSize, defaultFontSize, showId, priceWidth } =

@@ -1,8 +1,8 @@
 import { Grid } from "@chakra-ui/react";
+import { PastGameweek, Player } from "~/features/AppData/appDataTypes";
 import CenterFlex, {
   CenterFlexVariant,
-} from "~/features/PlayerCard/CenterFlex";
-import { Player, PastGameweek } from "~/features/AppData/appDataTypes";
+} from "~/features/PlayerData/CenterFlex";
 
 const makeEmptyGameweeks = (length: number): PastGameweek[] => {
   const gameweeks: PastGameweek[] = [];
@@ -67,9 +67,9 @@ const PointsSection = ({
               color="gray.600"
               bg="gray.100"
             >
-              {h.opponent_team_short_name[
-                h.was_home ? "toUpperCase" : "toLowerCase"
-              ]()}
+              {h.was_home
+                ? h.opponent_team_short_name.toUpperCase()
+                : h.opponent_team_short_name.toLocaleLowerCase()}
             </CenterFlex>
           ))}
           <CenterFlex

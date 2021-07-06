@@ -1,12 +1,12 @@
 import { Box } from "@chakra-ui/react";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
-import { CenterFlexVariant } from "~/features/PlayerCard/CenterFlex";
-import FixturesSection from "~/features/PlayerCard/FixturesSection";
-import NameSection from "~/features/PlayerCard/NameSection";
-import PointsSection from "~/features/PlayerCard/PointsSection";
-import PreviousStatsSection from "~/features/PlayerCard/PreviousStatsSection";
+import { CenterFlexVariant } from "~/features/PlayerData/CenterFlex";
+import FixturesSection from "~/features/PlayerData/FixturesSection";
+import NameSection from "~/features/PlayerData/NameSection";
+import PointsSection from "~/features/PlayerData/PointsSection";
+import PreviousStatsSection from "~/features/PlayerData/PreviousStatsSection";
 
-const PlayerCard = ({
+const PlayerGridCard = ({
   variant = "default",
   player,
   gameweeks,
@@ -30,4 +30,4 @@ const PlayerCard = ({
   );
 };
 
-export default PlayerCard;
+export default PlayerGridCard;

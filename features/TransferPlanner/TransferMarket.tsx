@@ -1,4 +1,12 @@
-import { Box, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Select,
+  VStack,
+} from "@chakra-ui/react";
 import {
   CSSProperties,
   KeyboardEvent,
@@ -6,11 +14,13 @@ import {
   useMemo,
   useState,
 } from "react";
+import { IoSearchOutline } from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
-import PlayerCard from "~/features/PlayerCard/PlayerCard";
-import PlayerSearchBar from "~/features/PlayersExplorer/PlayerSearchBar";
+import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
+import { sortOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
+import usePlayersToolbar from "~/features/PlayersExplorer/usePlayersToolbar";
 import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
 
 const TransferMarket = ({
@@ -26,7 +36,12 @@ const TransferMarket = ({
 }) => {
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
 
-  const Row = useMemo(
+  const { filterQuery, setFilterQuery, sort, setSort } = usePlayersToolbar({
+    players,
+    onResults: setDisplayedPlayers,
+  });
+
+  const row = useMemo(
     () =>
       ({ index, style }: { index: number; style: CSSProperties }) => {
         const player = displayedPlayers[index];
@@ -63,7 +78,7 @@ const TransferMarket = ({
               onKeyUp={handleKeyUp}
               onClick={handleClick}
             >
-              <PlayerCard player={player} gameweeks={gameweeks} />
+              <PlayerGridCard player={player} gameweeks={gameweeks} />
             </Button>
           </div>
         );
@@ -74,11 +89,32 @@ const TransferMarket = ({
   return (
     <>
       <Box p={2}>
-        <PlayerSearchBar
-          onResults={setDisplayedPlayers}
-          players={players}
-          direction="column"
-        />
+        <VStack spacing={2}>
+          <InputGroup variant="filled">
+            <InputLeftElement
+              pointerEvents="none"
+              children={<IoSearchOutline />}
+            />
+            <Input
+              placeholder="Search"
+              value={filterQuery}
+              onChange={(e) => setFilterQuery(e.target.value)}
+            />
+          </InputGroup>
+          <Box width="100%">
+            <Select
+              variant="filled"
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+            >
+              {sortOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </Select>
+          </Box>
+        </VStack>
       </Box>
       {displayedPlayers.length === 0 ? (
         <Box py={10} textAlign="center" color="gray.600">
@@ -94,7 +130,7 @@ const TransferMarket = ({
                 itemCount={Math.ceil(displayedPlayers.length)}
                 itemSize={260}
               >
-                {Row}
+                {row}
               </List>
             )}
           </AutoSizer>
