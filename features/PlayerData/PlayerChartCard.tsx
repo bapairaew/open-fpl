@@ -40,20 +40,20 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
   const chartData = {
     labels: [
       "Recent xGI90",
-      "Season xGI90",
       "Recent axGA90",
-      "Season axGA90",
       "Recent aBPS90",
+      "Season xGI90",
+      "Season axGA90",
       "Season aBPS",
     ],
     datasets: [
       {
         data: [
           recentXGI,
-          player.linked_data.season_xgi ?? 0,
           maxScale - recentXGA,
-          maxScale - (player.linked_data.season_xga ?? 0),
           recentBPS,
+          player.linked_data.season_xgi ?? 0,
+          maxScale - (player.linked_data.season_xga ?? 0),
           player.total_points / (assumedMaxSeasonBPS / maxScale),
         ],
         backgroundColor: transparentize(theme.colors.brand[100], 0.2),
