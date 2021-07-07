@@ -105,11 +105,11 @@ const NameSection = ({
         {showId && <Text color="gray">ID: {player.id}</Text>}
       </Flex>
       <Flex flexDirection="column" width={priceWidth}>
-        <CenterFlex variant={variant} bg="gray.100" fontWeight="bold">
+        <CenterFlex variant={variant} bg="gray.100">
           £{(player.now_cost / 10).toFixed(1)}
         </CenterFlex>
         <CenterFlex variant={variant} bg="gray.100">
-          {nFormatter(+player.selected_by_percent, 1)}%
+          {(+player.selected_by_percent).toFixed(1)}%
         </CenterFlex>
       </Flex>
     </Flex>

@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
 import { Radar } from "react-chartjs-2";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -18,7 +18,7 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
           (s, m) => s + (m.match_xgi ?? 0),
           0
         ) / player.linked_data.past_matches.length
-      : 0;
+      : null;
 
   const recentXGA =
     player.linked_data.past_matches &&
@@ -27,7 +27,7 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
           (s, m) => s + (m.match_xga ?? 0),
           0
         ) / player.linked_data.past_matches.length
-      : 0;
+      : null;
 
   const recentBPS =
     player.linked_data.previous_gameweeks &&
@@ -35,7 +35,7 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
       ? player.linked_data.previous_gameweeks.reduce((s, m) => s + m.bps, 0) /
         ((assumedMaxBPS90 / maxScale) *
           player.linked_data.previous_gameweeks.length) // Assume that max BPS is 50, then normalise to [0, maxScale]
-      : 0;
+      : null;
 
   const chartData = {
     labels: [
@@ -49,11 +49,13 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
     datasets: [
       {
         data: [
-          recentXGI,
-          maxScale - recentXGA,
-          recentBPS,
+          recentXGI ?? 0,
+          recentXGA ? maxScale - recentXGA : 0,
+          recentBPS ?? 0,
           player.linked_data.season_xgi ?? 0,
-          maxScale - (player.linked_data.season_xga ?? 0),
+          player.linked_data.season_xga
+            ? maxScale - player.linked_data.season_xga
+            : 0,
           player.total_points / (assumedMaxSeasonBPS / maxScale),
         ],
         backgroundColor: transparentize(theme.colors.brand[100], 0.2),
@@ -80,24 +82,26 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
   };
 
   return (
-    <Box borderWidth={1} height="250px">
+    <Flex flexDirection="column" borderWidth={1} height="250px">
       <NameSection player={player} />
-      <AutoSizer>
-        {({ height, width }) => {
-          return (
-            <Box height={`${height - 70}px`} width={`${width}px`}>
-              <Radar
-                type="radar"
-                height={height - 70}
-                width={width}
-                data={chartData}
-                options={chartOptions}
-              />
-            </Box>
-          );
-        }}
-      </AutoSizer>
-    </Box>
+      <Box flexGrow={1}>
+        <AutoSizer>
+          {({ height, width }) => {
+            return (
+              <Box height={`${height}px`} width={`${width}px`}>
+                <Radar
+                  type="radar"
+                  height={height}
+                  width={width}
+                  data={chartData}
+                  options={chartOptions}
+                />
+              </Box>
+            );
+          }}
+        </AutoSizer>
+      </Box>
+    </Flex>
   );
 };
 
