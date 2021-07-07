@@ -57,7 +57,7 @@ const PointsSection = ({
   return (
     <>
       {showTeamsName && (
-        <Grid gap={0} templateColumns="repeat(6, 1fr)">
+        <Grid gap={0} templateColumns="repeat(6, 1fr)" width="100%">
           {previousGameweeks?.map((h, i) => (
             <CenterFlex
               key={i}
@@ -83,7 +83,7 @@ const PointsSection = ({
           </CenterFlex>
         </Grid>
       )}
-      <Grid gap={0} templateColumns="repeat(6, 1fr)">
+      <Grid gap={0} templateColumns="repeat(6, 1fr)" width="100%">
         {previousGameweeks?.map((h, i) => (
           <CenterFlex
             key={i}
@@ -95,12 +95,7 @@ const PointsSection = ({
           </CenterFlex>
         ))}
         {previousGameweeks && (
-          <CenterFlex
-            variant={variant}
-            fontSize={pointsFontSize}
-            fontWeight="bold"
-            bg="gray.100"
-          >
+          <CenterFlex variant={variant} fontSize={pointsFontSize} bg="gray.100">
             {player.total_points}
           </CenterFlex>
         )}
