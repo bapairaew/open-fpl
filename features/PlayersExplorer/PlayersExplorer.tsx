@@ -22,8 +22,14 @@ const PlayersExplorer = ({
       <PlayersExplorerToolbar
         players={players}
         onSearchResults={setDisplayedPlayers}
-        initialDisplay={display}
+        display={display}
         onDisplayChange={setDisplay}
+        disabledSorting={display === "table"}
+        sortingTooltipLabel={
+          display === "table"
+            ? "The data is sorted by the table's header row"
+            : undefined
+        }
       />
       {display === "table" ? (
         <PlayersExplorerTable

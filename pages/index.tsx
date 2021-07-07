@@ -90,7 +90,7 @@ export const getStaticProps = async () => {
   };
 };
 
-function HomePage({
+function PlayersExplorerPage({
   players,
   gameweeks,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -105,4 +105,4 @@ function HomePage({
   );
 }
 
-export default HomePage;
+export default PlayersExplorerPage;

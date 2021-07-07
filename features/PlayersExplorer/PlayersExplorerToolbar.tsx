@@ -6,6 +6,7 @@ import {
   InputGroup,
   InputLeftElement,
   Select,
+  Tooltip,
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
@@ -18,25 +19,28 @@ import usePlayersToolbar from "~/features/PlayersExplorer/usePlayersToolbar";
 
 const PlayersExplorerToolbar = ({
   initialSeachQuery = "",
-  initialDisplay = displayOptions[0].value,
   players = [],
   onSearchResults = () => {},
+  display = displayOptions[0].value,
   onDisplayChange = () => {},
+  disabledSorting = false,
+  sortingTooltipLabel,
 }: {
   initialSeachQuery?: string;
-  initialDisplay?: string;
   players?: Player[];
   onSearchResults?: (players: Player[]) => void;
+  display?: string;
   onDisplayChange?: (value: string) => void;
+  disabledSorting?: boolean;
+  sortingTooltipLabel?: string;
 }) => {
-  const [display, setDisplay] = useState(initialDisplay);
   const { filterQuery, setFilterQuery, sort, setSort } = usePlayersToolbar({
     initialSeachQuery,
     players,
     onResults: onSearchResults,
   });
+
   const handleDisplayChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setDisplay(e.target.value);
     onDisplayChange(e.target.value);
   };
 
@@ -58,20 +62,23 @@ const PlayersExplorerToolbar = ({
         </InputGroup>
       </Box>
       <Divider orientation="vertical" />
-      <Box p={1} flexShrink={0}>
-        <Select
-          borderWidth={0}
-          borderRadius="none"
-          value={sort}
-          onChange={(e) => setSort(e.target.value)}
-        >
-          {sortOptions.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </Select>
-      </Box>
+      <Tooltip label={sortingTooltipLabel} hasArrow>
+        <Box p={1} flexShrink={0}>
+          <Select
+            disabled={disabledSorting}
+            borderWidth={0}
+            borderRadius="none"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            {sortOptions.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </Select>
+        </Box>
+      </Tooltip>
       <Divider orientation="vertical" />
       <Box p={1} flexShrink={0}>
         <Select

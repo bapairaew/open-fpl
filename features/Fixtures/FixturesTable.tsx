@@ -1,10 +1,4 @@
-import {
-  forwardRef,
-  Table,
-  TableBodyProps,
-  Tbody,
-  Thead,
-} from "@chakra-ui/react";
+import { forwardRef, Table, TableBodyProps, Tbody } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { ReactSortable } from "react-sortablejs";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -79,13 +73,11 @@ const FixturesTable = ({
           height={`${height}px`}
           width={`${width}px`}
         >
-          <Thead position="sticky" top={0} zIndex="sticky">
-            <FixturesTableHeaderRow
-              onResetSortClick={handleResetSortClick}
-              onHardFixtureSortClick={handleHardFixtureSortClick}
-              onEasyFixtureSortClick={handleEasyFixtureSortClick}
-            />
-          </Thead>
+          <FixturesTableHeaderRow
+            onResetSortClick={handleResetSortClick}
+            onHardFixtureSortClick={handleHardFixtureSortClick}
+            onEasyFixtureSortClick={handleEasyFixtureSortClick}
+          />
           <ReactSortable
             // NOTE: react-sortablejs typescript is not well-defined so just ignore it
             // @ts-ignore

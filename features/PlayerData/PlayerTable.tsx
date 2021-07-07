@@ -1,258 +1,85 @@
+import { Table, Tbody } from "@chakra-ui/react";
+import { createContext, CSSProperties, forwardRef } from "react";
+import { FixedSizeList as List, FixedSizeListProps } from "react-window";
+import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
+import PlayerTableHeaderRow from "~/features/PlayerData/PlayerTableHeaderRow";
 import {
-  Box,
-  Flex,
-  Grid,
-  Table,
-  TableRowProps,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tooltip,
-  Tr,
-  IconButton,
-  Icon,
-  Link as A,
-} from "@chakra-ui/react";
-import { forwardRef } from "react";
-import { IoWarningOutline } from "react-icons/io5";
-import { Gameweek, Player } from "~/features/AppData/appDataTypes";
-import {
-  positionColorCodes,
-  statusColorCodes,
-} from "~/features/AppData/fplColors";
-import CenterFlex from "~/features/PlayerData/CenterFlex";
-import FixturesSection from "~/features/PlayerData/FixturesSection";
-import PointsSection from "~/features/PlayerData/PointsSection";
-import {
-  getPaddedPastMatches,
-  XGAStats,
-  XGIStats,
-} from "~/features/PlayerData/PreviousStatsSection";
-import { IoOpenOutline } from "react-icons/io5";
-
-export const columnsWidth = {
-  Tool: 40,
-  Name: 200,
-  Team: 100,
-  Position: 100,
-  Cost: 100,
-  Ownership: 120,
-  Fixtures: 300,
-  Points: 300,
-  xGI: 300,
-  xGA: 300,
-};
-
-const columnOptions = {
-  Tool: { hideHeader: true },
-  Name: { sticky: true },
-} as Record<string, { hideHeader?: boolean; sticky?: boolean }>;
+  PlayerTableContextType,
+  PlayerTableSortClickType,
+  PlayerTableSortColumnConfig,
+} from "~/features/PlayerData/playerTableTypes";
 
 export const rowHeight = 30;
 
-export const rowWidth = Object.values(columnsWidth).reduce((s, w) => s + w, 0);
+export const rowWidth = Object.values(playerTableConfigs).reduce(
+  (s, w) => s + w.columnWidth,
+  0
+);
 
-export const PlayerTableHeaderRow = () => {
-  return (
-    <Thead
-      height={`${rowHeight}px`}
-      width={rowWidth}
-      top={0}
-      position="sticky"
-      zIndex="sticky"
-    >
-      <Tr>
-        {Object.entries(columnsWidth).map(([key, value]) => (
-          <Th
-            key={key}
-            overflow="hidden"
-            bg="white"
-            width={`${value}px`}
-            position={columnOptions[key]?.sticky ? "sticky" : "static"}
-            left={0}
-          >
-            {columnOptions[key]?.hideHeader ? "" : key}
-          </Th>
-        ))}
-      </Tr>
-    </Thead>
-  );
-};
-
-export const PlayerTableRow = ({
-  player,
-  gameweeks,
-  ...props
-}: TableRowProps & {
-  player: Player;
-  gameweeks: Gameweek[];
-}) => {
-  const pastMatches = getPaddedPastMatches(player);
-  return (
-    <Tr width={rowWidth} {...props}>
-      <Td p={0} left={0}>
-        <Flex
-          height={`${rowHeight}px`}
-          width={`${columnsWidth.Tool}px`}
-          alignItems="center"
-          px={2}
-        >
-          <A
-            isExternal
-            href={
-              player.linked_data?.understat_id
-                ? `https://understat.com/player/${player.linked_data.understat_id}`
-                : `https://understat.com/league/EPL`
-            }
-          >
-            <IconButton
-              size="xs"
-              variant="ghost"
-              aria-label="open in Understat"
-              icon={<Icon as={IoOpenOutline} />}
-            />
-          </A>
-        </Flex>
-      </Td>
-      <Td p={0} left={0} bg="white" fontWeight="bold" position="sticky">
-        <Flex
-          height={`${rowHeight}px`}
-          width={`${columnsWidth.Name}px`}
-          alignItems="center"
-        >
-          {player.status !== "a" && (
-            <Tooltip hasArrow label={player.news}>
-              <CenterFlex
-                variant="mini"
-                bg={statusColorCodes[player.status]}
-                height="100%"
-              >
-                <IoWarningOutline />
-              </CenterFlex>
-            </Tooltip>
-          )}
-          <Text px={2} textAlign="left" fontSize="sm">
-            {player.web_name}
-          </Text>
-        </Flex>
-      </Td>
-      <Td p={0}>
-        <CenterFlex
-          variant="mini"
-          width={`${columnsWidth.Team}px`}
-          height={`${rowHeight}px`}
-          bg={
-            player.linked_data.teamcolorcodes
-              ? player.linked_data.teamcolorcodes.text
-                ? player.linked_data.teamcolorcodes.background!
-                : player.linked_data.teamcolorcodes.highlight!
-              : undefined
-          }
-          color={
-            player.linked_data.teamcolorcodes
-              ? player.linked_data.teamcolorcodes.text
-                ? player.linked_data.teamcolorcodes.text!
-                : player.linked_data.teamcolorcodes.background!
-              : undefined
-          }
-        >
-          {player.team.short_name}
-        </CenterFlex>
-      </Td>
-      <Td p={0}>
-        <CenterFlex
-          variant="mini"
-          width={`${columnsWidth.Position}px`}
-          height={`${rowHeight}px`}
-          bg={
-            positionColorCodes[player.element_type.singular_name_short]
-              .background
-          }
-          color={
-            positionColorCodes[player.element_type.singular_name_short].text
-          }
-        >
-          {player.element_type.singular_name_short}
-        </CenterFlex>
-      </Td>
-      <Td p={0}>
-        <Flex
-          pr={4}
-          justifyContent="flex-end"
-          alignItems="center"
-          height={`${rowHeight}px`}
-          width={`${columnsWidth.Cost}px`}
-        >
-          £{(player.now_cost / 10).toFixed(1)}
-        </Flex>
-      </Td>
-      <Td p={0}>
-        <Flex
-          pr={4}
-          justifyContent="flex-end"
-          alignItems="center"
-          height={`${rowHeight}px`}
-          width={`${columnsWidth.Ownership}px`}
-        >
-          {(+player.selected_by_percent).toFixed(1)}%
-        </Flex>
-      </Td>
-      <Td p={0}>
-        <Box width={`${columnsWidth.Fixtures}px`}>
-          <FixturesSection
-            variant="mini"
-            player={player}
-            gameweeks={gameweeks}
-          />
-        </Box>
-      </Td>
-      <Td p={0}>
-        <Flex width={`${columnsWidth.Points}px`} height={`${rowHeight}px`}>
-          <PointsSection variant="mini" player={player} />
-        </Flex>
-      </Td>
-      <Td p={0}>
-        <Grid
-          gap={0}
-          templateColumns="repeat(6, 1fr)"
-          width={`${columnsWidth.xGI}px`}
-          height={`${rowHeight}px`}
-        >
-          <XGIStats player={player} pastMatches={pastMatches} variant="mini" />
-        </Grid>
-      </Td>
-      <Td p={0}>
-        <Grid
-          gap={0}
-          templateColumns="repeat(6, 1fr)"
-          width={`${columnsWidth.xGA}px`}
-          height={`${rowHeight}px`}
-        >
-          <XGAStats player={player} pastMatches={pastMatches} variant="mini" />
-        </Grid>
-      </Td>
-    </Tr>
-  );
-};
-
-const PlayerTable = forwardRef<HTMLDivElement>(
+export const PlayerTableElementType = forwardRef<HTMLDivElement>(
   ({ children, ...props }, ref) => (
-    <div ref={ref} {...props}>
-      <Table
-        height="100%"
-        width={rowWidth}
-        size="sm"
-        style={{
-          tableLayout: "fixed",
-        }}
-      >
-        <PlayerTableHeaderRow />
-        <Tbody>{children}</Tbody>
-      </Table>
-    </div>
+    <PlayerTableContext.Consumer>
+      {({ onSortClick, sortColumns }) => (
+        <div ref={ref} {...props}>
+          <Table
+            height="100%"
+            width={`${rowWidth}px`}
+            display="block"
+            colorScheme="gray"
+          >
+            <PlayerTableHeaderRow
+              onSortClick={onSortClick}
+              sortColumns={sortColumns}
+            />
+            <Tbody>{children}</Tbody>
+          </Table>
+        </div>
+      )}
+    </PlayerTableContext.Consumer>
   )
+);
+
+const ItemWrapper = ({
+  data,
+  index,
+  style,
+}: {
+  data: PlayerTableContextType;
+  index: number;
+  style: CSSProperties;
+}) => {
+  const { ItemRenderer } = data;
+  if (index === 0) {
+    return null;
+  }
+  // TODO: figure out how to surpass this warning
+  // @ts-ignore
+  return <ItemRenderer index={index} style={style} />;
+};
+
+const PlayerTableContext = createContext<PlayerTableContextType>({});
+PlayerTableContext.displayName = "PlayerTableContext";
+
+// https://codesandbox.io/s/0mk3qwpl4l?file=/src/index.js:280-513
+const PlayerTable = ({
+  children,
+  onSortClick,
+  sortColumns,
+  ...props
+}: FixedSizeListProps & {
+  onSortClick: PlayerTableSortClickType;
+  sortColumns: PlayerTableSortColumnConfig[];
+}) => (
+  <PlayerTableContext.Provider
+    value={{ ItemRenderer: children, onSortClick, sortColumns }}
+  >
+    <List
+      itemData={{ ItemRenderer: children, onSortClick, sortColumns }}
+      {...props}
+    >
+      {ItemWrapper}
+    </List>
+  </PlayerTableContext.Provider>
 );
 
 export default PlayerTable;

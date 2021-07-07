@@ -1,12 +1,36 @@
 import { Box } from "@chakra-ui/react";
-import { CSSProperties, useMemo } from "react";
+import { CSSProperties, useMemo, useState } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { FixedSizeList as List } from "react-window";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import PlayerTable, {
-  PlayerTableRow,
+  PlayerTableElementType,
   rowHeight,
 } from "~/features/PlayerData/PlayerTable";
+import PlayerTableRow from "~/features/PlayerData/PlayerTableRow";
+import {
+  PlayerTableSortClickType,
+  PlayerTableSortColumnConfig,
+} from "~/features/PlayerData/playerTableTypes";
+import playerTableConfigs from "../PlayerData/playerTableConfigs";
+
+const sortPlayers = (
+  players: Player[],
+  sortColumns: PlayerTableSortColumnConfig[]
+): Player[] => {
+  return [...players].sort((a, b) => {
+    let sortResult = 0;
+    for (const column of sortColumns) {
+      sortResult = playerTableConfigs[column.columnName]?.sortFn?.(a, b) ?? 0;
+      if (sortResult !== 0) {
+        const directionFactor =
+          column.direction === "desc" ? -1 : column.direction === "asc" ? 1 : 0;
+        sortResult *= directionFactor;
+        break;
+      }
+    }
+    return sortResult;
+  });
+};
 
 const PlayersExplorerTable = ({
   displayedPlayers,
@@ -17,20 +41,39 @@ const PlayersExplorerTable = ({
   display: string;
   gameweeks: Gameweek[];
 }) => {
+  const [sortColumns, setSortColums] = useState<PlayerTableSortColumnConfig[]>(
+    []
+  );
+
+  const sortedDisplayedPlayers = useMemo(
+    () => sortPlayers(displayedPlayers, sortColumns),
+    [displayedPlayers, sortColumns]
+  );
+
   const row = useMemo(
     () =>
       ({ index, style }: { index: number; style: CSSProperties }) => {
-        return index === 0 ? null : (
+        return (
           <PlayerTableRow
-            key={displayedPlayers[index - 1].id}
+            key={sortedDisplayedPlayers[index - 1].id}
             style={style}
-            player={displayedPlayers[index - 1]}
+            player={sortedDisplayedPlayers[index - 1]}
             gameweeks={gameweeks}
           />
         );
       },
-    [gameweeks, displayedPlayers, display]
+    [gameweeks, sortedDisplayedPlayers, display]
   );
+
+  const handleSort: PlayerTableSortClickType = (e, columnName, direction) => {
+    const newSortedColumns = sortColumns.filter(
+      (c) => c.columnName !== columnName
+    );
+    if (direction) {
+      newSortedColumns.push({ columnName, direction });
+    }
+    setSortColums(newSortedColumns);
+  };
 
   return (
     <Box flexGrow={1}>
@@ -44,15 +87,17 @@ const PlayersExplorerTable = ({
             width={`${width}px`}
             flexGrow={1}
           >
-            <List
+            <PlayerTable
               height={height}
               width={width}
               itemSize={rowHeight + 1} // Pad one pixel for border
-              itemCount={displayedPlayers.length + 1} // Pad one item to accomodate sticky header
-              innerElementType={PlayerTable}
+              itemCount={sortedDisplayedPlayers.length + 1} // Pad one player for sticky header
+              innerElementType={PlayerTableElementType}
+              onSortClick={handleSort}
+              sortColumns={sortColumns}
             >
               {row}
-            </List>
+            </PlayerTable>
           </Box>
         )}
       </AutoSizer>
