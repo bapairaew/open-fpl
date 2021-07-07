@@ -11,6 +11,9 @@ import {
   Thead,
   Tooltip,
   Tr,
+  IconButton,
+  Icon,
+  Link as A,
 } from "@chakra-ui/react";
 import { forwardRef } from "react";
 import { IoWarningOutline } from "react-icons/io5";
@@ -27,8 +30,10 @@ import {
   XGAStats,
   XGIStats,
 } from "~/features/PlayerData/PreviousStatsSection";
+import { IoOpenOutline } from "react-icons/io5";
 
 export const columnsWidth = {
+  Tool: 40,
   Name: 200,
   Team: 100,
   Position: 100,
@@ -39,6 +44,11 @@ export const columnsWidth = {
   xGI: 300,
   xGA: 300,
 };
+
+const columnOptions = {
+  Tool: { hideHeader: true },
+  Name: { sticky: true },
+} as Record<string, { hideHeader?: boolean; sticky?: boolean }>;
 
 export const rowHeight = 30;
 
@@ -60,10 +70,10 @@ export const PlayerTableHeaderRow = () => {
             overflow="hidden"
             bg="white"
             width={`${value}px`}
-            position={key === "Name" ? "sticky" : "static"}
+            position={columnOptions[key]?.sticky ? "sticky" : "static"}
             left={0}
           >
-            {key}
+            {columnOptions[key]?.hideHeader ? "" : key}
           </Th>
         ))}
       </Tr>
@@ -82,6 +92,30 @@ export const PlayerTableRow = ({
   const pastMatches = getPaddedPastMatches(player);
   return (
     <Tr width={rowWidth} {...props}>
+      <Td p={0} left={0}>
+        <Flex
+          height={`${rowHeight}px`}
+          width={`${columnsWidth.Tool}px`}
+          alignItems="center"
+          px={2}
+        >
+          <A
+            isExternal
+            href={
+              player.linked_data?.understat_id
+                ? `https://understat.com/player/${player.linked_data.understat_id}`
+                : `https://understat.com/league/EPL`
+            }
+          >
+            <IconButton
+              size="xs"
+              variant="ghost"
+              aria-label="open in Understat"
+              icon={<Icon as={IoOpenOutline} />}
+            />
+          </A>
+        </Flex>
+      </Td>
       <Td p={0} left={0} bg="white" fontWeight="bold" position="sticky">
         <Flex
           height={`${rowHeight}px`}
