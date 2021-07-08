@@ -45,8 +45,8 @@ export function makePlaceholderPlayerFromId(id: number): Player {
       transfers_delta_event: 0,
       understat_id: null,
       past_matches: null,
-      season_xgi: 0,
-      season_xga: 0,
+      season_xgi: null,
+      season_xga: null,
       teamcolorcodes: {
         team: "",
         background: "#fff",

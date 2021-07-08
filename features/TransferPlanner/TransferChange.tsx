@@ -58,7 +58,7 @@ const TransferChange = ({
 
   if (change.type === "preseason") {
     mainComponent = (
-      <Text fontSize="xs" noOfLines={1} pr={2}>
+      <Text width="120px" fontSize="xs" noOfLines={1} pr={2}>
         Initial Team Setup
       </Text>
     );

@@ -113,11 +113,11 @@ export const XGIStats = ({
             : ""}
         </CenterFlex>
       ))}
-      <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
-        {!isNullOrUndefined(player.linked_data.season_xgi)
-          ? (+player.linked_data.season_xgi!).toFixed?.(decimal)
-          : "N/A"}
-      </CenterFlex>
+      {!isNullOrUndefined(player.linked_data.season_xga) ? (
+        <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
+          {(+player.linked_data.season_xgi!).toFixed?.(decimal)}
+        </CenterFlex>
+      ) : null}
     </>
   );
 };
@@ -154,11 +154,11 @@ export const XGAStats = ({
             : ""}
         </CenterFlex>
       ))}
-      <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
-        {!isNullOrUndefined(player.linked_data.season_xga)
-          ? (+player.linked_data.season_xga!).toFixed?.(decimal)
-          : "N/A"}
-      </CenterFlex>
+      {!isNullOrUndefined(player.linked_data.season_xga) ? (
+        <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
+          {(+player.linked_data.season_xga!).toFixed?.(decimal)}
+        </CenterFlex>
+      ) : null}
     </>
   );
 };
