@@ -13,7 +13,7 @@ import {
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
 import AppLayout from "~/features/Layout/AppLayout";
-import PlayerExplorerHelp from "~/features/PlayersExplorer/PlayerExplorerHelp";
+import PlayersExplorerHelp from "~/features/PlayersExplorer/PlayersExplorerHelp";
 import TransferPlannerHelp from "~/features/TransferPlanner/TransferPlannerHelp";
 
 const HelpPage = () => {
@@ -36,7 +36,7 @@ const HelpPage = () => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <PlayerExplorerHelp />
+                <PlayersExplorerHelp />
               </TabPanel>
               <TabPanel>
                 <TransferPlannerHelp />

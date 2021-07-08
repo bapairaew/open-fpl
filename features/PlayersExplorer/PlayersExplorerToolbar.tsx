@@ -8,9 +8,13 @@ import {
   Select,
   Tooltip,
 } from "@chakra-ui/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { Player } from "~/features/AppData/appDataTypes";
+import {
+  DisplayOptions,
+  SortOptions,
+} from "~/features/PlayersExplorer/playersExplorerTypes";
 import {
   displayOptions,
   sortOptions,
@@ -30,7 +34,7 @@ const PlayersExplorerToolbar = ({
   players?: Player[];
   onSearchResults?: (players: Player[]) => void;
   display?: string;
-  onDisplayChange?: (value: string) => void;
+  onDisplayChange?: (value: DisplayOptions) => void;
   disabledSorting?: boolean;
   sortingTooltipLabel?: string;
 }) => {
@@ -41,7 +45,7 @@ const PlayersExplorerToolbar = ({
   });
 
   const handleDisplayChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    onDisplayChange(e.target.value);
+    onDisplayChange(e.target.value as DisplayOptions);
   };
 
   return (
@@ -69,7 +73,7 @@ const PlayersExplorerToolbar = ({
             borderWidth={0}
             borderRadius="none"
             value={sort}
-            onChange={(e) => setSort(e.target.value)}
+            onChange={(e) => setSort(e.target.value as SortOptions)}
           >
             {sortOptions.map((o) => (
               <option key={o.value} value={o.value}>

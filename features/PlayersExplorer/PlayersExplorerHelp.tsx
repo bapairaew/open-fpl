@@ -15,7 +15,7 @@ import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
 import { gameweeks, player } from "~/features/PlayersExplorer/helpData";
 import PlayersExplorerToolbar from "~/features/PlayersExplorer/PlayersExplorerToolbar";
 
-const PlayerExplorerHelp = () => {
+const PlayersExplorerHelp = () => {
   return (
     <>
       <Container my={4}>
@@ -290,4 +290,4 @@ const PlayerExplorerHelp = () => {
   );
 };
 
-export default PlayerExplorerHelp;
+export default PlayersExplorerHelp;

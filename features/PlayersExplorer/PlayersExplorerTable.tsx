@@ -6,12 +6,12 @@ import PlayerTable, {
   PlayerTableElementType,
   rowHeight,
 } from "~/features/PlayerData/PlayerTable";
+import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
 import PlayerTableRow from "~/features/PlayerData/PlayerTableRow";
 import {
   PlayerTableSortClickType,
   PlayerTableSortColumnConfig,
 } from "~/features/PlayerData/playerTableTypes";
-import playerTableConfigs from "../PlayerData/playerTableConfigs";
 
 const sortPlayers = (
   players: Player[],

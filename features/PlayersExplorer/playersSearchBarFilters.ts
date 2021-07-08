@@ -2,8 +2,8 @@
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
 import { SearchParserResult } from "search-query-parser";
-import { FilterOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
 import { Player } from "~/features/AppData/appDataTypes";
+import { FilterOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 
 interface FilterParams {
   players: Player[];

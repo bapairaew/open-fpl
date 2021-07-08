@@ -1,25 +1,9 @@
-import { Player } from "~/features/AppData/appDataTypes";
 import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
-
-export interface FilterOptionsConfig {
-  field: string;
-  getFieldValue: (player: Player) => any;
-}
-export interface FilterOptions {
-  keywords: FilterOptionsConfig[];
-  ranges: FilterOptionsConfig[];
-}
-
-export interface SortOptionsConfig {
-  label: string;
-  value: string;
-  sortFn: (a: Player, b: Player) => number;
-}
-
-export interface DisplayOptionsConfig {
-  label: string;
-  value: string;
-}
+import {
+  DisplayOptionsConfig,
+  FilterOptions,
+  SortOptionsConfig,
+} from "~/features/PlayersExplorer/playersExplorerTypes";
 
 export const filterOptions: FilterOptions = {
   keywords: [

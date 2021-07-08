@@ -1,8 +1,9 @@
-import { Change } from "~/features/TransferPlanner/transferPlannerTypes";
+import { DisplayOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 
 export interface Preference {
   name?: string;
   transferPlannerPinnedBench?: boolean;
+  playersExplorerDisplayOption?: DisplayOptions;
 }
 
 export interface Settings {

@@ -23,6 +23,7 @@ import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
 import { sortOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
 import usePlayersToolbar from "~/features/PlayersExplorer/usePlayersToolbar";
 import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
+import { SortOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 
 const TransferMarket = ({
   team,
@@ -106,7 +107,7 @@ const TransferMarket = ({
             <Select
               variant="filled"
               value={sort}
-              onChange={(e) => setSort(e.target.value)}
+              onChange={(e) => setSort(e.target.value as SortOptions)}
             >
               {sortOptions.map((o) => (
                 <option key={o.value} value={o.value}>

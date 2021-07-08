@@ -9,6 +9,8 @@ import {
   Transfer,
 } from "~/features/AppData/fplTypes";
 import { Invalid } from "~/features/Common/errorTypes";
+import useLocalStorage from "~/features/Common/useLocalStorage";
+import { getTransferPlanKey } from "~/features/Settings/storageKeys";
 import TeamManager from "~/features/TransferPlanner/TeamManager";
 import TransferLog from "~/features/TransferPlanner/TransferLog";
 import {
@@ -32,8 +34,6 @@ import {
   TwoPlayersChange,
 } from "~/features/TransferPlanner/transferPlannerTypes";
 import TransferToolbar from "~/features/TransferPlanner/TransferToolbar";
-import useLocalStorage from "../Common/useLocalStorage";
-import { getTransferPlanKey } from "../Settings/storageKeys";
 
 const TransferPlannerPanel = ({
   initialPicks,

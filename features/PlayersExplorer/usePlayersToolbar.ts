@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import searchQueryParser from "search-query-parser";
 import { useDebounce } from "use-debounce";
 import { Player } from "~/features/AppData/appDataTypes";
-import { filterPlayers } from "~/features/PlayersExplorer/playerSearchBarFilters";
+import { filterPlayers } from "~/features/PlayersExplorer/playersSearchBarFilters";
 import {
   filterOptions,
   sortOptions,

@@ -1,6 +1,6 @@
 import { ComponentType, MouseEvent } from "react";
 import { ListChildComponentProps } from "react-window";
-import { Player } from "../AppData/appDataTypes";
+import { Player } from "~/features/AppData/appDataTypes";
 
 export type PlayerTableColumn =
   | "Tool"
