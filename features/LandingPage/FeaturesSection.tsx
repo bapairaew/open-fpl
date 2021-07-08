@@ -1,4 +1,5 @@
 import {
+  AspectRatio,
   Box,
   BoxProps,
   Center,
@@ -11,8 +12,12 @@ import {
   Link as A,
   Text,
 } from "@chakra-ui/react";
+import Image from "next/image";
 import Link from "next/link";
 import { IoArrowForwardOutline } from "react-icons/io5";
+import fixturesImage from "~/public/fixtures-difficulty-rating.png";
+import playersExplorerImage from "~/public/players-stats-explorer.png";
+import transferImage from "~/public/transfer-planner.png";
 
 const features = [
   {
@@ -36,7 +41,7 @@ const features = [
 ];
 
 const FeaturesSection = (props: BoxProps) => (
-  <Box p={16} {...props}>
+  <Box pt={16} {...props}>
     <Center mb={8} height="120px">
       <Divider orientation="vertical" borderColor="brand.500" />
     </Center>
@@ -79,6 +84,71 @@ const FeaturesSection = (props: BoxProps) => (
           </Flex>
         ))}
       </Grid>
+
+      <Box
+        mt="150px"
+        height={{
+          base: "150px",
+          md: "300px",
+          lg: "400px",
+        }}
+        position="relative"
+        overflow="hidden"
+      >
+        <AspectRatio
+          width="80%"
+          ratio={16 / 9}
+          borderRadius="lg"
+          boxShadow="lg"
+          overflow="hidden"
+          position="absolute"
+          top={10}
+          left="40%"
+          transform="translateX(-50%)"
+        >
+          <Image
+            layout="fill"
+            objectFit="cover"
+            src={fixturesImage}
+            alt="Fixtures Difficulty Rating"
+          />
+        </AspectRatio>
+        <AspectRatio
+          width="80%"
+          ratio={16 / 9}
+          borderRadius="lg"
+          boxShadow="lg"
+          overflow="hidden"
+          position="absolute"
+          top={10}
+          left="60%"
+          transform="translateX(-50%)"
+        >
+          <Image
+            layout="fill"
+            objectFit="cover"
+            src={playersExplorerImage}
+            alt="Player Statistics Explorer"
+          />
+        </AspectRatio>
+        <AspectRatio
+          width="80%"
+          ratio={16 / 9}
+          borderRadius="lg"
+          boxShadow="lg"
+          overflow="hidden"
+          position="absolute"
+          left="50%"
+          transform="translateX(-50%)"
+        >
+          <Image
+            layout="fill"
+            objectFit="cover"
+            src={transferImage}
+            alt="Transfer Planner"
+          />
+        </AspectRatio>
+      </Box>
     </Container>
   </Box>
 );
