@@ -77,11 +77,13 @@ const SideBar = () => {
       as="aside"
       borderRightWidth={1}
     >
-      <Box px={6} py={6} fontWeight="black" fontSize="2xl">
-        Open FPL
-      </Box>
+      <Link href="/" passHref>
+        <Box as="a" px={6} py={6} fontWeight="black" fontSize="2xl">
+          Open FPL
+        </Box>
+      </Link>
       <List flexGrow={1} role="list">
-        <SideBarItem href="/" icon={IoPeopleCircleOutline}>
+        <SideBarItem href="/players" icon={IoPeopleCircleOutline}>
           Players Explorer
         </SideBarItem>
         <SideBarItem

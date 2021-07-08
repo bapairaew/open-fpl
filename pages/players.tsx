@@ -1,22 +1,14 @@
-import { Spinner } from "@chakra-ui/react";
 import fs from "fs";
-import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import path from "path";
 import { makeAppData } from "~/features/AppData/appData";
 import { FPLElement } from "~/features/AppData/appDataTypes";
-import {
-  getTeamHistory,
-  getTeamPicks,
-  getTeamTransfers,
-} from "~/features/AppData/fpl";
 import { ElementTypes, Event, Team } from "~/features/AppData/fplTypes";
 import { TeamColorCodes } from "~/features/AppData/teamcolorcodesTypes";
 import { PlayerStat, TeamStat } from "~/features/AppData/understatTypes";
 import AppLayout from "~/features/Layout/AppLayout";
-import FullScreenMessage from "~/features/Layout/FullScreenMessage";
-import TransferPlanner from "~/features/TransferPlanner/TransferPlanner";
-import useTransferRedirect from "~/features/TransferPlanner/useTransferRedirect";
+import PlayersExplorer from "~/features/PlayersExplorer/PlayersExplorer";
 
 const getDataFromFiles = async (dirPath: string) => {
   return Promise.all(
@@ -28,18 +20,7 @@ const getDataFromFiles = async (dirPath: string) => {
   );
 };
 
-export const getStaticPaths = () => {
-  return { paths: [], fallback: true };
-};
-
-export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
-  if (!params || !params.id) {
-    // Next.js gets here when rendering the page initially on dev mode
-    return {
-      props: {},
-    };
-  }
-
+export const getStaticProps = async () => {
   const [
     fpl,
     understat,
@@ -90,7 +71,6 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
       .then(JSON.parse) as Promise<TeamColorCodes[]>,
   ]);
 
-  // TODO: move this to client level?
   const { players, gameweeks } = makeAppData({
     fpl,
     understat,
@@ -103,73 +83,29 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     teamcolorcodes,
   });
 
-  const event = gameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
-  const [{ picks = null, entry_history = null }, transfers, { chips = null }] =
-    await Promise.all([
-      getTeamPicks(+params!.id!, event),
-      getTeamTransfers(+params!.id!),
-      getTeamHistory(+params!.id!),
-    ]);
-
   return {
     props: {
       players,
       gameweeks,
-      picks,
-      entry_history,
-      transfers,
-      chips,
     },
   };
 };
 
-const TransferPlannerPage = ({
-  picks: initialPicks,
-  entry_history,
+function PlayersExplorerPage({
   players,
   gameweeks,
-  transfers,
-  chips,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  useTransferRedirect();
-
-  const isReady = [
-    initialPicks,
-    entry_history,
-    players,
-    gameweeks,
-    transfers,
-    chips,
-  ].every((x) => x !== undefined);
-
-  const mainComponent = isReady ? (
-    <TransferPlanner
-      as="main"
-      initialPicks={initialPicks ?? null}
-      entryHistory={entry_history ?? null}
-      players={players!}
-      gameweeks={gameweeks!}
-      transfers={transfers!}
-      chips={chips!}
-    />
-  ) : (
-    <FullScreenMessage
-      symbol={<Spinner size="xl" />}
-      heading="Almost there..."
-      text={"Please wait while we are preparing your Transfer Planner page."}
-    />
-  );
-
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
       <NextSeo
-        title="Transfer Planner – Open FPL"
-        description="Plan your transfer, starting lineup and your bench ahead of upcoming Fantasy Premier League gameweeks."
-        noindex={true}
+        title="Player Statistics Explorer – Open FPL"
+        description="Explore Fantasy Premier League player statistics xG, xGA, and more to make a better decision on your team."
       />
-      <AppLayout>{mainComponent}</AppLayout>
+      <AppLayout>
+        <PlayersExplorer as="main" players={players} gameweeks={gameweeks} />
+      </AppLayout>
     </>
   );
-};
+}
 
-export default TransferPlannerPage;
+export default PlayersExplorerPage;

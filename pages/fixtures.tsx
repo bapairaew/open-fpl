@@ -6,6 +6,7 @@ import { FPLElement } from "~/features/AppData/appDataTypes";
 import { Team } from "~/features/AppData/fplTypes";
 import Fixtures from "~/features/Fixtures/Fixtures";
 import { makeTeamFixtures } from "~/features/Fixtures/fixturesData";
+import AppLayout from "~/features/Layout/AppLayout";
 
 const getDataFromFiles = async (dirPath: string) => {
   return Promise.all(
@@ -41,10 +42,12 @@ function FixturesPage({
   return (
     <>
       <NextSeo
-        title="Fixture Difficulty Rating | Open FPL"
+        title="Fixture Difficulty Rating – Open FPL"
         description="Explore Fantasy Premier League fixtures and their Attack and Defence Fixture Difficulty Rating."
       />
-      <Fixtures teamFixtures={teamFixtures} fplTeams={fplTeams} />
+      <AppLayout>
+        <Fixtures teamFixtures={teamFixtures} fplTeams={fplTeams} />
+      </AppLayout>
     </>
   );
 }
