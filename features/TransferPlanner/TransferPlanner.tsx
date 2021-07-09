@@ -99,6 +99,7 @@ const TransferPlanner = ({
           []
         );
         setLocalStorageItem(getTransferPlanKey(teamId, newName), data);
+        removeLocalStorageItem(getTransferPlanKey(teamId, oldName));
       }
     }
   };
