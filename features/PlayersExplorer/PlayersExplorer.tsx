@@ -1,5 +1,5 @@
 import { BoxProps, Flex } from "@chakra-ui/react";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import PlayersExplorerGridOrChart from "~/features/PlayersExplorer/PlayersExplorerGridOrChart";
 import PlayersExplorerTable from "~/features/PlayersExplorer/PlayersExplorerTable";
@@ -16,7 +16,8 @@ const PlayersExplorer = ({
   players: Player[];
   gameweeks: Gameweek[];
 }) => {
-  const { preference, setPreference } = useSettings();
+  const { preference, setPreference, starredPlayers, setStarredPlayers } =
+    useSettings();
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
 
   const handleDisplayChange = (
@@ -28,11 +29,25 @@ const PlayersExplorer = ({
   const display =
     preference?.playersExplorerDisplayOption ?? displayOptions[0].value;
 
+  const handleStarClick = (
+    e: MouseEvent<HTMLButtonElement>,
+    player: Player
+  ) => {
+    if (starredPlayers) {
+      if (starredPlayers.some((p) => p === player.id)) {
+        setStarredPlayers(starredPlayers.filter((p) => p !== player.id));
+      } else {
+        setStarredPlayers([...starredPlayers, player.id]);
+      }
+    }
+  };
+
   return (
     <Flex direction="column" overflow="hidden" height="100%" {...props}>
       <PlayersExplorerToolbar
         players={players}
-        onSearchResults={setDisplayedPlayers}
+        starredPlayers={starredPlayers}
+        onResults={setDisplayedPlayers}
         display={display}
         onDisplayChange={handleDisplayChange}
         disabledSorting={display === "table"}
@@ -44,15 +59,18 @@ const PlayersExplorer = ({
       />
       {display === "table" ? (
         <PlayersExplorerTable
-          displayedPlayers={displayedPlayers}
-          display={display}
+          players={players} // PlayersExplorerTable has its own internal sorting logic
           gameweeks={gameweeks}
+          starredPlayers={starredPlayers}
+          onStarClick={handleStarClick}
         />
       ) : (
         <PlayersExplorerGridOrChart
           displayedPlayers={displayedPlayers}
           display={display}
           gameweeks={gameweeks}
+          starredPlayers={starredPlayers}
+          onStarClick={handleStarClick}
         />
       )}
     </Flex>

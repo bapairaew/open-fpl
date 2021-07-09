@@ -1,7 +1,7 @@
 // @ts-ignore
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import searchQueryParser from "search-query-parser";
 import { useDebounce } from "use-debounce";
 import { Player } from "~/features/AppData/appDataTypes";
@@ -35,14 +35,12 @@ const freeTextFuseSettings: Fuse.IFuseOptions<Player> = {
   ],
 };
 
-const usePlayersToolbar = ({
+const usePlayersFilterAndSort = ({
   initialSeachQuery = "",
   players: inputPlayers = [],
-  onResults = () => {},
 }: {
   initialSeachQuery?: string;
   players?: Player[];
-  onResults?: (players: Player[]) => void;
 }) => {
   const [filterQuery, setFilterQuery] = useState(initialSeachQuery);
   const [debouncedFilterQuery] = useDebounce(filterQuery, 300);
@@ -61,21 +59,44 @@ const usePlayersToolbar = ({
     [inputPlayers]
   );
 
-  // Handle filtering and sorting
-  useEffect(() => {
-    const sortFn =
-      sortOptions.find((o) => o.value === sort)?.sortFn ||
-      sortOptions[0].sortFn;
-    const processedPlayers = filterPlayers(
-      inputPlayers,
-      freeTextFuse,
-      filterQueryObject,
-      filterOptions
-    ).sort(sortFn);
-    onResults(processedPlayers);
-  }, [inputPlayers, filterQueryObject, sort]);
+  const filterFn = useCallback(
+    (inputPlayers: Player[]) => {
+      return filterPlayers(
+        inputPlayers,
+        freeTextFuse,
+        filterQueryObject,
+        filterOptions
+      );
+    },
+    [freeTextFuse, filterQueryObject, freeTextFuse]
+  );
 
-  return { filterQuery, setFilterQuery, sort, setSort };
+  const sortFn = useCallback(() => {
+    return sortOptions.find((o) => o.value === sort)?.sortFn!;
+  }, [sortOptions, sort]);
+
+  const fiterThenSortFn = useCallback(
+    (inputPlayers: Player[]) => {
+      const sortFn = sortOptions.find((o) => o.value === sort)?.sortFn!;
+      return filterPlayers(
+        inputPlayers,
+        freeTextFuse,
+        filterQueryObject,
+        filterOptions
+      ).sort(sortFn);
+    },
+    [filterFn, sortFn]
+  );
+
+  return {
+    filterQuery,
+    setFilterQuery,
+    sort,
+    setSort,
+    filterFn,
+    sortFn,
+    fiterThenSortFn,
+  };
 };
 
-export default usePlayersToolbar;
+export default usePlayersFilterAndSort;

@@ -19,6 +19,8 @@ export interface Settings {
   isSettingsModalOpen: boolean;
   transferPlans: string[] | null;
   setTransferPlans: (plans: string[] | null) => void;
+  starredPlayers: number[] | null;
+  setStarredPlayers: (ids: number[] | null) => void;
   onSettingsModalOpen: () => void;
   onSettingsModalClsoe: () => void;
 }

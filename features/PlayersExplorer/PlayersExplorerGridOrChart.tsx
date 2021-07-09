@@ -1,21 +1,25 @@
 import { Box, Grid, useBreakpointValue } from "@chakra-ui/react";
-import { CSSProperties, ReactNode, useMemo } from "react";
+import { CSSProperties, MouseEvent, ReactNode, useMemo } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import PlayerChartCard from "~/features/PlayerData/PlayerChartCard";
 import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
+import PlayerCardToolbar from "~/features/PlayersExplorer/PlayerCardToolbar";
 
 const PlayersExplorerGridOrChart = ({
   displayedPlayers,
   display,
   gameweeks,
+  starredPlayers,
+  onStarClick,
 }: {
   displayedPlayers: Player[];
   display: string;
   gameweeks: Gameweek[];
+  starredPlayers: number[] | null;
+  onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
 }) => {
-  const itemSize = 260;
   const columnsCount =
     useBreakpointValue({
       xs: 1,
@@ -31,27 +35,23 @@ const PlayersExplorerGridOrChart = ({
       ({ index: rowIndex, style }: { index: number; style: CSSProperties }) => {
         const content: ReactNode[] = [];
         for (let columnIndex = 0; columnIndex < columnsCount; columnIndex++) {
-          const player =
-            displayedPlayers[rowIndex * columnsCount + columnIndex];
+          const playerIndex = rowIndex * columnsCount + columnIndex;
+          const player = displayedPlayers[playerIndex];
           if (player) {
             content.push(
-              <Box
-                key={player.id}
-                as="a"
-                href={
-                  player.linked_data?.understat_id
-                    ? `https://understat.com/player/${player.linked_data.understat_id}`
-                    : `https://understat.com/league/EPL`
+              <PlayerCardToolbar
+                player={player}
+                isStarred={
+                  starredPlayers?.some((p) => p === player.id) ?? false
                 }
-                target="_blank"
-                rel="noreferrer noopener"
+                onStarClick={(e) => onStarClick(e, player)}
               >
                 {display === "chart" ? (
                   <PlayerChartCard player={player} />
                 ) : (
                   <PlayerGridCard player={player} gameweeks={gameweeks} />
                 )}
-              </Box>
+              </PlayerCardToolbar>
             );
           }
         }
@@ -60,8 +60,8 @@ const PlayersExplorerGridOrChart = ({
           <div key={`${rowIndex}`} style={style}>
             <Grid
               templateColumns={`repeat(${columnsCount}, 1fr)`}
-              gap={2}
-              p={1}
+              gap={3}
+              p={2}
               height="100%"
             >
               {content}
@@ -69,7 +69,7 @@ const PlayersExplorerGridOrChart = ({
           </div>
         );
       },
-    [gameweeks, displayedPlayers, columnsCount, display]
+    [columnsCount, gameweeks, displayedPlayers, display, onStarClick]
   );
 
   return (
@@ -80,7 +80,7 @@ const PlayersExplorerGridOrChart = ({
             <List
               height={height}
               width={width}
-              itemSize={itemSize}
+              itemSize={288}
               itemCount={Math.ceil(displayedPlayers.length / columnsCount)}
             >
               {row}

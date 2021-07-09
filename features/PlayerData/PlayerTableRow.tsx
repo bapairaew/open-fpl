@@ -11,7 +11,13 @@ import {
   Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import { IoOpenOutline, IoWarningOutline } from "react-icons/io5";
+import { MouseEventHandler } from "react";
+import {
+  IoOpenOutline,
+  IoStar,
+  IoStarOutline,
+  IoWarningOutline,
+} from "react-icons/io5";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import {
   positionColorCodes,
@@ -20,21 +26,25 @@ import {
 import CenterFlex from "~/features/PlayerData/CenterFlex";
 import FixturesSection from "~/features/PlayerData/FixturesSection";
 import { rowHeight, rowWidth } from "~/features/PlayerData/PlayerTable";
+import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
 import PointsSection from "~/features/PlayerData/PointsSection";
 import {
   getPaddedPastMatches,
   XGAStats,
   XGIStats,
 } from "~/features/PlayerData/PreviousStatsSection";
-import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
 
 export const PlayerTableRow = ({
   player,
   gameweeks,
+  isStarred,
+  onStarClick,
   ...props
 }: TableRowProps & {
   player: Player;
   gameweeks: Gameweek[];
+  isStarred: boolean;
+  onStarClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   const pastMatches = getPaddedPastMatches(player);
   return (
@@ -46,6 +56,14 @@ export const PlayerTableRow = ({
           alignItems="center"
           px={2}
         >
+          <IconButton
+            mr={1}
+            size="xs"
+            aria-label="star player"
+            icon={<Icon as={isStarred ? IoStar : IoStarOutline} />}
+            variant={isStarred ? "solid" : "ghost"}
+            onClick={onStarClick}
+          />
           <A
             isExternal
             href={
@@ -55,6 +73,7 @@ export const PlayerTableRow = ({
             }
           >
             <IconButton
+              as="span"
               size="xs"
               variant="ghost"
               aria-label="open in Understat"

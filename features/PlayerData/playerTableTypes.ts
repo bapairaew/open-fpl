@@ -17,6 +17,7 @@ export type PlayerTableColumn =
 export interface PlayerTableConfig {
   columnWidth: number;
   hideHeader?: boolean;
+  hideMenu?: boolean;
   sticky?: boolean;
   sortFn?: (a: Player, b: Player) => number;
 }

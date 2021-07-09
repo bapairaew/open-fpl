@@ -12,6 +12,7 @@ import {
   CSSProperties,
   KeyboardEvent,
   MouseEvent,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -20,10 +21,10 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
-import { sortOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
-import usePlayersToolbar from "~/features/PlayersExplorer/usePlayersToolbar";
-import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
 import { SortOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
+import { sortOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
+import usePlayersFilterAndSort from "~/features/PlayersExplorer/usePlayersFilterAndSort";
+import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
 
 const TransferMarket = ({
   team,
@@ -38,10 +39,14 @@ const TransferMarket = ({
 }) => {
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
 
-  const { filterQuery, setFilterQuery, sort, setSort } = usePlayersToolbar({
-    players,
-    onResults: setDisplayedPlayers,
-  });
+  const { filterQuery, setFilterQuery, sort, setSort, fiterThenSortFn } =
+    usePlayersFilterAndSort({
+      players,
+    });
+
+  useEffect(() => {
+    setDisplayedPlayers(fiterThenSortFn(players));
+  }, [fiterThenSortFn]);
 
   const row = useMemo(
     () =>

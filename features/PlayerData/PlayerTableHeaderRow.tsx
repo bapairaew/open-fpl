@@ -60,7 +60,7 @@ export const PlayerTableHeaderRow = ({
                 px={4}
                 width={`${playerTableConfigs[key].columnWidth}px`}
                 menu={
-                  playerTableConfigs[key]?.hideHeader ? undefined : (
+                  playerTableConfigs[key]?.hideMenu ? undefined : (
                     <MenuList>
                       <MenuGroup title="Sort">
                         <MenuItem

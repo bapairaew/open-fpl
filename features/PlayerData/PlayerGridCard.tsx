@@ -17,7 +17,7 @@ const PlayerGridCard = ({
 }) => {
   const height = variant === "mini" ? "165px" : "250px";
   return (
-    <Box borderWidth={1} height={height}>
+    <Box borderWidth={1} height={height} overflow="hidden">
       <NameSection variant={variant} player={player} />
       <FixturesSection
         variant={variant}

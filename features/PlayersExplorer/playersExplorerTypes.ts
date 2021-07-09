@@ -19,15 +19,15 @@ export type SortOptions =
   | "ownership-asc"
   | "ownership-desc";
 
-export interface SortOptionsConfig {
+export interface SortOptionsConfig<T = SortOptions> {
   label: string;
-  value: SortOptions;
+  value: T;
   sortFn: (a: Player, b: Player) => number;
 }
 
 export type DisplayOptions = "grid" | "table" | "chart";
 
-export interface DisplayOptionsConfig {
+export interface DisplayOptionsConfig<T = DisplayOptions> {
   label: string;
-  value: DisplayOptions;
+  value: T;
 }

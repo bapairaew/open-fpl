@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, MouseEvent, useMemo, useState } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import PlayerTable, {
@@ -15,17 +15,28 @@ import {
 
 const sortPlayers = (
   players: Player[],
+  starredPlayers: number[] | null,
   sortColumns: PlayerTableSortColumnConfig[]
 ): Player[] => {
   return [...players].sort((a, b) => {
     let sortResult = 0;
-    for (const column of sortColumns) {
-      sortResult = playerTableConfigs[column.columnName]?.sortFn?.(a, b) ?? 0;
-      if (sortResult !== 0) {
-        const directionFactor =
-          column.direction === "desc" ? -1 : column.direction === "asc" ? 1 : 0;
-        sortResult *= directionFactor;
-        break;
+    const aIndex = starredPlayers?.findIndex((id) => id === a.id) ?? -1;
+    const bIndex = starredPlayers?.findIndex((id) => id === b.id) ?? -1;
+    if (aIndex > bIndex) sortResult = -1;
+    else if (aIndex < bIndex) sortResult = 1;
+    if (sortResult === 0) {
+      for (const column of sortColumns) {
+        sortResult = playerTableConfigs[column.columnName]?.sortFn?.(a, b) ?? 0;
+        if (sortResult !== 0) {
+          const directionFactor =
+            column.direction === "desc"
+              ? -1
+              : column.direction === "asc"
+              ? 1
+              : 0;
+          sortResult *= directionFactor;
+          break;
+        }
       }
     }
     return sortResult;
@@ -33,36 +44,41 @@ const sortPlayers = (
 };
 
 const PlayersExplorerTable = ({
-  displayedPlayers,
-  display,
+  players,
   gameweeks,
+  starredPlayers,
+  onStarClick,
 }: {
-  displayedPlayers: Player[];
-  display: string;
+  players: Player[];
   gameweeks: Gameweek[];
+  starredPlayers: number[] | null;
+  onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
 }) => {
   const [sortColumns, setSortColums] = useState<PlayerTableSortColumnConfig[]>(
     []
   );
 
   const sortedDisplayedPlayers = useMemo(
-    () => sortPlayers(displayedPlayers, sortColumns),
-    [displayedPlayers, sortColumns]
+    () => sortPlayers(players, starredPlayers, sortColumns),
+    [players, sortColumns, starredPlayers]
   );
 
   const row = useMemo(
     () =>
       ({ index, style }: { index: number; style: CSSProperties }) => {
+        const player = sortedDisplayedPlayers[index - 1];
         return (
           <PlayerTableRow
-            key={sortedDisplayedPlayers[index - 1].id}
+            key={player.id}
             style={style}
-            player={sortedDisplayedPlayers[index - 1]}
+            isStarred={starredPlayers?.some((p) => p === player.id) ?? false}
+            onStarClick={(e) => onStarClick(e, player)}
+            player={player}
             gameweeks={gameweeks}
           />
         );
       },
-    [gameweeks, sortedDisplayedPlayers, display]
+    [gameweeks, sortedDisplayedPlayers]
   );
 
   const handleSort: PlayerTableSortClickType = (e, columnName, direction) => {

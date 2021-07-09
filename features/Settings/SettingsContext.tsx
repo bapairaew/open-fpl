@@ -6,6 +6,7 @@ import { Preference, Settings } from "~/features/Settings/settingsTypes";
 import {
   getActiveProfileKey,
   getFixturesTeamsOrderKey,
+  getStarredPlayersKey,
   getPreferenceKey,
   getProfilesKey,
   getTransferPlansKey,
@@ -24,9 +25,11 @@ const SettingsContext = createContext<Settings>({
   preference: { transferPlannerPinnedBench: false },
   setPreference: () => {},
   fixturesTeamsOrder: [],
+  setFixturesTeamsOrder: () => {},
   transferPlans: ["Plan 1"],
   setTransferPlans: () => {},
-  setFixturesTeamsOrder: () => {},
+  starredPlayers: [],
+  setStarredPlayers: () => {},
   isSettingsModalOpen: false,
   onSettingsModalOpen: () => {},
   onSettingsModalClsoe: () => {},
@@ -61,6 +64,11 @@ export const SettingsContextProvider = ({
     string[] | null
   >(getFixturesTeamsOrderKey(), null);
 
+  const [starredPlayers, setStarredPlayers] = useLocalStorage<number[] | null>(
+    getStarredPlayersKey(teamId),
+    []
+  );
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -77,6 +85,8 @@ export const SettingsContextProvider = ({
         setTransferPlans,
         fixturesTeamsOrder,
         setFixturesTeamsOrder,
+        starredPlayers,
+        setStarredPlayers,
         isSettingsModalOpen: isOpen,
         onSettingsModalOpen: onOpen,
         onSettingsModalClsoe: onClose,
