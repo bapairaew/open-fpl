@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { MouseEventHandler } from "react";
-import { IoStarOutline } from "react-icons/io5";
+import { IoStar, IoStarOutline } from "react-icons/io5";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
 import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
@@ -132,7 +132,16 @@ const TransferablePlayer = ({
                       : "ghost"
                   }
                   borderRadius="none"
-                  icon={<Icon aria-label="help" as={IoStarOutline} />}
+                  icon={
+                    <Icon
+                      aria-label="help"
+                      as={
+                        player.pick.is_captain || player.pick.is_vice_captain
+                          ? IoStar
+                          : IoStarOutline
+                      }
+                    />
+                  }
                 />
                 <MenuList>
                   <MenuItem onClick={onSetCaptainClick}>
