@@ -88,6 +88,8 @@ const PlayersExplorer = ({
           <PlayersExplorerTable
             displayedPlayers={displayedPlayers}
             gameweeks={gameweeks}
+            selectedPlayers={selectedPlayers}
+            onSelectChange={handleSelectChange}
             starredPlayers={starredPlayers}
             onStarClick={handleStarClick}
           />

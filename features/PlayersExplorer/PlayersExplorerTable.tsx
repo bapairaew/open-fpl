@@ -1,5 +1,11 @@
 import { Box } from "@chakra-ui/react";
-import { CSSProperties, MouseEvent, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  CSSProperties,
+  MouseEvent,
+  useMemo,
+  useState,
+} from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import PlayerTable, {
@@ -46,11 +52,15 @@ const sortPlayers = (
 const PlayersExplorerTable = ({
   displayedPlayers,
   gameweeks,
+  selectedPlayers,
+  onSelectChange,
   starredPlayers,
   onStarClick,
 }: {
   displayedPlayers: Player[];
   gameweeks: Gameweek[];
+  selectedPlayers: Player[];
+  onSelectChange: (e: ChangeEvent<HTMLInputElement>, player: Player) => void;
   starredPlayers: number[] | null;
   onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
 }) => {
@@ -71,6 +81,8 @@ const PlayersExplorerTable = ({
           <PlayerTableRow
             key={player.id}
             style={style}
+            isSelected={selectedPlayers.some((p) => p.id === player.id)}
+            onSelectChange={(e) => onSelectChange(e, player)}
             isStarred={starredPlayers?.some((p) => p === player.id) ?? false}
             onStarClick={(e) => onStarClick(e, player)}
             player={player}
@@ -78,7 +90,7 @@ const PlayersExplorerTable = ({
           />
         );
       },
-    [gameweeks, sortedDisplayedPlayers]
+    [gameweeks, selectedPlayers, sortedDisplayedPlayers]
   );
 
   const handleSort: PlayerTableSortClickType = (e, columnName, direction) => {

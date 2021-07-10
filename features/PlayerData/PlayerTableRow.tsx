@@ -1,5 +1,6 @@
 import {
   Box,
+  Checkbox,
   Flex,
   Grid,
   Icon,
@@ -11,7 +12,7 @@ import {
   Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import { MouseEventHandler } from "react";
+import { ChangeEvent, MouseEventHandler } from "react";
 import {
   IoOpenOutline,
   IoStar,
@@ -36,12 +37,16 @@ import {
 
 export const PlayerTableRow = ({
   player,
+  isSelected,
+  onSelectChange,
   gameweeks,
   isStarred,
   onStarClick,
   ...props
 }: TableRowProps & {
   player: Player;
+  isSelected: boolean;
+  onSelectChange: (e: ChangeEvent<HTMLInputElement>) => void;
   gameweeks: Gameweek[];
   isStarred: boolean;
   onStarClick: MouseEventHandler<HTMLButtonElement>;
@@ -56,6 +61,15 @@ export const PlayerTableRow = ({
           alignItems="center"
           px={2}
         >
+          <Checkbox
+            mr={1}
+            size="lg"
+            aria-label="select player"
+            borderWidth={0}
+            isChecked={isSelected}
+            onChange={onSelectChange}
+            borderRadius="none"
+          />
           <IconButton
             mr={1}
             size="xs"

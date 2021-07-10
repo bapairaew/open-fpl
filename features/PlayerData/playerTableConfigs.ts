@@ -6,7 +6,7 @@ import {
 
 const playerTableConfigs = {
   Tool: {
-    columnWidth: 68,
+    columnWidth: 92,
     hideHeader: true,
     hideMenu: true,
   },

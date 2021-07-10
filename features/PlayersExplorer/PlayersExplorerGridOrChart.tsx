@@ -81,7 +81,14 @@ const PlayersExplorerGridOrChart = ({
           </div>
         );
       },
-    [columnsCount, gameweeks, displayedPlayers, display, onStarClick]
+    [
+      columnsCount,
+      gameweeks,
+      displayedPlayers,
+      display,
+      selectedPlayers,
+      onStarClick,
+    ]
   );
 
   return (
