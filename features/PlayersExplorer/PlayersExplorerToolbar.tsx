@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Divider,
   HStack,
   Input,
@@ -8,7 +9,13 @@ import {
   Select,
   Tooltip,
 } from "@chakra-ui/react";
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  MouseEventHandler,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { Player } from "~/features/AppData/appDataTypes";
 import {
@@ -30,9 +37,12 @@ const PlayersExplorerToolbar = ({
   starredPlayers = [],
   onResults = () => {},
   display = displayOptions[0].value,
-  onDisplayChange = () => {},
+  onDisplayChange,
   disabledSorting = false,
   sortingTooltipLabel,
+  showCompareButton = false,
+  onCompareClick,
+  onResetClick,
 }: {
   initialSeachQuery?: string;
   players?: Player[];
@@ -42,6 +52,9 @@ const PlayersExplorerToolbar = ({
   onDisplayChange?: (value: DisplayOptions) => void;
   disabledSorting?: boolean;
   sortingTooltipLabel?: string;
+  showCompareButton?: boolean;
+  onCompareClick?: MouseEventHandler<HTMLButtonElement>;
+  onResetClick?: MouseEventHandler<HTMLButtonElement>;
 }) => {
   const { filterQuery, setFilterQuery, setSort, filterFn, fiterThenSortFn } =
     usePlayersFilterAndSort({
@@ -75,7 +88,7 @@ const PlayersExplorerToolbar = ({
   );
 
   const handleDisplayChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    onDisplayChange(e.target.value as DisplayOptions);
+    onDisplayChange?.(e.target.value as DisplayOptions);
   };
 
   const handleSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -93,9 +106,32 @@ const PlayersExplorerToolbar = ({
   }, [extendedSort, starredPlayers, filterFn, fiterThenSortFn]);
 
   return (
-    <HStack alignItems="center" height="50px" borderBottomWidth={1}>
-      <Box p={1} flexGrow={1}>
-        <InputGroup m={1}>
+    <HStack
+      alignItems="center"
+      height="50px"
+      px={1}
+      spacing={1}
+      borderBottomWidth={1}
+    >
+      {showCompareButton && (
+        <>
+          <HStack flexShrink={0}>
+            <Button borderRadius="none" onClick={onCompareClick}>
+              Compare
+            </Button>
+            <Button
+              variant="outline"
+              borderRadius="none"
+              onClick={onResetClick}
+            >
+              Reset
+            </Button>
+          </HStack>
+          <Divider orientation="vertical" />
+        </>
+      )}
+      <Box flexGrow={1}>
+        <InputGroup mr={1}>
           <InputLeftElement
             pointerEvents="none"
             children={<IoSearchOutline />}
@@ -111,7 +147,7 @@ const PlayersExplorerToolbar = ({
       </Box>
       <Divider orientation="vertical" />
       <Tooltip label={sortingTooltipLabel} hasArrow>
-        <Box p={1} flexShrink={0}>
+        <Box flexShrink={0}>
           <Select
             disabled={disabledSorting}
             borderWidth={0}
@@ -128,7 +164,7 @@ const PlayersExplorerToolbar = ({
         </Box>
       </Tooltip>
       <Divider orientation="vertical" />
-      <Box p={1} flexShrink={0}>
+      <Box flexShrink={0}>
         <Select
           borderWidth={0}
           borderRadius="none"

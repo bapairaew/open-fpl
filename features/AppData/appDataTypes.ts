@@ -12,7 +12,13 @@ export interface FPLElement extends Element, ElementSummary {}
 export interface MatchStat {
   opponent_short_title: string | null;
   is_home: boolean;
-  match_xgi: number | null;
+  match_time: number | null;
+  match_g: number | null;
+  match_a: number | null;
+  match_shots: number | null;
+  match_key_passes: number | null;
+  match_xg: number | null;
+  match_xa: number | null;
   match_xga: number | null;
 }
 
@@ -36,7 +42,14 @@ export interface UpcomingGameweek {
 export interface LinkedData {
   transfers_delta_event: number;
   understat_id: string | null;
-  season_xgi: number | null;
+  season_time: number | null;
+  season_game: number | null;
+  season_g: number | null;
+  season_a: number | null;
+  season_shots: number | null;
+  season_key_passes: number | null;
+  season_xg: number | null;
+  season_xa: number | null;
   season_xga: number | null;
   teamcolorcodes: TeamColorCodes | null;
   past_matches: MatchStat[] | null;

@@ -1,5 +1,11 @@
 import { Box, Grid, useBreakpointValue } from "@chakra-ui/react";
-import { CSSProperties, MouseEvent, ReactNode, useMemo } from "react";
+import {
+  ChangeEvent,
+  CSSProperties,
+  MouseEvent,
+  ReactNode,
+  useMemo,
+} from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
@@ -11,12 +17,16 @@ const PlayersExplorerGridOrChart = ({
   displayedPlayers,
   display,
   gameweeks,
+  selectedPlayers,
+  onSelectChange,
   starredPlayers,
   onStarClick,
 }: {
   displayedPlayers: Player[];
   display: string;
   gameweeks: Gameweek[];
+  selectedPlayers: Player[];
+  onSelectChange: (e: ChangeEvent<HTMLInputElement>, player: Player) => void;
   starredPlayers: number[] | null;
   onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
 }) => {
@@ -41,6 +51,8 @@ const PlayersExplorerGridOrChart = ({
             content.push(
               <PlayerCardToolbar
                 player={player}
+                isSelected={selectedPlayers.some((p) => p.id === player.id)}
+                onSelectChange={(e) => onSelectChange(e, player)}
                 isStarred={
                   starredPlayers?.some((p) => p === player.id) ?? false
                 }

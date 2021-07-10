@@ -27,14 +27,8 @@ export const PlayerTableHeaderRow = ({
   sortColumns?: PlayerTableSortColumnConfig[];
 }) => {
   return (
-    <Thead
-      height={`${rowHeight}px`}
-      width={`${rowWidth}px`}
-      top={0}
-      position="sticky"
-      zIndex="sticky"
-    >
-      <Tr>
+    <Thead top={0} left={0} position="sticky" zIndex="sticky">
+      <Tr height={`${rowHeight}px`} width={`${rowWidth}px`}>
         {Object.keys(playerTableConfigs).map((objectKey: string) => {
           const key = objectKey as PlayerTableColumn;
           const sortDirection = sortColumns?.find(

@@ -28,7 +28,8 @@ const playerTableConfigs = {
   },
   Cost: {
     columnWidth: 120,
-    sortFn: (a, b) => `${a.now_cost}`.localeCompare(`${b.now_cost}`), // Should do normal number compare?
+    sortFn: (a, b) =>
+      a.now_cost === b.now_cost ? 0 : a.now_cost > b.now_cost ? 1 : -1,
   },
   Ownership: {
     columnWidth: 140,
@@ -83,23 +84,25 @@ const playerTableConfigs = {
       if (
         !a.linked_data.past_matches ||
         a.linked_data.past_matches.filter(
-          (m) => !isNullOrUndefined(m.match_xgi)
+          (m) =>
+            !isNullOrUndefined(m.match_xg) && !isNullOrUndefined(m.match_xa)
         ).length < 5
       )
         return 1;
       if (
         !b.linked_data.past_matches ||
         b.linked_data.past_matches.filter(
-          (m) => !isNullOrUndefined(m.match_xgi)
+          (m) =>
+            !isNullOrUndefined(m.match_xg) && !isNullOrUndefined(m.match_xa)
         ).length < 5
       )
         return -1;
       const sumA = a.linked_data.past_matches.reduce(
-        (sum, m) => (m.match_xgi || 0) + sum,
+        (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
         0
       );
       const sumB = b.linked_data.past_matches.reduce(
-        (sum, m) => (m.match_xgi || 0) + sum,
+        (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
         0
       );
       if (sumA < sumB) return 1;

@@ -11,8 +11,14 @@ const makeEmptyMatches = (length: number): MatchStat[] => {
     matches.push({
       opponent_short_title: null,
       is_home: false,
+      match_time: null,
+      match_g: null,
+      match_a: null,
+      match_shots: null,
+      match_key_passes: null,
+      match_xg: null,
+      match_xa: null,
       match_xga: null,
-      match_xgi: null,
     });
   }
   return matches;
@@ -75,7 +81,7 @@ export const TeamsName = ({
         color="gray.600"
         bg="gray.100"
       >
-        x̅
+        Σ
       </CenterFlex>
     </>
   );
@@ -93,29 +99,28 @@ export const XGIStats = ({
   const { decimal } = variants[variant] ?? variants.default;
   return (
     <>
-      {pastMatches.map((s, i) => (
-        <CenterFlex
-          key={i}
-          variant={variant}
-          p={1}
-          fontSize="sm"
-          bg={
-            s.match_xgi
-              ? `rgba(0, 255, 0, ${Math.min(
-                  100,
-                  (+(s.match_xgi || 0) * 100) / 2
-                )}%)`
-              : "transparent"
-          }
-        >
-          {!isNullOrUndefined(s.match_xgi)
-            ? (+s.match_xgi!).toFixed?.(decimal)
-            : ""}
-        </CenterFlex>
-      ))}
+      {pastMatches.map((s, i) => {
+        const xgi = (s.match_xg ?? 0) + (s.match_xa ?? 0);
+        return (
+          <CenterFlex
+            key={i}
+            variant={variant}
+            p={1}
+            fontSize="sm"
+            bg={`rgba(0, 255, 0, ${Math.min(100, xgi * 100) / 2}%)`}
+          >
+            {!isNullOrUndefined(s.match_xg) && !isNullOrUndefined(s.match_xa)
+              ? xgi.toFixed?.(decimal)
+              : ""}
+          </CenterFlex>
+        );
+      })}
       {!isNullOrUndefined(player.linked_data.season_xga) ? (
         <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
-          {(+player.linked_data.season_xgi!).toFixed?.(decimal)}
+          {(
+            (player.linked_data.season_xg ?? 0) +
+            (player.linked_data.season_xa ?? 0)
+          ).toFixed?.(decimal)}
         </CenterFlex>
       ) : null}
     </>

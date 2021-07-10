@@ -44,12 +44,12 @@ const sortPlayers = (
 };
 
 const PlayersExplorerTable = ({
-  players,
+  displayedPlayers,
   gameweeks,
   starredPlayers,
   onStarClick,
 }: {
-  players: Player[];
+  displayedPlayers: Player[];
   gameweeks: Gameweek[];
   starredPlayers: number[] | null;
   onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
@@ -59,8 +59,8 @@ const PlayersExplorerTable = ({
   );
 
   const sortedDisplayedPlayers = useMemo(
-    () => sortPlayers(players, starredPlayers, sortColumns),
-    [players, sortColumns, starredPlayers]
+    () => sortPlayers(displayedPlayers, starredPlayers, sortColumns),
+    [displayedPlayers, sortColumns, starredPlayers]
   );
 
   const row = useMemo(

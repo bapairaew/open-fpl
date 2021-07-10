@@ -4,59 +4,89 @@ import { Radar } from "react-chartjs-2";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Player } from "~/features/AppData/appDataTypes";
 import NameSection from "~/features/PlayerData/NameSection";
+import {
+  assumedMax,
+  getChartData,
+} from "~/features/PlayerData/playerChartData";
 import theme from "~/theme";
 
 const PlayerChartCard = ({ player }: { player: Player }) => {
-  const maxScale = 2;
-  const assumedMaxBPS90 = 50;
-  const assumedMaxSeasonBPS = 250;
+  const {
+    recentG,
+    recentA,
+    recentShots,
+    recentKeyPasses,
+    recentXG,
+    recentXA,
+    recentXGA,
+    recentBPS,
+    // seasonG,
+    // seasonA,
+    // seasonShots,
+    // seasonKeyPasses,
+    // seasonXG,
+    // seasonXA,
+    // seasonXGA,
+    // seasonBPS,
+  } = getChartData(player);
 
-  const recentXGI =
-    player.linked_data.past_matches &&
-    player.linked_data.past_matches.length !== 0
-      ? player.linked_data.past_matches.reduce(
-          (s, m) => s + (m.match_xgi ?? 0),
-          0
-        ) / player.linked_data.past_matches.length
-      : null;
-
-  const recentXGA =
-    player.linked_data.past_matches &&
-    player.linked_data.past_matches.length !== 0
-      ? player.linked_data.past_matches.reduce(
-          (s, m) => s + (m.match_xga ?? 0),
-          0
-        ) / player.linked_data.past_matches.length
-      : null;
-
-  const recentBPS =
-    player.linked_data.previous_gameweeks &&
-    player.linked_data.previous_gameweeks.length !== 0
-      ? player.linked_data.previous_gameweeks.reduce((s, m) => s + m.bps, 0) /
-        ((assumedMaxBPS90 / maxScale) *
-          player.linked_data.previous_gameweeks.length) // Assume that max BPS is 50, then normalise to [0, maxScale]
-      : null;
+  const maxMap = [
+    assumedMax.recentG,
+    assumedMax.recentA,
+    assumedMax.recentShots,
+    assumedMax.recentKeyPasses,
+    assumedMax.recentXG,
+    assumedMax.recentXA,
+    assumedMax.recentXGA,
+    assumedMax.recentBPS,
+    // assumedMax.seasonG,
+    // assumedMax.seasonA,
+    // assumedMax.seasonShots,
+    // assumedMax.seasonKeyPasses,
+    // assumedMax.seasonXG,
+    // assumedMax.seasonXA,
+    // assumedMax.seasonXGA,
+    // assumedMax.seasonBPS,
+  ];
 
   const chartData = {
     labels: [
-      "Recent xGI90",
-      "Recent axGA90",
-      "Recent aBPS90",
-      "Season xGI90",
-      "Season axGA90",
-      "Season aBPS",
+      "Recent Goals",
+      "Recent Assists",
+      "Recent Shots",
+      "Recent Key Passes",
+      "Recent xG",
+      "Recent xA",
+      "Recent xGA",
+      "Recent BPS",
+      // "Season Goals",
+      // "Season Assists",
+      // "Season Shots",
+      // "Season Key Passes",
+      // "Season xG",
+      // "Season xA",
+      // "Season xGA",
+      // "Season BPS",
     ],
     datasets: [
       {
         data: [
-          recentXGI ?? 0,
-          recentXGA ? maxScale - recentXGA : 0,
-          recentBPS ?? 0,
-          player.linked_data.season_xgi ?? 0,
-          player.linked_data.season_xga
-            ? maxScale - player.linked_data.season_xga
-            : 0,
-          player.total_points / (assumedMaxSeasonBPS / maxScale),
+          recentG,
+          recentA,
+          recentShots,
+          recentKeyPasses,
+          recentXG,
+          recentXA,
+          recentXGA,
+          recentBPS,
+          // seasonG,
+          // seasonA,
+          // seasonShots,
+          // seasonKeyPasses,
+          // seasonXG,
+          // seasonXA,
+          // seasonXGA,
+          // seasonBPS,
         ],
         backgroundColor: transparentize(theme.colors.brand[100], 0.2),
         borderColor: theme.colors.brand[500],
@@ -72,11 +102,20 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
       legend: {
         display: false,
       },
+      tooltip: {
+        callbacks: {
+          label: ({ label, raw }: { label: string; raw: number }) =>
+            (
+              (maxMap[chartData.labels.findIndex((l) => l === label)] * raw) /
+              100
+            ).toFixed(2),
+        },
+      },
     },
     scales: {
       r: {
         suggestedMin: 0,
-        suggestedMax: maxScale,
+        suggestedMax: 100,
       },
     },
   };

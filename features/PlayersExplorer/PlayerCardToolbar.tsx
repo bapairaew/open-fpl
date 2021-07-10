@@ -5,19 +5,24 @@ import {
   Link as A,
   Icon,
   IconButton,
+  Checkbox,
 } from "@chakra-ui/react";
 import { Player } from "~/features/AppData/appDataTypes";
 import { IoOpenOutline, IoStarOutline, IoStar } from "react-icons/io5";
-import { MouseEventHandler } from "react";
+import { ChangeEvent, MouseEventHandler } from "react";
 
 const PlayerCardToolbar = ({
   player,
+  isSelected,
+  onSelectChange,
   isStarred,
   onStarClick,
   children,
   ...props
 }: BoxProps & {
   player: Player;
+  isSelected: boolean;
+  onSelectChange: (e: ChangeEvent<HTMLInputElement>) => void;
   isStarred: boolean;
   onStarClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
@@ -29,7 +34,16 @@ const PlayerCardToolbar = ({
         justifyContent="space-between"
         alignItems="center"
       >
-        <Box>
+        <Flex>
+          <Checkbox
+            m={0.5}
+            size="lg"
+            aria-label="select player"
+            borderWidth={0}
+            isChecked={isSelected}
+            onChange={onSelectChange}
+            borderRadius="none"
+          />
           <IconButton
             size="xs"
             borderRadius="none"
@@ -38,7 +52,7 @@ const PlayerCardToolbar = ({
             variant={isStarred ? "solid" : "ghost"}
             onClick={onStarClick}
           />
-        </Box>
+        </Flex>
         <Box pr={2}>
           {player.linked_data?.understat_id && (
             <A

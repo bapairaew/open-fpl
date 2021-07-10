@@ -94,7 +94,13 @@ export const makeAppData = ({
           ? fplTeamsMap[+fplOpponentId]?.short_name
           : null,
         is_home: isHome,
-        match_xgi: +m.xA + +m.xG,
+        match_time: +m.time,
+        match_g: +m.goals,
+        match_a: +m.assists,
+        match_shots: +m.shots,
+        match_key_passes: +m.key_passes,
+        match_xg: +m.xG,
+        match_xa: +m.xA,
         match_xga: xga ? +xga : null,
       };
     };
@@ -129,15 +135,18 @@ export const makeAppData = ({
           playerUnderstatTeam && pastMatches
             ? pastMatches?.map(mapPastMaches)
             : null,
-        season_xgi:
-          playerUnderstat &&
-          ((+playerUnderstat.xA + +playerUnderstat.xG) * 90) /
-            +playerUnderstat.time,
+        season_time: playerUnderstat && +playerUnderstat.time,
+        season_game: playerUnderstat && +playerUnderstat.games,
+        season_g: playerUnderstat && +playerUnderstat.goals,
+        season_a: playerUnderstat && +playerUnderstat.assists,
+        season_shots: playerUnderstat && +playerUnderstat.shots,
+        season_key_passes: playerUnderstat && +playerUnderstat.key_passes,
+        season_xg: playerUnderstat && +playerUnderstat.xG,
+        season_xa: playerUnderstat && +playerUnderstat.xA,
         season_xga:
           playerUnderstat &&
           playerUnderstatTeam &&
-          playerUnderstatTeam.history.reduce((x, m) => +m.xGA + x, 0) /
-            playerUnderstatTeam.history.length,
+          playerUnderstatTeam.history.reduce((x, m) => +m.xGA + x, 0),
         teamcolorcodes: teamcolorcodesMap[fplPlayerTeam.name] || null,
         transfers_delta_event:
           player.transfers_in_event - player.transfers_out_event,
