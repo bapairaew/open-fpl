@@ -75,7 +75,11 @@ const PlayersExplorerToolbar = ({
             const bIndex = starredPlayers?.findIndex((id) => id === b.id) ?? -1;
             if (aIndex > bIndex) return -1;
             else if (aIndex < bIndex) return 1;
-            return 0;
+            return a.now_cost > b.now_cost
+              ? -1
+              : a.now_cost < b.now_cost
+              ? 1
+              : 0;
           },
         } as SortOptionsConfig<ExtendedSortOptions>,
         ...sortOptions,

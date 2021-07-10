@@ -44,6 +44,10 @@ const sortPlayers = (
           break;
         }
       }
+
+      if (sortResult === 0)
+        sortResult =
+          a.now_cost > b.now_cost ? -1 : a.now_cost < b.now_cost ? 1 : 0;
     }
     return sortResult;
   });
