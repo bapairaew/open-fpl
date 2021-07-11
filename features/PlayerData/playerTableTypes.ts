@@ -23,7 +23,7 @@ export interface PlayerTableConfig {
   columnWidth: number;
   hideHeader?: boolean;
   hideMenu?: boolean;
-  sticky?: boolean;
+  sticky?: number;
   sortFn?: (a: Player, b: Player) => number;
 }
 

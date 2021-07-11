@@ -35,10 +35,11 @@ const playerTableConfigs = {
     columnWidth: 92,
     hideHeader: true,
     hideMenu: true,
+    sticky: 0,
   },
   Name: {
     columnWidth: 200,
-    sticky: true,
+    sticky: 92,
     sortFn: (a, b) => a.web_name.localeCompare(b.web_name),
   },
   Team: {

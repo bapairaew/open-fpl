@@ -47,11 +47,15 @@ export const PlayerTableHeaderRow = ({
           <Th
             key={key}
             p={0}
-            left={0}
+            left={playerTableConfigs[key]?.sticky ?? 0}
             zIndex="sticky"
             bgColor="white"
             textAlign="center"
-            position={playerTableConfigs[key]?.sticky ? "sticky" : "static"}
+            position={
+              playerTableConfigs[key]?.sticky !== undefined
+                ? "sticky"
+                : "static"
+            }
           >
             <TableCellWithMenu
               px={4}
@@ -79,7 +83,7 @@ export const PlayerTableHeaderRow = ({
                       <>
                         <MenuDivider />
                         <MenuOptionGroup
-                          title="Already Sorted by"
+                          title="Currently sorted by"
                           type="checkbox"
                           value={sortColumns?.map((c) => c.columnName)}
                           onChange={(selected: string | string[]) => {
