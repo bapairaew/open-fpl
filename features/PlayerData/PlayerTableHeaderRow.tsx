@@ -6,6 +6,8 @@ import {
   MenuList,
   Th,
   Tr,
+  MenuOptionGroup,
+  MenuItemOption,
 } from "@chakra-ui/react";
 import { MouseEvent } from "react";
 import { IoArrowDownOutline, IoArrowUpOutline } from "react-icons/io5";
@@ -14,30 +16,33 @@ import { rowHeight, rowWidth } from "~/features/PlayerData/PlayerTable";
 import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
 import {
   PlayerTableColumn,
-  PlayerTableSortClickType,
+  PlayerTableSortChangeHandler,
   PlayerTableSortColumnConfig,
 } from "~/features/PlayerData/playerTableTypes";
 
 export const PlayerTableHeaderRow = ({
-  onSortClick,
+  onSortChange,
   sortColumns,
 }: {
-  onSortClick?: PlayerTableSortClickType;
+  onSortChange?: PlayerTableSortChangeHandler;
   sortColumns?: PlayerTableSortColumnConfig[];
 }) => {
   return (
     <Tr height={`${rowHeight}px`} width={`${rowWidth}px`}>
       {Object.keys(playerTableConfigs).map((objectKey: string) => {
         const key = objectKey as PlayerTableColumn;
+
         const sortDirection = sortColumns?.find(
           (c) => c.columnName === key
         )?.direction;
+
         const arrow =
           sortDirection === "asc"
             ? IoArrowUpOutline
             : sortDirection === "desc"
             ? IoArrowDownOutline
             : null;
+
         return (
           <Th
             key={key}
@@ -54,30 +59,51 @@ export const PlayerTableHeaderRow = ({
               menu={
                 playerTableConfigs[key]?.hideMenu ? undefined : (
                   <MenuList>
-                    <MenuGroup title="Sort">
-                      <MenuItem
-                        onClick={(e: MouseEvent<HTMLButtonElement>) =>
-                          onSortClick?.(e, key, "asc")
+                    <MenuOptionGroup
+                      title="Sort"
+                      type="radio"
+                      value={sortDirection}
+                      onChange={(direction: string | string[]) => {
+                        if (direction === "asc" || direction === "desc") {
+                          onSortChange?.(key, direction);
                         }
-                      >
-                        Ascending
-                      </MenuItem>
-                      <MenuItem
-                        onClick={(e: MouseEvent<HTMLButtonElement>) =>
-                          onSortClick?.(e, key, "desc")
-                        }
-                      >
-                        Descending
-                      </MenuItem>
-                      <MenuDivider />
-                      <MenuItem
-                        onClick={(e: MouseEvent<HTMLButtonElement>) =>
-                          onSortClick?.(e, key, null)
-                        }
-                      >
-                        Reset
-                      </MenuItem>
-                    </MenuGroup>
+                      }}
+                    >
+                      <MenuItemOption value="asc">Ascending</MenuItemOption>
+                      <MenuItemOption value="desc">Descending</MenuItemOption>
+                    </MenuOptionGroup>
+                    <MenuItem onClick={() => onSortChange?.(key, null)}>
+                      Reset
+                    </MenuItem>
+                    {(sortColumns?.length ?? 0) > 0 && (
+                      <>
+                        <MenuDivider />
+                        <MenuOptionGroup
+                          title="Already Sorted by"
+                          type="checkbox"
+                          value={sortColumns?.map((c) => c.columnName)}
+                          onChange={(selected: string | string[]) => {
+                            if (typeof selected !== "string") {
+                              const deselectedKey = sortColumns?.find(
+                                (c) => !selected.includes(c.columnName)
+                              );
+                              if (deselectedKey) {
+                                onSortChange?.(deselectedKey.columnName, null);
+                              }
+                            }
+                          }}
+                        >
+                          {sortColumns?.map((c) => (
+                            <MenuItemOption
+                              key={c.columnName}
+                              value={c.columnName}
+                            >
+                              {c.columnName} ({c.direction})
+                            </MenuItemOption>
+                          ))}
+                        </MenuOptionGroup>
+                      </>
+                    )}
                   </MenuList>
                 )
               }

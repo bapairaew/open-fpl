@@ -5,7 +5,7 @@ import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
 import PlayerTableHeaderRow from "~/features/PlayerData/PlayerTableHeaderRow";
 import {
   PlayerTableContextType,
-  PlayerTableSortClickType,
+  PlayerTableSortChangeHandler,
   PlayerTableSortColumnConfig,
 } from "~/features/PlayerData/playerTableTypes";
 
@@ -19,11 +19,11 @@ export const rowWidth = Object.values(playerTableConfigs).reduce(
 export const PlayerTableElementType = forwardRef<HTMLDivElement>(
   ({ children, ...props }, ref) => (
     <PlayerTableContext.Consumer>
-      {({ onSortClick, sortColumns }) => (
+      {({ onSortChange, sortColumns }) => (
         <Table colorScheme="gray">
           <Thead position="sticky" zIndex="sticky" top={0} left={0} bg="white">
             <PlayerTableHeaderRow
-              onSortClick={onSortClick}
+              onSortChange={onSortChange}
               sortColumns={sortColumns}
             />
           </Thead>
@@ -65,18 +65,18 @@ PlayerTableContext.displayName = "PlayerTableContext";
 // https://codesandbox.io/s/0mk3qwpl4l?file=/src/index.js:280-513
 const PlayerTable = ({
   children,
-  onSortClick,
+  onSortChange,
   sortColumns,
   ...props
 }: FixedSizeListProps & {
-  onSortClick: PlayerTableSortClickType;
+  onSortChange: PlayerTableSortChangeHandler;
   sortColumns: PlayerTableSortColumnConfig[];
 }) => (
   <PlayerTableContext.Provider
-    value={{ ItemRenderer: children, onSortClick, sortColumns }}
+    value={{ ItemRenderer: children, onSortChange, sortColumns }}
   >
     <List
-      itemData={{ ItemRenderer: children, onSortClick, sortColumns }}
+      itemData={{ ItemRenderer: children, onSortChange, sortColumns }}
       {...props}
     >
       {ItemWrapper}

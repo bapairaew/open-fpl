@@ -15,7 +15,7 @@ import PlayerTable, {
 import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
 import PlayerTableRow from "~/features/PlayerData/PlayerTableRow";
 import {
-  PlayerTableSortClickType,
+  PlayerTableSortChangeHandler,
   PlayerTableSortColumnConfig,
 } from "~/features/PlayerData/playerTableTypes";
 
@@ -98,7 +98,7 @@ const PlayersExplorerTable = ({
     [gameweeks, selectedPlayers, sortedDisplayedPlayers]
   );
 
-  const handleSort: PlayerTableSortClickType = (e, columnName, direction) => {
+  const handleSort: PlayerTableSortChangeHandler = (columnName, direction) => {
     const newSortedColumns = sortColumns.filter(
       (c) => c.columnName !== columnName
     );
@@ -126,7 +126,7 @@ const PlayersExplorerTable = ({
               itemSize={rowHeight + 1} // Pad one pixel for border
               itemCount={sortedDisplayedPlayers.length + 1} // Pad one player for sticky header
               innerElementType={PlayerTableElementType}
-              onSortClick={handleSort}
+              onSortChange={handleSort}
               sortColumns={sortColumns}
             >
               {row}

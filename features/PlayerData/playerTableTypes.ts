@@ -1,4 +1,4 @@
-import { ComponentType, MouseEvent } from "react";
+import { ComponentType } from "react";
 import { ListChildComponentProps } from "react-window";
 import { Player } from "~/features/AppData/appDataTypes";
 
@@ -27,8 +27,7 @@ export interface PlayerTableConfig {
   sortFn?: (a: Player, b: Player) => number;
 }
 
-export type PlayerTableSortClickType = (
-  e: MouseEvent<HTMLButtonElement>,
+export type PlayerTableSortChangeHandler = (
   columnName: PlayerTableColumn,
   direction: "asc" | "desc" | null
 ) => void;
@@ -40,6 +39,6 @@ export type PlayerTableSortColumnConfig = {
 
 export type PlayerTableContextType = {
   sortColumns?: PlayerTableSortColumnConfig[];
-  onSortClick?: PlayerTableSortClickType;
+  onSortChange?: PlayerTableSortChangeHandler;
   ItemRenderer?: ComponentType<ListChildComponentProps<PlayerTableContextType>>;
 };
