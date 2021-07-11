@@ -37,6 +37,7 @@ export const player: Player = {
         match_key_passes: 2,
         match_xg: 0.42672669887542725,
         match_xa: 0.12024029344320297,
+        match_xgi: 0.5469669923186302,
         match_xga: 0.216834,
       },
       {
@@ -49,6 +50,7 @@ export const player: Player = {
         match_key_passes: 3,
         match_xg: 1.0192543268203735,
         match_xa: 0.048688460141420364,
+        match_xgi: 1.067942786961794,
         match_xga: 0.565472,
       },
       {
@@ -61,6 +63,7 @@ export const player: Player = {
         match_key_passes: 0,
         match_xg: 0.06144723668694496,
         match_xa: 0,
+        match_xgi: 0.06144723668694496,
         match_xga: 0.991522,
       },
       {
@@ -73,6 +76,7 @@ export const player: Player = {
         match_key_passes: 2,
         match_xg: 0.36556729674339294,
         match_xa: 0.47926193475723267,
+        match_xgi: 0.8448292315006256,
         match_xga: 2.938,
       },
       {
@@ -85,6 +89,7 @@ export const player: Player = {
         match_key_passes: 1,
         match_xg: 0.2636248767375946,
         match_xa: 0.014647945761680603,
+        match_xgi: 0.2782728224992752,
         match_xga: 0.872643,
       },
     ],
@@ -96,6 +101,7 @@ export const player: Player = {
     season_key_passes: 95,
     season_xg: 16.0194544615224,
     season_xa: 11.474995978176594,
+    season_xgi: 27.494450439698994,
     season_xga: 41.917999,
     teamcolorcodes: {
       team: "Man Utd",
@@ -373,6 +379,9 @@ export const player: Player = {
         difficulty: 2,
       },
     ],
+  },
+  client_data: {
+    starred_index: -1,
   },
 };
 

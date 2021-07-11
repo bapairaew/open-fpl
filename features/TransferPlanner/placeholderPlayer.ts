@@ -53,6 +53,7 @@ export function makePlaceholderPlayerFromId(id: number): Player {
       season_shots: null,
       season_xg: null,
       season_xa: null,
+      season_xgi: null,
       season_xga: null,
       teamcolorcodes: {
         team: "",
@@ -62,6 +63,9 @@ export function makePlaceholderPlayerFromId(id: number): Player {
       },
       previous_gameweeks: null,
       next_gameweeks: null,
+    },
+    client_data: {
+      starred_index: -1,
     },
   };
 }

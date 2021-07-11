@@ -8,6 +8,7 @@ import {
 } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import playersSortFunctions from "~/features/PlayerData/playersSortFunctions";
 import PlayerTable, {
   PlayerTableElementType,
   rowHeight,
@@ -21,15 +22,10 @@ import {
 
 const sortPlayers = (
   players: Player[],
-  starredPlayers: number[] | null,
   sortColumns: PlayerTableSortColumnConfig[]
 ): Player[] => {
   return [...players].sort((a, b) => {
-    let sortResult = 0;
-    const aIndex = starredPlayers?.findIndex((id) => id === a.id) ?? -1;
-    const bIndex = starredPlayers?.findIndex((id) => id === b.id) ?? -1;
-    if (aIndex > bIndex) sortResult = -1;
-    else if (aIndex < bIndex) sortResult = 1;
+    let sortResult = playersSortFunctions.starred(a, b); // always show starred players first
     if (sortResult === 0) {
       for (const column of sortColumns) {
         sortResult = playerTableConfigs[column.columnName]?.sortFn?.(a, b) ?? 0;
@@ -58,14 +54,12 @@ const PlayersExplorerTable = ({
   gameweeks,
   selectedPlayers,
   onSelectChange,
-  starredPlayers,
   onStarClick,
 }: {
   displayedPlayers: Player[];
   gameweeks: Gameweek[];
   selectedPlayers: Player[];
   onSelectChange: (e: ChangeEvent<HTMLInputElement>, player: Player) => void;
-  starredPlayers: number[] | null;
   onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
 }) => {
   const [sortColumns, setSortColums] = useState<PlayerTableSortColumnConfig[]>(
@@ -73,8 +67,8 @@ const PlayersExplorerTable = ({
   );
 
   const sortedDisplayedPlayers = useMemo(
-    () => sortPlayers(displayedPlayers, starredPlayers, sortColumns),
-    [displayedPlayers, sortColumns, starredPlayers]
+    () => sortPlayers(displayedPlayers, sortColumns),
+    [displayedPlayers, sortColumns]
   );
 
   const row = useMemo(
@@ -88,7 +82,7 @@ const PlayersExplorerTable = ({
             style={restStyle}
             isSelected={selectedPlayers.some((p) => p.id === player.id)}
             onSelectChange={(e) => onSelectChange(e, player)}
-            isStarred={starredPlayers?.some((p) => p === player.id) ?? false}
+            isStarred={player.client_data.starred_index > -1}
             onStarClick={(e) => onStarClick(e, player)}
             player={player}
             gameweeks={gameweeks}

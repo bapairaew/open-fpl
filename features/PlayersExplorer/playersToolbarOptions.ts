@@ -1,4 +1,4 @@
-import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
+import playersSortFunctions from "~/features/PlayerData/playersSortFunctions";
 import {
   DisplayOptionsConfig,
   FilterOptions,
@@ -20,67 +20,44 @@ export const filterOptions: FilterOptions = {
 
 export const sortOptions: SortOptionsConfig[] = [
   {
+    label: "Starred players first",
+    value: "starred",
+    sortFn: playersSortFunctions.starred,
+  },
+  {
     label: "Best recent xGI",
     value: "best-xgi",
-    sortFn: (a, b) => {
-      if (
-        !a.linked_data.past_matches ||
-        a.linked_data.past_matches.filter(
-          (m) => m.match_xg !== null && m.match_xa !== null
-        ).length < 5
-      )
-        return 1;
-      if (
-        !b.linked_data.past_matches ||
-        b.linked_data.past_matches.filter(
-          (m) => m.match_xg !== null && m.match_xa !== null
-        ).length < 5
-      )
-        return -1;
-      const sumA = a.linked_data.past_matches.reduce(
-        (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
-        0
-      );
-      const sumB = b.linked_data.past_matches.reduce(
-        (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
-        0
-      );
-      if (sumA < sumB) return 1;
-      if (sumA > sumB) return -1;
-      return 0;
-    },
+    sortFn: playersSortFunctions.xgi,
   },
   {
     label: "Best recent xGA",
     value: "best-xga",
-    sortFn: playerTableConfigs.xGA.sortFn!,
+    sortFn: playersSortFunctions.xga,
   },
   {
     label: "Best fixtures",
     value: "best-fixtures",
-    sortFn: playerTableConfigs.Fixtures.sortFn!,
+    sortFn: playersSortFunctions.fixtures,
   },
   {
-    label: "Price: low to high",
-    value: "price-asc",
-    sortFn: (a, b) => (a.now_cost < b.now_cost ? -1 : 1),
+    label: "Cost: low to high",
+    value: "cost-asc",
+    sortFn: playersSortFunctions.cost,
   },
   {
-    label: "Price: high to low",
-    value: "price-desc",
-    sortFn: (a, b) => (a.now_cost > b.now_cost ? -1 : 1),
+    label: "Cost: high to low",
+    value: "cost-desc",
+    sortFn: (a, b) => -1 * playersSortFunctions.cost(a, b),
   },
   {
     label: "Ownership: low to high",
     value: "ownership-asc",
-    sortFn: (a, b) =>
-      +a.selected_by_percent > +b.selected_by_percent ? 1 : -1,
+    sortFn: playersSortFunctions.ownership,
   },
   {
     label: "Ownership: high to low",
     value: "ownership-desc",
-    sortFn: (a, b) =>
-      +a.selected_by_percent < +b.selected_by_percent ? 1 : -1,
+    sortFn: (a, b) => -1 * playersSortFunctions.ownership(a, b),
   },
 ];
 

@@ -1,16 +1,17 @@
 import { BoxProps, Flex, useDisclosure } from "@chakra-ui/react";
-import { ChangeEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
 import { Gameweek, Player } from "~/features/AppData/appDataTypes";
 import PlayersExplorerGridOrChart from "~/features/PlayersExplorer/PlayersExplorerGridOrChart";
 import PlayersExplorerTable from "~/features/PlayersExplorer/PlayersExplorerTable";
 import PlayersExplorerToolbar from "~/features/PlayersExplorer/PlayersExplorerToolbar";
 import { displayOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
 import { useSettings } from "~/features/Settings/SettingsContext";
-import ComparePlayersModal from "./ComparePlayersModal";
-import { DisplayOptions } from "./playersExplorerTypes";
+import { injectClientData } from "~/features/PlayerData/playerData";
+import ComparePlayersModal from "~/features/PlayersExplorer/ComparePlayersModal";
+import { DisplayOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 
 const PlayersExplorer = ({
-  players,
+  players: remotePlayers,
   gameweeks,
   ...props
 }: BoxProps & {
@@ -19,6 +20,15 @@ const PlayersExplorer = ({
 }) => {
   const { preference, setPreference, starredPlayers, setStarredPlayers } =
     useSettings();
+
+  const players = useMemo(
+    () =>
+      starredPlayers
+        ? injectClientData(remotePlayers, starredPlayers)
+        : remotePlayers,
+    [remotePlayers, starredPlayers]
+  );
+
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -70,7 +80,6 @@ const PlayersExplorer = ({
       <Flex direction="column" overflow="hidden" height="100%" {...props}>
         <PlayersExplorerToolbar
           players={players}
-          starredPlayers={starredPlayers}
           onResults={setDisplayedPlayers}
           display={display}
           onDisplayChange={handleDisplayChange}
@@ -90,7 +99,6 @@ const PlayersExplorer = ({
             gameweeks={gameweeks}
             selectedPlayers={selectedPlayers}
             onSelectChange={handleSelectChange}
-            starredPlayers={starredPlayers}
             onStarClick={handleStarClick}
           />
         ) : (
@@ -100,7 +108,6 @@ const PlayersExplorer = ({
             gameweeks={gameweeks}
             selectedPlayers={selectedPlayers}
             onSelectChange={handleSelectChange}
-            starredPlayers={starredPlayers}
             onStarClick={handleStarClick}
           />
         )}

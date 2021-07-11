@@ -19,6 +19,7 @@ const makeEmptyMatches = (length: number): MatchStat[] => {
       match_key_passes: null,
       match_xg: null,
       match_xa: null,
+      match_xgi: null,
       match_xga: null,
     });
   }
@@ -88,49 +89,6 @@ export const TeamsName = ({
   );
 };
 
-export const XGIStats = ({
-  player,
-  pastMatches,
-  variant,
-  decimal,
-}: {
-  player: Player;
-  pastMatches: MatchStat[];
-  variant: CenterFlexVariant;
-  decimal: number;
-}) => {
-  return (
-    <>
-      {pastMatches.map((s, i) => {
-        const xgi =
-          s.match_xg !== null && s.match_xa !== null
-            ? s.match_xg + s.match_xa
-            : null;
-        const colorScale = xgi === null ? 0 : Math.min(100, xgi * 100) / 2;
-        return (
-          <CenterFlex
-            key={i}
-            variant={variant}
-            p={1}
-            fontSize="sm"
-            bg={`rgba(0, 255, 0, ${colorScale}%)`}
-          >
-            {xgi === null ? "" : xgi?.toFixed(decimal)}
-          </CenterFlex>
-        );
-      })}
-      {player.linked_data.season_xg && (
-        <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
-          {(
-            (player.linked_data.season_xg ?? 0) +
-            (player.linked_data.season_xa ?? 0)
-          ).toFixed(decimal)}
-        </CenterFlex>
-      )}
-    </>
-  );
-};
-
 const PreviousStatsSection = ({
   variant,
   player,
@@ -150,11 +108,14 @@ const PreviousStatsSection = ({
           {showTeamsName && (
             <TeamsName pastMatches={pastMatches} variant={variant} />
           )}
-          <XGIStats
-            player={player}
+          <PastMatchesStats
+            variant="mini"
             pastMatches={pastMatches}
-            variant={variant}
+            valueKey="match_xgi"
+            maxValue={assumedMax.xga}
+            sumValue={player.linked_data.season_xga}
             decimal={decimal}
+            isReversedScale
           />
           <PastMatchesStats
             variant="mini"

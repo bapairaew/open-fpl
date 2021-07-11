@@ -11,17 +11,18 @@ export interface FilterOptions {
 }
 
 export type SortOptions =
+  | "starred"
   | "best-xgi"
   | "best-xga"
   | "best-fixtures"
-  | "price-asc"
-  | "price-desc"
+  | "cost-asc"
+  | "cost-desc"
   | "ownership-asc"
   | "ownership-desc";
 
-export interface SortOptionsConfig<T = SortOptions> {
+export interface SortOptionsConfig {
   label: string;
-  value: T;
+  value: SortOptions;
   sortFn: (a: Player, b: Player) => number;
 }
 

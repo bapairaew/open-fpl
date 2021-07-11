@@ -19,7 +19,6 @@ const PlayersExplorerGridOrChart = ({
   gameweeks,
   selectedPlayers,
   onSelectChange,
-  starredPlayers,
   onStarClick,
 }: {
   displayedPlayers: Player[];
@@ -27,7 +26,6 @@ const PlayersExplorerGridOrChart = ({
   gameweeks: Gameweek[];
   selectedPlayers: Player[];
   onSelectChange: (e: ChangeEvent<HTMLInputElement>, player: Player) => void;
-  starredPlayers: number[] | null;
   onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
 }) => {
   const columnsCount =
@@ -53,9 +51,7 @@ const PlayersExplorerGridOrChart = ({
                 player={player}
                 isSelected={selectedPlayers.some((p) => p.id === player.id)}
                 onSelectChange={(e) => onSelectChange(e, player)}
-                isStarred={
-                  starredPlayers?.some((p) => p === player.id) ?? false
-                }
+                isStarred={player.client_data.starred_index > -1}
                 onStarClick={(e) => onStarClick(e, player)}
               >
                 {display === "chart" ? (

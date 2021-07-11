@@ -19,6 +19,7 @@ export interface MatchStat {
   match_key_passes: number | null;
   match_xg: number | null;
   match_xa: number | null;
+  match_xgi: number | null;
   match_xga: number | null;
 }
 
@@ -50,11 +51,17 @@ export interface LinkedData {
   season_key_passes: number | null;
   season_xg: number | null;
   season_xa: number | null;
+  season_xgi: number | null;
   season_xga: number | null;
   teamcolorcodes: TeamColorCodes | null;
   past_matches: MatchStat[] | null;
   previous_gameweeks: PastGameweek[] | null;
   next_gameweeks: UpcomingGameweek[] | null;
+}
+
+// To be filled out at client level
+export interface ClientData {
+  starred_index: number;
 }
 
 export interface Player {
@@ -81,6 +88,7 @@ export interface Player {
     short_name: string;
   };
   linked_data: LinkedData;
+  client_data: ClientData;
 }
 
 export interface Gameweek {

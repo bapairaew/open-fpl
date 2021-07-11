@@ -101,6 +101,7 @@ export const makeAppData = ({
         match_key_passes: +m.key_passes,
         match_xg: +m.xG,
         match_xa: +m.xA,
+        match_xgi: +m.xG + +m.xA,
         match_xga: xga ? +xga : null,
       };
     };
@@ -143,6 +144,8 @@ export const makeAppData = ({
         season_key_passes: playerUnderstat && +playerUnderstat.key_passes,
         season_xg: playerUnderstat && +playerUnderstat.xG,
         season_xa: playerUnderstat && +playerUnderstat.xA,
+        season_xgi:
+          playerUnderstat && +playerUnderstat.xG + +playerUnderstat.xA,
         season_xga:
           playerUnderstat &&
           playerUnderstatTeam &&
@@ -172,6 +175,9 @@ export const makeAppData = ({
             finished: f.finished,
             difficulty: f.difficulty,
           })),
+      },
+      client_data: {
+        starred_index: -1,
       },
     } as Player;
   });

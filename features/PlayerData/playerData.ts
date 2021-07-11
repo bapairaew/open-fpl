@@ -1,4 +1,4 @@
-import { MatchStat, Player } from "~/features/AppData/appDataTypes";
+import { ClientData, MatchStat, Player } from "~/features/AppData/appDataTypes";
 import { PlayerChartData } from "~/features/PlayerData/playerChartTypes";
 
 export const assumedMax = {
@@ -8,6 +8,7 @@ export const assumedMax = {
   keyPasses: 7,
   xg: 1,
   xa: 1,
+  xgi: 2,
   xga: 1,
   recentG: 5,
   recentA: 5,
@@ -23,6 +24,7 @@ export const assumedMax = {
   seasonKeyPasses: 120,
   seasonXG: 25,
   seasonXA: 25,
+  seasonXGI: 50,
   seasonXGA: 70,
   seasonBPS: 280,
 };
@@ -91,4 +93,19 @@ export const getSummarytData = (player: Player): PlayerChartData => {
     ),
     seasonBPS: getPercentage(player.total_points, assumedMax.seasonBPS),
   };
+};
+
+export const injectClientData = (
+  players: Player[],
+  starredPlayers: number[]
+): Player[] => {
+  return players.map((player) => {
+    return {
+      ...player,
+      client_data: {
+        ...player.client_data,
+        starred_index: starredPlayers.indexOf(player.id),
+      } as ClientData,
+    };
+  });
 };
