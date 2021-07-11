@@ -1,13 +1,20 @@
-import { Player } from "~/features/AppData/appDataTypes";
+import { MatchStat, Player } from "~/features/AppData/appDataTypes";
 import { PlayerChartData } from "~/features/PlayerData/playerChartTypes";
 
 export const assumedMax = {
+  g: 2,
+  a: 2,
+  shots: 7,
+  keyPasses: 7,
+  xg: 1,
+  xa: 1,
+  xga: 1,
   recentG: 5,
   recentA: 5,
   recentShots: 35,
   recentKeyPasses: 30,
-  recentXG: 4,
-  recentXA: 4,
+  recentXG: 5,
+  recentXA: 5,
   recentXGA: 10,
   recentBPS: 3,
   seasonG: 25,
@@ -24,60 +31,23 @@ const getPercentage = (value: number | null, max: number) => {
   return Math.min(100, (100 * (value ?? 0)) / max);
 };
 
-export const getChartData = (player: Player): PlayerChartData => {
-  const recentG =
-    player.linked_data.past_matches &&
-    player.linked_data.past_matches.length !== 0
+export const getSummarytData = (player: Player): PlayerChartData => {
+  const getDataFromPastMatches = (key: keyof MatchStat) => {
+    return player.linked_data.past_matches &&
+      player.linked_data.past_matches.length !== 0
       ? player.linked_data.past_matches.reduce(
-          (s, m) => s + (m.match_g ?? 0),
+          (s, m) => s + ((m[key] as number | null) ?? 0),
           0
         )
       : null;
+  };
 
-  const recentA =
-    player.linked_data.past_matches &&
-    player.linked_data.past_matches.length !== 0
-      ? player.linked_data.past_matches.reduce(
-          (s, m) => s + (m.match_a ?? 0),
-          0
-        )
-      : null;
-
-  const recentShots =
-    player.linked_data.past_matches &&
-    player.linked_data.past_matches.length !== 0
-      ? player.linked_data.past_matches.reduce(
-          (s, m) => s + (m.match_shots ?? 0),
-          0
-        )
-      : null;
-
-  const recentKeyPasses =
-    player.linked_data.past_matches &&
-    player.linked_data.past_matches.length !== 0
-      ? player.linked_data.past_matches.reduce(
-          (s, m) => s + (m.match_key_passes ?? 0),
-          0
-        )
-      : null;
-
-  const recentXG =
-    player.linked_data.past_matches &&
-    player.linked_data.past_matches.length !== 0
-      ? player.linked_data.past_matches.reduce(
-          (s, m) => s + (m.match_xg ?? 0),
-          0
-        )
-      : null;
-
-  const recentXA =
-    player.linked_data.past_matches &&
-    player.linked_data.past_matches.length !== 0
-      ? player.linked_data.past_matches.reduce(
-          (s, m) => s + (m.match_xa ?? 0),
-          0
-        )
-      : null;
+  const recentG = getDataFromPastMatches("match_g");
+  const recentA = getDataFromPastMatches("match_a");
+  const recentShots = getDataFromPastMatches("match_shots");
+  const recentKeyPasses = getDataFromPastMatches("match_key_passes");
+  const recentXG = getDataFromPastMatches("match_xg");
+  const recentXA = getDataFromPastMatches("match_xa");
 
   const recentXGA =
     player.linked_data.past_matches &&

@@ -26,14 +26,12 @@ import {
 } from "~/features/AppData/fplColors";
 import CenterFlex from "~/features/PlayerData/CenterFlex";
 import FixturesSection from "~/features/PlayerData/FixturesSection";
+import PastMatchesStats from "~/features/PlayerData/PastMatchesStats";
+import { assumedMax } from "~/features/PlayerData/playerData";
 import { rowHeight, rowWidth } from "~/features/PlayerData/PlayerTable";
 import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
 import PointsSection from "~/features/PlayerData/PointsSection";
-import {
-  getPaddedPastMatches,
-  XGAStats,
-  XGIStats,
-} from "~/features/PlayerData/PreviousStatsSection";
+import { getPaddedPastMatches } from "~/features/PlayerData/PreviousStatsSection";
 
 export const PlayerTableRow = ({
   player,
@@ -53,8 +51,8 @@ export const PlayerTableRow = ({
 }) => {
   const pastMatches = getPaddedPastMatches(player);
   return (
-    <Tr width={`${rowWidth}px`} {...props}>
-      <Td p={0} left={0}>
+    <Tr height={`${rowHeight}px`} width={`${rowWidth}px`} {...props}>
+      <Td p={0}>
         <Flex
           height={`${rowHeight}px`}
           width={`${playerTableConfigs.Tool.columnWidth}px`}
@@ -202,10 +200,17 @@ export const PlayerTableRow = ({
         <Grid
           gap={0}
           templateColumns="repeat(6, 1fr)"
-          width={`${playerTableConfigs.xGI.columnWidth}px`}
+          width={`${playerTableConfigs.xG.columnWidth}px`}
           height={`${rowHeight}px`}
         >
-          <XGIStats player={player} pastMatches={pastMatches} variant="mini" />
+          <PastMatchesStats
+            variant="mini"
+            pastMatches={pastMatches}
+            valueKey="match_g"
+            maxValue={assumedMax.g}
+            sumValue={player.linked_data.season_g}
+            decimal={0}
+          />
         </Grid>
       </Td>
       <Td p={0}>
@@ -215,7 +220,100 @@ export const PlayerTableRow = ({
           width={`${playerTableConfigs.xGA.columnWidth}px`}
           height={`${rowHeight}px`}
         >
-          <XGAStats player={player} pastMatches={pastMatches} variant="mini" />
+          <PastMatchesStats
+            variant="mini"
+            pastMatches={pastMatches}
+            valueKey="match_a"
+            maxValue={assumedMax.a}
+            sumValue={player.linked_data.season_a}
+            decimal={0}
+          />
+        </Grid>
+      </Td>
+      <Td p={0}>
+        <Grid
+          gap={0}
+          templateColumns="repeat(6, 1fr)"
+          width={`${playerTableConfigs.xGA.columnWidth}px`}
+          height={`${rowHeight}px`}
+        >
+          <PastMatchesStats
+            variant="mini"
+            pastMatches={pastMatches}
+            valueKey="match_shots"
+            maxValue={assumedMax.shots}
+            sumValue={player.linked_data.season_shots}
+            decimal={0}
+          />
+        </Grid>
+      </Td>
+      <Td p={0}>
+        <Grid
+          gap={0}
+          templateColumns="repeat(6, 1fr)"
+          width={`${playerTableConfigs.xGA.columnWidth}px`}
+          height={`${rowHeight}px`}
+        >
+          <PastMatchesStats
+            variant="mini"
+            pastMatches={pastMatches}
+            valueKey="match_key_passes"
+            maxValue={assumedMax.keyPasses}
+            sumValue={player.linked_data.season_key_passes}
+            decimal={0}
+          />
+        </Grid>
+      </Td>
+      <Td p={0}>
+        <Grid
+          gap={0}
+          templateColumns="repeat(6, 1fr)"
+          width={`${playerTableConfigs.xGA.columnWidth}px`}
+          height={`${rowHeight}px`}
+        >
+          <PastMatchesStats
+            variant="mini"
+            pastMatches={pastMatches}
+            valueKey="match_xg"
+            maxValue={assumedMax.xg}
+            sumValue={player.linked_data.season_xg}
+            decimal={1}
+          />
+        </Grid>
+      </Td>
+      <Td p={0}>
+        <Grid
+          gap={0}
+          templateColumns="repeat(6, 1fr)"
+          width={`${playerTableConfigs.xGA.columnWidth}px`}
+          height={`${rowHeight}px`}
+        >
+          <PastMatchesStats
+            variant="mini"
+            pastMatches={pastMatches}
+            valueKey="match_xa"
+            maxValue={assumedMax.xa}
+            sumValue={player.linked_data.season_xa}
+            decimal={1}
+          />
+        </Grid>
+      </Td>
+      <Td p={0}>
+        <Grid
+          gap={0}
+          templateColumns="repeat(6, 1fr)"
+          width={`${playerTableConfigs.xGA.columnWidth}px`}
+          height={`${rowHeight}px`}
+        >
+          <PastMatchesStats
+            variant="mini"
+            pastMatches={pastMatches}
+            valueKey="match_xga"
+            maxValue={assumedMax.xga}
+            sumValue={player.linked_data.season_xga}
+            decimal={1}
+            isReversedScale
+          />
         </Grid>
       </Td>
     </Tr>

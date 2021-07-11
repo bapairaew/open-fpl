@@ -1,9 +1,10 @@
 import { Box, Flex, Grid } from "@chakra-ui/react";
 import { MatchStat, Player } from "~/features/AppData/appDataTypes";
-import { isNullOrUndefined } from "~/features/Common/utils";
 import CenterFlex, {
   CenterFlexVariant,
 } from "~/features/PlayerData/CenterFlex";
+import PastMatchesStats from "~/features/PlayerData/PastMatchesStats";
+import { assumedMax } from "~/features/PlayerData/playerData";
 
 const makeEmptyMatches = (length: number): MatchStat[] => {
   const matches: MatchStat[] = [];
@@ -91,79 +92,41 @@ export const XGIStats = ({
   player,
   pastMatches,
   variant,
+  decimal,
 }: {
   player: Player;
   pastMatches: MatchStat[];
   variant: CenterFlexVariant;
+  decimal: number;
 }) => {
-  const { decimal } = variants[variant] ?? variants.default;
   return (
     <>
       {pastMatches.map((s, i) => {
-        const xgi = (s.match_xg ?? 0) + (s.match_xa ?? 0);
+        const xgi =
+          s.match_xg !== null && s.match_xa !== null
+            ? s.match_xg + s.match_xa
+            : null;
+        const colorScale = xgi === null ? 0 : Math.min(100, xgi * 100) / 2;
         return (
           <CenterFlex
             key={i}
             variant={variant}
             p={1}
             fontSize="sm"
-            bg={`rgba(0, 255, 0, ${Math.min(100, xgi * 100) / 2}%)`}
+            bg={`rgba(0, 255, 0, ${colorScale}%)`}
           >
-            {!isNullOrUndefined(s.match_xg) && !isNullOrUndefined(s.match_xa)
-              ? xgi.toFixed?.(decimal)
-              : ""}
+            {xgi === null ? "" : xgi?.toFixed(decimal)}
           </CenterFlex>
         );
       })}
-      {!isNullOrUndefined(player.linked_data.season_xga) ? (
+      {player.linked_data.season_xg && (
         <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
           {(
             (player.linked_data.season_xg ?? 0) +
             (player.linked_data.season_xa ?? 0)
-          ).toFixed?.(decimal)}
+          ).toFixed(decimal)}
         </CenterFlex>
-      ) : null}
-    </>
-  );
-};
-
-export const XGAStats = ({
-  player,
-  pastMatches,
-  variant,
-}: {
-  player: Player;
-  pastMatches: MatchStat[];
-  variant: CenterFlexVariant;
-}) => {
-  const { decimal } = variants[variant] ?? variants.default;
-  return (
-    <>
-      {pastMatches.map((s, i) => (
-        <CenterFlex
-          key={i}
-          variant={variant}
-          p={1}
-          fontSize="sm"
-          bg={
-            s.match_xga
-              ? `rgba(0, 255, 0, ${Math.min(
-                  100,
-                  (1 - +(s.match_xga || 0)) * 100
-                )}%)`
-              : ""
-          }
-        >
-          {!isNullOrUndefined(s.match_xga)
-            ? (+s.match_xga!).toFixed?.(decimal)
-            : ""}
-        </CenterFlex>
-      ))}
-      {!isNullOrUndefined(player.linked_data.season_xga) ? (
-        <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
-          {(+player.linked_data.season_xga!).toFixed?.(decimal)}
-        </CenterFlex>
-      ) : null}
+      )}
     </>
   );
 };
@@ -191,11 +154,16 @@ const PreviousStatsSection = ({
             player={player}
             pastMatches={pastMatches}
             variant={variant}
+            decimal={decimal}
           />
-          <XGAStats
-            player={player}
+          <PastMatchesStats
+            variant="mini"
             pastMatches={pastMatches}
-            variant={variant}
+            valueKey="match_xga"
+            maxValue={assumedMax.xga}
+            sumValue={player.linked_data.season_xga}
+            decimal={decimal}
+            isReversedScale
           />
         </Grid>
       ) : (

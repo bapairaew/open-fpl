@@ -4,10 +4,7 @@ import { Radar } from "react-chartjs-2";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Player } from "~/features/AppData/appDataTypes";
 import NameSection from "~/features/PlayerData/NameSection";
-import {
-  assumedMax,
-  getChartData,
-} from "~/features/PlayerData/playerChartData";
+import { assumedMax, getSummarytData } from "~/features/PlayerData/playerData";
 import theme from "~/theme";
 
 const PlayerChartCard = ({ player }: { player: Player }) => {
@@ -28,7 +25,7 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
     // seasonXA,
     // seasonXGA,
     // seasonBPS,
-  } = getChartData(player);
+  } = getSummarytData(player);
 
   const maxMap = [
     assumedMax.recentG,

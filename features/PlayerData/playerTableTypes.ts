@@ -11,7 +11,12 @@ export type PlayerTableColumn =
   | "Ownership"
   | "Fixtures"
   | "Points"
-  | "xGI"
+  | "Goals"
+  | "Assists"
+  | "Shots"
+  | "Key passes"
+  | "xG"
+  | "xA"
   | "xGA";
 
 export interface PlayerTableConfig {

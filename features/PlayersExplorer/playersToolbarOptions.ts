@@ -22,7 +22,33 @@ export const sortOptions: SortOptionsConfig[] = [
   {
     label: "Best recent xGI",
     value: "best-xgi",
-    sortFn: playerTableConfigs.xGI.sortFn!,
+    sortFn: (a, b) => {
+      if (
+        !a.linked_data.past_matches ||
+        a.linked_data.past_matches.filter(
+          (m) => m.match_xg !== null && m.match_xa !== null
+        ).length < 5
+      )
+        return 1;
+      if (
+        !b.linked_data.past_matches ||
+        b.linked_data.past_matches.filter(
+          (m) => m.match_xg !== null && m.match_xa !== null
+        ).length < 5
+      )
+        return -1;
+      const sumA = a.linked_data.past_matches.reduce(
+        (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
+        0
+      );
+      const sumB = b.linked_data.past_matches.reduce(
+        (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
+        0
+      );
+      if (sumA < sumB) return 1;
+      if (sumA > sumB) return -1;
+      return 0;
+    },
   },
   {
     label: "Best recent xGA",

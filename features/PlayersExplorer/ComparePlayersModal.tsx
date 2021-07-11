@@ -10,20 +10,17 @@ import {
   Table,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
-  Text,
 } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
 import { useMemo } from "react";
 import { Radar } from "react-chartjs-2";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Player } from "~/features/AppData/appDataTypes";
-import {
-  assumedMax,
-  getChartData,
-} from "~/features/PlayerData/playerChartData";
+import { assumedMax, getSummarytData } from "~/features/PlayerData/playerData";
 import theme from "~/theme";
 
 const colors = [
@@ -115,7 +112,7 @@ const ComparePlayersModal = ({
           seasonXA,
           seasonXGA,
           seasonBPS,
-        } = getChartData(player);
+        } = getSummarytData(player);
         return {
           label: player.web_name,
           data: [

@@ -1,4 +1,4 @@
-import { Table, Tbody } from "@chakra-ui/react";
+import { Table, Tbody, Thead } from "@chakra-ui/react";
 import { createContext, CSSProperties, forwardRef } from "react";
 import { FixedSizeList as List, FixedSizeListProps } from "react-window";
 import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
@@ -20,20 +20,22 @@ export const PlayerTableElementType = forwardRef<HTMLDivElement>(
   ({ children, ...props }, ref) => (
     <PlayerTableContext.Consumer>
       {({ onSortClick, sortColumns }) => (
-        <div ref={ref} {...props}>
-          <Table
-            height="100%"
-            width={`${rowWidth}px`}
-            display="block"
-            colorScheme="gray"
-          >
+        <Table colorScheme="gray">
+          <Thead position="sticky" zIndex="sticky" top={0} left={0} bg="white">
             <PlayerTableHeaderRow
               onSortClick={onSortClick}
               sortColumns={sortColumns}
             />
-            <Tbody>{children}</Tbody>
-          </Table>
-        </div>
+          </Thead>
+          <Tbody
+            // @ts-ignore
+            ref={ref}
+            display="block"
+            {...props}
+          >
+            {children}
+          </Tbody>
+        </Table>
       )}
     </PlayerTableContext.Consumer>
   )

@@ -5,7 +5,6 @@ import {
   MenuItem,
   MenuList,
   Th,
-  Thead,
   Tr,
 } from "@chakra-ui/react";
 import { MouseEvent } from "react";
@@ -27,71 +26,69 @@ export const PlayerTableHeaderRow = ({
   sortColumns?: PlayerTableSortColumnConfig[];
 }) => {
   return (
-    <Thead top={0} left={0} position="sticky" zIndex="sticky">
-      <Tr height={`${rowHeight}px`} width={`${rowWidth}px`}>
-        {Object.keys(playerTableConfigs).map((objectKey: string) => {
-          const key = objectKey as PlayerTableColumn;
-          const sortDirection = sortColumns?.find(
-            (c) => c.columnName === key
-          )?.direction;
-          const arrow =
-            sortDirection === "asc"
-              ? IoArrowUpOutline
-              : sortDirection === "desc"
-              ? IoArrowDownOutline
-              : null;
-          return (
-            <Th
-              key={key}
-              p={0}
-              left={0}
-              zIndex="sticky"
-              bgColor="white"
-              textAlign="center"
-              position={playerTableConfigs[key]?.sticky ? "sticky" : "static"}
+    <Tr height={`${rowHeight}px`} width={`${rowWidth}px`}>
+      {Object.keys(playerTableConfigs).map((objectKey: string) => {
+        const key = objectKey as PlayerTableColumn;
+        const sortDirection = sortColumns?.find(
+          (c) => c.columnName === key
+        )?.direction;
+        const arrow =
+          sortDirection === "asc"
+            ? IoArrowUpOutline
+            : sortDirection === "desc"
+            ? IoArrowDownOutline
+            : null;
+        return (
+          <Th
+            key={key}
+            p={0}
+            left={0}
+            zIndex="sticky"
+            bgColor="white"
+            textAlign="center"
+            position={playerTableConfigs[key]?.sticky ? "sticky" : "static"}
+          >
+            <TableCellWithMenu
+              px={4}
+              width={`${playerTableConfigs[key].columnWidth}px`}
+              menu={
+                playerTableConfigs[key]?.hideMenu ? undefined : (
+                  <MenuList>
+                    <MenuGroup title="Sort">
+                      <MenuItem
+                        onClick={(e: MouseEvent<HTMLButtonElement>) =>
+                          onSortClick?.(e, key, "asc")
+                        }
+                      >
+                        Ascending
+                      </MenuItem>
+                      <MenuItem
+                        onClick={(e: MouseEvent<HTMLButtonElement>) =>
+                          onSortClick?.(e, key, "desc")
+                        }
+                      >
+                        Descending
+                      </MenuItem>
+                      <MenuDivider />
+                      <MenuItem
+                        onClick={(e: MouseEvent<HTMLButtonElement>) =>
+                          onSortClick?.(e, key, null)
+                        }
+                      >
+                        Reset
+                      </MenuItem>
+                    </MenuGroup>
+                  </MenuList>
+                )
+              }
             >
-              <TableCellWithMenu
-                px={4}
-                width={`${playerTableConfigs[key].columnWidth}px`}
-                menu={
-                  playerTableConfigs[key]?.hideMenu ? undefined : (
-                    <MenuList>
-                      <MenuGroup title="Sort">
-                        <MenuItem
-                          onClick={(e: MouseEvent<HTMLButtonElement>) =>
-                            onSortClick?.(e, key, "asc")
-                          }
-                        >
-                          Ascending
-                        </MenuItem>
-                        <MenuItem
-                          onClick={(e: MouseEvent<HTMLButtonElement>) =>
-                            onSortClick?.(e, key, "desc")
-                          }
-                        >
-                          Descending
-                        </MenuItem>
-                        <MenuDivider />
-                        <MenuItem
-                          onClick={(e: MouseEvent<HTMLButtonElement>) =>
-                            onSortClick?.(e, key, null)
-                          }
-                        >
-                          Reset
-                        </MenuItem>
-                      </MenuGroup>
-                    </MenuList>
-                  )
-                }
-              >
-                {playerTableConfigs[key]?.hideHeader ? "" : key}
-                {arrow && <Icon ml={1} as={arrow!} />}
-              </TableCellWithMenu>
-            </Th>
-          );
-        })}
-      </Tr>
-    </Thead>
+              {playerTableConfigs[key]?.hideHeader ? "" : key}
+              {arrow && <Icon ml={1} as={arrow!} />}
+            </TableCellWithMenu>
+          </Th>
+        );
+      })}
+    </Tr>
   );
 };
 

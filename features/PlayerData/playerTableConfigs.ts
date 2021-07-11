@@ -1,8 +1,34 @@
-import { isNullOrUndefined } from "~/features/Common/utils";
+import { MatchStat, Player } from "~/features/AppData/appDataTypes";
 import {
   PlayerTableColumn,
   PlayerTableConfig,
 } from "~/features/PlayerData/playerTableTypes";
+
+const makeSortFn = (key: keyof MatchStat) => (a: Player, b: Player) => {
+  if (
+    !a.linked_data.past_matches ||
+    a.linked_data.past_matches.filter((m) => (m[key] as null | number) !== null)
+      .length < 5
+  )
+    return 1;
+  if (
+    !b.linked_data.past_matches ||
+    b.linked_data.past_matches.filter((m) => (m[key] as null | number) !== null)
+      .length < 5
+  )
+    return -1;
+  const sumA = a.linked_data.past_matches.reduce(
+    (sum, m) => ((m[key] as null | number) ?? 0) + sum,
+    0
+  );
+  const sumB = b.linked_data.past_matches.reduce(
+    (sum, m) => ((m[key] as null | number) ?? 0) + sum,
+    0
+  );
+  if (sumA < sumB) return 1;
+  if (sumA > sumB) return -1;
+  return 0;
+};
 
 const playerTableConfigs = {
   Tool: {
@@ -78,67 +104,33 @@ const playerTableConfigs = {
       return sortResult;
     },
   },
-  xGI: {
+  Goals: {
     columnWidth: 350,
-    sortFn: (a, b) => {
-      if (
-        !a.linked_data.past_matches ||
-        a.linked_data.past_matches.filter(
-          (m) =>
-            !isNullOrUndefined(m.match_xg) && !isNullOrUndefined(m.match_xa)
-        ).length < 5
-      )
-        return 1;
-      if (
-        !b.linked_data.past_matches ||
-        b.linked_data.past_matches.filter(
-          (m) =>
-            !isNullOrUndefined(m.match_xg) && !isNullOrUndefined(m.match_xa)
-        ).length < 5
-      )
-        return -1;
-      const sumA = a.linked_data.past_matches.reduce(
-        (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
-        0
-      );
-      const sumB = b.linked_data.past_matches.reduce(
-        (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
-        0
-      );
-      if (sumA < sumB) return 1;
-      if (sumA > sumB) return -1;
-      return 0;
-    },
+    sortFn: makeSortFn("match_g"),
+  },
+  Assists: {
+    columnWidth: 350,
+    sortFn: makeSortFn("match_a"),
+  },
+  Shots: {
+    columnWidth: 350,
+    sortFn: makeSortFn("match_shots"),
+  },
+  "Key passes": {
+    columnWidth: 350,
+    sortFn: makeSortFn("match_key_passes"),
+  },
+  xG: {
+    columnWidth: 350,
+    sortFn: makeSortFn("match_xg"),
+  },
+  xA: {
+    columnWidth: 350,
+    sortFn: makeSortFn("match_xa"),
   },
   xGA: {
     columnWidth: 350,
-    sortFn: (a, b) => {
-      if (
-        !a.linked_data.past_matches ||
-        a.linked_data.past_matches.filter(
-          (m) => !isNullOrUndefined(m.match_xga)
-        ).length < 5
-      )
-        return 1;
-      if (
-        !b.linked_data.past_matches ||
-        b.linked_data.past_matches.filter(
-          (m) => !isNullOrUndefined(m.match_xga)
-        ).length < 5
-      )
-        return -1;
-      const sumA = a.linked_data.past_matches.reduce(
-        (sum, m) => (m.match_xga || 0) + sum,
-        0
-      );
-      const sumB = b.linked_data.past_matches.reduce(
-        (sum, m) => (m.match_xga || 0) + sum,
-        0
-      );
-      if (sumA < sumB) return -1;
-      if (sumA > sumB) return 1;
-      return 0;
-    },
+    sortFn: makeSortFn("match_xga"),
   },
 } as Record<PlayerTableColumn, PlayerTableConfig>;
 

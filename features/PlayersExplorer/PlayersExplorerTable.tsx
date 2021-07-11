@@ -81,10 +81,11 @@ const PlayersExplorerTable = ({
     () =>
       ({ index, style }: { index: number; style: CSSProperties }) => {
         const player = sortedDisplayedPlayers[index - 1];
+        const { width, ...restStyle } = style; // provided width: 100%; broke horizontal scroll with sticky items
         return (
           <PlayerTableRow
             key={player.id}
-            style={style}
+            style={restStyle}
             isSelected={selectedPlayers.some((p) => p.id === player.id)}
             onSelectChange={(e) => onSelectChange(e, player)}
             isStarred={starredPlayers?.some((p) => p === player.id) ?? false}
