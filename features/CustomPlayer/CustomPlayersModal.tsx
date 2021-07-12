@@ -81,7 +81,7 @@ const CustomPlayersModal = ({
     if (customPlayers) {
       setCustomPlayers(
         customPlayers.map((customPlayer) =>
-          customPlayer.id === originalPlayer.id ? updatedPlayer : originalPlayer
+          customPlayer.id === originalPlayer.id ? updatedPlayer : customPlayer
         )
       );
 
