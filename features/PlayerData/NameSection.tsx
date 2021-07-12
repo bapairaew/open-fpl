@@ -1,6 +1,6 @@
 import { Flex, Text, Tooltip } from "@chakra-ui/react";
 import { IoWarningOutline } from "react-icons/io5";
-import { Player } from "~/features/AppData/appDataTypes";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 import {
   positionColorCodes,
   statusColorCodes,

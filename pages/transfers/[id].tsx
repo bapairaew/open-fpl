@@ -4,7 +4,6 @@ import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import path from "path";
 import { makeAppData } from "~/features/AppData/appData";
-import { FPLElement } from "~/features/AppData/appDataTypes";
 import {
   getTeamHistory,
   getTeamPicks,
@@ -15,6 +14,7 @@ import { TeamColorCodes } from "~/features/AppData/teamcolorcodesTypes";
 import { PlayerStat, TeamStat } from "~/features/AppData/understatTypes";
 import AppLayout from "~/features/Layout/AppLayout";
 import FullScreenMessage from "~/features/Layout/FullScreenMessage";
+import { FPLElement } from "~/features/PlayerData/playerDataTypes";
 import TransferPlanner from "~/features/TransferPlanner/TransferPlanner";
 import useTransferRedirect from "~/features/TransferPlanner/useTransferRedirect";
 

@@ -1,5 +1,5 @@
 import { Grid } from "@chakra-ui/react";
-import { PastGameweek, Player } from "~/features/AppData/appDataTypes";
+import { PastGameweek, Player } from "~/features/PlayerData/playerDataTypes";
 import CenterFlex, {
   CenterFlexVariant,
 } from "~/features/PlayerData/CenterFlex";

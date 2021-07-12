@@ -1,9 +1,10 @@
 import { Flex, Grid } from "@chakra-ui/react";
-import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import { Gameweek } from "~/features/AppData/appDataTypes";
 import { difficultyColorCodes } from "~/features/AppData/fplColors";
 import CenterFlex, {
   CenterFlexVariant,
 } from "~/features/PlayerData/CenterFlex";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 
 const FixturesSection = ({
   variant,

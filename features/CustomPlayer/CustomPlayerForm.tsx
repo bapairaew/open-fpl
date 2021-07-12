@@ -20,7 +20,7 @@ import {
 import { Team } from "~/features/AppData/fplTypes";
 import { generateCustomPlayerId } from "~/features/CustomPlayer/customPlayers";
 import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
-import { Player } from "~/features/AppData/appDataTypes";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 
 const positionOptions = ["FWD", "MID", "DEF", "GKP"];
 

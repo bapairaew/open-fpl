@@ -3,11 +3,11 @@ import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import path from "path";
 import { makeAppData } from "~/features/AppData/appData";
-import { FPLElement } from "~/features/AppData/appDataTypes";
 import { ElementTypes, Event, Team } from "~/features/AppData/fplTypes";
 import { TeamColorCodes } from "~/features/AppData/teamcolorcodesTypes";
 import { PlayerStat, TeamStat } from "~/features/AppData/understatTypes";
 import AppLayout from "~/features/Layout/AppLayout";
+import { FPLElement } from "~/features/PlayerData/playerDataTypes";
 import PlayersExplorer from "~/features/PlayersExplorer/PlayersExplorer";
 
 const getDataFromFiles = async (dirPath: string) => {

@@ -1,6 +1,6 @@
 import { ComponentType } from "react";
 import { ListChildComponentProps } from "react-window";
-import { Player } from "~/features/AppData/appDataTypes";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 
 export type PlayerTableColumn =
   | "Tool"

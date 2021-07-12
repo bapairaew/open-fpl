@@ -7,7 +7,7 @@ import {
   IconButton,
   Checkbox,
 } from "@chakra-ui/react";
-import { Player } from "~/features/AppData/appDataTypes";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 import { IoOpenOutline, IoStarOutline, IoStar } from "react-icons/io5";
 import { ChangeEvent, MouseEventHandler } from "react";
 

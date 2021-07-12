@@ -14,7 +14,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { IoAdd } from "react-icons/io5";
 import { ItemInterface, ReactSortable } from "react-sortablejs";
-import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import { Gameweek } from "~/features/AppData/appDataTypes";
 import {
   EntryChipPlay,
   EntryEventHistory,
@@ -27,6 +27,7 @@ import {
   setLocalStorageItem,
 } from "~/features/Common/useLocalStorage";
 import { hydrateClientData } from "~/features/PlayerData/playerData";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import { getTransferPlanKey } from "~/features/Settings/storageKeys";
 import TransferPlannerPanel from "~/features/TransferPlanner/TransferPlannerPanel";

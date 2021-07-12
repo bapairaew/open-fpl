@@ -1,15 +1,16 @@
 import { BoxProps, Flex, useDisclosure } from "@chakra-ui/react";
 import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
-import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import { Gameweek } from "~/features/AppData/appDataTypes";
+import { Team } from "~/features/AppData/fplTypes";
+import { hydrateClientData } from "~/features/PlayerData/playerData";
+import { Player } from "~/features/PlayerData/playerDataTypes";
+import ComparePlayersModal from "~/features/PlayersExplorer/ComparePlayersModal";
 import PlayersExplorerGridOrChart from "~/features/PlayersExplorer/PlayersExplorerGridOrChart";
 import PlayersExplorerTable from "~/features/PlayersExplorer/PlayersExplorerTable";
 import PlayersExplorerToolbar from "~/features/PlayersExplorer/PlayersExplorerToolbar";
+import { DisplayOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 import { displayOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
 import { useSettings } from "~/features/Settings/SettingsContext";
-import { hydrateClientData } from "~/features/PlayerData/playerData";
-import ComparePlayersModal from "~/features/PlayersExplorer/ComparePlayersModal";
-import { DisplayOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
-import { Team } from "~/features/AppData/fplTypes";
 
 const PlayersExplorer = ({
   players: remotePlayers,

@@ -1,5 +1,6 @@
-import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import { Gameweek } from "~/features/AppData/appDataTypes";
 import { ElementStatus } from "~/features/AppData/fplTypes";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 
 export const player: Player = {
   id: 302,

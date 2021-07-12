@@ -1,9 +1,9 @@
+import { AppData } from "~/features/AppData/appDataTypes";
 import {
-  AppData,
   FPLElement,
   MatchStat,
   Player,
-} from "~/features/AppData/appDataTypes";
+} from "~/features/PlayerData/playerDataTypes";
 import { ElementTypes, Event, Team } from "~/features/AppData/fplTypes";
 import { TeamColorCodes } from "~/features/AppData/teamcolorcodesTypes";
 import {

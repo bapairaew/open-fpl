@@ -5,19 +5,19 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  Box,
   Button,
+  Collapse,
   Divider,
   Flex,
   useDisclosure,
-  Collapse,
-  Box,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { Player } from "~/features/AppData/appDataTypes";
-import NameSection from "~/features/PlayerData/NameSection";
-import CustomPlayerForm from "~/features/CustomPlayer/CustomPlayerForm";
 import { Team } from "~/features/AppData/fplTypes";
+import CustomPlayerForm from "~/features/CustomPlayer/CustomPlayerForm";
 import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
+import NameSection from "~/features/PlayerData/NameSection";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 
 const EditableCustomPlayer = ({
   player,

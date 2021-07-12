@@ -7,7 +7,8 @@ import {
   useState,
 } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import { Gameweek } from "~/features/AppData/appDataTypes";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 import playersSortFunctions from "~/features/PlayerData/playersSortFunctions";
 import PlayerTable, {
   PlayerTableElementType,

@@ -1,7 +1,7 @@
-import { MatchStat } from "~/features/AppData/appDataTypes";
 import CenterFlex, {
   CenterFlexVariant,
 } from "~/features/PlayerData/CenterFlex";
+import { MatchStat } from "~/features/PlayerData/playerDataTypes";
 
 const PastMatchesStats = ({
   variant,

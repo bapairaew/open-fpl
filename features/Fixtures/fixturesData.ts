@@ -1,4 +1,3 @@
-import { FPLElement } from "~/features/AppData/appDataTypes";
 import { Team } from "~/features/AppData/fplTypes";
 import {
   FullTeamFixtures,
@@ -6,6 +5,7 @@ import {
   TeamFixtures,
   TeamInfo,
 } from "~/features/Fixtures/fixturesDataTypes";
+import { FPLElement } from "~/features/PlayerData/playerDataTypes";
 
 export const makeTeamFixtures = ({
   fplElements,

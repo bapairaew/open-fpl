@@ -1,10 +1,10 @@
 // @ts-ignore
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import searchQueryParser from "search-query-parser";
 import { useDebounce } from "use-debounce";
-import { Player } from "~/features/AppData/appDataTypes";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 import { filterPlayers } from "~/features/PlayersExplorer/playersSearchBarFilters";
 import {
   filterOptions,

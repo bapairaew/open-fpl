@@ -1,4 +1,4 @@
-import { Player } from "~/features/AppData/appDataTypes";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 
 export interface FilterOptionsConfig {
   field: string;

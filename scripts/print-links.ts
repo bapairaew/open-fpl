@@ -5,9 +5,9 @@ import fs from "fs";
 import path from "path";
 // @ts-ignore
 import stringSimilarity from "string-similarity";
-import { FPLElement } from "~/features/AppData/appDataTypes";
 import { getDataFromFiles } from "~/features/AppData/dataUtilis";
 import { PlayerStat } from "~/features/AppData/understatTypes";
+import { FPLElement } from "~/features/PlayerData/playerDataTypes";
 
 const printPath = "./players.temp.tsv";
 

@@ -1,4 +1,3 @@
-import { Player } from "~/features/AppData/appDataTypes";
 import {
   ChipName,
   EntryChipPlay,
@@ -7,6 +6,16 @@ import {
   Transfer,
 } from "~/features/AppData/fplTypes";
 import { Invalid } from "~/features/Common/errorTypes";
+import {
+  getLocalStorageItem,
+  setLocalStorageItem,
+} from "~/features/Common/useLocalStorage";
+import { Player } from "~/features/PlayerData/playerDataTypes";
+import {
+  getProfilesKey,
+  getTransferPlanKey,
+  getTransferPlansKey,
+} from "~/features/Settings/storageKeys";
 import { makePlaceholderPlayerFromId } from "~/features/TransferPlanner/placeholderPlayer";
 import {
   Change,
@@ -21,15 +30,6 @@ import {
   TeamChange,
   TwoPlayersChange,
 } from "~/features/TransferPlanner/transferPlannerTypes";
-import {
-  getLocalStorageItem,
-  setLocalStorageItem,
-} from "~/features/Common/useLocalStorage";
-import {
-  getProfilesKey,
-  getTransferPlanKey,
-  getTransferPlansKey,
-} from "~/features/Settings/storageKeys";
 
 // Apply the changes against the given team
 const processChanges = (

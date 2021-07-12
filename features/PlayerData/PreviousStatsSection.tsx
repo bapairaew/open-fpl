@@ -1,10 +1,10 @@
 import { Box, Flex, Grid } from "@chakra-ui/react";
-import { MatchStat, Player } from "~/features/AppData/appDataTypes";
 import CenterFlex, {
   CenterFlexVariant,
 } from "~/features/PlayerData/CenterFlex";
 import PastMatchesStats from "~/features/PlayerData/PastMatchesStats";
 import { assumedMax } from "~/features/PlayerData/playerData";
+import { MatchStat, Player } from "~/features/PlayerData/playerDataTypes";
 
 const makeEmptyMatches = (length: number): MatchStat[] => {
   const matches: MatchStat[] = [];

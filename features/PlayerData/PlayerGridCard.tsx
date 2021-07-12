@@ -1,8 +1,9 @@
 import { Box } from "@chakra-ui/react";
-import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import { Gameweek } from "~/features/AppData/appDataTypes";
 import { CenterFlexVariant } from "~/features/PlayerData/CenterFlex";
 import FixturesSection from "~/features/PlayerData/FixturesSection";
 import NameSection from "~/features/PlayerData/NameSection";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 import PointsSection from "~/features/PlayerData/PointsSection";
 import PreviousStatsSection from "~/features/PlayerData/PreviousStatsSection";
 

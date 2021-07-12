@@ -19,7 +19,7 @@ import {
   IoStarOutline,
   IoWarningOutline,
 } from "react-icons/io5";
-import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import { Gameweek } from "~/features/AppData/appDataTypes";
 import {
   positionColorCodes,
   statusColorCodes,
@@ -28,6 +28,7 @@ import CenterFlex from "~/features/PlayerData/CenterFlex";
 import FixturesSection from "~/features/PlayerData/FixturesSection";
 import PastMatchesStats from "~/features/PlayerData/PastMatchesStats";
 import { assumedMax } from "~/features/PlayerData/playerData";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 import { rowHeight, rowWidth } from "~/features/PlayerData/PlayerTable";
 import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
 import PointsSection from "~/features/PlayerData/PointsSection";

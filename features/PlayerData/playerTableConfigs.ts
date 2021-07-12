@@ -1,9 +1,8 @@
-import { MatchStat, Player } from "~/features/AppData/appDataTypes";
+import playersSortFunctions from "~/features/PlayerData/playersSortFunctions";
 import {
   PlayerTableColumn,
   PlayerTableConfig,
 } from "~/features/PlayerData/playerTableTypes";
-import playersSortFunctions from "~/features/PlayerData/playersSortFunctions";
 
 const playerTableConfigs = {
   Tool: {

@@ -19,7 +19,8 @@ import {
 import { IoSearchOutline } from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
-import { Gameweek, Player } from "~/features/AppData/appDataTypes";
+import { Gameweek } from "~/features/AppData/appDataTypes";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
 import { SortOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 import { sortOptions } from "~/features/PlayersExplorer/playersToolbarOptions";

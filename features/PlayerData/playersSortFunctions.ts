@@ -1,4 +1,4 @@
-import { MatchStat, Player } from "~/features/AppData/appDataTypes";
+import { MatchStat, Player } from "~/features/PlayerData/playerDataTypes";
 
 export type PlayersSortFunction = (a: Player, b: Player) => number;
 
