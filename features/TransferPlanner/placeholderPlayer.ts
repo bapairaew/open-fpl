@@ -66,6 +66,7 @@ export function makePlaceholderPlayerFromId(id: number): Player {
     },
     client_data: {
       starred_index: -1,
+      is_custom_player: false,
     },
   };
 }

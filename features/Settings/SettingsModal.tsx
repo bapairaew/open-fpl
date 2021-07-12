@@ -107,6 +107,7 @@ const SettingsModal = ({
 
   return (
     <Drawer
+      size="md"
       isOpen={isOpen}
       placement="right"
       onClose={onClose}

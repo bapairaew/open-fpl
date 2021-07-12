@@ -11,3 +11,4 @@ export const getTransferPlanKey = (
   planName: string | null
 ) => `${teamId ?? ""}-transfer-plan-${planName ?? ""}`;
 export const getFixturesTeamsOrderKey = () => "fixtures-teams-order";
+export const getCustomPlayersKey = () => "custom-players";

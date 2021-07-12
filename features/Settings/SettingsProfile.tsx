@@ -86,31 +86,33 @@ const SettingsProfile = ({
 
   return (
     <>
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Remove Profile
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              You are removing "{displayName}" profile. Are you sure? You can't
-              undo this action afterwards.
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button variant="outline" ref={cancelRef} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme="red" onClick={handleConfirmRemove} ml={3}>
-                Remove
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+      {isOpen && (
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Remove Profile
+              </AlertDialogHeader>
+              <AlertDialogBody>
+                You are removing "{displayName}" profile. Are you sure? You
+                can't undo this action afterwards.
+              </AlertDialogBody>
+              <AlertDialogFooter>
+                <Button variant="outline" ref={cancelRef} onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button colorScheme="red" onClick={handleConfirmRemove} ml={3}>
+                  Remove
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
+      )}
       <Box as="label" width="100%">
         <input {...input} />
         <Flex
@@ -153,6 +155,7 @@ const SettingsProfile = ({
           </Box>
           <Flex>
             <IconButton
+              colorScheme="red"
               variant="ghost"
               aria-label="remove"
               height="100%"

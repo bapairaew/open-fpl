@@ -21,6 +21,15 @@ import {
   TeamChange,
   TwoPlayersChange,
 } from "~/features/TransferPlanner/transferPlannerTypes";
+import {
+  getLocalStorageItem,
+  setLocalStorageItem,
+} from "~/features/Common/useLocalStorage";
+import {
+  getProfilesKey,
+  getTransferPlanKey,
+  getTransferPlansKey,
+} from "~/features/Settings/storageKeys";
 
 // Apply the changes against the given team
 const processChanges = (
@@ -710,4 +719,53 @@ export const isSwapable = (
   }
 
   return false;
+};
+
+export const removePlayerFromPlans = (player: Player) => {
+  const profiles = getLocalStorageItem<string[]>(getProfilesKey(), []) || [];
+  for (const profile of profiles) {
+    const transferPlans =
+      getLocalStorageItem<string[]>(getTransferPlansKey(profile), []) || [];
+    for (const plan of transferPlans) {
+      const transferPlan =
+        getLocalStorageItem<Change[]>(getTransferPlanKey(profile, plan), []) ||
+        [];
+
+      const updatedTransferPlan = transferPlan
+        .filter((change) => {
+          if (change.type === "swap" || change.type === "transfer") {
+            const twoPlayersChange = change as TwoPlayersChange<ChangePlayer>;
+            return (
+              twoPlayersChange.selectedPlayer.id !== player.id &&
+              twoPlayersChange.targetPlayer.id !== player.id
+            );
+          } else if (
+            change.type === "set-captain" ||
+            change.type === "set-vice-captain"
+          ) {
+            const singlePlayerChange =
+              change as SinglePlayerChange<ChangePlayer>;
+            return singlePlayerChange.player.id !== player.id;
+          }
+
+          return true;
+        })
+        .map((change) => {
+          if (change.type === "preseason") {
+            const teamChange = change as TeamChange<ChangePlayer>;
+            teamChange.team = teamChange.team.filter((p) => {
+              return p.id !== player.id;
+            });
+            return teamChange;
+          }
+
+          return change;
+        });
+
+      setLocalStorageItem(
+        getTransferPlanKey(profile, plan),
+        updatedTransferPlan
+      );
+    }
+  }
 };

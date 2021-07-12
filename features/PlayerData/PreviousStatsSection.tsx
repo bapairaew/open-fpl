@@ -105,17 +105,16 @@ const PreviousStatsSection = ({
     <Box height={height} width="100%">
       {pastMatches.length > 0 ? (
         <Grid gap={0} templateColumns="repeat(6, 1fr)">
-          {showTeamsName && (
+          {showTeamsName && player.linked_data.past_matches && (
             <TeamsName pastMatches={pastMatches} variant={variant} />
           )}
           <PastMatchesStats
             variant="mini"
             pastMatches={pastMatches}
             valueKey="match_xgi"
-            maxValue={assumedMax.xga}
-            sumValue={player.linked_data.season_xga}
+            maxValue={assumedMax.xgi}
+            sumValue={player.linked_data.season_xgi}
             decimal={decimal}
-            isReversedScale
           />
           <PastMatchesStats
             variant="mini"

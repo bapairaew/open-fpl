@@ -1,4 +1,4 @@
-export interface PlayerChartData {
+export interface PlayerSummaryData {
   recentG: number;
   recentA: number;
   recentShots: number;

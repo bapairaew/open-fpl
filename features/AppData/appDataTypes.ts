@@ -62,6 +62,7 @@ export interface LinkedData {
 // To be filled out at client level
 export interface ClientData {
   starred_index: number;
+  is_custom_player: boolean;
 }
 
 export interface Player {

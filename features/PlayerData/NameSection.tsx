@@ -44,7 +44,7 @@ const NameSection = ({
     variants[variant] ?? variants.default;
 
   return (
-    <Flex fontSize={defaultFontSize}>
+    <Flex fontSize={defaultFontSize} width="100%">
       <Flex flexDirection="column">
         <CenterFlex
           variant={variant}

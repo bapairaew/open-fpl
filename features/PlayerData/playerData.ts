@@ -1,5 +1,8 @@
 import { ClientData, MatchStat, Player } from "~/features/AppData/appDataTypes";
-import { PlayerChartData } from "~/features/PlayerData/playerChartTypes";
+import { PlayerSummaryData } from "~/features/PlayerData/playerDataTypes";
+import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
+import { hydrateCustomPlayer } from "~/features/CustomPlayer/customPlayers";
+import { Team } from "~/features/AppData/fplTypes";
 
 export const assumedMax = {
   g: 2,
@@ -33,7 +36,7 @@ const getPercentage = (value: number | null, max: number) => {
   return Math.min(100, (100 * (value ?? 0)) / max);
 };
 
-export const getSummarytData = (player: Player): PlayerChartData => {
+export const getSummarytData = (player: Player): PlayerSummaryData => {
   const getDataFromPastMatches = (key: keyof MatchStat) => {
     return player.linked_data.past_matches &&
       player.linked_data.past_matches.length !== 0
@@ -95,11 +98,20 @@ export const getSummarytData = (player: Player): PlayerChartData => {
   };
 };
 
-export const injectClientData = (
+export const hydrateClientData = (
   players: Player[],
-  starredPlayers: number[]
+  starredPlayers: number[],
+  customPlayers: CustomPlayer[]
 ): Player[] => {
-  return players.map((player) => {
+  return [
+    ...players,
+    ...customPlayers.map((customPlayer) => {
+      const templatePlayer = players.find(
+        (p) => p.team.short_name === customPlayer.team.short_name
+      );
+      return hydrateCustomPlayer(customPlayer, templatePlayer);
+    }),
+  ].map((player) => {
     return {
       ...player,
       client_data: {

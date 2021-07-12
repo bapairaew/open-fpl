@@ -72,15 +72,17 @@ const PointsSection = ({
                 : h.opponent_team_short_name.toLocaleLowerCase()}
             </CenterFlex>
           ))}
-          <CenterFlex
-            p={0.5}
-            variant={variant}
-            fontSize="sm"
-            color="gray.600"
-            bg="gray.100"
-          >
-            Σ
-          </CenterFlex>
+          {previousGameweeks && (
+            <CenterFlex
+              p={0.5}
+              variant={variant}
+              fontSize="sm"
+              color="gray.600"
+              bg="gray.100"
+            >
+              Σ
+            </CenterFlex>
+          )}
         </Grid>
       )}
       <Grid gap={0} templateColumns="repeat(6, 1fr)" width="100%">

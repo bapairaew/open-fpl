@@ -178,6 +178,7 @@ export const makeAppData = ({
       },
       client_data: {
         starred_index: -1,
+        is_custom_player: false,
       },
     } as Player;
   });

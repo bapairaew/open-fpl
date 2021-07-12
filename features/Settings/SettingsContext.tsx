@@ -2,13 +2,15 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import dynamic from "next/dynamic";
 import { createContext, ReactNode, useContext } from "react";
 import useLocalStorage from "~/features/Common/useLocalStorage";
+import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
 import { Preference, Settings } from "~/features/Settings/settingsTypes";
 import {
   getActiveProfileKey,
+  getCustomPlayersKey,
   getFixturesTeamsOrderKey,
-  getStarredPlayersKey,
   getPreferenceKey,
   getProfilesKey,
+  getStarredPlayersKey,
   getTransferPlansKey,
 } from "~/features/Settings/storageKeys";
 
@@ -30,6 +32,8 @@ const SettingsContext = createContext<Settings>({
   setTransferPlans: () => {},
   starredPlayers: [],
   setStarredPlayers: () => {},
+  customPlayers: [],
+  setCustomPlayers: () => {},
   isSettingsModalOpen: false,
   onSettingsModalOpen: () => {},
   onSettingsModalClsoe: () => {},
@@ -69,6 +73,10 @@ export const SettingsContextProvider = ({
     []
   );
 
+  const [customPlayers, setCustomPlayers] = useLocalStorage<
+    CustomPlayer[] | null
+  >(getCustomPlayersKey(), []);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -87,6 +95,8 @@ export const SettingsContextProvider = ({
         setFixturesTeamsOrder,
         starredPlayers,
         setStarredPlayers,
+        customPlayers,
+        setCustomPlayers,
         isSettingsModalOpen: isOpen,
         onSettingsModalOpen: onOpen,
         onSettingsModalClsoe: onClose,

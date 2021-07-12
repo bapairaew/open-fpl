@@ -382,6 +382,7 @@ export const player: Player = {
   },
   client_data: {
     starred_index: -1,
+    is_custom_player: false,
   },
 };
 

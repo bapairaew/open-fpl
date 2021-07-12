@@ -18,6 +18,7 @@ import {
   MenuList,
   Portal,
   TabProps,
+  useDisclosure,
   useStyles,
   useTab,
 } from "@chakra-ui/react";
@@ -52,13 +53,11 @@ const TransferPlannerTab = ({
   const styles = useStyles();
 
   const cancelRemoveRef = useRef<HTMLButtonElement>(null);
-  const [isConfirmRemoveOpen, setIsConfirmRemoveOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [isRenaming, setIsRenaming] = useState(false);
   const [name, setName] = useState(plan);
   const nameRef = useRef<HTMLInputElement>(null);
-
-  const onClose = () => setIsConfirmRemoveOpen(false);
 
   const handleConfirmRemove = (e: MouseEvent<HTMLButtonElement>) => {
     onClose();
@@ -85,31 +84,37 @@ const TransferPlannerTab = ({
 
   return (
     <>
-      <AlertDialog
-        isOpen={isConfirmRemoveOpen}
-        leastDestructiveRef={cancelRemoveRef}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Remove Transfer Plan
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              You are removing "{plan}" transfer plan. Are you sure? You can't
-              undo this action afterwards.
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button variant="outline" ref={cancelRemoveRef} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme="red" onClick={handleConfirmRemove} ml={3}>
-                Remove
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+      {isOpen && (
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRemoveRef}
+          onClose={onClose}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Remove Transfer Plan
+              </AlertDialogHeader>
+              <AlertDialogBody>
+                You are removing "{plan}" transfer plan. Are you sure? You can't
+                undo this action afterwards.
+              </AlertDialogBody>
+              <AlertDialogFooter>
+                <Button
+                  variant="outline"
+                  ref={cancelRemoveRef}
+                  onClick={onClose}
+                >
+                  Cancel
+                </Button>
+                <Button colorScheme="red" onClick={handleConfirmRemove} ml={3}>
+                  Remove
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
+      )}
       <Flex position="relative" role={role} tabIndex={tabIndex} id={id}>
         <Box as="button" sx={styles.tab} {...tabProps}>
           <Box as="span" pr="30px">
@@ -168,7 +173,7 @@ const TransferPlannerTab = ({
                     <MenuDivider />
                     <MenuItem
                       color="red.600"
-                      onClick={() => setIsConfirmRemoveOpen(true)}
+                      onClick={onOpen}
                       icon={<Icon as={IoTrashBinOutline} />}
                     >
                       Remove

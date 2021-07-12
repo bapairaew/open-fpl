@@ -175,7 +175,7 @@ const ComparePlayersModal = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Players comparison</DrawerHeader>
+        <DrawerHeader fontWeight="black">Players comparison</DrawerHeader>
         <DrawerBody p={0}>
           <Flex mb="50px" height="300px">
             <AutoSizer>

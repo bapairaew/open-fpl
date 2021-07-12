@@ -3,6 +3,7 @@ import {
   Button,
   CloseButton,
   Collapse,
+  FormControl,
   FormLabel,
   Icon,
   IconButton,
@@ -19,6 +20,7 @@ import {
   PopoverTrigger,
   Portal,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
 import { FormEvent, MutableRefObject, useEffect, useState } from "react";
 import { IoHelpCircleOutline, IoOpenOutline } from "react-icons/io5";
@@ -124,10 +126,9 @@ const AddProfile = ({
           Add a new profile
         </Button>
       </Collapse>
-
       <Collapse in={expanded} animateOpacity>
         <form id="add-profile-form" onSubmit={handleSubmit}>
-          <Box p={4} borderRadius="md" borderWidth={1} position="relative">
+          <VStack p={4} borderRadius="md" borderWidth={1} position="relative">
             {hasExistedProfile && (
               <CloseButton
                 position="absolute"
@@ -136,21 +137,22 @@ const AddProfile = ({
                 onClick={() => setExpanded(false)}
               />
             )}
-            <FormLabel htmlFor="teamId">Team ID</FormLabel>
-            <InputGroup>
-              <Input
-                ref={
-                  expanded
-                    ? (initialFocusRef as MutableRefObject<HTMLInputElement>)
-                    : undefined
-                }
-                id="teamId"
-                placeholder="e.g. 254181"
-                value={formTeamId}
-                onChange={(e) => setFormTeamId(e.target.value)}
-              />
-              <InputRightElement children={<TeamIDHelpButton />} />
-            </InputGroup>
+            <FormControl id="teamId">
+              <FormLabel>Team ID</FormLabel>
+              <InputGroup>
+                <Input
+                  ref={
+                    expanded
+                      ? (initialFocusRef as MutableRefObject<HTMLInputElement>)
+                      : undefined
+                  }
+                  placeholder="e.g. 254181"
+                  value={formTeamId}
+                  onChange={(e) => setFormTeamId(e.target.value)}
+                />
+                <InputRightElement children={<TeamIDHelpButton />} />
+              </InputGroup>
+            </FormControl>
             <Button
               isLoading={isAdding}
               loadingText="Adding your profile"
@@ -160,7 +162,7 @@ const AddProfile = ({
             >
               Add
             </Button>
-          </Box>
+          </VStack>
         </form>
       </Collapse>
     </>

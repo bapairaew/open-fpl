@@ -26,7 +26,7 @@ import {
   removeLocalStorageItem,
   setLocalStorageItem,
 } from "~/features/Common/useLocalStorage";
-import { injectClientData } from "~/features/PlayerData/playerData";
+import { hydrateClientData } from "~/features/PlayerData/playerData";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import { getTransferPlanKey } from "~/features/Settings/storageKeys";
 import TransferPlannerPanel from "~/features/TransferPlanner/TransferPlannerPanel";
@@ -69,8 +69,13 @@ const TransferPlanner = ({
   transfers: Transfer[];
   chips: EntryChipPlay[];
 }) => {
-  const { teamId, transferPlans, starredPlayers, setTransferPlans } =
-    useSettings();
+  const {
+    teamId,
+    transferPlans,
+    starredPlayers,
+    setTransferPlans,
+    customPlayers,
+  } = useSettings();
   const [tabIndex, setTabIndex] = useState(0);
   const sortableTransferPlans = useMemo<ItemInterface[]>(
     () => transferPlans?.map((id) => ({ id })) ?? [],
@@ -79,10 +84,10 @@ const TransferPlanner = ({
 
   const players = useMemo(
     () =>
-      starredPlayers
-        ? injectClientData(remotePlayers, starredPlayers)
+      starredPlayers && customPlayers
+        ? hydrateClientData(remotePlayers, starredPlayers, customPlayers)
         : remotePlayers,
-    [remotePlayers, starredPlayers]
+    [remotePlayers, starredPlayers, customPlayers]
   );
 
   useEffect(() => setTabIndex(0), [teamId]);

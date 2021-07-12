@@ -1,3 +1,4 @@
+import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
 import { DisplayOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 
 export interface Preference {
@@ -21,6 +22,8 @@ export interface Settings {
   setTransferPlans: (plans: string[] | null) => void;
   starredPlayers: number[] | null;
   setStarredPlayers: (ids: number[] | null) => void;
+  customPlayers: CustomPlayer[] | null;
+  setCustomPlayers: (ids: CustomPlayer[] | null) => void;
   onSettingsModalOpen: () => void;
   onSettingsModalClsoe: () => void;
 }
