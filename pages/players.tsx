@@ -94,7 +94,6 @@ export const getStaticProps = async () => {
 
 function PlayersExplorerPage({
   players,
-  fplTeams,
   gameweeks,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -104,12 +103,7 @@ function PlayersExplorerPage({
         description="Explore Fantasy Premier League player statistics xG, xGA, and more to make a better decision on your team."
       />
       <AppLayout>
-        <PlayersExplorer
-          as="main"
-          players={players}
-          fplTeams={fplTeams}
-          gameweeks={gameweeks}
-        />
+        <PlayersExplorer as="main" players={players} gameweeks={gameweeks} />
       </AppLayout>
     </>
   );

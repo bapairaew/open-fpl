@@ -9,33 +9,25 @@ import PlayersExplorerTable from "~/features/PlayersExplorer/PlayersExplorerTabl
 import PlayersExplorerToolbar from "~/features/PlayersExplorer/PlayersExplorerToolbar";
 import { DisplayOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 import { displayOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
-import { Team } from "~/features/RemoteData/fplTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
 
 const PlayersExplorer = ({
   players: remotePlayers,
-  fplTeams,
   gameweeks,
   ...props
 }: BoxProps & {
   players: Player[];
-  fplTeams: Team[];
   gameweeks: Gameweek[];
 }) => {
-  const {
-    preference,
-    setPreference,
-    starredPlayers,
-    setStarredPlayers,
-    customPlayers,
-  } = useSettings();
+  const { preference, setPreference, starredPlayers, setStarredPlayers } =
+    useSettings();
 
   const players = useMemo(
     () =>
-      starredPlayers && customPlayers
-        ? hydrateClientData(remotePlayers, starredPlayers, customPlayers)
+      starredPlayers
+        ? hydrateClientData(remotePlayers, starredPlayers, [])
         : remotePlayers,
-    [remotePlayers, starredPlayers, customPlayers]
+    [remotePlayers, starredPlayers]
   );
 
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
@@ -88,7 +80,6 @@ const PlayersExplorer = ({
       />
       <Flex direction="column" overflow="hidden" height="100%" {...props}>
         <PlayersExplorerToolbar
-          fplTeams={fplTeams}
           players={players}
           onResults={setDisplayedPlayers}
           display={display}

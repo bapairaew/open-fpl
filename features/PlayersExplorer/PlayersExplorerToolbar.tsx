@@ -3,18 +3,14 @@ import {
   Button,
   Divider,
   HStack,
-  Icon,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   Select,
   Tooltip,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { ChangeEvent, MouseEventHandler, useEffect } from "react";
-import { IoPeopleOutline, IoSearchOutline } from "react-icons/io5";
-import CustomPlayersModal from "~/features/CustomPlayer/CustomPlayersModal";
+import { IoSearchOutline } from "react-icons/io5";
 import { Player } from "~/features/PlayerData/playerDataTypes";
 import {
   DisplayOptions,
@@ -30,7 +26,6 @@ import { Team } from "~/features/RemoteData/fplTypes";
 const PlayersExplorerToolbar = ({
   initialSeachQuery = "",
   players = [],
-  fplTeams = [],
   onResults = () => {},
   display = displayOptions[0].value,
   onDisplayChange,
@@ -42,7 +37,6 @@ const PlayersExplorerToolbar = ({
 }: {
   initialSeachQuery?: string;
   players?: Player[];
-  fplTeams?: Team[];
   onResults?: (players: Player[]) => void;
   display?: string;
   onDisplayChange?: (value: DisplayOptions) => void;
@@ -57,8 +51,6 @@ const PlayersExplorerToolbar = ({
       initialSeachQuery,
       players,
     });
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleDisplayChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onDisplayChange?.(e.target.value as DisplayOptions);
@@ -75,12 +67,6 @@ const PlayersExplorerToolbar = ({
 
   return (
     <>
-      <CustomPlayersModal
-        players={players}
-        fplTeams={fplTeams}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
       <HStack
         alignItems="center"
         height="50px"
@@ -154,15 +140,6 @@ const PlayersExplorerToolbar = ({
           </Select>
         </Box>
         <Divider orientation="vertical" />
-        <Box flexShrink={0}>
-          <IconButton
-            variant="ghost"
-            borderRadius="none"
-            aria-label="custom players"
-            icon={<Icon as={IoPeopleOutline} />}
-            onClick={onOpen}
-          />
-        </Box>
       </HStack>
     </>
   );
