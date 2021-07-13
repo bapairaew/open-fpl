@@ -1,4 +1,5 @@
 import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
+import { PlayerTableSortColumnConfig } from "~/features/PlayerData/playerTableTypes";
 import {
   DisplayOptions,
   SortOptions,
@@ -9,6 +10,7 @@ export interface Preference {
   transferPlannerPinnedBench?: boolean;
   playersExplorerDisplayOption?: DisplayOptions;
   playersExplorerSortOption?: SortOptions;
+  playersExplorerTableSortColumns?: PlayerTableSortColumnConfig[];
 }
 
 export interface Settings {

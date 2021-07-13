@@ -20,6 +20,7 @@ import {
   PlayerTableSortChangeHandler,
   PlayerTableSortColumnConfig,
 } from "~/features/PlayerData/playerTableTypes";
+import { useSettings } from "~/features/Settings/SettingsContext";
 
 const sortPlayers = (
   players: Player[],
@@ -63,9 +64,19 @@ const PlayersExplorerTable = ({
   onSelectChange: (e: ChangeEvent<HTMLInputElement>, player: Player) => void;
   onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
 }) => {
-  const [sortColumns, setSortColums] = useState<PlayerTableSortColumnConfig[]>(
-    []
-  );
+  const { preference, setPreference } = useSettings();
+
+  const sortColumns =
+    preference?.playersExplorerTableSortColumns ??
+    ([] as PlayerTableSortColumnConfig[]);
+  const setSortColums = (sortColumns: PlayerTableSortColumnConfig[]) => {
+    if (preference) {
+      setPreference({
+        ...preference,
+        playersExplorerTableSortColumns: sortColumns,
+      });
+    }
+  };
 
   const sortedDisplayedPlayers = useMemo(
     () => sortPlayers(displayedPlayers, sortColumns),
