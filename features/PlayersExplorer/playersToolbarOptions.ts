@@ -32,7 +32,7 @@ export const sortOptions: SortOptionsConfig[] = [
   {
     label: "Best recent xGA",
     value: "best-xga",
-    sortFn: playersSortFunctions.xga,
+    sortFn: playersSortFunctions.reversedXGA,
   },
   {
     label: "Best fixtures",
@@ -40,24 +40,24 @@ export const sortOptions: SortOptionsConfig[] = [
     sortFn: playersSortFunctions.fixtures,
   },
   {
+    label: "Cost: high to low",
+    value: "cost-desc",
+    sortFn: playersSortFunctions.reversedCost,
+  },
+  {
     label: "Cost: low to high",
     value: "cost-asc",
     sortFn: playersSortFunctions.cost,
   },
   {
-    label: "Cost: high to low",
-    value: "cost-desc",
-    sortFn: (a, b) => -1 * playersSortFunctions.cost(a, b),
+    label: "Ownership: high to low",
+    value: "ownership-desc",
+    sortFn: playersSortFunctions.reversedOwnership,
   },
   {
     label: "Ownership: low to high",
     value: "ownership-asc",
     sortFn: playersSortFunctions.ownership,
-  },
-  {
-    label: "Ownership: high to low",
-    value: "ownership-desc",
-    sortFn: (a, b) => -1 * playersSortFunctions.ownership(a, b),
   },
 ];
 

@@ -1,15 +1,12 @@
 import {
   Icon,
   MenuDivider,
-  MenuGroup,
-  MenuItem,
+  MenuItemOption,
   MenuList,
+  MenuOptionGroup,
   Th,
   Tr,
-  MenuOptionGroup,
-  MenuItemOption,
 } from "@chakra-ui/react";
-import { MouseEvent } from "react";
 import { IoArrowDownOutline, IoArrowUpOutline } from "react-icons/io5";
 import TableCellWithMenu from "~/features/Common/TableCellWithMenu";
 import { rowHeight, rowWidth } from "~/features/PlayerData/PlayerTable";
@@ -73,12 +70,9 @@ export const PlayerTableHeaderRow = ({
                         }
                       }}
                     >
-                      <MenuItemOption value="asc">Ascending</MenuItemOption>
                       <MenuItemOption value="desc">Descending</MenuItemOption>
+                      <MenuItemOption value="asc">Ascending</MenuItemOption>
                     </MenuOptionGroup>
-                    <MenuItem onClick={() => onSortChange?.(key, null)}>
-                      Reset
-                    </MenuItem>
                     {(sortColumns?.length ?? 0) > 0 && (
                       <>
                         <MenuDivider />

@@ -26,26 +26,26 @@ const sortPlayers = (
   sortColumns: PlayerTableSortColumnConfig[]
 ): Player[] => {
   return [...players].sort((a, b) => {
-    let sortResult = playersSortFunctions.starred(a, b); // always show starred players first
+    // always show starred players first
+    let sortResult = playersSortFunctions.starred(a, b);
+
     if (sortResult === 0) {
       for (const column of sortColumns) {
-        sortResult = playerTableConfigs[column.columnName]?.sortFn?.(a, b) ?? 0;
+        sortResult =
+          column.direction === "desc"
+            ? playerTableConfigs[column.columnName]?.sortFn?.(a, b) ?? 0
+            : playerTableConfigs[column.columnName]?.reversedSortFn?.(a, b) ??
+              0;
         if (sortResult !== 0) {
-          const directionFactor =
-            column.direction === "desc"
-              ? -1
-              : column.direction === "asc"
-              ? 1
-              : 0;
-          sortResult *= directionFactor;
+          // break early if we have a non-zero sort result
           break;
         }
       }
-
-      if (sortResult === 0)
-        sortResult =
-          a.now_cost > b.now_cost ? -1 : a.now_cost < b.now_cost ? 1 : 0;
     }
+
+    if (sortResult === 0)
+      // if we didn't find a sort result, use the default sort order
+      sortResult = playerTableConfigs.Cost.reversedSortFn?.(a, b) ?? 0;
     return sortResult;
   });
 };

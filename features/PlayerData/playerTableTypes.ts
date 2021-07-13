@@ -25,6 +25,7 @@ export interface PlayerTableConfig {
   hideMenu?: boolean;
   sticky?: number;
   sortFn?: (a: Player, b: Player) => number;
+  reversedSortFn?: (a: Player, b: Player) => number;
 }
 
 export type PlayerTableSortChangeHandler = (

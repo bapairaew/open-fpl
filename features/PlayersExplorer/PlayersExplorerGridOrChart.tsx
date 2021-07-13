@@ -49,6 +49,7 @@ const PlayersExplorerGridOrChart = ({
           if (player) {
             content.push(
               <PlayerCardToolbar
+                key={player.id}
                 player={player}
                 isSelected={selectedPlayers.some((p) => p.id === player.id)}
                 onSelectChange={(e) => onSelectChange(e, player)}
