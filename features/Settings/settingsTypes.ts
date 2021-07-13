@@ -1,10 +1,14 @@
 import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
-import { DisplayOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
+import {
+  DisplayOptions,
+  SortOptions,
+} from "~/features/PlayersExplorer/playersExplorerTypes";
 
 export interface Preference {
   name?: string;
   transferPlannerPinnedBench?: boolean;
   playersExplorerDisplayOption?: DisplayOptions;
+  playersExplorerSortOption?: SortOptions;
 }
 
 export interface Settings {

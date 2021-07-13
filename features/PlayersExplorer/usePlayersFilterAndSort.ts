@@ -10,6 +10,8 @@ import {
   filterOptions,
   sortOptions,
 } from "~/features/PlayersExplorer/playersToolbarOptions";
+import { useSettings } from "~/features/Settings/SettingsContext";
+import { SortOptions } from "./playersExplorerTypes";
 
 const freeTextFuseSettings: Fuse.IFuseOptions<Player> = {
   getFn: (player, path) => {
@@ -42,9 +44,20 @@ const usePlayersFilterAndSort = ({
   initialSeachQuery?: string;
   players?: Player[];
 }) => {
+  const { preference, setPreference } = useSettings();
   const [filterQuery, setFilterQuery] = useState(initialSeachQuery);
   const [debouncedFilterQuery] = useDebounce(filterQuery, 300);
-  const [sort, setSort] = useState(sortOptions[0].value);
+
+  const sort = preference?.playersExplorerSortOption ?? sortOptions[0].value;
+  const setSort = useCallback(
+    (value: string) => {
+      setPreference({
+        ...preference,
+        playersExplorerSortOption: value as SortOptions,
+      });
+    },
+    [preference]
+  );
 
   const filterQueryObject = useMemo(() => {
     const filterQueryObject = searchQueryParser.parse(debouncedFilterQuery, {
