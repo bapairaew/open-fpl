@@ -18,7 +18,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { IoHelpCircleOutline } from "react-icons/io5";
-import { difficultyColorCodes } from "~/features/AppData/fplColors";
+import { difficultyColorCodes } from "~/features/RemoteData/fplColors";
 
 const HelpButton = () => {
   return (

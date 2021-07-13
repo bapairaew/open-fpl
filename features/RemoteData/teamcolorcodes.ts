@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { parse } from "node-html-parser";
-import { TeamColorCodes } from "~/features/AppData/teamcolorcodesTypes";
+import { TeamColorCodes } from "~/features/RemoteData/teamcolorcodesTypes";
 
 // node-html-parser does not parse `element.style`
 // TODO: find a better way to extract color

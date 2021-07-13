@@ -10,18 +10,18 @@ import {
   Flex,
   Heading,
   HStack,
-  VStack,
   Text,
+  VStack,
 } from "@chakra-ui/react";
-import { positionColorCodes } from "~/features/AppData/fplColors";
-import { makeTeamGroupObject } from "~/features/TransferPlanner/teamGroupObject";
+import { Fragment } from "react";
+import { makeTeamGroupObject } from "~/features/AppData/teamGroupObject";
+import { positionColorCodes } from "~/features/RemoteData/fplColors";
+import TransferChange from "~/features/TransferPlanner/TransferChange";
 import {
   Change,
   FullChangePlayer,
   GameweekData,
 } from "~/features/TransferPlanner/transferPlannerTypes";
-import { Fragment } from "react";
-import TransferChange from "~/features/TransferPlanner/TransferChange";
 
 const PlayerRow = ({
   player,

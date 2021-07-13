@@ -9,12 +9,12 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useMemo, useRef } from "react";
-import { Player } from "~/features/PlayerData/playerDataTypes";
-import { Team } from "~/features/AppData/fplTypes";
 import AddCustomPlayers from "~/features/CustomPlayer/AddCustomPlayers";
 import { hydrateCustomPlayer } from "~/features/CustomPlayer/customPlayers";
 import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
 import EditableCustomPlayer from "~/features/CustomPlayer/EditableCustomPlayer";
+import { Player } from "~/features/PlayerData/playerDataTypes";
+import { Team } from "~/features/RemoteData/fplTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import { removePlayerFromPlans } from "~/features/TransferPlanner/transferPlan";
 

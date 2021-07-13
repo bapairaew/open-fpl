@@ -1,16 +1,16 @@
-import {
-  ChipName,
-  EntryChipPlay,
-  EntryEventHistory,
-  EntryEventPick,
-  Transfer,
-} from "~/features/AppData/fplTypes";
 import { Invalid } from "~/features/Common/errorTypes";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
 } from "~/features/Common/useLocalStorage";
 import { Player } from "~/features/PlayerData/playerDataTypes";
+import {
+  ChipName,
+  EntryChipPlay,
+  EntryEventHistory,
+  EntryEventPick,
+  Transfer,
+} from "~/features/RemoteData/fplTypes";
 import {
   getProfilesKey,
   getTransferPlanKey,
@@ -23,13 +23,13 @@ import {
   ChipChange,
   ChipUsage,
   FullChangePlayer,
+  GameweekData,
   GroupedTeam,
   InvalidChange,
   Pick,
   SinglePlayerChange,
   TeamChange,
   TwoPlayersChange,
-  GameweekData,
 } from "~/features/TransferPlanner/transferPlannerTypes";
 
 // Apply the changes against the given team

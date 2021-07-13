@@ -1,11 +1,11 @@
 import fetch from "node-fetch";
 import { HTMLElement, parse } from "node-html-parser";
 import {
-  PlayerStat,
   GetUnderstatPlayersResponse,
-  TeamStat,
   LeagueStat,
-} from "~/features/AppData/understatTypes";
+  PlayerStat,
+  TeamStat,
+} from "~/features/RemoteData/understatTypes";
 
 const headers = {
   accept: "application/json, text/javascript, */*; q=0.01",

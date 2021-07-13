@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { ChangeEvent, MouseEventHandler, useEffect } from "react";
 import { IoPeopleOutline, IoSearchOutline } from "react-icons/io5";
-import { Team } from "~/features/AppData/fplTypes";
 import CustomPlayersModal from "~/features/CustomPlayer/CustomPlayersModal";
 import { Player } from "~/features/PlayerData/playerDataTypes";
 import {
@@ -26,6 +25,7 @@ import {
   sortOptions,
 } from "~/features/PlayersExplorer/playersToolbarOptions";
 import usePlayersFilterAndSort from "~/features/PlayersExplorer/usePlayersFilterAndSort";
+import { Team } from "~/features/RemoteData/fplTypes";
 
 const PlayersExplorerToolbar = ({
   initialSeachQuery = "",

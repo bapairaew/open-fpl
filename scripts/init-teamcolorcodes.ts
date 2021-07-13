@@ -1,5 +1,5 @@
 import fs from "fs";
-import { getTeamColorCodes } from "~/features/AppData/teamcolorcodes";
+import { getTeamColorCodes } from "~/features/RemoteData/teamcolorcodes";
 
 (async function () {
   await fs.promises.mkdir("./public/data/teamcolorcodes", { recursive: true });

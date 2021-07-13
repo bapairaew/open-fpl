@@ -13,11 +13,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { Team } from "~/features/AppData/fplTypes";
 import CustomPlayerForm from "~/features/CustomPlayer/CustomPlayerForm";
 import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
 import NameSection from "~/features/PlayerData/NameSection";
 import { Player } from "~/features/PlayerData/playerDataTypes";
+import { Team } from "~/features/RemoteData/fplTypes";
 
 const EditableCustomPlayer = ({
   player,

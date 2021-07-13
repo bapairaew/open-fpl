@@ -1,5 +1,5 @@
 import fs from "fs";
-import { fetchData } from "~/features/AppData/remoteData";
+import { fetchData } from "~/features/RemoteData/remoteData";
 
 (async function () {
   const start = new Date();

@@ -1,15 +1,15 @@
 import { Box } from "@chakra-ui/react";
 import { ChangeEvent, useMemo, useState } from "react";
 import { Gameweek } from "~/features/AppData/appDataTypes";
+import useLocalStorage from "~/features/Common/useLocalStorage";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 import {
   ChipName,
   EntryChipPlay,
   EntryEventHistory,
   EntryEventPick,
   Transfer,
-} from "~/features/AppData/fplTypes";
-import useLocalStorage from "~/features/Common/useLocalStorage";
-import { Player } from "~/features/PlayerData/playerDataTypes";
+} from "~/features/RemoteData/fplTypes";
 import { getTransferPlanKey } from "~/features/Settings/storageKeys";
 import TeamManager from "~/features/TransferPlanner/TeamManager";
 import TransferLog from "~/features/TransferPlanner/TransferLog";

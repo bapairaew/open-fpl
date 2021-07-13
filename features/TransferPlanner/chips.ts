@@ -1,4 +1,4 @@
-import { ChipName } from "~/features/AppData/fplTypes";
+import { ChipName } from "~/features/RemoteData/fplTypes";
 
 export const getChipDisplayName = (chip: ChipName): string => {
   switch (chip) {

@@ -20,10 +20,6 @@ import {
   IoWarningOutline,
 } from "react-icons/io5";
 import { Gameweek } from "~/features/AppData/appDataTypes";
-import {
-  positionColorCodes,
-  statusColorCodes,
-} from "~/features/AppData/fplColors";
 import CenterFlex from "~/features/PlayerData/CenterFlex";
 import FixturesSection from "~/features/PlayerData/FixturesSection";
 import PastMatchesStats from "~/features/PlayerData/PastMatchesStats";
@@ -33,6 +29,10 @@ import { rowHeight, rowWidth } from "~/features/PlayerData/PlayerTable";
 import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
 import PointsSection from "~/features/PlayerData/PointsSection";
 import { getPaddedPastMatches } from "~/features/PlayerData/PreviousStatsSection";
+import {
+  positionColorCodes,
+  statusColorCodes,
+} from "~/features/RemoteData/fplColors";
 
 export const PlayerTableRow = ({
   player,

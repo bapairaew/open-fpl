@@ -1,6 +1,6 @@
-import { ChipName } from "~/features/AppData/fplTypes";
 import { Invalid } from "~/features/Common/errorTypes";
 import { Player } from "~/features/PlayerData/playerDataTypes";
+import { ChipName } from "~/features/RemoteData/fplTypes";
 
 export type ChangeType =
   | "swap"

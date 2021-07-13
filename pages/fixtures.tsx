@@ -2,11 +2,11 @@ import fs from "fs";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import path from "path";
-import { Team } from "~/features/AppData/fplTypes";
 import Fixtures from "~/features/Fixtures/Fixtures";
 import { makeTeamFixtures } from "~/features/Fixtures/fixturesData";
 import AppLayout from "~/features/Layout/AppLayout";
 import { FPLElement } from "~/features/PlayerData/playerDataTypes";
+import { Team } from "~/features/RemoteData/fplTypes";
 
 const getDataFromFiles = async (dirPath: string) => {
   return Promise.all(

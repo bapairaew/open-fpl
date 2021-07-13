@@ -4,13 +4,13 @@ import {
   MatchStat,
   Player,
 } from "~/features/PlayerData/playerDataTypes";
-import { ElementTypes, Event, Team } from "~/features/AppData/fplTypes";
-import { TeamColorCodes } from "~/features/AppData/teamcolorcodesTypes";
+import { ElementTypes, Event, Team } from "~/features/RemoteData/fplTypes";
+import { TeamColorCodes } from "~/features/RemoteData/teamcolorcodesTypes";
 import {
   MatchData,
   PlayerStat,
   TeamStat,
-} from "~/features/AppData/understatTypes";
+} from "~/features/RemoteData/understatTypes";
 
 export const makeAppData = ({
   fpl,

@@ -17,13 +17,6 @@ import { IoAdd, IoPeopleOutline } from "react-icons/io5";
 import { ItemInterface, ReactSortable } from "react-sortablejs";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import {
-  EntryChipPlay,
-  EntryEventHistory,
-  EntryEventPick,
-  Team,
-  Transfer,
-} from "~/features/AppData/fplTypes";
-import {
   getLocalStorageItem,
   removeLocalStorageItem,
   setLocalStorageItem,
@@ -31,6 +24,13 @@ import {
 import CustomPlayersModal from "~/features/CustomPlayer/CustomPlayersModal";
 import { hydrateClientData } from "~/features/PlayerData/playerData";
 import { Player } from "~/features/PlayerData/playerDataTypes";
+import {
+  EntryChipPlay,
+  EntryEventHistory,
+  EntryEventPick,
+  Team,
+  Transfer,
+} from "~/features/RemoteData/fplTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import { getTransferPlanKey } from "~/features/Settings/storageKeys";
 import TransferPlannerPanel from "~/features/TransferPlanner/TransferPlannerPanel";

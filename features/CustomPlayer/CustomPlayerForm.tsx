@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Button,
   CloseButton,
   FormControl,
@@ -8,8 +10,6 @@ import {
   InputLeftElement,
   Select,
   VStack,
-  Alert,
-  AlertIcon,
 } from "@chakra-ui/react";
 import {
   FormEvent,
@@ -17,10 +17,10 @@ import {
   MutableRefObject,
   useState,
 } from "react";
-import { Team } from "~/features/AppData/fplTypes";
 import { generateCustomPlayerId } from "~/features/CustomPlayer/customPlayers";
 import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
 import { Player } from "~/features/PlayerData/playerDataTypes";
+import { Team } from "~/features/RemoteData/fplTypes";
 
 const positionOptions = ["FWD", "MID", "DEF", "GKP"];
 

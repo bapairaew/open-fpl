@@ -1,13 +1,13 @@
 import pRetry from "p-retry";
 // @ts-ignore
 import asyncPool from "tiny-async-pool";
-import { getFPLData, getFPLPlayerSummaryData } from "~/features/AppData/fpl";
+import { getFPLData, getFPLPlayerSummaryData } from "~/features/RemoteData/fpl";
 import {
+  getUnderstatData,
   getUnderstatPlayerData,
   getUnderstatPlayers,
-  getUnderstatData,
   getUnderstatTeamData,
-} from "~/features/AppData/understat";
+} from "~/features/RemoteData/understat";
 import { Element } from "./fplTypes";
 import { LeagueTeamStat, PlayerStatSummary } from "./understatTypes";
 

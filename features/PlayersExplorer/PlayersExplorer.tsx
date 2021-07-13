@@ -1,7 +1,6 @@
 import { BoxProps, Flex, useDisclosure } from "@chakra-ui/react";
 import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
 import { Gameweek } from "~/features/AppData/appDataTypes";
-import { Team } from "~/features/AppData/fplTypes";
 import { hydrateClientData } from "~/features/PlayerData/playerData";
 import { Player } from "~/features/PlayerData/playerDataTypes";
 import ComparePlayersModal from "~/features/PlayersExplorer/ComparePlayersModal";
@@ -10,6 +9,7 @@ import PlayersExplorerTable from "~/features/PlayersExplorer/PlayersExplorerTabl
 import PlayersExplorerToolbar from "~/features/PlayersExplorer/PlayersExplorerToolbar";
 import { DisplayOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 import { displayOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
+import { Team } from "~/features/RemoteData/fplTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
 
 const PlayersExplorer = ({

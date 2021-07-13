@@ -1,13 +1,13 @@
 import { Flex, Text, Tooltip } from "@chakra-ui/react";
 import { IoWarningOutline } from "react-icons/io5";
-import {
-  positionColorCodes,
-  statusColorCodes,
-} from "~/features/AppData/fplColors";
 import CenterFlex, {
   CenterFlexVariant,
 } from "~/features/PlayerData/CenterFlex";
 import { Player } from "~/features/PlayerData/playerDataTypes";
+import {
+  positionColorCodes,
+  statusColorCodes,
+} from "~/features/RemoteData/fplColors";
 
 const variants: Record<
   CenterFlexVariant,

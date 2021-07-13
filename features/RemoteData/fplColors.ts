@@ -1,4 +1,4 @@
-import { ElementStatus } from "~/features/AppData/fplTypes";
+import { ElementStatus } from "~/features/RemoteData/fplTypes";
 
 export const difficultyColorCodes: Record<
   number,

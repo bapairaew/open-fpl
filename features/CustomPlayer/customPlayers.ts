@@ -1,6 +1,6 @@
-import { ElementStatus } from "~/features/AppData/fplTypes";
 import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
 import { Player } from "~/features/PlayerData/playerDataTypes";
+import { ElementStatus } from "~/features/RemoteData/fplTypes";
 
 // This works under the assumption that FPL id will not go beyond 10,000
 export const generateCustomPlayerId = () =>

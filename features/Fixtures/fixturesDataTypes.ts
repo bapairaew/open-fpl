@@ -1,7 +1,7 @@
 import {
   ElementSummaryFixture,
   ElementSummaryUpcomingFixture,
-} from "~/features/AppData/fplTypes";
+} from "~/features/RemoteData/fplTypes";
 
 export interface TeamFixtures {
   id: number;

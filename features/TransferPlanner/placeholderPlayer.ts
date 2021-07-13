@@ -1,5 +1,5 @@
-import { ElementStatus } from "~/features/AppData/fplTypes";
 import { Player } from "~/features/PlayerData/playerDataTypes";
+import { ElementStatus } from "~/features/RemoteData/fplTypes";
 import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
 
 export const getPositionFromPlaceholderPosition = (position: number) => {
