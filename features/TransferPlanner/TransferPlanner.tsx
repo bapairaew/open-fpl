@@ -10,15 +10,17 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoPeopleOutline } from "react-icons/io5";
 import { ItemInterface, ReactSortable } from "react-sortablejs";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import {
   EntryChipPlay,
   EntryEventHistory,
   EntryEventPick,
+  Team,
   Transfer,
 } from "~/features/AppData/fplTypes";
 import {
@@ -26,6 +28,7 @@ import {
   removeLocalStorageItem,
   setLocalStorageItem,
 } from "~/features/Common/useLocalStorage";
+import CustomPlayersModal from "~/features/CustomPlayer/CustomPlayersModal";
 import { hydrateClientData } from "~/features/PlayerData/playerData";
 import { Player } from "~/features/PlayerData/playerDataTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
@@ -61,6 +64,7 @@ const TransferPlanner = ({
   gameweeks,
   transfers,
   chips,
+  fplTeams,
   ...props
 }: BoxProps & {
   initialPicks: EntryEventPick[] | null;
@@ -69,6 +73,7 @@ const TransferPlanner = ({
   gameweeks: Gameweek[];
   transfers: Transfer[];
   chips: EntryChipPlay[];
+  fplTeams: Team[];
 }) => {
   const {
     teamId,
@@ -82,6 +87,7 @@ const TransferPlanner = ({
     () => transferPlans?.map((id) => ({ id })) ?? [],
     [transferPlans]
   );
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const players = useMemo(
     () =>
@@ -158,71 +164,89 @@ const TransferPlanner = ({
   };
 
   return (
-    <Box height="100%" overflow="hidden" {...props}>
-      <Tabs
-        variant="enclosed-colored"
-        height="100%"
-        display="flex"
-        flexDirection="column"
-        index={tabIndex}
-        onChange={handleTabsChange}
-      >
-        <Flex bg="gray.50">
-          <ReactSortable
-            // NOTE: react-sortablejs typescript is not well-defined so just ignore it
-            // @ts-ignore
-            tag={ForwardableTransferPlannerTabList}
-            list={sortableTransferPlans}
-            setList={handleTransferPlansChange}
-          >
-            {sortableTransferPlans?.map(({ id: plan }) => (
-              <TransferPlannerTab
-                key={plan}
-                plan={`${plan}`}
-                onNameChange={(newName: string) =>
-                  handleRename(newName, `${plan}`)
-                }
-                onRemoveClick={() => handleRemove(`${plan}`)}
-                onDuplicateClick={() => handleDuplicate(`${plan}`)}
-              />
-            ))}
-          </ReactSortable>
-          <IconButton
-            width="60px"
-            height="100%"
-            variant="ghost"
-            borderRadius="none"
-            icon={<Icon as={IoAdd} />}
-            aria-label="add a new plan"
-            onClick={handleAddNewTransferPlan}
-          />
-        </Flex>
-        <TabPanels display="flex" flexGrow={1} flexDirection="column">
-          {transferPlans?.map((plan) => (
-            <TabPanel
-              key={plan}
-              p={0}
-              flexGrow={1}
-              display="flex"
-              flexDirection="column"
+    <>
+      <CustomPlayersModal
+        players={players}
+        fplTeams={fplTeams}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
+      <Box height="100%" overflow="hidden" {...props}>
+        <Tabs
+          variant="enclosed-colored"
+          height="100%"
+          display="flex"
+          flexDirection="column"
+          index={tabIndex}
+          onChange={handleTabsChange}
+        >
+          <Flex bg="gray.50">
+            <ReactSortable
+              // NOTE: react-sortablejs typescript is not well-defined so just ignore it
+              // @ts-ignore
+              tag={ForwardableTransferPlannerTabList}
+              list={sortableTransferPlans}
+              setList={handleTransferPlansChange}
             >
-              {teamId && (
-                <TransferPlannerPanel
-                  teamId={teamId}
-                  transferPlanKey={plan}
-                  initialPicks={initialPicks}
-                  entryHistory={entryHistory}
-                  players={players}
-                  gameweeks={gameweeks}
-                  transfers={transfers}
-                  chips={chips}
+              {sortableTransferPlans?.map(({ id: plan }) => (
+                <TransferPlannerTab
+                  key={plan}
+                  plan={`${plan}`}
+                  onNameChange={(newName: string) =>
+                    handleRename(newName, `${plan}`)
+                  }
+                  onRemoveClick={() => handleRemove(`${plan}`)}
+                  onDuplicateClick={() => handleDuplicate(`${plan}`)}
                 />
-              )}
-            </TabPanel>
-          ))}
-        </TabPanels>
-      </Tabs>
-    </Box>
+              ))}
+            </ReactSortable>
+            <Flex flexGrow={1} justifyContent="space-between">
+              <IconButton
+                width="60px"
+                height="100%"
+                variant="ghost"
+                borderRadius="none"
+                icon={<Icon as={IoAdd} />}
+                aria-label="add a new plan"
+                onClick={handleAddNewTransferPlan}
+              />
+              <IconButton
+                variant="ghost"
+                borderRadius="none"
+                aria-label="custom players"
+                icon={<Icon as={IoPeopleOutline} />}
+                onClick={onOpen}
+              />
+            </Flex>
+          </Flex>
+          <TabPanels display="flex" flexGrow={1} flexDirection="column">
+            {transferPlans?.map((plan) => (
+              <TabPanel
+                key={plan}
+                p={0}
+                flexGrow={1}
+                display="flex"
+                flexDirection="column"
+                borderTopWidth={1}
+              >
+                {teamId && (
+                  <TransferPlannerPanel
+                    teamId={teamId}
+                    transferPlanKey={plan}
+                    initialPicks={initialPicks}
+                    entryHistory={entryHistory}
+                    players={players}
+                    gameweeks={gameweeks}
+                    transfers={transfers}
+                    chips={chips}
+                  />
+                )}
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </Tabs>
+      </Box>
+    </>
   );
 };
 

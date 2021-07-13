@@ -119,6 +119,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
       entry_history,
       transfers,
       chips,
+      fplTeams,
     },
   };
 };
@@ -130,6 +131,7 @@ const TransferPlannerPage = ({
   gameweeks,
   transfers,
   chips,
+  fplTeams,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   useTransferRedirect();
 
@@ -140,6 +142,7 @@ const TransferPlannerPage = ({
     gameweeks,
     transfers,
     chips,
+    fplTeams,
   ].every((x) => x !== undefined);
 
   const mainComponent = isReady ? (
@@ -151,6 +154,7 @@ const TransferPlannerPage = ({
       gameweeks={gameweeks!}
       transfers={transfers!}
       chips={chips!}
+      fplTeams={fplTeams!}
     />
   ) : (
     <FullScreenMessage
