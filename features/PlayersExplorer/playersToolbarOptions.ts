@@ -22,7 +22,10 @@ export const sortOptions: SortOptionsConfig[] = [
   {
     label: "Starred players first",
     value: "starred",
-    sortFn: playersSortFunctions.starred,
+    sortFn: (a, b) => {
+      const result = playersSortFunctions.starred(a, b);
+      return result === 0 ? playersSortFunctions.reversedCost(a, b) : result;
+    },
   },
   {
     label: "Best recent xGI",
