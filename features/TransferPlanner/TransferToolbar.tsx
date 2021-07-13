@@ -56,7 +56,7 @@ const TransferToolbar = ({
   bank,
   hits,
   chipUsages,
-  remainingFreeTransfers,
+  freeTransfers,
   planningGameweek,
   currentGameweek,
   onPreviousClick,
@@ -66,7 +66,7 @@ const TransferToolbar = ({
   bank: number;
   hits: number;
   chipUsages: ChipUsage[];
-  remainingFreeTransfers: number;
+  freeTransfers: number;
   planningGameweek: number;
   currentGameweek: number;
   onPreviousClick?: () => void;
@@ -97,7 +97,7 @@ const TransferToolbar = ({
       <Divider orientation="vertical" />
       <ToolbarStat label="Bank" data={`£${+bank.toFixed(1)}`} />
       <Divider orientation="vertical" />
-      <ToolbarStat label="Free" data={remainingFreeTransfers} />
+      <ToolbarStat label="Free" data={freeTransfers} />
       <Divider orientation="vertical" />
       <ToolbarStat label="Hits" data={hits} />
       <Divider orientation="vertical" />

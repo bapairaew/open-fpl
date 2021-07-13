@@ -27,10 +27,10 @@ import {
   IoRadioButtonOnOutline,
   IoTrashBinOutline,
 } from "react-icons/io5";
+import numberFormatter from "~/features/Common/numberFormatter";
 import useLocalStorage, {
   getLocalStorageItem,
 } from "~/features/Common/useLocalStorage";
-import { nFormatter } from "~/features/Common/utils";
 import { Preference } from "~/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
@@ -150,7 +150,7 @@ const SettingsProfile = ({
               Team ID: {teamId}
             </Text>
             <Text color="gray.600" fontSize="xs">
-              Storage size: {nFormatter(storageSize, 1)}b
+              Storage size: {numberFormatter(storageSize, 1)}b
             </Text>
           </Box>
           <Flex>

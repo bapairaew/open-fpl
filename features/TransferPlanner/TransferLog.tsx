@@ -1,92 +1,44 @@
-import { Box, Button, Flex, Heading, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  HStack,
+  Icon,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Portal,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useMemo } from "react";
+import { IoEllipsisVerticalOutline } from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
-import TransferChange from "~/features/TransferPlanner/TransferChange";
+import GameweekChanges from "~/features/TransferPlanner/GameweekChanges";
 import {
   Change,
+  GameweekData,
   InvalidChange,
 } from "~/features/TransferPlanner/transferPlannerTypes";
-
-const GameweekChanges = ({
-  height,
-  gameweek,
-  currentGameweek,
-  invalidChanges,
-  changes,
-  onRemove,
-  onMoveToGameweek,
-}: {
-  height: number;
-  gameweek: number;
-  currentGameweek: number;
-  invalidChanges: InvalidChange[];
-  changes: Change[];
-  onRemove: (change: Change) => void;
-  onMoveToGameweek: (gameweek: number) => void;
-}) => {
-  return (
-    <>
-      <Flex
-        position="sticky"
-        left={0}
-        p="2px"
-        bg="white"
-        zIndex="sticky"
-        textAlign="center"
-        alignItems="center"
-        height={`${height - 2}px`}
-        borderRightWidth={1}
-      >
-        <Button
-          variant="unstyled"
-          width="80px"
-          height="100%"
-          borderRadius="none"
-          onClick={() => onMoveToGameweek(gameweek)}
-        >
-          <Heading size="xs">GW {gameweek}</Heading>
-        </Button>
-      </Flex>
-      {changes.map((change, index) => {
-        const isOutdated = change.gameweek < currentGameweek;
-        const invalidity = invalidChanges.find(
-          (c) => c.change.id === change.id
-        );
-        const variant = isOutdated
-          ? "outdated"
-          : invalidity
-          ? "invalid"
-          : "default";
-        return (
-          <Box key={index} borderRightWidth={1} height="100%">
-            <TransferChange
-              variant={variant}
-              errorLabel={invalidity?.message}
-              change={change}
-              onRemoveClick={() => onRemove(change)}
-            />
-          </Box>
-        );
-      })}
-    </>
-  );
-};
+import TransferSummaryModal from "~/features/TransferPlanner/TransferSummaryModal";
 
 const TransferLog = ({
   changes,
   currentGameweek,
   invalidChanges,
+  gameweekDataList,
   onRemove,
   onMoveToGameweek,
 }: {
   changes: Change[];
   currentGameweek: number;
   invalidChanges: InvalidChange[];
+  gameweekDataList: GameweekData[];
   onRemove: (change: Change) => void;
   onMoveToGameweek: (gameweek: number) => void;
 }) => {
   const groupedChanges = useMemo(() => {
-    const reversedChanges = [...changes].reverse();
+    const reversedChanges = [...changes].reverse(); // Latest changes within the same gameweek should be shown first
     return reversedChanges.reduce((group, change) => {
       if (group[change.gameweek]) {
         group[change.gameweek].push(change);
@@ -97,46 +49,77 @@ const TransferLog = ({
     }, {} as Record<number, Change[]>);
   }, [changes]);
 
-  const reversedGroupedKeys = useMemo(
-    () => Object.keys(groupedChanges).reverse(),
-    [groupedChanges]
-  );
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
-    <Box height="50px" borderBottomWidth={1}>
-      {changes.length === 0 ? (
-        <Flex px={4} height="100%" alignItems="center" color="gray.600">
-          Click on a player below to make a transfer
-        </Flex>
-      ) : (
-        <AutoSizer>
-          {({ height, width }) => (
-            <HStack
-              height={`${height}px`}
-              width={`${width}px`}
-              overflowX="auto"
-              overflowY="hidden"
-              spacing={0}
-            >
-              {reversedGroupedKeys.map((gameweek) => {
-                return (
-                  <GameweekChanges
-                    key={gameweek}
-                    height={height}
-                    gameweek={+gameweek}
-                    currentGameweek={currentGameweek}
-                    invalidChanges={invalidChanges}
-                    changes={groupedChanges[+gameweek]}
-                    onRemove={onRemove}
-                    onMoveToGameweek={onMoveToGameweek}
-                  />
-                );
-              })}
-            </HStack>
-          )}
-        </AutoSizer>
+    <>
+      {isOpen && (
+        <TransferSummaryModal
+          isOpen={isOpen}
+          onClose={onClose}
+          gameweekDataList={gameweekDataList}
+          groupedChanges={groupedChanges}
+        />
       )}
-    </Box>
+      <Box height="50px" borderBottomWidth={1}>
+        {changes.length === 0 ? (
+          <Flex px={4} height="100%" alignItems="center" color="gray.600">
+            Click on a player below to make a transfer
+          </Flex>
+        ) : (
+          <AutoSizer>
+            {({ height, width }) => (
+              <HStack height={`${height}px`} width={`${width}px`} spacing={0}>
+                <Box p="2px" height="100%">
+                  <Menu isLazy>
+                    {({ isOpen }) => (
+                      <>
+                        <MenuButton
+                          as={IconButton}
+                          height="100%"
+                          borderRadius="none"
+                          variant="ghost"
+                          aria-label="options"
+                          icon={<Icon as={IoEllipsisVerticalOutline} />}
+                        />
+                        {isOpen && (
+                          <Portal>
+                            <MenuList zIndex="popover">
+                              <MenuItem onClick={onOpen}>View summary</MenuItem>
+                            </MenuList>
+                          </Portal>
+                        )}
+                      </>
+                    )}
+                  </Menu>
+                </Box>
+                <HStack
+                  height={`${height}px`}
+                  overflowX="auto"
+                  overflowY="hidden"
+                  spacing={0}
+                >
+                  {Object.keys(groupedChanges).map((gameweek) => {
+                    return (
+                      <GameweekChanges
+                        key={gameweek}
+                        height={height}
+                        gameweek={+gameweek}
+                        currentGameweek={currentGameweek}
+                        invalidChanges={invalidChanges}
+                        changes={groupedChanges[+gameweek]}
+                        onRemove={onRemove}
+                        onMoveToGameweek={onMoveToGameweek}
+                      />
+                    );
+                  })}
+                </HStack>
+              </HStack>
+            )}
+          </AutoSizer>
+        )}
+      </Box>
+    </>
   );
 };
 

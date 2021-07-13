@@ -1,8 +1,5 @@
-export const isNullOrUndefined = (d: any): boolean =>
-  d === null || d === undefined;
-
 // https://stackoverflow.com/questions/9461621/format-a-number-as-2-5k-if-a-thousand-or-more-otherwise-900
-export function nFormatter(num: number, digits: number): string {
+export default function numberFormatter(num: number, digits: number): string {
   var si = [
     { value: 1, symbol: "" },
     { value: 1e3, symbol: "k" },

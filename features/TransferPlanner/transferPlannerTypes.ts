@@ -75,3 +75,14 @@ export interface GroupedTeam {
   FWD: FullChangePlayer[];
   bench: FullChangePlayer[];
 }
+
+export interface GameweekData {
+  team: FullChangePlayer[];
+  chipUsages: ChipUsage[];
+  bank: number;
+  invalidChanges: InvalidChange[];
+  teamInvalidities: Invalid[];
+  gameweek: number;
+  hits: number;
+  freeTransfers: number;
+}

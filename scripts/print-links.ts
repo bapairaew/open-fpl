@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 // @ts-ignore
 import stringSimilarity from "string-similarity";
-import { getDataFromFiles } from "~/features/AppData/dataUtilis";
+import getDataFromFiles from "~/features/AppData/getDataFromFiles";
 import { PlayerStat } from "~/features/AppData/understatTypes";
 import { FPLElement } from "~/features/PlayerData/playerDataTypes";
 

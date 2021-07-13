@@ -1,14 +1,13 @@
 import { Flex, Text, Tooltip } from "@chakra-ui/react";
 import { IoWarningOutline } from "react-icons/io5";
-import { Player } from "~/features/PlayerData/playerDataTypes";
 import {
   positionColorCodes,
   statusColorCodes,
 } from "~/features/AppData/fplColors";
-import { nFormatter } from "~/features/Common/utils";
 import CenterFlex, {
   CenterFlexVariant,
 } from "~/features/PlayerData/CenterFlex";
+import { Player } from "~/features/PlayerData/playerDataTypes";
 
 const variants: Record<
   CenterFlexVariant,
@@ -17,6 +16,7 @@ const variants: Record<
     defaultFontSize: string;
     showId: boolean;
     priceWidth: string;
+    nameWidth: string;
   }
 > = {
   mini: {
@@ -24,12 +24,14 @@ const variants: Record<
     defaultFontSize: "sm",
     showId: false,
     priceWidth: "50px",
+    nameWidth: "40px",
   },
   default: {
     nameFontSize: "lg",
     defaultFontSize: "md",
     showId: true,
     priceWidth: "70px",
+    nameWidth: "50px",
   },
 };
 
@@ -40,12 +42,12 @@ const NameSection = ({
   variant?: CenterFlexVariant;
   player: Player;
 }) => {
-  const { nameFontSize, defaultFontSize, showId, priceWidth } =
+  const { nameFontSize, defaultFontSize, showId, priceWidth, nameWidth } =
     variants[variant] ?? variants.default;
 
   return (
     <Flex fontSize={defaultFontSize} width="100%">
-      <Flex flexDirection="column">
+      <Flex flexDirection="column" width={nameWidth}>
         <CenterFlex
           variant={variant}
           flexBasis="50%"

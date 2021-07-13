@@ -29,10 +29,11 @@ import {
   SinglePlayerChange,
   TeamChange,
   TwoPlayersChange,
+  GameweekData,
 } from "~/features/TransferPlanner/transferPlannerTypes";
 
 // Apply the changes against the given team
-const processChanges = (
+const getGameweekPicks = (
   initialPicks: EntryEventPick[] | null,
   transfers: Transfer[],
   chips: EntryChipPlay[],
@@ -242,22 +243,17 @@ const getRemainingBank = (
 };
 
 // Combine initialPicks, transfers from API and changes from localStorage to make team and detect invalidities
-export const processTransferPlan = (
+export const getGameweekData = (
   initialPicks: EntryEventPick[] | null,
   transfers: Transfer[],
   chips: EntryChipPlay[],
   players: Player[],
   entryHistory: EntryEventHistory | null,
+  currentGameweek: number,
   changes: Change[],
   planningGameweek: number
-): {
-  team: FullChangePlayer[];
-  chipUsages: ChipUsage[];
-  bank: number;
-  invalidChanges: InvalidChange[];
-  teamInvalidities: Invalid[];
-} => {
-  const { picks, chipUsages, invalidChanges } = processChanges(
+): GameweekData => {
+  const { picks, chipUsages, invalidChanges } = getGameweekPicks(
     initialPicks,
     transfers,
     chips,
@@ -300,13 +296,82 @@ export const processTransferPlan = (
     });
   }
 
+  let freeTransfersCount = 0;
+
+  if (planningGameweek !== 1) {
+    const gameweekDelta = planningGameweek - currentGameweek;
+    if (gameweekDelta === 0) {
+      const lastGameweekTransfersCount = transfers?.filter(
+        (t) => t.event === currentGameweek - 1
+      ).length;
+      const currentGameweekFreeTransfers =
+        lastGameweekTransfersCount >= 1 ? 1 : 2;
+      freeTransfersCount = currentGameweekFreeTransfers;
+    } else {
+      const lastGameweekTransfersCount = changes.filter(
+        (c) =>
+          (c.type === "transfer" || c.type === "preseason") &&
+          c.gameweek === planningGameweek - 1
+      ).length;
+      const currentGameweekFreeTransfers =
+        lastGameweekTransfersCount >= 1 ? 1 : 2;
+      freeTransfersCount = currentGameweekFreeTransfers;
+    }
+  }
+
+  const planningGameweekTransferCount = changes.filter(
+    (c) => c.type === "transfer" && c.gameweek === planningGameweek
+  ).length;
+
+  const hits = chipUsages.some(
+    (c) => (c.name === "wildcard" || c.name === "freehit") && c.isActive
+  )
+    ? 0
+    : Math.min(0, -4 * (planningGameweekTransferCount - freeTransfersCount));
+
+  const freeTransfers = Math.max(
+    0,
+    freeTransfersCount - planningGameweekTransferCount
+  );
+
   return {
     team,
     chipUsages,
     bank,
+    hits,
+    freeTransfers,
     invalidChanges,
     teamInvalidities,
+    gameweek: planningGameweek,
   };
+};
+
+// Combine initialPicks, transfers from API and changes from localStorage to make team and detect invalidities for all gameweeks in changes
+export const getAllGameweekDataList = (
+  initialPicks: EntryEventPick[] | null,
+  transfers: Transfer[],
+  chips: EntryChipPlay[],
+  players: Player[],
+  entryHistory: EntryEventHistory | null,
+  currentGameweek: number,
+  changes: Change[]
+): GameweekData[] => {
+  const data = [] as GameweekData[];
+  for (let i = 1; i <= 38; i++) {
+    data.push(
+      getGameweekData(
+        initialPicks,
+        transfers,
+        chips,
+        players,
+        entryHistory,
+        currentGameweek,
+        changes,
+        i
+      )
+    );
+  }
+  return data;
 };
 
 // Merge the change by either add newChange to the list or remove prior opposite change

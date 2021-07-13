@@ -4,8 +4,6 @@ import {
   Button,
   ButtonProps,
   Flex,
-  Icon,
-  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -13,7 +11,6 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { MouseEventHandler } from "react";
-import { IoStar, IoStarOutline } from "react-icons/io5";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
 import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
@@ -71,11 +68,6 @@ const TransferablePlayer = ({
     teamPlayerVariants[variant] ?? teamPlayerVariants.default;
   const adjustedSellingPrice = player.pick.selling_price / 10;
   const adjustedPurchasePrice = player.pick.purchase_price / 10;
-  const captainTooltipText = player.pick.is_captain
-    ? "Captain"
-    : player.pick.is_vice_captain
-    ? "Vice Captain"
-    : "Set as captain";
   return (
     <Box position="relative" m={1} {...props}>
       <Button
@@ -118,14 +110,20 @@ const TransferablePlayer = ({
           </Flex>
         </Tooltip>
         {showCaptainButton && (
-          <Tooltip hasArrow label={captainTooltipText}>
+          <Tooltip hasArrow>
             <Box flexBasis="50%" width="100%">
               <Menu isLazy>
                 <MenuButton
-                  as={IconButton}
+                  as={Button}
                   size="xs"
                   width="100%"
-                  aria-label={captainTooltipText}
+                  aria-label={
+                    player.pick.is_captain
+                      ? "Captain"
+                      : player.pick.is_vice_captain
+                      ? "Vice Captain"
+                      : "Captain settings"
+                  }
                   variant={
                     player.pick.is_captain
                       ? "solid"
@@ -134,17 +132,14 @@ const TransferablePlayer = ({
                       : "ghost"
                   }
                   borderRadius="none"
-                  icon={
-                    <Icon
-                      aria-label="help"
-                      as={
-                        player.pick.is_captain || player.pick.is_vice_captain
-                          ? IoStar
-                          : IoStarOutline
-                      }
-                    />
-                  }
-                />
+                  fontWeight="black"
+                >
+                  {player.pick.is_captain
+                    ? "C"
+                    : player.pick.is_vice_captain
+                    ? "V"
+                    : "..."}
+                </MenuButton>
                 <MenuList>
                   <MenuItem onClick={onSetCaptainClick}>
                     Set as captain

@@ -1,8 +1,8 @@
 import fs from "fs";
 import Fuse from "fuse.js";
 import path from "path";
-import { getDataFromFiles } from "~/features/AppData/dataUtilis";
 import { Team } from "~/features/AppData/fplTypes";
+import getDataFromFiles from "~/features/AppData/getDataFromFiles";
 import { PlayerStat } from "~/features/AppData/understatTypes";
 import { FPLElement } from "~/features/PlayerData/playerDataTypes";
 

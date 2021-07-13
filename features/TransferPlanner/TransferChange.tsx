@@ -7,8 +7,6 @@ import {
   IoArrowForwardOutline,
   IoCloseOutline,
   IoDiscOutline,
-  IoStar,
-  IoStarOutline,
   IoSwapVerticalOutline,
   IoWarningOutline,
 } from "react-icons/io5";
@@ -41,15 +39,15 @@ export const changeVariants: Record<
 };
 
 const TransferChange = ({
-  variant,
-  errorLabel,
   change,
+  variant = "default",
+  errorLabel,
   onRemoveClick,
 }: {
-  variant: TransferChangeVariant;
-  errorLabel?: string;
   change: Change;
-  onRemoveClick: MouseEventHandler<HTMLButtonElement>;
+  variant?: TransferChangeVariant;
+  errorLabel?: string;
+  onRemoveClick?: MouseEventHandler<HTMLButtonElement>;
 }) => {
   const variantProp = changeVariants[variant] ?? changeVariants.default;
   const label = errorLabel || variantProp.label;
@@ -108,10 +106,20 @@ const TransferChange = ({
     change.type === "set-captain" ||
     change.type === "set-vice-captain"
   ) {
-    const ChangeIcon = change.type === "set-captain" ? IoStar : IoStarOutline;
     mainComponent = (
       <Flex width="120px" pr={2}>
-        <Icon as={ChangeIcon} fontSize="xs" mt={0.5} mr={2} color="brand.500" />
+        <Box
+          fontSize="xs"
+          fontWeight="black"
+          mr={2}
+          px={1}
+          borderWidth={1}
+          borderColor="brand.500"
+          color={change.type === "set-captain" ? "white" : "brand.500"}
+          bg={change.type === "set-captain" ? "brand.500" : "white"}
+        >
+          {change.type === "set-captain" ? "C" : "V"}
+        </Box>
         <Text fontSize="xs" noOfLines={1}>
           {(change as SinglePlayerChange<FullChangePlayer>).player?.web_name}
         </Text>
@@ -151,18 +159,20 @@ const TransferChange = ({
             justifyContent="center"
             alignItems="center"
           >
-            <Icon color={variantProp.color} as={variantProp.icon} />
+            <Icon color={variantProp.color} as={variantProp.icon} mr={2} />
           </Flex>
         </Tooltip>
       )}
       {mainComponent}
-      <IconButton
-        onClick={onRemoveClick}
-        variant="ghost"
-        size="xs"
-        aria-label="remove"
-        icon={<Icon as={IoCloseOutline} />}
-      />
+      {onRemoveClick && (
+        <IconButton
+          onClick={onRemoveClick}
+          variant="ghost"
+          size="xs"
+          aria-label="remove"
+          icon={<Icon as={IoCloseOutline} />}
+        />
+      )}
     </Flex>
   );
 };
