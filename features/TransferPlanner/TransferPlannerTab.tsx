@@ -29,13 +29,9 @@ import {
   useEffect,
   useRef,
   useState,
+  KeyboardEvent,
 } from "react";
-import {
-  IoDuplicateOutline,
-  IoEllipsisVerticalOutline,
-  IoPencilOutline,
-  IoTrashBinOutline,
-} from "react-icons/io5";
+import { IoEllipsisVerticalOutline } from "react-icons/io5";
 
 const TransferPlannerTab = ({
   plan,
@@ -74,6 +70,13 @@ const TransferPlannerTab = ({
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) =>
     setName(e.target.value);
+
+  const handleRenameKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      // Prevent arrow key moving selected tab
+      e.stopPropagation();
+    }
+  };
 
   const handleRenameDone = () => {
     onNameChange(name);
@@ -134,10 +137,15 @@ const TransferPlannerTab = ({
           >
             <Input
               variant="unstyled"
+              borderWidth={1}
+              borderRadius="none"
+              p="2px"
+              m="-2px"
               ref={nameRef}
               value={name}
               onBlur={handleRenameDone}
               onChange={handleNameChange}
+              onKeyDown={handleRenameKeyPress}
             />
           </Box>
         )}
@@ -158,24 +166,10 @@ const TransferPlannerTab = ({
               {isOpen && (
                 <Portal>
                   <MenuList zIndex="popover">
-                    <MenuItem
-                      onClick={handleRenameClick}
-                      icon={<Icon as={IoPencilOutline} />}
-                    >
-                      Rename
-                    </MenuItem>
-                    <MenuItem
-                      onClick={onDuplicateClick}
-                      icon={<Icon as={IoDuplicateOutline} />}
-                    >
-                      Duplicate
-                    </MenuItem>
+                    <MenuItem onClick={handleRenameClick}>Rename</MenuItem>
+                    <MenuItem onClick={onDuplicateClick}>Duplicate</MenuItem>
                     <MenuDivider />
-                    <MenuItem
-                      color="red.600"
-                      onClick={onOpen}
-                      icon={<Icon as={IoTrashBinOutline} />}
-                    >
+                    <MenuItem color="red.600" onClick={onOpen}>
                       Remove
                     </MenuItem>
                   </MenuList>
