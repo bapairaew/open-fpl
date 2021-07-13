@@ -103,7 +103,9 @@ const TransferablePlayer = ({
       >
         <Tooltip
           hasArrow
-          label={`Sell for £${adjustedSellingPrice} | Purchased at £${adjustedPurchasePrice}`}
+          label={`Sell for £${adjustedSellingPrice.toFixed(
+            1
+          )} | Purchased at £${adjustedPurchasePrice.toFixed(1)}`}
         >
           <Flex
             fontWeight="bold"
@@ -112,13 +114,13 @@ const TransferablePlayer = ({
             justifyContent="center"
             alignItems="center"
           >
-            £{adjustedSellingPrice}
+            £{adjustedSellingPrice.toFixed(1)}
           </Flex>
         </Tooltip>
         {showCaptainButton && (
           <Tooltip hasArrow label={captainTooltipText}>
             <Box flexBasis="50%" width="100%">
-              <Menu>
+              <Menu isLazy>
                 <MenuButton
                   as={IconButton}
                   size="xs"
