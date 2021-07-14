@@ -5,7 +5,7 @@ const IndexPage = () => {
   return (
     <>
       <NextSeo
-        title="Free open-source Fantasy Premier League tools – Open FPL"
+        title="Open FPL – Free open-source Fantasy Premier League tools"
         description="Level up your FPL game with Player Statistics Explorer, Transfer Planner, Fixture Difficulty Rating."
       />
       <LandingPage />

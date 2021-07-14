@@ -36,7 +36,7 @@ const features = [
 ];
 
 const FeaturesSection = (props: BoxProps) => (
-  <Box pt={16} {...props}>
+  <Box py={16} {...props}>
     <Center mb={8} height="120px">
       <Divider orientation="vertical" borderColor="brand.500" />
     </Center>
