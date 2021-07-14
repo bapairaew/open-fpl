@@ -1,8 +1,8 @@
 import { Button, Collapse } from "@chakra-ui/react";
 import { MutableRefObject, useEffect, useState } from "react";
+import CustomPlayerForm from "~/features/CustomPlayer/CustomPlayerForm";
 import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
 import { Team } from "~/features/RemoteData/fplTypes";
-import CustomPlayerForm from "./CustomPlayerForm";
 
 const AddCustomPlayers = ({
   fplTeams,

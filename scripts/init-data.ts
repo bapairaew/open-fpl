@@ -1,6 +1,8 @@
 import fs from "fs";
 import { fetchData } from "~/features/RemoteData/remoteData";
 
+const { RESOURCES_LIMIT: resourcesLimit } = process.env;
+
 (async function () {
   const start = new Date();
   console.log(`Updates started: ${start}`);
@@ -34,6 +36,13 @@ import { fetchData } from "~/features/RemoteData/remoteData";
       understat: 0,
       understat_teams: 0,
     },
+    resourcesLimit: resourcesLimit
+      ? {
+          fpl: +resourcesLimit,
+          understat: +resourcesLimit,
+          understat_teams: +resourcesLimit,
+        }
+      : undefined,
   });
   console.log(
     `Time elapsed: ${(

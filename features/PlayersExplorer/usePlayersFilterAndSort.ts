@@ -11,7 +11,7 @@ import {
   sortOptions,
 } from "~/features/PlayersExplorer/playersToolbarOptions";
 import { useSettings } from "~/features/Settings/SettingsContext";
-import { SortOptions } from "./playersExplorerTypes";
+import { SortOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 
 const freeTextFuseSettings: Fuse.IFuseOptions<Player> = {
   getFn: (player, path) => {

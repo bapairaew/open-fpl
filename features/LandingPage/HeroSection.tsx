@@ -6,6 +6,7 @@ import {
   Flex,
   Heading,
   Icon,
+  Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { IoArrowForwardOutline } from "react-icons/io5";
@@ -32,16 +33,9 @@ const HeroSection = (props: BoxProps) => (
           Open-source <br />
           FPL tools
         </Heading>
-        <Heading
-          as="p"
-          size="md"
-          fontWeight="normal"
-          textAlign="center"
-          color="gray.600"
-          my={10}
-        >
+        <Text as="p" fontSize="lg" textAlign="center" color="gray.600" my={10}>
           No charge, No ads, No sign-up, No string attached.
-        </Heading>
+        </Text>
         <Link href="/players" passHref>
           <Button
             my={8}

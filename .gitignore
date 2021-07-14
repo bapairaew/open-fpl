@@ -17,3 +17,4 @@ data/*
 # Generated favicons
 *.cli-real-favicon.*
 public/favicons/*
+.vercel
