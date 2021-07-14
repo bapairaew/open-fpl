@@ -184,7 +184,7 @@ export const makeAppData = ({
   });
 
   return {
-    players,
+    players: players,
     gameweeks,
   };
 };

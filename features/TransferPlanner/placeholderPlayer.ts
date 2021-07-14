@@ -26,14 +26,9 @@ export function makePlaceholderPlayerFromId(id: number): Player {
     news: "",
     status: ElementStatus.AVAILABLE,
     now_cost: 0,
-    photo: "",
     cost_change_start: 0,
-    chance_of_playing_next_round: null,
-    chance_of_playing_this_round: null,
     total_points: 0,
     selected_by_percent: "0",
-    transfers_in_event: 0,
-    transfers_out_event: 0,
     element_type: {
       singular_name_short: elementType,
     },
@@ -42,7 +37,6 @@ export function makePlaceholderPlayerFromId(id: number): Player {
       short_name: "",
     },
     linked_data: {
-      transfers_delta_event: 0,
       understat_id: null,
       past_matches: null,
       season_time: null,

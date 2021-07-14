@@ -87,7 +87,6 @@ export const getStaticProps = async () => {
   return {
     props: {
       players,
-      fplTeams,
       gameweeks,
     },
   };

@@ -60,7 +60,6 @@ export interface UpcomingGameweek {
 }
 
 export interface LinkedData {
-  transfers_delta_event: number;
   understat_id: string | null;
   season_time: number | null;
   season_game: number | null;
@@ -93,12 +92,7 @@ export interface Player {
   status: ElementStatus;
   now_cost: number;
   cost_change_start: number;
-  photo: string;
-  chance_of_playing_next_round: number | null;
-  chance_of_playing_this_round: number | null;
   total_points: number;
-  transfers_in_event: number;
-  transfers_out_event: number;
   selected_by_percent: string;
   element_type: {
     singular_name_short: string;

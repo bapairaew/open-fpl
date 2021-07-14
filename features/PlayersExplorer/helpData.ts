@@ -10,14 +10,9 @@ export const player: Player = {
   news: "Too good",
   status: ElementStatus.INJURED,
   now_cost: 115,
-  photo: "141746.jpg",
   cost_change_start: 5,
-  chance_of_playing_next_round: null,
-  chance_of_playing_this_round: null,
   total_points: 228,
   selected_by_percent: "50.4",
-  transfers_in_event: 2524,
-  transfers_out_event: 31638,
   element_type: {
     singular_name_short: "MID",
   },
@@ -110,7 +105,6 @@ export const player: Player = {
       text: "#fae935",
       highlight: "#000",
     },
-    transfers_delta_event: 0,
     previous_gameweeks: [],
     next_gameweeks: [
       {
