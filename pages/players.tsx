@@ -4,6 +4,7 @@ import { NextSeo } from "next-seo";
 import path from "path";
 import { makeAppData } from "~/features/AppData/appData";
 import AppLayout from "~/features/Layout/AppLayout";
+import { baseUrl } from "~/features/Navigation/internalUrls";
 import { FPLElement } from "~/features/PlayerData/playerDataTypes";
 import PlayersExplorer from "~/features/PlayersExplorer/PlayersExplorer";
 import { ElementTypes, Event, Team } from "~/features/RemoteData/fplTypes";
@@ -101,6 +102,27 @@ function PlayersExplorerPage({
       <NextSeo
         title="Player Statistics Explorer – Open FPL"
         description="Explore Fantasy Premier League player statistics xG, xGA, and more to make a better decision on your team."
+        canonical={`${baseUrl}/players`}
+        openGraph={{
+          url: `${baseUrl}/players`,
+          title: "Player Statistics Explorer – Open FPL",
+          description:
+            "Explore Fantasy Premier League player statistics xG, xGA, and more to make a better decision on your team.",
+          images: [
+            {
+              url: `${baseUrl}/api/ogimages/Player Statistics Explorer.png?width=800,height=600`,
+              width: 800,
+              height: 600,
+              alt: "Player Statistics Explorer – Open FPL",
+            },
+          ],
+          site_name: "Open FPL",
+        }}
+        twitter={{
+          handle: "@openfpl",
+          site: "@openfpl",
+          cardType: "summary_large_image",
+        }}
       />
       <AppLayout>
         <PlayersExplorer as="main" players={players} gameweeks={gameweeks} />

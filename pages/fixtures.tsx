@@ -5,6 +5,7 @@ import path from "path";
 import Fixtures from "~/features/Fixtures/Fixtures";
 import { makeTeamFixtures } from "~/features/Fixtures/fixturesData";
 import AppLayout from "~/features/Layout/AppLayout";
+import { baseUrl } from "~/features/Navigation/internalUrls";
 import { FPLElement } from "~/features/PlayerData/playerDataTypes";
 import { Team } from "~/features/RemoteData/fplTypes";
 
@@ -44,6 +45,27 @@ function FixturesPage({
       <NextSeo
         title="Fixture Difficulty Rating – Open FPL"
         description="Explore Fantasy Premier League fixtures and their Attack and Defence Fixture Difficulty Rating."
+        canonical={`${baseUrl}/fixtures`}
+        openGraph={{
+          url: `${baseUrl}/fixtures`,
+          title: "Fixture Difficulty Rating – Open FPL",
+          description:
+            "Explore Fantasy Premier League fixtures and their Attack and Defence Fixture Difficulty Rating.",
+          images: [
+            {
+              url: `${baseUrl}/api/ogimages/Fixture Difficulty Rating.png?width=800,height=600`,
+              width: 800,
+              height: 600,
+              alt: "Fixture Difficulty Rating – Open FPL",
+            },
+          ],
+          site_name: "Open FPL",
+        }}
+        twitter={{
+          handle: "@openfpl",
+          site: "@openfpl",
+          cardType: "summary_large_image",
+        }}
       />
       <AppLayout>
         <Fixtures teamFixtures={teamFixtures} fplTeams={fplTeams} />

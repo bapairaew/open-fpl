@@ -194,7 +194,7 @@ const ComparePlayersModal = ({
               }}
             </AutoSizer>
           </Flex>
-          <Flex overflow="auto">
+          <Flex overflow="auto" mb={8}>
             <Table colorScheme="gray" fontSize="sm" size="sm" display="block">
               <Thead>
                 <Tr>
