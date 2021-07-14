@@ -9,7 +9,7 @@
     "make-favicons-config": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/make-cli-real-favicon-config.ts",
     "make-favicons": "yarn make-favicons-config && real-favicon generate config.cli-real-favicon.json results.cli-real-favicon.json public/favicons",
     "dev": "next dev",
-    "prebuild": "yarn init-data && cp -r ./public/data ./data",
+    "prebuild": "yarn init-data && cp -r ./public/data ./data && yarn make-favicons",
     "build": "next build",
     "start": "next start"
   },
