@@ -12,8 +12,8 @@ import {
   FullTeamFixtures,
   SortableFullTeamFixtures,
 } from "~/features/Fixtures/fixturesDataTypes";
-import FixturesTableBodyRow from "~/features/Fixtures/FixturesTableBodyRow";
 import FixturesTableHeaderRow from "~/features/Fixtures/FixturesTableHeaderRow";
+import FixturesTableRow from "~/features/Fixtures/FixturesTableRow";
 
 const ForwardableTbody = forwardRef<TableBodyProps, "tbody">((props, ref) => {
   return <Tbody ref={ref}>{props.children}</Tbody>;
@@ -78,6 +78,7 @@ const FixturesTable = ({
           overflow="auto"
           height={`${height}px`}
           width={`${width}px`}
+          size="sm"
         >
           <Thead position="sticky" top={0} zIndex="sticky">
             <FixturesTableHeaderRow
@@ -95,11 +96,7 @@ const FixturesTable = ({
             handle=".handle"
           >
             {sortedFullFixtures.map((team) => (
-              <FixturesTableBodyRow
-                key={team.short_name}
-                team={team}
-                mode={mode}
-              />
+              <FixturesTableRow key={team.short_name} team={team} mode={mode} />
             ))}
           </ReactSortable>
         </Table>

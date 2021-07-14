@@ -1,5 +1,6 @@
 import {
   Box,
+  BoxProps,
   Flex,
   HStack,
   Popover,
@@ -24,7 +25,8 @@ const CompareTeamsPopover = ({
   team,
   opponent,
   children,
-}: {
+  ...props
+}: BoxProps & {
   mode: string;
   isHome: boolean;
   team: TeamInfo;
@@ -54,11 +56,11 @@ const CompareTeamsPopover = ({
           <>
             <PopoverTrigger>
               <Box
-                p={4}
                 role="button"
                 // textDecorationLine="underline"
                 // textDecorationStyle="dotted"
                 // textUnderlineOffset="3px"
+                {...props}
               >
                 {children}
               </Box>

@@ -21,9 +21,8 @@ const FixturesTableHeaderRow = ({
         textAlign="center"
       >
         <TableCellWithMenu
-          width="140px"
-          px={4}
-          py={3}
+          p={2}
+          width="100px"
           menu={
             <MenuList>
               <MenuGroup title="Sort">
@@ -38,17 +37,16 @@ const FixturesTableHeaderRow = ({
       {Array.from({ length: 38 }).map((_, i) => (
         <Th key={i} p={0} textAlign="center" bgColor="white">
           <TableCellWithMenu
-            width="130px"
-            px={4}
-            py={3}
+            p={2}
+            width="100px"
             menu={
               <MenuList>
                 <MenuGroup title="Sort">
-                  <MenuItem onClick={() => onHardFixtureSortClick(i + 1)}>
-                    Hard fixtures first
-                  </MenuItem>
                   <MenuItem onClick={() => onEasyFixtureSortClick(i + 1)}>
                     Easy fixtures first
+                  </MenuItem>
+                  <MenuItem onClick={() => onHardFixtureSortClick(i + 1)}>
+                    Hard fixtures first
                   </MenuItem>
                 </MenuGroup>
               </MenuList>

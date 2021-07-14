@@ -1,5 +1,6 @@
 import {
   Box,
+  BoxProps,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -18,7 +19,8 @@ import theme from "~/theme";
 const TeamStrengthPopover = ({
   team,
   children,
-}: {
+  ...props
+}: BoxProps & {
   team: TeamInfo;
   children: ReactNode | string;
 }) => {
@@ -57,11 +59,11 @@ const TeamStrengthPopover = ({
           <>
             <PopoverTrigger>
               <Box
-                p={4}
                 role="button"
                 // textDecorationLine="underline"
                 // textDecorationStyle="dotted"
                 // textUnderlineOffset="3px"
+                {...props}
               >
                 {children}
               </Box>
