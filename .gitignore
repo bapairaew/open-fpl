@@ -11,4 +11,9 @@ public/data/*
 # This is required to make build on Vercel works
 data/*
 
+# Temporary in local development
 *.temp.*
+
+# Generated favicons
+*.cli-real-favicon.*
+public/favicons/*
