@@ -1,9 +1,6 @@
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
-import TransferChange from "~/features/TransferPlanner/TransferChange";
-import {
-  Change,
-  InvalidChange,
-} from "~/features/TransferPlanner/transferPlannerTypes";
+import TeamChange from "~/features/TeamPlanner/TeamChange";
+import { Change, InvalidChange } from "~/features/TeamPlanner/teamPlannerTypes";
 import { Fragment } from "react";
 
 const GameweekChanges = ({
@@ -61,7 +58,7 @@ const GameweekChanges = ({
         return (
           <Fragment key={index}>
             <Box borderRightWidth={1} height="100%">
-              <TransferChange
+              <TeamChange
                 change={change}
                 variant={variant}
                 errorLabel={invalidity?.message}

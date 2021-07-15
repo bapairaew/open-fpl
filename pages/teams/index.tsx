@@ -5,10 +5,10 @@ import AppLayout from "~/features/Layout/AppLayout";
 import FullScreenMessage from "~/features/Layout/FullScreenMessage";
 import { baseUrl } from "~/features/Navigation/internalUrls";
 import { useSettings } from "~/features/Settings/SettingsContext";
-import useTransferRedirect from "~/features/TransferPlanner/useTransferRedirect";
+import useTeamPlannerRedirect from "~/features/TeamPlanner/useTeamPlannerRedirect";
 
 const TransferPlannerSetupPage = () => {
-  const { teamId } = useTransferRedirect();
+  const { teamId } = useTeamPlannerRedirect();
   const { onSettingsModalOpen } = useSettings();
 
   let mainContent = null;
@@ -21,10 +21,9 @@ const TransferPlannerSetupPage = () => {
         text={
           <VStack spacing={6}>
             <Text>
-              Please wait while we are bringing you to your Transfer Planner
-              page.
+              Please wait while we are bringing you to your Team Planner page.
             </Text>
-            <Link href={`/transfers/${teamId}`} passHref>
+            <Link href={`/teams/${teamId}`} passHref>
               <A>
                 <Button size="md" onClick={onSettingsModalOpen} variant="link">
                   Click here if it does not work
@@ -43,7 +42,7 @@ const TransferPlannerSetupPage = () => {
         text={
           <VStack spacing={6}>
             <Text>
-              Set up a profile with your Team ID to access Transfer Planner
+              Set up a profile with your Team ID to access Team Planner
             </Text>
             <Button size="md" onClick={onSettingsModalOpen}>
               Set up your profile
@@ -57,20 +56,20 @@ const TransferPlannerSetupPage = () => {
   return (
     <>
       <NextSeo
-        title="Transfer Planner – Open FPL"
-        description="Plan your transfer, starting lineup and your bench ahead of upcoming Fantasy Premier League gameweeks."
-        canonical={`${baseUrl}/transfers`}
+        title="Team Planner – Open FPL"
+        description="Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks."
+        canonical={`${baseUrl}/teams`}
         openGraph={{
-          url: `${baseUrl}/transfers`,
-          title: "Transfer Planner – Open FPL",
+          url: `${baseUrl}/teams`,
+          title: "Team Planner – Open FPL",
           description:
-            "Plan your transfer, starting lineup and your bench ahead of upcoming Fantasy Premier League gameweeks.",
+            "Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks.",
           images: [
             {
-              url: `${baseUrl}/api/ogimages/Transfers Planner.png?width=800,height=600`,
+              url: `${baseUrl}/api/ogimages/Team Planner.png?width=800,height=600`,
               width: 800,
               height: 600,
-              alt: "Transfer Planner – Open FPL",
+              alt: "Team Planner – Open FPL",
             },
           ],
           site_name: "Open FPL",

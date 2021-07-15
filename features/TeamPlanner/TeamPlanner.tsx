@@ -32,9 +32,9 @@ import {
   Transfer,
 } from "~/features/RemoteData/fplTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
-import { getTransferPlanKey } from "~/features/Settings/storageKeys";
-import TransferPlannerPanel from "~/features/TransferPlanner/TransferPlannerPanel";
-import TransferPlannerTab from "~/features/TransferPlanner/TransferPlannerTab";
+import { getTeamPlanKey } from "~/features/Settings/storageKeys";
+import TeamPlannerPanel from "~/features/TeamPlanner/TeamPlannerPanel";
+import TeamPlannerTab from "~/features/TeamPlanner/TeamPlannerTab";
 
 const getDefaultName = (transferPlans: string[]) => {
   const maxDefaultNameIndex =
@@ -57,7 +57,7 @@ const ForwardableTransferPlannerTabList = forwardRef<TabListProps, "div">(
   }
 );
 
-const TransferPlanner = ({
+const TeamPlanner = ({
   initialPicks,
   entryHistory,
   players: remotePlayers,
@@ -116,12 +116,9 @@ const TransferPlanner = ({
       if (index !== -1) {
         nextTransferPlans[index] = newName;
         setTransferPlans(nextTransferPlans);
-        const data = getLocalStorageItem(
-          getTransferPlanKey(teamId, oldName),
-          []
-        );
-        setLocalStorageItem(getTransferPlanKey(teamId, newName), data);
-        removeLocalStorageItem(getTransferPlanKey(teamId, oldName));
+        const data = getLocalStorageItem(getTeamPlanKey(teamId, oldName), []);
+        setLocalStorageItem(getTeamPlanKey(teamId, newName), data);
+        removeLocalStorageItem(getTeamPlanKey(teamId, oldName));
       }
     }
   };
@@ -132,8 +129,8 @@ const TransferPlanner = ({
       const name = getDefaultName(transferPlans);
       setTransferPlans([...transferPlans, name]);
       setLocalStorageItem(
-        getTransferPlanKey(teamId, name),
-        getLocalStorageItem(getTransferPlanKey(teamId, plan), [])
+        getTeamPlanKey(teamId, name),
+        getLocalStorageItem(getTeamPlanKey(teamId, plan), [])
       );
       setTabIndex(nextIndex);
     }
@@ -151,7 +148,7 @@ const TransferPlanner = ({
         setTabIndex(nextTransferPlans.length - 1);
       }
 
-      removeLocalStorageItem(getTransferPlanKey(teamId, plan));
+      removeLocalStorageItem(getTeamPlanKey(teamId, plan));
     }
   };
 
@@ -189,7 +186,7 @@ const TransferPlanner = ({
               setList={handleTransferPlansChange}
             >
               {sortableTransferPlans?.map(({ id: plan }) => (
-                <TransferPlannerTab
+                <TeamPlannerTab
                   key={plan}
                   plan={`${plan}`}
                   onNameChange={(newName: string) =>
@@ -230,7 +227,7 @@ const TransferPlanner = ({
                 borderTopWidth={1}
               >
                 {teamId && (
-                  <TransferPlannerPanel
+                  <TeamPlannerPanel
                     teamId={teamId}
                     transferPlanKey={plan}
                     initialPicks={initialPicks}
@@ -250,4 +247,4 @@ const TransferPlanner = ({
   );
 };
 
-export default TransferPlanner;
+export default TeamPlanner;

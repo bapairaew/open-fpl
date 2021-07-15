@@ -6,12 +6,12 @@ import { Gameweek } from "~/features/AppData/appDataTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import TransferablePlayer, {
   TransferablePlayerVariant,
-} from "~/features/TransferPlanner/TransferablePlayer";
-import { isSwapable } from "~/features/TransferPlanner/transferPlan";
+} from "~/features/TeamPlanner/TransferablePlayer";
+import { isSwapable } from "~/features/TeamPlanner/teamPlan";
 import {
   FullChangePlayer,
   GroupedTeam,
-} from "~/features/TransferPlanner/transferPlannerTypes";
+} from "~/features/TeamPlanner/teamPlannerTypes";
 
 const getVariant = (
   selectedPlayer: FullChangePlayer | null,

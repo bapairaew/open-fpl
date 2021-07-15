@@ -21,8 +21,8 @@ import SettingsProfilesList from "~/features/Settings/SettingsProfilesList";
 import { Preference } from "~/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
-  getTransferPlanKey,
-  getTransferPlansKey,
+  getTeamPlansKey,
+  getTeamPlanKey,
 } from "~/features/Settings/storageKeys";
 
 const SettingsModal = ({
@@ -86,14 +86,13 @@ const SettingsModal = ({
       getLocalStorageItem<Preference>(getPreferenceKey(removingTeamId), {}) ||
       {};
     const transferPlans =
-      getLocalStorageItem<string[]>(getTransferPlansKey(removingTeamId), []) ||
-      [];
+      getLocalStorageItem<string[]>(getTeamPlansKey(removingTeamId), []) || [];
     setProfiles(profiles ? profiles.filter((p) => p !== removingTeamId) : []);
     removeLocalStorageItem(getPreferenceKey(removingTeamId));
     transferPlans?.forEach((id) =>
-      removeLocalStorageItem(getTransferPlanKey(removingTeamId, id))
+      removeLocalStorageItem(getTeamPlanKey(removingTeamId, id))
     );
-    removeLocalStorageItem(getTransferPlansKey(removingTeamId));
+    removeLocalStorageItem(getTeamPlansKey(removingTeamId));
     if (teamId === removingTeamId) {
       setTeamId(null);
     }

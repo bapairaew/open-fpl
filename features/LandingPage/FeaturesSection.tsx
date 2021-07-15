@@ -22,10 +22,10 @@ const features = [
     href: "/players",
   },
   {
-    title: "Transfer Planner",
+    title: "Team Planner",
     description:
-      "Plan your transfer, starting lineup and your bench ahead of upcoming Fantasy Premier League gameweeks.",
-    href: "/transfers",
+      "Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks.",
+    href: "/teams",
   },
   {
     title: "Fixture Difficulty Rating",

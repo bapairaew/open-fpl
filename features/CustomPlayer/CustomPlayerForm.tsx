@@ -133,7 +133,7 @@ const CustomPlayerForm = ({
         <Alert status="info">
           <AlertIcon />
           Updating a player's position or team will make the player removed from
-          all transfer plans.
+          all team plans.
         </Alert>
         <Button mt={2} width="100%" type="submit">
           {buttonLabel}

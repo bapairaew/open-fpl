@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { ChangeEventHandler, ReactNode } from "react";
 import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
-import { getChipDisplayName } from "~/features/TransferPlanner/chips";
-import { ChipUsage } from "~/features/TransferPlanner/transferPlannerTypes";
+import { getChipDisplayName } from "~/features/TeamPlanner/chips";
+import { ChipUsage } from "~/features/TeamPlanner/teamPlannerTypes";
 
 const ToolbarSection = ({
   label,
@@ -52,7 +52,7 @@ const ToolbarStat = ({
   </ToolbarSection>
 );
 
-const TransferToolbar = ({
+const TeamPlannerToolbar = ({
   bank,
   hits,
   chipUsages,
@@ -122,4 +122,4 @@ const TransferToolbar = ({
   );
 };
 
-export default TransferToolbar;
+export default TeamPlannerToolbar;

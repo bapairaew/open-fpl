@@ -1,6 +1,6 @@
 import { Player } from "~/features/PlayerData/playerDataTypes";
 import { ElementStatus } from "~/features/RemoteData/fplTypes";
-import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
+import { FullChangePlayer } from "~/features/TeamPlanner/teamPlannerTypes";
 
 export const getPositionFromPlaceholderPosition = (position: number) => {
   if (position === 1 || position === 12) {

@@ -13,10 +13,10 @@ import {
 } from "~/features/RemoteData/fplTypes";
 import {
   getProfilesKey,
-  getTransferPlanKey,
-  getTransferPlansKey,
+  getTeamPlansKey,
+  getTeamPlanKey,
 } from "~/features/Settings/storageKeys";
-import { makePlaceholderPlayerFromId } from "~/features/TransferPlanner/placeholderPlayer";
+import { makePlaceholderPlayerFromId } from "~/features/TeamPlanner/placeholderPlayer";
 import {
   Change,
   ChangePlayer,
@@ -30,7 +30,7 @@ import {
   SinglePlayerChange,
   TeamChange,
   TwoPlayersChange,
-} from "~/features/TransferPlanner/transferPlannerTypes";
+} from "~/features/TeamPlanner/teamPlannerTypes";
 
 // Apply the changes against the given team
 const getGameweekPicks = (
@@ -627,14 +627,14 @@ export const processPreseasonSetCaptain = (
   });
 };
 
-// Dehydrate the reduced form transferPlan
-export const dehydrateFromTransferPlan = (
-  transferPlan: Change[],
+// Dehydrate the reduced form teamPlan
+export const dehydrateFromTeamPlan = (
+  teamPlan: Change[],
   players: Player[]
 ): Change[] => {
   const changes = [] as Change[];
 
-  for (const plan of transferPlan) {
+  for (const plan of teamPlan) {
     if (plan.type === "swap" || plan.type === "transfer") {
       const twoPlayersChange = plan as TwoPlayersChange<ChangePlayer>;
       const selectedPlayer = players.find(
@@ -790,13 +790,12 @@ export const removePlayerFromPlans = (player: Player) => {
   const profiles = getLocalStorageItem<string[]>(getProfilesKey(), []) || [];
   for (const profile of profiles) {
     const transferPlans =
-      getLocalStorageItem<string[]>(getTransferPlansKey(profile), []) || [];
+      getLocalStorageItem<string[]>(getTeamPlansKey(profile), []) || [];
     for (const plan of transferPlans) {
-      const transferPlan =
-        getLocalStorageItem<Change[]>(getTransferPlanKey(profile, plan), []) ||
-        [];
+      const teamPlan =
+        getLocalStorageItem<Change[]>(getTeamPlanKey(profile, plan), []) || [];
 
-      const updatedTransferPlan = transferPlan
+      const updatedTransferPlan = teamPlan
         .filter((change) => {
           if (change.type === "swap" || change.type === "transfer") {
             const twoPlayersChange = change as TwoPlayersChange<ChangePlayer>;
@@ -827,10 +826,7 @@ export const removePlayerFromPlans = (player: Player) => {
           return change;
         });
 
-      setLocalStorageItem(
-        getTransferPlanKey(profile, plan),
-        updatedTransferPlan
-      );
+      setLocalStorageItem(getTeamPlanKey(profile, plan), updatedTransferPlan);
     }
   }
 };

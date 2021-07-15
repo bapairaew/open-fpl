@@ -34,10 +34,10 @@ import useLocalStorage, {
 import { Preference } from "~/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
-  getTransferPlanKey,
-  getTransferPlansKey,
+  getTeamPlansKey,
+  getTeamPlanKey,
 } from "~/features/Settings/storageKeys";
-import { Change } from "~/features/TransferPlanner/transferPlannerTypes";
+import { Change } from "~/features/TeamPlanner/teamPlannerTypes";
 
 const SettingsProfile = ({
   teamId,
@@ -62,14 +62,13 @@ const SettingsProfile = ({
     {}
   );
 
-  const [transferPlans] = useLocalStorage<string[]>(
-    getTransferPlansKey(teamId),
-    ["Plan 1"]
-  );
+  const [transferPlans] = useLocalStorage<string[]>(getTeamPlansKey(teamId), [
+    "Plan 1",
+  ]);
 
   const storageSize = useMemo(() => {
     const allTransferPlans = transferPlans?.map((name) =>
-      getLocalStorageItem<Change[]>(getTransferPlanKey(teamId, name), [])
+      getLocalStorageItem<Change[]>(getTeamPlanKey(teamId, name), [])
     );
 
     const allData = [preference, allTransferPlans, transferPlans];

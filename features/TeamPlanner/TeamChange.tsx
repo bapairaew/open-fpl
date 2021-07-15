@@ -16,8 +16,8 @@ import {
   FullChangePlayer,
   SinglePlayerChange,
   TwoPlayersChange,
-} from "~/features/TransferPlanner/transferPlannerTypes";
-import { getChipDisplayName } from "~/features/TransferPlanner/chips";
+} from "~/features/TeamPlanner/teamPlannerTypes";
+import { getChipDisplayName } from "~/features/TeamPlanner/chips";
 
 export type TransferChangeVariant = "invalid" | "outdated" | "default";
 
@@ -38,7 +38,7 @@ export const changeVariants: Record<
   default: {},
 };
 
-const TransferChange = ({
+const TeamChange = ({
   change,
   variant = "default",
   errorLabel,
@@ -177,4 +177,4 @@ const TransferChange = ({
   );
 };
 
-export default TransferChange;
+export default TeamChange;

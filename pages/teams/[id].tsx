@@ -15,8 +15,8 @@ import {
   getTeamTransfers,
 } from "~/features/RemoteData/fpl";
 import { Event, Team } from "~/features/RemoteData/fplTypes";
-import TransferPlanner from "~/features/TransferPlanner/TransferPlanner";
-import useTransferRedirect from "~/features/TransferPlanner/useTransferRedirect";
+import TeamPlanner from "~/features/TeamPlanner/TeamPlanner";
+import useTeamPlannerRedirect from "~/features/TeamPlanner/useTeamPlannerRedirect";
 
 export const getStaticPaths = () => {
   return { paths: [], fallback: true };
@@ -69,7 +69,7 @@ const TransferPlannerPage = ({
   chips,
   fplTeams,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  useTransferRedirect();
+  useTeamPlannerRedirect();
 
   const { data: players, error: playersError } = useSWR<Player[]>(
     "/app-data/players.json"
@@ -92,7 +92,7 @@ const TransferPlannerPage = ({
 
   if (isReady) {
     mainContent = (
-      <TransferPlanner
+      <TeamPlanner
         as="main"
         initialPicks={initialPicks ?? null}
         entryHistory={entry_history ?? null}
@@ -120,7 +120,7 @@ const TransferPlannerPage = ({
         as="main"
         symbol={<Spinner size="xl" />}
         heading="Almost there..."
-        text="Please wait while we are preparing your Transfer Planner page."
+        text="Please wait while we are preparing your Team Planner page."
       />
     );
   }
@@ -128,8 +128,8 @@ const TransferPlannerPage = ({
   return (
     <>
       <NextSeo
-        title="Transfer Planner – Open FPL"
-        description="Plan your transfer, starting lineup and your bench ahead of upcoming Fantasy Premier League gameweeks."
+        title="Team Planner – Open FPL"
+        description="Plan your team lineup, transfer, starting lineup and your bench ahead of upcoming Fantasy Premier League gameweeks."
         noindex={true}
       />
       <AppLayout>{mainContent}</AppLayout>

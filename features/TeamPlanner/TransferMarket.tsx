@@ -25,7 +25,7 @@ import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
 import { SortOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
 import { sortOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
 import usePlayersFilterAndSort from "~/features/PlayersExplorer/usePlayersFilterAndSort";
-import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
+import { FullChangePlayer } from "~/features/TeamPlanner/teamPlannerTypes";
 
 const TransferMarket = ({
   team,

@@ -16,7 +16,7 @@ import EditableCustomPlayer from "~/features/CustomPlayer/EditableCustomPlayer";
 import { Player } from "~/features/PlayerData/playerDataTypes";
 import { Team } from "~/features/RemoteData/fplTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
-import { removePlayerFromPlans } from "~/features/TransferPlanner/transferPlan";
+import { removePlayerFromPlans } from "~/features/TeamPlanner/teamPlan";
 
 const CustomPlayersModal = ({
   players,

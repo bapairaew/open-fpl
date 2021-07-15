@@ -16,12 +16,12 @@ import {
 import { Fragment } from "react";
 import { makeTeamGroupObject } from "~/features/AppData/teamGroupObject";
 import { positionColorCodes } from "~/features/RemoteData/fplColors";
-import TransferChange from "~/features/TransferPlanner/TransferChange";
+import TeamChange from "~/features/TeamPlanner/TeamChange";
 import {
   Change,
   FullChangePlayer,
   GameweekData,
-} from "~/features/TransferPlanner/transferPlannerTypes";
+} from "~/features/TeamPlanner/teamPlannerTypes";
 
 const PlayerRow = ({
   player,
@@ -76,7 +76,7 @@ const PlayerRow = ({
   );
 };
 
-const TransferSummaryModal = ({
+const TeamSummaryModal = ({
   isOpen,
   onClose,
   gameweekDataList,
@@ -120,7 +120,7 @@ const TransferSummaryModal = ({
                         {groupedChanges[gameweekData.gameweek]?.map(
                           (change) => (
                             <Box key={change.id} height="50px">
-                              <TransferChange change={change} />
+                              <TeamChange change={change} />
                               <Divider />
                             </Box>
                           )
@@ -167,4 +167,4 @@ const TransferSummaryModal = ({
   );
 };
 
-export default TransferSummaryModal;
+export default TeamSummaryModal;

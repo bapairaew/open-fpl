@@ -15,7 +15,7 @@ import {
 import AppLayout from "~/features/Layout/AppLayout";
 import { baseUrl } from "~/features/Navigation/internalUrls";
 import PlayersExplorerHelp from "~/features/PlayersExplorer/PlayersExplorerHelp";
-import TransferPlannerHelp from "~/features/TransferPlanner/TransferPlannerHelp";
+import TeamPlannerHelp from "~/features/TeamPlanner/TeamPlannerHelp";
 
 const HelpPage = () => {
   return (
@@ -53,7 +53,7 @@ const HelpPage = () => {
                 <Icon as={IoPeopleCircleOutline} mr={2} /> Player Explorer
               </Tab>
               <Tab fontWeight="bold">
-                <Icon as={IoSwapHorizontalOutline} mr={2} /> Transfer Planner
+                <Icon as={IoSwapHorizontalOutline} mr={2} /> Team Planner
               </Tab>
             </TabList>
             <TabPanels>
@@ -61,7 +61,7 @@ const HelpPage = () => {
                 <PlayersExplorerHelp />
               </TabPanel>
               <TabPanel>
-                <TransferPlannerHelp />
+                <TeamPlannerHelp />
               </TabPanel>
             </TabPanels>
           </Tabs>

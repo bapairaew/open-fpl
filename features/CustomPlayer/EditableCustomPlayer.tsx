@@ -118,7 +118,7 @@ const EditableCustomPlayer = ({
               </AlertDialogHeader>
               <AlertDialogBody>
                 Updating {player.web_name}'s position or team will remove him
-                from all transfer plans in all profiles. Are you sure? You can't
+                from all team plans in all profiles. Are you sure? You can't
                 undo this action afterwards.
               </AlertDialogBody>
               <AlertDialogFooter>

@@ -7,13 +7,13 @@ const IndexPage = () => {
     <>
       <NextSeo
         title="Open FPL – Free open-source Fantasy Premier League tools"
-        description="Level up your FPL game with Player Statistics Explorer, Transfer Planner, Fixture Difficulty Rating."
+        description="Level up your FPL game with Player Statistics Explorer, Team Planner, Fixture Difficulty Rating."
         canonical={baseUrl}
         openGraph={{
           url: baseUrl,
           title: "Open FPL – Free open-source Fantasy Premier League tools",
           description:
-            "Level up your FPL game with Player Statistics Explorer, Transfer Planner, Fixture Difficulty Rating.",
+            "Level up your FPL game with Player Statistics Explorer, Team Planner, Fixture Difficulty Rating.",
           images: [
             {
               url: `${baseUrl}/api/ogimages/Open FPL.png?width=800,height=600`,

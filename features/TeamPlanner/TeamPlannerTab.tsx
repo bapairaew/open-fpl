@@ -33,7 +33,7 @@ import {
 } from "react";
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
 
-const TransferPlannerTab = ({
+const TeamPlannerTab = ({
   plan,
   onNameChange,
   onRemoveClick,
@@ -96,10 +96,10 @@ const TransferPlannerTab = ({
           <AlertDialogOverlay>
             <AlertDialogContent>
               <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                Remove Transfer Plan
+                Remove Team Plan
               </AlertDialogHeader>
               <AlertDialogBody>
-                You are removing "{plan}" transfer plan. Are you sure? You can't
+                You are removing "{plan}" team plan. Are you sure? You can't
                 undo this action afterwards.
               </AlertDialogBody>
               <AlertDialogFooter>
@@ -183,4 +183,4 @@ const TransferPlannerTab = ({
   );
 };
 
-export default TransferPlannerTab;
+export default TeamPlannerTab;

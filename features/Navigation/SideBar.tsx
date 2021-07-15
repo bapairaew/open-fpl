@@ -87,11 +87,11 @@ const SideBar = () => {
           Players Explorer
         </SideBarItem>
         <SideBarItem
-          href={teamId ? `/transfers/${teamId}` : "/transfers"}
+          href={teamId ? `/teams/${teamId}` : "/teams"}
           icon={IoSwapHorizontalOutline}
-          getIsActive={(href) => href?.startsWith("/transfers")}
+          getIsActive={(href) => href?.startsWith("/teams")}
         >
-          Transfer Planner
+          Team Planner
         </SideBarItem>
         <SideBarItem href="/fixtures" icon={IoCalendarClearOutline}>
           Fixtures

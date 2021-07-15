@@ -3,13 +3,13 @@ import { useMemo, useState } from "react";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import { makeTeamGroupObject } from "~/features/AppData/teamGroupObject";
 import { Player } from "~/features/PlayerData/playerDataTypes";
-import SelectedTeam from "~/features/TransferPlanner/SelectedTeam";
-import TransferMarket from "~/features/TransferPlanner/TransferMarket";
-import { isSwapable } from "~/features/TransferPlanner/transferPlan";
+import SelectedTeam from "~/features/TeamPlanner/SelectedTeam";
+import TransferMarket from "~/features/TeamPlanner/TransferMarket";
+import { isSwapable } from "~/features/TeamPlanner/teamPlan";
 import {
   ChangePlayer,
   FullChangePlayer,
-} from "~/features/TransferPlanner/transferPlannerTypes";
+} from "~/features/TeamPlanner/teamPlannerTypes";
 
 const TeamManager = ({
   mode = "default",

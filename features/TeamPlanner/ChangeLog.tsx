@@ -14,15 +14,15 @@ import {
 import { useMemo } from "react";
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
-import GameweekChanges from "~/features/TransferPlanner/GameweekChanges";
+import GameweekChanges from "~/features/TeamPlanner/GameweekChanges";
 import {
   Change,
   GameweekData,
   InvalidChange,
-} from "~/features/TransferPlanner/transferPlannerTypes";
-import TransferSummaryModal from "~/features/TransferPlanner/TransferSummaryModal";
+} from "~/features/TeamPlanner/teamPlannerTypes";
+import TeamSummaryModal from "~/features/TeamPlanner/TeamSummaryModal";
 
-const TransferLog = ({
+const ChangeLog = ({
   changes,
   currentGameweek,
   invalidChanges,
@@ -54,7 +54,7 @@ const TransferLog = ({
   return (
     <>
       {isOpen && (
-        <TransferSummaryModal
+        <TeamSummaryModal
           isOpen={isOpen}
           onClose={onClose}
           gameweekDataList={gameweekDataList}
@@ -64,7 +64,7 @@ const TransferLog = ({
       <Box height="50px" borderBottomWidth={1}>
         {changes.length === 0 ? (
           <Flex px={4} height="100%" alignItems="center" color="gray.600">
-            Click on a player below to make a transfer
+            Click on a player below to make a team change
           </Flex>
         ) : (
           <AutoSizer>
@@ -123,4 +123,4 @@ const TransferLog = ({
   );
 };
 
-export default TransferLog;
+export default ChangeLog;

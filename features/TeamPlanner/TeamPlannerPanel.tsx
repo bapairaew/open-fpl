@@ -10,18 +10,18 @@ import {
   EntryEventPick,
   Transfer,
 } from "~/features/RemoteData/fplTypes";
-import { getTransferPlanKey } from "~/features/Settings/storageKeys";
-import TeamManager from "~/features/TransferPlanner/TeamManager";
-import TransferLog from "~/features/TransferPlanner/TransferLog";
+import { getTeamPlanKey } from "~/features/Settings/storageKeys";
+import TeamManager from "~/features/TeamPlanner/TeamManager";
+import ChangeLog from "~/features/TeamPlanner/ChangeLog";
 import {
   addChange,
-  dehydrateFromTransferPlan,
+  dehydrateFromTeamPlan,
   getAllGameweekDataList,
   processPreseasonSetCaptain,
   processPreseasonSwap,
   processPreseasonTransfer,
   removeChange,
-} from "~/features/TransferPlanner/transferPlan";
+} from "~/features/TeamPlanner/teamPlan";
 import {
   Change,
   ChangePlayer,
@@ -31,8 +31,8 @@ import {
   SinglePlayerChange,
   TeamChange,
   TwoPlayersChange,
-} from "~/features/TransferPlanner/transferPlannerTypes";
-import TransferToolbar from "~/features/TransferPlanner/TransferToolbar";
+} from "~/features/TeamPlanner/teamPlannerTypes";
+import TeamPlannerToolbar from "~/features/TeamPlanner/TeamPlannerToolbar";
 
 const TransferPlannerPanelContent = ({
   initialPicks,
@@ -184,7 +184,7 @@ const TransferPlannerPanelContent = ({
 
   return (
     <>
-      <TransferToolbar
+      <TeamPlannerToolbar
         bank={bank}
         hits={hits}
         freeTransfers={freeTransfers}
@@ -195,7 +195,7 @@ const TransferPlannerPanelContent = ({
         onNextClick={() => setGameweekDelta(gameweekDelta + 1)}
         onActivatedChipSelectChange={handleChipChange}
       />
-      <TransferLog
+      <ChangeLog
         currentGameweek={currentGameweek}
         changes={changes}
         invalidChanges={invalidChanges}
@@ -226,7 +226,7 @@ const TransferPlannerPanelContent = ({
   );
 };
 
-const TransferPlannerPanel = ({
+const TeamPlannerPanel = ({
   initialPicks,
   entryHistory,
   players,
@@ -245,17 +245,16 @@ const TransferPlannerPanel = ({
   teamId: string;
   transferPlanKey: string;
 }) => {
-  const [transferPlan, setTransferPlan] = useLocalStorage<Change[]>(
-    getTransferPlanKey(teamId, transferPlanKey),
+  const [teamPlan, setTransferPlan] = useLocalStorage<Change[]>(
+    getTeamPlanKey(teamId, transferPlanKey),
     [] as Change[]
   );
 
   const currentGameweek = gameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
 
   const changes: Change[] = useMemo(
-    () =>
-      transferPlan ? dehydrateFromTransferPlan(transferPlan, players) : [],
-    [transferPlan, players]
+    () => (teamPlan ? dehydrateFromTeamPlan(teamPlan, players) : []),
+    [teamPlan, players]
   );
 
   const gameweekDataList = useMemo(
@@ -286,4 +285,4 @@ const TransferPlannerPanel = ({
   );
 };
 
-export default TransferPlannerPanel;
+export default TeamPlannerPanel;

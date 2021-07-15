@@ -11,7 +11,7 @@ import {
   getPreferenceKey,
   getProfilesKey,
   getStarredPlayersKey,
-  getTransferPlansKey,
+  getTeamPlansKey,
 } from "~/features/Settings/storageKeys";
 
 const SettingsModal = dynamic(
@@ -60,7 +60,7 @@ export const SettingsContextProvider = ({
   );
 
   const [transferPlans, setTransferPlans] = useLocalStorage<string[] | null>(
-    getTransferPlansKey(teamId),
+    getTeamPlansKey(teamId),
     ["Plan 1"]
   );
 

@@ -13,7 +13,7 @@ import {
 import { MouseEventHandler } from "react";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
-import { FullChangePlayer } from "~/features/TransferPlanner/transferPlannerTypes";
+import { FullChangePlayer } from "~/features/TeamPlanner/teamPlannerTypes";
 
 export type TransferablePlayerVariant =
   | "default"

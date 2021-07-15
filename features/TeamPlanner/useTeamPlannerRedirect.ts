@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSettings } from "~/features/Settings/SettingsContext";
 
-const useTransferRedirect = () => {
+const useTeamPlannerRedirect = () => {
   const { teamId, isInitialised } = useSettings();
   const router = useRouter();
 
@@ -10,9 +10,9 @@ const useTransferRedirect = () => {
     if (isInitialised) {
       let redirectPath: string;
       if (teamId) {
-        redirectPath = `/transfers/${teamId}`;
+        redirectPath = `/teams/${teamId}`;
       } else {
-        redirectPath = "/transfers";
+        redirectPath = "/teams";
       }
       if (router.route !== redirectPath) {
         router.push(redirectPath);
@@ -23,4 +23,4 @@ const useTransferRedirect = () => {
   return { teamId, isInitialised };
 };
 
-export default useTransferRedirect;
+export default useTeamPlannerRedirect;
