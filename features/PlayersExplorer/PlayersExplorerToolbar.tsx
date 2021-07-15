@@ -21,7 +21,6 @@ import {
   sortOptions,
 } from "~/features/PlayersExplorer/playersToolbarOptions";
 import usePlayersFilterAndSort from "~/features/PlayersExplorer/usePlayersFilterAndSort";
-import { Team } from "~/features/RemoteData/fplTypes";
 
 const PlayersExplorerToolbar = ({
   initialSeachQuery = "",
@@ -70,6 +69,7 @@ const PlayersExplorerToolbar = ({
       <HStack
         alignItems="center"
         height="50px"
+        width="100%"
         px={1}
         spacing={1}
         borderBottomWidth={1}

@@ -2,6 +2,7 @@ import { Spinner } from "@chakra-ui/react";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
 import { Gameweek } from "~/features/AppData/appDataTypes";
+import { useIsLocalStorageSupported } from "~/features/Common/useLocalStorage";
 import UnhandledError from "~/features/Error/UnhandledError";
 import AppLayout from "~/features/Layout/AppLayout";
 import FullScreenMessage from "~/features/Layout/FullScreenMessage";
@@ -17,11 +18,15 @@ function PlayersExplorerPage() {
     "/app-data/gameweeks.json"
   );
 
+  const isLocalStorageSupported = useIsLocalStorageSupported();
+
   const isReady = [players, gameweeks].every((x) => x !== undefined);
 
   let mainContent = null;
 
-  if (isReady) {
+  if (!isLocalStorageSupported) {
+    return null;
+  } else if (isReady) {
     mainContent = (
       <PlayersExplorer as="main" players={players!} gameweeks={gameweeks!} />
     );

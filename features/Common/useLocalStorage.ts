@@ -38,6 +38,13 @@ export function removeLocalStorageItem(key: string): void {
   );
 }
 
+// Use for fixing client/server side dom mismatch
+export const useIsLocalStorageSupported = () => {
+  const [isSupported, setIsSupported] = useState(false);
+  useEffect(() => setIsSupported(typeof window.localStorage !== undefined), []);
+  return isSupported;
+};
+
 function useLocalStorage<T>(
   key: string,
   defaultValue: T | null
