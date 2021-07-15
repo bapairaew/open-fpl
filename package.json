@@ -2,14 +2,16 @@
   "name": "open-fpl",
   "version": "0.3.0-pre.25",
   "scripts": {
-    "init-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-data.ts",
+    "init-remote-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-remote-data.ts",
+    "init-app-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-app-data.ts",
     "init-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-links.ts",
     "init-teamcolorcodes": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-teamcolorcodes.ts",
     "print-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/print-links.ts",
     "make-favicons-config": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/make-cli-real-favicon-config.ts",
     "make-favicons": "yarn make-favicons-config && real-favicon generate config.cli-real-favicon.json results.cli-real-favicon.json public/favicons",
     "dev": "next dev",
-    "prebuild": "yarn init-data && cp -r ./public/data ./data && yarn make-favicons",
+    "copy-remote-data": "cp -r ./public/remote-data ./remote-data",
+    "prebuild": "yarn init-remote-data && yarn init-app-data && yarn make-favicons && yarn copy-remote-data",
     "build": "next build",
     "start": "next start"
   },
@@ -38,6 +40,7 @@
     "react-window": "^1.8.6",
     "search-query-parser": "^1.5.5",
     "sortablejs": "^1.13.0",
+    "swr": "^0.5.6",
     "twemoji": "^13.1.0",
     "use-debounce": "^6.0.1"
   },

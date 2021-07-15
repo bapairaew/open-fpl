@@ -11,6 +11,49 @@ const TransferPlannerSetupPage = () => {
   const { teamId } = useTransferRedirect();
   const { onSettingsModalOpen } = useSettings();
 
+  let mainContent = null;
+
+  if (teamId) {
+    mainContent = (
+      <FullScreenMessage
+        symbol={<Spinner size="xl" />}
+        heading="One moment..."
+        text={
+          <VStack spacing={6}>
+            <Text>
+              Please wait while we are bringing you to your Transfer Planner
+              page.
+            </Text>
+            <Link href={`/transfers/${teamId}`} passHref>
+              <A>
+                <Button size="md" onClick={onSettingsModalOpen} variant="link">
+                  Click here if it does not work
+                </Button>
+              </A>
+            </Link>
+          </VStack>
+        }
+      />
+    );
+  } else {
+    mainContent = (
+      <FullScreenMessage
+        symbol="((((つ•̀ω•́)つ"
+        heading="Set up a profile to get started"
+        text={
+          <VStack spacing={6}>
+            <Text>
+              Set up a profile with your Team ID to access Transfer Planner
+            </Text>
+            <Button size="md" onClick={onSettingsModalOpen}>
+              Set up your profile
+            </Button>
+          </VStack>
+        }
+      />
+    );
+  }
+
   return (
     <>
       <NextSeo
@@ -38,48 +81,7 @@ const TransferPlannerSetupPage = () => {
           cardType: "summary_large_image",
         }}
       />
-      <AppLayout>
-        {teamId ? (
-          <FullScreenMessage
-            symbol={<Spinner size="xl" />}
-            heading="One moment..."
-            text={
-              <VStack spacing={6}>
-                <Text>
-                  Please wait while we are bringing you to your Transfer Planner
-                  page.
-                </Text>
-                <Link href={`/transfers/${teamId}`} passHref>
-                  <A>
-                    <Button
-                      size="md"
-                      onClick={onSettingsModalOpen}
-                      variant="link"
-                    >
-                      Click here if it does not work
-                    </Button>
-                  </A>
-                </Link>
-              </VStack>
-            }
-          />
-        ) : (
-          <FullScreenMessage
-            symbol="((((つ•̀ω•́)つ"
-            heading="Set up a profile to get started"
-            text={
-              <VStack spacing={6}>
-                <Text>
-                  Set up a profile with your Team ID to access Transfer Planner
-                </Text>
-                <Button size="md" onClick={onSettingsModalOpen}>
-                  Set up your profile
-                </Button>
-              </VStack>
-            }
-          />
-        )}
-      </AppLayout>
+      <AppLayout>{mainContent}</AppLayout>
     </>
   );
 };

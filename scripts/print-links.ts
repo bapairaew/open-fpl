@@ -13,12 +13,14 @@ const printPath = "./players.temp.tsv";
 
 async function printPlayerLinks() {
   const [fpl, understat, links] = await Promise.all([
-    (await getDataFromFiles(path.resolve("./public/data/fpl"))) as FPLElement[],
     (await getDataFromFiles(
-      path.resolve("./public/data/understat")
+      path.resolve("./public/remote-data/fpl")
+    )) as FPLElement[],
+    (await getDataFromFiles(
+      path.resolve("./public/remote-data/understat")
     )) as PlayerStat[],
     fs.promises
-      .readFile(path.resolve("./public/data/links/players.json"), {
+      .readFile(path.resolve("./public/remote-data/links/players.json"), {
         encoding: "utf-8",
       })
       .then(JSON.parse) as Promise<Record<string, string>>,

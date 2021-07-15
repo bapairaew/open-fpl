@@ -21,9 +21,11 @@ const getDataFromFiles = async (dirPath: string) => {
 
 export const getStaticProps = async () => {
   const [fplElements, fplTeams] = await Promise.all([
-    (await getDataFromFiles(path.resolve("./public/data/fpl"))) as FPLElement[],
+    (await getDataFromFiles(
+      path.resolve("./public/remote-data/fpl")
+    )) as FPLElement[],
     fs.promises
-      .readFile(path.resolve("./public/data/fpl_teams/data.json"), {
+      .readFile(path.resolve("./public/remote-data/fpl_teams/data.json"), {
         encoding: "utf-8",
       })
       .then(JSON.parse) as Promise<Team[]>,

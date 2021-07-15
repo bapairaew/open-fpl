@@ -7,7 +7,7 @@ const NotFound = (props: BoxProps) => {
       symbol="「(°ヘ°)"
       heading="How do you get here?"
       text="This page no longer exists or has never been here."
-      linkHref="/"
+      linkHref="/players"
       linkText="Click here to get back home"
       {...props}
     />

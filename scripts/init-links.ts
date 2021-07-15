@@ -33,7 +33,7 @@ const teamMap: Record<string, string | null> = {
 
 async function createTeamsLinks(): Promise<Record<string, string>> {
   const fplTeams = (await fs.promises
-    .readFile("./public/data/fpl_teams/data.json", { encoding: "utf-8" })
+    .readFile("./public/remote-data/fpl_teams/data.json", { encoding: "utf-8" })
     .then(JSON.parse)) as Team[];
   const links = fplTeams.reduce((links, team) => {
     const matched = teamMap[team.short_name];
@@ -48,9 +48,11 @@ async function createPlayersLinks(
   teamsLinks: Record<string, string>
 ): Promise<Record<string, string>> {
   const [fpl, understat] = await Promise.all([
-    (await getDataFromFiles(path.resolve("./public/data/fpl"))) as FPLElement[],
     (await getDataFromFiles(
-      path.resolve("./public/data/understat")
+      path.resolve("./public/remote-data/fpl")
+    )) as FPLElement[],
+    (await getDataFromFiles(
+      path.resolve("./public/remote-data/understat")
     )) as PlayerStat[],
   ]);
 
@@ -101,11 +103,11 @@ async function createPlayersLinks(
   const teamsLinks = await createTeamsLinks();
   const playersLinks = await createPlayersLinks(teamsLinks);
   await fs.promises.writeFile(
-    `./public/data/links/teams.json`,
+    `./public/remote-data/links/teams.json`,
     JSON.stringify(teamsLinks, null, 2)
   );
   await fs.promises.writeFile(
-    `./public/data/links/players.json`,
+    `./public/remote-data/links/players.json`,
     JSON.stringify(playersLinks, null, 2)
   );
   console.log(
