@@ -80,6 +80,7 @@ const PlayersExplorer = ({
       />
       <Flex direction="column" overflow="hidden" height="100%" {...props}>
         <PlayersExplorerToolbar
+          borderBottomWidth={1}
           players={players}
           onResults={setDisplayedPlayers}
           display={display}

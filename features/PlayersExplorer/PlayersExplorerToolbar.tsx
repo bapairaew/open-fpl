@@ -1,5 +1,6 @@
 import {
   Box,
+  BoxProps,
   Button,
   Divider,
   HStack,
@@ -33,7 +34,8 @@ const PlayersExplorerToolbar = ({
   showCompareButton = false,
   onCompareClick,
   onResetClick,
-}: {
+  ...props
+}: BoxProps & {
   initialSeachQuery?: string;
   players?: Player[];
   onResults?: (players: Player[]) => void;
@@ -72,7 +74,7 @@ const PlayersExplorerToolbar = ({
         width="100%"
         px={1}
         spacing={1}
-        borderBottomWidth={1}
+        {...props}
       >
         {showCompareButton && (
           <>
@@ -139,7 +141,6 @@ const PlayersExplorerToolbar = ({
             ))}
           </Select>
         </Box>
-        <Divider orientation="vertical" />
       </HStack>
     </>
   );
