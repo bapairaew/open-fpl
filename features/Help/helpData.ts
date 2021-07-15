@@ -1,6 +1,7 @@
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import { Player } from "~/features/PlayerData/playerDataTypes";
 import { ElementStatus } from "~/features/RemoteData/fplTypes";
+import { FullChangePlayer } from "../TeamPlanner/teamPlannerTypes";
 
 export const player: Player = {
   id: 302,
@@ -418,3 +419,17 @@ export const gameweeks: Gameweek[] = [
     is_next: false,
   },
 ];
+
+export const fullChangePlayer: FullChangePlayer = {
+  ...player,
+  pick: {
+    element: player.id,
+    position: 0,
+    now_cost: 110,
+    selling_price: 110,
+    purchase_price: 100,
+    multiplier: 1,
+    is_captain: false,
+    is_vice_captain: false,
+  },
+};

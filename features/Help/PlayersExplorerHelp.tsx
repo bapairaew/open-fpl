@@ -15,7 +15,7 @@ import Link from "next/link";
 // @ts-ignore
 import { AnnotationCalloutRect } from "react-annotation";
 import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
-import { gameweeks, player } from "~/features/PlayersExplorer/helpData";
+import { gameweeks, player } from "~/features/Help/helpData";
 import PlayersExplorerToolbar from "~/features/PlayersExplorer/PlayersExplorerToolbar";
 import PlayerTableHeaderRow from "../PlayerData/PlayerTableHeaderRow";
 
@@ -37,11 +37,11 @@ const DemoPlayerCard = () => (
     mx="auto"
     justifyContent="center"
     alignItems="center"
-    height={600}
-    width={800}
+    height="600px"
+    width="800px"
     position="relative"
   >
-    <Box width={400}>
+    <Box width="400px">
       <PlayerGridCard player={player} gameweeks={gameweeks} />
     </Box>
     <Box as="svg" sx={{ width: 800, height: 600, position: "absolute" }}>
@@ -444,7 +444,7 @@ const PlayersExplorerHelp = () => {
           </ComponentWithHighlight>
         </Box>
 
-        <Box borderWidth={1} my={6} pointerEvents="none">
+        <Box borderWidth={1} my={6} pointerEvents="none" overflow="hidden">
           <ComponentWithHighlight
             highlight={{
               top: 0,

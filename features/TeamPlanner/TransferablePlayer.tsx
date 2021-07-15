@@ -47,18 +47,18 @@ const teamPlayerVariants: Record<TransferablePlayerVariant, ButtonProps> = {
 };
 
 const TransferablePlayer = ({
-  variant,
   player,
   gameweeks,
+  variant = "default",
   showCaptainButton = false,
   onPlayerClick,
   onSetCaptainClick,
   onSetViceCaptainClick,
   ...props
 }: {
-  variant: TransferablePlayerVariant;
   player: FullChangePlayer;
   gameweeks: Gameweek[];
+  variant?: TransferablePlayerVariant;
   showCaptainButton?: boolean;
   onPlayerClick?: MouseEventHandler<HTMLButtonElement>;
   onSetCaptainClick?: MouseEventHandler<HTMLButtonElement>;
