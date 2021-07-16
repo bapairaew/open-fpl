@@ -9,6 +9,7 @@ export default function useAnalytics() {
 
   useEffect(() => {
     Fathom.load(fathom_tracking_code!, {
+      url: "https://trout.openfpl.com/script.js",
       includedDomains: ["www.openfpl.com"],
     });
 
