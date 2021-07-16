@@ -1,7 +1,7 @@
 {
   "functions": {
     "pages/api/ogimages/[text].ts": {
-      "excludeFiles": "node_modules/react-dom/*"
+      "excludeFiles": "public/**"
     }
   }
 }
