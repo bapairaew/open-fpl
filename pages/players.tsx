@@ -25,32 +25,32 @@ function PlayersExplorerPage() {
 
   let mainContent = null;
 
-  if (!isLocalStorageSupported) {
-    return null;
-  } else if (isReady) {
-    mainContent = (
-      <PlayersExplorer as="main" players={players!} gameweeks={gameweeks!} />
-    );
-  } else if (playersError || gameweeksError) {
-    mainContent = (
-      <UnhandledError
-        as="main"
-        additionalInfo={
-          playersError
-            ? "Players data failed to load"
-            : "Gameweeks data failed to load"
-        }
-      />
-    );
-  } else {
-    mainContent = (
-      <FullScreenMessage
-        as="main"
-        symbol={<Spinner size="xl" />}
-        heading="One moment..."
-        text="Please wait while we are preparing players data."
-      />
-    );
+  if (isLocalStorageSupported) {
+    if (isReady) {
+      mainContent = (
+        <PlayersExplorer as="main" players={players!} gameweeks={gameweeks!} />
+      );
+    } else if (playersError || gameweeksError) {
+      mainContent = (
+        <UnhandledError
+          as="main"
+          additionalInfo={
+            playersError
+              ? "Players data failed to load"
+              : "Gameweeks data failed to load"
+          }
+        />
+      );
+    } else {
+      mainContent = (
+        <FullScreenMessage
+          as="main"
+          symbol={<Spinner size="xl" />}
+          heading="One moment..."
+          text="Please wait while we are preparing players data."
+        />
+      );
+    }
   }
 
   return (
