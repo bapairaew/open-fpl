@@ -11,12 +11,14 @@ const Parser = require("i18next-scanner").Parser;
 
 const parser = new Parser();
 
+const functionName = "getOgImage";
+
 const parseFile = async (parser: any, path: string) => {
   if (fs.lstatSync(path).isFile()) {
     const content = await fs.promises.readFile(path, "utf-8");
     parser.parseFuncFromString(
       content,
-      { list: ["getOgImage"] },
+      { list: [functionName] },
       // @ts-ignore
       (key, options) => {
         parser.set(
@@ -48,11 +50,6 @@ const makeOgImages = async () => {
   const paths = await glob("pages/**/*");
 
   await Promise.all(paths.map((path) => parseFile(parser, path)));
-
-  // for (const image of Object.keys(parser.get().en.translation)) {
-  //   console.log(image);
-  //   await makeImage(image);
-  // }
 
   await Promise.all(
     Object.keys(parser.get().en.translation).map((image) => makeImage(image))
