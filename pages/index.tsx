@@ -1,6 +1,7 @@
 import { NextSeo } from "next-seo";
 import LandingPage from "~/features/LandingPage/LandingPage";
 import { baseUrl } from "~/features/Navigation/internalUrls";
+import getOgImage from "~/features/OpenGraphImages/getOgImage";
 
 const IndexPage = () => {
   return (
@@ -16,7 +17,7 @@ const IndexPage = () => {
             "Level up your FPL game with Player Statistics Explorer, Team Planner, Fixture Difficulty Rating.",
           images: [
             {
-              url: `${baseUrl}/api/ogimages/Open FPL.png?width=800,height=600`,
+              url: getOgImage("Open FPL.png?width=800,height=600"),
               width: 800,
               height: 600,
               alt: "Open FPL",

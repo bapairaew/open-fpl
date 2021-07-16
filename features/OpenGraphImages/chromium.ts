@@ -16,11 +16,12 @@ async function getPage(isDev: boolean) {
 export async function getScreenshot(
   html: string,
   type: FileType,
+  savePath: string,
   isDev: boolean
 ) {
   const page = await getPage(isDev);
   await page.setViewport({ width: 2048, height: 1170 });
   await page.setContent(html);
-  const file = await page.screenshot({ type });
+  const file = await page.screenshot({ type, path: savePath });
   return file;
 }

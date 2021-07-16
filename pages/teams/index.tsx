@@ -4,6 +4,7 @@ import Link from "next/link";
 import AppLayout from "~/features/Layout/AppLayout";
 import FullScreenMessage from "~/features/Layout/FullScreenMessage";
 import { baseUrl } from "~/features/Navigation/internalUrls";
+import getOgImage from "~/features/OpenGraphImages/getOgImage";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import useTeamPlannerRedirect from "~/features/TeamPlanner/useTeamPlannerRedirect";
 
@@ -66,7 +67,7 @@ const TransferPlannerSetupPage = () => {
             "Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks.",
           images: [
             {
-              url: `${baseUrl}/api/ogimages/Team Planner.png?width=800,height=600`,
+              url: getOgImage("Team Planner.png?width=800,height=600"),
               width: 800,
               height: 600,
               alt: "Team Planner – Open FPL",

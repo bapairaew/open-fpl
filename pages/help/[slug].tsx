@@ -18,6 +18,7 @@ import {
 } from "react-icons/io5";
 import AppLayout from "~/features/Layout/AppLayout";
 import { baseUrl } from "~/features/Navigation/internalUrls";
+import getOgImage from "~/features/OpenGraphImages/getOgImage";
 
 const tabs = [
   {
@@ -78,7 +79,7 @@ const HelpPage = ({
             "How to use each open-source tool on Open FPL to help you enjoy Fantasy Premier League more.",
           images: [
             {
-              url: `${baseUrl}/api/ogimages/How to use.png?width=800,height=600`,
+              url: getOgImage("How to use.png?width=800,height=600"),
               width: 800,
               height: 600,
               alt: "How to use – Open FPL",

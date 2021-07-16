@@ -6,6 +6,7 @@ import Fixtures from "~/features/Fixtures/Fixtures";
 import { makeTeamFixtures } from "~/features/Fixtures/fixturesData";
 import AppLayout from "~/features/Layout/AppLayout";
 import { baseUrl } from "~/features/Navigation/internalUrls";
+import getOgImage from "~/features/OpenGraphImages/getOgImage";
 import { FPLElement } from "~/features/PlayerData/playerDataTypes";
 import { Team } from "~/features/RemoteData/fplTypes";
 
@@ -55,7 +56,9 @@ function FixturesPage({
             "Explore Fantasy Premier League fixtures and their Attack and Defence Fixture Difficulty Rating.",
           images: [
             {
-              url: `${baseUrl}/api/ogimages/Fixture Difficulty Rating.png?width=800,height=600`,
+              url: getOgImage(
+                "Fixture Difficulty Rating.png?width=800,height=600"
+              ),
               width: 800,
               height: 600,
               alt: "Fixture Difficulty Rating – Open FPL",

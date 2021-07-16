@@ -7,6 +7,7 @@ import UnhandledError from "~/features/Error/UnhandledError";
 import AppLayout from "~/features/Layout/AppLayout";
 import FullScreenMessage from "~/features/Layout/FullScreenMessage";
 import { baseUrl } from "~/features/Navigation/internalUrls";
+import getOgImage from "~/features/OpenGraphImages/getOgImage";
 import { Player } from "~/features/PlayerData/playerDataTypes";
 import PlayersExplorer from "~/features/PlayersExplorer/PlayersExplorer";
 
@@ -65,7 +66,9 @@ function PlayersExplorerPage() {
             "Explore Fantasy Premier League player statistics xG, xGA, and more to make a better decision on your team.",
           images: [
             {
-              url: `${baseUrl}/api/ogimages/Player Statistics Explorer.png?width=800,height=600`,
+              url: getOgImage(
+                "Player Statistics Explorer.png?width=800,height=600"
+              ),
               width: 800,
               height: 600,
               alt: "Player Statistics Explorer – Open FPL",

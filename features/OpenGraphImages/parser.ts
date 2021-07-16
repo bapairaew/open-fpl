@@ -1,10 +1,10 @@
-import { IncomingMessage } from "http";
 import { URL } from "url";
-import { ParsedRequest } from "~/features/OpenGraphImages/openGraphImagestypes";
 import { baseUrl } from "~/features/Navigation/internalUrls";
+import { ParsedRequest } from "~/features/OpenGraphImages/openGraphImagestypes";
+import fs from "fs";
 
-export function parseRequest(req: IncomingMessage) {
-  const { pathname, searchParams } = new URL(req.url || "/", baseUrl);
+export async function parseRequest(url: URL) {
+  const { pathname, searchParams } = url;
 
   const fontSize = searchParams.get("fontSize");
   const images = searchParams.getAll("images");
@@ -38,7 +38,7 @@ export function parseRequest(req: IncomingMessage) {
     heights: getArray(heights),
   };
 
-  parsedRequest.images = getDefaultImages(parsedRequest.images);
+  parsedRequest.images = await getDefaultImages(parsedRequest.images);
   return parsedRequest;
 }
 
@@ -52,8 +52,13 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
   }
 }
 
-function getDefaultImages(images: string[]): string[] {
-  const defaultImage = `${baseUrl}/logo.svg`;
+async function getDefaultImages(images: string[]): Promise<string[]> {
+  const defaultImage = `data:image/svg+xml;base64,${await fs.promises.readFile(
+    "./public/logo.svg",
+    {
+      encoding: "base64",
+    }
+  )}`;
 
   if (!images || !images[0]) {
     return [defaultImage];

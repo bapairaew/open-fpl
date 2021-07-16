@@ -4,6 +4,7 @@ node_modules
 
 public/remote-data/*
 public/app-data/*
+public/og-images/*
 
 # These datasets are to be overridden manually
 !public/remote-data/links
@@ -14,6 +15,7 @@ remote-data/*
 
 # Placeholder file just to make sure app-data folder is in git repo
 !public/app-data/.gitignore
+!public/og-images/.gitignore
 
 # Temporary in local development
 *.temp.*

@@ -70,6 +70,5 @@ const makeCliRealFavIconConfig = async () => {
 };
 
 (async function () {
-  const start = new Date();
   await makeCliRealFavIconConfig();
 })();
