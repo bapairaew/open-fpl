@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "pages/api/ogimages/[contact].ts": {
+      "excludeFiles": "public/**/*"
+    }
+  }
+}

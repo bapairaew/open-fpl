@@ -54,8 +54,6 @@
     "@types/react-window": "^1.8.3",
     "@types/sortablejs": "^1.10.6",
     "cli-real-favicon": "^0.0.8",
-    "glob": "^7.1.6",
-    "glob-promise": "^4.2.0",
     "node-fetch": "^2.6.1",
     "node-html-parser": "^3.2.0",
     "p-retry": "^4.5.0",
