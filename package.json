@@ -12,7 +12,7 @@
     "make-og-images": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/make-og-images.ts",
     "dev": "next dev",
     "copy-remote-data": "cp -r ./public/remote-data ./remote-data",
-    "prebuild": "yarn init-remote-data && yarn init-app-data && yarn make-favicons && yarn copy-remote-data",
+    "prebuild": "yarn init-remote-data && yarn init-app-data && yarn make-favicons && yarn make-og-images && yarn copy-remote-data",
     "build": "next build",
     "start": "next start"
   },
