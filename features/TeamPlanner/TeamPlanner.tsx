@@ -2,6 +2,7 @@ import {
   Box,
   BoxProps,
   Button,
+  Divider,
   Flex,
   forwardRef,
   Icon,
@@ -208,16 +209,21 @@ const TeamPlanner = ({
                 aria-label="add a new plan"
                 onClick={handleAddNewTransferPlan}
               />
-              <Button
-                size="sm"
-                height="100%"
-                variant="ghost"
-                borderRadius="none"
-                leftIcon={<Icon as={IoSettingsOutline} />}
-                onClick={onOpen}
-              >
-                Custom Players
-              </Button>
+              <Flex>
+                <Divider orientation="vertical" />
+                <Box p="2px">
+                  <Button
+                    size="sm"
+                    height="100%"
+                    variant="ghost"
+                    borderRadius="none"
+                    leftIcon={<Icon as={IoSettingsOutline} />}
+                    onClick={onOpen}
+                  >
+                    Custom Players
+                  </Button>
+                </Box>
+              </Flex>
             </Flex>
           </Flex>
           <TabPanels display="flex" flexGrow={1} flexDirection="column">

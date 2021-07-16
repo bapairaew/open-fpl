@@ -16,8 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { TeamInfo } from "~/features/Fixtures/fixturesDataTypes";
-
-const getPercent = (strength: number): number => (100 * (strength - 900)) / 500;
+import { getTeamsStrengthPercent } from "~/features/TeamData/teamData";
 
 const CompareTeamsPopover = ({
   mode,
@@ -99,7 +98,9 @@ const CompareTeamsPopover = ({
                           </Text>
                           <Text>{teamStrength.toLocaleString()}</Text>
                         </Flex>
-                        <Progress value={getPercent(teamStrength)} />
+                        <Progress
+                          value={getTeamsStrengthPercent(teamStrength)}
+                        />
                       </Box>
                       <Box my={4}>
                         <Flex my={2} fontSize="small" color="gray.600">
@@ -109,7 +110,9 @@ const CompareTeamsPopover = ({
                           </Text>
                           <Text>{opponentStrength.toLocaleString()}</Text>
                         </Flex>
-                        <Progress value={getPercent(opponentStrength)} />
+                        <Progress
+                          value={getTeamsStrengthPercent(opponentStrength)}
+                        />
                       </Box>
                     </PopoverBody>
                   </PopoverContent>

@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { makeFullFixtures } from "~/features/Fixtures/fixturesData";
 import { TeamFixtures } from "~/features/Fixtures/fixturesDataTypes";
@@ -6,6 +6,8 @@ import FixturesTable from "~/features/Fixtures/FixturesTable";
 import FixturesToolbar from "~/features/Fixtures/FixturesToolbar";
 import { Team } from "~/features/RemoteData/fplTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
+import { TeamStrength } from "~/features/TeamData/teamDataTypes";
+import TeamsStrengthEditorModal from "~/features/TeamData/TeamsStrengthEditorModal";
 
 const Fixtures = ({
   teamFixtures,
@@ -14,31 +16,95 @@ const Fixtures = ({
   teamFixtures: TeamFixtures[];
   fplTeams: Team[];
 }) => {
-  const { fixturesTeamsOrder, setFixturesTeamsOrder } = useSettings();
+  const {
+    fixturesTeamsOrder,
+    setFixturesTeamsOrder,
+    teamsStrength,
+    setTeamsStrength,
+  } = useSettings();
+
+  const adjustedTeams = useMemo(() => {
+    if (teamsStrength && teamsStrength.length > 0) {
+      return fplTeams.map((team) => {
+        const matched = teamsStrength.find((t) => t.id === team.id);
+        if (matched) {
+          return {
+            ...team,
+            ...matched,
+          };
+        } else {
+          return team;
+        }
+      });
+    } else {
+      return fplTeams;
+    }
+  }, [fplTeams, teamsStrength]);
 
   const fullFixtures = useMemo(() => {
-    const fullFixtures = makeFullFixtures({ teamFixtures, fplTeams });
+    const fullFixtures = makeFullFixtures({
+      teamFixtures,
+      fplTeams: adjustedTeams,
+    });
 
     return fixturesTeamsOrder
       ? fixturesTeamsOrder.map((o) => {
           return fullFixtures.find((f) => f.short_name === o)!;
         })
       : fullFixtures;
-  }, [teamFixtures, fplTeams, fixturesTeamsOrder]);
+  }, [teamFixtures, adjustedTeams, fixturesTeamsOrder]);
 
   const [mode, setMode] = useState("attack");
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleStrengthChange = (
+    teamId: number,
+    key: keyof TeamStrength,
+    value: number
+  ) => {
+    if (teamsStrength) {
+      const matched = teamsStrength.find((t) => t.id === teamId);
+      if (matched) {
+        setTeamsStrength([
+          ...teamsStrength.filter((t) => t.id !== teamId),
+          { ...matched, [key]: value },
+        ]);
+      } else {
+        setTeamsStrength([...teamsStrength, { id: teamId, [key]: value }]);
+      }
+    }
+  };
+
+  const handleResetStrength = (teamId: number) => {
+    if (teamsStrength) {
+      setTeamsStrength([...teamsStrength.filter((t) => t.id !== teamId)]);
+    }
+  };
 
   return (
-    <Flex flexDirection="column" height="100%">
-      <FixturesToolbar mode={mode} onModeChange={setMode} />
-      <Box flexGrow={1}>
-        <FixturesTable
+    <>
+      <TeamsStrengthEditorModal
+        fplTeams={adjustedTeams}
+        onStrengthChange={handleStrengthChange}
+        onResetStrength={handleResetStrength}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
+      <Flex flexDirection="column" height="100%">
+        <FixturesToolbar
           mode={mode}
-          fullFixtures={fullFixtures}
-          onFixturesOrderChange={setFixturesTeamsOrder}
+          onModeChange={setMode}
+          onEditTeamsStrengthClick={onOpen}
         />
-      </Box>
-    </Flex>
+        <Box flexGrow={1}>
+          <FixturesTable
+            mode={mode}
+            fullFixtures={fullFixtures}
+            onFixturesOrderChange={setFixturesTeamsOrder}
+          />
+        </Box>
+      </Flex>
+    </>
   );
 };
 

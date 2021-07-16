@@ -171,7 +171,7 @@ const ComparePlayersModal = ({
   );
 
   return isOpen ? (
-    <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="xl">
+    <Drawer size="xl" placement="right" isOpen={isOpen} onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />

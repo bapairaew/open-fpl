@@ -4,6 +4,7 @@ import {
   DisplayOptions,
   SortOptions,
 } from "~/features/PlayersExplorer/playersExplorerTypes";
+import { TeamStrength } from "~/features/TeamData/teamDataTypes";
 
 export interface Preference {
   name?: string;
@@ -30,6 +31,8 @@ export interface Settings {
   setStarredPlayers: (ids: number[] | null) => void;
   customPlayers: CustomPlayer[] | null;
   setCustomPlayers: (ids: CustomPlayer[] | null) => void;
+  teamsStrength: TeamStrength[] | null;
+  setTeamsStrength: (teamsStrength: TeamStrength[] | null) => void;
   onSettingsModalOpen: () => void;
   onSettingsModalClsoe: () => void;
 }

@@ -14,9 +14,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Fragment } from "react";
-import { makeTeamGroupObject } from "~/features/AppData/teamGroupObject";
 import { positionColorCodes } from "~/features/RemoteData/fplColors";
 import TeamChange from "~/features/TeamPlanner/TeamChange";
+import { makeTeamGroupObject } from "~/features/TeamPlanner/teamGroupObject";
 import {
   Change,
   FullChangePlayer,
@@ -96,7 +96,7 @@ const TeamSummaryModal = ({
   );
 
   return (
-    <Drawer size="lg" isOpen={isOpen} placement="bottom" onClose={onClose}>
+    <Drawer size="lg" placement="bottom" isOpen={isOpen} onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />

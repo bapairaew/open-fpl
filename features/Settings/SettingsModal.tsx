@@ -107,8 +107,8 @@ const SettingsModal = ({
   return (
     <Drawer
       size="md"
-      isOpen={isOpen}
       placement="right"
+      isOpen={isOpen}
       onClose={onClose}
       initialFocusRef={initialFocusRef}
     >

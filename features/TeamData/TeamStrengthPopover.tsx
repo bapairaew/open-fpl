@@ -14,6 +14,7 @@ import { transparentize } from "@chakra-ui/theme-tools";
 import { ReactNode } from "react";
 import { Radar } from "react-chartjs-2";
 import { TeamInfo } from "~/features/Fixtures/fixturesDataTypes";
+import { assumedMax, assumedMin } from "~/features/TeamData/teamData";
 import theme from "~/theme";
 
 const TeamStrengthPopover = ({
@@ -46,8 +47,8 @@ const TeamStrengthPopover = ({
     animation: false,
     scales: {
       r: {
-        suggestedMin: 900,
-        suggestedMax: 1400,
+        suggestedMin: assumedMin.teamStrength,
+        suggestedMax: assumedMax.teamStrength,
       },
     },
   };
@@ -60,6 +61,8 @@ const TeamStrengthPopover = ({
             <PopoverTrigger>
               <Box
                 role="button"
+                textAlign="left"
+                ml="25px"
                 // textDecorationLine="underline"
                 // textDecorationStyle="dotted"
                 // textUnderlineOffset="3px"

@@ -4,14 +4,14 @@ import { AiOutlinePushpin } from "react-icons/ai";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import { useSettings } from "~/features/Settings/SettingsContext";
-import TransferablePlayer, {
-  TransferablePlayerVariant,
-} from "~/features/TeamPlanner/TransferablePlayer";
 import { isSwapable } from "~/features/TeamPlanner/teamPlan";
 import {
   FullChangePlayer,
   GroupedTeam,
 } from "~/features/TeamPlanner/teamPlannerTypes";
+import TransferablePlayer, {
+  TransferablePlayerVariant,
+} from "~/features/TeamPlanner/TransferablePlayer";
 
 const getVariant = (
   selectedPlayer: FullChangePlayer | null,

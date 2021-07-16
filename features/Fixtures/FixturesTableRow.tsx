@@ -1,9 +1,9 @@
 import { Box, Flex, Icon, Td, Tr } from "@chakra-ui/react";
 import { IoReorderFourOutline } from "react-icons/io5";
-import CompareTeamsPopover from "~/features/Fixtures/CompareTeamsPopover";
 import { SortableFullTeamFixtures } from "~/features/Fixtures/fixturesDataTypes";
-import TeamStrengthPopover from "~/features/Fixtures/TeamStrengthPopover";
 import { difficultyColorCodes } from "~/features/RemoteData/fplColors";
+import CompareTeamsPopover from "~/features/TeamData/CompareTeamsPopover";
+import TeamStrengthPopover from "~/features/TeamData/TeamStrengthPopover";
 
 const FixturesTableRow = ({
   team,

@@ -12,7 +12,9 @@ import {
   getProfilesKey,
   getStarredPlayersKey,
   getTeamPlansKey,
+  getTeamsStrengthKey,
 } from "~/features/Settings/storageKeys";
+import { TeamStrength } from "~/features/TeamData/teamDataTypes";
 
 const SettingsModal = dynamic(
   () => import("~/features/Settings/SettingsModal")
@@ -34,6 +36,8 @@ const SettingsContext = createContext<Settings>({
   setStarredPlayers: () => {},
   customPlayers: [],
   setCustomPlayers: () => {},
+  teamsStrength: [],
+  setTeamsStrength: () => {},
   isSettingsModalOpen: false,
   onSettingsModalOpen: () => {},
   onSettingsModalClsoe: () => {},
@@ -77,6 +81,10 @@ export const SettingsContextProvider = ({
     CustomPlayer[] | null
   >(getCustomPlayersKey(), []);
 
+  const [teamsStrength, setTeamsStrength] = useLocalStorage<
+    TeamStrength[] | null
+  >(getTeamsStrengthKey(), []);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -97,6 +105,8 @@ export const SettingsContextProvider = ({
         setStarredPlayers,
         customPlayers,
         setCustomPlayers,
+        teamsStrength,
+        setTeamsStrength,
         isSettingsModalOpen: isOpen,
         onSettingsModalOpen: onOpen,
         onSettingsModalClsoe: onClose,
