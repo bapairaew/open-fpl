@@ -1,6 +1,6 @@
 {
   "name": "open-fpl",
-  "version": "0.3.0-pre.25",
+  "version": "1.0.0-pre.0",
   "scripts": {
     "init-remote-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-remote-data.ts",
     "init-app-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-app-data.ts",
