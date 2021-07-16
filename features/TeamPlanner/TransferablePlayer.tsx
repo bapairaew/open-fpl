@@ -4,6 +4,7 @@ import {
   Button,
   ButtonProps,
   Flex,
+  Icon,
   Menu,
   MenuButton,
   MenuItem,
@@ -11,6 +12,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { MouseEventHandler } from "react";
+import { IoEllipsisHorizontalOutline } from "react-icons/io5";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
 import { FullChangePlayer } from "~/features/TeamPlanner/teamPlannerTypes";
@@ -134,11 +136,13 @@ const TransferablePlayer = ({
                   borderRadius="none"
                   fontWeight="black"
                 >
-                  {player.pick.is_captain
-                    ? "C"
-                    : player.pick.is_vice_captain
-                    ? "V"
-                    : "..."}
+                  {player.pick.is_captain ? (
+                    "C"
+                  ) : player.pick.is_vice_captain ? (
+                    "V"
+                  ) : (
+                    <Icon as={IoEllipsisHorizontalOutline} />
+                  )}
                 </MenuButton>
                 <MenuList>
                   <MenuItem onClick={onSetCaptainClick}>

@@ -1,17 +1,25 @@
 import {
+  Box,
   Container,
+  Flex,
   Heading,
+  Icon,
   Link as A,
   Text,
-  Box,
-  Flex,
 } from "@chakra-ui/react";
+import Link from "next/link";
+// @ts-ignore
+import { AnnotationCalloutRect } from "react-annotation";
+import {
+  IoAdd,
+  IoArrowBackOutline,
+  IoArrowForwardOutline,
+  IoEllipsisHorizontalOutline,
+  IoEllipsisVerticalOutline,
+} from "react-icons/io5";
 import { fullChangePlayer, gameweeks } from "~/features/Help/helpData";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import TransferablePlayer from "~/features/TeamPlanner/TransferablePlayer";
-// @ts-ignore
-import { AnnotationCalloutRect } from "react-annotation";
-import Link from "next/link";
 
 const DemoPlayerCard = () => (
   <Flex
@@ -29,12 +37,12 @@ const DemoPlayerCard = () => (
         gameweeks={gameweeks}
       />
     </Box>
-    <Box as="svg" sx={{ width: 800, height: 600, position: "absolute" }}>
+    <Box as="svg" sx={{ width: 800, height: 350, position: "absolute" }}>
       <AnnotationCalloutRect
         x={470}
-        y={218}
-        dx={150}
-        dy={-44}
+        y={94}
+        dx={80}
+        dy={-50}
         subject={{ width: 50, height: 28 }}
         note={{
           title: "Selling price",
@@ -42,9 +50,9 @@ const DemoPlayerCard = () => (
       />
       <AnnotationCalloutRect
         x={470}
-        y={246}
-        dx={150}
-        dy={44}
+        y={122}
+        dx={-150}
+        dy={-80}
         subject={{ width: 50, height: 23 }}
         note={{
           title: "Captain button",
@@ -102,7 +110,7 @@ const TeamPlannerHelp = () => {
         almost the same as described in{" "}
         <Link href="/help/players">
           <A color="brand.500">Player Explorer</A>
-        </Link>
+        </Link>{" "}
         but displayed in more compact form with one additional data and a button
         to set up captaincy on the right hand side of the card:
       </Text>
@@ -119,12 +127,16 @@ const TeamPlannerHelp = () => {
       </Text>
       <Text my={3} as="p">
         You can see you bank balance, remaining free transfers, hits and chip
-        usage on the top toolbar. You can also go further into future gameweeks
-        by clicking on the arrows beside the current gameweek.
+        usage on the top toolbar. You can also navigate through future gameweeks
+        by clicking on the arrows button{" "}
+        <Icon aria-label="back" as={IoArrowBackOutline} />,{" "}
+        <Icon aria-label="forward" as={IoArrowForwardOutline} /> beside the
+        current gameweek.
       </Text>
       <Text my={3} as="p">
-        To set up your captain, simply click on the button on the right side of
-        the player card as shown above.
+        To set up your captain, simply click on the captain menu button{" "}
+        <Icon aria-label="captain menu" as={IoEllipsisHorizontalOutline} /> on
+        the right side of the player card as shown above.
       </Text>
 
       <Heading my={6} as="h3" size="md" fontWeight="black">
@@ -140,10 +152,12 @@ const TeamPlannerHelp = () => {
         Multiple plans
       </Heading>
       <Text my={3} as="p">
-        You can have multiple plans at the same time. Simply click on the "+"
-        button on the tab pannel on the top of screen. You can rearrange the tab
-        by dragging them around. You can also rename or remove it by clicking on
-        the menu next to the tab name.
+        You can have multiple plans at the same time. Simply click on the{" "}
+        <Icon aria-label="add" as={IoAdd} /> add button on the tab pannel on the
+        top of screen. You can rearrange the tab by dragging them around. You
+        can also rename or remove it by clicking{" "}
+        <Icon aria-label="menu" as={IoEllipsisVerticalOutline} /> on the menu
+        next to the tab name.
       </Text>
       <Text my={3} as="p">
         Please do note that there is a limit of how many plans you can have

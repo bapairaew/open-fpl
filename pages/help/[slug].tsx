@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { MouseEvent } from "react";
 import {
+  IoCalendarClearOutline,
   IoPeopleCircleOutline,
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
@@ -30,6 +31,12 @@ const tabs = [
     icon: IoSwapHorizontalOutline,
     slug: "teams",
     component: dynamic(() => import("~/features/Help/TeamPlannerHelp")),
+  },
+  {
+    label: "Fixtures",
+    icon: IoCalendarClearOutline,
+    slug: "fixtures",
+    component: dynamic(() => import("~/features/Help/FixturesHelp")),
   },
 ];
 

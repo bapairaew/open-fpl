@@ -11,8 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { MouseEvent } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
-import FixturesHelpButton from "~/features/Fixtures/FixturesHelpButton";
-import { Team } from "~/features/RemoteData/fplTypes";
 
 const FixturesToolbar = ({
   mode,
@@ -30,7 +28,6 @@ const FixturesToolbar = ({
           <Heading fontWeight="black" fontSize="lg">
             Fixtures Difficulty Rating
           </Heading>
-          <FixturesHelpButton />
         </HStack>
         <Divider orientation="vertical" />
         <RadioGroup px={4} value={mode} onChange={onModeChange}>
