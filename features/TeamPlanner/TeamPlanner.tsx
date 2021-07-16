@@ -1,6 +1,7 @@
 import {
   Box,
   BoxProps,
+  Button,
   Flex,
   forwardRef,
   Icon,
@@ -13,7 +14,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
-import { IoAdd, IoPeopleOutline } from "react-icons/io5";
+import { IoAdd, IoSettingsOutline } from "react-icons/io5";
 import { ItemInterface, ReactSortable } from "react-sortablejs";
 import { Gameweek } from "~/features/AppData/appDataTypes";
 import {
@@ -207,13 +208,16 @@ const TeamPlanner = ({
                 aria-label="add a new plan"
                 onClick={handleAddNewTransferPlan}
               />
-              <IconButton
+              <Button
+                size="sm"
+                height="100%"
                 variant="ghost"
                 borderRadius="none"
-                aria-label="custom players"
-                icon={<Icon as={IoPeopleOutline} />}
+                leftIcon={<Icon as={IoSettingsOutline} />}
                 onClick={onOpen}
-              />
+              >
+                Custom Players
+              </Button>
             </Flex>
           </Flex>
           <TabPanels display="flex" flexGrow={1} flexDirection="column">

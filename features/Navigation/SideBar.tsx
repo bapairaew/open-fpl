@@ -103,11 +103,7 @@ const SideBar = () => {
           size="sm"
           width="100%"
           onClick={onSettingsModalOpen}
-          leftIcon={
-            teamId ? (
-              <Icon aria-label="Settings" as={IoSettingsOutline} />
-            ) : undefined
-          }
+          leftIcon={teamId ? <Icon as={IoSettingsOutline} /> : undefined}
         >
           {teamId ? `${preference?.name ?? teamId}` : "Set up your profile"}
         </Button>
