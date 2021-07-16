@@ -1,6 +1,6 @@
 {
   "functions": {
-    "pages/api/ogimages/[contact].ts": {
+    "pages/api/ogimages/[text].ts": {
       "excludeFiles": "node_modules/react-dom/*"
     }
   }
