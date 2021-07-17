@@ -23,9 +23,11 @@ import {
   IoSettingsOutline,
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
+import { RoughNotation } from "react-rough-notation";
 import externalLinks from "~/features/Navigation/externalLinks";
 import { useSettings } from "~/features/Settings/SettingsContext";
 import p from "~/package.json";
+import theme from "~/theme";
 
 const SideBarItem = ({
   href,
@@ -78,8 +80,24 @@ const SideBar = () => {
       borderRightWidth={1}
     >
       <Link href="/" passHref>
-        <Box as="a" px={6} py={6} fontWeight="black" fontSize="2xl">
-          Open FPL
+        <Box
+          as="a"
+          px={4}
+          py={6}
+          fontWeight="black"
+          fontSize="2xl"
+          color="white"
+        >
+          <RoughNotation
+            show
+            animate={false}
+            type="highlight"
+            color={theme.colors.brand[500]}
+          >
+            <Box as="span" px={2}>
+              Open FPL
+            </Box>
+          </RoughNotation>
         </Box>
       </Link>
       <List flexGrow={1} role="list">
