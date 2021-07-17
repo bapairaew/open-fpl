@@ -67,7 +67,7 @@ function PlayersExplorerPage() {
           images: [
             {
               url: getOgImage(
-                "Player Statistics Explorer.png?width=800,height=600"
+                "Player Statistics Explorer.png?width=100,height=100,fontSize=154px"
               ),
               width: 800,
               height: 600,

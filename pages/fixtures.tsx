@@ -57,7 +57,7 @@ function FixturesPage({
           images: [
             {
               url: getOgImage(
-                "Fixture Difficulty Rating.png?width=800,height=600"
+                "Fixture Difficulty Rating.png?width=100,height=100,fontSize=154px"
               ),
               width: 800,
               height: 600,

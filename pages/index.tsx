@@ -17,7 +17,7 @@ const IndexPage = () => {
             "Level up your FPL game with Player Statistics Explorer, Team Planner, Fixture Difficulty Rating.",
           images: [
             {
-              url: getOgImage("Open FPL.png?width=800,height=600"),
+              url: getOgImage("Open FPL.png?width=100,height=100"),
               width: 800,
               height: 600,
               alt: "Open FPL",

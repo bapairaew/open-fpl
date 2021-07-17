@@ -82,10 +82,10 @@ const SideBar = () => {
       <Link href="/" passHref>
         <Box
           as="a"
-          px={4}
           py={6}
+          textAlign="center"
           fontWeight="black"
-          fontSize="2xl"
+          fontSize="3xl"
           color="white"
         >
           <RoughNotation

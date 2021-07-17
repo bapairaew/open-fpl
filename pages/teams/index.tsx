@@ -67,7 +67,7 @@ const TransferPlannerSetupPage = () => {
             "Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks.",
           images: [
             {
-              url: getOgImage("Team Planner.png?width=800,height=600"),
+              url: getOgImage("Team Planner.png?width=100,height=100"),
               width: 800,
               height: 600,
               alt: "Team Planner – Open FPL",

@@ -37,7 +37,7 @@ const makeImage = async (image: string) => {
   try {
     const url = new URL(`/${image}`, "https://does.not.matter");
     const parsedReq = await parseRequest(url);
-    const html = getHtml(parsedReq);
+    const html = await getHtml(parsedReq);
     const { fileType } = parsedReq;
     const savePath = `./public/og-images/${parsedReq.text}.${parsedReq.fileType}`;
     await getScreenshot(html, fileType, savePath, isDev);

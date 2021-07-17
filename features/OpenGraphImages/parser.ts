@@ -1,7 +1,7 @@
+import fs from "fs";
 import { URL } from "url";
 import { baseUrl } from "~/features/Navigation/internalUrls";
 import { ParsedRequest } from "~/features/OpenGraphImages/openGraphImagestypes";
-import fs from "fs";
 
 export async function parseRequest(url: URL) {
   const { pathname, searchParams } = url;
@@ -32,7 +32,7 @@ export async function parseRequest(url: URL) {
     fileType: extension === "jpeg" ? extension : "png",
     text: decodeURIComponent(text),
     md: md === "1" || md === "true",
-    fontSize: fontSize || "96px",
+    fontSize: fontSize || "192px",
     images: getArray(images),
     widths: getArray(widths),
     heights: getArray(heights),

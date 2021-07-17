@@ -79,7 +79,7 @@ const HelpPage = ({
             "How to use each open-source tool on Open FPL to help you enjoy Fantasy Premier League more.",
           images: [
             {
-              url: getOgImage("How to use.png?width=800,height=600"),
+              url: getOgImage("How to use.png?width=100,height=100"),
               width: 800,
               height: 600,
               alt: "How to use – Open FPL",
