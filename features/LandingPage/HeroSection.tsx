@@ -31,6 +31,11 @@ const HeroSection = (props: BoxProps) => (
           fontWeight="black"
           textAlign="left"
           color="white"
+          textShadow={`
+          -1px -1px 0 ${theme.colors.brand[500]},  
+           1px -1px 0 ${theme.colors.brand[500]},
+           -1px 1px 0 ${theme.colors.brand[500]},
+            1px 1px 0 ${theme.colors.brand[500]}`}
         >
           <RoughNotation show type="highlight" color={theme.colors.brand[500]}>
             <Box as="span" px={{ base: 2, md: 14 }}>

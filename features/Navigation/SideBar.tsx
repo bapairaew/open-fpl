@@ -87,13 +87,13 @@ const SideBar = () => {
           fontWeight="black"
           fontSize="3xl"
           color="white"
+          textShadow={`
+          -1px -1px 0 ${theme.colors.brand[500]},  
+           1px -1px 0 ${theme.colors.brand[500]},
+           -1px 1px 0 ${theme.colors.brand[500]},
+            1px 1px 0 ${theme.colors.brand[500]}`}
         >
-          <RoughNotation
-            show
-            animate={false}
-            type="highlight"
-            color={theme.colors.brand[500]}
-          >
+          <RoughNotation show type="highlight" color={theme.colors.brand[500]}>
             <Box as="span" px={2}>
               Open FPL
             </Box>
