@@ -22,3 +22,7 @@ remote-data/*
 *.cli-real-favicon.*
 public/favicons/*
 .vercel
+
+# VS Code
+.devcontainer
+.vscode

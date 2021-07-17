@@ -34,6 +34,10 @@ const freeTextFuseSettings: Fuse.IFuseOptions<Player> = {
       name: "web_name",
       weight: 0.7,
     },
+    {
+      name: "team.short_name",
+      weight: 0.5
+    },
   ],
 };
 
