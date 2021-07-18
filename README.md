@@ -18,7 +18,7 @@ $ cd open-fpl
 $ npx learn bootstrap
 $ yarn data:init
 $ yarn data:dev # On one terminal
-$ yarn data:app # On another terminal
+$ yarn app:dev # On another terminal
 ```
 
 ## Stack
