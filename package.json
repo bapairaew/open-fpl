@@ -1,9 +1,6 @@
 {
   "name": "open-fpl",
   "version": "1.0.0",
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "lerna": "^4.0.0"
   },
