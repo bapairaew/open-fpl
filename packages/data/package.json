@@ -1,0 +1,35 @@
+{
+  "name": "@open-fpl/data",
+  "version": "1.0.0",
+  "scripts": {
+    "init-remote-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-remote-data.ts",
+    "init-app-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-app-data.ts",
+    "init-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-links.ts",
+    "init-teamcolorcodes": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-teamcolorcodes.ts",
+    "print-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/print-links.ts",
+    "dev": "next dev",
+    "copy-remote-data": "cp -r ./public/remote-data ./remote-data",
+    "prebuild": "yarn init-remote-data && yarn init-app-data && yarn copy-remote-data",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^11.0.0",
+    "next-seo": "^4.26.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.5.10",
+    "@types/react": "^17.0.9",
+    "fuse.js": "^6.4.6",
+    "node-fetch": "^2.6.1",
+    "node-html-parser": "^4.1.0",
+    "p-retry": "^4.5.0",
+    "string-similarity": "^4.0.4",
+    "tiny-async-pool": "^1.2.0",
+    "ts-node": "^10.0.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.3.2"
+  }
+}

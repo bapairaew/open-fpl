@@ -16,9 +16,10 @@ providing statistics, data visualisation and other utility tools.
 ```bash
 $ git clone https://github.com/bapairaew/open-fpl.git
 $ cd open-fpl
-$ yarn
-$ yarn prebuild
-$ yarn dev
+$ npx learn bootstrap
+$ yarn inti:data
+$ yarn dev:data
+$ yarn dev:app
 ```
 
 ## Stack

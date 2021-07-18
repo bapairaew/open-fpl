@@ -1,0 +1,24 @@
+.next
+node_modules
+.env.local
+
+public/remote-data/*
+public/app-data/*
+
+# These datasets are to be overridden manually
+!public/remote-data/links
+!public/remote-data/teamcolorcodes
+
+# This is required to make build using static on Vercel works
+remote-data/*
+
+# Placeholder file just to make sure app-data folder is in git repo
+!public/app-data/.gitignore
+
+# Temporary in local development
+*.temp.*
+
+# Generated favicons
+*.cli-real-favicon.*
+public/favicons/*
+.vercel
