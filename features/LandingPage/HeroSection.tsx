@@ -54,7 +54,7 @@ const HeroSection = (props: BoxProps) => (
           </RoughNotation>
         </Heading>
         <Text as="p" fontSize="lg" textAlign="center" color="gray.600" my={10}>
-          No charge, No ads, No sign-up, No string attached.
+          No charge, No ads, No sign-up, No strings attached.
         </Text>
         <Link href="/players" passHref>
           <Button
