@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
       - name: Update last updated date
         run: |
-          echo "{\r\n  \"date\": \"$(date)\"\r\n}" > ./packages/data/last-updated.json
+          echo "{ \"date\": \"$(date)\" }" > ./packages/data/last-updated.json
       - name: Make a commit
         run: |
           git config --local user.email "action@github.com"
