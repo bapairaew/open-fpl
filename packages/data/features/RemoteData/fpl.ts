@@ -6,7 +6,7 @@ import {
   EntryHistory,
   Team,
   Transfer,
-} from "~/features/RemoteData/fplTypes";
+} from "@open-fpl/data/features/RemoteData/fplTypes";
 
 const headers = {
   "sec-ch-ua":

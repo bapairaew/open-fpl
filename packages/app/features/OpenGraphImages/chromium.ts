@@ -1,6 +1,6 @@
 import core from "puppeteer-core";
-import { getOptions } from "~/features/OpenGraphImages/options";
-import { FileType } from "~/features/OpenGraphImages/openGraphImagestypes";
+import { getOptions } from "@open-fpl/app/features/OpenGraphImages/options";
+import { FileType } from "@open-fpl/app/features/OpenGraphImages/openGraphImagestypes";
 let _page: core.Page | null;
 
 async function getPage(isDev: boolean) {

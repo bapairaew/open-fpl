@@ -9,21 +9,21 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useRef } from "react";
-import { TeamApiResponse } from "~/features/Api/apiTypes";
+import { TeamApiResponse } from "@open-fpl/app/features/Api/apiTypes";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
   setLocalStorageItem,
-} from "~/features/Common/useLocalStorage";
-import AddProfile from "~/features/Settings/AddProfile";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import SettingsProfilesList from "~/features/Settings/SettingsProfilesList";
-import { Preference } from "~/features/Settings/settingsTypes";
+} from "@open-fpl/app/features/Common/useLocalStorage";
+import AddProfile from "@open-fpl/app/features/Settings/AddProfile";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import SettingsProfilesList from "@open-fpl/app/features/Settings/SettingsProfilesList";
+import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
   getTeamPlansKey,
   getTeamPlanKey,
-} from "~/features/Settings/storageKeys";
+} from "@open-fpl/app/features/Settings/storageKeys";
 
 const SettingsModal = ({
   isOpen,

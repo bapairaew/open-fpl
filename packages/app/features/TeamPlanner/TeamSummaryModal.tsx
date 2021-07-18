@@ -15,13 +15,13 @@ import {
 } from "@chakra-ui/react";
 import { Fragment } from "react";
 import { positionColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
-import TeamChange from "~/features/TeamPlanner/TeamChange";
-import { makeTeamGroupObject } from "~/features/TeamPlanner/teamGroupObject";
+import TeamChange from "@open-fpl/app/features/TeamPlanner/TeamChange";
+import { makeTeamGroupObject } from "@open-fpl/app/features/TeamPlanner/teamGroupObject";
 import {
   Change,
   FullChangePlayer,
   GameweekData,
-} from "~/features/TeamPlanner/teamPlannerTypes";
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 
 const PlayerRow = ({
   player,

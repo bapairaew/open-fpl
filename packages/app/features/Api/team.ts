@@ -1,5 +1,5 @@
 import { NextApiRequest } from "next";
-import { TeamData } from "~/features/Api/apiTypes";
+import { TeamData } from "@open-fpl/app/features/Api/apiTypes";
 import { getTeam as _getTeam } from "@open-fpl/data/features/RemoteData/fpl";
 
 export const getTeam = async (req: NextApiRequest): Promise<TeamData> => {

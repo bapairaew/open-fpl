@@ -5,13 +5,13 @@ import { useCallback, useMemo, useState } from "react";
 import searchQueryParser from "search-query-parser";
 import { useDebounce } from "use-debounce";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { filterPlayers } from "~/features/PlayersExplorer/playersSearchBarFilters";
+import { filterPlayers } from "@open-fpl/app/features/PlayersExplorer/playersSearchBarFilters";
 import {
   filterOptions,
   sortOptions,
-} from "~/features/PlayersExplorer/playersToolbarOptions";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import { SortOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
+} from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { SortOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 
 const freeTextFuseSettings: Fuse.IFuseOptions<Player> = {
   getFn: (player, path) => {

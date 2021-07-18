@@ -1,6 +1,6 @@
 import { NextSeo } from "next-seo";
-import NotFound from "~/features/Error/NotFound";
-import AppLayout from "~/features/Layout/AppLayout";
+import NotFound from "@open-fpl/app/features/Error/NotFound";
+import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 
 export default function Custom404() {
   return (

@@ -1,8 +1,8 @@
-import FeaturesSection from "~/features/LandingPage/FeaturesSection";
-import FindUsSection from "~/features/LandingPage/FindUsSection";
-import FooterSection from "~/features/LandingPage/FooterSection";
-import HeaderSection from "~/features/LandingPage/HeaderSection";
-import HeroSection from "~/features/LandingPage/HeroSection";
+import FeaturesSection from "@open-fpl/app/features/LandingPage/FeaturesSection";
+import FindUsSection from "@open-fpl/app/features/LandingPage/FindUsSection";
+import FooterSection from "@open-fpl/app/features/LandingPage/FooterSection";
+import HeaderSection from "@open-fpl/app/features/LandingPage/HeaderSection";
+import HeroSection from "@open-fpl/app/features/LandingPage/HeroSection";
 
 const LandingPage = () => (
   <>

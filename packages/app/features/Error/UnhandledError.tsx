@@ -1,6 +1,6 @@
 import { BoxProps, Link as A, Box, Code, Flex } from "@chakra-ui/react";
-import FullScreenMessage from "~/features/Layout/FullScreenMessage";
-import externalLinks from "~/features/Navigation/externalLinks";
+import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
+import externalLinks from "@open-fpl/app/features/Navigation/externalLinks";
 
 const UnhandledError = ({
   additionalInfo,

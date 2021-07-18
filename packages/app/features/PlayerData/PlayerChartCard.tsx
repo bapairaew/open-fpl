@@ -3,9 +3,12 @@ import { transparentize } from "@chakra-ui/theme-tools";
 import { Radar } from "react-chartjs-2";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import NameSection from "~/features/PlayerData/NameSection";
-import { assumedMax, getSummarytData } from "~/features/PlayerData/playerData";
-import theme from "~/theme";
+import NameSection from "@open-fpl/app/features/PlayerData/NameSection";
+import {
+  assumedMax,
+  getSummarytData,
+} from "@open-fpl/app/features/PlayerData/playerData";
+import theme from "@open-fpl/app/theme";
 
 const PlayerChartCard = ({ player }: { player: Player }) => {
   const {

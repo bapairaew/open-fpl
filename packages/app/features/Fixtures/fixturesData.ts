@@ -2,7 +2,7 @@ import {
   FullTeamFixtures,
   TeamFixture,
   TeamInfo,
-} from "~/features/Fixtures/fixturesDataTypes";
+} from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 

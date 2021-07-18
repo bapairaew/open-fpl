@@ -3,15 +3,15 @@ import { KeyboardEvent, MouseEvent, ReactNode } from "react";
 import { AiOutlinePushpin } from "react-icons/ai";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import { isSwapable } from "~/features/TeamPlanner/teamPlan";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { isSwapable } from "@open-fpl/app/features/TeamPlanner/teamPlan";
 import {
   FullChangePlayer,
   GroupedTeam,
-} from "~/features/TeamPlanner/teamPlannerTypes";
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 import TransferablePlayer, {
   TransferablePlayerVariant,
-} from "~/features/TeamPlanner/TransferablePlayer";
+} from "@open-fpl/app/features/TeamPlanner/TransferablePlayer";
 
 const getVariant = (
   selectedPlayer: FullChangePlayer | null,

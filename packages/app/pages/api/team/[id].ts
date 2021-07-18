@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getTeam } from "~/features/Api/team";
+import { getTeam } from "@open-fpl/app/features/Api/team";
 
 export default async function handler(
   req: NextApiRequest,

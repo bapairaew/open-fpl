@@ -3,7 +3,7 @@ import diacritics from "diacritics";
 import Fuse from "fuse.js";
 import { SearchParserResult } from "search-query-parser";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { FilterOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
+import { FilterOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 
 interface FilterParams {
   players: Player[];

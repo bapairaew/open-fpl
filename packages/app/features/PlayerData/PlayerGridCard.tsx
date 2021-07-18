@@ -1,11 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import { CenterFlexVariant } from "~/features/PlayerData/CenterFlex";
-import FixturesSection from "~/features/PlayerData/FixturesSection";
-import NameSection from "~/features/PlayerData/NameSection";
+import { CenterFlexVariant } from "@open-fpl/app/features/PlayerData/CenterFlex";
+import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
+import NameSection from "@open-fpl/app/features/PlayerData/NameSection";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import PointsSection from "~/features/PlayerData/PointsSection";
-import PreviousStatsSection from "~/features/PlayerData/PreviousStatsSection";
+import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
+import PreviousStatsSection from "@open-fpl/app/features/PlayerData/PreviousStatsSection";
 
 const PlayerGridCard = ({
   variant = "default",

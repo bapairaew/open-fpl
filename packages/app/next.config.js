@@ -1,4 +1,7 @@
 module.exports = {
+  experimental: {
+    externalDir: true,
+  },
   async redirects() {
     return [
       {

@@ -14,8 +14,11 @@ import {
 import { IoShield } from "react-icons/io5";
 import { RiSwordFill } from "react-icons/ri";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { assumedMax, assumedMin } from "~/features/TeamData/teamData";
-import { TeamStrength } from "~/features/TeamData/teamDataTypes";
+import {
+  assumedMax,
+  assumedMin,
+} from "@open-fpl/app/features/TeamData/teamData";
+import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import { MouseEvent, useEffect, useState } from "react";
 
 const TeamStrengthEditor = ({

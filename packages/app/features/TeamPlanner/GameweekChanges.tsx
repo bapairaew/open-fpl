@@ -1,6 +1,9 @@
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
-import TeamChange from "~/features/TeamPlanner/TeamChange";
-import { Change, InvalidChange } from "~/features/TeamPlanner/teamPlannerTypes";
+import TeamChange from "@open-fpl/app/features/TeamPlanner/TeamChange";
+import {
+  Change,
+  InvalidChange,
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 import { Fragment } from "react";
 
 const GameweekChanges = ({

@@ -1,5 +1,5 @@
 import fs from "fs";
-import { fetchData } from "~/features/RemoteData/remoteData";
+import { fetchData } from "@open-fpl/data/features/RemoteData/remoteData";
 
 const { RESOURCES_LIMIT: resourcesLimit } = process.env;
 

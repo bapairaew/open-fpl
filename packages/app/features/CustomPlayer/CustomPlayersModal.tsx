@@ -9,14 +9,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useMemo, useRef } from "react";
-import AddCustomPlayers from "~/features/CustomPlayer/AddCustomPlayers";
-import { hydrateCustomPlayer } from "~/features/CustomPlayer/customPlayers";
-import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
-import EditableCustomPlayer from "~/features/CustomPlayer/EditableCustomPlayer";
+import AddCustomPlayers from "@open-fpl/app/features/CustomPlayer/AddCustomPlayers";
+import { hydrateCustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayers";
+import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
+import EditableCustomPlayer from "@open-fpl/app/features/CustomPlayer/EditableCustomPlayer";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import { removePlayerFromPlans } from "~/features/TeamPlanner/teamPlan";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { removePlayerFromPlans } from "@open-fpl/app/features/TeamPlanner/teamPlan";
 
 const CustomPlayersModal = ({
   players,

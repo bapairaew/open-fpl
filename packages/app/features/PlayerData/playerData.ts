@@ -1,5 +1,5 @@
-import { hydrateCustomPlayer } from "~/features/CustomPlayer/customPlayers";
-import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
+import { hydrateCustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayers";
+import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
 import {
   ClientData,
   MatchStat,

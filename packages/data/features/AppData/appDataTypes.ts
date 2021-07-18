@@ -1,8 +1,8 @@
-import { Player } from "~/features/AppData/playerDataTypes";
+import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   ElementSummaryFixture,
   ElementSummaryUpcomingFixture,
-} from "~/features/RemoteData/fplTypes";
+} from "@open-fpl/data/features/RemoteData/fplTypes";
 
 export interface Gameweek {
   id: number;

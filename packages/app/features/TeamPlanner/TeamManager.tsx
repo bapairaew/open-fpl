@@ -2,14 +2,14 @@ import { Box, Grid } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import SelectedTeam from "~/features/TeamPlanner/SelectedTeam";
-import { makeTeamGroupObject } from "~/features/TeamPlanner/teamGroupObject";
-import { isSwapable } from "~/features/TeamPlanner/teamPlan";
+import SelectedTeam from "@open-fpl/app/features/TeamPlanner/SelectedTeam";
+import { makeTeamGroupObject } from "@open-fpl/app/features/TeamPlanner/teamGroupObject";
+import { isSwapable } from "@open-fpl/app/features/TeamPlanner/teamPlan";
 import {
   ChangePlayer,
   FullChangePlayer,
-} from "~/features/TeamPlanner/teamPlannerTypes";
-import TransferMarket from "~/features/TeamPlanner/TransferMarket";
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import TransferMarket from "@open-fpl/app/features/TeamPlanner/TransferMarket";
 
 const TeamManager = ({
   mode = "default",

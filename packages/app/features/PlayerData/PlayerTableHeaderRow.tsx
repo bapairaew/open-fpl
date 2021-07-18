@@ -8,14 +8,17 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { IoArrowDownOutline, IoArrowUpOutline } from "react-icons/io5";
-import TableCellWithMenu from "~/features/Common/TableCellWithMenu";
-import { rowHeight, rowWidth } from "~/features/PlayerData/PlayerTable";
-import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
+import TableCellWithMenu from "@open-fpl/app/features/Common/TableCellWithMenu";
+import {
+  rowHeight,
+  rowWidth,
+} from "@open-fpl/app/features/PlayerData/PlayerTable";
+import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
 import {
   PlayerTableColumn,
   PlayerTableSortChangeHandler,
   PlayerTableSortColumnConfig,
-} from "~/features/PlayerData/playerTableTypes";
+} from "@open-fpl/app/features/PlayerData/playerTableTypes";
 
 export const PlayerTableHeaderRow = ({
   onSortChange,

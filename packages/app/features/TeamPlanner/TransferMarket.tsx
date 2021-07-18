@@ -21,11 +21,11 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
-import { SortOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
-import { sortOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
-import usePlayersFilterAndSort from "~/features/PlayersExplorer/usePlayersFilterAndSort";
-import { FullChangePlayer } from "~/features/TeamPlanner/teamPlannerTypes";
+import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
+import { SortOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
+import { sortOptions } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
+import usePlayersFilterAndSort from "@open-fpl/app/features/PlayersExplorer/usePlayersFilterAndSort";
+import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 
 const TransferMarket = ({
   team,

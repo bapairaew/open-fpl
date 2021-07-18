@@ -1,7 +1,7 @@
 import fs from "fs";
 import { URL } from "url";
-import { baseUrl } from "~/features/Navigation/internalUrls";
-import { ParsedRequest } from "~/features/OpenGraphImages/openGraphImagestypes";
+import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import { ParsedRequest } from "@open-fpl/app/features/OpenGraphImages/openGraphImagestypes";
 
 export async function parseRequest(url: URL) {
   const { pathname, searchParams } = url;

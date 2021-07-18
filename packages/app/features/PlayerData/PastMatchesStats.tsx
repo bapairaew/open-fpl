@@ -1,6 +1,6 @@
 import CenterFlex, {
   CenterFlexVariant,
-} from "~/features/PlayerData/CenterFlex";
+} from "@open-fpl/app/features/PlayerData/CenterFlex";
 import { MatchStat } from "@open-fpl/data/features/AppData/playerDataTypes";
 
 const PastMatchesStats = ({

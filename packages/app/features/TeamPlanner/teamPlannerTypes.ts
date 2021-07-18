@@ -1,4 +1,4 @@
-import { Invalid } from "~/features/Common/errorTypes";
+import { Invalid } from "@open-fpl/app/features/Common/errorTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { ChipName } from "@open-fpl/data/features/RemoteData/fplTypes";
 

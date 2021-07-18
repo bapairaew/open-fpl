@@ -1,5 +1,5 @@
 import { BoxProps } from "@chakra-ui/react";
-import FullScreenMessage from "~/features/Layout/FullScreenMessage";
+import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
 
 const NotFound = (props: BoxProps) => {
   return (

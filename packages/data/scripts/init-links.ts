@@ -1,10 +1,10 @@
 import fs from "fs";
 import Fuse from "fuse.js";
 import path from "path";
-import { FPLElement } from "~/features/AppData/playerDataTypes";
-import { Team } from "~/features/RemoteData/fplTypes";
-import getDataFromFiles from "~/features/RemoteData/getDataFromFiles";
-import { PlayerStat } from "~/features/RemoteData/understatTypes";
+import { FPLElement } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import getDataFromFiles from "@open-fpl/data/features/RemoteData/getDataFromFiles";
+import { PlayerStat } from "@open-fpl/data/features/RemoteData/understatTypes";
 
 // FPL team's short_name, Understat team's title (underscore case)
 // NOTE: underscore case is being used in the mapping in pages data while normal case is being used only here

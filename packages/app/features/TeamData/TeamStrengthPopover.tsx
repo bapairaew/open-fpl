@@ -13,9 +13,12 @@ import {
 import { transparentize } from "@chakra-ui/theme-tools";
 import { ReactNode } from "react";
 import { Radar } from "react-chartjs-2";
-import { TeamInfo } from "~/features/Fixtures/fixturesDataTypes";
-import { assumedMax, assumedMin } from "~/features/TeamData/teamData";
-import theme from "~/theme";
+import { TeamInfo } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
+import {
+  assumedMax,
+  assumedMin,
+} from "@open-fpl/app/features/TeamData/teamData";
+import theme from "@open-fpl/app/theme";
 
 const TeamStrengthPopover = ({
   team,

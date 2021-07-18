@@ -1,9 +1,9 @@
-import playersSortFunctions from "~/features/PlayerData/playersSortFunctions";
+import playersSortFunctions from "@open-fpl/app/features/PlayerData/playersSortFunctions";
 import {
   DisplayOptionsConfig,
   FilterOptions,
   SortOptionsConfig,
-} from "~/features/PlayersExplorer/playersExplorerTypes";
+} from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 
 export const filterOptions: FilterOptions = {
   keywords: [

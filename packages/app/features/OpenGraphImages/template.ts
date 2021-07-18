@@ -1,7 +1,7 @@
 import marked from "marked";
-import { ParsedRequest } from "~/features/OpenGraphImages/openGraphImagestypes";
-import { sanitizeHtml } from "~/features/OpenGraphImages/sanitizer";
-import theme from "~/theme";
+import { ParsedRequest } from "@open-fpl/app/features/OpenGraphImages/openGraphImagestypes";
+import { sanitizeHtml } from "@open-fpl/app/features/OpenGraphImages/sanitizer";
+import theme from "@open-fpl/app/theme";
 import fs from "fs";
 
 const twemoji = require("twemoji");

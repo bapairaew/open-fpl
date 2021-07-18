@@ -1,5 +1,5 @@
 import fs from "fs";
-import { getTeamColorCodes } from "~/features/RemoteData/teamcolorcodes";
+import { getTeamColorCodes } from "@open-fpl/data/features/RemoteData/teamcolorcodes";
 
 (async function () {
   await fs.promises.mkdir("./public/remote-data/teamcolorcodes", {

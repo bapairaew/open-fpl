@@ -19,9 +19,12 @@ import { transparentize } from "@chakra-ui/theme-tools";
 import { useMemo } from "react";
 import { Radar } from "react-chartjs-2";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { assumedMax, getSummarytData } from "~/features/PlayerData/playerData";
+import {
+  assumedMax,
+  getSummarytData,
+} from "@open-fpl/app/features/PlayerData/playerData";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import theme from "~/theme";
+import theme from "@open-fpl/app/theme";
 
 const colors = [
   theme.colors.brand,

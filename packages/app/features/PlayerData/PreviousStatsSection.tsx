@@ -1,9 +1,9 @@
 import { Box, Flex, Grid } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
-} from "~/features/PlayerData/CenterFlex";
-import PastMatchesStats from "~/features/PlayerData/PastMatchesStats";
-import { assumedMax } from "~/features/PlayerData/playerData";
+} from "@open-fpl/app/features/PlayerData/CenterFlex";
+import PastMatchesStats from "@open-fpl/app/features/PlayerData/PastMatchesStats";
+import { assumedMax } from "@open-fpl/app/features/PlayerData/playerData";
 import {
   MatchStat,
   Player,

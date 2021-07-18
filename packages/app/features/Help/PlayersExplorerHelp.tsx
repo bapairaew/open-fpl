@@ -15,9 +15,9 @@ import {
 import Link from "next/link";
 // @ts-ignore
 import { AnnotationCalloutRect } from "react-annotation";
-import { gameweeks, player } from "~/features/Help/helpData";
-import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
-import PlayersExplorerToolbar from "~/features/PlayersExplorer/PlayersExplorerToolbar";
+import { gameweeks, player } from "@open-fpl/app/features/Help/helpData";
+import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
+import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerToolbar";
 import PlayerTableHeaderRow from "../PlayerData/PlayerTableHeaderRow";
 
 const ComponentWithHighlight = ({

@@ -1,10 +1,10 @@
-import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
-import { PlayerTableSortColumnConfig } from "~/features/PlayerData/playerTableTypes";
+import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
+import { PlayerTableSortColumnConfig } from "@open-fpl/app/features/PlayerData/playerTableTypes";
 import {
   DisplayOptions,
   SortOptions,
-} from "~/features/PlayersExplorer/playersExplorerTypes";
-import { TeamStrength } from "~/features/TeamData/teamDataTypes";
+} from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
+import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 
 export interface Preference {
   name?: string;

@@ -5,7 +5,7 @@ import {
 } from "@open-fpl/data/features/AppData/playerDataTypes";
 import CenterFlex, {
   CenterFlexVariant,
-} from "~/features/PlayerData/CenterFlex";
+} from "@open-fpl/app/features/PlayerData/CenterFlex";
 
 const makeEmptyGameweeks = (length: number): PastGameweek[] => {
   const gameweeks: PastGameweek[] = [];

@@ -1,18 +1,21 @@
 import pRetry from "p-retry";
 // @ts-ignore
 import asyncPool from "tiny-async-pool";
-import { getFPLData, getFPLPlayerSummaryData } from "~/features/RemoteData/fpl";
-import { Element } from "~/features/RemoteData/fplTypes";
+import {
+  getFPLData,
+  getFPLPlayerSummaryData,
+} from "@open-fpl/data/features/RemoteData/fpl";
+import { Element } from "@open-fpl/data/features/RemoteData/fplTypes";
 import {
   getUnderstatData,
   getUnderstatPlayerData,
   getUnderstatPlayers,
   getUnderstatTeamData,
-} from "~/features/RemoteData/understat";
+} from "@open-fpl/data/features/RemoteData/understat";
 import {
   LeagueTeamStat,
   PlayerStatSummary,
-} from "~/features/RemoteData/understatTypes";
+} from "@open-fpl/data/features/RemoteData/understatTypes";
 
 type FetchDataConfigOption = {
   fpl: number;

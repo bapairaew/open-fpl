@@ -16,8 +16,8 @@ import {
   FullChangePlayer,
   SinglePlayerChange,
   TwoPlayersChange,
-} from "~/features/TeamPlanner/teamPlannerTypes";
-import { getChipDisplayName } from "~/features/TeamPlanner/chips";
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import { getChipDisplayName } from "@open-fpl/app/features/TeamPlanner/chips";
 
 export type TransferChangeVariant = "invalid" | "outdated" | "default";
 

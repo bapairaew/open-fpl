@@ -2,11 +2,11 @@ import { Box, Flex } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import NextNprogress from "nextjs-progressbar";
 import { ReactNode } from "react";
-import SideBar from "~/features/Navigation/SideBar";
-import theme from "~/theme";
+import SideBar from "@open-fpl/app/features/Navigation/SideBar";
+import theme from "@open-fpl/app/theme";
 
 const NotSupportSmallScreen = dynamic(
-  () => import("~/features/Error/NotSupportSmallScreen")
+  () => import("@open-fpl/app/features/Error/NotSupportSmallScreen")
 );
 
 const AppLayout = ({ children }: { children?: ReactNode }) => {

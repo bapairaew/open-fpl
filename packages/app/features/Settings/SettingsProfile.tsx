@@ -27,17 +27,17 @@ import {
   IoRadioButtonOnOutline,
   IoTrashBinOutline,
 } from "react-icons/io5";
-import numberFormatter from "~/features/Common/numberFormatter";
+import numberFormatter from "@open-fpl/app/features/Common/numberFormatter";
 import useLocalStorage, {
   getLocalStorageItem,
-} from "~/features/Common/useLocalStorage";
-import { Preference } from "~/features/Settings/settingsTypes";
+} from "@open-fpl/app/features/Common/useLocalStorage";
+import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
   getTeamPlansKey,
   getTeamPlanKey,
-} from "~/features/Settings/storageKeys";
-import { Change } from "~/features/TeamPlanner/teamPlannerTypes";
+} from "@open-fpl/app/features/Settings/storageKeys";
+import { Change } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 
 const SettingsProfile = ({
   teamId,

@@ -9,18 +9,18 @@ import {
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import playersSortFunctions from "~/features/PlayerData/playersSortFunctions";
+import playersSortFunctions from "@open-fpl/app/features/PlayerData/playersSortFunctions";
 import PlayerTable, {
   PlayerTableElementType,
   rowHeight,
-} from "~/features/PlayerData/PlayerTable";
-import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
-import PlayerTableRow from "~/features/PlayerData/PlayerTableRow";
+} from "@open-fpl/app/features/PlayerData/PlayerTable";
+import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
+import PlayerTableRow from "@open-fpl/app/features/PlayerData/PlayerTableRow";
 import {
   PlayerTableSortChangeHandler,
   PlayerTableSortColumnConfig,
-} from "~/features/PlayerData/playerTableTypes";
-import { useSettings } from "~/features/Settings/SettingsContext";
+} from "@open-fpl/app/features/PlayerData/playerTableTypes";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 
 const sortPlayers = (
   players: Player[],

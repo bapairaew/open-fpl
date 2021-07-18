@@ -1,6 +1,6 @@
 import { NextSeo } from "next-seo";
-import UnhandledError from "~/features/Error/UnhandledError";
-import AppLayout from "~/features/Layout/AppLayout";
+import UnhandledError from "@open-fpl/app/features/Error/UnhandledError";
+import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 
 export default function Custom500() {
   return (

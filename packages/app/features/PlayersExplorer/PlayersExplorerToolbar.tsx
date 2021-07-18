@@ -16,12 +16,12 @@ import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   DisplayOptions,
   SortOptions,
-} from "~/features/PlayersExplorer/playersExplorerTypes";
+} from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 import {
   displayOptions,
   sortOptions,
-} from "~/features/PlayersExplorer/playersToolbarOptions";
-import usePlayersFilterAndSort from "~/features/PlayersExplorer/usePlayersFilterAndSort";
+} from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
+import usePlayersFilterAndSort from "@open-fpl/app/features/PlayersExplorer/usePlayersFilterAndSort";
 
 const PlayersExplorerToolbar = ({
   initialSeachQuery = "",

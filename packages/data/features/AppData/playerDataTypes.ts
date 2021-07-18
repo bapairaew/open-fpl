@@ -2,8 +2,8 @@ import {
   Element,
   ElementStatus,
   ElementSummary,
-} from "~/features/RemoteData/fplTypes";
-import { TeamColorCodes } from "~/features/RemoteData/teamcolorcodesTypes";
+} from "@open-fpl/data/features/RemoteData/fplTypes";
+import { TeamColorCodes } from "@open-fpl/data/features/RemoteData/teamcolorcodesTypes";
 
 export interface PlayerSummaryData {
   recentG: number;

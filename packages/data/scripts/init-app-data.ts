@@ -1,11 +1,18 @@
 import fs from "fs";
 import path from "path";
-import { makeAppData } from "~/features/AppData/appData";
-import { FPLElement } from "~/features/AppData/playerDataTypes";
-import { ElementTypes, Event, Team } from "~/features/RemoteData/fplTypes";
-import getDataFromFiles from "~/features/RemoteData/getDataFromFiles";
-import { TeamColorCodes } from "~/features/RemoteData/teamcolorcodesTypes";
-import { PlayerStat, TeamStat } from "~/features/RemoteData/understatTypes";
+import { makeAppData } from "@open-fpl/data/features/AppData/appData";
+import { FPLElement } from "@open-fpl/data/features/AppData/playerDataTypes";
+import {
+  ElementTypes,
+  Event,
+  Team,
+} from "@open-fpl/data/features/RemoteData/fplTypes";
+import getDataFromFiles from "@open-fpl/data/features/RemoteData/getDataFromFiles";
+import { TeamColorCodes } from "@open-fpl/data/features/RemoteData/teamcolorcodesTypes";
+import {
+  PlayerStat,
+  TeamStat,
+} from "@open-fpl/data/features/RemoteData/understatTypes";
 
 (async function () {
   const start = new Date();

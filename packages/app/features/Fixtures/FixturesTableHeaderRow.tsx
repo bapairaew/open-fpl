@@ -1,5 +1,5 @@
 import { MenuGroup, MenuItem, MenuList, Th, Tr } from "@chakra-ui/react";
-import TableCellWithMenu from "~/features/Common/TableCellWithMenu";
+import TableCellWithMenu from "@open-fpl/app/features/Common/TableCellWithMenu";
 
 const FixturesTableHeaderRow = ({
   onResetSortClick,

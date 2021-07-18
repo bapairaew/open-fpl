@@ -24,10 +24,10 @@ import {
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
 import { RoughNotation } from "react-rough-notation";
-import externalLinks from "~/features/Navigation/externalLinks";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import p from "~/package.json";
-import theme from "~/theme";
+import externalLinks from "@open-fpl/app/features/Navigation/externalLinks";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import p from "@open-fpl/app/package.json";
+import theme from "@open-fpl/app/theme";
 
 const SideBarItem = ({
   href,

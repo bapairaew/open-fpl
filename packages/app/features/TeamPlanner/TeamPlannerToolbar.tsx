@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { ChangeEventHandler, ReactNode } from "react";
 import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
-import { getChipDisplayName } from "~/features/TeamPlanner/chips";
-import { ChipUsage } from "~/features/TeamPlanner/teamPlannerTypes";
+import { getChipDisplayName } from "@open-fpl/app/features/TeamPlanner/chips";
+import { ChipUsage } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 
 const ToolbarSection = ({
   label,

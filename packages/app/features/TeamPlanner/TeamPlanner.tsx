@@ -22,9 +22,9 @@ import {
   getLocalStorageItem,
   removeLocalStorageItem,
   setLocalStorageItem,
-} from "~/features/Common/useLocalStorage";
-import CustomPlayersModal from "~/features/CustomPlayer/CustomPlayersModal";
-import { hydrateClientData } from "~/features/PlayerData/playerData";
+} from "@open-fpl/app/features/Common/useLocalStorage";
+import CustomPlayersModal from "@open-fpl/app/features/CustomPlayer/CustomPlayersModal";
+import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   EntryChipPlay,
@@ -33,10 +33,10 @@ import {
   Team,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import { getTeamPlanKey } from "~/features/Settings/storageKeys";
-import TeamPlannerPanel from "~/features/TeamPlanner/TeamPlannerPanel";
-import TeamPlannerTab from "~/features/TeamPlanner/TeamPlannerTab";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
+import TeamPlannerPanel from "@open-fpl/app/features/TeamPlanner/TeamPlannerPanel";
+import TeamPlannerTab from "@open-fpl/app/features/TeamPlanner/TeamPlannerTab";
 
 const getDefaultName = (transferPlans: string[]) => {
   const maxDefaultNameIndex =

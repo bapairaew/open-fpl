@@ -1,12 +1,12 @@
 import { Button, Link as A, Spinner, Text, VStack } from "@chakra-ui/react";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
-import AppLayout from "~/features/Layout/AppLayout";
-import FullScreenMessage from "~/features/Layout/FullScreenMessage";
-import { baseUrl } from "~/features/Navigation/internalUrls";
-import getOgImage from "~/features/OpenGraphImages/getOgImage";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import useTeamPlannerRedirect from "~/features/TeamPlanner/useTeamPlannerRedirect";
+import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
+import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
+import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
 
 const TransferPlannerSetupPage = () => {
   const { teamId } = useTeamPlannerRedirect();

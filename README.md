@@ -7,9 +7,8 @@ providing statistics, data visualisation and other utility tools.
 
 ## Overview
 
-- `pages/*` - Application pages and
-  [API routes](https://nextjs.org/docs/api-routes/introduction).
-- `features/*` - Main application code segregated by each features.
+- `data/*`: Data files and its generation scripts for that application
+- `app/*`: Application code
 
 ## Running Locally
 
@@ -17,9 +16,9 @@ providing statistics, data visualisation and other utility tools.
 $ git clone https://github.com/bapairaew/open-fpl.git
 $ cd open-fpl
 $ npx learn bootstrap
-$ yarn inti:data
-$ yarn dev:data
-$ yarn dev:app
+$ yarn data:init
+$ yarn data:dev # On one terminal
+$ yarn data:app # On another terminal
 ```
 
 ## Stack

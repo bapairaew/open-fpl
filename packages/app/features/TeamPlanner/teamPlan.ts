@@ -1,8 +1,8 @@
-import { Invalid } from "~/features/Common/errorTypes";
+import { Invalid } from "@open-fpl/app/features/Common/errorTypes";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
-} from "~/features/Common/useLocalStorage";
+} from "@open-fpl/app/features/Common/useLocalStorage";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   ChipName,
@@ -15,8 +15,8 @@ import {
   getProfilesKey,
   getTeamPlansKey,
   getTeamPlanKey,
-} from "~/features/Settings/storageKeys";
-import { makePlaceholderPlayerFromId } from "~/features/TeamPlanner/placeholderPlayer";
+} from "@open-fpl/app/features/Settings/storageKeys";
+import { makePlaceholderPlayerFromId } from "@open-fpl/app/features/TeamPlanner/placeholderPlayer";
 import {
   Change,
   ChangePlayer,
@@ -30,7 +30,7 @@ import {
   SinglePlayerChange,
   TeamChange,
   TwoPlayersChange,
-} from "~/features/TeamPlanner/teamPlannerTypes";
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 
 // Apply the changes against the given team
 const getGameweekPicks = (

@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { IoLogoGithub, IoLogoTwitter } from "react-icons/io5";
-import externalLinks from "~/features/Navigation/externalLinks";
+import externalLinks from "@open-fpl/app/features/Navigation/externalLinks";
 
 const FindUsSection = (props: BoxProps) => (
   <Box py={20} bg="brand.500" {...props}>

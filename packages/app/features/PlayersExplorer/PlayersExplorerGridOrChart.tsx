@@ -9,10 +9,10 @@ import {
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import PlayerChartCard from "~/features/PlayerData/PlayerChartCard";
+import PlayerChartCard from "@open-fpl/app/features/PlayerData/PlayerChartCard";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
-import PlayerCardToolbar from "~/features/PlayersExplorer/PlayerCardToolbar";
+import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
+import PlayerCardToolbar from "@open-fpl/app/features/PlayersExplorer/PlayerCardToolbar";
 
 const PlayersExplorerGridOrChart = ({
   displayedPlayers,

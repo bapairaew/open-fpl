@@ -1,10 +1,10 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import { SWRConfig } from "swr";
-import { cache } from "~/features/Cache/swrCache";
-import useAnalytics from "~/features/Common/useAnalytics";
-import { SettingsContextProvider } from "~/features/Settings/SettingsContext";
-import theme from "~/theme";
+import { cache } from "@open-fpl/app/features/Cache/swrCache";
+import useAnalytics from "@open-fpl/app/features/Common/useAnalytics";
+import { SettingsContextProvider } from "@open-fpl/app/features/Settings/SettingsContext";
+import theme from "@open-fpl/app/theme";
 
 export default function App({ Component, pageProps }: AppProps) {
   useAnalytics();

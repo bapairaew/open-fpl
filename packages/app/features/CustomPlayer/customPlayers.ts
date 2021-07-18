@@ -1,4 +1,4 @@
-import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
+import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { ElementStatus } from "@open-fpl/data/features/RemoteData/fplTypes";
 

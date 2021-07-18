@@ -17,8 +17,8 @@ import {
   MutableRefObject,
   useState,
 } from "react";
-import { generateCustomPlayerId } from "~/features/CustomPlayer/customPlayers";
-import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
+import { generateCustomPlayerId } from "@open-fpl/app/features/CustomPlayer/customPlayers";
+import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 

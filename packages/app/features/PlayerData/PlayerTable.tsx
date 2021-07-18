@@ -1,13 +1,13 @@
 import { Table, Tbody, Thead } from "@chakra-ui/react";
 import { createContext, CSSProperties, forwardRef } from "react";
 import { FixedSizeList as List, FixedSizeListProps } from "react-window";
-import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
-import PlayerTableHeaderRow from "~/features/PlayerData/PlayerTableHeaderRow";
+import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
+import PlayerTableHeaderRow from "@open-fpl/app/features/PlayerData/PlayerTableHeaderRow";
 import {
   PlayerTableContextType,
   PlayerTableSortChangeHandler,
   PlayerTableSortColumnConfig,
-} from "~/features/PlayerData/playerTableTypes";
+} from "@open-fpl/app/features/PlayerData/playerTableTypes";
 
 export const rowHeight = 30;
 

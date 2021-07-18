@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { ChangeEvent, useMemo, useState } from "react";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import useLocalStorage from "~/features/Common/useLocalStorage";
+import useLocalStorage from "@open-fpl/app/features/Common/useLocalStorage";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   ChipName,
@@ -10,9 +10,9 @@ import {
   EntryEventPick,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { getTeamPlanKey } from "~/features/Settings/storageKeys";
-import TeamManager from "~/features/TeamPlanner/TeamManager";
-import ChangeLog from "~/features/TeamPlanner/ChangeLog";
+import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
+import TeamManager from "@open-fpl/app/features/TeamPlanner/TeamManager";
+import ChangeLog from "@open-fpl/app/features/TeamPlanner/ChangeLog";
 import {
   addChange,
   dehydrateFromTeamPlan,
@@ -21,7 +21,7 @@ import {
   processPreseasonSwap,
   processPreseasonTransfer,
   removeChange,
-} from "~/features/TeamPlanner/teamPlan";
+} from "@open-fpl/app/features/TeamPlanner/teamPlan";
 import {
   Change,
   ChangePlayer,
@@ -31,8 +31,8 @@ import {
   SinglePlayerChange,
   TeamChange,
   TwoPlayersChange,
-} from "~/features/TeamPlanner/teamPlannerTypes";
-import TeamPlannerToolbar from "~/features/TeamPlanner/TeamPlannerToolbar";
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import TeamPlannerToolbar from "@open-fpl/app/features/TeamPlanner/TeamPlannerToolbar";
 
 const TransferPlannerPanelContent = ({
   initialPicks,

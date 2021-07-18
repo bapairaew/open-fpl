@@ -14,13 +14,13 @@ import {
 import { useMemo } from "react";
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
-import GameweekChanges from "~/features/TeamPlanner/GameweekChanges";
+import GameweekChanges from "@open-fpl/app/features/TeamPlanner/GameweekChanges";
 import {
   Change,
   GameweekData,
   InvalidChange,
-} from "~/features/TeamPlanner/teamPlannerTypes";
-import TeamSummaryModal from "~/features/TeamPlanner/TeamSummaryModal";
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import TeamSummaryModal from "@open-fpl/app/features/TeamPlanner/TeamSummaryModal";
 
 const ChangeLog = ({
   changes,

@@ -1,5 +1,5 @@
 import fs from "fs";
-import theme from "~/theme";
+import theme from "@open-fpl/app/theme";
 
 const config = {
   masterPicture: "public/logo.svg",

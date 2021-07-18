@@ -1,16 +1,23 @@
-import { AppData, TeamFixtures } from "~/features/AppData/appDataTypes";
+import {
+  AppData,
+  TeamFixtures,
+} from "@open-fpl/data/features/AppData/appDataTypes";
 import {
   FPLElement,
   MatchStat,
   Player,
-} from "~/features/AppData/playerDataTypes";
-import { ElementTypes, Event, Team } from "~/features/RemoteData/fplTypes";
-import { TeamColorCodes } from "~/features/RemoteData/teamcolorcodesTypes";
+} from "@open-fpl/data/features/AppData/playerDataTypes";
+import {
+  ElementTypes,
+  Event,
+  Team,
+} from "@open-fpl/data/features/RemoteData/fplTypes";
+import { TeamColorCodes } from "@open-fpl/data/features/RemoteData/teamcolorcodesTypes";
 import {
   MatchData,
   PlayerStat,
   TeamStat,
-} from "~/features/RemoteData/understatTypes";
+} from "@open-fpl/data/features/RemoteData/understatTypes";
 
 export const makeTeamFixtures = ({
   fplElements,

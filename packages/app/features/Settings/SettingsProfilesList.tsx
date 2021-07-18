@@ -1,6 +1,6 @@
 import { useRadioGroup, VStack } from "@chakra-ui/react";
 import { useDebouncedCallback } from "use-debounce";
-import SettingsProfile from "~/features/Settings/SettingsProfile";
+import SettingsProfile from "@open-fpl/app/features/Settings/SettingsProfile";
 
 const SettingsProfilesList = ({
   profiles,

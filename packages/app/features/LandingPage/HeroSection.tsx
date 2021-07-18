@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { RoughNotation } from "react-rough-notation";
-import theme from "~/theme";
+import theme from "@open-fpl/app/theme";
 
 const HeroSection = (props: BoxProps) => (
   <Box {...props}>

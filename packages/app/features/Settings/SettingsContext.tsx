@@ -1,9 +1,12 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import dynamic from "next/dynamic";
 import { createContext, ReactNode, useContext } from "react";
-import useLocalStorage from "~/features/Common/useLocalStorage";
-import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
-import { Preference, Settings } from "~/features/Settings/settingsTypes";
+import useLocalStorage from "@open-fpl/app/features/Common/useLocalStorage";
+import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
+import {
+  Preference,
+  Settings,
+} from "@open-fpl/app/features/Settings/settingsTypes";
 import {
   getActiveProfileKey,
   getCustomPlayersKey,
@@ -13,11 +16,11 @@ import {
   getStarredPlayersKey,
   getTeamPlansKey,
   getTeamsStrengthKey,
-} from "~/features/Settings/storageKeys";
-import { TeamStrength } from "~/features/TeamData/teamDataTypes";
+} from "@open-fpl/app/features/Settings/storageKeys";
+import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 
 const SettingsModal = dynamic(
-  () => import("~/features/Settings/SettingsModal")
+  () => import("@open-fpl/app/features/Settings/SettingsModal")
 );
 
 const SettingsContext = createContext<Settings>({

@@ -5,8 +5,8 @@
     "lerna": "^4.0.0"
   },
   "scripts": {
-    "inti:data": "yarn --cwd packages/data prebuild",
-    "dev:app": "yarn --cwd packages/app dev --port=3000",
-    "dev:data": "yarn --cwd packages/data dev --port=3001"
+    "data:init": "yarn --cwd packages/data prebuild",
+    "data:dev": "yarn --cwd packages/data dev --port=3001",
+    "app:dev": "yarn --cwd packages/app dev --port=3000"
   }
 }

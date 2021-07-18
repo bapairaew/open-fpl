@@ -18,9 +18,12 @@ import {
   IoEllipsisHorizontalOutline,
   IoEllipsisVerticalOutline,
 } from "react-icons/io5";
-import { fullChangePlayer, gameweeks } from "~/features/Help/helpData";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import TransferablePlayer from "~/features/TeamPlanner/TransferablePlayer";
+import {
+  fullChangePlayer,
+  gameweeks,
+} from "@open-fpl/app/features/Help/helpData";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import TransferablePlayer from "@open-fpl/app/features/TeamPlanner/TransferablePlayer";
 
 const DemoPlayerCard = () => (
   <Flex

@@ -8,8 +8,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { TeamStrength } from "~/features/TeamData/teamDataTypes";
-import TeamStrengthEditor from "~/features/TeamData/TeamStrengthEditor";
+import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
+import TeamStrengthEditor from "@open-fpl/app/features/TeamData/TeamStrengthEditor";
 
 const TeamsStrengthEditorModal = ({
   fplTeams,

@@ -1,13 +1,13 @@
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
-import { makeFullFixtures } from "~/features/Fixtures/fixturesData";
+import { makeFullFixtures } from "@open-fpl/app/features/Fixtures/fixturesData";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
-import FixturesTable from "~/features/Fixtures/FixturesTable";
-import FixturesToolbar from "~/features/Fixtures/FixturesToolbar";
+import FixturesTable from "@open-fpl/app/features/Fixtures/FixturesTable";
+import FixturesToolbar from "@open-fpl/app/features/Fixtures/FixturesToolbar";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { useSettings } from "~/features/Settings/SettingsContext";
-import { TeamStrength } from "~/features/TeamData/teamDataTypes";
-import TeamsStrengthEditorModal from "~/features/TeamData/TeamsStrengthEditorModal";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
+import TeamsStrengthEditorModal from "@open-fpl/app/features/TeamData/TeamsStrengthEditorModal";
 
 const Fixtures = ({
   teamFixtures,

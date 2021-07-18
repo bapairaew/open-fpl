@@ -13,9 +13,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import CustomPlayerForm from "~/features/CustomPlayer/CustomPlayerForm";
-import { CustomPlayer } from "~/features/CustomPlayer/customPlayerTypes";
-import NameSection from "~/features/PlayerData/NameSection";
+import CustomPlayerForm from "@open-fpl/app/features/CustomPlayer/CustomPlayerForm";
+import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
+import NameSection from "@open-fpl/app/features/PlayerData/NameSection";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 

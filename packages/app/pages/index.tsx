@@ -1,7 +1,7 @@
 import { NextSeo } from "next-seo";
-import LandingPage from "~/features/LandingPage/LandingPage";
-import { baseUrl } from "~/features/Navigation/internalUrls";
-import getOgImage from "~/features/OpenGraphImages/getOgImage";
+import LandingPage from "@open-fpl/app/features/LandingPage/LandingPage";
+import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 
 const IndexPage = () => {
   return (

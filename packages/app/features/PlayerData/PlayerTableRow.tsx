@@ -20,15 +20,18 @@ import {
   IoWarningOutline,
 } from "react-icons/io5";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import CenterFlex from "~/features/PlayerData/CenterFlex";
-import FixturesSection from "~/features/PlayerData/FixturesSection";
-import PastMatchesStats from "~/features/PlayerData/PastMatchesStats";
-import { assumedMax } from "~/features/PlayerData/playerData";
+import CenterFlex from "@open-fpl/app/features/PlayerData/CenterFlex";
+import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
+import PastMatchesStats from "@open-fpl/app/features/PlayerData/PastMatchesStats";
+import { assumedMax } from "@open-fpl/app/features/PlayerData/playerData";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { rowHeight, rowWidth } from "~/features/PlayerData/PlayerTable";
-import playerTableConfigs from "~/features/PlayerData/playerTableConfigs";
-import PointsSection from "~/features/PlayerData/PointsSection";
-import { getPaddedPastMatches } from "~/features/PlayerData/PreviousStatsSection";
+import {
+  rowHeight,
+  rowWidth,
+} from "@open-fpl/app/features/PlayerData/PlayerTable";
+import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
+import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
+import { getPaddedPastMatches } from "@open-fpl/app/features/PlayerData/PreviousStatsSection";
 import {
   positionColorCodes,
   statusColorCodes,

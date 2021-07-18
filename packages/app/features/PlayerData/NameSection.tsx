@@ -2,7 +2,7 @@ import { Flex, Text, Tooltip } from "@chakra-ui/react";
 import { IoWarningOutline } from "react-icons/io5";
 import CenterFlex, {
   CenterFlexVariant,
-} from "~/features/PlayerData/CenterFlex";
+} from "@open-fpl/app/features/PlayerData/CenterFlex";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   positionColorCodes,

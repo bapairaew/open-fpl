@@ -1,8 +1,8 @@
-import { makePlaceholderFullChangePlayerFromPosition } from "~/features/TeamPlanner/placeholderPlayer";
+import { makePlaceholderFullChangePlayerFromPosition } from "@open-fpl/app/features/TeamPlanner/placeholderPlayer";
 import {
   FullChangePlayer,
   GroupedTeam,
-} from "~/features/TeamPlanner/teamPlannerTypes";
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 
 // NOTE: this function mutate teamObject
 const addPlayerToGroup = (

@@ -2,12 +2,12 @@ import { Spinner } from "@chakra-ui/react";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
-import getDataUrl from "~/features/Data/getDataUrl";
-import UnhandledError from "~/features/Error/UnhandledError";
-import AppLayout from "~/features/Layout/AppLayout";
-import FullScreenMessage from "~/features/Layout/FullScreenMessage";
-import TeamPlanner from "~/features/TeamPlanner/TeamPlanner";
-import useTeamPlannerRedirect from "~/features/TeamPlanner/useTeamPlannerRedirect";
+import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
+import UnhandledError from "@open-fpl/app/features/Error/UnhandledError";
+import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
+import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
+import TeamPlanner from "@open-fpl/app/features/TeamPlanner/TeamPlanner";
+import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {

@@ -1,14 +1,14 @@
 import { Spinner } from "@chakra-ui/react";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
-import { useIsLocalStorageSupported } from "~/features/Common/useLocalStorage";
-import getDataUrl from "~/features/Data/getDataUrl";
-import UnhandledError from "~/features/Error/UnhandledError";
-import AppLayout from "~/features/Layout/AppLayout";
-import FullScreenMessage from "~/features/Layout/FullScreenMessage";
-import { baseUrl } from "~/features/Navigation/internalUrls";
-import getOgImage from "~/features/OpenGraphImages/getOgImage";
-import PlayersExplorer from "~/features/PlayersExplorer/PlayersExplorer";
+import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLocalStorage";
+import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
+import UnhandledError from "@open-fpl/app/features/Error/UnhandledError";
+import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
+import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
+import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
+import PlayersExplorer from "@open-fpl/app/features/PlayersExplorer/PlayersExplorer";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 

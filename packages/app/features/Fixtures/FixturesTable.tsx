@@ -11,9 +11,9 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import {
   FullTeamFixtures,
   SortableFullTeamFixtures,
-} from "~/features/Fixtures/fixturesDataTypes";
-import FixturesTableHeaderRow from "~/features/Fixtures/FixturesTableHeaderRow";
-import FixturesTableRow from "~/features/Fixtures/FixturesTableRow";
+} from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
+import FixturesTableHeaderRow from "@open-fpl/app/features/Fixtures/FixturesTableHeaderRow";
+import FixturesTableRow from "@open-fpl/app/features/Fixtures/FixturesTableRow";
 
 const ForwardableTbody = forwardRef<TableBodyProps, "tbody">((props, ref) => {
   return <Tbody ref={ref}>{props.children}</Tbody>;

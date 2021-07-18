@@ -5,7 +5,7 @@ import {
   LeagueStat,
   PlayerStat,
   TeamStat,
-} from "~/features/RemoteData/understatTypes";
+} from "@open-fpl/data/features/RemoteData/understatTypes";
 
 const headers = {
   accept: "application/json, text/javascript, */*; q=0.01",

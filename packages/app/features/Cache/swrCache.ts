@@ -2,7 +2,7 @@ import { createCache } from "swr";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
-} from "~/features/Common/useLocalStorage";
+} from "@open-fpl/app/features/Common/useLocalStorage";
 
 function createProvider() {
   const map = new Map(getLocalStorageItem("app-cache", []));

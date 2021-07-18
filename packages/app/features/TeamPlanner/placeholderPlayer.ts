@@ -1,6 +1,6 @@
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { ElementStatus } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { FullChangePlayer } from "~/features/TeamPlanner/teamPlannerTypes";
+import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 
 export const getPositionFromPlaceholderPosition = (position: number) => {
   if (position === 1 || position === 12) {

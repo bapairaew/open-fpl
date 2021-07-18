@@ -14,8 +14,8 @@ import {
 import { MouseEventHandler } from "react";
 import { IoEllipsisHorizontalOutline } from "react-icons/io5";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import PlayerGridCard from "~/features/PlayerData/PlayerGridCard";
-import { FullChangePlayer } from "~/features/TeamPlanner/teamPlannerTypes";
+import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
+import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 
 export type TransferablePlayerVariant =
   | "default"

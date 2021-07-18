@@ -2,7 +2,7 @@ import { Flex, Grid } from "@chakra-ui/react";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import CenterFlex, {
   CenterFlexVariant,
-} from "~/features/PlayerData/CenterFlex";
+} from "@open-fpl/app/features/PlayerData/CenterFlex";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { difficultyColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
 

@@ -1,8 +1,8 @@
-import playersSortFunctions from "~/features/PlayerData/playersSortFunctions";
+import playersSortFunctions from "@open-fpl/app/features/PlayerData/playersSortFunctions";
 import {
   PlayerTableColumn,
   PlayerTableConfig,
-} from "~/features/PlayerData/playerTableTypes";
+} from "@open-fpl/app/features/PlayerData/playerTableTypes";
 
 const playerTableConfigs = {
   Tool: {

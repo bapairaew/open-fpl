@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useSettings } from "~/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 
 const useTeamPlannerRedirect = () => {
   const { teamId, isInitialised } = useSettings();

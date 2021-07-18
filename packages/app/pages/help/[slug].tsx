@@ -16,28 +16,34 @@ import {
   IoPeopleCircleOutline,
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
-import AppLayout from "~/features/Layout/AppLayout";
-import { baseUrl } from "~/features/Navigation/internalUrls";
-import getOgImage from "~/features/OpenGraphImages/getOgImage";
+import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
+import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 
 const tabs = [
   {
     label: "Player Explorer",
     icon: IoPeopleCircleOutline,
     slug: "players",
-    component: dynamic(() => import("~/features/Help/PlayersExplorerHelp")),
+    component: dynamic(
+      () => import("@open-fpl/app/features/Help/PlayersExplorerHelp")
+    ),
   },
   {
     label: "Team Planner",
     icon: IoSwapHorizontalOutline,
     slug: "teams",
-    component: dynamic(() => import("~/features/Help/TeamPlannerHelp")),
+    component: dynamic(
+      () => import("@open-fpl/app/features/Help/TeamPlannerHelp")
+    ),
   },
   {
     label: "Fixtures",
     icon: IoCalendarClearOutline,
     slug: "fixtures",
-    component: dynamic(() => import("~/features/Help/FixturesHelp")),
+    component: dynamic(
+      () => import("@open-fpl/app/features/Help/FixturesHelp")
+    ),
   },
 ];
 

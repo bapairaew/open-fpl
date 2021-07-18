@@ -1,15 +1,15 @@
 import { BoxProps, Flex, useDisclosure } from "@chakra-ui/react";
 import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import { hydrateClientData } from "~/features/PlayerData/playerData";
+import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import ComparePlayersModal from "~/features/PlayersExplorer/ComparePlayersModal";
-import PlayersExplorerGridOrChart from "~/features/PlayersExplorer/PlayersExplorerGridOrChart";
-import PlayersExplorerTable from "~/features/PlayersExplorer/PlayersExplorerTable";
-import PlayersExplorerToolbar from "~/features/PlayersExplorer/PlayersExplorerToolbar";
-import { DisplayOptions } from "~/features/PlayersExplorer/playersExplorerTypes";
-import { displayOptions } from "~/features/PlayersExplorer/playersToolbarOptions";
-import { useSettings } from "~/features/Settings/SettingsContext";
+import ComparePlayersModal from "@open-fpl/app/features/PlayersExplorer/ComparePlayersModal";
+import PlayersExplorerGridOrChart from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerGridOrChart";
+import PlayersExplorerTable from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerTable";
+import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerToolbar";
+import { DisplayOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
+import { displayOptions } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 
 const PlayersExplorer = ({
   players: remotePlayers,
