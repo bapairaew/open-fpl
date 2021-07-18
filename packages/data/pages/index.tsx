@@ -1,17 +1,7 @@
-import { InferGetStaticPropsType } from "next";
+import lastUpdated from "@open-fpl/data/last-updated.json";
 import { NextSeo } from "next-seo";
 
-export const getStaticProps = async () => {
-  return {
-    props: {
-      date: new Date().toUTCString(),
-    },
-  };
-};
-
-const IndexPage = ({
-  date,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const IndexPage = () => {
   return (
     <>
       <NextSeo noindex title="Open FPL Data" />
@@ -38,8 +28,8 @@ const IndexPage = ({
         }
       `}</style>
       <main>
-        <h1>Last update</h1>
-        <p>{date}</p>
+        <h1>Last updated</h1>
+        <p>{lastUpdated.date}</p>
       </main>
     </>
   );

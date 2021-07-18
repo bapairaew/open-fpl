@@ -3,6 +3,7 @@ name: Update data
 on:
   schedule:
     - cron: "40 0 * * *"
+  workflow_dispatch:
 jobs:
   update-data:
     runs-on: ubuntu-latest
@@ -12,11 +13,15 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-      - name: Make an empty commit
+      - name: Update last updated date
+        run: |
+          echo "{\r\n  \"date\": \"$(date)\"\r\n}" > ./packages/data/last-updated.json
+      - name: Make a commit
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit --allow-empty -m "Daily data updates"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git commit -m "Daily data updates"
       - name: Push to remote
         uses: ad-m/github-push-action@master
         with:
