@@ -1,6 +1,7 @@
 {
   "name": "@open-fpl/app",
   "version": "1.0.0",
+  "license": "Apache-2.0",
   "scripts": {
     "make-favicons-config": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/make-cli-real-favicon-config.ts",
     "make-favicons": "yarn make-favicons-config && real-favicon generate config.cli-real-favicon.json results.cli-real-favicon.json public/favicons",
