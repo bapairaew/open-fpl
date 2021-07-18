@@ -26,7 +26,7 @@ import {
 import { RoughNotation } from "react-rough-notation";
 import externalLinks from "~/features/Navigation/externalLinks";
 import { useSettings } from "~/features/Settings/SettingsContext";
-import p from "~/app/package.json";
+import p from "~/package.json";
 import theme from "~/theme";
 
 const SideBarItem = ({
