@@ -8,7 +8,6 @@ import {
   DrawerOverlay,
   useToast,
 } from "@chakra-ui/react";
-import { useRef } from "react";
 import { TeamApiResponse } from "@open-fpl/app/features/Api/apiTypes";
 import {
   getLocalStorageItem,
@@ -21,9 +20,9 @@ import SettingsProfilesList from "@open-fpl/app/features/Settings/SettingsProfil
 import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
-  getTeamPlansKey,
   getTeamPlanKey,
 } from "@open-fpl/app/features/Settings/storageKeys";
+import { useRef } from "react";
 
 const SettingsModal = ({
   isOpen,
@@ -80,17 +79,14 @@ const SettingsModal = ({
   };
 
   const handleRemoveProfile = (removingTeamId: string) => {
-    const { name } =
+    const { name, teamPlans } =
       getLocalStorageItem<Preference>(getPreferenceKey(removingTeamId), {}) ||
       {};
-    const teamPlans =
-      getLocalStorageItem<string[]>(getTeamPlansKey(removingTeamId), []) || [];
     setProfiles(profiles ? profiles.filter((p) => p !== removingTeamId) : []);
     removeLocalStorageItem(getPreferenceKey(removingTeamId));
     teamPlans?.forEach((id) =>
       removeLocalStorageItem(getTeamPlanKey(removingTeamId, id))
     );
-    removeLocalStorageItem(getTeamPlansKey(removingTeamId));
     if (teamId === removingTeamId) {
       setTeamId(null);
     }

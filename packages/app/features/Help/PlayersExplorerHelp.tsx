@@ -18,7 +18,7 @@ import { AnnotationCalloutRect } from "react-annotation";
 import { gameweeks, player } from "@open-fpl/app/features/Help/helpData";
 import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
 import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerToolbar";
-import PlayerTableHeaderRow from "../PlayerData/PlayerTableHeaderRow";
+import PlayerTableHeaderRow from "@open-fpl/app/features/PlayerData/PlayerTableHeaderRow";
 
 const ComponentWithHighlight = ({
   children,

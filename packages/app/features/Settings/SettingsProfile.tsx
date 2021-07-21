@@ -15,6 +15,16 @@ import {
   useRadio,
   UseRadioProps,
 } from "@chakra-ui/react";
+import numberFormatter from "@open-fpl/app/features/Common/numberFormatter";
+import useLocalStorage, {
+  getLocalStorageItem,
+} from "@open-fpl/app/features/Common/useLocalStorage";
+import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
+import {
+  getPreferenceKey,
+  getTeamPlanKey,
+} from "@open-fpl/app/features/Settings/storageKeys";
+import { Change } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 import {
   MouseEvent,
   MouseEventHandler,
@@ -27,17 +37,6 @@ import {
   IoRadioButtonOnOutline,
   IoTrashBinOutline,
 } from "react-icons/io5";
-import numberFormatter from "@open-fpl/app/features/Common/numberFormatter";
-import useLocalStorage, {
-  getLocalStorageItem,
-} from "@open-fpl/app/features/Common/useLocalStorage";
-import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
-import {
-  getPreferenceKey,
-  getTeamPlansKey,
-  getTeamPlanKey,
-} from "@open-fpl/app/features/Settings/storageKeys";
-import { Change } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 
 const SettingsProfile = ({
   teamId,
@@ -62,19 +61,15 @@ const SettingsProfile = ({
     {}
   );
 
-  const [teamPlans] = useLocalStorage<string[]>(getTeamPlansKey(teamId), [
-    "Plan 1",
-  ]);
-
   const storageSize = useMemo(() => {
-    const allTransferPlans = teamPlans?.map((name) =>
+    const allTransferPlans = preference?.teamPlans?.map((name) =>
       getLocalStorageItem<Change[]>(getTeamPlanKey(teamId, name), [])
     );
 
-    const allData = [preference, allTransferPlans, teamPlans];
+    const allData = [preference, allTransferPlans];
 
     return new TextEncoder().encode(JSON.stringify([allData])).length;
-  }, [preference, teamPlans]);
+  }, [preference]);
 
   const displayName = preference?.name ?? `Team ${teamId}`;
 

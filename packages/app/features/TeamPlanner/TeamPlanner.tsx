@@ -14,10 +14,6 @@ import {
   Tabs,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
-import { IoAdd, IoSettingsOutline } from "react-icons/io5";
-import { ItemInterface, ReactSortable } from "react-sortablejs";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
@@ -25,6 +21,14 @@ import {
 } from "@open-fpl/app/features/Common/useLocalStorage";
 import CustomPlayersModal from "@open-fpl/app/features/CustomPlayer/CustomPlayersModal";
 import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
+import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import {
+  getTeamPlanKey,
+  getTeamPlansKey,
+} from "@open-fpl/app/features/Settings/storageKeys";
+import TeamPlannerPanel from "@open-fpl/app/features/TeamPlanner/TeamPlannerPanel";
+import TeamPlannerTab from "@open-fpl/app/features/TeamPlanner/TeamPlannerTab";
+import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   EntryChipPlay,
@@ -33,10 +37,9 @@ import {
   Team,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
-import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
-import TeamPlannerPanel from "@open-fpl/app/features/TeamPlanner/TeamPlannerPanel";
-import TeamPlannerTab from "@open-fpl/app/features/TeamPlanner/TeamPlannerTab";
+import { useEffect, useMemo, useState } from "react";
+import { IoAdd, IoSettingsOutline } from "react-icons/io5";
+import { ItemInterface, ReactSortable } from "react-sortablejs";
 
 const getDefaultName = (teamPlans: string[]) => {
   const maxDefaultNameIndex =
@@ -77,8 +80,24 @@ const TeamPlanner = ({
   chips: EntryChipPlay[];
   fplTeams: Team[];
 }) => {
-  const { teamId, teamPlans, starredPlayers, setTeamPlans, customPlayers } =
+  const { teamId, starredPlayers, customPlayers, preference, setPreference } =
     useSettings();
+
+  const teamPlans =
+    preference?.teamPlans ??
+    // NOTE: Team plans was saved outside of perference before 1.1.0-pre.1
+    // This code is for migrating old data to perference storage
+    // Consider removing this after some time
+    getLocalStorageItem<string[]>(getTeamPlansKey(teamId), ["Plan 1"]);
+  const setTeamPlans = (teamPlans: string[]) => {
+    if (preference) {
+      setPreference({
+        ...preference,
+        teamPlans,
+      });
+    }
+  };
+
   const [tabIndex, setTabIndex] = useState(0);
   const sortableTransferPlans = useMemo<ItemInterface[]>(
     () => teamPlans?.map((id) => ({ id })) ?? [],

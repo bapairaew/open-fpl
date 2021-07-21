@@ -21,7 +21,6 @@ import {
   getProfilesKey,
   getStarredPlayersKey,
   getTeamPlannerPinnedBenchKey,
-  getTeamPlansKey,
   getTeamsStrengthKey,
 } from "@open-fpl/app/features/Settings/storageKeys";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
@@ -38,12 +37,10 @@ const SettingsContext = createContext<Settings>({
   setProfiles: () => {},
   teamId: null,
   setTeamId: () => {},
-  preference: {},
+  preference: { teamPlans: ["Plan 1"] },
   setPreference: () => {},
   fixturesTeamsOrder: [],
   setFixturesTeamsOrder: () => {},
-  teamPlans: ["Plan 1"],
-  setTeamPlans: () => {},
   starredPlayers: [],
   setStarredPlayers: () => {},
   customPlayers: [],
@@ -81,11 +78,6 @@ export const SettingsContextProvider = ({
   const [preference, setPreference] = useLocalStorage<Preference | null>(
     getPreferenceKey(teamId),
     {}
-  );
-
-  const [teamPlans, setTeamPlans] = useLocalStorage<string[] | null>(
-    getTeamPlansKey(teamId),
-    ["Plan 1"]
   );
 
   const [fixturesTeamsOrder, setFixturesTeamsOrder] = useLocalStorage<
@@ -132,13 +124,11 @@ export const SettingsContextProvider = ({
       value={{
         isInitialised,
         profiles,
-        teamId,
-        preference,
-        teamPlans,
         setProfiles,
+        teamId,
         setTeamId,
+        preference,
         setPreference,
-        setTeamPlans,
         fixturesTeamsOrder,
         setFixturesTeamsOrder,
         starredPlayers,

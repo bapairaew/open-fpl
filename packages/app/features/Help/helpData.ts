@@ -1,7 +1,7 @@
+import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { ElementStatus } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { FullChangePlayer } from "../TeamPlanner/teamPlannerTypes";
 
 export const player: Player = {
   id: 302,

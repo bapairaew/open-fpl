@@ -8,6 +8,7 @@ import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 
 export interface Preference {
   name?: string; // Profile name
+  teamPlans?: string[]; // List of profile's team plans
 }
 
 export interface Settings {
@@ -18,7 +19,6 @@ export interface Settings {
   onSettingsModalOpen: () => void;
   onSettingsModalClsoe: () => void;
   preference: Preference | null; // Profile preference
-  teamPlans: string[] | null; // List of active profile's team plans
   fixturesTeamsOrder: string[] | null; // Fixtures page row order
   starredPlayers: number[] | null; // List of starred players
   customPlayers: CustomPlayer[] | null; // List of custom players
@@ -30,7 +30,6 @@ export interface Settings {
   setTeamId: (id: string | null) => void;
   setProfiles: (profiles: string[] | null) => void;
   setPreference: (preference: Preference | null) => void;
-  setTeamPlans: (plans: string[] | null) => void;
   setFixturesTeamsOrder: (order: string[] | null) => void;
   setStarredPlayers: (ids: number[] | null) => void;
   setCustomPlayers: (ids: CustomPlayer[] | null) => void;
