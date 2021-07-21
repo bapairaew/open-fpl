@@ -1,8 +1,11 @@
 import { useDisclosure } from "@chakra-ui/hooks";
-import dynamic from "next/dynamic";
-import { createContext, ReactNode, useContext } from "react";
 import useLocalStorage from "@open-fpl/app/features/Common/useLocalStorage";
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
+import { PlayerTableSortColumnConfig } from "@open-fpl/app/features/PlayerData/playerTableTypes";
+import {
+  DisplayOptions,
+  SortOptions,
+} from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 import {
   Preference,
   Settings,
@@ -11,13 +14,19 @@ import {
   getActiveProfileKey,
   getCustomPlayersKey,
   getFixturesTeamsOrderKey,
+  getPlayersExplorerDisplayOptionKey,
+  getPlayersExplorerSortOptionKey,
+  getPlayersExplorerTableSortColumnsKey,
   getPreferenceKey,
   getProfilesKey,
   getStarredPlayersKey,
+  getTeamPlannerPinnedBenchKey,
   getTeamPlansKey,
   getTeamsStrengthKey,
 } from "@open-fpl/app/features/Settings/storageKeys";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
+import dynamic from "next/dynamic";
+import { createContext, ReactNode, useContext } from "react";
 
 const SettingsModal = dynamic(
   () => import("@open-fpl/app/features/Settings/SettingsModal")
@@ -29,18 +38,26 @@ const SettingsContext = createContext<Settings>({
   setProfiles: () => {},
   teamId: null,
   setTeamId: () => {},
-  preference: { transferPlannerPinnedBench: false },
+  preference: {},
   setPreference: () => {},
   fixturesTeamsOrder: [],
   setFixturesTeamsOrder: () => {},
-  transferPlans: ["Plan 1"],
-  setTransferPlans: () => {},
+  teamPlans: ["Plan 1"],
+  setTeamPlans: () => {},
   starredPlayers: [],
   setStarredPlayers: () => {},
   customPlayers: [],
   setCustomPlayers: () => {},
   teamsStrength: [],
   setTeamsStrength: () => {},
+  teamPlannerPinnedBench: false,
+  setTeamPlannerPinnedBench: () => {},
+  playersExplorerDisplayOption: "table",
+  setPlayersExplorerDisplayOption: () => {},
+  playersExplorerSortOption: "starred",
+  setPlayersExplorerSortOption: () => {},
+  playersExplorerTableSortColumns: [],
+  setPlayersExplorerTableSortColumns: () => {},
   isSettingsModalOpen: false,
   onSettingsModalOpen: () => {},
   onSettingsModalClsoe: () => {},
@@ -66,7 +83,7 @@ export const SettingsContextProvider = ({
     {}
   );
 
-  const [transferPlans, setTransferPlans] = useLocalStorage<string[] | null>(
+  const [teamPlans, setTeamPlans] = useLocalStorage<string[] | null>(
     getTeamPlansKey(teamId),
     ["Plan 1"]
   );
@@ -88,6 +105,26 @@ export const SettingsContextProvider = ({
     TeamStrength[] | null
   >(getTeamsStrengthKey(), []);
 
+  const [teamPlannerPinnedBench, setTeamPlannerPinnedBench] = useLocalStorage<
+    boolean | null
+  >(getTeamPlannerPinnedBenchKey(), false);
+
+  const [playersExplorerDisplayOption, setPlayersExplorerDisplayOption] =
+    useLocalStorage<DisplayOptions | null>(
+      getPlayersExplorerDisplayOptionKey(),
+      "table"
+    );
+  const [playersExplorerSortOption, setPlayersExplorerSortOption] =
+    useLocalStorage<SortOptions | null>(
+      getPlayersExplorerSortOptionKey(),
+      "starred"
+    );
+  const [playersExplorerTableSortColumns, setPlayersExplorerTableSortColumns] =
+    useLocalStorage<PlayerTableSortColumnConfig[] | null>(
+      getPlayersExplorerTableSortColumnsKey(),
+      []
+    );
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -97,11 +134,11 @@ export const SettingsContextProvider = ({
         profiles,
         teamId,
         preference,
-        transferPlans,
+        teamPlans,
         setProfiles,
         setTeamId,
         setPreference,
-        setTransferPlans,
+        setTeamPlans,
         fixturesTeamsOrder,
         setFixturesTeamsOrder,
         starredPlayers,
@@ -110,6 +147,14 @@ export const SettingsContextProvider = ({
         setCustomPlayers,
         teamsStrength,
         setTeamsStrength,
+        teamPlannerPinnedBench,
+        setTeamPlannerPinnedBench,
+        playersExplorerDisplayOption,
+        setPlayersExplorerDisplayOption,
+        playersExplorerSortOption,
+        setPlayersExplorerSortOption,
+        playersExplorerTableSortColumns,
+        setPlayersExplorerTableSortColumns,
         isSettingsModalOpen: isOpen,
         onSettingsModalOpen: onOpen,
         onSettingsModalClsoe: onClose,

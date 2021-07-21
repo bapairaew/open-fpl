@@ -44,19 +44,17 @@ const usePlayersFilterAndSort = ({
   initialSeachQuery?: string;
   players?: Player[];
 }) => {
-  const { preference, setPreference } = useSettings();
+  const { playersExplorerSortOption, setPlayersExplorerSortOption } =
+    useSettings();
   const [filterQuery, setFilterQuery] = useState(initialSeachQuery);
   const [debouncedFilterQuery] = useDebounce(filterQuery, 300);
 
-  const sort = preference?.playersExplorerSortOption ?? sortOptions[0].value;
+  const sort = playersExplorerSortOption ?? sortOptions[0].value;
   const setSort = useCallback(
     (value: string) => {
-      setPreference({
-        ...preference,
-        playersExplorerSortOption: value as SortOptions,
-      });
+      setPlayersExplorerSortOption(value as SortOptions);
     },
-    [preference]
+    [playersExplorerSortOption]
   );
 
   const filterQueryObject = useMemo(() => {

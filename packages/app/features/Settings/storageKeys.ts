@@ -13,3 +13,10 @@ export const getTeamPlanKey = (
 export const getFixturesTeamsOrderKey = () => "fixtures-teams-order";
 export const getCustomPlayersKey = () => "custom-players";
 export const getTeamsStrengthKey = () => "teams-strength";
+export const getTeamPlannerPinnedBenchKey = () => "team-planner-pinned-bench";
+export const getPlayersExplorerDisplayOptionKey = () =>
+  "players-explorer-display-option";
+export const getPlayersExplorerSortOptionKey = () =>
+  "players-explorer-sort-option";
+export const getPlayersExplorerTableSortColumnsKey = () =>
+  "players-explorer-table-sort-columns";

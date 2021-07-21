@@ -62,19 +62,19 @@ const SettingsProfile = ({
     {}
   );
 
-  const [transferPlans] = useLocalStorage<string[]>(getTeamPlansKey(teamId), [
+  const [teamPlans] = useLocalStorage<string[]>(getTeamPlansKey(teamId), [
     "Plan 1",
   ]);
 
   const storageSize = useMemo(() => {
-    const allTransferPlans = transferPlans?.map((name) =>
+    const allTransferPlans = teamPlans?.map((name) =>
       getLocalStorageItem<Change[]>(getTeamPlanKey(teamId, name), [])
     );
 
-    const allData = [preference, allTransferPlans, transferPlans];
+    const allData = [preference, allTransferPlans, teamPlans];
 
     return new TextEncoder().encode(JSON.stringify([allData])).length;
-  }, [preference, transferPlans]);
+  }, [preference, teamPlans]);
 
   const displayName = preference?.name ?? `Team ${teamId}`;
 

@@ -38,11 +38,11 @@ import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
 import TeamPlannerPanel from "@open-fpl/app/features/TeamPlanner/TeamPlannerPanel";
 import TeamPlannerTab from "@open-fpl/app/features/TeamPlanner/TeamPlannerTab";
 
-const getDefaultName = (transferPlans: string[]) => {
+const getDefaultName = (teamPlans: string[]) => {
   const maxDefaultNameIndex =
     Math.max(
       0,
-      ...transferPlans
+      ...teamPlans
         .map((x) => x.match(/Plan (\d+)/)?.[1])
         .map((x) => (x ? +x : 0))
     ) + 1;
@@ -77,17 +77,12 @@ const TeamPlanner = ({
   chips: EntryChipPlay[];
   fplTeams: Team[];
 }) => {
-  const {
-    teamId,
-    transferPlans,
-    starredPlayers,
-    setTransferPlans,
-    customPlayers,
-  } = useSettings();
+  const { teamId, teamPlans, starredPlayers, setTeamPlans, customPlayers } =
+    useSettings();
   const [tabIndex, setTabIndex] = useState(0);
   const sortableTransferPlans = useMemo<ItemInterface[]>(
-    () => transferPlans?.map((id) => ({ id })) ?? [],
-    [transferPlans]
+    () => teamPlans?.map((id) => ({ id })) ?? [],
+    [teamPlans]
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -104,20 +99,20 @@ const TeamPlanner = ({
   const handleTabsChange = (index: number) => setTabIndex(index);
 
   const handleAddNewTransferPlan = () => {
-    if (transferPlans) {
-      const nextIndex = transferPlans.length;
-      setTransferPlans([...transferPlans, getDefaultName(transferPlans)]);
+    if (teamPlans) {
+      const nextIndex = teamPlans.length;
+      setTeamPlans([...teamPlans, getDefaultName(teamPlans)]);
       setTabIndex(nextIndex);
     }
   };
 
   const handleRename = (newName: string, oldName: string) => {
-    if (transferPlans && newName !== oldName) {
-      const nextTransferPlans = [...transferPlans];
+    if (teamPlans && newName !== oldName) {
+      const nextTransferPlans = [...teamPlans];
       const index = nextTransferPlans.findIndex((p) => p === oldName);
       if (index !== -1) {
         nextTransferPlans[index] = newName;
-        setTransferPlans(nextTransferPlans);
+        setTeamPlans(nextTransferPlans);
         const data = getLocalStorageItem(getTeamPlanKey(teamId, oldName), []);
         setLocalStorageItem(getTeamPlanKey(teamId, newName), data);
         removeLocalStorageItem(getTeamPlanKey(teamId, oldName));
@@ -126,10 +121,10 @@ const TeamPlanner = ({
   };
 
   const handleDuplicate = (plan: string) => {
-    if (transferPlans) {
-      const nextIndex = transferPlans.length;
-      const name = getDefaultName(transferPlans);
-      setTransferPlans([...transferPlans, name]);
+    if (teamPlans) {
+      const nextIndex = teamPlans.length;
+      const name = getDefaultName(teamPlans);
+      setTeamPlans([...teamPlans, name]);
       setLocalStorageItem(
         getTeamPlanKey(teamId, name),
         getLocalStorageItem(getTeamPlanKey(teamId, plan), [])
@@ -139,14 +134,14 @@ const TeamPlanner = ({
   };
 
   const handleRemove = (plan: string) => {
-    if (transferPlans) {
-      const nextTransferPlans = transferPlans?.filter((p) => p !== plan);
+    if (teamPlans) {
+      const nextTransferPlans = teamPlans?.filter((p) => p !== plan);
 
       if (nextTransferPlans.length === 0) {
-        setTransferPlans([getDefaultName(nextTransferPlans)]);
+        setTeamPlans([getDefaultName(nextTransferPlans)]);
         setTabIndex(0);
       } else {
-        setTransferPlans(nextTransferPlans);
+        setTeamPlans(nextTransferPlans);
         setTabIndex(nextTransferPlans.length - 1);
       }
 
@@ -156,9 +151,9 @@ const TeamPlanner = ({
 
   const handleTransferPlansChange = (newOrder: ItemInterface[]) => {
     const nextTransferPlans = newOrder.map((i) => `${i.id}`);
-    setTransferPlans(nextTransferPlans);
+    setTeamPlans(nextTransferPlans);
     setTabIndex(
-      nextTransferPlans.findIndex((t) => t === transferPlans?.[tabIndex])
+      nextTransferPlans.findIndex((t) => t === teamPlans?.[tabIndex])
     );
   };
 
@@ -227,7 +222,7 @@ const TeamPlanner = ({
             </Flex>
           </Flex>
           <TabPanels display="flex" flexGrow={1} flexDirection="column">
-            {transferPlans?.map((plan) => (
+            {teamPlans?.map((plan) => (
               <TabPanel
                 key={plan}
                 p={0}

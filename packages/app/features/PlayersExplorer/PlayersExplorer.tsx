@@ -19,8 +19,12 @@ const PlayersExplorer = ({
   players: Player[];
   gameweeks: Gameweek[];
 }) => {
-  const { preference, setPreference, starredPlayers, setStarredPlayers } =
-    useSettings();
+  const {
+    playersExplorerDisplayOption,
+    setPlayersExplorerDisplayOption,
+    starredPlayers,
+    setStarredPlayers,
+  } = useSettings();
 
   const players = useMemo(
     () =>
@@ -34,14 +38,11 @@ const PlayersExplorer = ({
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleDisplayChange = (
-    playersExplorerDisplayOption: DisplayOptions
-  ) => {
-    setPreference({ ...preference, playersExplorerDisplayOption });
+  const handleDisplayChange = (option: DisplayOptions) => {
+    setPlayersExplorerDisplayOption(option);
   };
 
-  const display =
-    preference?.playersExplorerDisplayOption ?? displayOptions[0].value;
+  const display = playersExplorerDisplayOption ?? displayOptions[0].value;
 
   const handleStarClick = (
     e: MouseEvent<HTMLButtonElement>,

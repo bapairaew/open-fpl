@@ -789,9 +789,9 @@ export const isSwapable = (
 export const removePlayerFromPlans = (player: Player) => {
   const profiles = getLocalStorageItem<string[]>(getProfilesKey(), []) || [];
   for (const profile of profiles) {
-    const transferPlans =
+    const teamPlans =
       getLocalStorageItem<string[]>(getTeamPlansKey(profile), []) || [];
-    for (const plan of transferPlans) {
+    for (const plan of teamPlans) {
       const teamPlan =
         getLocalStorageItem<Change[]>(getTeamPlanKey(profile, plan), []) || [];
 

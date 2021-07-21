@@ -49,9 +49,7 @@ const SettingsModal = ({
       ).json()) as TeamApiResponse;
 
       setLocalStorageItem(getPreferenceKey(teamId), {
-        ...getLocalStorageItem(getPreferenceKey(teamId), {
-          transferPlannerPinnedBench: false,
-        }),
+        ...getLocalStorageItem(getPreferenceKey(teamId), {}),
         name,
       });
       setProfiles([...profiles, teamId]);
@@ -85,11 +83,11 @@ const SettingsModal = ({
     const { name } =
       getLocalStorageItem<Preference>(getPreferenceKey(removingTeamId), {}) ||
       {};
-    const transferPlans =
+    const teamPlans =
       getLocalStorageItem<string[]>(getTeamPlansKey(removingTeamId), []) || [];
     setProfiles(profiles ? profiles.filter((p) => p !== removingTeamId) : []);
     removeLocalStorageItem(getPreferenceKey(removingTeamId));
-    transferPlans?.forEach((id) =>
+    teamPlans?.forEach((id) =>
       removeLocalStorageItem(getTeamPlanKey(removingTeamId, id))
     );
     removeLocalStorageItem(getTeamPlansKey(removingTeamId));

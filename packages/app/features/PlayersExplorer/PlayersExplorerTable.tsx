@@ -64,17 +64,16 @@ const PlayersExplorerTable = ({
   onSelectChange: (e: ChangeEvent<HTMLInputElement>, player: Player) => void;
   onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
 }) => {
-  const { preference, setPreference } = useSettings();
+  const {
+    playersExplorerTableSortColumns,
+    setPlayersExplorerTableSortColumns,
+  } = useSettings();
 
   const sortColumns =
-    preference?.playersExplorerTableSortColumns ??
-    ([] as PlayerTableSortColumnConfig[]);
+    playersExplorerTableSortColumns ?? ([] as PlayerTableSortColumnConfig[]);
   const setSortColums = (sortColumns: PlayerTableSortColumnConfig[]) => {
-    if (preference) {
-      setPreference({
-        ...preference,
-        playersExplorerTableSortColumns: sortColumns,
-      });
+    if (playersExplorerTableSortColumns) {
+      setPlayersExplorerTableSortColumns(sortColumns);
     }
   };
 

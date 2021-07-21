@@ -81,7 +81,7 @@ const SelectedTeam = ({
   onSetCaptain: (player: FullChangePlayer) => void;
   onSetViceCaptain: (player: FullChangePlayer) => void;
 }) => {
-  const { preference, setPreference } = useSettings();
+  const { teamPlannerPinnedBench, setTeamPlannerPinnedBench } = useSettings();
 
   const { GKP, DEF, MID, FWD, bench } = teamObject;
 
@@ -161,9 +161,7 @@ const SelectedTeam = ({
                 })}
               </SelectedTeamSection>
               <Box
-                position={
-                  preference?.transferPlannerPinnedBench ? "sticky" : undefined
-                }
+                position={teamPlannerPinnedBench ? "sticky" : undefined}
                 bottom={0}
                 borderTopWidth={1}
                 bg="white"
@@ -175,17 +173,9 @@ const SelectedTeam = ({
                       size="xs"
                       aria-label="pin bench"
                       icon={<Icon as={AiOutlinePushpin} />}
-                      variant={
-                        preference?.transferPlannerPinnedBench
-                          ? "solid"
-                          : "ghost"
-                      }
+                      variant={teamPlannerPinnedBench ? "solid" : "ghost"}
                       onClick={() =>
-                        setPreference({
-                          ...preference,
-                          transferPlannerPinnedBench:
-                            !preference?.transferPlannerPinnedBench,
-                        })
+                        setTeamPlannerPinnedBench(!teamPlannerPinnedBench)
                       }
                     />
                   }
