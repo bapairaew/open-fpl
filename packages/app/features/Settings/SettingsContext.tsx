@@ -98,13 +98,10 @@ export const SettingsContextProvider = ({
       getLocalStorageItem<number[]>(getStarredPlayersKey(teamId), []) ?? [];
   }
 
-  const preference =
-    _preference && !_preference.teamPlans
-      ? {
-          ..._preference,
-          ...patchedData,
-        }
-      : _preference;
+  const preference = {
+    ..._preference,
+    ...patchedData,
+  };
 
   const [fixturesTeamsOrder, setFixturesTeamsOrder] = useLocalStorage<
     string[] | null
