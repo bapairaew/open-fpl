@@ -184,7 +184,7 @@ const TeamPlanner = ({
         isOpen={isOpen}
         onClose={onClose}
       />
-      <Box height="100%" overflow="hidden" {...props}>
+      <Box height="100%" width="100%" overflow="hidden" {...props}>
         <Tabs
           variant="enclosed-colored"
           height="100%"
