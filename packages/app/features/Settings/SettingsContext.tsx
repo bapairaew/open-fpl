@@ -1,5 +1,7 @@
 import { useDisclosure } from "@chakra-ui/hooks";
-import useLocalStorage from "@open-fpl/app/features/Common/useLocalStorage";
+import useLocalStorage, {
+  getLocalStorageItem,
+} from "@open-fpl/app/features/Common/useLocalStorage";
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
 import { PlayerTableSortColumnConfig } from "@open-fpl/app/features/PlayerData/playerTableTypes";
 import {
@@ -21,6 +23,7 @@ import {
   getProfilesKey,
   getStarredPlayersKey,
   getTeamPlannerPinnedBenchKey,
+  getTeamPlansKey,
   getTeamsStrengthKey,
 } from "@open-fpl/app/features/Settings/storageKeys";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
@@ -37,12 +40,10 @@ const SettingsContext = createContext<Settings>({
   setProfiles: () => {},
   teamId: null,
   setTeamId: () => {},
-  preference: { teamPlans: ["Plan 1"] },
+  preference: {},
   setPreference: () => {},
   fixturesTeamsOrder: [],
   setFixturesTeamsOrder: () => {},
-  starredPlayers: [],
-  setStarredPlayers: () => {},
   customPlayers: [],
   setCustomPlayers: () => {},
   teamsStrength: [],
@@ -75,19 +76,39 @@ export const SettingsContextProvider = ({
     null
   );
 
-  const [preference, setPreference] = useLocalStorage<Preference | null>(
+  const [_preference, setPreference] = useLocalStorage<Preference | null>(
     getPreferenceKey(teamId),
     {}
   );
 
+  // NOTE: Team plans was saved outside of perference before 1.1.0-pre.1
+  // This code is for migrating old data to perference storage
+  // Consider removing this after some time
+  const patchedData = {} as { teamPlans: string[]; starredPlayers: number[] };
+
+  if (_preference && !_preference.teamPlans) {
+    patchedData.teamPlans = getLocalStorageItem<string[]>(
+      getTeamPlansKey(teamId),
+      ["Plan 1"]
+    ) ?? ["Plan 1"];
+  }
+
+  if (_preference && !_preference.starredPlayers) {
+    patchedData.starredPlayers =
+      getLocalStorageItem<number[]>(getStarredPlayersKey(teamId), []) ?? [];
+  }
+
+  const preference =
+    _preference && !_preference.teamPlans
+      ? {
+          ..._preference,
+          ...patchedData,
+        }
+      : _preference;
+
   const [fixturesTeamsOrder, setFixturesTeamsOrder] = useLocalStorage<
     string[] | null
   >(getFixturesTeamsOrderKey(), null);
-
-  const [starredPlayers, setStarredPlayers] = useLocalStorage<number[] | null>(
-    getStarredPlayersKey(teamId),
-    []
-  );
 
   const [customPlayers, setCustomPlayers] = useLocalStorage<
     CustomPlayer[] | null
@@ -131,8 +152,6 @@ export const SettingsContextProvider = ({
         setPreference,
         fixturesTeamsOrder,
         setFixturesTeamsOrder,
-        starredPlayers,
-        setStarredPlayers,
         customPlayers,
         setCustomPlayers,
         teamsStrength,

@@ -30,7 +30,7 @@ const CustomPlayersModal = ({
   onClose: () => void;
 }) => {
   const toast = useToast();
-  const { customPlayers, setCustomPlayers, starredPlayers, setStarredPlayers } =
+  const { customPlayers, setCustomPlayers, preference, setPreference } =
     useSettings();
   const initialFocusRef = useRef<HTMLInputElement | HTMLButtonElement | null>(
     null
@@ -48,8 +48,14 @@ const CustomPlayersModal = ({
   const handleAddPlayer = (customPlayer: CustomPlayer) => {
     if (customPlayers) {
       setCustomPlayers([...customPlayers, customPlayer]);
-      if (starredPlayers) {
-        setStarredPlayers([...starredPlayers, customPlayer.id]);
+      if (preference) {
+        setPreference({
+          ...preference,
+          starredPlayers: [
+            ...(preference.starredPlayers ?? []),
+            customPlayer.id,
+          ],
+        });
       }
       toast({
         title: "Custom player created.",

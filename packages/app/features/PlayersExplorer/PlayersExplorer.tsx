@@ -22,16 +22,16 @@ const PlayersExplorer = ({
   const {
     playersExplorerDisplayOption,
     setPlayersExplorerDisplayOption,
-    starredPlayers,
-    setStarredPlayers,
+    preference,
+    setPreference,
   } = useSettings();
 
   const players = useMemo(
     () =>
-      starredPlayers
-        ? hydrateClientData(remotePlayers, starredPlayers, [])
+      preference?.starredPlayers
+        ? hydrateClientData(remotePlayers, preference?.starredPlayers, [])
         : remotePlayers,
-    [remotePlayers, starredPlayers]
+    [remotePlayers, preference?.starredPlayers]
   );
 
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
@@ -48,11 +48,18 @@ const PlayersExplorer = ({
     e: MouseEvent<HTMLButtonElement>,
     player: Player
   ) => {
-    if (starredPlayers) {
-      if (starredPlayers.some((p) => p === player.id)) {
-        setStarredPlayers(starredPlayers.filter((p) => p !== player.id));
+    if (preference) {
+      if (preference?.starredPlayers?.some((p) => p === player.id)) {
+        setPreference({
+          ...preference,
+          starredPlayers:
+            preference.starredPlayers?.filter((p) => p !== player.id) ?? [],
+        });
       } else {
-        setStarredPlayers([...starredPlayers, player.id]);
+        setPreference({
+          ...preference,
+          starredPlayers: [...(preference?.starredPlayers ?? []), player.id],
+        });
       }
     }
   };

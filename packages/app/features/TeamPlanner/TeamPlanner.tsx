@@ -22,10 +22,7 @@ import {
 import CustomPlayersModal from "@open-fpl/app/features/CustomPlayer/CustomPlayersModal";
 import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
-import {
-  getTeamPlanKey,
-  getTeamPlansKey,
-} from "@open-fpl/app/features/Settings/storageKeys";
+import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
 import TeamPlannerPanel from "@open-fpl/app/features/TeamPlanner/TeamPlannerPanel";
 import TeamPlannerTab from "@open-fpl/app/features/TeamPlanner/TeamPlannerTab";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
@@ -80,15 +77,9 @@ const TeamPlanner = ({
   chips: EntryChipPlay[];
   fplTeams: Team[];
 }) => {
-  const { teamId, starredPlayers, customPlayers, preference, setPreference } =
-    useSettings();
+  const { teamId, customPlayers, preference, setPreference } = useSettings();
 
-  const teamPlans =
-    preference?.teamPlans ??
-    // NOTE: Team plans was saved outside of perference before 1.1.0-pre.1
-    // This code is for migrating old data to perference storage
-    // Consider removing this after some time
-    getLocalStorageItem<string[]>(getTeamPlansKey(teamId), ["Plan 1"]);
+  const teamPlans = preference?.teamPlans;
   const setTeamPlans = (teamPlans: string[]) => {
     if (preference) {
       setPreference({
@@ -107,10 +98,14 @@ const TeamPlanner = ({
 
   const players = useMemo(
     () =>
-      starredPlayers && customPlayers
-        ? hydrateClientData(remotePlayers, starredPlayers, customPlayers)
+      preference?.starredPlayers && customPlayers
+        ? hydrateClientData(
+            remotePlayers,
+            preference?.starredPlayers,
+            customPlayers
+          )
         : remotePlayers,
-    [remotePlayers, starredPlayers, customPlayers]
+    [remotePlayers, preference?.starredPlayers, customPlayers]
   );
 
   useEffect(() => setTabIndex(0), [teamId]);
@@ -253,7 +248,7 @@ const TeamPlanner = ({
                 {teamId && (
                   <TeamPlannerPanel
                     teamId={teamId}
-                    transferPlanKey={plan}
+                    teamPlanKey={plan}
                     initialPicks={initialPicks}
                     entryHistory={entryHistory}
                     players={players}

@@ -42,7 +42,7 @@ const TransferPlannerPanelContent = ({
   changes,
   currentGameweek,
   gameweekDataList,
-  setTransferPlan,
+  setTeamPlan,
 }: {
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
@@ -51,7 +51,7 @@ const TransferPlannerPanelContent = ({
   changes: Change[];
   currentGameweek: number;
   gameweekDataList: GameweekData[];
-  setTransferPlan: (change: Change[] | null) => void;
+  setTeamPlan: (change: Change[] | null) => void;
 }) => {
   const [gameweekDelta, setGameweekDelta] = useState(0);
 
@@ -85,7 +85,7 @@ const TransferPlannerPanelContent = ({
     selectedPlayer: ChangePlayer,
     targetPlayer: ChangePlayer
   ) =>
-    setTransferPlan(
+    setTeamPlan(
       addChange(changes, {
         type: "swap",
         selectedPlayer,
@@ -95,7 +95,7 @@ const TransferPlannerPanelContent = ({
     );
 
   const handleTransfer = (selectedPlayer: ChangePlayer, targetPlayer: Player) =>
-    setTransferPlan(
+    setTeamPlan(
       addChange(changes, {
         type: "transfer",
         selectedPlayer,
@@ -108,7 +108,7 @@ const TransferPlannerPanelContent = ({
     selectedPlayer: FullChangePlayer,
     targetPlayer: FullChangePlayer
   ) =>
-    setTransferPlan(
+    setTeamPlan(
       addChange(changes, {
         type: "preseason",
         team: processPreseasonSwap(team, selectedPlayer, targetPlayer),
@@ -120,7 +120,7 @@ const TransferPlannerPanelContent = ({
     selectedPlayer: FullChangePlayer,
     targetPlayer: Player
   ) =>
-    setTransferPlan(
+    setTeamPlan(
       addChange(changes, {
         type: "preseason",
         team: processPreseasonTransfer(team, selectedPlayer, targetPlayer),
@@ -133,7 +133,7 @@ const TransferPlannerPanelContent = ({
     type: "set-captain" | "set-vice-captain"
   ) => {
     if (transferManagerMode === "preseason") {
-      setTransferPlan(
+      setTeamPlan(
         addChange(changes, {
           type: "preseason",
           team: processPreseasonSetCaptain(team, player, type),
@@ -141,7 +141,7 @@ const TransferPlannerPanelContent = ({
         } as TeamChange<FullChangePlayer>)
       );
     } else {
-      setTransferPlan(
+      setTeamPlan(
         addChange(changes, {
           type,
           player,
@@ -159,7 +159,7 @@ const TransferPlannerPanelContent = ({
 
   const handleChipChange = (e: ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value) {
-      setTransferPlan(
+      setTeamPlan(
         addChange(changes, {
           type: "use-chip",
           chip: e.target.value as ChipName,
@@ -171,13 +171,13 @@ const TransferPlannerPanelContent = ({
         (c) => c.type === "use-chip" && c.gameweek === planningGameweek
       );
       if (planningGameweekChip) {
-        setTransferPlan(removeChange(changes, planningGameweekChip));
+        setTeamPlan(removeChange(changes, planningGameweekChip));
       }
     }
   };
 
   const handleRemove = (change: Change) =>
-    setTransferPlan(removeChange(changes, change));
+    setTeamPlan(removeChange(changes, change));
 
   const handleMoveToGameweek = (gameweek: number) =>
     setGameweekDelta(gameweek - currentGameweek);
@@ -234,7 +234,7 @@ const TeamPlannerPanel = ({
   transfers,
   chips,
   teamId,
-  transferPlanKey,
+  teamPlanKey,
 }: {
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
@@ -243,10 +243,10 @@ const TeamPlannerPanel = ({
   transfers: Transfer[];
   chips: EntryChipPlay[];
   teamId: string;
-  transferPlanKey: string;
+  teamPlanKey: string;
 }) => {
-  const [teamPlan, setTransferPlan] = useLocalStorage<Change[]>(
-    getTeamPlanKey(teamId, transferPlanKey),
+  const [teamPlan, setTeamPlan] = useLocalStorage<Change[]>(
+    getTeamPlanKey(teamId, teamPlanKey),
     [] as Change[]
   );
 
@@ -277,7 +277,7 @@ const TeamPlannerPanel = ({
       entryHistory={entryHistory}
       players={players}
       gameweeks={gameweeks}
-      setTransferPlan={setTransferPlan}
+      setTeamPlan={setTeamPlan}
       changes={changes}
       currentGameweek={currentGameweek}
       gameweekDataList={gameweekDataList}

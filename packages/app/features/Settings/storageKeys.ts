@@ -2,8 +2,6 @@ export const getActiveProfileKey = () => "active-profile";
 export const getProfilesKey = () => "profiles";
 export const getPreferenceKey = (teamId: string | null) =>
   `${teamId ?? ""}-preference`;
-export const getStarredPlayersKey = (teamId: string | null) =>
-  `${teamId ?? ""}-starred-players`;
 export const getTeamPlanKey = (
   teamId: string | null,
   planName: string | null
@@ -24,3 +22,8 @@ export const getPlayersExplorerTableSortColumnsKey = () =>
  */
 export const getTeamPlansKey = (teamId: string | null) =>
   `${teamId ?? ""}-team-plans`;
+/**
+ * @deprecated This key is no longer used. Team plans are moved to perference.
+ */
+export const getStarredPlayersKey = (teamId: string | null) =>
+  `${teamId ?? ""}-starred-players`;
