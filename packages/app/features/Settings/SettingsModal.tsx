@@ -6,9 +6,9 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
+  Link as A,
   useToast,
 } from "@chakra-ui/react";
-import { useRef } from "react";
 import { TeamApiResponse } from "@open-fpl/app/features/Api/apiTypes";
 import {
   getLocalStorageItem,
@@ -21,9 +21,10 @@ import SettingsProfilesList from "@open-fpl/app/features/Settings/SettingsProfil
 import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
-  getTeamPlansKey,
   getTeamPlanKey,
+  getTeamPlansKey,
 } from "@open-fpl/app/features/Settings/storageKeys";
+import { useRef } from "react";
 
 const SettingsModal = ({
   isOpen,
@@ -40,28 +41,43 @@ const SettingsModal = ({
 
   const handleAddProfile = async (teamId: string) => {
     if (profiles && !profiles.includes(teamId)) {
-      const {
-        data: { name } = {},
-        // Ignore error case
-        //error
-      } = (await (
+      const { data: { name } = {}, error } = (await (
         await fetch(`/api/team/${teamId}`)
       ).json()) as TeamApiResponse;
 
-      setLocalStorageItem(getPreferenceKey(teamId), {
-        ...getLocalStorageItem(getPreferenceKey(teamId), {
-          transferPlannerPinnedBench: false,
-        }),
-        name,
-      });
-      setProfiles([...profiles, teamId]);
-      setTeamId(teamId);
-      toast({
-        title: "Profile created.",
-        description: `${name ?? teamId} profile has been successfully created.`,
-        status: "success",
-        isClosable: true,
-      });
+      if (error) {
+        toast({
+          title: `Unable to create ${teamId}.`,
+          description: (
+            <>
+              There is something wrong while fetching data from FPL. Maybe your
+              id is not correct?{" "}
+              <A href="/help/id" textDecoration="underline">
+                Check this guide to find you ID.
+              </A>
+            </>
+          ),
+          status: "error",
+          isClosable: true,
+        });
+      } else {
+        setLocalStorageItem(getPreferenceKey(teamId), {
+          ...getLocalStorageItem(getPreferenceKey(teamId), {
+            transferPlannerPinnedBench: false,
+          }),
+          name,
+        });
+        setProfiles([...profiles, teamId]);
+        setTeamId(teamId);
+        toast({
+          title: "Profile created.",
+          description: `${
+            name ?? teamId
+          } profile has been successfully created.`,
+          status: "success",
+          isClosable: true,
+        });
+      }
     } else {
       setTeamId(teamId);
       const { name } =

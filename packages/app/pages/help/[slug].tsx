@@ -6,6 +6,9 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
+import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
+import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
@@ -14,11 +17,9 @@ import { MouseEvent } from "react";
 import {
   IoCalendarClearOutline,
   IoPeopleCircleOutline,
+  IoSearchOutline,
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
-import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
-import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
-import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 
 const tabs = [
   {
@@ -43,6 +44,14 @@ const tabs = [
     slug: "fixtures",
     component: dynamic(
       () => import("@open-fpl/app/features/Help/FixturesHelp")
+    ),
+  },
+  {
+    label: "Find your ID",
+    icon: IoSearchOutline,
+    slug: "id",
+    component: dynamic(
+      () => import("@open-fpl/app/features/Help/FindYourIDHelp")
     ),
   },
 ];

@@ -29,6 +29,15 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     };
   }
 
+  if (isNaN(+params!.id)) {
+    return {
+      props: {
+        error:
+          "Invalid FPL ID: Please check help page for the instruction to find a valid FPL ID.",
+      },
+    };
+  }
+
   const [fplTeams, fplGameweeks] = await Promise.all([
     fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
       r.json()
@@ -39,22 +48,34 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
   ]);
 
   const event = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
-  const [{ picks = null, entry_history = null }, transfers, { chips = null }] =
-    await Promise.all([
+
+  try {
+    const [
+      { picks = null, entry_history = null },
+      transfers,
+      { chips = null },
+    ] = await Promise.all([
       getTeamPicks(+params!.id!, event),
       getTeamTransfers(+params!.id!),
       getTeamHistory(+params!.id!),
     ]);
 
-  return {
-    props: {
-      picks,
-      entry_history,
-      transfers,
-      chips,
-      fplTeams,
-    },
-  };
+    return {
+      props: {
+        picks,
+        entry_history,
+        transfers,
+        chips,
+        fplTeams,
+      },
+    };
+  } catch (e) {
+    return {
+      props: {
+        error: "Unexpected error while fetching data from FPL.",
+      },
+    };
+  }
 };
 
 const TransferPlannerPage = ({
@@ -63,6 +84,7 @@ const TransferPlannerPage = ({
   transfers,
   chips,
   fplTeams,
+  error,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   useTeamPlannerRedirect();
 
@@ -85,7 +107,9 @@ const TransferPlannerPage = ({
 
   let mainContent = null;
 
-  if (isReady) {
+  if (error) {
+    mainContent = <UnhandledError as="main" additionalInfo={error} />;
+  } else if (isReady) {
     mainContent = (
       <TeamPlanner
         as="main"

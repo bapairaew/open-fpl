@@ -10,7 +10,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Link,
+  Link as A,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -22,8 +22,9 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import { FormEvent, MutableRefObject, useEffect, useState } from "react";
-import { IoHelpCircleOutline, IoOpenOutline } from "react-icons/io5";
+import { IoHelpCircleOutline } from "react-icons/io5";
 
 const TeamIDHelpButton = () => (
   <Popover strategy="fixed">
@@ -42,8 +43,8 @@ const TeamIDHelpButton = () => (
           <PopoverHeader fontWeight="black">Find your team ID</PopoverHeader>
           <PopoverBody>
             Don't know where to find it? Just follow this{" "}
-            <Link color="brand.500" href="https://fpl.team/find-id" isExternal>
-              find your team ID guide <Icon as={IoOpenOutline} />
+            <Link href="/help/id" passHref>
+              <A color="brand.500">find your team ID guide</A>
             </Link>
             !
           </PopoverBody>
@@ -141,6 +142,7 @@ const AddProfile = ({
               <FormLabel>Team ID</FormLabel>
               <InputGroup>
                 <Input
+                  type="number"
                   ref={
                     expanded
                       ? (initialFocusRef as MutableRefObject<HTMLInputElement>)
