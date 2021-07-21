@@ -1,6 +1,6 @@
 import fs from "fs";
 import { URL } from "url";
-import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import { ParsedRequest } from "@open-fpl/app/features/OpenGraphImages/openGraphImagestypes";
 
 export async function parseRequest(url: URL) {
@@ -64,7 +64,7 @@ async function getDefaultImages(images: string[]): Promise<string[]> {
     return [defaultImage];
   }
 
-  if (!images[0].startsWith(baseUrl)) {
+  if (!images[0].startsWith(origin)) {
     images[0] = defaultImage;
   }
 

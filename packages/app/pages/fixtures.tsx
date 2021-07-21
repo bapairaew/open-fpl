@@ -3,7 +3,7 @@ import { NextSeo } from "next-seo";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
 import Fixtures from "@open-fpl/app/features/Fixtures/Fixtures";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
-import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
@@ -32,9 +32,9 @@ function FixturesPage({
       <NextSeo
         title="Fixture Difficulty Rating – Open FPL"
         description="Explore Fantasy Premier League fixtures and their Attack and Defence Fixture Difficulty Rating."
-        canonical={`${baseUrl}/fixtures`}
+        canonical={`${origin}/fixtures`}
         openGraph={{
-          url: `${baseUrl}/fixtures`,
+          url: `${origin}/fixtures`,
           title: "Fixture Difficulty Rating – Open FPL",
           description:
             "Explore Fantasy Premier League fixtures and their Attack and Defence Fixture Difficulty Rating.",

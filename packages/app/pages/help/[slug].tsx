@@ -17,7 +17,7 @@ import {
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
-import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 
 const tabs = [
@@ -77,9 +77,9 @@ const HelpPage = ({
       <NextSeo
         title="How to use – Open FPL"
         description="How to use each open-source tool on Open FPL to help you enjoy Fantasy Premier League more."
-        canonical={`${baseUrl}/help`}
+        canonical={`${origin}/help`}
         openGraph={{
-          url: `${baseUrl}/help`,
+          url: `${origin}/help`,
           title: "How to use – Open FPL",
           description:
             "How to use each open-source tool on Open FPL to help you enjoy Fantasy Premier League more.",

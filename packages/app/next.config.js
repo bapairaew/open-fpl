@@ -1,4 +1,6 @@
-module.exports = {
+const { withPlausibleProxy } = require("next-plausible");
+
+module.exports = withPlausibleProxy()({
   experimental: {
     externalDir: true,
   },
@@ -11,4 +13,4 @@ module.exports = {
       },
     ];
   },
-};
+});

@@ -3,7 +3,7 @@ import { NextSeo } from "next-seo";
 import Link from "next/link";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
-import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
@@ -59,9 +59,9 @@ const TransferPlannerSetupPage = () => {
       <NextSeo
         title="Team Planner – Open FPL"
         description="Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks."
-        canonical={`${baseUrl}/teams`}
+        canonical={`${origin}/teams`}
         openGraph={{
-          url: `${baseUrl}/teams`,
+          url: `${origin}/teams`,
           title: "Team Planner – Open FPL",
           description:
             "Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks.",

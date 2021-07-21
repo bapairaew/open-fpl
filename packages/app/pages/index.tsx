@@ -1,6 +1,6 @@
 import { NextSeo } from "next-seo";
 import LandingPage from "@open-fpl/app/features/LandingPage/LandingPage";
-import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 
 const IndexPage = () => {
@@ -9,9 +9,9 @@ const IndexPage = () => {
       <NextSeo
         title="Open FPL – Free open-source Fantasy Premier League tools"
         description="Level up your FPL game with Player Statistics Explorer, Team Planner, Fixture Difficulty Rating."
-        canonical={baseUrl}
+        canonical={origin}
         openGraph={{
-          url: baseUrl,
+          url: origin,
           title: "Open FPL – Free open-source Fantasy Premier League tools",
           description:
             "Level up your FPL game with Player Statistics Explorer, Team Planner, Fixture Difficulty Rating.",

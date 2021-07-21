@@ -6,7 +6,7 @@ import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
 import UnhandledError from "@open-fpl/app/features/Error/UnhandledError";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
-import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import PlayersExplorer from "@open-fpl/app/features/PlayersExplorer/PlayersExplorer";
 import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
@@ -59,9 +59,9 @@ function PlayersExplorerPage() {
       <NextSeo
         title="Player Statistics Explorer – Open FPL"
         description="Explore Fantasy Premier League player statistics xG, xGA, and more to make a better decision on your team."
-        canonical={`${baseUrl}/players`}
+        canonical={`${origin}/players`}
         openGraph={{
-          url: `${baseUrl}/players`,
+          url: `${origin}/players`,
           title: "Player Statistics Explorer – Open FPL",
           description:
             "Explore Fantasy Premier League player statistics xG, xGA, and more to make a better decision on your team.",

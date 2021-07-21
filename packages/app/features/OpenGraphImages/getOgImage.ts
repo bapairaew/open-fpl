@@ -1,4 +1,4 @@
-import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
+import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 
 // NOTE:
 // 1. If you want to change this function name, please make sure to
@@ -18,7 +18,7 @@ import { baseUrl } from "@open-fpl/app/features/Navigation/internalUrls";
 // Hence, just do it locally and push to git for now.
 
 const getOgImage = (path: string) => {
-  return `${baseUrl}/og-images/${path}`;
+  return `${origin}/og-images/${path}`;
 };
 
 export default getOgImage;
