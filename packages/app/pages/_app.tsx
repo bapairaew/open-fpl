@@ -1,16 +1,13 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { cache } from "@open-fpl/app/features/Cache/swrCache";
-import useAnalytics from "@open-fpl/app/features/Common/useAnalytics";
+import { host } from "@open-fpl/app/features/Navigation/internalUrls";
 import { SettingsContextProvider } from "@open-fpl/app/features/Settings/SettingsContext";
 import theme from "@open-fpl/app/theme";
 import PlausibleProvider from "next-plausible";
 import { AppProps } from "next/app";
 import { SWRConfig } from "swr";
-import { host } from "@open-fpl/app/features/Navigation/internalUrls";
 
 export default function App({ Component, pageProps }: AppProps) {
-  useAnalytics();
-
   const plausibleDomain = host ? host.replace("www.", "") : ""; // Plausible specifically says not to put www. here
   const plausibleEnabled = host !== undefined;
 
