@@ -5,41 +5,62 @@ import {
   Tbody,
   Thead,
 } from "@chakra-ui/react";
-import { useMemo } from "react";
-import { ReactSortable } from "react-sortablejs";
-import AutoSizer from "react-virtualized-auto-sizer";
 import {
   FullTeamFixtures,
   SortableFullTeamFixtures,
 } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import FixturesTableHeaderRow from "@open-fpl/app/features/Fixtures/FixturesTableHeaderRow";
 import FixturesTableRow from "@open-fpl/app/features/Fixtures/FixturesTableRow";
+import { useMemo, useState } from "react";
+import { ReactSortable } from "react-sortablejs";
+import AutoSizer from "react-virtualized-auto-sizer";
+
+export interface SortGroup {
+  direction: -1 | 1 | null;
+  group: number[];
+}
 
 const ForwardableTbody = forwardRef<TableBodyProps, "tbody">((props, ref) => {
   return <Tbody ref={ref}>{props.children}</Tbody>;
 });
 
+interface SortableFullTeamFixturesWithDifficultySum
+  extends SortableFullTeamFixtures {
+  difficultySum: number;
+}
+
 const makeSortedFixturesOrder = (
   sortableFullFixtures: SortableFullTeamFixtures[],
   mode: string,
-  gameweek: number,
-  compareFactor: -1 | 1
+  gameweeks: number[],
+  direction: -1 | 1
 ) => {
+  const range = [Math.min(...gameweeks), Math.max(...gameweeks)];
   return [...sortableFullFixtures]
+    .reduce((teams, team) => {
+      return [
+        ...teams,
+        {
+          ...team,
+          difficultySum: team.fixtures
+            .slice(range[0] - 1, range[1])
+            .reduce((sum, fixture) => {
+              return (
+                sum +
+                (mode === "attack"
+                  ? fixture.attack_difficulty
+                  : fixture.defence_difficulty)
+              );
+            }, 0),
+        },
+      ];
+    }, [] as SortableFullTeamFixturesWithDifficultySum[])
     .sort((a, b) => {
-      const diffA =
-        mode === "attack"
-          ? a.fixtures[gameweek - 1].attack_difficulty
-          : a.fixtures[gameweek - 1].defence_difficulty;
-      const diffB =
-        mode === "attack"
-          ? b.fixtures[gameweek - 1].attack_difficulty
-          : b.fixtures[gameweek - 1].defence_difficulty;
-      return diffA === diffB
+      return a.difficultySum === b.difficultySum
         ? 0
-        : diffA > diffB
-        ? -1 * compareFactor
-        : 1 * compareFactor;
+        : a.difficultySum > b.difficultySum
+        ? -1 * direction
+        : 1 * direction;
     })
     .map((f) => f.id);
 };
@@ -57,17 +78,65 @@ const FixturesTable = ({
     return fullFixtures.map((f) => ({ id: f.short_name, ...f }));
   }, [fullFixtures]);
 
+  const [sortGroup, setSortGrouop] = useState<SortGroup>({
+    direction: null,
+    group: [],
+  });
+
   const handleFixturesOrderChange = (newOrder: SortableFullTeamFixtures[]) =>
     onFixturesOrderChange(newOrder.map((f) => f.id));
   const handleResetSortClick = () => onFixturesOrderChange(null);
   const handleHardFixtureSortClick = (gameweek: number) =>
     onFixturesOrderChange(
-      makeSortedFixturesOrder(sortedFullFixtures, mode, gameweek, 1)
+      makeSortedFixturesOrder(sortedFullFixtures, mode, [gameweek], 1)
     );
   const handleEasyFixtureSortClick = (gameweek: number) =>
     onFixturesOrderChange(
-      makeSortedFixturesOrder(sortedFullFixtures, mode, gameweek, -1)
+      makeSortedFixturesOrder(sortedFullFixtures, mode, [gameweek], -1)
     );
+
+  const handleHardSortGroupClick = (gameweek: number) => {
+    if (sortGroup.group.length === 0) {
+      setSortGrouop({
+        direction: 1,
+        group: [gameweek],
+      });
+    } else {
+      onFixturesOrderChange(
+        makeSortedFixturesOrder(
+          sortedFullFixtures,
+          mode,
+          [...sortGroup.group, gameweek],
+          1
+        )
+      );
+      handleResetSortGroupClick();
+    }
+  };
+  const handleEasySortGroupClick = (gameweek: number) => {
+    if (sortGroup.group.length === 0) {
+      setSortGrouop({
+        direction: -1,
+        group: [gameweek],
+      });
+    } else {
+      onFixturesOrderChange(
+        makeSortedFixturesOrder(
+          sortedFullFixtures,
+          mode,
+          [...sortGroup.group, gameweek],
+          -1
+        )
+      );
+      handleResetSortGroupClick();
+    }
+  };
+  const handleResetSortGroupClick = () => {
+    setSortGrouop({
+      direction: null,
+      group: [],
+    });
+  };
 
   return (
     <AutoSizer>
@@ -85,6 +154,10 @@ const FixturesTable = ({
               onResetSortClick={handleResetSortClick}
               onHardFixtureSortClick={handleHardFixtureSortClick}
               onEasyFixtureSortClick={handleEasyFixtureSortClick}
+              sortGroup={sortGroup}
+              onHardSortGroupClick={handleHardSortGroupClick}
+              onEasySortGroupClick={handleEasySortGroupClick}
+              onResetSortGroupClick={handleResetSortGroupClick}
             />
           </Thead>
           <ReactSortable

@@ -23,12 +23,10 @@ const FixturesToolbar = ({
 }) => {
   return (
     <Flex justifyContent="space-between" borderBottomWidth={1}>
-      <HStack alignItems="center" height="50px">
-        <HStack pl={4}>
-          <Heading fontWeight="black" fontSize="lg">
-            Fixtures Difficulty Rating
-          </Heading>
-        </HStack>
+      <HStack alignItems="center" height="50px" spacing={0}>
+        <Heading pl={6} pr={4} fontWeight="black" fontSize="lg">
+          Fixtures Difficulty Rating
+        </Heading>
         <Divider orientation="vertical" />
         <RadioGroup px={4} value={mode} onChange={onModeChange}>
           <HStack spacing={5}>
@@ -40,7 +38,7 @@ const FixturesToolbar = ({
       </HStack>
       <Flex>
         <Divider orientation="vertical" />
-        <Box p="2px">
+        <Box p="2px" mr="2px">
           <Button
             size="sm"
             height="100%"
