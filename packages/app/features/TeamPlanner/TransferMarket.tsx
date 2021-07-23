@@ -8,6 +8,12 @@ import {
   Select,
   VStack,
 } from "@chakra-ui/react";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
+import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
+import { SortOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
+import { sortOptions } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
+import usePlayersFilterAndSort from "@open-fpl/app/features/PlayersExplorer/usePlayersFilterAndSort";
+import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 import {
   CSSProperties,
   KeyboardEvent,
@@ -19,24 +25,17 @@ import {
 import { IoSearchOutline } from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
-import { SortOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
-import { sortOptions } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
-import usePlayersFilterAndSort from "@open-fpl/app/features/PlayersExplorer/usePlayersFilterAndSort";
-import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 
 const TransferMarket = ({
   team,
   players,
-  gameweeks,
+  gameweekDelta,
   onPlayerSelect,
 }: {
   team: FullChangePlayer[];
-  players: Player[];
-  gameweeks: Gameweek[];
-  onPlayerSelect?: (player: Player | null) => void;
+  players: ClientPlayer[];
+  gameweekDelta: number;
+  onPlayerSelect?: (player: ClientPlayer | null) => void;
 }) => {
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
 
@@ -86,12 +85,12 @@ const TransferMarket = ({
               onKeyUp={handleKeyUp}
               onClick={handleClick}
             >
-              <PlayerGridCard player={player} gameweeks={gameweeks} />
+              <PlayerGridCard player={player} gameweekDelta={gameweekDelta} />
             </Button>
           </div>
         );
       },
-    [displayedPlayers, gameweeks]
+    [displayedPlayers, gameweekDelta]
   );
 
   return (

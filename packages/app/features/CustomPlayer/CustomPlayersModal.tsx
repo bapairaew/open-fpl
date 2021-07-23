@@ -8,15 +8,15 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { useMemo, useRef } from "react";
 import AddCustomPlayers from "@open-fpl/app/features/CustomPlayer/AddCustomPlayers";
 import { hydrateCustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayers";
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
 import EditableCustomPlayer from "@open-fpl/app/features/CustomPlayer/EditableCustomPlayer";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 import { removePlayerFromPlans } from "@open-fpl/app/features/TeamPlanner/teamPlan";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { useMemo, useRef } from "react";
 
 const CustomPlayersModal = ({
   players,
@@ -24,7 +24,7 @@ const CustomPlayersModal = ({
   isOpen,
   onClose,
 }: {
-  players: Player[];
+  players: ClientPlayer[];
   fplTeams: Team[];
   isOpen: boolean;
   onClose: () => void;
@@ -41,7 +41,7 @@ const CustomPlayersModal = ({
       const templatePlayer = players.find(
         (p) => p.team.short_name === customPlayer.team.short_name
       );
-      return hydrateCustomPlayer(customPlayer, templatePlayer);
+      return hydrateCustomPlayer(customPlayer, -1, templatePlayer);
     });
   }, [customPlayers]);
 
@@ -66,7 +66,7 @@ const CustomPlayersModal = ({
     }
   };
 
-  const handleRemovePlayer = (player: Player) => {
+  const handleRemovePlayer = (player: ClientPlayer) => {
     if (customPlayers) {
       setCustomPlayers(
         customPlayers.filter((customPlayer) => customPlayer.id !== player.id)
@@ -82,7 +82,7 @@ const CustomPlayersModal = ({
 
   const handleUpdatePlayer = (
     updatedPlayer: CustomPlayer,
-    originalPlayer: Player
+    originalPlayer: ClientPlayer
   ) => {
     if (customPlayers) {
       setCustomPlayers(

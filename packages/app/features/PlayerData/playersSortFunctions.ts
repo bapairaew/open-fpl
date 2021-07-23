@@ -1,9 +1,7 @@
-import {
-  MatchStat,
-  Player,
-} from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
+import { MatchStat } from "@open-fpl/data/features/AppData/playerDataTypes";
 
-export type PlayersSortFunction = (a: Player, b: Player) => number;
+export type PlayersSortFunction = (a: ClientPlayer, b: ClientPlayer) => number;
 
 export type PlayersSortableKeys =
   | "starred"
@@ -40,7 +38,8 @@ export type PlayersSortableKeys =
   | "reversedXGI";
 
 const makePastMatchesSortFn =
-  (key: keyof MatchStat, direction: -1 | 1) => (a: Player, b: Player) => {
+  (key: keyof MatchStat, direction: -1 | 1) =>
+  (a: ClientPlayer, b: ClientPlayer) => {
     if (
       !a.linked_data.past_matches ||
       a.linked_data.past_matches.filter(
@@ -68,67 +67,77 @@ const makePastMatchesSortFn =
     return 0;
   };
 
-const makeXGISortFn = (direction: -1 | 1) => (a: Player, b: Player) => {
-  if (
-    !a.linked_data.past_matches ||
-    a.linked_data.past_matches.filter(
-      (m) => m.match_xg !== null && m.match_xa !== null
-    ).length < 5
-  )
-    return 1;
-  if (
-    !b.linked_data.past_matches ||
-    b.linked_data.past_matches.filter(
-      (m) => m.match_xg !== null && m.match_xa !== null
-    ).length < 5
-  )
-    return -1;
-  const sumA = a.linked_data.past_matches.reduce(
-    (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
-    0
-  );
-  const sumB = b.linked_data.past_matches.reduce(
-    (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
-    0
-  );
-  if (sumA < sumB) return direction;
-  if (sumA > sumB) return -1 * direction;
-  return 0;
-};
+const makeXGISortFn =
+  (direction: -1 | 1) => (a: ClientPlayer, b: ClientPlayer) => {
+    if (
+      !a.linked_data.past_matches ||
+      a.linked_data.past_matches.filter(
+        (m) => m.match_xg !== null && m.match_xa !== null
+      ).length < 5
+    )
+      return 1;
+    if (
+      !b.linked_data.past_matches ||
+      b.linked_data.past_matches.filter(
+        (m) => m.match_xg !== null && m.match_xa !== null
+      ).length < 5
+    )
+      return -1;
+    const sumA = a.linked_data.past_matches.reduce(
+      (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
+      0
+    );
+    const sumB = b.linked_data.past_matches.reduce(
+      (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
+      0
+    );
+    if (sumA < sumB) return direction;
+    if (sumA > sumB) return -1 * direction;
+    return 0;
+  };
 
-const starred = (a: Player, b: Player) => {
+const starred = (a: ClientPlayer, b: ClientPlayer) => {
   if (a.client_data.starred_index > b.client_data.starred_index) return -1;
   else if (a.client_data.starred_index < b.client_data.starred_index) return 1;
   return 0;
 };
-const name = (a: Player, b: Player) => a.web_name.localeCompare(b.web_name);
-const team = (a: Player, b: Player) =>
+const name = (a: ClientPlayer, b: ClientPlayer) =>
+  a.web_name.localeCompare(b.web_name);
+const team = (a: ClientPlayer, b: ClientPlayer) =>
   a.team.short_name.localeCompare(b.team.short_name);
-const position = (a: Player, b: Player) =>
+const position = (a: ClientPlayer, b: ClientPlayer) =>
   a.element_type.singular_name_short.localeCompare(
     b.element_type.singular_name_short
   );
-const cost = (a: Player, b: Player) =>
+const cost = (a: ClientPlayer, b: ClientPlayer) =>
   a.now_cost === b.now_cost ? 0 : a.now_cost > b.now_cost ? 1 : -1;
-const ownership = (a: Player, b: Player) =>
+const ownership = (a: ClientPlayer, b: ClientPlayer) =>
   +a.selected_by_percent > +b.selected_by_percent ? 1 : -1;
-const fixtures = (a: Player, b: Player) => {
+const fixtures = (a: ClientPlayer, b: ClientPlayer) => {
   // Sort reversed difficulty value (5 is better than 1), and sum them all which makes the value the more the better (more matches and easier)
   const sumA =
-    a.linked_data.next_gameweeks
+    a.client_data.gameweeks
       ?.slice(0, 5)
-      .reduce((s, g) => s + (5 - g.difficulty), 0) || 0;
+      .reduce(
+        (s, fixtures) =>
+          s + fixtures.reduce((s, f) => s + (6 - f.difficulty), 0),
+        0
+      ) || 0;
   const sumB =
-    b.linked_data.next_gameweeks
+    b.client_data.gameweeks
       ?.slice(0, 5)
-      .reduce((s, g) => s + (5 - g.difficulty), 0) || 0;
+      .reduce(
+        (s, fixtures) =>
+          s + fixtures.reduce((s, f) => s + (6 - f.difficulty), 0),
+        0
+      ) || 0;
   return sumA === sumB
     ? a.team.short_name.localeCompare(b.team.short_name) // Make sure same team is group together in the result
     : sumA > sumB
     ? -1
     : 1;
 };
-const points = (a: Player, b: Player) => {
+const points = (a: ClientPlayer, b: ClientPlayer) => {
   // Sort reversed difficulty value (5 is better than 1), and sum them all which makes the value the more the better (more matches and easier)
   const sumA =
     a.linked_data.previous_gameweeks

@@ -1,5 +1,5 @@
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { ElementStatus } from "@open-fpl/data/features/RemoteData/fplTypes";
 
 // This works under the assumption that FPL id will not go beyond 10,000
@@ -8,9 +8,10 @@ export const generateCustomPlayerId = () =>
 
 export const hydrateCustomPlayer = (
   player: CustomPlayer,
+  starred_index: number,
   // Required for hydrating dynamic data e.g. next fixtures data, and other static data e.g. colorcodes
-  templatePlayer?: Player
-): Player => {
+  templatePlayer?: ClientPlayer
+): ClientPlayer => {
   return {
     id: player.id,
     first_name: "",
@@ -49,11 +50,11 @@ export const hydrateCustomPlayer = (
         highlight: "#000",
       },
       previous_gameweeks: null,
-      next_gameweeks: templatePlayer?.linked_data.next_gameweeks ?? null,
     },
     client_data: {
-      starred_index: -1,
+      starred_index,
       is_custom_player: true,
+      gameweeks: templatePlayer?.client_data.gameweeks ?? null,
     },
   };
 };

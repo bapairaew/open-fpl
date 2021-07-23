@@ -56,6 +56,7 @@ const FixturesTableHeaderRow = ({
           key={i}
           p={0}
           textAlign="center"
+          bg="white"
           color={sortGroup.group[0] === i + 1 ? "brand.500" : undefined}
           boxShadow={
             sortGroup.group[0] === i + 1

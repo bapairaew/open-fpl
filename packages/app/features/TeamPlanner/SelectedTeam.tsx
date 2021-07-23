@@ -67,15 +67,15 @@ const SelectedTeamSection = ({
 };
 
 const SelectedTeam = ({
+  gameweekDelta,
   teamObject,
-  gameweeks,
   selectedPlayer,
   onPlayerSelect,
   onSetCaptain,
   onSetViceCaptain,
 }: {
+  gameweekDelta: number;
   teamObject: GroupedTeam;
-  gameweeks: Gameweek[];
   selectedPlayer: FullChangePlayer | null;
   onPlayerSelect: (player: FullChangePlayer | null) => void;
   onSetCaptain: (player: FullChangePlayer) => void;
@@ -145,7 +145,7 @@ const SelectedTeam = ({
                         <TransferablePlayer
                           key={p.id}
                           player={p}
-                          gameweeks={gameweeks}
+                          gameweekDelta={gameweekDelta}
                           flexBasis="200px"
                           showCaptainButton
                           variant={getVariant(selectedPlayer, p, teamObject)}
@@ -186,7 +186,7 @@ const SelectedTeam = ({
                       <TransferablePlayer
                         key={p.id}
                         player={p}
-                        gameweeks={gameweeks}
+                        gameweekDelta={gameweekDelta}
                         flexBasis="200px"
                         variant={getVariant(selectedPlayer, p, teamObject)}
                         onPlayerClick={(e) => handlePlayerClick(e, p)}

@@ -12,12 +12,12 @@ import {
   Flex,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
 import CustomPlayerForm from "@open-fpl/app/features/CustomPlayer/CustomPlayerForm";
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
 import NameSection from "@open-fpl/app/features/PlayerData/NameSection";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { useRef, useState } from "react";
 
 const EditableCustomPlayer = ({
   player,
@@ -25,10 +25,10 @@ const EditableCustomPlayer = ({
   onRemove,
   onUpdate,
 }: {
-  player: Player;
+  player: ClientPlayer;
   fplTeams: Team[];
-  onRemove: (player: Player) => void;
-  onUpdate: (updatedPlayer: CustomPlayer, originalPlayer: Player) => void;
+  onRemove: (player: ClientPlayer) => void;
+  onUpdate: (updatedPlayer: CustomPlayer, originalPlayer: ClientPlayer) => void;
 }) => {
   const canelRef = useRef<HTMLButtonElement>(null);
   const formInitialFocusRef = useRef<HTMLInputElement>(null);

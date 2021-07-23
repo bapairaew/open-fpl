@@ -1,8 +1,10 @@
 import { BoxProps, Flex, useDisclosure } from "@chakra-ui/react";
-import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
+import {
+  adjustTeamsStrength,
+  makeFullFixtures,
+} from "@open-fpl/app/features/Fixtures/fixturesData";
 import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import ComparePlayersModal from "@open-fpl/app/features/PlayersExplorer/ComparePlayersModal";
 import PlayersExplorerGridOrChart from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerGridOrChart";
 import PlayersExplorerTable from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerTable";
@@ -10,32 +12,54 @@ import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/Playe
 import { DisplayOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 import { displayOptions } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import {
+  Gameweek,
+  TeamFixtures,
+} from "@open-fpl/data/features/AppData/appDataTypes";
+import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
 
 const PlayersExplorer = ({
   players: remotePlayers,
-  gameweeks,
+  fplTeams,
+  teamFixtures,
   ...props
 }: BoxProps & {
   players: Player[];
-  gameweeks: Gameweek[];
+  fplTeams: Team[];
+  teamFixtures: TeamFixtures[];
 }) => {
   const {
     playersExplorerDisplayOption,
     setPlayersExplorerDisplayOption,
     preference,
     setPreference,
+    teamsStrength,
   } = useSettings();
+
+  const fullFixtures = useMemo(
+    () =>
+      makeFullFixtures({
+        teamFixtures,
+        fplTeams: adjustTeamsStrength(fplTeams, teamsStrength),
+      }),
+    [fplTeams, teamsStrength]
+  );
 
   const players = useMemo(
     () =>
-      preference?.starredPlayers
-        ? hydrateClientData(remotePlayers, preference?.starredPlayers, [])
-        : remotePlayers,
-    [remotePlayers, preference?.starredPlayers]
+      hydrateClientData(
+        remotePlayers,
+        preference?.starredPlayers || ([] as number[]),
+        [],
+        fullFixtures
+      ),
+    [remotePlayers, preference?.starredPlayers, fullFixtures]
   );
 
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
-  const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
+  const [selectedPlayers, setSelectedPlayers] = useState<ClientPlayer[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleDisplayChange = (option: DisplayOptions) => {
@@ -46,7 +70,7 @@ const PlayersExplorer = ({
 
   const handleStarClick = (
     e: MouseEvent<HTMLButtonElement>,
-    player: Player
+    player: ClientPlayer
   ) => {
     if (preference) {
       if (preference?.starredPlayers?.some((p) => p === player.id)) {
@@ -66,7 +90,7 @@ const PlayersExplorer = ({
 
   const handleSelectChange = (
     e: ChangeEvent<HTMLInputElement>,
-    player: Player
+    player: ClientPlayer
   ) => {
     if (e.target.checked) {
       if (!selectedPlayers.some((p) => p.id === player.id)) {
@@ -106,7 +130,6 @@ const PlayersExplorer = ({
         {display === "table" ? (
           <PlayersExplorerTable
             displayedPlayers={displayedPlayers}
-            gameweeks={gameweeks}
             selectedPlayers={selectedPlayers}
             onSelectChange={handleSelectChange}
             onStarClick={handleStarClick}
@@ -115,7 +138,6 @@ const PlayersExplorer = ({
           <PlayersExplorerGridOrChart
             displayedPlayers={displayedPlayers}
             display={display}
-            gameweeks={gameweeks}
             selectedPlayers={selectedPlayers}
             onSelectChange={handleSelectChange}
             onStarClick={handleStarClick}

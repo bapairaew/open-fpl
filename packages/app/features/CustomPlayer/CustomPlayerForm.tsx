@@ -11,16 +11,16 @@ import {
   Select,
   VStack,
 } from "@chakra-ui/react";
+import { generateCustomPlayerId } from "@open-fpl/app/features/CustomPlayer/customPlayers";
+import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import {
   FormEvent,
   MouseEventHandler,
   MutableRefObject,
   useState,
 } from "react";
-import { generateCustomPlayerId } from "@open-fpl/app/features/CustomPlayer/customPlayers";
-import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 
 const positionOptions = ["FWD", "MID", "DEF", "GKP"];
 
@@ -40,7 +40,7 @@ const CustomPlayerForm = ({
   initialFocusRef?: MutableRefObject<HTMLInputElement | null>;
   showCloseButton: boolean;
   onCloseClick: MouseEventHandler<HTMLButtonElement>;
-  initialPlayer?: Player;
+  initialPlayer?: ClientPlayer;
   onSubmit?: (customPlayer: CustomPlayer) => void;
 }) => {
   const [formName, setFormName] = useState<string>(

@@ -10,9 +10,7 @@ import {
   Select,
   Tooltip,
 } from "@chakra-ui/react";
-import { ChangeEvent, MouseEventHandler, useEffect } from "react";
-import { IoSearchOutline } from "react-icons/io5";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import {
   DisplayOptions,
   SortOptions,
@@ -22,6 +20,8 @@ import {
   sortOptions,
 } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
 import usePlayersFilterAndSort from "@open-fpl/app/features/PlayersExplorer/usePlayersFilterAndSort";
+import { ChangeEvent, MouseEventHandler, useEffect } from "react";
+import { IoSearchOutline } from "react-icons/io5";
 
 const PlayersExplorerToolbar = ({
   initialSeachQuery = "",
@@ -37,8 +37,8 @@ const PlayersExplorerToolbar = ({
   ...props
 }: BoxProps & {
   initialSeachQuery?: string;
-  players?: Player[];
-  onResults?: (players: Player[]) => void;
+  players?: ClientPlayer[];
+  onResults?: (players: ClientPlayer[]) => void;
   display?: string;
   onDisplayChange?: (value: DisplayOptions) => void;
   disabledSorting?: boolean;

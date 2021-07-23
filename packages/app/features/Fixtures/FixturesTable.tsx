@@ -42,14 +42,17 @@ const makeSortedFixturesOrder = (
         ...teams,
         {
           ...team,
-          difficultySum: team.fixtures
-            .slice(range[0] - 1, range[1])
-            .reduce((sum, fixture) => {
+          difficultySum: team.gameweeks
+            .slice(range[0], range[1] + 1)
+            .reduce((sum, fixtures) => {
               return (
                 sum +
                 (mode === "attack"
-                  ? fixture.attack_difficulty
-                  : fixture.defence_difficulty)
+                  ? fixtures.reduce((s, f) => s + (6 - f.attack_difficulty), 0)
+                  : fixtures.reduce(
+                      (s, f) => s + (6 - f.defence_difficulty),
+                      0
+                    ))
               );
             }, 0),
         },
@@ -59,8 +62,8 @@ const makeSortedFixturesOrder = (
       return a.difficultySum === b.difficultySum
         ? 0
         : a.difficultySum > b.difficultySum
-        ? -1 * direction
-        : 1 * direction;
+        ? 1 * direction
+        : -1 * direction;
     })
     .map((f) => f.id);
 };

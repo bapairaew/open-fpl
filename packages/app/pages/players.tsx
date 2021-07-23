@@ -1,6 +1,4 @@
 import { Spinner } from "@chakra-ui/react";
-import { NextSeo } from "next-seo";
-import useSWR from "swr";
 import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLocalStorage";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
 import UnhandledError from "@open-fpl/app/features/Error/UnhandledError";
@@ -9,37 +7,72 @@ import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import PlayersExplorer from "@open-fpl/app/features/PlayersExplorer/PlayersExplorer";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import { NextSeo } from "next-seo";
+import useSWR from "swr";
 
-function PlayersExplorerPage() {
+export const getStaticProps = async () => {
+  try {
+    const [teamFixtures, fplTeams] = await Promise.all([
+      fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
+        r.json()
+      ) as Promise<TeamFixtures[]>,
+      fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
+        r.json()
+      ) as Promise<Team[]>,
+    ]);
+
+    return {
+      props: {
+        teamFixtures,
+        fplTeams,
+      },
+    };
+  } catch (e) {
+    return {
+      props: {
+        error: "Unexpected error while fetching data from FPL.",
+      },
+    };
+  }
+};
+
+function PlayersExplorerPage({
+  teamFixtures,
+  fplTeams,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
-  );
-  const { data: gameweeks, error: gameweeksError } = useSWR<Gameweek[]>(
-    getDataUrl("/app-data/gameweeks.json")
   );
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
-  const isReady = [players, gameweeks].every((x) => x !== undefined);
+  const isReady = [players, teamFixtures, fplTeams].every(
+    (x) => x !== undefined
+  );
+
+  const errors = [playersError ? "Players" : null].filter((x) => x) as string[];
 
   let mainContent = null;
 
   if (isLocalStorageSupported) {
     if (isReady) {
       mainContent = (
-        <PlayersExplorer as="main" players={players!} gameweeks={gameweeks!} />
+        <PlayersExplorer
+          as="main"
+          players={players!}
+          teamFixtures={teamFixtures!}
+          fplTeams={fplTeams!}
+        />
       );
-    } else if (playersError || gameweeksError) {
+    } else if (errors.length > 0) {
       mainContent = (
         <UnhandledError
           as="main"
-          additionalInfo={
-            playersError
-              ? "Players data failed to load"
-              : "Gameweeks data failed to load"
-          }
+          additionalInfo={`Failed to load ${errors.join(", ")}`}
         />
       );
     } else {

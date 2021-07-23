@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 // @ts-ignore
 import { AnnotationCalloutRect } from "react-annotation";
-import { gameweeks, player } from "@open-fpl/app/features/Help/helpData";
+import { player } from "@open-fpl/app/features/Help/helpData";
 import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
 import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerToolbar";
 import PlayerTableHeaderRow from "@open-fpl/app/features/PlayerData/PlayerTableHeaderRow";
@@ -43,7 +43,7 @@ const DemoPlayerCard = () => (
     position="relative"
   >
     <Box width="400px">
-      <PlayerGridCard player={player} gameweeks={gameweeks} />
+      <PlayerGridCard player={player} />
     </Box>
     <Box as="svg" sx={{ width: 800, height: 600, position: "absolute" }}>
       <AnnotationCalloutRect

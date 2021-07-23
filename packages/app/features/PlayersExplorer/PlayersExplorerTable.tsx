@@ -1,14 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import {
-  ChangeEvent,
-  CSSProperties,
-  MouseEvent,
-  useMemo,
-  useState,
-} from "react";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import playersSortFunctions from "@open-fpl/app/features/PlayerData/playersSortFunctions";
 import PlayerTable, {
   PlayerTableElementType,
@@ -21,11 +12,13 @@ import {
   PlayerTableSortColumnConfig,
 } from "@open-fpl/app/features/PlayerData/playerTableTypes";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { ChangeEvent, CSSProperties, MouseEvent, useMemo } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 const sortPlayers = (
-  players: Player[],
+  players: ClientPlayer[],
   sortColumns: PlayerTableSortColumnConfig[]
-): Player[] => {
+): ClientPlayer[] => {
   return [...players].sort((a, b) => {
     // always show starred players first
     let sortResult = playersSortFunctions.starred(a, b);
@@ -53,16 +46,17 @@ const sortPlayers = (
 
 const PlayersExplorerTable = ({
   displayedPlayers,
-  gameweeks,
   selectedPlayers,
   onSelectChange,
   onStarClick,
 }: {
-  displayedPlayers: Player[];
-  gameweeks: Gameweek[];
-  selectedPlayers: Player[];
-  onSelectChange: (e: ChangeEvent<HTMLInputElement>, player: Player) => void;
-  onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
+  displayedPlayers: ClientPlayer[];
+  selectedPlayers: ClientPlayer[];
+  onSelectChange: (
+    e: ChangeEvent<HTMLInputElement>,
+    player: ClientPlayer
+  ) => void;
+  onStarClick: (e: MouseEvent<HTMLButtonElement>, player: ClientPlayer) => void;
 }) => {
   const {
     playersExplorerTableSortColumns,
@@ -96,11 +90,10 @@ const PlayersExplorerTable = ({
             isStarred={player.client_data.starred_index > -1}
             onStarClick={(e) => onStarClick(e, player)}
             player={player}
-            gameweeks={gameweeks}
           />
         );
       },
-    [gameweeks, selectedPlayers, sortedDisplayedPlayers]
+    [selectedPlayers, sortedDisplayedPlayers]
   );
 
   const handleSort: PlayerTableSortChangeHandler = (columnName, direction) => {

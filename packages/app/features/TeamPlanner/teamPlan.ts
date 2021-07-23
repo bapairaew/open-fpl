@@ -3,6 +3,7 @@ import {
   getLocalStorageItem,
   setLocalStorageItem,
 } from "@open-fpl/app/features/Common/useLocalStorage";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
@@ -631,7 +632,7 @@ export const processPreseasonSetCaptain = (
 // Dehydrate the reduced form teamPlan
 export const dehydrateFromTeamPlan = (
   teamPlan: Change[],
-  players: Player[]
+  players: ClientPlayer[]
 ): Change[] => {
   const changes = [] as Change[];
 

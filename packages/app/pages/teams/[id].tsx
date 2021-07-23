@@ -1,14 +1,11 @@
 import { Spinner } from "@chakra-ui/react";
-import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
-import { NextSeo } from "next-seo";
-import useSWR from "swr";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
 import UnhandledError from "@open-fpl/app/features/Error/UnhandledError";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
 import TeamPlanner from "@open-fpl/app/features/TeamPlanner/TeamPlanner";
 import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   getTeamHistory,
@@ -16,6 +13,9 @@ import {
   getTeamTransfers,
 } from "@open-fpl/data/features/RemoteData/fpl";
 import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import { NextSeo } from "next-seo";
+import useSWR from "swr";
 
 export const getStaticPaths = () => {
   return { paths: [], fallback: true };
@@ -38,7 +38,10 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     };
   }
 
-  const [fplTeams, fplGameweeks] = await Promise.all([
+  const [teamFixtures, fplTeams, fplGameweeks] = await Promise.all([
+    fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
+      r.json()
+    ) as Promise<TeamFixtures[]>,
     fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
       r.json()
     ) as Promise<Team[]>,
@@ -67,6 +70,8 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
         transfers,
         chips,
         fplTeams,
+        teamFixtures,
+        currentGameweek: event,
       },
     };
   } catch (e) {
@@ -85,25 +90,27 @@ const TransferPlannerPage = ({
   chips,
   fplTeams,
   error,
+  currentGameweek,
+  teamFixtures,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   useTeamPlannerRedirect();
 
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
   );
-  const { data: gameweeks, error: gameweeksError } = useSWR<Gameweek[]>(
-    getDataUrl("/app-data/gameweeks.json")
-  );
 
   const isReady = [
     initialPicks,
     entry_history,
     players,
-    gameweeks,
     transfers,
     chips,
     fplTeams,
+    teamFixtures,
+    currentGameweek,
   ].every((x) => x !== undefined);
+
+  const errors = [playersError ? "Players" : null].filter((x) => x) as string[];
 
   let mainContent = null;
 
@@ -116,21 +123,18 @@ const TransferPlannerPage = ({
         initialPicks={initialPicks ?? null}
         entryHistory={entry_history ?? null}
         players={players!}
-        gameweeks={gameweeks!}
+        currentGameweek={currentGameweek!}
         transfers={transfers!}
         chips={chips!}
         fplTeams={fplTeams!}
+        teamFixtures={teamFixtures!}
       />
     );
-  } else if (playersError || gameweeksError) {
+  } else if (errors.length > 0) {
     mainContent = (
       <UnhandledError
         as="main"
-        additionalInfo={
-          playersError
-            ? "Players data failed to load"
-            : "Gameweeks data failed to load"
-        }
+        additionalInfo={`Failed to load ${errors.join(", ")}`}
       />
     );
   } else {

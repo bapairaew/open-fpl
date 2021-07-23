@@ -18,10 +18,7 @@ import {
   IoEllipsisHorizontalOutline,
   IoEllipsisVerticalOutline,
 } from "react-icons/io5";
-import {
-  fullChangePlayer,
-  gameweeks,
-} from "@open-fpl/app/features/Help/helpData";
+import { fullChangePlayer } from "@open-fpl/app/features/Help/helpData";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 import TransferablePlayer from "@open-fpl/app/features/TeamPlanner/TransferablePlayer";
 
@@ -35,11 +32,7 @@ const DemoPlayerCard = () => (
     position="relative"
   >
     <Box width="250px" pointerEvents="none">
-      <TransferablePlayer
-        showCaptainButton
-        player={fullChangePlayer}
-        gameweeks={gameweeks}
-      />
+      <TransferablePlayer showCaptainButton player={fullChangePlayer} />
     </Box>
     <Box as="svg" sx={{ width: 800, height: 350, position: "absolute" }}>
       <AnnotationCalloutRect

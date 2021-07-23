@@ -11,11 +11,10 @@ import {
   MenuList,
   Tooltip,
 } from "@chakra-ui/react";
-import { MouseEventHandler } from "react";
-import { IoEllipsisHorizontalOutline } from "react-icons/io5";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import { MouseEventHandler } from "react";
+import { IoEllipsisHorizontalOutline } from "react-icons/io5";
 
 export type TransferablePlayerVariant =
   | "default"
@@ -50,7 +49,7 @@ const teamPlayerVariants: Record<TransferablePlayerVariant, ButtonProps> = {
 
 const TransferablePlayer = ({
   player,
-  gameweeks,
+  gameweekDelta = 0,
   variant = "default",
   showCaptainButton = false,
   onPlayerClick,
@@ -59,7 +58,7 @@ const TransferablePlayer = ({
   ...props
 }: {
   player: FullChangePlayer;
-  gameweeks: Gameweek[];
+  gameweekDelta?: number;
   variant?: TransferablePlayerVariant;
   showCaptainButton?: boolean;
   onPlayerClick?: MouseEventHandler<HTMLButtonElement>;
@@ -82,7 +81,11 @@ const TransferablePlayer = ({
         onClick={onPlayerClick}
         {...variantProps}
       >
-        <PlayerGridCard variant="mini" player={player} gameweeks={gameweeks} />
+        <PlayerGridCard
+          variant="mini"
+          player={player}
+          gameweekDelta={gameweekDelta}
+        />
       </Button>
       <Flex
         position="absolute"

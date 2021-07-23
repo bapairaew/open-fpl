@@ -1,19 +1,19 @@
 import { Flex, Grid } from "@chakra-ui/react";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
+import { gameweeks } from "@open-fpl/app/features/Fixtures/fixturesData";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { difficultyColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
 
 const FixturesSection = ({
   variant,
   player,
-  gameweeks,
+  gameweekDelta = 0,
 }: {
   variant: CenterFlexVariant;
-  player: Player;
-  gameweeks: Gameweek[];
+  player: ClientPlayer;
+  gameweekDelta?: number;
 }) => {
   const height = variant === "mini" ? 30 : 45;
 
@@ -25,31 +25,33 @@ const FixturesSection = ({
       height={`${height}px`}
       width="100%"
     >
-      {gameweeks.slice(0, 5).map((w) => {
-        const games = player.linked_data.next_gameweeks?.filter(
-          (n) => n.event === w.id
-        );
+      {gameweeks.slice(gameweekDelta, gameweekDelta + 5).map((w) => {
+        const fixtures = player.client_data.gameweeks?.[w];
 
         const gameFontSize =
-          variant === "mini" ? "sm" : games && games.length > 1 ? "sm" : "md";
+          variant === "mini"
+            ? "sm"
+            : fixtures && fixtures.length > 1
+            ? "sm"
+            : "md";
 
         return (
-          <Flex key={w.id} flexDirection="column">
-            {!games ? (
+          <Flex key={w} flexDirection="column">
+            {!fixtures ? (
               <CenterFlex variant={variant} height="100%" />
             ) : (
-              games.map((g, i) => (
+              fixtures.map((fixture, i) => (
                 <CenterFlex
                   key={i}
                   variant={variant}
-                  height={`${height / games.length}px`}
+                  height={`${height / fixtures.length}px`}
                   fontSize={gameFontSize}
-                  bg={difficultyColorCodes[g.difficulty].background}
-                  color={difficultyColorCodes[g.difficulty].text}
+                  bg={difficultyColorCodes[fixture.difficulty].background}
+                  color={difficultyColorCodes[fixture.difficulty].text}
                 >
-                  {g.is_home
-                    ? g.opponent_team_short_name.toUpperCase()
-                    : g.opponent_team_short_name.toLowerCase()}
+                  {fixture.is_home
+                    ? fixture.opponent.short_name.toUpperCase()
+                    : fixture.opponent.short_name.toLowerCase()}
                 </CenterFlex>
               ))
             )}

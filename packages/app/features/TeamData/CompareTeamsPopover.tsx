@@ -54,15 +54,17 @@ const CompareTeamsPopover = ({
         return (
           <>
             <PopoverTrigger>
-              <Box
+              <Flex
                 role="button"
+                justifyContent="center"
+                alignItems="center"
                 // textDecorationLine="underline"
                 // textDecorationStyle="dotted"
                 // textUnderlineOffset="3px"
                 {...props}
               >
                 {children}
-              </Box>
+              </Flex>
             </PopoverTrigger>
             {isOpen && (
               <Portal>

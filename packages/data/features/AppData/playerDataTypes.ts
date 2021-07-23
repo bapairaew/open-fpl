@@ -1,3 +1,4 @@
+import { TeamFixture } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import {
   Element,
   ElementStatus,
@@ -51,14 +52,6 @@ export interface PastGameweek {
   minutes: number;
 }
 
-export interface UpcomingGameweek {
-  opponent_team_short_name: string;
-  is_home: boolean;
-  event: number;
-  finished: boolean;
-  difficulty: number;
-}
-
 export interface LinkedData {
   understat_id: string | null;
   season_time: number | null;
@@ -74,13 +67,6 @@ export interface LinkedData {
   teamcolorcodes: TeamColorCodes | null;
   past_matches: MatchStat[] | null;
   previous_gameweeks: PastGameweek[] | null;
-  next_gameweeks: UpcomingGameweek[] | null;
-}
-
-// To be filled out at client level
-export interface ClientData {
-  starred_index: number;
-  is_custom_player: boolean;
 }
 
 export interface Player {
@@ -102,5 +88,4 @@ export interface Player {
     short_name: string;
   };
   linked_data: LinkedData;
-  client_data: ClientData;
 }

@@ -1,18 +1,9 @@
 import { Box } from "@chakra-ui/react";
-import { ChangeEvent, useMemo, useState } from "react";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import useLocalStorage from "@open-fpl/app/features/Common/useLocalStorage";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import {
-  ChipName,
-  EntryChipPlay,
-  EntryEventHistory,
-  EntryEventPick,
-  Transfer,
-} from "@open-fpl/data/features/RemoteData/fplTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
-import TeamManager from "@open-fpl/app/features/TeamPlanner/TeamManager";
 import ChangeLog from "@open-fpl/app/features/TeamPlanner/ChangeLog";
+import TeamManager from "@open-fpl/app/features/TeamPlanner/TeamManager";
 import {
   addChange,
   dehydrateFromTeamPlan,
@@ -22,6 +13,7 @@ import {
   processPreseasonTransfer,
   removeChange,
 } from "@open-fpl/app/features/TeamPlanner/teamPlan";
+import TeamPlannerToolbar from "@open-fpl/app/features/TeamPlanner/TeamPlannerToolbar";
 import {
   Change,
   ChangePlayer,
@@ -32,13 +24,20 @@ import {
   TeamChange,
   TwoPlayersChange,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import TeamPlannerToolbar from "@open-fpl/app/features/TeamPlanner/TeamPlannerToolbar";
+import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
+import {
+  ChipName,
+  EntryChipPlay,
+  EntryEventHistory,
+  EntryEventPick,
+  Transfer,
+} from "@open-fpl/data/features/RemoteData/fplTypes";
+import { ChangeEvent, useMemo, useState } from "react";
 
 const TransferPlannerPanelContent = ({
   initialPicks,
   entryHistory,
   players,
-  gameweeks,
   changes,
   currentGameweek,
   gameweekDataList,
@@ -46,8 +45,7 @@ const TransferPlannerPanelContent = ({
 }: {
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
-  players: Player[];
-  gameweeks: Gameweek[];
+  players: ClientPlayer[];
   changes: Change[];
   currentGameweek: number;
   gameweekDataList: GameweekData[];
@@ -59,7 +57,6 @@ const TransferPlannerPanelContent = ({
     initialPicks === null && entryHistory === null;
 
   const planningGameweek = currentGameweek + gameweekDelta;
-  const upcomingGameweeks = gameweeks.slice(Math.max(0, gameweekDelta));
 
   const transferManagerMode =
     planningGameweek === 1 && isStartedFromFirstGameweek
@@ -94,7 +91,10 @@ const TransferPlannerPanelContent = ({
       } as TwoPlayersChange<FullChangePlayer>)
     );
 
-  const handleTransfer = (selectedPlayer: ChangePlayer, targetPlayer: Player) =>
+  const handleTransfer = (
+    selectedPlayer: ChangePlayer,
+    targetPlayer: ClientPlayer
+  ) =>
     setTeamPlan(
       addChange(changes, {
         type: "transfer",
@@ -118,7 +118,7 @@ const TransferPlannerPanelContent = ({
 
   const handlePreseasonTransfer = (
     selectedPlayer: FullChangePlayer,
-    targetPlayer: Player
+    targetPlayer: ClientPlayer
   ) =>
     setTeamPlan(
       addChange(changes, {
@@ -213,7 +213,7 @@ const TransferPlannerPanelContent = ({
           mode={transferManagerMode}
           team={team}
           players={players}
-          gameweeks={upcomingGameweeks}
+          gameweekDelta={gameweekDelta}
           onSwap={handleSwap}
           onTransfer={handleTransfer}
           onPreseasonSwap={handlePreseasonSwap}
@@ -230,7 +230,7 @@ const TeamPlannerPanel = ({
   initialPicks,
   entryHistory,
   players,
-  gameweeks,
+  currentGameweek,
   transfers,
   chips,
   teamId,
@@ -238,8 +238,8 @@ const TeamPlannerPanel = ({
 }: {
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
-  players: Player[];
-  gameweeks: Gameweek[];
+  players: ClientPlayer[];
+  currentGameweek: number;
   transfers: Transfer[];
   chips: EntryChipPlay[];
   teamId: string;
@@ -249,8 +249,6 @@ const TeamPlannerPanel = ({
     getTeamPlanKey(teamId, teamPlanKey),
     [] as Change[]
   );
-
-  const currentGameweek = gameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
 
   const changes: Change[] = useMemo(
     () => (teamPlan ? dehydrateFromTeamPlan(teamPlan, players) : []),
@@ -276,7 +274,6 @@ const TeamPlannerPanel = ({
       initialPicks={initialPicks}
       entryHistory={entryHistory}
       players={players}
-      gameweeks={gameweeks}
       setTeamPlan={setTeamPlan}
       changes={changes}
       currentGameweek={currentGameweek}

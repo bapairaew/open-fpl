@@ -1,14 +1,14 @@
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
+import { FilterOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 // @ts-ignore
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
 import { SearchParserResult } from "search-query-parser";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { FilterOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 
 interface FilterParams {
-  players: Player[];
+  players: ClientPlayer[];
   filterValue: string | string[];
-  getFieldValue?: (player: Player) => any;
+  getFieldValue?: (player: ClientPlayer) => any;
 }
 
 const includeFilter = ({
@@ -42,11 +42,11 @@ const excludeFilter = ({
 };
 
 export const filterPlayers = (
-  inputPlayers: Player[],
-  freeTextFuse: Fuse<Player>,
+  inputPlayers: ClientPlayer[],
+  freeTextFuse: Fuse<ClientPlayer>,
   filterQueryObject: string | SearchParserResult,
   filterOptions: FilterOptions
-): Player[] => {
+): ClientPlayer[] => {
   if (typeof filterQueryObject === "string") {
     return filterQueryObject
       ? freeTextFuse

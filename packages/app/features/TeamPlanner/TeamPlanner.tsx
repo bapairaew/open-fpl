@@ -20,12 +20,16 @@ import {
   setLocalStorageItem,
 } from "@open-fpl/app/features/Common/useLocalStorage";
 import CustomPlayersModal from "@open-fpl/app/features/CustomPlayer/CustomPlayersModal";
+import {
+  adjustTeamsStrength,
+  makeFullFixtures,
+} from "@open-fpl/app/features/Fixtures/fixturesData";
 import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
 import TeamPlannerPanel from "@open-fpl/app/features/TeamPlanner/TeamPlannerPanel";
 import TeamPlannerTab from "@open-fpl/app/features/TeamPlanner/TeamPlannerTab";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   EntryChipPlay,
@@ -63,21 +67,24 @@ const TeamPlanner = ({
   initialPicks,
   entryHistory,
   players: remotePlayers,
-  gameweeks,
+  currentGameweek,
   transfers,
   chips,
   fplTeams,
+  teamFixtures,
   ...props
 }: BoxProps & {
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
   players: Player[];
-  gameweeks: Gameweek[];
+  currentGameweek: number;
   transfers: Transfer[];
   chips: EntryChipPlay[];
   fplTeams: Team[];
+  teamFixtures: TeamFixtures[];
 }) => {
-  const { teamId, customPlayers, preference, setPreference } = useSettings();
+  const { teamId, customPlayers, preference, setPreference, teamsStrength } =
+    useSettings();
 
   const teamPlans = preference?.teamPlans;
   const setTeamPlans = (teamPlans: string[]) => {
@@ -96,15 +103,23 @@ const TeamPlanner = ({
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const fullFixtures = useMemo(
+    () =>
+      makeFullFixtures({
+        teamFixtures,
+        fplTeams: adjustTeamsStrength(fplTeams, teamsStrength),
+      }),
+    [fplTeams, teamsStrength]
+  );
+
   const players = useMemo(
     () =>
-      preference?.starredPlayers && customPlayers
-        ? hydrateClientData(
-            remotePlayers,
-            preference?.starredPlayers,
-            customPlayers
-          )
-        : remotePlayers,
+      hydrateClientData(
+        remotePlayers,
+        preference?.starredPlayers || ([] as number[]),
+        customPlayers || [],
+        fullFixtures
+      ),
     [remotePlayers, preference?.starredPlayers, customPlayers]
   );
 
@@ -253,7 +268,7 @@ const TeamPlanner = ({
                     initialPicks={initialPicks}
                     entryHistory={entryHistory}
                     players={players}
-                    gameweeks={gameweeks}
+                    currentGameweek={currentGameweek}
                     transfers={transfers}
                     chips={chips}
                   />

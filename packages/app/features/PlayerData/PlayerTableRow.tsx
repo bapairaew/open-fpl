@@ -12,19 +12,11 @@ import {
   Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import { ChangeEvent, MouseEventHandler } from "react";
-import {
-  IoOpenOutline,
-  IoStar,
-  IoStarOutline,
-  IoWarningOutline,
-} from "react-icons/io5";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import CenterFlex from "@open-fpl/app/features/PlayerData/CenterFlex";
 import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
 import PastMatchesStats from "@open-fpl/app/features/PlayerData/PastMatchesStats";
 import { assumedMax } from "@open-fpl/app/features/PlayerData/playerData";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import {
   rowHeight,
   rowWidth,
@@ -36,20 +28,25 @@ import {
   positionColorCodes,
   statusColorCodes,
 } from "@open-fpl/data/features/RemoteData/fplColors";
+import { ChangeEvent, MouseEventHandler } from "react";
+import {
+  IoOpenOutline,
+  IoStar,
+  IoStarOutline,
+  IoWarningOutline,
+} from "react-icons/io5";
 
 export const PlayerTableRow = ({
   player,
   isSelected,
   onSelectChange,
-  gameweeks,
   isStarred,
   onStarClick,
   ...props
 }: TableRowProps & {
-  player: Player;
+  player: ClientPlayer;
   isSelected: boolean;
   onSelectChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  gameweeks: Gameweek[];
   isStarred: boolean;
   onStarClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
@@ -185,11 +182,7 @@ export const PlayerTableRow = ({
       </Td>
       <Td p={0}>
         <Box width={`${playerTableConfigs.Fixtures.columnWidth}px`}>
-          <FixturesSection
-            variant="mini"
-            player={player}
-            gameweeks={gameweeks}
-          />
+          <FixturesSection variant="mini" player={player} />
         </Box>
       </Td>
       <Td p={0}>

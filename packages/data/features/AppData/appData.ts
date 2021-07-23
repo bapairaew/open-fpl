@@ -182,8 +182,6 @@ export const makeAppData = ({
           playerUnderstatTeam &&
           playerUnderstatTeam.history.reduce((x, m) => +m.xGA + x, 0),
         teamcolorcodes: teamcolorcodesMap[fplPlayerTeam.name] || null,
-        transfers_delta_event:
-          player.transfers_in_event - player.transfers_out_event,
         previous_gameweeks: player.history
           .filter((h) => !nextGameweekIds.includes(h.round)) // Only show the game the already played
           .slice(-5)
@@ -195,21 +193,6 @@ export const makeAppData = ({
             bps: h.bps,
             minutes: h.minutes,
           })),
-        next_gameweeks: player.fixtures
-          .filter((f) => nextGameweekIds.includes(f.event))
-          .map((f) => ({
-            opponent_team_short_name: f.is_home
-              ? fplTeamsMap[f.team_a].short_name
-              : fplTeamsMap[f.team_h].short_name,
-            is_home: f.is_home,
-            event: f.event,
-            finished: f.finished,
-            difficulty: f.difficulty,
-          })),
-      },
-      client_data: {
-        starred_index: -1,
-        is_custom_player: false,
       },
     } as Player;
   });

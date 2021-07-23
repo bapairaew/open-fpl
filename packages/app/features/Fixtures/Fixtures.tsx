@@ -1,13 +1,16 @@
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
-import { makeFullFixtures } from "@open-fpl/app/features/Fixtures/fixturesData";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
+import {
+  adjustTeamsStrength,
+  makeFullFixtures,
+} from "@open-fpl/app/features/Fixtures/fixturesData";
 import FixturesTable from "@open-fpl/app/features/Fixtures/FixturesTable";
 import FixturesToolbar from "@open-fpl/app/features/Fixtures/FixturesToolbar";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import TeamsStrengthEditorModal from "@open-fpl/app/features/TeamData/TeamsStrengthEditorModal";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { useMemo, useState } from "react";
 
 const Fixtures = ({
   teamFixtures,
@@ -23,23 +26,10 @@ const Fixtures = ({
     setTeamsStrength,
   } = useSettings();
 
-  const adjustedTeams = useMemo(() => {
-    if (teamsStrength && teamsStrength.length > 0) {
-      return fplTeams.map((team) => {
-        const matched = teamsStrength.find((t) => t.id === team.id);
-        if (matched) {
-          return {
-            ...team,
-            ...matched,
-          };
-        } else {
-          return team;
-        }
-      });
-    } else {
-      return fplTeams;
-    }
-  }, [fplTeams, teamsStrength]);
+  const adjustedTeams = useMemo(
+    () => adjustTeamsStrength(fplTeams, teamsStrength),
+    [fplTeams, teamsStrength]
+  );
 
   const fullFixtures = useMemo(() => {
     const fullFixtures = makeFullFixtures({
@@ -52,7 +42,7 @@ const Fixtures = ({
           return fullFixtures.find((f) => f.short_name === o)!;
         })
       : fullFixtures;
-  }, [teamFixtures, adjustedTeams, fixturesTeamsOrder]);
+  }, [teamFixtures, fplTeams, teamsStrength, fixturesTeamsOrder]);
 
   const [mode, setMode] = useState("attack");
   const { isOpen, onOpen, onClose } = useDisclosure();

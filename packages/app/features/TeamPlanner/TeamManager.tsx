@@ -1,7 +1,5 @@
 import { Box, Grid } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import SelectedTeam from "@open-fpl/app/features/TeamPlanner/SelectedTeam";
 import { makeTeamGroupObject } from "@open-fpl/app/features/TeamPlanner/teamGroupObject";
 import { isSwapable } from "@open-fpl/app/features/TeamPlanner/teamPlan";
@@ -10,12 +8,13 @@ import {
   FullChangePlayer,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 import TransferMarket from "@open-fpl/app/features/TeamPlanner/TransferMarket";
+import { useMemo, useState } from "react";
 
 const TeamManager = ({
   mode = "default",
   team,
   players,
-  gameweeks,
+  gameweekDelta,
   onSwap,
   onTransfer,
   onPreseasonSwap,
@@ -25,17 +24,20 @@ const TeamManager = ({
 }: {
   mode?: "default" | "preseason";
   team: FullChangePlayer[];
-  players: Player[];
-  gameweeks: Gameweek[];
+  players: ClientPlayer[];
+  gameweekDelta: number;
   onSwap: (selectedPlayer: ChangePlayer, targetPlayer: ChangePlayer) => void;
-  onTransfer: (selectedPlayer: ChangePlayer, targetPlayer: Player) => void;
+  onTransfer: (
+    selectedPlayer: ChangePlayer,
+    targetPlayer: ClientPlayer
+  ) => void;
   onPreseasonSwap: (
     selectedPlayer: FullChangePlayer,
     targetPlayer: FullChangePlayer
   ) => void;
   onPreseasonTransfer: (
     selectedPlayer: FullChangePlayer,
-    targetPlayer: Player
+    targetPlayer: ClientPlayer
   ) => void;
   onSetCaptain: (player: FullChangePlayer) => void;
   onSetViceCaptain: (player: FullChangePlayer) => void;
@@ -79,7 +81,9 @@ const TeamManager = ({
     }
   };
 
-  const handleTransferSectionPlayerSelect = (targetPlayer: Player | null) => {
+  const handleTransferSectionPlayerSelect = (
+    targetPlayer: ClientPlayer | null
+  ) => {
     if (selectedPlayer) {
       if (!targetPlayer) {
         setSelectedPlayer(null);
@@ -98,11 +102,11 @@ const TeamManager = ({
       <Box borderRightWidth={1} height="100%">
         <SelectedTeam
           teamObject={teamObject}
-          gameweeks={gameweeks}
           selectedPlayer={selectedPlayer}
           onPlayerSelect={handlePlayerSelect}
           onSetCaptain={onSetCaptain}
           onSetViceCaptain={onSetViceCaptain}
+          gameweekDelta={gameweekDelta}
         />
       </Box>
       <Box height="100%">
@@ -110,8 +114,8 @@ const TeamManager = ({
           <TransferMarket
             team={team}
             players={transferablePlayers}
-            gameweeks={gameweeks}
             onPlayerSelect={handleTransferSectionPlayerSelect}
+            gameweekDelta={gameweekDelta}
           />
         ) : (
           <Box py={10} px={4} textAlign="center" color="gray.600">
