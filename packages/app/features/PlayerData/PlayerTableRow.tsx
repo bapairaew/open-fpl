@@ -9,7 +9,6 @@ import {
   TableRowProps,
   Td,
   Text,
-  Tooltip,
   Tr,
 } from "@chakra-ui/react";
 import CenterFlex from "@open-fpl/app/features/PlayerData/CenterFlex";
@@ -28,6 +27,7 @@ import {
   positionColorCodes,
   statusColorCodes,
 } from "@open-fpl/data/features/RemoteData/fplColors";
+import dynamic from "next/dynamic";
 import { ChangeEvent, MouseEventHandler } from "react";
 import {
   IoOpenOutline,
@@ -35,6 +35,8 @@ import {
   IoStarOutline,
   IoWarningOutline,
 } from "react-icons/io5";
+
+const Tooltip = dynamic(() => import("@open-fpl/app/features/Common/Tooltip"));
 
 export const PlayerTableRow = ({
   player,

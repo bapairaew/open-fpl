@@ -24,7 +24,6 @@ import {
   TeamChange,
   TwoPlayersChange,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
 import {
   ChipName,
   EntryChipPlay,

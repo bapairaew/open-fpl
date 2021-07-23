@@ -17,8 +17,10 @@ import {
 } from "@open-fpl/app/features/TeamData/teamData";
 import { TeamInfo } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import theme from "@open-fpl/app/theme";
+import dynamic from "next/dynamic";
 import { ReactNode } from "react";
-import { Radar } from "react-chartjs-2";
+
+const Radar = dynamic(() => import("@open-fpl/app/features/Common/RadarChart"));
 
 const TeamStrengthPopover = ({
   team,

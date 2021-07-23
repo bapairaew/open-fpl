@@ -9,12 +9,14 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Tooltip,
 } from "@chakra-ui/react";
 import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import dynamic from "next/dynamic";
 import { MouseEventHandler } from "react";
 import { IoEllipsisHorizontalOutline } from "react-icons/io5";
+
+const Tooltip = dynamic(() => import("@open-fpl/app/features/Common/Tooltip"));
 
 export type TransferablePlayerVariant =
   | "default"

@@ -5,20 +5,26 @@ import {
 } from "@open-fpl/app/features/Fixtures/fixturesData";
 import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
-import ComparePlayersModal from "@open-fpl/app/features/PlayersExplorer/ComparePlayersModal";
-import PlayersExplorerGridOrChart from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerGridOrChart";
-import PlayersExplorerTable from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerTable";
 import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerToolbar";
 import { DisplayOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 import { displayOptions } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
-import {
-  Gameweek,
-  TeamFixtures,
-} from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import dynamic from "next/dynamic";
 import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
+
+const ComparePlayersModal = dynamic(
+  () => import("@open-fpl/app/features/PlayersExplorer/ComparePlayersModal")
+);
+const PlayersExplorerGridOrChart = dynamic(
+  () =>
+    import("@open-fpl/app/features/PlayersExplorer/PlayersExplorerGridOrChart")
+);
+const PlayersExplorerTable = dynamic(
+  () => import("@open-fpl/app/features/PlayersExplorer/PlayersExplorerTable")
+);
 
 const PlayersExplorer = ({
   players: remotePlayers,
@@ -105,11 +111,13 @@ const PlayersExplorer = ({
 
   return (
     <>
-      <ComparePlayersModal
-        isOpen={isOpen}
-        onClose={onClose}
-        players={selectedPlayers}
-      />
+      {isOpen && (
+        <ComparePlayersModal
+          isOpen={isOpen}
+          onClose={onClose}
+          players={selectedPlayers}
+        />
+      )}
       <Flex direction="column" overflow="hidden" height="100%" {...props}>
         <PlayersExplorerToolbar
           borderBottomWidth={1}

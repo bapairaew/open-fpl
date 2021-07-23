@@ -7,8 +7,12 @@ import {
   ChangePlayer,
   FullChangePlayer,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import TransferMarket from "@open-fpl/app/features/TeamPlanner/TransferMarket";
 import { useMemo, useState } from "react";
+import dynamic from "next/dynamic";
+
+const TransferMarket = dynamic(
+  () => import("@open-fpl/app/features/TeamPlanner/TransferMarket")
+);
 
 const TeamManager = ({
   mode = "default",

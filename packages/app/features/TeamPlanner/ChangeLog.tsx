@@ -11,16 +11,20 @@ import {
   Portal,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useMemo } from "react";
-import { IoEllipsisVerticalOutline } from "react-icons/io5";
-import AutoSizer from "react-virtualized-auto-sizer";
 import GameweekChanges from "@open-fpl/app/features/TeamPlanner/GameweekChanges";
 import {
   Change,
   GameweekData,
   InvalidChange,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import TeamSummaryModal from "@open-fpl/app/features/TeamPlanner/TeamSummaryModal";
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
+import { IoEllipsisVerticalOutline } from "react-icons/io5";
+import AutoSizer from "react-virtualized-auto-sizer";
+
+const TeamSummaryModal = dynamic(
+  () => import("@open-fpl/app/features/TeamPlanner/TeamSummaryModal")
+);
 
 const ChangeLog = ({
   changes,

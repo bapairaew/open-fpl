@@ -1,4 +1,13 @@
-import { Box, Flex, Icon, IconButton, Text, Tooltip } from "@chakra-ui/react";
+import { Box, Flex, Icon, IconButton, Text } from "@chakra-ui/react";
+import { getChipDisplayName } from "@open-fpl/app/features/TeamPlanner/chips";
+import {
+  Change,
+  ChipChange,
+  FullChangePlayer,
+  SinglePlayerChange,
+  TwoPlayersChange,
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import dynamic from "next/dynamic";
 import { MouseEventHandler } from "react";
 import { IconType } from "react-icons";
 import {
@@ -10,14 +19,8 @@ import {
   IoSwapVerticalOutline,
   IoWarningOutline,
 } from "react-icons/io5";
-import {
-  Change,
-  ChipChange,
-  FullChangePlayer,
-  SinglePlayerChange,
-  TwoPlayersChange,
-} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import { getChipDisplayName } from "@open-fpl/app/features/TeamPlanner/chips";
+
+const Tooltip = dynamic(() => import("@open-fpl/app/features/Common/Tooltip"));
 
 export type TransferChangeVariant = "invalid" | "outdated" | "default";
 

@@ -1,5 +1,4 @@
-import { Flex, Text, Tooltip } from "@chakra-ui/react";
-import { IoWarningOutline } from "react-icons/io5";
+import { Flex, Text } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
@@ -8,6 +7,10 @@ import {
   positionColorCodes,
   statusColorCodes,
 } from "@open-fpl/data/features/RemoteData/fplColors";
+import dynamic from "next/dynamic";
+import { IoWarningOutline } from "react-icons/io5";
+
+const Tooltip = dynamic(() => import("@open-fpl/app/features/Common/Tooltip"));
 
 const variants: Record<
   CenterFlexVariant,

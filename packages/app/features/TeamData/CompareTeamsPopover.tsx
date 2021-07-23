@@ -48,6 +48,7 @@ const CompareTeamsPopover = ({
       : isHome
       ? opponent.strength_attack_away
       : opponent.strength_attack_home;
+
   return (
     <Popover strategy="fixed" isLazy placement="bottom">
       {({ isOpen }) => {

@@ -12,17 +12,16 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
-  setLocalStorageItem,
+  setLocalStorageItem
 } from "@open-fpl/app/features/Common/useLocalStorage";
-import CustomPlayersModal from "@open-fpl/app/features/CustomPlayer/CustomPlayersModal";
 import {
   adjustTeamsStrength,
-  makeFullFixtures,
+  makeFullFixtures
 } from "@open-fpl/app/features/Fixtures/fixturesData";
 import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
@@ -36,11 +35,16 @@ import {
   EntryEventHistory,
   EntryEventPick,
   Team,
-  Transfer,
+  Transfer
 } from "@open-fpl/data/features/RemoteData/fplTypes";
+import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import { IoAdd, IoSettingsOutline } from "react-icons/io5";
 import { ItemInterface, ReactSortable } from "react-sortablejs";
+
+const CustomPlayersModal = dynamic(
+  () => import("@open-fpl/app/features/CustomPlayer/CustomPlayersModal")
+);
 
 const getDefaultName = (teamPlans: string[]) => {
   const maxDefaultNameIndex =

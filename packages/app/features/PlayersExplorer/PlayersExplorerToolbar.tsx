@@ -8,7 +8,6 @@ import {
   InputGroup,
   InputLeftElement,
   Select,
-  Tooltip,
 } from "@chakra-ui/react";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import {
@@ -20,8 +19,11 @@ import {
   sortOptions,
 } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
 import usePlayersFilterAndSort from "@open-fpl/app/features/PlayersExplorer/usePlayersFilterAndSort";
+import dynamic from "next/dynamic";
 import { ChangeEvent, MouseEventHandler, useEffect } from "react";
 import { IoSearchOutline } from "react-icons/io5";
+
+const Tooltip = dynamic(() => import("@open-fpl/app/features/Common/Tooltip"));
 
 const PlayersExplorerToolbar = ({
   initialSeachQuery = "",
@@ -66,6 +68,24 @@ const PlayersExplorerToolbar = ({
     onResults(fiterThenSortFn(players));
   }, [fiterThenSortFn]);
 
+  const sortSelectComponent = (
+    <Box flexShrink={0}>
+      <Select
+        disabled={disabledSorting}
+        borderWidth={0}
+        borderRadius="none"
+        value={sort}
+        onChange={handleSortChange}
+      >
+        {sortOptions.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </Select>
+    </Box>
+  );
+
   return (
     <>
       <HStack
@@ -109,23 +129,13 @@ const PlayersExplorerToolbar = ({
           </InputGroup>
         </Box>
         <Divider orientation="vertical" />
-        <Tooltip label={sortingTooltipLabel} hasArrow>
-          <Box flexShrink={0}>
-            <Select
-              disabled={disabledSorting}
-              borderWidth={0}
-              borderRadius="none"
-              value={sort}
-              onChange={handleSortChange}
-            >
-              {sortOptions.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </Select>
-          </Box>
-        </Tooltip>
+        {sortingTooltipLabel ? (
+          <Tooltip label={sortingTooltipLabel} hasArrow>
+            {sortSelectComponent}
+          </Tooltip>
+        ) : (
+          sortSelectComponent
+        )}
         <Divider orientation="vertical" />
         <Box flexShrink={0}>
           <Select

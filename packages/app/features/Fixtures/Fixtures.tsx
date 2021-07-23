@@ -7,10 +7,14 @@ import FixturesTable from "@open-fpl/app/features/Fixtures/FixturesTable";
 import FixturesToolbar from "@open-fpl/app/features/Fixtures/FixturesToolbar";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
-import TeamsStrengthEditorModal from "@open-fpl/app/features/TeamData/TeamsStrengthEditorModal";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
+
+const TeamsStrengthEditorModal = dynamic(
+  () => import("@open-fpl/app/features/TeamData/TeamsStrengthEditorModal")
+);
 
 const Fixtures = ({
   teamFixtures,
