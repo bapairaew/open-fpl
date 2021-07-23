@@ -11,14 +11,14 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
-import { ReactNode } from "react";
-import { Radar } from "react-chartjs-2";
-import { TeamInfo } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import {
   assumedMax,
   assumedMin,
 } from "@open-fpl/app/features/TeamData/teamData";
+import { TeamInfo } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import theme from "@open-fpl/app/theme";
+import { ReactNode } from "react";
+import { Radar } from "react-chartjs-2";
 
 const TeamStrengthPopover = ({
   team,

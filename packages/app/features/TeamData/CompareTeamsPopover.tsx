@@ -14,9 +14,9 @@ import {
   Progress,
   Text,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
-import { TeamInfo } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import { getTeamsStrengthPercent } from "@open-fpl/app/features/TeamData/teamData";
+import { TeamInfo } from "@open-fpl/app/features/TeamData/teamDataTypes";
+import { ReactNode } from "react";
 
 const CompareTeamsPopover = ({
   mode,
