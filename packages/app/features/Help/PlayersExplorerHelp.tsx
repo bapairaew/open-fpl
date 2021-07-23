@@ -163,8 +163,8 @@ const DemoPlayerCard = () => (
 const PlayersExplorerHelp = () => {
   return (
     <>
-      <Container maxW="container.lg" mt={6}>
-        <VStack spacing={4} alignItems="flex-start">
+      <Container maxW="container.lg" mt={8} lineHeight="taller">
+        <VStack spacing={6} alignItems="flex-start">
           <Heading as="h1" size="xl" fontWeight="black">
             Player Explorer
           </Heading>
@@ -190,8 +190,8 @@ const PlayersExplorerHelp = () => {
 
       <DemoPlayerCard />
 
-      <Container maxW="container.lg">
-        <VStack spacing={4} alignItems="flex-start">
+      <Container maxW="container.lg" mt={6} lineHeight="taller">
+        <VStack spacing={6} alignItems="flex-start">
           <Heading as="h2" size="lg" fontWeight="black">
             Player Data
           </Heading>
