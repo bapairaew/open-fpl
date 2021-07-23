@@ -6,14 +6,22 @@ import NextNprogress from "nextjs-progressbar";
 import { ReactNode } from "react";
 
 const AppLayout = ({ children }: { children?: ReactNode }) => {
+  const sidebarWidth = 200;
   return (
     <>
       <NextNprogress color={theme.colors.brand[500]} />
       <Flex h="100%" w="100%" display={["none", "flex"]}>
-        <Box flexBasis="200px" flexShrink={0}>
+        <Box flexBasis={`${sidebarWidth}px`} flexShrink={0} flexGrow={0}>
           <SideBar />
         </Box>
-        <Box flexBasis="100%">{children}</Box>
+        <Box
+          flexBasis={`calc(100% - ${sidebarWidth}px)`}
+          width={`calc(100% - ${sidebarWidth}px)`}
+          flexGrow={0}
+          flexShrink={0}
+        >
+          {children}
+        </Box>
       </Flex>
       <NotSupportSmallScreen display={["flex", "none"]} />
     </>

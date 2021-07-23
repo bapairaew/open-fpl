@@ -18,18 +18,19 @@ import {
   MenuList,
   Portal,
   TabProps,
+  Text,
   useDisclosure,
   useStyles,
   useTab,
 } from "@chakra-ui/react";
 import {
   ChangeEvent,
+  KeyboardEvent,
   MouseEvent,
   MouseEventHandler,
   useEffect,
   useRef,
   useState,
-  KeyboardEvent,
 } from "react";
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
 
@@ -119,10 +120,25 @@ const TeamPlannerTab = ({
         </AlertDialog>
       )}
       <Flex position="relative" role={role} tabIndex={tabIndex} id={id}>
-        <Box as="button" sx={styles.tab} {...tabProps}>
-          <Box as="span" pr="30px">
+        <Box
+          as="button"
+          sx={{
+            ...styles.tab,
+            borderRightWidth: 0,
+            borderTopWidth: 2,
+            _notLast: { marginEnd: 0 },
+          }}
+          {...tabProps}
+        >
+          <Text
+            as="span"
+            pr="30px"
+            width="100px"
+            noOfLines={1}
+            textAlign="left"
+          >
             {name}
-          </Box>
+          </Text>
         </Box>
         {isRenaming && (
           <Box

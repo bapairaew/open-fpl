@@ -12,16 +12,16 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
-  setLocalStorageItem
+  setLocalStorageItem,
 } from "@open-fpl/app/features/Common/useLocalStorage";
 import {
   adjustTeamsStrength,
-  makeFullFixtures
+  makeFullFixtures,
 } from "@open-fpl/app/features/Fixtures/fixturesData";
 import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
@@ -35,7 +35,7 @@ import {
   EntryEventHistory,
   EntryEventPick,
   Team,
-  Transfer
+  Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
@@ -60,7 +60,7 @@ const getDefaultName = (teamPlans: string[]) => {
 const ForwardableTransferPlannerTabList = forwardRef<TabListProps, "div">(
   (props, ref) => {
     return (
-      <TabList ref={ref} pl={2}>
+      <TabList ref={ref} pl={2} overflowX="auto" overflowY="hidden">
         {props.children}
       </TabList>
     );
@@ -175,7 +175,9 @@ const TeamPlanner = ({
         setTabIndex(0);
       } else {
         setTeamPlans(nextTransferPlans);
-        setTabIndex(nextTransferPlans.length - 1);
+        if (tabIndex >= nextTransferPlans.length) {
+          setTabIndex(nextTransferPlans.length - 1);
+        }
       }
 
       removeLocalStorageItem(getTeamPlanKey(teamId, plan));
@@ -228,7 +230,11 @@ const TeamPlanner = ({
                 />
               ))}
             </ReactSortable>
-            <Flex flexGrow={1} justifyContent="space-between">
+            <Flex
+              flexGrow={1}
+              borderLeftWidth={1}
+              justifyContent="space-between"
+            >
               <IconButton
                 width="60px"
                 height="100%"

@@ -85,7 +85,11 @@ const TransferMarket = ({
               onKeyUp={handleKeyUp}
               onClick={handleClick}
             >
-              <PlayerGridCard player={player} gameweekDelta={gameweekDelta} />
+              <PlayerGridCard
+                variant="mini"
+                player={player}
+                gameweekDelta={gameweekDelta}
+              />
             </Button>
           </div>
         );
@@ -135,7 +139,7 @@ const TransferMarket = ({
                 height={height}
                 width={width - 2}
                 itemCount={Math.ceil(displayedPlayers.length)}
-                itemSize={260}
+                itemSize={175}
               >
                 {row}
               </List>
