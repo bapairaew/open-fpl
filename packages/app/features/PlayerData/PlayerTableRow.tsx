@@ -55,7 +55,15 @@ export const PlayerTableRow = ({
   const pastMatches = getPaddedPastMatches(player);
   return (
     <Tr height={`${rowHeight}px`} width={`${rowWidth}px`} {...props}>
-      <Td p={0} left={0} bg="white" fontWeight="bold" position="sticky">
+      <Td
+        p={0}
+        bg="white"
+        fontWeight="bold"
+        position={
+          playerTableConfigs.Tool.sticky !== undefined ? "sticky" : "static"
+        }
+        left={playerTableConfigs.Tool.sticky}
+      >
         <Flex
           height={`${rowHeight}px`}
           width={`${playerTableConfigs.Tool.columnWidth}px`}
@@ -97,7 +105,15 @@ export const PlayerTableRow = ({
           </A>
         </Flex>
       </Td>
-      <Td p={0} left={92} bg="white" fontWeight="bold" position="sticky">
+      <Td
+        p={0}
+        bg="white"
+        fontWeight="bold"
+        position={
+          playerTableConfigs.Name.sticky !== undefined ? "sticky" : "static"
+        }
+        left={playerTableConfigs.Name.sticky}
+      >
         <Flex
           height={`${rowHeight}px`}
           width={`${playerTableConfigs.Name.columnWidth}px`}
@@ -114,7 +130,7 @@ export const PlayerTableRow = ({
               </CenterFlex>
             </Tooltip>
           )}
-          <Text px={2} textAlign="left" fontSize="sm">
+          <Text px={2} textAlign="left" fontSize="sm" noOfLines={1}>
             {player.web_name}
           </Text>
         </Flex>

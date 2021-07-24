@@ -4,12 +4,15 @@ import {
   Button,
   Divider,
   HStack,
+  Icon,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   Select,
 } from "@chakra-ui/react";
 import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
+import { AppDrawerOpenButton } from "@open-fpl/app/features/Layout/AppDrawerContext";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import {
   DisplayOptions,
@@ -22,8 +25,12 @@ import {
 import usePlayersFilterAndSort from "@open-fpl/app/features/PlayersExplorer/usePlayersFilterAndSort";
 import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
-import { ChangeEvent, MouseEventHandler, useEffect } from "react";
-import { IoSearchOutline } from "react-icons/io5";
+import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
+import {
+  IoCloseOutline,
+  IoSettingsOutline,
+  IoSearchOutline,
+} from "react-icons/io5";
 
 const Tooltip = dynamic(() => import("@open-fpl/app/features/Common/Tooltip"));
 
@@ -57,6 +64,10 @@ const PlayersExplorerToolbar = ({
       initialSeachQuery,
       players,
     });
+
+  const [optionsOpened, setOptionsOpened] = useState(false);
+
+  const handleOptionsClick = () => setOptionsOpened(!optionsOpened);
 
   const handleDisplayChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onDisplayChange?.(e.target.value as DisplayOptions);
@@ -106,7 +117,15 @@ const PlayersExplorerToolbar = ({
         spacing={1}
         {...props}
       >
-        {showCompareButton && (
+        <HStack
+          spacing={1}
+          height="50px"
+          display={{ base: optionsOpened ? "none" : "flex", sm: "none" }} // Shown only on mobile and when options are not open
+        >
+          <AppDrawerOpenButton />
+          <Divider orientation="vertical" />
+        </HStack>
+        {showCompareButton && ( // Shown when there are selected player regardless screen size
           <>
             <HStack flexShrink={0}>
               <Button borderRadius="none" onClick={onCompareClick}>
@@ -123,7 +142,12 @@ const PlayersExplorerToolbar = ({
             <Divider orientation="vertical" />
           </>
         )}
-        <Box flexGrow={1}>
+        <HStack
+          flexGrow={1}
+          spacing={1}
+          height="50px"
+          display={{ base: optionsOpened ? "none" : "flex", sm: "flex" }} // Always shown on desktop top but show on mobile only when options are not open
+        >
           <InputGroup mr={1}>
             <InputLeftElement
               pointerEvents="none"
@@ -137,30 +161,55 @@ const PlayersExplorerToolbar = ({
               onChange={handleQueryChange}
             />
           </InputGroup>
-        </Box>
-        <Divider orientation="vertical" />
-        {sortingTooltipLabel ? (
-          <Tooltip label={sortingTooltipLabel} hasArrow>
-            {sortSelectComponent}
-          </Tooltip>
-        ) : (
-          sortSelectComponent
-        )}
-        <Divider orientation="vertical" />
-        <Box flexShrink={0}>
-          <Select
-            borderWidth={0}
+          <Divider orientation="vertical" />
+        </HStack>
+        <HStack
+          spacing={1}
+          height="50px"
+          display={{ base: "flex", sm: "none" }} // Only shown on mobile
+        >
+          <IconButton
+            aria-label="options"
             borderRadius="none"
-            value={display}
-            onChange={handleDisplayChange}
-          >
-            {displayOptions.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </Select>
-        </Box>
+            variant="ghost"
+            icon={
+              <Icon as={optionsOpened ? IoCloseOutline : IoSettingsOutline} />
+            }
+            onClick={handleOptionsClick}
+          />
+          <Divider
+            orientation="vertical"
+            display={optionsOpened ? "block" : "none"}
+          />
+        </HStack>
+        <HStack
+          spacing={1}
+          height="50px"
+          display={{ base: optionsOpened ? "flex" : "none", sm: "flex" }} // Always shown on desktop top but show on mobile only when options are open
+        >
+          {sortingTooltipLabel ? (
+            <Tooltip label={sortingTooltipLabel} hasArrow>
+              {sortSelectComponent}
+            </Tooltip>
+          ) : (
+            sortSelectComponent
+          )}
+          <Divider orientation="vertical" />
+          <Box flexShrink={0}>
+            <Select
+              borderWidth={0}
+              borderRadius="none"
+              value={display}
+              onChange={handleDisplayChange}
+            >
+              {displayOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </Select>
+          </Box>
+        </HStack>
       </HStack>
     </>
   );

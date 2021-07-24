@@ -15,7 +15,7 @@ const FixturesSection = ({
   player: ClientPlayer;
   gameweekDelta?: number;
 }) => {
-  const height = variant === "mini" ? 30 : 45;
+  const height = variant === "mini" ? 30 : 40;
 
   return (
     <Grid
@@ -27,14 +27,6 @@ const FixturesSection = ({
     >
       {gameweeks.slice(gameweekDelta, gameweekDelta + 5).map((w) => {
         const fixtures = player.client_data.gameweeks?.[w];
-
-        const gameFontSize =
-          variant === "mini"
-            ? "sm"
-            : fixtures && fixtures.length > 1
-            ? "sm"
-            : "md";
-
         return (
           <Flex key={w} flexDirection="column">
             {!fixtures ? (
@@ -43,9 +35,9 @@ const FixturesSection = ({
               fixtures.map((fixture, i) => (
                 <CenterFlex
                   key={i}
+                  fontSize="sm"
                   variant={variant}
                   height={`${height / fixtures.length}px`}
-                  fontSize={gameFontSize}
                   bg={difficultyColorCodes[fixture.difficulty].background}
                   color={difficultyColorCodes[fixture.difficulty].text}
                 >

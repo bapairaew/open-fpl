@@ -55,7 +55,7 @@ const SideBarItem = ({
         role="listitem"
         display="block"
         borderRadius="md"
-        fontSize="sm"
+        fontSize={{ base: "md", sm: "sm" }}
         fontWeight="bold"
         bg={isActive ? "gray.100" : "transparent"}
         _hover={{
@@ -72,20 +72,14 @@ const SideBarItem = ({
 const SideBar = () => {
   const { onSettingsModalOpen, teamId, preference } = useSettings();
   return (
-    <Flex
-      h="100%"
-      flexDirection="column"
-      role="navigation"
-      as="aside"
-      borderRightWidth={1}
-    >
+    <Flex h="100%" flexDirection="column" role="navigation" as="aside">
       <Link href="/" passHref>
         <Box
           as="a"
           py={6}
           textAlign="center"
           fontWeight="black"
-          fontSize="3xl"
+          fontSize={{ base: "4xl", sm: "3xl" }}
           color="white"
           textShadow={`
           -1px -1px 0 ${theme.colors.brand[500]},  
