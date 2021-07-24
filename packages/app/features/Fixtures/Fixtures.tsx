@@ -1,4 +1,5 @@
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
+import { AnalyticsFixtureDifficultyRating } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   adjustTeamsStrength,
   makeFullFixtures,
@@ -9,6 +10,7 @@ import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 
@@ -23,6 +25,7 @@ const Fixtures = ({
   teamFixtures: TeamFixtures[];
   fplTeams: Team[];
 }) => {
+  const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
   const {
     fixturesTeamsOrder,
     setFixturesTeamsOrder,
@@ -66,6 +69,7 @@ const Fixtures = ({
       } else {
         setTeamsStrength([...teamsStrength, { id: teamId, [key]: value }]);
       }
+      plausible("fixtures-adjust-team-strengths");
     }
   };
 
@@ -75,19 +79,26 @@ const Fixtures = ({
     }
   };
 
+  const handleModeChange = (mode: string) => {
+    setMode(mode);
+    plausible("fixtures-mode-change", { props: { mode } });
+  };
+
   return (
     <>
-      <TeamsStrengthEditorModal
-        fplTeams={adjustedTeams}
-        onStrengthChange={handleStrengthChange}
-        onResetStrength={handleResetStrength}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
+      {isOpen && (
+        <TeamsStrengthEditorModal
+          fplTeams={adjustedTeams}
+          onStrengthChange={handleStrengthChange}
+          onResetStrength={handleResetStrength}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+      )}
       <Flex flexDirection="column" height="100%">
         <FixturesToolbar
           mode={mode}
-          onModeChange={setMode}
+          onModeChange={handleModeChange}
           onEditTeamsStrengthClick={onOpen}
         />
         <Box flexGrow={1}>

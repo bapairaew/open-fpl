@@ -52,6 +52,7 @@ const FixturesTableRow = ({
               const { background, text } = difficultyColorCodes[difficulty];
               return (
                 <CompareTeamsPopover
+                  key={fixture.opponent.short_name}
                   mode={mode}
                   isHome={fixture.is_home}
                   team={team}

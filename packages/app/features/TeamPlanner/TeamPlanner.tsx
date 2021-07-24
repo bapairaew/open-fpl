@@ -14,6 +14,7 @@ import {
   Tabs,
   useDisclosure,
 } from "@chakra-ui/react";
+import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
@@ -37,6 +38,7 @@ import {
   Team,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import { IoAdd, IoSettingsOutline } from "react-icons/io5";
@@ -87,6 +89,7 @@ const TeamPlanner = ({
   fplTeams: Team[];
   teamFixtures: TeamFixtures[];
 }) => {
+  const plausible = usePlausible<AnalyticsTeamPlanner>();
   const { teamId, customPlayers, preference, setPreference, teamsStrength } =
     useSettings();
 
@@ -136,6 +139,7 @@ const TeamPlanner = ({
       const nextIndex = teamPlans.length;
       setTeamPlans([...teamPlans, getDefaultName(teamPlans)]);
       setTabIndex(nextIndex);
+      plausible("team-planner-plans-add");
     }
   };
 
@@ -149,6 +153,7 @@ const TeamPlanner = ({
         const data = getLocalStorageItem(getTeamPlanKey(teamId, oldName), []);
         setLocalStorageItem(getTeamPlanKey(teamId, newName), data);
         removeLocalStorageItem(getTeamPlanKey(teamId, oldName));
+        plausible("team-planner-plans-rename");
       }
     }
   };
@@ -163,6 +168,7 @@ const TeamPlanner = ({
         getLocalStorageItem(getTeamPlanKey(teamId, plan), [])
       );
       setTabIndex(nextIndex);
+      plausible("team-planner-plans-duplicate");
     }
   };
 
@@ -181,15 +187,17 @@ const TeamPlanner = ({
       }
 
       removeLocalStorageItem(getTeamPlanKey(teamId, plan));
+      plausible("team-planner-plans-remove");
     }
   };
 
-  const handleTransferPlansChange = (newOrder: ItemInterface[]) => {
+  const handleTransferPlansRearrange = (newOrder: ItemInterface[]) => {
     const nextTransferPlans = newOrder.map((i) => `${i.id}`);
     setTeamPlans(nextTransferPlans);
     setTabIndex(
       nextTransferPlans.findIndex((t) => t === teamPlans?.[tabIndex])
     );
+    plausible("team-planner-plans-rearrange");
   };
 
   return (
@@ -216,7 +224,7 @@ const TeamPlanner = ({
               // @ts-ignore
               tag={ForwardableTransferPlannerTabList}
               list={sortableTransferPlans}
-              setList={handleTransferPlansChange}
+              setList={handleTransferPlansRearrange}
             >
               {sortableTransferPlans?.map(({ id: plan }) => (
                 <TeamPlannerTab

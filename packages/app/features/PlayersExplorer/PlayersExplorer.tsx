@@ -12,8 +12,10 @@ import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
+import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 
 const ComparePlayersModal = dynamic(
   () => import("@open-fpl/app/features/PlayersExplorer/ComparePlayersModal")
@@ -36,6 +38,7 @@ const PlayersExplorer = ({
   fplTeams: Team[];
   teamFixtures: TeamFixtures[];
 }) => {
+  const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
   const {
     playersExplorerDisplayOption,
     setPlayersExplorerDisplayOption,
@@ -85,11 +88,13 @@ const PlayersExplorer = ({
           starredPlayers:
             preference.starredPlayers?.filter((p) => p !== player.id) ?? [],
         });
+        plausible("players-starred-players-remove");
       } else {
         setPreference({
           ...preference,
           starredPlayers: [...(preference?.starredPlayers ?? []), player.id],
         });
+        plausible("players-starred-players-add");
       }
     }
   };
@@ -109,6 +114,13 @@ const PlayersExplorer = ({
 
   const handleResetClick = () => setSelectedPlayers([]);
 
+  const handleCompareClick = () => {
+    onOpen();
+    plausible("players-compare-players", {
+      props: { count: selectedPlayers.length },
+    });
+  };
+
   return (
     <>
       {isOpen && (
@@ -126,7 +138,7 @@ const PlayersExplorer = ({
           display={display}
           onDisplayChange={handleDisplayChange}
           showCompareButton={selectedPlayers.length > 0}
-          onCompareClick={onOpen}
+          onCompareClick={handleCompareClick}
           onResetClick={handleResetClick}
           disabledSorting={display === "table"}
           sortingTooltipLabel={

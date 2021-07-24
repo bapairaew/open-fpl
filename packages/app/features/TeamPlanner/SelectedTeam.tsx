@@ -1,8 +1,5 @@
 import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
-import { KeyboardEvent, MouseEvent, ReactNode } from "react";
-import { AiOutlinePushpin } from "react-icons/ai";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
+import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
 import { isSwapable } from "@open-fpl/app/features/TeamPlanner/teamPlan";
 import {
@@ -12,6 +9,10 @@ import {
 import TransferablePlayer, {
   TransferablePlayerVariant,
 } from "@open-fpl/app/features/TeamPlanner/TransferablePlayer";
+import { usePlausible } from "next-plausible";
+import { KeyboardEvent, MouseEvent, ReactNode } from "react";
+import { AiOutlinePushpin } from "react-icons/ai";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 const getVariant = (
   selectedPlayer: FullChangePlayer | null,
@@ -81,6 +82,7 @@ const SelectedTeam = ({
   onSetCaptain: (player: FullChangePlayer) => void;
   onSetViceCaptain: (player: FullChangePlayer) => void;
 }) => {
+  const plausible = usePlausible<AnalyticsTeamPlanner>();
   const { teamPlannerPinnedBench, setTeamPlannerPinnedBench } = useSettings();
 
   const { GKP, DEF, MID, FWD, bench } = teamObject;
@@ -120,6 +122,13 @@ const SelectedTeam = ({
     if (e.key === "Escape") {
       onPlayerSelect(null);
     }
+  };
+
+  const handlePinnedBench = () => {
+    setTeamPlannerPinnedBench(!teamPlannerPinnedBench);
+    plausible("team-planner-pinned-bench", {
+      props: { pinned: !teamPlannerPinnedBench },
+    });
   };
 
   return (
@@ -174,9 +183,7 @@ const SelectedTeam = ({
                       aria-label="pin bench"
                       icon={<Icon as={AiOutlinePushpin} />}
                       variant={teamPlannerPinnedBench ? "solid" : "ghost"}
-                      onClick={() =>
-                        setTeamPlannerPinnedBench(!teamPlannerPinnedBench)
-                      }
+                      onClick={handlePinnedBench}
                     />
                   }
                   height="200px"

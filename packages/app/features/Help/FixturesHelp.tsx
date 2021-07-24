@@ -76,7 +76,7 @@ const FixturesHelp = () => {
     <Container maxW="container.lg" mt={8} lineHeight="taller">
       <VStack spacing={6} alignItems="flex-start">
         <Heading as="h1" size="xl" fontWeight="black">
-          Fixtures Difficulty Rating
+          Fixture Difficulty Rating
         </Heading>
         <Text as="p">
           Fixture Difficulty Rating here is slightly different from{" "}
@@ -85,11 +85,11 @@ const FixturesHelp = () => {
             isExternal
             href="https://fantasy.premierleague.com/fixtures/fdr"
           >
-            FPL Fixtures Difficulty Rating
+            FPL Fixture Difficulty Rating
           </A>{" "}
           but it is still relied on that data from FPL.{" "}
-          <strong>Open FPL</strong> Fixtures Difficulty Rating is calculated
-          from teams home/away attack/defence strength provided by FPL.
+          <strong>Open FPL</strong> Fixture Difficulty Rating is calculated from
+          teams home/away attack/defence strength provided by FPL.
         </Text>
 
         <DifficultyColorCodes />

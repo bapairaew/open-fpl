@@ -5,12 +5,14 @@ import {
   Tbody,
   Thead,
 } from "@chakra-ui/react";
+import { AnalyticsFixtureDifficultyRating } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   FullTeamFixtures,
   SortableFullTeamFixtures,
 } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import FixturesTableHeaderRow from "@open-fpl/app/features/Fixtures/FixturesTableHeaderRow";
 import FixturesTableRow from "@open-fpl/app/features/Fixtures/FixturesTableRow";
+import { usePlausible } from "next-plausible";
 import { useMemo, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -77,6 +79,7 @@ const FixturesTable = ({
   fullFixtures: FullTeamFixtures[];
   onFixturesOrderChange: (newOrder: string[] | null) => void;
 }) => {
+  const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
   const sortedFullFixtures = useMemo<SortableFullTeamFixtures[]>(() => {
     return fullFixtures.map((f) => ({ id: f.short_name, ...f }));
   }, [fullFixtures]);
@@ -86,54 +89,48 @@ const FixturesTable = ({
     group: [],
   });
 
-  const handleFixturesOrderChange = (newOrder: SortableFullTeamFixtures[]) =>
+  const handleFixturesOrderChange = (newOrder: SortableFullTeamFixtures[]) => {
     onFixturesOrderChange(newOrder.map((f) => f.id));
+    plausible("fixtures-rearrange");
+  };
   const handleResetSortClick = () => onFixturesOrderChange(null);
-  const handleHardFixtureSortClick = (gameweek: number) =>
+  const handleHardFixtureSortClick = (gameweek: number) => {
     onFixturesOrderChange(
       makeSortedFixturesOrder(sortedFullFixtures, mode, [gameweek], 1)
     );
-  const handleEasyFixtureSortClick = (gameweek: number) =>
+    plausible("fixtures-column-sort");
+  };
+  const handleEasyFixtureSortClick = (gameweek: number) => {
     onFixturesOrderChange(
       makeSortedFixturesOrder(sortedFullFixtures, mode, [gameweek], -1)
     );
+    plausible("fixtures-column-sort");
+  };
 
-  const handleHardSortGroupClick = (gameweek: number) => {
+  const handleSortGroup = (gameweek: number, direction: -1 | 1) => {
     if (sortGroup.group.length === 0) {
       setSortGrouop({
-        direction: 1,
+        direction: direction,
         group: [gameweek],
       });
     } else {
+      const range = [...sortGroup.group, gameweek];
       onFixturesOrderChange(
-        makeSortedFixturesOrder(
-          sortedFullFixtures,
-          mode,
-          [...sortGroup.group, gameweek],
-          1
-        )
+        makeSortedFixturesOrder(sortedFullFixtures, mode, range, direction)
       );
       handleResetSortGroupClick();
-    }
-  };
-  const handleEasySortGroupClick = (gameweek: number) => {
-    if (sortGroup.group.length === 0) {
-      setSortGrouop({
-        direction: -1,
-        group: [gameweek],
+      console.log(Math.max(...range) - Math.min(...range) + 1);
+      plausible("fixtures-multi-columns-sort", {
+        props: {
+          length: Math.max(...range) - Math.min(...range) + 1,
+        },
       });
-    } else {
-      onFixturesOrderChange(
-        makeSortedFixturesOrder(
-          sortedFullFixtures,
-          mode,
-          [...sortGroup.group, gameweek],
-          -1
-        )
-      );
-      handleResetSortGroupClick();
     }
   };
+  const handleHardSortGroupClick = (gameweek: number) =>
+    handleSortGroup(gameweek, 1);
+  const handleEasySortGroupClick = (gameweek: number) =>
+    handleSortGroup(gameweek, -1);
   const handleResetSortGroupClick = () => {
     setSortGrouop({
       direction: null,

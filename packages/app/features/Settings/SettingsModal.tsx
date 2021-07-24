@@ -24,7 +24,9 @@ import {
   getTeamPlanKey,
   getTeamPlansKey,
 } from "@open-fpl/app/features/Settings/storageKeys";
+import { usePlausible } from "next-plausible";
 import { useRef } from "react";
+import { AnalyticsSettings } from "@open-fpl/app/features/Analytics/analyticsTypes";
 
 const SettingsModal = ({
   isOpen,
@@ -33,6 +35,7 @@ const SettingsModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
+  const plausible = usePlausible<AnalyticsSettings>();
   const toast = useToast();
   const { teamId, setTeamId, profiles, setProfiles } = useSettings();
   const initialFocusRef = useRef<HTMLInputElement | HTMLButtonElement | null>(
@@ -75,6 +78,7 @@ const SettingsModal = ({
           status: "success",
           isClosable: true,
         });
+        plausible("settings-profile-add");
       }
     } else {
       setTeamId(teamId);
@@ -93,6 +97,7 @@ const SettingsModal = ({
 
   const handleActiveProfileChange = (teamId: string) => {
     setTeamId(teamId);
+    plausible("settings-profile-select");
   };
 
   const handleRemoveProfile = (removingTeamId: string) => {
@@ -113,6 +118,7 @@ const SettingsModal = ({
       status: "success",
       isClosable: true,
     });
+    plausible("settings-profile-remove");
   };
 
   return (

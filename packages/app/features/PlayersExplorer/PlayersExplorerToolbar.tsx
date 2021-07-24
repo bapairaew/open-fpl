@@ -9,6 +9,7 @@ import {
   InputLeftElement,
   Select,
 } from "@chakra-ui/react";
+import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import {
   DisplayOptions,
@@ -19,6 +20,7 @@ import {
   sortOptions,
 } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
 import usePlayersFilterAndSort from "@open-fpl/app/features/PlayersExplorer/usePlayersFilterAndSort";
+import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { ChangeEvent, MouseEventHandler, useEffect } from "react";
 import { IoSearchOutline } from "react-icons/io5";
@@ -49,6 +51,7 @@ const PlayersExplorerToolbar = ({
   onCompareClick?: MouseEventHandler<HTMLButtonElement>;
   onResetClick?: MouseEventHandler<HTMLButtonElement>;
 }) => {
+  const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
   const { filterQuery, setFilterQuery, sort, setSort, fiterThenSortFn } =
     usePlayersFilterAndSort({
       initialSeachQuery,
@@ -57,11 +60,18 @@ const PlayersExplorerToolbar = ({
 
   const handleDisplayChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onDisplayChange?.(e.target.value as DisplayOptions);
+    plausible("players-display", { props: { display: e.target.value } });
   };
 
   const handleSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setSort(value as SortOptions);
+    plausible("players-sort", { props: { sort: e.target.value } });
+  };
+
+  const handleQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilterQuery(e.target.value);
+    plausible("players-query", { props: { query: e.target.value } });
   };
 
   useEffect(() => {
@@ -124,7 +134,7 @@ const PlayersExplorerToolbar = ({
               borderRadius="none"
               placeholder="Search for player..."
               value={filterQuery}
-              onChange={(e) => setFilterQuery(e.target.value)}
+              onChange={handleQueryChange}
             />
           </InputGroup>
         </Box>

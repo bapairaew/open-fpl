@@ -25,7 +25,7 @@ const FixturesToolbar = ({
     <Flex justifyContent="space-between" borderBottomWidth={1}>
       <HStack alignItems="center" height="50px" spacing={0}>
         <Heading pl={6} pr={4} fontWeight="black" fontSize="lg">
-          Fixtures Difficulty Rating
+          Fixture Difficulty Rating
         </Heading>
         <Divider orientation="vertical" />
         <RadioGroup px={4} value={mode} onChange={onModeChange}>
