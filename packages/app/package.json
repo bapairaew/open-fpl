@@ -15,7 +15,7 @@
     "@chakra-ui/react": "^1.6.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@open-fpl/data": "1.1.0-pre.4",
+    "@open-fpl/data": "1.1.0-pre.5",
     "chart.js": "^3.4.0",
     "diacritics": "^1.3.0",
     "fathom-client": "^3.0.0",
