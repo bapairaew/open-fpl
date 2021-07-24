@@ -1,6 +1,6 @@
 import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
 import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { isSwapable } from "@open-fpl/app/features/TeamPlanner/teamPlan";
 import {
   FullChangePlayer,

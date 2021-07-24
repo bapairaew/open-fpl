@@ -25,7 +25,7 @@ import {
   makeFullFixtures,
 } from "@open-fpl/app/features/Fixtures/fixturesData";
 import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
 import TeamPlannerPanel from "@open-fpl/app/features/TeamPlanner/TeamPlannerPanel";
 import TeamPlannerTab from "@open-fpl/app/features/TeamPlanner/TeamPlannerTab";

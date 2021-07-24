@@ -6,7 +6,7 @@ import {
 } from "@open-fpl/app/features/Fixtures/fixturesData";
 import FixturesTable from "@open-fpl/app/features/Fixtures/FixturesTable";
 import FixturesToolbar from "@open-fpl/app/features/Fixtures/FixturesToolbar";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";

@@ -8,7 +8,7 @@ import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes"
 import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerToolbar";
 import { DisplayOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 import { displayOptions } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";

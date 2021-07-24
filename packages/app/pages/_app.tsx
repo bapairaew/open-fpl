@@ -1,7 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { cache } from "@open-fpl/app/features/Cache/swrCache";
 import { host } from "@open-fpl/app/features/Navigation/internalUrls";
-import { SettingsContextProvider } from "@open-fpl/app/features/Settings/SettingsContext";
+import { SettingsContextProvider } from "@open-fpl/app/features/Settings/Settings";
 import theme from "@open-fpl/app/theme";
 import PlausibleProvider from "next-plausible";
 import { AppProps } from "next/app";

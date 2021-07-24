@@ -5,7 +5,7 @@ import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
 
 const TransferPlannerSetupPage = () => {

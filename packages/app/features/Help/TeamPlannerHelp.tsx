@@ -19,7 +19,7 @@ import {
   IoEllipsisVerticalOutline,
 } from "react-icons/io5";
 import { fullChangePlayer } from "@open-fpl/app/features/Help/helpData";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import TransferablePlayer from "@open-fpl/app/features/TeamPlanner/TransferablePlayer";
 
 const DemoPlayerCard = () => (

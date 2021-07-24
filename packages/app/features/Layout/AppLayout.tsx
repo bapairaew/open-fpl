@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import { AppDrawerContexttProvider } from "@open-fpl/app/features/Layout/AppDrawerContext";
+import { AppDrawerContexttProvider } from "@open-fpl/app/features/Layout/AppDrawer";
 import SideBar from "@open-fpl/app/features/Navigation/SideBar";
 import theme from "@open-fpl/app/theme";
 import NextNprogress from "nextjs-progressbar";

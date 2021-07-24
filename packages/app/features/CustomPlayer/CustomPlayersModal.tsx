@@ -14,7 +14,7 @@ import { hydrateCustomPlayer } from "@open-fpl/app/features/CustomPlayer/customP
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
 import EditableCustomPlayer from "@open-fpl/app/features/CustomPlayer/EditableCustomPlayer";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { removePlayerFromPlans } from "@open-fpl/app/features/TeamPlanner/teamPlan";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { usePlausible } from "next-plausible";

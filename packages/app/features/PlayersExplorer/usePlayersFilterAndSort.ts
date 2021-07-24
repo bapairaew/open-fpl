@@ -5,7 +5,7 @@ import {
   filterOptions,
   sortOptions,
 } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 // @ts-ignore
 import diacritics from "diacritics";
 import Fuse from "fuse.js";

@@ -8,6 +8,10 @@
   "scripts": {
     "data:init": "yarn --cwd packages/data prebuild",
     "data:dev": "yarn --cwd packages/data dev --port=3001",
-    "app:dev": "yarn --cwd packages/app dev --port=3000"
+    "data:build": "yarn --cwd packages/data build",
+    "data:start": "yarn --cwd packages/data start --port=3001",
+    "app:dev": "yarn --cwd packages/app dev --port=3000",
+    "app:build": "yarn --cwd packages/app build",
+    "app:start": "yarn --cwd packages/app start --port=3000"
   }
 }

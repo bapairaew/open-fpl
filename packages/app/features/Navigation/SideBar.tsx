@@ -25,7 +25,7 @@ import {
 } from "react-icons/io5";
 import { RoughNotation } from "react-rough-notation";
 import externalLinks from "@open-fpl/app/features/Navigation/externalLinks";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import p from "@open-fpl/app/package.json";
 import theme from "@open-fpl/app/theme";
 

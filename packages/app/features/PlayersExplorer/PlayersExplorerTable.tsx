@@ -12,7 +12,7 @@ import {
   PlayerTableSortChangeHandler,
   PlayerTableSortColumnConfig,
 } from "@open-fpl/app/features/PlayerData/playerTableTypes";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { usePlausible } from "next-plausible";
 import { ChangeEvent, CSSProperties, MouseEvent, useMemo } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";

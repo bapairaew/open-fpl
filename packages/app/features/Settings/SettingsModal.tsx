@@ -16,7 +16,7 @@ import {
   setLocalStorageItem,
 } from "@open-fpl/app/features/Common/useLocalStorage";
 import AddProfile from "@open-fpl/app/features/Settings/AddProfile";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import SettingsProfilesList from "@open-fpl/app/features/Settings/SettingsProfilesList";
 import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
 import {
