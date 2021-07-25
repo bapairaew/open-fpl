@@ -56,6 +56,7 @@ const TeamChange = ({
   const label = errorLabel || variantProp.label;
 
   let mainComponent = null;
+  const width = { base: "80px", sm: "120px" };
 
   if (change.type === "preseason") {
     mainComponent = (
@@ -72,7 +73,7 @@ const TeamChange = ({
       change.type === "swap" ? IoSwapVerticalOutline : IoArrowBackOutline;
 
     mainComponent = (
-      <Box width="120px" pr={2}>
+      <Box width={width} pr={2}>
         <Flex>
           <Icon
             as={SelectedIcon}
@@ -110,7 +111,7 @@ const TeamChange = ({
     change.type === "set-vice-captain"
   ) {
     mainComponent = (
-      <Flex width="120px" pr={2}>
+      <Flex width={width} pr={2}>
         <Box
           fontSize="xs"
           fontWeight="black"
@@ -130,7 +131,7 @@ const TeamChange = ({
     );
   } else if (change.type === "use-chip") {
     mainComponent = (
-      <Flex width="120px" pr={2}>
+      <Flex width={width} pr={2}>
         <Icon
           as={IoDiscOutline}
           fontSize="xs"

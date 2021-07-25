@@ -1,6 +1,8 @@
 import {
   BoxProps,
   Divider,
+  Flex,
+  Grid,
   Heading,
   HStack,
   Icon,
@@ -9,10 +11,10 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ChangeEventHandler, ReactNode } from "react";
-import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 import { getChipDisplayName } from "@open-fpl/app/features/TeamPlanner/chips";
 import { ChipUsage } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import { ChangeEventHandler, ReactNode } from "react";
+import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 
 const ToolbarSection = ({
   label,
@@ -45,8 +47,17 @@ const ToolbarStat = ({
   label: ReactNode;
   data: ReactNode;
 }) => (
-  <ToolbarSection label={label} width="80px" textAlign="right">
-    <Text fontWeight="bold" noOfLines={1} width="100%">
+  <ToolbarSection
+    label={label}
+    width={{ base: "70px", sm: "80px" }}
+    textAlign="right"
+  >
+    <Text
+      fontWeight="bold"
+      noOfLines={1}
+      width="100%"
+      fontSize={{ base: "sm", sm: "md" }}
+    >
       {data}
     </Text>
   </ToolbarSection>
@@ -74,26 +85,55 @@ const TeamPlannerToolbar = ({
   onActivatedChipSelectChange: ChangeEventHandler<HTMLSelectElement>;
 }) => {
   return (
-    <HStack px={2} spacing={2} height="50px" borderBottomWidth={1}>
-      <IconButton
-        disabled={currentGameweek === planningGameweek}
-        onClick={onPreviousClick}
-        variant="ghost"
-        size="sm"
-        aria-label="previous gameweek"
-        icon={<Icon as={IoArrowBackOutline} />}
-      />
-      <Heading size="sm" fontWeight="black" width="120px">
-        Gameweek {planningGameweek}
-      </Heading>
-      <IconButton
-        disabled={planningGameweek === 38}
-        onClick={onNextClick}
-        variant="ghost"
-        size="sm"
-        aria-label="next gameweek"
-        icon={<Icon as={IoArrowForwardOutline} />}
-      />
+    <HStack
+      px={{ base: 0, sm: 2 }}
+      spacing={{ base: 0, sm: 2 }}
+      height="50px"
+      borderBottomWidth={1}
+    >
+      <Grid
+        px={{ base: 2, sm: 0 }}
+        gridTemplateAreas={{
+          base: `"gw gw"
+                 "prev next"`,
+          sm: `"prev gw next"`,
+        }}
+      >
+        <IconButton
+          gridArea="prev"
+          disabled={currentGameweek === planningGameweek}
+          onClick={onPreviousClick}
+          size="sm"
+          variant="ghost"
+          aria-label="previous gameweek"
+          icon={<Icon as={IoArrowBackOutline} />}
+        />
+        <Flex
+          gridArea="gw"
+          flexShrink={0}
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          transform={{ base: "translateY(4px)", sm: "none" }}
+        >
+          <Heading
+            fontSize={{ base: "xs", sm: "md" }}
+            width="120px"
+            fontWeight="black"
+          >
+            Gameweek {planningGameweek}
+          </Heading>
+        </Flex>
+        <IconButton
+          gridArea="next"
+          disabled={planningGameweek === 38}
+          onClick={onNextClick}
+          size="sm"
+          variant="ghost"
+          aria-label="next gameweek"
+          icon={<Icon as={IoArrowForwardOutline} />}
+        />
+      </Grid>
       <Divider orientation="vertical" />
       <ToolbarStat label="Bank" data={`£${+bank.toFixed(1)}`} />
       <Divider orientation="vertical" />
@@ -107,6 +147,7 @@ const TeamPlannerToolbar = ({
           fontWeight="bold"
           variant="unstyled"
           placeholder="Not used"
+          fontSize={{ base: "xs", sm: "md" }}
           value={chipUsages.find((c) => c.isActive)?.name ?? ""}
           onChange={onActivatedChipSelectChange}
         >
@@ -117,7 +158,7 @@ const TeamPlannerToolbar = ({
           ))}
         </Select>
       </ToolbarSection>
-      <Divider orientation="vertical" />
+      <Divider orientation="vertical" display={{ base: "none", sm: "block" }} />
     </HStack>
   );
 };

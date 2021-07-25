@@ -18,7 +18,7 @@ const useTeamPlannerRedirect = () => {
         router.push(redirectPath);
       }
     }
-  }, [teamId]);
+  }, [teamId, isInitialised]);
 
   return { teamId, isInitialised };
 };

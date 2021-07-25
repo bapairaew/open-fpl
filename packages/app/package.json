@@ -12,7 +12,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.6.3",
+    "@chakra-ui/react": "^1.6.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@open-fpl/data": "1.1.0-pre.6",
