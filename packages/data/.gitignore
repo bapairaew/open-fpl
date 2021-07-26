@@ -7,7 +7,6 @@ public/app-data/*
 
 # These datasets are to be overridden manually
 !public/remote-data/links
-!public/remote-data/teamcolorcodes
 
 # This is required to make build using static on Vercel works
 remote-data/*

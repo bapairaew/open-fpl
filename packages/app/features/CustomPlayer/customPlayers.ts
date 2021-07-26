@@ -43,12 +43,6 @@ export const hydrateCustomPlayer = (
       season_xa: null,
       season_xgi: null,
       season_xga: null,
-      teamcolorcodes: templatePlayer?.linked_data.teamcolorcodes ?? {
-        team: "",
-        background: "#fff",
-        text: "#000",
-        highlight: "#000",
-      },
       previous_gameweeks: null,
     },
     client_data: {

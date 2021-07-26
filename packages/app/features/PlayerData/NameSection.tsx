@@ -2,6 +2,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
+import { teamColorCodes } from "@open-fpl/app/features/TeamData/teamData";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   positionColorCodes,
@@ -55,18 +56,14 @@ const NameSection = ({
           variant={variant}
           flexBasis="50%"
           bg={
-            player.linked_data.teamcolorcodes
-              ? player.linked_data.teamcolorcodes.text
-                ? player.linked_data.teamcolorcodes.background!
-                : player.linked_data.teamcolorcodes.highlight!
-              : undefined
+            teamColorCodes[player.team.short_name]
+              ? teamColorCodes[player.team.short_name].bg
+              : "white"
           }
           color={
-            player.linked_data.teamcolorcodes
-              ? player.linked_data.teamcolorcodes.text
-                ? player.linked_data.teamcolorcodes.text!
-                : player.linked_data.teamcolorcodes.background!
-              : undefined
+            teamColorCodes[player.team.short_name]
+              ? teamColorCodes[player.team.short_name].color
+              : "black"
           }
         >
           {player.team.short_name}

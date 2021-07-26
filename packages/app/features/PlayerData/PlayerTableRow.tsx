@@ -23,6 +23,7 @@ import {
 import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
 import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
 import { getPaddedPastMatches } from "@open-fpl/app/features/PlayerData/PreviousStatsSection";
+import { teamColorCodes } from "@open-fpl/app/features/TeamData/teamData";
 import {
   positionColorCodes,
   statusColorCodes,
@@ -141,18 +142,14 @@ export const PlayerTableRow = ({
           width={`${playerTableConfigs.Team.columnWidth}px`}
           height={`${rowHeight}px`}
           bg={
-            player.linked_data.teamcolorcodes
-              ? player.linked_data.teamcolorcodes.text
-                ? player.linked_data.teamcolorcodes.background!
-                : player.linked_data.teamcolorcodes.highlight!
-              : undefined
+            teamColorCodes[player.team.short_name]
+              ? teamColorCodes[player.team.short_name].bg
+              : "white"
           }
           color={
-            player.linked_data.teamcolorcodes
-              ? player.linked_data.teamcolorcodes.text
-                ? player.linked_data.teamcolorcodes.text!
-                : player.linked_data.teamcolorcodes.background!
-              : undefined
+            teamColorCodes[player.team.short_name]
+              ? teamColorCodes[player.team.short_name].color
+              : "black"
           }
         >
           {player.team.short_name}

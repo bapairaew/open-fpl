@@ -12,7 +12,6 @@ import {
   Event,
   Team,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { TeamColorCodes } from "@open-fpl/data/features/RemoteData/teamcolorcodesTypes";
 import {
   MatchData,
   PlayerStat,
@@ -52,7 +51,6 @@ export const makeAppData = ({
   playersLinks,
   teamsLinks,
   fplGameweeks,
-  teamcolorcodes,
 }: {
   fpl: FPLElement[];
   understat: PlayerStat[];
@@ -62,7 +60,6 @@ export const makeAppData = ({
   playersLinks: Record<string, string>;
   teamsLinks: Record<string, string>;
   fplGameweeks: Event[];
-  teamcolorcodes: TeamColorCodes[];
 }): AppData => {
   const gameweeks = fplGameweeks
     .filter((g) => !g.finished && !g.is_current)
@@ -88,10 +85,6 @@ export const makeAppData = ({
     understatTeamsMap[t.title] = t;
     return understatTeamsMap;
   }, {} as Record<string, TeamStat>);
-  const teamcolorcodesMap = teamcolorcodes.reduce((teamcolorcodesMap, code) => {
-    teamcolorcodesMap[code.team] = code;
-    return teamcolorcodesMap;
-  }, {} as Record<string, TeamColorCodes>);
 
   const players = fpl.map((player) => {
     const playerUnderstat = playersLinks[player.id]
@@ -181,7 +174,6 @@ export const makeAppData = ({
           playerUnderstat &&
           playerUnderstatTeam &&
           playerUnderstatTeam.history.reduce((x, m) => +m.xGA + x, 0),
-        teamcolorcodes: teamcolorcodesMap[fplPlayerTeam.name] || null,
         previous_gameweeks: player.history
           .filter((h) => !nextGameweekIds.includes(h.round)) // Only show the game the already played
           .slice(-5)

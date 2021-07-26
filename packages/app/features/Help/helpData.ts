@@ -99,12 +99,6 @@ export const player: ClientPlayer = {
     season_xa: 11.474995978176594,
     season_xgi: 27.494450439698994,
     season_xga: 41.917999,
-    teamcolorcodes: {
-      team: "Man Utd",
-      background: "#dc1f29",
-      text: "#fae935",
-      highlight: "#000",
-    },
     previous_gameweeks: [],
   },
   client_data: {

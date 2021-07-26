@@ -1,10 +1,8 @@
-import { TeamFixture } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import {
   Element,
   ElementStatus,
   ElementSummary,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { TeamColorCodes } from "@open-fpl/data/features/RemoteData/teamcolorcodesTypes";
 
 export interface PlayerSummaryData {
   recentG: number;
@@ -64,7 +62,6 @@ export interface LinkedData {
   season_xa: number | null;
   season_xgi: number | null;
   season_xga: number | null;
-  teamcolorcodes: TeamColorCodes | null;
   past_matches: MatchStat[] | null;
   previous_gameweeks: PastGameweek[] | null;
 }

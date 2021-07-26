@@ -6,7 +6,6 @@
     "init-remote-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-remote-data.ts",
     "init-app-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-app-data.ts",
     "init-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-links.ts",
-    "init-teamcolorcodes": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-teamcolorcodes.ts",
     "print-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/print-links.ts",
     "dev": "next dev",
     "copy-remote-data": "cp -r ./public/remote-data ./remote-data",

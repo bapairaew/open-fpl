@@ -49,12 +49,6 @@ export function makePlaceholderPlayerFromId(id: number): ClientPlayer {
       season_xa: null,
       season_xgi: null,
       season_xga: null,
-      teamcolorcodes: {
-        team: "",
-        background: "#fff",
-        text: "#000",
-        highlight: "#000",
-      },
       previous_gameweeks: null,
     },
     client_data: {
