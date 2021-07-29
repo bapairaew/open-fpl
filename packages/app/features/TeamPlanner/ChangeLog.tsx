@@ -90,6 +90,7 @@ const ChangeLog = ({
                         <MenuButton
                           as={IconButton}
                           height="100%"
+                          size="sm"
                           borderRadius="none"
                           variant="ghost"
                           aria-label="options"

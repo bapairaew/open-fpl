@@ -119,7 +119,6 @@ const FixturesTable = ({
         makeSortedFixturesOrder(sortedFullFixtures, mode, range, direction)
       );
       handleResetSortGroupClick();
-      console.log(Math.max(...range) - Math.min(...range) + 1);
       plausible("fixtures-multi-columns-sort", {
         props: {
           length: Math.max(...range) - Math.min(...range) + 1,

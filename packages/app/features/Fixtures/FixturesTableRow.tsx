@@ -1,10 +1,11 @@
 import { Box, Flex, Icon, Td, Tr } from "@chakra-ui/react";
-import { gameweeks } from "@open-fpl/app/features/Fixtures/fixturesData";
 import { SortableFullTeamFixtures } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import CompareTeamsPopover from "@open-fpl/app/features/TeamData/CompareTeamsPopover";
 import TeamStrengthPopover from "@open-fpl/app/features/TeamData/TeamStrengthPopover";
 import { difficultyColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
 import { IoReorderFourOutline } from "react-icons/io5";
+
+const gameweeks = Array.from({ length: 38 }, (_, i) => i + 1);
 
 const FixturesTableRow = ({
   team,

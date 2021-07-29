@@ -9,26 +9,32 @@ import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import PlayersExplorer from "@open-fpl/app/features/PlayersExplorer/PlayersExplorer";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
 
 export const getStaticProps = async () => {
   try {
-    const [teamFixtures, fplTeams] = await Promise.all([
+    const [teamFixtures, fplTeams, fplGameweeks] = await Promise.all([
       fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
         r.json()
       ) as Promise<TeamFixtures[]>,
       fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
         r.json()
       ) as Promise<Team[]>,
+      fetch(getDataUrl("/remote-data/fpl_gameweeks/data.json")).then((r) =>
+        r.json()
+      ) as Promise<Event[]>,
     ]);
+
+    const currentGameweek = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
 
     return {
       props: {
         teamFixtures,
         fplTeams,
+        currentGameweek,
       },
     };
   } catch (e) {
@@ -43,6 +49,7 @@ export const getStaticProps = async () => {
 function PlayersExplorerPage({
   teamFixtures,
   fplTeams,
+  currentGameweek,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
@@ -50,7 +57,7 @@ function PlayersExplorerPage({
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
-  const isReady = [players, teamFixtures, fplTeams].every(
+  const isReady = [players, teamFixtures, fplTeams, currentGameweek].every(
     (x) => x !== undefined
   );
 
@@ -66,6 +73,7 @@ function PlayersExplorerPage({
           players={players!}
           teamFixtures={teamFixtures!}
           fplTeams={fplTeams!}
+          currentGameweek={currentGameweek!}
         />
       );
     } else if (errors.length > 0) {

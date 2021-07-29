@@ -26,7 +26,9 @@ import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 
-const Radar = dynamic(() => import("@open-fpl/app/features/Common/RadarChart"));
+const RadarChart = dynamic(
+  () => import("@open-fpl/app/features/Common/RadarChart")
+);
 
 const colors = [
   theme.colors.brand,
@@ -140,7 +142,7 @@ const ComparePlayersModal = ({
           ],
           backgroundColor: transparentize(
             colors[index % colors.length][100],
-            0.2
+            0.4
           ),
           borderColor: colors[index % colors.length][500],
           borderWidth: 1,
@@ -187,7 +189,7 @@ const ComparePlayersModal = ({
               {({ height, width }) => {
                 return (
                   <Box height={`${height}px`} width={`${width}px`}>
-                    <Radar
+                    <RadarChart
                       type="radar"
                       height={height}
                       width={width}

@@ -118,9 +118,8 @@ const TeamChange = ({
           mr={2}
           px={1}
           borderWidth={1}
-          borderColor="brand.500"
-          color={change.type === "set-captain" ? "white" : "brand.500"}
-          bg={change.type === "set-captain" ? "brand.500" : "white"}
+          color="white"
+          bg="brand.500"
         >
           {change.type === "set-captain" ? "C" : "V"}
         </Box>

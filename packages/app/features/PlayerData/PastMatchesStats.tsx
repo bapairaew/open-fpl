@@ -1,10 +1,11 @@
+import { Box } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
 import { MatchStat } from "@open-fpl/data/features/AppData/playerDataTypes";
 
 const PastMatchesStats = ({
-  variant,
+  variant = "default",
   pastMatches,
   valueKey,
   maxValue,
@@ -12,7 +13,7 @@ const PastMatchesStats = ({
   decimal,
   isReversedScale,
 }: {
-  variant: CenterFlexVariant;
+  variant?: CenterFlexVariant;
   pastMatches: MatchStat[];
   valueKey: keyof MatchStat;
   maxValue: number;
@@ -20,6 +21,7 @@ const PastMatchesStats = ({
   decimal: number;
   isReversedScale?: boolean;
 }) => {
+  const fontSize = variant === "mini" ? "xs" : "sm";
   return (
     <>
       {pastMatches.map((s, i) => {
@@ -34,16 +36,31 @@ const PastMatchesStats = ({
           <CenterFlex
             key={i}
             variant={variant}
-            p={1}
-            fontSize="sm"
+            minHeight="10px"
+            fontSize={fontSize}
             bg={`rgba(0, 255, 0, ${colorScale}%)`}
           >
-            {value === null ? "" : value?.toFixed(decimal)}
+            <Box
+              display={{
+                base: variant === "mini" ? "none" : "block",
+                sm: "block",
+              }}
+            >
+              {value === null ? "" : value?.toFixed(decimal)}
+            </Box>
           </CenterFlex>
         );
       })}
       {sumValue !== null && (
-        <CenterFlex variant={variant} p={1} fontSize="sm" bg="gray.100">
+        <CenterFlex
+          variant={variant}
+          fontSize={fontSize}
+          bg="gray.100"
+          display={{
+            base: variant === "mini" ? "none" : "flex",
+            sm: "flex",
+          }}
+        >
           {sumValue.toFixed(decimal)}
         </CenterFlex>
       )}

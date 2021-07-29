@@ -48,13 +48,34 @@ export const positionColorCodes: Record<
   },
 };
 
-export const statusColorCodes: Record<ElementStatus, string> = {
-  a: "transparent", // Available
-  d: "yellow", // Injured but have chance to play
-  i: "red", // Injured
-  n: "red", // Ineligible to play (e.g. with parent club)
-  s: "red", // Suspended
-  u: "red", // Unavailable
+export const statusColorCodes: Record<
+  ElementStatus,
+  { bg: string; color: string }
+> = {
+  a: {
+    bg: "transparent",
+    color: "black",
+  }, // Available
+  d: {
+    bg: "yellow",
+    color: "black",
+  }, // Injured but have chance to play
+  i: {
+    bg: "red",
+    color: "white",
+  }, // Injured
+  n: {
+    bg: "red",
+    color: "white",
+  }, // Ineligible to play (e.g. with parent club)
+  s: {
+    bg: "red",
+    color: "white",
+  }, // Suspended
+  u: {
+    bg: "red",
+    color: "white",
+  }, // Unavailable
 };
 
 export const deltaColorCodes: Record<

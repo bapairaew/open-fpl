@@ -1,14 +1,14 @@
 import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
 import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
+import SwapablePlayer, {
+  SwapablePlayerVariant,
+} from "@open-fpl/app/features/TeamPlanner/SwapablePlayer";
 import { isSwapable } from "@open-fpl/app/features/TeamPlanner/teamPlan";
 import {
   FullChangePlayer,
   GroupedTeam,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import TransferablePlayer, {
-  TransferablePlayerVariant,
-} from "@open-fpl/app/features/TeamPlanner/TransferablePlayer";
 import { usePlausible } from "next-plausible";
 import { KeyboardEvent, MouseEvent, ReactNode } from "react";
 import { AiOutlinePushpin } from "react-icons/ai";
@@ -18,7 +18,7 @@ const getVariant = (
   selectedPlayer: FullChangePlayer | null,
   targetPlayer: FullChangePlayer,
   teamObject: GroupedTeam
-): TransferablePlayerVariant => {
+): SwapablePlayerVariant => {
   if (!selectedPlayer) {
     return "default";
   } else if (selectedPlayer === targetPlayer) {
@@ -33,12 +33,12 @@ const getVariant = (
 const SelectedTeamSection = ({
   heading,
   headingRightAddon,
-  height,
+  height = "auto",
   children,
 }: {
   heading: string;
   headingRightAddon?: ReactNode;
-  height: number | string;
+  height?: number | string;
   children: ReactNode;
 }) => {
   return (
@@ -60,7 +60,12 @@ const SelectedTeamSection = ({
         </Heading>
         {headingRightAddon}
       </Flex>
-      <Flex height={height} flexDirection="column" justifyContent="center">
+      <Flex
+        height={height}
+        flexDirection="column"
+        justifyContent="center"
+        py={2}
+      >
         {children}
       </Flex>
     </>
@@ -68,32 +73,43 @@ const SelectedTeamSection = ({
 };
 
 const SelectedTeam = ({
-  gameweekDelta,
   teamObject,
   selectedPlayer,
-  onPlayerSelect,
+  onPlayerSub,
+  onPlayerTransfer,
   onSetCaptain,
   onSetViceCaptain,
+  onCancel,
 }: {
-  gameweekDelta: number;
   teamObject: GroupedTeam;
   selectedPlayer: FullChangePlayer | null;
-  onPlayerSelect: (player: FullChangePlayer | null) => void;
+  onPlayerSub: (player: FullChangePlayer | null) => void;
+  onPlayerTransfer: (player: FullChangePlayer | null) => void;
   onSetCaptain: (player: FullChangePlayer) => void;
   onSetViceCaptain: (player: FullChangePlayer) => void;
+  onCancel: () => void;
 }) => {
   const plausible = usePlausible<AnalyticsTeamPlanner>();
   const { teamPlannerPinnedBench, setTeamPlannerPinnedBench } = useSettings();
 
   const { GKP, DEF, MID, FWD, bench } = teamObject;
 
-  const handlePlayerClick = (
+  const handlePlayerSubClick = (
     e: MouseEvent<HTMLButtonElement>,
     p: FullChangePlayer
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    onPlayerSelect(p);
+    onPlayerSub(p);
+  };
+
+  const handlePlayerTransferClick = (
+    e: MouseEvent<HTMLButtonElement>,
+    p: FullChangePlayer
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onPlayerTransfer(p);
   };
 
   const handleSetCaptainClick = (
@@ -115,12 +131,12 @@ const SelectedTeam = ({
   };
 
   const handleOutsideClick = () => {
-    onPlayerSelect(null);
+    onCancel();
   };
 
   const handleKeyUp = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Escape") {
-      onPlayerSelect(null);
+      onCancel();
     }
   };
 
@@ -136,13 +152,8 @@ const SelectedTeam = ({
       <AutoSizer>
         {({ height, width }) => {
           return (
-            <Box
-              overflow="auto"
-              height={`${height}px`}
-              width={`${width}px`}
-              overflowX="hidden"
-            >
-              <SelectedTeamSection heading="Starting XI" height="740px">
+            <Box overflow="auto" height={`${height}px`} width={`${width}px`}>
+              <SelectedTeamSection heading="Starting XI">
                 {[GKP, DEF, MID, FWD].map((group, index) => {
                   return (
                     <Flex
@@ -151,14 +162,14 @@ const SelectedTeam = ({
                       alignItems="center"
                     >
                       {group.map((p) => (
-                        <TransferablePlayer
+                        <SwapablePlayer
                           key={p.id}
                           player={p}
-                          gameweekDelta={gameweekDelta}
-                          flexBasis="200px"
-                          showCaptainButton
                           variant={getVariant(selectedPlayer, p, teamObject)}
-                          onPlayerClick={(e) => handlePlayerClick(e, p)}
+                          onSubstituteClick={(e) => handlePlayerSubClick(e, p)}
+                          onTransferClick={(e) =>
+                            handlePlayerTransferClick(e, p)
+                          }
                           onSetCaptainClick={(e) => handleSetCaptainClick(e, p)}
                           onSetViceCaptainClick={(e) =>
                             onSetViceCaptainClick(e, p)
@@ -186,17 +197,19 @@ const SelectedTeam = ({
                       onClick={handlePinnedBench}
                     />
                   }
-                  height="200px"
                 >
                   <Flex justifyContent="center" alignItems="center">
                     {bench.map((p) => (
-                      <TransferablePlayer
+                      <SwapablePlayer
                         key={p.id}
                         player={p}
-                        gameweekDelta={gameweekDelta}
-                        flexBasis="200px"
                         variant={getVariant(selectedPlayer, p, teamObject)}
-                        onPlayerClick={(e) => handlePlayerClick(e, p)}
+                        onSubstituteClick={(e) => handlePlayerSubClick(e, p)}
+                        onTransferClick={(e) => handlePlayerTransferClick(e, p)}
+                        onSetCaptainClick={(e) => handleSetCaptainClick(e, p)}
+                        onSetViceCaptainClick={(e) =>
+                          onSetViceCaptainClick(e, p)
+                        }
                       />
                     ))}
                   </Flex>

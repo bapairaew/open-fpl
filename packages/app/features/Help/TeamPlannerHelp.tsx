@@ -8,6 +8,9 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { fullChangePlayer } from "@open-fpl/app/features/Help/helpData";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
+import SwapablePlayer from "@open-fpl/app/features/TeamPlanner/SwapablePlayer";
 import Link from "next/link";
 // @ts-ignore
 import { AnnotationCalloutRect } from "react-annotation";
@@ -18,9 +21,6 @@ import {
   IoEllipsisHorizontalOutline,
   IoEllipsisVerticalOutline,
 } from "react-icons/io5";
-import { fullChangePlayer } from "@open-fpl/app/features/Help/helpData";
-import { useSettings } from "@open-fpl/app/features/Settings/Settings";
-import TransferablePlayer from "@open-fpl/app/features/TeamPlanner/TransferablePlayer";
 
 const DemoPlayerCard = () => (
   <Flex
@@ -32,7 +32,7 @@ const DemoPlayerCard = () => (
     position="relative"
   >
     <Box width="250px" pointerEvents="none">
-      <TransferablePlayer showCaptainButton player={fullChangePlayer} />
+      <SwapablePlayer player={fullChangePlayer} />
     </Box>
     <Box as="svg" sx={{ width: 800, height: 350, position: "absolute" }}>
       <AnnotationCalloutRect

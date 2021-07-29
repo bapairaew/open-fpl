@@ -20,7 +20,9 @@ import theme from "@open-fpl/app/theme";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
-const Radar = dynamic(() => import("@open-fpl/app/features/Common/RadarChart"));
+const RadarChart = dynamic(
+  () => import("@open-fpl/app/features/Common/RadarChart")
+);
 
 const TeamStrengthPopover = ({
   team,
@@ -41,7 +43,7 @@ const TeamStrengthPopover = ({
           team.strength_defence_home,
           team.strength_defence_away,
         ],
-        backgroundColor: transparentize(theme.colors.brand[100], 0.2),
+        backgroundColor: transparentize(theme.colors.brand[100], 0.4),
         borderColor: theme.colors.brand[500],
         borderWidth: 1,
       },
@@ -86,7 +88,7 @@ const TeamStrengthPopover = ({
                       {team.name}
                     </PopoverHeader>
                     <PopoverBody>
-                      <Radar
+                      <RadarChart
                         type="radar"
                         data={chartData}
                         options={chartOptions}

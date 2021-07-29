@@ -88,11 +88,11 @@ const TeamPlannerToolbar = ({
     <HStack
       px={{ base: 0, sm: 2 }}
       spacing={{ base: 0, sm: 2 }}
-      height="50px"
+      height={{ base: "60px", sm: "50px" }}
       borderBottomWidth={1}
     >
       <Grid
-        px={{ base: 2, sm: 0 }}
+        px={0}
         gridTemplateAreas={{
           base: `"gw gw"
                  "prev next"`,
@@ -103,7 +103,6 @@ const TeamPlannerToolbar = ({
           gridArea="prev"
           disabled={currentGameweek === planningGameweek}
           onClick={onPreviousClick}
-          size="sm"
           variant="ghost"
           aria-label="previous gameweek"
           icon={<Icon as={IoArrowBackOutline} />}
@@ -128,14 +127,13 @@ const TeamPlannerToolbar = ({
           gridArea="next"
           disabled={planningGameweek === 38}
           onClick={onNextClick}
-          size="sm"
           variant="ghost"
           aria-label="next gameweek"
           icon={<Icon as={IoArrowForwardOutline} />}
         />
       </Grid>
       <Divider orientation="vertical" />
-      <ToolbarStat label="Bank" data={`£${+bank.toFixed(1)}`} />
+      <ToolbarStat label="Bank" data={`£${(+bank).toFixed(1)}`} />
       <Divider orientation="vertical" />
       <ToolbarStat label="Free" data={freeTransfers} />
       <Divider orientation="vertical" />
@@ -147,6 +145,7 @@ const TeamPlannerToolbar = ({
           fontWeight="bold"
           variant="unstyled"
           placeholder="Not used"
+          rootProps={{ display: "flex" }}
           fontSize={{ base: "xs", sm: "md" }}
           value={chipUsages.find((c) => c.isActive)?.name ?? ""}
           onChange={onActivatedChipSelectChange}

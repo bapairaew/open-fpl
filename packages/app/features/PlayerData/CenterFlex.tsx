@@ -9,7 +9,7 @@ const variants = {
   },
   default: {
     py: 1,
-    px: 2,
+    px: 1.5,
   },
 };
 
@@ -18,7 +18,7 @@ const CenterFlex = forwardRef(
     {
       variant = "default",
       ...props
-    }: BoxProps & { variant: CenterFlexVariant },
+    }: BoxProps & { variant?: CenterFlexVariant },
     ref
   ) => {
     const variantProps = variants[variant] ?? variants.default;

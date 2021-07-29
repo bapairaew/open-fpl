@@ -9,22 +9,16 @@ import PreviousStatsSection from "@open-fpl/app/features/PlayerData/PreviousStat
 const PlayerGridCard = ({
   variant = "default",
   player,
-  gameweekDelta = 0,
 }: {
   variant?: CenterFlexVariant;
   player: ClientPlayer;
-  gameweekDelta?: number;
 }) => {
-  const height = variant === "mini" ? "165px" : "250px";
+  const height = variant === "mini" ? "165px" : "203px";
   return (
     <Box borderWidth={1} height={height} overflow="hidden">
       <NameSection variant={variant} player={player} />
-      <FixturesSection
-        variant={variant}
-        player={player}
-        gameweekDelta={gameweekDelta}
-      />
-      <PointsSection variant={variant} player={player} />
+      <FixturesSection variant={variant} player={player} />
+      <PointsSection showTeamsName variant={variant} player={player} />
       <PreviousStatsSection variant={variant} player={player} />
     </Box>
   );

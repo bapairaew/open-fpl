@@ -65,6 +65,22 @@ const TransferPlannerPanelContent = ({
       ? "preseason"
       : "default";
 
+  const adjustedGameweekPlayers = useMemo(
+    () =>
+      players.map((player) => ({
+        ...player,
+        client_data: {
+          ...player.client_data,
+          gameweeks:
+            player.client_data.gameweeks?.slice(
+              planningGameweek,
+              planningGameweek + 5
+            ) ?? [],
+        },
+      })),
+    [players, planningGameweek]
+  );
+
   const {
     team,
     chipUsages,
@@ -73,12 +89,25 @@ const TransferPlannerPanelContent = ({
     freeTransfers,
     invalidChanges,
     teamInvalidities,
-  } = useMemo(
-    () =>
+  } = useMemo(() => {
+    const { team, ...data } =
       gameweekDataList.find((g) => g.gameweek === planningGameweek) ??
-      gameweekDataList[gameweekDataList.length - 1],
-    [gameweekDataList, planningGameweek]
-  );
+      gameweekDataList[gameweekDataList.length - 1];
+    return {
+      team: team.map((player) => ({
+        ...player,
+        client_data: {
+          ...player.client_data,
+          gameweeks:
+            player.client_data.gameweeks?.slice(
+              planningGameweek,
+              planningGameweek + 5
+            ) ?? [],
+        },
+      })),
+      ...data,
+    };
+  }, [gameweekDataList, planningGameweek]);
 
   const handleSwap = (
     selectedPlayer: ChangePlayer,
@@ -243,8 +272,7 @@ const TransferPlannerPanelContent = ({
         <TeamManager
           mode={transferManagerMode}
           team={team}
-          players={players}
-          gameweekDelta={gameweekDelta}
+          players={adjustedGameweekPlayers}
           onSwap={handleSwap}
           onTransfer={handleTransfer}
           onPreseasonSwap={handlePreseasonSwap}

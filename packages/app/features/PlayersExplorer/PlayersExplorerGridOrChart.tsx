@@ -90,7 +90,7 @@ const PlayersExplorerGridOrChart = ({
             <List
               height={height}
               width={width}
-              itemSize={288}
+              itemSize={240}
               itemCount={Math.ceil(displayedPlayers.length / columnsCount)}
             >
               {row}

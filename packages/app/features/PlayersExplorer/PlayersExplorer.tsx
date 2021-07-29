@@ -32,11 +32,13 @@ const PlayersExplorer = ({
   players: remotePlayers,
   fplTeams,
   teamFixtures,
+  currentGameweek,
   ...props
 }: BoxProps & {
   players: Player[];
   fplTeams: Team[];
   teamFixtures: TeamFixtures[];
+  currentGameweek: number;
 }) => {
   const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
   const {
@@ -70,6 +72,22 @@ const PlayersExplorer = ({
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
   const [selectedPlayers, setSelectedPlayers] = useState<ClientPlayer[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const adjustedGameweekPlayers = useMemo(
+    () =>
+      displayedPlayers.map((player) => ({
+        ...player,
+        client_data: {
+          ...player.client_data,
+          gameweeks:
+            player.client_data.gameweeks?.slice(
+              currentGameweek,
+              currentGameweek + 5
+            ) ?? [],
+        },
+      })),
+    [displayedPlayers, currentGameweek]
+  );
 
   const handleDisplayChange = (option: DisplayOptions) => {
     setPlayersExplorerDisplayOption(option);
@@ -149,14 +167,14 @@ const PlayersExplorer = ({
         />
         {display === "table" ? (
           <PlayersExplorerTable
-            displayedPlayers={displayedPlayers}
+            displayedPlayers={adjustedGameweekPlayers}
             selectedPlayers={selectedPlayers}
             onSelectChange={handleSelectChange}
             onStarClick={handleStarClick}
           />
         ) : (
           <PlayersExplorerGridOrChart
-            displayedPlayers={displayedPlayers}
+            displayedPlayers={adjustedGameweekPlayers}
             display={display}
             selectedPlayers={selectedPlayers}
             onSelectChange={handleSelectChange}

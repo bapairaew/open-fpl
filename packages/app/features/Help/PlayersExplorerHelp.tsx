@@ -143,7 +143,7 @@ const DemoPlayerCard = () => (
         dy={-44}
         subject={{ width: 400, height: 28 }}
         note={{
-          title: "Previous fixtures xGI",
+          title: "Previous fixtures expected goals involvement",
         }}
       />
       <AnnotationCalloutRect
@@ -153,7 +153,7 @@ const DemoPlayerCard = () => (
         dy={78}
         subject={{ width: 400, height: 29 }}
         note={{
-          title: "Previous fixtures xGC",
+          title: "Previous fixtures expected goals against",
         }}
       />
     </Box>

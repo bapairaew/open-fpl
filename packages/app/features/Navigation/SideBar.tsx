@@ -11,6 +11,10 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import externalLinks from "@open-fpl/app/features/Navigation/externalLinks";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
+import p from "@open-fpl/app/package.json";
+import theme from "@open-fpl/app/theme";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
@@ -24,10 +28,6 @@ import {
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
 import { RoughNotation } from "react-rough-notation";
-import externalLinks from "@open-fpl/app/features/Navigation/externalLinks";
-import { useSettings } from "@open-fpl/app/features/Settings/Settings";
-import p from "@open-fpl/app/package.json";
-import theme from "@open-fpl/app/theme";
 
 const SideBarItem = ({
   href,
@@ -112,7 +112,6 @@ const SideBar = () => {
       <VStack p={3} spacing={3} borderTopWidth={1}>
         <Button
           variant={teamId ? "ghost" : "solid"}
-          size="sm"
           width="100%"
           onClick={onSettingsModalOpen}
           leftIcon={teamId ? <Icon as={IoSettingsOutline} /> : undefined}

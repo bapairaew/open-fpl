@@ -765,7 +765,10 @@ export const isSwapable = (
 
   if (isSelectedPlayerOnBench) {
     if (isTargetPlayerOnBench)
-      return selectedPlayer.element_type.singular_name_short !== "GKP";
+      return (
+        selectedPlayer.element_type.singular_name_short !== "GKP" &&
+        targetPlayer.element_type.singular_name_short !== "GKP"
+      );
     else {
       return (
         currentStartingWithSameSelectedPosition + 1 <=

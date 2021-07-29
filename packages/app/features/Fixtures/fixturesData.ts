@@ -51,8 +51,6 @@ export const adjustTeamsStrength = (
   }
 };
 
-export const gameweeks = Array.from({ length: 38 }, (_, i) => i + 1);
-
 // Full mapped data for UI usage
 export const makeFullFixtures = ({
   teamFixtures,

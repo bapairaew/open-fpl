@@ -10,7 +10,9 @@ import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import dynamic from "next/dynamic";
 import AutoSizer from "react-virtualized-auto-sizer";
 
-const Radar = dynamic(() => import("@open-fpl/app/features/Common/RadarChart"));
+const RadarChart = dynamic(
+  () => import("@open-fpl/app/features/Common/RadarChart")
+);
 
 const PlayerChartCard = ({ player }: { player: Player }) => {
   const {
@@ -123,14 +125,14 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
   };
 
   return (
-    <Flex flexDirection="column" borderWidth={1} height="250px">
+    <Flex flexDirection="column" borderWidth={1} height="205px">
       <NameSection player={player} />
       <Box flexGrow={1}>
         <AutoSizer>
           {({ height, width }) => {
             return (
               <Box height={`${height}px`} width={`${width}px`}>
-                <Radar
+                <RadarChart
                   type="radar"
                   height={height}
                   width={width}
