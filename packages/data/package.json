@@ -1,6 +1,6 @@
 {
   "name": "@open-fpl/data",
-  "version": "1.1.0-pre.6",
+  "version": "1.1.0-pre.7",
   "license": "Apache-2.0",
   "scripts": {
     "init-remote-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-remote-data.ts",
