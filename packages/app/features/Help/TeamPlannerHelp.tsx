@@ -28,31 +28,65 @@ const DemoPlayerCard = () => (
     justifyContent="center"
     alignItems="center"
     height="350px"
-    width="250px"
+    width="180px"
     position="relative"
   >
-    <Box width="250px" pointerEvents="none">
+    <Box width={{ base: "70px", sm: "180px" }}>
       <SwapablePlayer player={fullChangePlayer} />
     </Box>
-    <Box as="svg" sx={{ width: 800, height: 350, position: "absolute" }}>
+    <Box
+      display={{ base: "none", sm: "block" }}
+      as="svg"
+      sx={{ width: 800, height: 350, position: "absolute" }}
+    >
       <AnnotationCalloutRect
-        x={470}
-        y={94}
-        dx={80}
-        dy={-50}
-        subject={{ width: 50, height: 28 }}
+        x={397}
+        y={130}
+        dx={120}
+        dy={0}
+        subject={{ width: 95, height: 25 }}
         note={{
           title: "Selling price",
         }}
       />
       <AnnotationCalloutRect
-        x={470}
-        y={122}
-        dx={-150}
-        dy={-80}
-        subject={{ width: 50, height: 23 }}
+        x={390}
+        y={97}
+        dx={-100}
+        dy={0}
+        subject={{ width: 20, height: 20 }}
         note={{
-          title: "Captain button",
+          title: "Set as vice captain",
+        }}
+      />
+      <AnnotationCalloutRect
+        x={415}
+        y={97}
+        dx={-80}
+        dy={-50}
+        subject={{ width: 20, height: 20 }}
+        note={{
+          title: "Set as captain",
+        }}
+      />
+      <AnnotationCalloutRect
+        x={440}
+        y={97}
+        dx={0}
+        dy={-50}
+        subject={{ width: 20, height: 20 }}
+        note={{
+          title: "Subsitute",
+        }}
+      />
+      <AnnotationCalloutRect
+        x={465}
+        y={97}
+        dx={70}
+        dy={-30}
+        subject={{ width: 20, height: 20 }}
+        note={{
+          title: "Transfer",
         }}
       />
     </Box>
@@ -63,7 +97,7 @@ const TeamPlannerHelp = () => {
   const { onSettingsModalOpen } = useSettings();
   return (
     <>
-      <Container maxW="container.lg" mt={8} lineHeight="taller">
+      <Container maxW="container.lg" lineHeight="taller">
         <VStack spacing={6} alignItems="flex-start">
           <Heading as="h1" size="xl" fontWeight="black">
             Team Planner
@@ -110,8 +144,16 @@ const TeamPlannerHelp = () => {
             <Link href="/help/players">
               <A color="brand.500">Player Explorer</A>
             </Link>{" "}
-            but displayed in more compact form with one additional data and a
-            button to set up captaincy on the right hand side of the card:
+            but displayed in a more compact form. It also shows player's selling
+            price instead of their actual price, and there are buttons to set up
+            captaincy, substitute players, and make a transfer{" "}
+            <Text as="span" display={{ base: "none", sm: "inline" }}>
+              on the right hand side of the card which will be appeared once you
+              hover your mouse there.
+            </Text>{" "}
+            <Text as="span" display={{ base: "inline", sm: "none" }}>
+              in a menu which will be appeared once you tap on the card.
+            </Text>
           </Text>
         </VStack>
       </Container>

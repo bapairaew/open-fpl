@@ -15,7 +15,7 @@ import { IoOpenOutline } from "react-icons/io5";
 
 const FindYourIDHelp = () => {
   return (
-    <Container maxW="container.lg" mt={8} lineHeight="taller">
+    <Container maxW="container.lg" lineHeight="taller">
       <VStack spacing={6} alignItems="flex-start">
         <Heading as="h1" size="xl" fontWeight="black">
           Find Your ID
@@ -38,7 +38,7 @@ const FindYourIDHelp = () => {
         <Text as="p">
           Then check your ID look at the URL at the top bar of your browser,
           your ID should be a number foundn in this format{" "}
-          <Code>
+          <Code wordBreak="break-all">
             https://fantasy.premierleague.com/entry/__YOUR_ID__/history
           </Code>
         </Text>
