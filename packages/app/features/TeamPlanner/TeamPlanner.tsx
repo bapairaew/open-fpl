@@ -179,10 +179,15 @@ const TeamPlanner = ({
         if (index !== -1) {
           nextTransferPlans[index] = newName;
           setTeamPlans(nextTransferPlans);
-          const data = getLocalStorageItem(getTeamPlanKey(teamId, oldName), []);
-          setLocalStorageItem(getTeamPlanKey(teamId, newName), data);
-          removeLocalStorageItem(getTeamPlanKey(teamId, oldName));
-          plausible("team-planner-plans-rename");
+          if (teamId) {
+            const data = getLocalStorageItem(
+              getTeamPlanKey(teamId, oldName),
+              []
+            );
+            setLocalStorageItem(getTeamPlanKey(teamId, newName), data);
+            removeLocalStorageItem(getTeamPlanKey(teamId, oldName));
+            plausible("team-planner-plans-rename");
+          }
         }
       }
     }
@@ -193,12 +198,14 @@ const TeamPlanner = ({
       const nextIndex = teamPlans.length;
       const name = getDefaultName(teamPlans);
       setTeamPlans([...teamPlans, name]);
-      setLocalStorageItem(
-        getTeamPlanKey(teamId, name),
-        getLocalStorageItem(getTeamPlanKey(teamId, plan), [])
-      );
-      setTabIndex(nextIndex);
-      plausible("team-planner-plans-duplicate");
+      if (teamId) {
+        setLocalStorageItem(
+          getTeamPlanKey(teamId, name),
+          getLocalStorageItem(getTeamPlanKey(teamId, plan), [])
+        );
+        setTabIndex(nextIndex);
+        plausible("team-planner-plans-duplicate");
+      }
     }
   };
 
@@ -216,8 +223,10 @@ const TeamPlanner = ({
         }
       }
 
-      removeLocalStorageItem(getTeamPlanKey(teamId, plan));
-      plausible("team-planner-plans-remove");
+      if (teamId) {
+        removeLocalStorageItem(getTeamPlanKey(teamId, plan));
+        plausible("team-planner-plans-remove");
+      }
     }
   };
 

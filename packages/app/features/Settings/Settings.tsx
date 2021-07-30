@@ -36,25 +36,25 @@ const SettingsModal = dynamic(
 
 const SettingsContext = createContext<Settings>({
   isInitialised: false,
-  profiles: [],
+  profiles: null,
   setProfiles: () => {},
   teamId: null,
   setTeamId: () => {},
-  preference: {},
+  preference: null,
   setPreference: () => {},
-  fixturesTeamsOrder: [],
+  fixturesTeamsOrder: null,
   setFixturesTeamsOrder: () => {},
-  customPlayers: [],
+  customPlayers: null,
   setCustomPlayers: () => {},
-  teamsStrength: [],
+  teamsStrength: null,
   setTeamsStrength: () => {},
-  teamPlannerPinnedBench: false,
+  teamPlannerPinnedBench: null,
   setTeamPlannerPinnedBench: () => {},
-  playersExplorerDisplayOption: "table",
+  playersExplorerDisplayOption: null,
   setPlayersExplorerDisplayOption: () => {},
-  playersExplorerSortOption: "starred",
+  playersExplorerSortOption: null,
   setPlayersExplorerSortOption: () => {},
-  playersExplorerTableSortColumns: [],
+  playersExplorerTableSortColumns: null,
   setPlayersExplorerTableSortColumns: () => {},
   isSettingsModalOpen: false,
   onSettingsModalOpen: () => {},
@@ -67,18 +67,12 @@ export const SettingsContextProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const [profiles, setProfiles, isInitialised] = useLocalStorage<
-    string[] | null
-  >(getProfilesKey(), []);
-
-  const [teamId, setTeamId] = useLocalStorage<string | null>(
-    getActiveProfileKey(),
-    null
+  const [profiles, setProfiles, isInitialised] = useLocalStorage<string[]>(
+    getProfilesKey()
   );
-
-  const [_preference, setPreference] = useLocalStorage<Preference | null>(
-    getPreferenceKey(teamId),
-    {}
+  const [teamId, setTeamId] = useLocalStorage<string>(getActiveProfileKey());
+  const [_preference, setPreference] = useLocalStorage<Preference>(
+    teamId && getPreferenceKey(teamId)
   );
 
   // NOTE: Team plans was saved outside of perference before 1.1.0-pre.1
@@ -87,52 +81,51 @@ export const SettingsContextProvider = ({
   const patchedData = {} as { teamPlans: string[]; starredPlayers: number[] };
 
   if (_preference && !_preference.teamPlans) {
-    patchedData.teamPlans = getLocalStorageItem<string[]>(
-      getTeamPlansKey(teamId),
-      ["Plan 1"]
-    ) ?? ["Plan 1"];
+    const teamPlans = teamId
+      ? getLocalStorageItem<string[]>(getTeamPlansKey(teamId), null)
+      : null;
+    if (teamPlans) patchedData.teamPlans = teamPlans;
   }
 
   if (_preference && !_preference.starredPlayers) {
-    patchedData.starredPlayers =
-      getLocalStorageItem<number[]>(getStarredPlayersKey(teamId), []) ?? [];
+    const starredPlayers = teamId
+      ? getLocalStorageItem<number[]>(
+          teamId && getStarredPlayersKey(teamId),
+          null
+        )
+      : null;
+    if (starredPlayers) patchedData.starredPlayers = starredPlayers;
   }
 
-  const preference = {
-    ..._preference,
-    ...patchedData,
-  };
+  const preference = _preference
+    ? {
+        ..._preference,
+        ...patchedData,
+      }
+    : null;
 
-  const [fixturesTeamsOrder, setFixturesTeamsOrder] = useLocalStorage<
-    string[] | null
-  >(getFixturesTeamsOrderKey(), null);
+  const [fixturesTeamsOrder, setFixturesTeamsOrder] = useLocalStorage<string[]>(
+    getFixturesTeamsOrderKey()
+  );
 
-  const [customPlayers, setCustomPlayers] = useLocalStorage<
-    CustomPlayer[] | null
-  >(getCustomPlayersKey(), []);
+  const [customPlayers, setCustomPlayers] = useLocalStorage<CustomPlayer[]>(
+    getCustomPlayersKey()
+  );
 
-  const [teamsStrength, setTeamsStrength] = useLocalStorage<
-    TeamStrength[] | null
-  >(getTeamsStrengthKey(), []);
+  const [teamsStrength, setTeamsStrength] = useLocalStorage<TeamStrength[]>(
+    getTeamsStrengthKey()
+  );
 
-  const [teamPlannerPinnedBench, setTeamPlannerPinnedBench] = useLocalStorage<
-    boolean | null
-  >(getTeamPlannerPinnedBenchKey(), false);
+  const [teamPlannerPinnedBench, setTeamPlannerPinnedBench] =
+    useLocalStorage<boolean>(getTeamPlannerPinnedBenchKey());
 
   const [playersExplorerDisplayOption, setPlayersExplorerDisplayOption] =
-    useLocalStorage<DisplayOptions | null>(
-      getPlayersExplorerDisplayOptionKey(),
-      "table"
-    );
+    useLocalStorage<DisplayOptions>(getPlayersExplorerDisplayOptionKey());
   const [playersExplorerSortOption, setPlayersExplorerSortOption] =
-    useLocalStorage<SortOptions | null>(
-      getPlayersExplorerSortOptionKey(),
-      "starred"
-    );
+    useLocalStorage<SortOptions>(getPlayersExplorerSortOptionKey());
   const [playersExplorerTableSortColumns, setPlayersExplorerTableSortColumns] =
-    useLocalStorage<PlayerTableSortColumnConfig[] | null>(
-      getPlayersExplorerTableSortColumnsKey(),
-      []
+    useLocalStorage<PlayerTableSortColumnConfig[]>(
+      getPlayersExplorerTableSortColumnsKey()
     );
 
   const { isOpen, onOpen, onClose } = useDisclosure();

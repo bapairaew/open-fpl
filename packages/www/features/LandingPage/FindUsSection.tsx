@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { IoLogoGithub, IoLogoTwitter } from "react-icons/io5";
-import externalLinks from "@open-fpl/app/features/Navigation/externalLinks";
+import externalLinks from "@open-fpl/common/features/Navigation/externalLinks";
 
 const FindUsSection = (props: BoxProps) => (
   <Box py={20} bg="brand.500" {...props}>
@@ -29,27 +29,27 @@ const FindUsSection = (props: BoxProps) => (
         feedbacks
       </Text>
       <Box my={8}>
-        <Link href={externalLinks.twitter} passHref>
-          <Button
-            as={A}
-            isExternal
-            mr={4}
-            colorScheme="twitter"
-            leftIcon={<IoLogoTwitter />}
-          >
-            Twitter
-          </Button>
-        </Link>
-        <Link href={externalLinks.github} passHref>
-          <Button
-            as={A}
-            isExternal
-            colorScheme="github"
-            leftIcon={<IoLogoGithub />}
-          >
-            Github
-          </Button>
-        </Link>
+        <Button
+          mr={4}
+          as={A}
+          isExternal
+          colorScheme="twitter"
+          href={externalLinks.twitter}
+          _hover={{ textDecoration: "none" }}
+          leftIcon={<IoLogoTwitter />}
+        >
+          Twitter
+        </Button>
+        <Button
+          as={A}
+          isExternal
+          colorScheme="github"
+          href={externalLinks.github}
+          _hover={{ textDecoration: "none" }}
+          leftIcon={<IoLogoGithub />}
+        >
+          Github
+        </Button>
       </Box>
     </Container>
   </Box>

@@ -1,10 +1,11 @@
 import { Spinner } from "@chakra-ui/react";
+import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLocalStorage";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
-import UnhandledError from "@open-fpl/app/features/Error/UnhandledError";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
-import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
+import FullScreenMessageWithAppDrawer from "@open-fpl/app/features/Layout/FullScreenMessageWithAppDrawer";
 import TeamPlanner from "@open-fpl/app/features/TeamPlanner/TeamPlanner";
 import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
+import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
@@ -99,6 +100,8 @@ const TransferPlannerPage = ({
     getDataUrl("/app-data/players.json")
   );
 
+  const isLocalStorageSupported = useIsLocalStorageSupported();
+
   const isReady = [
     initialPicks,
     entry_history,
@@ -114,38 +117,47 @@ const TransferPlannerPage = ({
 
   let mainContent = null;
 
-  if (error) {
-    mainContent = <UnhandledError as="main" additionalInfo={error} />;
-  } else if (isReady) {
-    mainContent = (
-      <TeamPlanner
-        as="main"
-        initialPicks={initialPicks ?? null}
-        entryHistory={entry_history ?? null}
-        players={players!}
-        currentGameweek={currentGameweek!}
-        transfers={transfers!}
-        chips={chips!}
-        fplTeams={fplTeams!}
-        teamFixtures={teamFixtures!}
-      />
-    );
-  } else if (errors.length > 0) {
-    mainContent = (
-      <UnhandledError
-        as="main"
-        additionalInfo={`Failed to load ${errors.join(", ")}`}
-      />
-    );
-  } else {
-    mainContent = (
-      <FullScreenMessage
-        as="main"
-        symbol={<Spinner size="xl" />}
-        heading="Almost there..."
-        text="Please wait while we are preparing your Team Planner page."
-      />
-    );
+  if (isLocalStorageSupported) {
+    if (error) {
+      mainContent = (
+        <UnhandledError
+          Wrapper={FullScreenMessageWithAppDrawer}
+          as="main"
+          additionalInfo={error}
+        />
+      );
+    } else if (isReady) {
+      mainContent = (
+        <TeamPlanner
+          as="main"
+          initialPicks={initialPicks ?? null}
+          entryHistory={entry_history ?? null}
+          players={players!}
+          currentGameweek={currentGameweek!}
+          transfers={transfers!}
+          chips={chips!}
+          fplTeams={fplTeams!}
+          teamFixtures={teamFixtures!}
+        />
+      );
+    } else if (errors.length > 0) {
+      mainContent = (
+        <UnhandledError
+          Wrapper={FullScreenMessageWithAppDrawer}
+          as="main"
+          additionalInfo={`Failed to load ${errors.join(", ")}`}
+        />
+      );
+    } else {
+      mainContent = (
+        <FullScreenMessageWithAppDrawer
+          as="main"
+          symbol={<Spinner size="xl" />}
+          heading="Almost there..."
+          text="Please wait while we are preparing your Team Planner page."
+        />
+      );
+    }
   }
 
   return (

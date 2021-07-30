@@ -7,11 +7,11 @@ import {
   Heading,
   Icon,
   Text,
+  Link,
 } from "@chakra-ui/react";
-import Link from "next/link";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { RoughNotation } from "react-rough-notation";
-import theme from "@open-fpl/app/theme";
+import theme from "@open-fpl/common/theme";
 
 const HeroSection = (props: BoxProps) => (
   <Box {...props}>
@@ -56,16 +56,15 @@ const HeroSection = (props: BoxProps) => (
         <Text as="p" fontSize="lg" textAlign="center" color="gray.600" my={10}>
           No charge, No ads, No sign-up, No strings attached.
         </Text>
-        <Link href="/players" passHref>
-          <Button
-            my={8}
-            as="a"
-            size="lg"
-            rightIcon={<Icon as={IoArrowForwardOutline} />}
-          >
-            Start using
-          </Button>
-        </Link>
+        <Button
+          as="a"
+          href="https://app.openfpl.com"
+          my={8}
+          size="lg"
+          rightIcon={<Icon as={IoArrowForwardOutline} />}
+        >
+          Start using
+        </Button>
       </Flex>
     </Container>
   </Box>

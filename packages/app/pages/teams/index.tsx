@@ -1,12 +1,12 @@
 import { Button, Link as A, Spinner, Text, VStack } from "@chakra-ui/react";
-import { NextSeo } from "next-seo";
-import Link from "next/link";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
-import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
+import FullScreenMessageWithAppDrawer from "@open-fpl/app/features/Layout/FullScreenMessageWithAppDrawer";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
+import { NextSeo } from "next-seo";
+import Link from "next/link";
 
 const TransferPlannerSetupPage = () => {
   const { teamId } = useTeamPlannerRedirect();
@@ -16,7 +16,7 @@ const TransferPlannerSetupPage = () => {
 
   if (teamId) {
     mainContent = (
-      <FullScreenMessage
+      <FullScreenMessageWithAppDrawer
         symbol={<Spinner size="xl" />}
         heading="One moment..."
         text={
@@ -37,7 +37,7 @@ const TransferPlannerSetupPage = () => {
     );
   } else {
     mainContent = (
-      <FullScreenMessage
+      <FullScreenMessageWithAppDrawer
         symbol="((((つ•̀ω•́)つ"
         heading="Set up a profile to get started"
         text={

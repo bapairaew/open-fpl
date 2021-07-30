@@ -1,8 +1,10 @@
+#!/usr/bin/env ts-node -O {"module":"commonjs"} -r tsconfig-paths/register
+
+import theme from "@open-fpl/common/theme";
 import fs from "fs";
-import theme from "@open-fpl/app/theme";
 
 const config = {
-  masterPicture: "public/logo.svg",
+  masterPicture: "./public/logo.svg",
   iconsPath: "/favicons/",
   design: {
     ios: {

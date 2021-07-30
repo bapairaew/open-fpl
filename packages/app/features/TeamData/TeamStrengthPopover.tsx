@@ -16,7 +16,7 @@ import {
   assumedMin,
 } from "@open-fpl/app/features/TeamData/teamData";
 import { TeamInfo } from "@open-fpl/app/features/TeamData/teamDataTypes";
-import theme from "@open-fpl/app/theme";
+import theme from "@open-fpl/common/theme";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
@@ -88,11 +88,7 @@ const TeamStrengthPopover = ({
                       {team.name}
                     </PopoverHeader>
                     <PopoverBody>
-                      <RadarChart
-                        type="radar"
-                        data={chartData}
-                        options={chartOptions}
-                      />
+                      <RadarChart data={chartData} options={chartOptions} />
                     </PopoverBody>
                   </PopoverContent>
                 </Box>

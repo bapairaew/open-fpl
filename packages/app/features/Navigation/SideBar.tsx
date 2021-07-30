@@ -11,10 +11,10 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import externalLinks from "@open-fpl/app/features/Navigation/externalLinks";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import p from "@open-fpl/app/package.json";
-import theme from "@open-fpl/app/theme";
+import externalLinks from "@open-fpl/common/features/Navigation/externalLinks";
+import theme from "@open-fpl/common/theme";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
@@ -95,7 +95,7 @@ const SideBar = () => {
         </Box>
       </Link>
       <List flexGrow={1} role="list">
-        <SideBarItem href="/players" icon={IoPeopleCircleOutline}>
+        <SideBarItem href="/" icon={IoPeopleCircleOutline}>
           Players Explorer
         </SideBarItem>
         <SideBarItem

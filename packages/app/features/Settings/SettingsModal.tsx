@@ -45,7 +45,7 @@ const SettingsModal = ({
   const handleAddProfile = async (teamId: string) => {
     if (profiles && !profiles.includes(teamId)) {
       const { data: { name } = {}, error } = (await (
-        await fetch(`/api/team/${teamId}`)
+        await fetch(`/api/teams/${teamId}`)
       ).json()) as TeamApiResponse;
 
       if (error) {

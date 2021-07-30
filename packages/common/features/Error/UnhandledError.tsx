@@ -1,13 +1,19 @@
 import { BoxProps, Link as A, Box, Code, Flex } from "@chakra-ui/react";
-import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
-import externalLinks from "@open-fpl/app/features/Navigation/externalLinks";
+import FullScreenMessage, {
+  FullScreenMessageProps,
+} from "@open-fpl/common/features/Layout/FullScreenMessage";
+import externalLinks from "@open-fpl/common/features/Navigation/externalLinks";
 
 const UnhandledError = ({
+  Wrapper = FullScreenMessage,
   additionalInfo,
   ...props
-}: BoxProps & { additionalInfo?: string }) => {
+}: BoxProps & {
+  Wrapper?: React.FC<FullScreenMessageProps>;
+  additionalInfo?: string;
+}) => {
   return (
-    <FullScreenMessage
+    <Wrapper
       symbol="(´～`)"
       heading="Uh oh, something went wrong."
       text={
@@ -31,7 +37,7 @@ const UnhandledError = ({
           )}
         </>
       }
-      linkHref="/players"
+      linkHref="/"
       linkText="Click here to get back home"
       {...props}
     />

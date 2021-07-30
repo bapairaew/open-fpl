@@ -20,7 +20,7 @@ import {
   assumedMax,
   getSummarytData,
 } from "@open-fpl/app/features/PlayerData/playerData";
-import theme from "@open-fpl/app/theme";
+import theme from "@open-fpl/common/theme";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
@@ -190,7 +190,6 @@ const ComparePlayersModal = ({
                 return (
                   <Box height={`${height}px`} width={`${width}px`}>
                     <RadarChart
-                      type="radar"
                       height={height}
                       width={width}
                       data={chartData}

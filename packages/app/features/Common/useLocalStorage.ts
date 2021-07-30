@@ -46,10 +46,12 @@ export const useIsLocalStorageSupported = () => {
 };
 
 function useLocalStorage<T>(
-  key: string,
-  defaultValue: T | null
+  key: string | null,
+  defaultValue?: T | null
 ): [T | null, (value: T | null) => void, boolean] {
-  const [storedValue, setStoredValue] = useState<T | null>(defaultValue);
+  const [storedValue, setStoredValue] = useState<T | null>(
+    defaultValue ?? null
+  );
   const [isInitialised, setIsInitialised] = useState<boolean>(false);
 
   const storeEventListener = (
@@ -78,26 +80,25 @@ function useLocalStorage<T>(
   };
 
   useEffect(() => {
-    // Only initialise localStorage data on client side and on key changed
-    try {
-      const item = window.localStorage.getItem(key);
-      if (item === null) {
-        setLocalStorageItem(key, defaultValue);
+    if (key) {
+      // Only initialise localStorage data on client side and on key changed
+      try {
+        const item = window.localStorage.getItem(key);
+        setStoredValue(item ? JSON.parse(item) : defaultValue);
+
+        // Listen change from other browser tabs
+        window.addEventListener("storage", storeEventListener);
+
+        // Listen change from outside of hook
+        window.addEventListener(
+          MANUAL_LOCAL_STORAGE_CHANGE,
+          storeEventListener as EventListener
+        );
+      } catch (error) {
+        // Ignore error
+      } finally {
+        setIsInitialised(true);
       }
-      setStoredValue(item ? JSON.parse(item) : defaultValue);
-
-      // Listen change from other browser tabs
-      window.addEventListener("storage", storeEventListener);
-
-      // Listen change from outside of hook
-      window.addEventListener(
-        MANUAL_LOCAL_STORAGE_CHANGE,
-        storeEventListener as EventListener
-      );
-    } catch (error) {
-      // Ignore error
-    } finally {
-      setIsInitialised(true);
     }
 
     return () => {

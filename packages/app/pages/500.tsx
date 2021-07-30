@@ -1,6 +1,7 @@
-import { NextSeo } from "next-seo";
-import UnhandledError from "@open-fpl/app/features/Error/UnhandledError";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
+import FullScreenMessageWithAppDrawer from "@open-fpl/app/features/Layout/FullScreenMessageWithAppDrawer";
+import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
+import { NextSeo } from "next-seo";
 
 export default function Custom500() {
   return (
@@ -11,7 +12,11 @@ export default function Custom500() {
         noindex
       />
       <AppLayout>
-        <UnhandledError as="main" />
+        <UnhandledError
+          Wrapper={FullScreenMessageWithAppDrawer}
+          as="main"
+          height="100%"
+        />
       </AppLayout>
     </>
   );

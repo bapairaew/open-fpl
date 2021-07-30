@@ -1,8 +1,10 @@
+#!/usr/bin/env ts-node -O {"module":"commonjs"} -r tsconfig-paths/register
+
 import fs from "fs";
 import glob from "glob-promise";
-import { parseRequest } from "@open-fpl/app/features/OpenGraphImages/parser";
-import { getScreenshot } from "@open-fpl/app/features/OpenGraphImages/chromium";
-import { getHtml } from "@open-fpl/app/features/OpenGraphImages/template";
+import { parseRequest } from "@open-fpl/common/features/OpenGraphImages/parser";
+import { getScreenshot } from "@open-fpl/common/features/OpenGraphImages/chromium";
+import { getHtml } from "@open-fpl/common/features/OpenGraphImages/template";
 
 const isDev = !process.env.AWS_REGION;
 

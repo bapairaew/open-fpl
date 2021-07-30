@@ -1,8 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { AppDrawerContexttProvider } from "@open-fpl/app/features/Layout/AppDrawer";
 import SideBar from "@open-fpl/app/features/Navigation/SideBar";
-import theme from "@open-fpl/app/theme";
-import NextNprogress from "nextjs-progressbar";
 import { ReactNode } from "react";
 
 const AppLayout = ({ children }: { children?: ReactNode }) => {
@@ -10,7 +8,6 @@ const AppLayout = ({ children }: { children?: ReactNode }) => {
   const mainWidth = { base: "100%", sm: `calc(100% - ${sideBarWidth - 1}px)` };
   return (
     <AppDrawerContexttProvider>
-      <NextNprogress color={theme.colors.brand[500]} />
       <Flex h="100%" w="100%">
         <Box
           display={{ base: "none", sm: "block" }}

@@ -56,10 +56,7 @@ const SettingsProfile = ({
   const input = getInputProps();
   const checkbox = getCheckboxProps();
 
-  const [preference] = useLocalStorage<Preference>(
-    getPreferenceKey(teamId),
-    {}
-  );
+  const [preference] = useLocalStorage<Preference>(getPreferenceKey(teamId));
 
   const storageSize = useMemo(() => {
     const allTransferPlans = preference?.teamPlans?.map((name) =>

@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import TableCellWithMenu from "@open-fpl/app/features/Common/TableCellWithMenu";
 import { SortGroup } from "@open-fpl/app/features/Fixtures/FixturesTable";
-import theme from "@open-fpl/app/theme";
+import theme from "@open-fpl/common/theme";
 
 const FixturesTableHeaderRow = ({
   onResetSortClick,

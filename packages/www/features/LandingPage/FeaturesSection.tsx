@@ -19,19 +19,19 @@ const features = [
     title: "Players Statistics Explorer",
     description:
       "Explore Fantasy Premier League players statistics xG, xGA, (from Understat) and more to make a better decision on your team.",
-    href: "/players",
+    href: "https://app.openfpl.com/players",
   },
   {
     title: "Team Planner",
     description:
       "Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks.",
-    href: "/teams",
+    href: "https://app.openfpl.com/teams",
   },
   {
     title: "Fixture Difficulty Rating",
     description:
       "Fantasy Premier League fixtures and their Attack and Defence Fixture Difficulty Rating.",
-    href: "/fixtures",
+    href: "https://app.openfpl.com/fixtures",
   },
 ];
 

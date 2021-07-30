@@ -1,7 +1,14 @@
 import { BoxProps, Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { AppDrawerOpenButton } from "@open-fpl/app/features/Layout/AppDrawer";
 import Link from "next/link";
 import { ReactNode } from "react";
+
+export interface FullScreenMessageProps extends BoxProps {
+  symbol: string | ReactNode;
+  heading: string | ReactNode;
+  text: string | ReactNode;
+  linkText?: string;
+  linkHref?: string;
+}
 
 const FullScreenMessage = ({
   symbol,
@@ -10,24 +17,16 @@ const FullScreenMessage = ({
   linkText,
   linkHref,
   ...props
-}: {
-  symbol: string | ReactNode;
-  heading: string | ReactNode;
-  text: string | ReactNode;
-  linkText?: string;
-  linkHref?: string;
-} & BoxProps) => {
+}: FullScreenMessageProps) => {
   return (
-    <Flex h="100%" w="100%" flexDirection="column">
-      <Flex display={{ base: "flex", sm: "none" }}>
-        <AppDrawerOpenButton />
-      </Flex>
+    <>
       <Flex
         px={6}
         justifyContent="center"
         alignItems="center"
         flexDirection="column"
         flexGrow={1}
+        height="100%"
         {...props}
       >
         <Heading size="2xl" my={4}>
@@ -45,7 +44,7 @@ const FullScreenMessage = ({
           </Link>
         )}
       </Flex>
-    </Flex>
+    </>
   );
 };
 
