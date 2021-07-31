@@ -87,13 +87,22 @@ export const filterPlayers = (
         const getFieldValue = filterOptions.ranges.find(
           (r) => r.field === range.field
         )?.getFieldValue;
-        players = players.filter(
-          (p) =>
-            getFieldValue?.(p) >= +filterQueryObject[range.field].from &&
-            (filterQueryObject.cost.to
-              ? getFieldValue?.(p) <= filterQueryObject[range.field].to
-              : true)
-        );
+        players = players.filter((p) => {
+          const value: number | undefined = getFieldValue?.(p);
+          if (value === undefined) return false;
+          const { from, to }: { from: string; to: string } =
+            filterQueryObject[range.field];
+          if (from.startsWith(">=")) {
+            return value >= +from.substr(2);
+          } else if (from.startsWith("<=")) {
+            return value <= +from.substr(2);
+          } else if (from.startsWith(">")) {
+            return value > +from.substr(1);
+          } else if (from.startsWith("<")) {
+            return value < +from.substr(1);
+          }
+          return value >= +from && (to ? value <= +to : true);
+        });
       }
     }
     return players;
