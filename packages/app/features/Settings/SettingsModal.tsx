@@ -42,7 +42,7 @@ const SettingsModal = ({
   );
 
   const handleAddProfile = async (teamId: string) => {
-    if (profiles && !profiles.includes(teamId)) {
+    if (!profiles || !profiles.includes(teamId)) {
       const { data: { name } = {}, error } = (await (
         await fetch(`/api/teams/${teamId}`)
       ).json()) as TeamApiResponse;
@@ -67,7 +67,7 @@ const SettingsModal = ({
           ...getLocalStorageItem(getPreferenceKey(teamId), {}),
           name,
         });
-        setProfiles([...profiles, teamId]);
+        setProfiles([...(profiles ?? []), teamId]);
         setTeamId(teamId);
         toast({
           title: "Profile created.",
