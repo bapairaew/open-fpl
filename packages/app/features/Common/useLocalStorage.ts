@@ -7,6 +7,14 @@ interface ManualLocalStorageChangeType {
   value: any;
 }
 
+export function getLocalStorageItemString(key: string): string | null {
+  try {
+    return window.localStorage.getItem(key);
+  } catch (e) {
+    return null;
+  }
+}
+
 export function getLocalStorageItem<T>(
   key: string,
   defaultValue?: T | null
