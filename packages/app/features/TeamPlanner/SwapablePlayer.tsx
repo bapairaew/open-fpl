@@ -4,14 +4,9 @@ import {
   Button,
   ButtonProps,
   Flex,
-  Grid,
   HStack,
   Icon,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Text,
   Tooltip,
   useDisclosure,
@@ -26,14 +21,8 @@ import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlanner
 import { positionColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
 import { MouseEventHandler } from "react";
 import {
-  IoAlertCircleOutline,
-  IoArrowBackOutline,
-  IoArrowForwardOutline,
-  IoCloseOutline,
-  IoDiscOutline,
-  IoSwapVerticalOutline,
-  IoWarningOutline,
   IoSwapHorizontalOutline,
+  IoSwapVerticalOutline,
 } from "react-icons/io5";
 
 export type SwapablePlayerVariant =

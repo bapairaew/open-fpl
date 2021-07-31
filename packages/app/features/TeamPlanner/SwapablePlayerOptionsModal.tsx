@@ -47,21 +47,21 @@ const SwapablePlayerOptionsModal = ({
               width="100%"
               variant="ghost"
               onClick={(e) => {
-                onSubstituteClick?.(e);
-                onClose();
-              }}
-            >
-              Substitute
-            </Button>
-            <Button
-              width="100%"
-              variant="ghost"
-              onClick={(e) => {
                 onTransferClick?.(e);
                 onClose();
               }}
             >
               Transfer
+            </Button>
+            <Button
+              width="100%"
+              variant="ghost"
+              onClick={(e) => {
+                onSubstituteClick?.(e);
+                onClose();
+              }}
+            >
+              Substitute
             </Button>
             <Button
               width="100%"
