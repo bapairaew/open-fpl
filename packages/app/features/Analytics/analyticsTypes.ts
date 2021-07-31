@@ -65,3 +65,9 @@ export type AnalyticsFixtureDifficultyRating = {
     length: number;
   };
 };
+
+export type AnalyticsMigration = {
+  "migration-start": never;
+  "migration-done": never;
+  "migration-fail": never;
+};

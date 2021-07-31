@@ -9,6 +9,7 @@ import {
   Link as A,
   useToast,
 } from "@chakra-ui/react";
+import { AnalyticsSettings } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import { TeamApiResponse } from "@open-fpl/app/features/Api/apiTypes";
 import {
   getLocalStorageItem,
@@ -22,11 +23,9 @@ import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
   getTeamPlanKey,
-  getTeamPlansKey,
 } from "@open-fpl/app/features/Settings/storageKeys";
 import { usePlausible } from "next-plausible";
 import { useRef } from "react";
-import { AnalyticsSettings } from "@open-fpl/app/features/Analytics/analyticsTypes";
 
 const SettingsModal = ({
   isOpen,

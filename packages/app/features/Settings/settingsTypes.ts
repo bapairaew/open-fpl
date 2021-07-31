@@ -18,7 +18,7 @@ export interface Settings {
   teamId: string | null; // Active profile
   isSettingsModalOpen: boolean;
   onSettingsModalOpen: () => void;
-  onSettingsModalClsoe: () => void;
+  onSettingsModalClose: () => void;
   preference: Preference | null; // Profile preference
   fixturesTeamsOrder: string[] | null; // Fixtures page row order
   customPlayers: CustomPlayer[] | null; // List of custom players

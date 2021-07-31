@@ -8,15 +8,15 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "data:init": "yarn --cwd packages/data prebuild",
+    "app:dev": "yarn --cwd packages/app dev --port=3002",
+    "app:build": "yarn --cwd packages/app build",
+    "app:start": "yarn --cwd packages/app start",
     "data:dev": "yarn --cwd packages/data dev --port=3001",
     "data:build": "yarn --cwd packages/data build",
-    "data:start": "yarn --cwd packages/data start --port=3001",
-    "app:dev": "yarn --cwd packages/app dev --port=3000",
-    "app:build": "yarn --cwd packages/app build",
-    "app:start": "yarn --cwd packages/app start --port=3000",
-    "www:dev": "yarn --cwd packages/www dev --port=3002",
+    "data:start": "yarn --cwd packages/data start",
+    "www:dev": "yarn --cwd packages/www dev --port=3000",
     "www:build": "yarn --cwd packages/www build",
-    "www:start": "yarn --cwd packages/www start --port=3002"
+    "www:start": "yarn --cwd packages/www start"
   },
   "private": true,
   "workspaces": {

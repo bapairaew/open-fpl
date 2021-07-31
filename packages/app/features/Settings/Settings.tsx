@@ -8,6 +8,7 @@ import {
   DisplayOptions,
   SortOptions,
 } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
+import { migrateFromWWWDomain } from "@open-fpl/app/features/Settings/migration";
 import {
   Preference,
   Settings,
@@ -28,7 +29,7 @@ import {
 } from "@open-fpl/app/features/Settings/storageKeys";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import dynamic from "next/dynamic";
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 
 const SettingsModal = dynamic(
   () => import("@open-fpl/app/features/Settings/SettingsModal")
@@ -58,7 +59,7 @@ const SettingsContext = createContext<Settings>({
   setPlayersExplorerTableSortColumns: () => {},
   isSettingsModalOpen: false,
   onSettingsModalOpen: () => {},
-  onSettingsModalClsoe: () => {},
+  onSettingsModalClose: () => {},
 });
 
 export const SettingsContextProvider = ({
@@ -128,7 +129,17 @@ export const SettingsContextProvider = ({
       getPlayersExplorerTableSortColumnsKey()
     );
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isSettingsModalOpen,
+    onOpen: onSettingsModalOpen,
+    onClose: onSettingsModalClose,
+  } = useDisclosure();
+
+  useEffect(() => {
+    if (!profiles) {
+      migrateFromWWWDomain();
+    }
+  }, []);
 
   return (
     <SettingsContext.Provider
@@ -154,13 +165,16 @@ export const SettingsContextProvider = ({
         setPlayersExplorerSortOption,
         playersExplorerTableSortColumns,
         setPlayersExplorerTableSortColumns,
-        isSettingsModalOpen: isOpen,
-        onSettingsModalOpen: onOpen,
-        onSettingsModalClsoe: onClose,
+        isSettingsModalOpen,
+        onSettingsModalOpen,
+        onSettingsModalClose,
       }}
       {...props}
     >
-      <SettingsModal isOpen={isOpen} onClose={onClose} />
+      <SettingsModal
+        isOpen={isSettingsModalOpen}
+        onClose={onSettingsModalClose}
+      />
       {children}
     </SettingsContext.Provider>
   );

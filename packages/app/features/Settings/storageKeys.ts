@@ -13,6 +13,7 @@ export const getPlayersExplorerSortOptionKey = () =>
   "players-explorer-sort-option";
 export const getPlayersExplorerTableSortColumnsKey = () =>
   "players-explorer-table-sort-columns";
+export const getIsAppDomainMigratedKey = () => "is-app-domain-migrated";
 
 /**
  * @deprecated This key is no longer used. Team plans are moved to perference.

@@ -9,14 +9,14 @@ interface ManualLocalStorageChangeType {
 
 export function getLocalStorageItem<T>(
   key: string,
-  defaultValue: T | null
+  defaultValue?: T | null
 ): T | null {
   try {
     const storageString = window.localStorage.getItem(key);
     if (storageString !== null) return JSON.parse(storageString);
-    else return defaultValue;
+    else return defaultValue ?? null;
   } catch (e) {
-    return defaultValue;
+    return defaultValue ?? null;
   }
 }
 
@@ -27,6 +27,13 @@ export function setLocalStorageItem<T>(key: string, value: T | null): void {
       detail: { key, value },
     })
   );
+}
+
+export function setLocalStorageItemFromString(
+  key: string,
+  value: string
+): void {
+  window.localStorage.setItem(key, value);
 }
 
 export function removeLocalStorageItem(key: string): void {

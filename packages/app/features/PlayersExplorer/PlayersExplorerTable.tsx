@@ -147,7 +147,6 @@ const PlayersExplorerTable = ({
       <AutoSizer>
         {({ height, width }) => (
           <Box
-            colorScheme="gray"
             display="block"
             overflow="auto"
             height={`${height}px`}
