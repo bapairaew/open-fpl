@@ -48,8 +48,8 @@ export const PlayerTableHeaderRow = ({
             p={0}
             position="sticky"
             top={0}
-            left={config.sticky ? 0 : undefined}
-            zIndex={2 + (config.sticky ? 1 : 0)}
+            left={config.sticky ?? undefined}
+            zIndex={2 + (config.sticky !== undefined ? 1 : 0)}
             bgColor="white"
             textAlign="center"
           >

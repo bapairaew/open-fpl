@@ -1,32 +1,32 @@
-import { Box, Flex, Grid, Td, Text, Tooltip, Th } from "@chakra-ui/react";
+import { Box, Flex, Grid, Td, Text, Tooltip } from "@chakra-ui/react";
 import CenterFlex from "@open-fpl/app/features/PlayerData/CenterFlex";
 import playersSortFunctions from "@open-fpl/app/features/PlayerData/playersSortFunctions";
 import { PlayerTableConfig } from "@open-fpl/app/features/PlayerData/playerTableTypes";
+import { teamColorCodes } from "@open-fpl/app/features/TeamData/teamData";
 import {
-  statusColorCodes,
   positionColorCodes,
+  statusColorCodes,
 } from "@open-fpl/data/features/RemoteData/fplColors";
 import { IoWarningOutline } from "react-icons/io5";
-import { teamColorCodes } from "@open-fpl/app/features/TeamData/teamData";
 import FixturesSection from "./FixturesSection";
-import PointsSection from "./PointsSection";
 import PastMatchesStats from "./PastMatchesStats";
 import { assumedMax } from "./playerData";
+import PointsSection from "./PointsSection";
 
 const playerTableConfigs = [
   {
     header: "Name",
     columnWidth: 130,
-    sticky: true,
+    sticky: 0,
     sortFn: playersSortFunctions.name,
     reversedSortFn: playersSortFunctions.reversedName,
     render: ({ player, config }) => (
-      <Th
+      <Td
         p={0}
         bg="white"
         fontWeight="bold"
         position="sticky"
-        left={0}
+        left={config.sticky}
         textTransform="none"
       >
         <Flex width={`${config.columnWidth}px`} alignItems="center">
@@ -45,7 +45,7 @@ const playerTableConfigs = [
             {player.web_name}
           </Text>
         </Flex>
-      </Th>
+      </Td>
     ),
   },
   {

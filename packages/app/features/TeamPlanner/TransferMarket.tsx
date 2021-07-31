@@ -3,6 +3,8 @@ import {
   Button,
   Flex,
   HStack,
+  Icon,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -22,7 +24,13 @@ import sortPlayerTable from "@open-fpl/app/features/PlayerData/sortPlayerTable";
 import usePlayersFilterAndSort from "@open-fpl/app/features/PlayersExplorer/usePlayersFilterAndSort";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 import { CSSProperties, useEffect, useMemo, useState } from "react";
-import { IoSearchOutline } from "react-icons/io5";
+import {
+  IoCheckmark,
+  IoCheckmarkCircleOutline,
+  IoSearchOutline,
+  IoSwapHorizontal,
+  IoSwapVerticalOutline,
+} from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 const TransferMarket = ({
@@ -53,50 +61,54 @@ const TransferMarket = ({
   const configs = [
     {
       header: "Tool",
-      columnWidth: 92,
+      columnWidth: "40px",
       hideHeader: true,
       hideMenu: true,
+      sticky: "0px",
       render: ({ player, config }) => {
         return (
-          <Td p={0} bg="white">
+          <Td p={0} position="sticky" left={config.sticky} bg="white">
             <Flex alignItems="center" px={2} width={`${config.columnWidth}px`}>
-              {player.id === selectedPlayer?.id ? (
-                <Button
+              {player.id === selectedPlayer?.id ||
+              team.some((p) => p.id === player.id) ? (
+                <IconButton
                   size="xs"
                   variant="outline"
+                  aria-label="in team"
                   borderRadius="none"
-                  width="100%"
                   disabled
-                >
-                  Selected
-                </Button>
-              ) : team.some((p) => p.id === player.id) ? (
-                <Button
-                  size="xs"
-                  variant="outline"
-                  borderRadius="none"
-                  width="100%"
-                  disabled
-                >
-                  In team
-                </Button>
-              ) : (
-                <Button
-                  size="xs"
-                  variant="outline"
-                  borderRadius="none"
-                  width="100%"
+                  icon={<Icon as={IoCheckmark} />}
                   onClick={() => onPlayerSelect?.(player)}
-                >
-                  Transfer
-                </Button>
+                />
+              ) : (
+                <IconButton
+                  size="xs"
+                  variant="outline"
+                  aria-label="transfer"
+                  borderRadius="none"
+                  icon={<Icon as={IoSwapHorizontal} />}
+                  onClick={() => onPlayerSelect?.(player)}
+                />
+                // <Button
+                //   size="xs"
+                //   variant="outline"
+                //   borderRadius="none"
+                //   width="100%"
+                //   onClick={() => onPlayerSelect?.(player)}
+                // >
+                //   Transfer
+                // </Button>
               )}
             </Flex>
           </Td>
         );
       },
     },
-    ...playerTableConfigs,
+    {
+      ...playerTableConfigs[0],
+      sticky: "40px",
+    },
+    ...playerTableConfigs.slice(1),
   ] as PlayerTableConfig[];
 
   const sortedDisplayedPlayers = useMemo(
@@ -167,7 +179,7 @@ const TransferMarket = ({
                 <StickyHeaderTable
                   height={height}
                   width={width}
-                  itemSize={30}
+                  itemSize={33}
                   itemCount={sortedDisplayedPlayers.length + 2} // Pad two players for sticky header
                   stickyCount={1}
                   headerRow={

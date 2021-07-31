@@ -156,7 +156,7 @@ const PlayersExplorerTable = ({
             <StickyHeaderTable
               height={height}
               width={width}
-              itemSize={30}
+              itemSize={31}
               itemCount={sortedDisplayedPlayers.length + 1} // Pad one player for sticky header
               headerRow={
                 <PlayerTableHeaderRow
