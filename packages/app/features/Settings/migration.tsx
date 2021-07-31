@@ -1,5 +1,6 @@
 import { createStandaloneToast, Link } from "@chakra-ui/react";
 import externalLinks from "@open-fpl/app/../common/features/Navigation/externalLinks";
+import { AnalyticsMigration } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
@@ -24,10 +25,9 @@ import {
 // @ts-ignore
 import { CrossStorageClient } from "cross-storage";
 import { usePlausible } from "next-plausible";
-import { AnalyticsMigration } from "../Analytics/analyticsTypes";
 
-const isDev = !process.env.AWS_REGION;
-const HUB_URL = isDev ? "http://localhost:3000" : "https://www.openfpl.com";
+const { NEXT_PUBLIC_CROSS_DOMAIN_HUB_URL: hubUrl } = process.env;
+
 const toast = createStandaloneToast();
 
 export const migrateFromWWWDomain = async () => {
@@ -41,7 +41,7 @@ export const migrateFromWWWDomain = async () => {
 
     if (!isMigrated) {
       const storage = new CrossStorageClient(
-        `${HUB_URL}/cross-storage-hub.html`,
+        `${hubUrl}/cross-storage-hub.html`,
         {
           timeout: 10 * 1000,
         }
