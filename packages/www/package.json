@@ -5,8 +5,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap && lerna link",
     "make-og-images": "make-og-images",
-    "make-favicons": "real-favicon generate ./config.cli-real-favicon.json ./results.cli-real-favicon.json public/favicons",
-    "prebuild": "make-favicons-config && yarn make-favicons",
+    "make-favicons": "make-favicons-config && real-favicon generate ./config.cli-real-favicon.json ./results.cli-real-favicon.json public/favicons",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
