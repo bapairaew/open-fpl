@@ -42,8 +42,7 @@ export const migrateFromWWWDomain = async () => {
     if (!isMigrated) {
       const waitingToast = toast({
         title: "Please wait...",
-        description:
-          "Your data is being migrated to the new version. Please leave your browser open until this notification disappeared.",
+        description: "We are intialising your data.",
         status: "info",
         duration: null,
         isClosable: false,
