@@ -102,7 +102,7 @@ const TeamPlanner = ({
   const { teamId, customPlayers, preference, setPreference, teamsStrength } =
     useSettings();
 
-  const teamPlans = preference?.teamPlans;
+  const teamPlans = preference?.teamPlans ?? ["Plan One"];
   const setTeamPlans = (teamPlans: string[]) => {
     if (preference) {
       setPreference({
