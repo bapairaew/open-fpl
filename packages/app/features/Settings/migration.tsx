@@ -42,7 +42,7 @@ export const migrateFromWWWDomain = async () => {
     if (!isMigrated) {
       const waitingToast = toast({
         title: "Please wait...",
-        description: "We are intialising your data.",
+        description: "We are initialising your data.",
         status: "info",
         duration: null,
         isClosable: false,
