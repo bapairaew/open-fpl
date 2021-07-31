@@ -46,11 +46,12 @@ export const PlayerTableHeaderRow = ({
           <Th
             key={key}
             p={0}
-            left={config.sticky ?? 0}
-            zIndex="sticky"
+            position="sticky"
+            top={0}
+            left={config.sticky ? 0 : undefined}
+            zIndex={2 + (config.sticky ? 1 : 0)}
             bgColor="white"
             textAlign="center"
-            position={config.sticky !== undefined ? "sticky" : "static"}
           >
             <TableCellWithMenu
               px={4}

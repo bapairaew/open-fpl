@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Td, Tr } from "@chakra-ui/react";
+import { Box, Flex, Icon, Td, Th, Tr } from "@chakra-ui/react";
 import { SortableFullTeamFixtures } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import CompareTeamsPopover from "@open-fpl/app/features/TeamData/CompareTeamsPopover";
 import TeamStrengthPopover from "@open-fpl/app/features/TeamData/TeamStrengthPopover";
@@ -16,7 +16,7 @@ const FixturesTableRow = ({
 }) => {
   return (
     <Tr>
-      <Td
+      <Th
         p={0}
         left={0}
         position="sticky"
@@ -40,7 +40,7 @@ const FixturesTableRow = ({
             {team.short_name}
           </TeamStrengthPopover>
         </Box>
-      </Td>
+      </Th>
       {gameweeks.map((gameweek) => {
         const fixtures = team.gameweeks[gameweek];
         return (

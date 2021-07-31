@@ -32,8 +32,9 @@ const FixturesTableHeaderRow = ({
       <Th
         p={0}
         left={0}
+        top={0}
         position="sticky"
-        zIndex="sticky"
+        zIndex={2}
         bgColor="white"
         textAlign="center"
       >
@@ -55,8 +56,10 @@ const FixturesTableHeaderRow = ({
         <Th
           key={i}
           p={0}
-          textAlign="center"
+          top={0}
+          position="sticky"
           bg="white"
+          textAlign="center"
           color={sortGroup.group[0] === i + 1 ? "brand.500" : undefined}
           boxShadow={
             sortGroup.group[0] === i + 1

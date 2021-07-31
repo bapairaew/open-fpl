@@ -10,7 +10,7 @@ export interface PlayerTableConfig {
   columnWidth: number;
   hideHeader?: boolean;
   hideMenu?: boolean;
-  sticky?: number;
+  sticky?: boolean;
   sortFn?: (a: Player, b: Player) => number;
   reversedSortFn?: (a: Player, b: Player) => number;
   render: ({

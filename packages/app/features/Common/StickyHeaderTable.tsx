@@ -25,9 +25,7 @@ const StickyHeaderTableElementType = forwardRef<HTMLDivElement>(
     <StickyHeaderTableContext.Consumer>
       {({ headerRow }) => (
         <Table colorScheme="gray" variant="unstyled">
-          <Thead position="sticky" zIndex="sticky" top={0} left={0} bg="white">
-            {headerRow}
-          </Thead>
+          <Thead>{headerRow}</Thead>
           <Tbody
             // @ts-ignore
             ref={ref}

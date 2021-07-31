@@ -142,13 +142,14 @@ const FixturesTable = ({
       {({ height, width }) => (
         <Table
           colorScheme="gray"
+          variant="unstyled"
           display="block"
           overflow="auto"
           height={`${height}px`}
           width={`${width}px`}
           size="sm"
         >
-          <Thead position="sticky" top={0} zIndex="sticky">
+          <Thead>
             <FixturesTableHeaderRow
               onResetSortClick={handleResetSortClick}
               onHardFixtureSortClick={handleHardFixtureSortClick}

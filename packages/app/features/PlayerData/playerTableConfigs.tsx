@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Td, Text, Tooltip } from "@chakra-ui/react";
+import { Box, Flex, Grid, Td, Text, Tooltip, Th } from "@chakra-ui/react";
 import CenterFlex from "@open-fpl/app/features/PlayerData/CenterFlex";
 import playersSortFunctions from "@open-fpl/app/features/PlayerData/playersSortFunctions";
 import { PlayerTableConfig } from "@open-fpl/app/features/PlayerData/playerTableTypes";
@@ -17,11 +17,18 @@ const playerTableConfigs = [
   {
     header: "Name",
     columnWidth: 130,
-    sticky: 0,
+    sticky: true,
     sortFn: playersSortFunctions.name,
     reversedSortFn: playersSortFunctions.reversedName,
     render: ({ player, config }) => (
-      <Td p={0} bg="white" fontWeight="bold" position="sticky" left={0}>
+      <Th
+        p={0}
+        bg="white"
+        fontWeight="bold"
+        position="sticky"
+        left={0}
+        textTransform="none"
+      >
         <Flex width={`${config.columnWidth}px`} alignItems="center">
           {player.status !== "a" && (
             <Tooltip hasArrow label={player.news}>
@@ -38,7 +45,7 @@ const playerTableConfigs = [
             {player.web_name}
           </Text>
         </Flex>
-      </Td>
+      </Th>
     ),
   },
   {
