@@ -40,15 +40,37 @@ export const migrateFromWWWDomain = async () => {
     );
 
     if (!isMigrated) {
+      const waitingToast = toast({
+        title: "Please wait...",
+        description:
+          "Your data is being migrated to the new version. Please leave your browser open until this notification disappeared.",
+        status: "info",
+        duration: null,
+        isClosable: false,
+      });
+
       const storage = new CrossStorageClient(
         `${hubUrl}/cross-storage-hub.html`,
         {
-          timeout: 10 * 1000,
+          timeout: 30 * 1000,
         }
       );
 
       await storage.onConnect();
       hubConnected = true;
+
+      if (waitingToast) {
+        toast.close(waitingToast);
+      }
+
+      notificationToast = toast({
+        title: "Migrating to new version.",
+        description:
+          "Your data is being migrated to the new version. Please leave your browser open until this notification disappeared.",
+        status: "info",
+        duration: null,
+        isClosable: false,
+      });
 
       const profilesString: string = await storage.get("profiles");
       const profiles = profilesString
@@ -57,14 +79,6 @@ export const migrateFromWWWDomain = async () => {
 
       if (profiles) {
         plausible("migration-start");
-        notificationToast = toast({
-          title: "Migrating to new version.",
-          description:
-            "Your data is being migrated to the new version. Please leave your browser open until this notification disappeared.",
-          status: "info",
-          duration: null,
-          isClosable: false,
-        });
 
         for (const profile of profiles) {
           const preferenceString = await storage.get(getPreferenceKey(profile));
@@ -163,6 +177,8 @@ export const migrateFromWWWDomain = async () => {
               @openfpl
             </Link>{" "}
             for help.
+            <br />
+            {e.toString()}
           </>
         ),
         status: "error",
