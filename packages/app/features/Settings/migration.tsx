@@ -34,6 +34,9 @@ export const migrateFromWWWDomain = async () => {
   let notificationToast: string | number | undefined;
   let hubConnected = false;
   const plausible = usePlausible<AnalyticsMigration>();
+
+  if (!hubUrl) return;
+
   try {
     const isMigrated = getLocalStorageItem<boolean>(
       getIsAppDomainMigratedKey()
