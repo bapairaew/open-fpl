@@ -102,7 +102,7 @@ const PlayersExplorerTable = ({
     playersExplorerTableSortColumns ?? ([] as PlayerTableSortColumnConfig[]);
 
   const setSortColums = (sortColumns: PlayerTableSortColumnConfig[]) => {
-    if (playersExplorerTableSortColumns) {
+    if (sortColumns) {
       setPlayersExplorerTableSortColumns(sortColumns);
       plausible("players-columns-sort", {
         props: { columns: sortColumns.map((s) => s.columnName) },

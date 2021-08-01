@@ -42,7 +42,7 @@ const FixturesTableHeaderRow = ({
           p={2}
           width="100px"
           menu={
-            <MenuList>
+            <MenuList zIndex="modal">
               <MenuGroup title="Sort">
                 <MenuItem onClick={onResetSortClick}>Reset</MenuItem>
               </MenuGroup>
@@ -71,7 +71,7 @@ const FixturesTableHeaderRow = ({
             p={2}
             width="100px"
             menu={
-              <MenuList>
+              <MenuList zIndex="modal">
                 {sortGroup.group.length === 0 && (
                   <>
                     <MenuGroup title="Sort">
