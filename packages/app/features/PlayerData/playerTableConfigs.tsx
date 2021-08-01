@@ -56,6 +56,7 @@ const playerTableConfigs = [
     render: ({ player, config }) => (
       <Td p={0}>
         <CenterFlex
+          height="32px"
           width={`${config.columnWidth}px`}
           bg={
             teamColorCodes[player.team.short_name]
@@ -81,6 +82,7 @@ const playerTableConfigs = [
     render: ({ player, config }) => (
       <Td p={0}>
         <CenterFlex
+          height="32px"
           width={`${config.columnWidth}px`}
           bg={
             positionColorCodes[player.element_type.singular_name_short]
@@ -140,7 +142,7 @@ const playerTableConfigs = [
     reversedSortFn: playersSortFunctions.reversedFixtures,
     render: ({ player, config }) => (
       <Td p={0}>
-        <Box width={`${config.columnWidth}px`}>
+        <Box width={`${config.columnWidth}px`} height="32px">
           <FixturesSection player={player} />
         </Box>
       </Td>
@@ -153,7 +155,7 @@ const playerTableConfigs = [
     reversedSortFn: playersSortFunctions.reversedPoints,
     render: ({ player, config }) => (
       <Td p={0}>
-        <Flex width={`${config.columnWidth}px`}>
+        <Flex width={`${config.columnWidth}px`} height="32px">
           <PointsSection player={player} />
         </Flex>
       </Td>
@@ -167,6 +169,7 @@ const playerTableConfigs = [
     render: ({ player, pastMatches, config }) => (
       <Td p={0}>
         <Grid
+          height="32px"
           gap={0}
           templateColumns="repeat(6, 1fr)"
           width={`${config.columnWidth}px`}
@@ -190,6 +193,7 @@ const playerTableConfigs = [
     render: ({ player, pastMatches, config }) => (
       <Td p={0}>
         <Grid
+          height="32px"
           gap={0}
           templateColumns="repeat(6, 1fr)"
           width={`${config.columnWidth}px`}
@@ -213,6 +217,7 @@ const playerTableConfigs = [
     render: ({ player, pastMatches, config }) => (
       <Td p={0}>
         <Grid
+          height="32px"
           gap={0}
           templateColumns="repeat(6, 1fr)"
           width={`${config.columnWidth}px`}
@@ -236,6 +241,7 @@ const playerTableConfigs = [
     render: ({ player, pastMatches, config }) => (
       <Td p={0}>
         <Grid
+          height="32px"
           gap={0}
           templateColumns="repeat(6, 1fr)"
           width={`${config.columnWidth}px`}
@@ -259,6 +265,7 @@ const playerTableConfigs = [
     render: ({ player, pastMatches, config }) => (
       <Td p={0}>
         <Grid
+          height="32px"
           gap={0}
           templateColumns="repeat(6, 1fr)"
           width={`${config.columnWidth}px`}
@@ -282,6 +289,7 @@ const playerTableConfigs = [
     render: ({ player, pastMatches, config }) => (
       <Td p={0}>
         <Grid
+          height="32px"
           gap={0}
           templateColumns="repeat(6, 1fr)"
           width={`${config.columnWidth}px`}
@@ -305,6 +313,7 @@ const playerTableConfigs = [
     render: ({ player, pastMatches, config }) => (
       <Td p={0}>
         <Grid
+          height="32px"
           gap={0}
           templateColumns="repeat(6, 1fr)"
           width={`${config.columnWidth}px`}
