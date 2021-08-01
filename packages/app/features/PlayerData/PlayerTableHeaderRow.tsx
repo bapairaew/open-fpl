@@ -4,33 +4,32 @@ import {
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
+  TableRowProps,
   Th,
   Tr,
 } from "@chakra-ui/react";
-import { IoArrowDownOutline, IoArrowUpOutline } from "react-icons/io5";
 import TableCellWithMenu from "@open-fpl/app/features/Common/TableCellWithMenu";
 import {
-  rowHeight,
-  rowWidth,
-} from "@open-fpl/app/features/PlayerData/PlayerTable";
-import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
-import {
-  PlayerTableColumn,
+  PlayerTableConfig,
   PlayerTableSortChangeHandler,
   PlayerTableSortColumnConfig,
 } from "@open-fpl/app/features/PlayerData/playerTableTypes";
+import { IoArrowDownOutline, IoArrowUpOutline } from "react-icons/io5";
 
 export const PlayerTableHeaderRow = ({
   onSortChange,
   sortColumns,
+  configs,
+  ...props
 }: {
   onSortChange?: PlayerTableSortChangeHandler;
   sortColumns?: PlayerTableSortColumnConfig[];
-}) => {
+  configs?: PlayerTableConfig[];
+} & TableRowProps) => {
   return (
-    <Tr height={`${rowHeight}px`} width={`${rowWidth}px`}>
-      {Object.keys(playerTableConfigs).map((objectKey: string) => {
-        const key = objectKey as PlayerTableColumn;
+    <Tr {...props}>
+      {configs?.map((config) => {
+        const key = config.header;
 
         const sortDirection = sortColumns?.find(
           (c) => c.columnName === key
@@ -47,22 +46,19 @@ export const PlayerTableHeaderRow = ({
           <Th
             key={key}
             p={0}
-            left={playerTableConfigs[key]?.sticky ?? 0}
-            zIndex="sticky"
+            position="sticky"
+            top={0}
+            left={config.sticky ?? undefined}
+            zIndex={2 + (config.sticky !== undefined ? 1 : 0)}
             bgColor="white"
             textAlign="center"
-            position={
-              playerTableConfigs[key]?.sticky !== undefined
-                ? "sticky"
-                : "static"
-            }
           >
             <TableCellWithMenu
               px={4}
-              width={`${playerTableConfigs[key].columnWidth}px`}
+              width={`${config.columnWidth}px`}
               menu={
-                playerTableConfigs[key]?.hideMenu ? undefined : (
-                  <MenuList>
+                config.hideMenu ? undefined : (
+                  <MenuList zIndex="modal">
                     <MenuOptionGroup
                       title="Sort"
                       type="radio"
@@ -109,7 +105,7 @@ export const PlayerTableHeaderRow = ({
                 )
               }
             >
-              {playerTableConfigs[key]?.hideHeader ? "" : key}
+              {config.hideHeader ? "" : key}
               {arrow && <Icon ml={1} as={arrow!} />}
             </TableCellWithMenu>
           </Th>

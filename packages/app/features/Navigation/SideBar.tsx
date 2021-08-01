@@ -11,6 +11,10 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
+import p from "@open-fpl/app/package.json";
+import externalLinks from "@open-fpl/common/features/Navigation/externalLinks";
+import theme from "@open-fpl/common/theme";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
@@ -24,10 +28,6 @@ import {
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
 import { RoughNotation } from "react-rough-notation";
-import externalLinks from "@open-fpl/app/features/Navigation/externalLinks";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
-import p from "@open-fpl/app/package.json";
-import theme from "@open-fpl/app/theme";
 
 const SideBarItem = ({
   href,
@@ -55,7 +55,7 @@ const SideBarItem = ({
         role="listitem"
         display="block"
         borderRadius="md"
-        fontSize="sm"
+        fontSize={{ base: "md", sm: "sm" }}
         fontWeight="bold"
         bg={isActive ? "gray.100" : "transparent"}
         _hover={{
@@ -69,23 +69,23 @@ const SideBarItem = ({
   );
 };
 
-const SideBar = () => {
+const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
   const { onSettingsModalOpen, teamId, preference } = useSettings();
+
+  const handleSettingsClick = () => {
+    onSettingsModalOpen();
+    onSettingsClick?.();
+  };
+
   return (
-    <Flex
-      h="100%"
-      flexDirection="column"
-      role="navigation"
-      as="aside"
-      borderRightWidth={1}
-    >
+    <Flex h="100%" flexDirection="column" role="navigation" as="aside">
       <Link href="/" passHref>
         <Box
           as="a"
           py={6}
           textAlign="center"
           fontWeight="black"
-          fontSize="3xl"
+          fontSize={{ base: "4xl", sm: "3xl" }}
           color="white"
           textShadow={`
           -1px -1px 0 ${theme.colors.brand[500]},  
@@ -101,7 +101,7 @@ const SideBar = () => {
         </Box>
       </Link>
       <List flexGrow={1} role="list">
-        <SideBarItem href="/players" icon={IoPeopleCircleOutline}>
+        <SideBarItem href="/" icon={IoPeopleCircleOutline}>
           Players Explorer
         </SideBarItem>
         <SideBarItem
@@ -118,9 +118,8 @@ const SideBar = () => {
       <VStack p={3} spacing={3} borderTopWidth={1}>
         <Button
           variant={teamId ? "ghost" : "solid"}
-          size="sm"
           width="100%"
-          onClick={onSettingsModalOpen}
+          onClick={handleSettingsClick}
           leftIcon={teamId ? <Icon as={IoSettingsOutline} /> : undefined}
         >
           {teamId ? `${preference?.name ?? teamId}` : "Set up your profile"}

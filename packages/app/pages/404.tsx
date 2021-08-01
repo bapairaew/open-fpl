@@ -1,6 +1,7 @@
-import { NextSeo } from "next-seo";
-import NotFound from "@open-fpl/app/features/Error/NotFound";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
+import FullScreenMessageWithAppDrawer from "@open-fpl/app/features/Layout/FullScreenMessageWithAppDrawer";
+import NotFound from "@open-fpl/common/features/Error/NotFound";
+import { NextSeo } from "next-seo";
 
 export default function Custom404() {
   return (
@@ -11,7 +12,7 @@ export default function Custom404() {
         noindex
       />
       <AppLayout>
-        <NotFound as="main" />
+        <NotFound Wrapper={FullScreenMessageWithAppDrawer} as="main" />
       </AppLayout>
     </>
   );

@@ -31,16 +31,14 @@ const makeEmptyMatches = (length: number): MatchStat[] => {
 
 const variants: Record<
   CenterFlexVariant,
-  { showTeamsName: boolean; height: string; decimal: number }
+  { showTeamsName: boolean; decimal: number }
 > = {
   mini: {
     showTeamsName: false,
-    height: "58px",
     decimal: 1,
   },
   default: {
     showTeamsName: true,
-    height: "80px",
     decimal: 2,
   },
 };
@@ -101,18 +99,23 @@ const PreviousStatsSection = ({
 }) => {
   const pastMatches = getPaddedPastMatches(player);
 
-  const { showTeamsName, height, decimal } =
-    variants[variant] ?? variants.default;
+  const { showTeamsName, decimal } = variants[variant] ?? variants.default;
 
   return (
-    <Box height={height} width="100%">
+    <Box width="100%">
       {pastMatches.length > 0 ? (
-        <Grid gap={0} templateColumns="repeat(6, 1fr)">
+        <Grid
+          gap={0}
+          templateColumns={{
+            base: variant === "mini" ? "repeat(5, 1fr)" : "repeat(6, 1fr)",
+            sm: "repeat(6, 1fr)",
+          }}
+        >
           {showTeamsName && player.linked_data.past_matches && (
             <TeamsName pastMatches={pastMatches} variant={variant} />
           )}
           <PastMatchesStats
-            variant="mini"
+            variant={variant}
             pastMatches={pastMatches}
             valueKey="match_xgi"
             maxValue={assumedMax.xgi}
@@ -120,7 +123,7 @@ const PreviousStatsSection = ({
             decimal={decimal}
           />
           <PastMatchesStats
-            variant="mini"
+            variant={variant}
             pastMatches={pastMatches}
             valueKey="match_xga"
             maxValue={assumedMax.xga}

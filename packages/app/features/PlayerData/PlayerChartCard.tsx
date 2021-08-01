@@ -1,14 +1,18 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
-import { Radar } from "react-chartjs-2";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import NameSection from "@open-fpl/app/features/PlayerData/NameSection";
 import {
   assumedMax,
   getSummarytData,
 } from "@open-fpl/app/features/PlayerData/playerData";
-import theme from "@open-fpl/app/theme";
+import theme from "@open-fpl/common/theme";
+import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import dynamic from "next/dynamic";
+import AutoSizer from "react-virtualized-auto-sizer";
+
+const RadarChart = dynamic(
+  () => import("@open-fpl/app/features/Common/RadarChart")
+);
 
 const PlayerChartCard = ({ player }: { player: Player }) => {
   const {
@@ -121,15 +125,14 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
   };
 
   return (
-    <Flex flexDirection="column" borderWidth={1} height="250px">
+    <Flex flexDirection="column" borderWidth={1} height="205px">
       <NameSection player={player} />
       <Box flexGrow={1}>
         <AutoSizer>
           {({ height, width }) => {
             return (
               <Box height={`${height}px`} width={`${width}px`}>
-                <Radar
-                  type="radar"
+                <RadarChart
                   height={height}
                   width={width}
                   data={chartData}

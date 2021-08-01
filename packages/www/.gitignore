@@ -1,0 +1,7 @@
+.next
+node_modules
+.env.local
+.vercel
+
+# Generated favicons
+*.cli-real-favicon.*

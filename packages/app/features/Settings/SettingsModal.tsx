@@ -9,6 +9,7 @@ import {
   Link as A,
   useToast,
 } from "@chakra-ui/react";
+import { AnalyticsSettings } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import { TeamApiResponse } from "@open-fpl/app/features/Api/apiTypes";
 import {
   getLocalStorageItem,
@@ -16,14 +17,14 @@ import {
   setLocalStorageItem,
 } from "@open-fpl/app/features/Common/useLocalStorage";
 import AddProfile from "@open-fpl/app/features/Settings/AddProfile";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import SettingsProfilesList from "@open-fpl/app/features/Settings/SettingsProfilesList";
 import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
 import {
   getPreferenceKey,
   getTeamPlanKey,
-  getTeamPlansKey,
 } from "@open-fpl/app/features/Settings/storageKeys";
+import { usePlausible } from "next-plausible";
 import { useRef } from "react";
 
 const SettingsModal = ({
@@ -33,6 +34,7 @@ const SettingsModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
+  const plausible = usePlausible<AnalyticsSettings>();
   const toast = useToast();
   const { teamId, setTeamId, profiles, setProfiles } = useSettings();
   const initialFocusRef = useRef<HTMLInputElement | HTMLButtonElement | null>(
@@ -40,9 +42,9 @@ const SettingsModal = ({
   );
 
   const handleAddProfile = async (teamId: string) => {
-    if (profiles && !profiles.includes(teamId)) {
+    if (!profiles || !profiles.includes(teamId)) {
       const { data: { name } = {}, error } = (await (
-        await fetch(`/api/team/${teamId}`)
+        await fetch(`/api/teams/${teamId}`)
       ).json()) as TeamApiResponse;
 
       if (error) {
@@ -62,12 +64,10 @@ const SettingsModal = ({
         });
       } else {
         setLocalStorageItem(getPreferenceKey(teamId), {
-          ...getLocalStorageItem(getPreferenceKey(teamId), {
-            transferPlannerPinnedBench: false,
-          }),
+          ...getLocalStorageItem(getPreferenceKey(teamId), {}),
           name,
         });
-        setProfiles([...profiles, teamId]);
+        setProfiles([...(profiles ?? []), teamId]);
         setTeamId(teamId);
         toast({
           title: "Profile created.",
@@ -77,6 +77,7 @@ const SettingsModal = ({
           status: "success",
           isClosable: true,
         });
+        plausible("settings-profile-add");
       }
     } else {
       setTeamId(teamId);
@@ -95,20 +96,18 @@ const SettingsModal = ({
 
   const handleActiveProfileChange = (teamId: string) => {
     setTeamId(teamId);
+    plausible("settings-profile-select");
   };
 
   const handleRemoveProfile = (removingTeamId: string) => {
-    const { name } =
+    const { name, teamPlans } =
       getLocalStorageItem<Preference>(getPreferenceKey(removingTeamId), {}) ||
       {};
-    const transferPlans =
-      getLocalStorageItem<string[]>(getTeamPlansKey(removingTeamId), []) || [];
     setProfiles(profiles ? profiles.filter((p) => p !== removingTeamId) : []);
     removeLocalStorageItem(getPreferenceKey(removingTeamId));
-    transferPlans?.forEach((id) =>
+    teamPlans?.forEach((id) =>
       removeLocalStorageItem(getTeamPlanKey(removingTeamId, id))
     );
-    removeLocalStorageItem(getTeamPlansKey(removingTeamId));
     if (teamId === removingTeamId) {
       setTeamId(null);
     }
@@ -118,6 +117,7 @@ const SettingsModal = ({
       status: "success",
       isClosable: true,
     });
+    plausible("settings-profile-remove");
   };
 
   return (

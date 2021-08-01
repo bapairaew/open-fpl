@@ -66,12 +66,12 @@ export const sortOptions: SortOptionsConfig[] = [
 
 export const displayOptions = [
   {
-    label: "Grid",
-    value: "grid",
-  },
-  {
     label: "Table",
     value: "table",
+  },
+  {
+    label: "Grid",
+    value: "grid",
   },
   {
     label: "Chart",

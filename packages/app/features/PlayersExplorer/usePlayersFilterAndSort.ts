@@ -1,26 +1,26 @@
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
+import { SortOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
+import { filterPlayers } from "@open-fpl/app/features/PlayersExplorer/playersSearchBarFilters";
+import {
+  filterOptions,
+  sortOptions,
+} from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 // @ts-ignore
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
 import { useCallback, useMemo, useState } from "react";
 import searchQueryParser from "search-query-parser";
 import { useDebounce } from "use-debounce";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { filterPlayers } from "@open-fpl/app/features/PlayersExplorer/playersSearchBarFilters";
-import {
-  filterOptions,
-  sortOptions,
-} from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
-import { SortOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 
-const freeTextFuseSettings: Fuse.IFuseOptions<Player> = {
+const freeTextFuseSettings: Fuse.IFuseOptions<ClientPlayer> = {
   getFn: (player, path) => {
     if (path[0] === "$full_name") {
       return diacritics.remove(`${player.first_name} ${player.second_name}`);
     } else {
       // https://github.com/krisk/Fuse/issues/542
       const defaultGetFn = (Fuse as any).config
-        .getFn as Fuse.FuseGetFunction<Player>;
+        .getFn as Fuse.FuseGetFunction<ClientPlayer>;
       return diacritics.remove(defaultGetFn(player, path));
     }
   },
@@ -42,21 +42,19 @@ const usePlayersFilterAndSort = ({
   players: inputPlayers = [],
 }: {
   initialSeachQuery?: string;
-  players?: Player[];
+  players?: ClientPlayer[];
 }) => {
-  const { preference, setPreference } = useSettings();
+  const { playersExplorerSortOption, setPlayersExplorerSortOption } =
+    useSettings();
   const [filterQuery, setFilterQuery] = useState(initialSeachQuery);
   const [debouncedFilterQuery] = useDebounce(filterQuery, 300);
 
-  const sort = preference?.playersExplorerSortOption ?? sortOptions[0].value;
+  const sort = playersExplorerSortOption ?? sortOptions[0].value;
   const setSort = useCallback(
     (value: string) => {
-      setPreference({
-        ...preference,
-        playersExplorerSortOption: value as SortOptions,
-      });
+      setPlayersExplorerSortOption(value as SortOptions);
     },
-    [preference]
+    [playersExplorerSortOption]
   );
 
   const filterQueryObject = useMemo(() => {
@@ -68,12 +66,12 @@ const usePlayersFilterAndSort = ({
   }, [debouncedFilterQuery]);
 
   const freeTextFuse = useMemo(
-    () => new Fuse<Player>(inputPlayers, freeTextFuseSettings),
+    () => new Fuse<ClientPlayer>(inputPlayers, freeTextFuseSettings),
     [inputPlayers]
   );
 
   const filterFn = useCallback(
-    (inputPlayers: Player[]) => {
+    (inputPlayers: ClientPlayer[]) => {
       return filterPlayers(
         inputPlayers,
         freeTextFuse,
@@ -89,7 +87,7 @@ const usePlayersFilterAndSort = ({
   }, [sortOptions, sort]);
 
   const fiterThenSortFn = useCallback(
-    (inputPlayers: Player[]) => {
+    (inputPlayers: ClientPlayer[]) => {
       const sortFn = sortOptions.find((o) => o.value === sort)?.sortFn!;
       return filterPlayers(
         inputPlayers,

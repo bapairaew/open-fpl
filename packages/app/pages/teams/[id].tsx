@@ -1,14 +1,12 @@
 import { Spinner } from "@chakra-ui/react";
-import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
-import { NextSeo } from "next-seo";
-import useSWR from "swr";
+import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLocalStorage";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
-import UnhandledError from "@open-fpl/app/features/Error/UnhandledError";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
-import FullScreenMessage from "@open-fpl/app/features/Layout/FullScreenMessage";
+import FullScreenMessageWithAppDrawer from "@open-fpl/app/features/Layout/FullScreenMessageWithAppDrawer";
 import TeamPlanner from "@open-fpl/app/features/TeamPlanner/TeamPlanner";
 import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
+import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   getTeamHistory,
@@ -16,6 +14,9 @@ import {
   getTeamTransfers,
 } from "@open-fpl/data/features/RemoteData/fpl";
 import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import { NextSeo } from "next-seo";
+import useSWR from "swr";
 
 export const getStaticPaths = () => {
   return { paths: [], fallback: true };
@@ -38,7 +39,10 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     };
   }
 
-  const [fplTeams, fplGameweeks] = await Promise.all([
+  const [teamFixtures, fplTeams, fplGameweeks] = await Promise.all([
+    fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
+      r.json()
+    ) as Promise<TeamFixtures[]>,
     fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
       r.json()
     ) as Promise<Team[]>,
@@ -47,7 +51,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     ) as Promise<Event[]>,
   ]);
 
-  const event = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
+  const currentGameweek = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
 
   try {
     const [
@@ -55,7 +59,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
       transfers,
       { chips = null },
     ] = await Promise.all([
-      getTeamPicks(+params!.id!, event),
+      getTeamPicks(+params!.id!, currentGameweek),
       getTeamTransfers(+params!.id!),
       getTeamHistory(+params!.id!),
     ]);
@@ -67,6 +71,8 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
         transfers,
         chips,
         fplTeams,
+        teamFixtures,
+        currentGameweek,
       },
     };
   } catch (e) {
@@ -85,63 +91,73 @@ const TransferPlannerPage = ({
   chips,
   fplTeams,
   error,
+  currentGameweek,
+  teamFixtures,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   useTeamPlannerRedirect();
 
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
   );
-  const { data: gameweeks, error: gameweeksError } = useSWR<Gameweek[]>(
-    getDataUrl("/app-data/gameweeks.json")
-  );
+
+  const isLocalStorageSupported = useIsLocalStorageSupported();
 
   const isReady = [
     initialPicks,
     entry_history,
     players,
-    gameweeks,
     transfers,
     chips,
     fplTeams,
+    teamFixtures,
+    currentGameweek,
   ].every((x) => x !== undefined);
+
+  const errors = [playersError ? "Players" : null].filter((x) => x) as string[];
 
   let mainContent = null;
 
-  if (error) {
-    mainContent = <UnhandledError as="main" additionalInfo={error} />;
-  } else if (isReady) {
-    mainContent = (
-      <TeamPlanner
-        as="main"
-        initialPicks={initialPicks ?? null}
-        entryHistory={entry_history ?? null}
-        players={players!}
-        gameweeks={gameweeks!}
-        transfers={transfers!}
-        chips={chips!}
-        fplTeams={fplTeams!}
-      />
-    );
-  } else if (playersError || gameweeksError) {
-    mainContent = (
-      <UnhandledError
-        as="main"
-        additionalInfo={
-          playersError
-            ? "Players data failed to load"
-            : "Gameweeks data failed to load"
-        }
-      />
-    );
-  } else {
-    mainContent = (
-      <FullScreenMessage
-        as="main"
-        symbol={<Spinner size="xl" />}
-        heading="Almost there..."
-        text="Please wait while we are preparing your Team Planner page."
-      />
-    );
+  if (isLocalStorageSupported) {
+    if (error) {
+      mainContent = (
+        <UnhandledError
+          Wrapper={FullScreenMessageWithAppDrawer}
+          as="main"
+          additionalInfo={error}
+        />
+      );
+    } else if (isReady) {
+      mainContent = (
+        <TeamPlanner
+          as="main"
+          initialPicks={initialPicks ?? null}
+          entryHistory={entry_history ?? null}
+          players={players!}
+          currentGameweek={currentGameweek!}
+          transfers={transfers!}
+          chips={chips!}
+          fplTeams={fplTeams!}
+          teamFixtures={teamFixtures!}
+        />
+      );
+    } else if (errors.length > 0) {
+      mainContent = (
+        <UnhandledError
+          Wrapper={FullScreenMessageWithAppDrawer}
+          as="main"
+          additionalInfo={`Failed to load ${errors.join(", ")}`}
+        />
+      );
+    } else {
+      mainContent = (
+        <FullScreenMessageWithAppDrawer
+          as="main"
+          symbol={<Spinner size="xl" />}
+          heading="Almost there..."
+          text="Please wait while we are preparing your Team Planner page."
+        />
+      );
+    }
   }
 
   return (

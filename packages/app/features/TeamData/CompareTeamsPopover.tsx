@@ -14,9 +14,9 @@ import {
   Progress,
   Text,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
-import { TeamInfo } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import { getTeamsStrengthPercent } from "@open-fpl/app/features/TeamData/teamData";
+import { TeamInfo } from "@open-fpl/app/features/TeamData/teamDataTypes";
+import { ReactNode } from "react";
 
 const CompareTeamsPopover = ({
   mode,
@@ -48,21 +48,24 @@ const CompareTeamsPopover = ({
       : isHome
       ? opponent.strength_attack_away
       : opponent.strength_attack_home;
+
   return (
     <Popover strategy="fixed" isLazy placement="bottom">
       {({ isOpen }) => {
         return (
           <>
             <PopoverTrigger>
-              <Box
+              <Flex
                 role="button"
+                justifyContent="center"
+                alignItems="center"
                 // textDecorationLine="underline"
                 // textDecorationStyle="dotted"
                 // textUnderlineOffset="3px"
                 {...props}
               >
                 {children}
-              </Box>
+              </Flex>
             </PopoverTrigger>
             {isOpen && (
               <Portal>

@@ -7,6 +7,7 @@ import {
   Link as A,
   Text,
   VStack,
+  Flex,
 } from "@chakra-ui/react";
 import {
   IoEllipsisVerticalOutline,
@@ -19,64 +20,76 @@ const DifficultyColorCodes = () => (
     <Heading as="h2" size="md">
       Difficulty Color Codes
     </Heading>
-    <HStack spacing={0} fontSize="md">
-      <Box
+    <HStack
+      spacing={0}
+      fontSize={{ base: "xs", sm: "md" }}
+      alignItems="stretch"
+    >
+      <Flex
+        alignItems="center"
+        justifyContent="center"
         p={1}
-        width="100px"
+        width={{ base: "60px", sm: "100px" }}
         textAlign="center"
         bg={difficultyColorCodes[1].background}
         color={difficultyColorCodes[1].text}
       >
         Very Easy
-      </Box>
-      <Box
+      </Flex>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
         p={1}
-        width="100px"
+        width={{ base: "60px", sm: "100px" }}
         textAlign="center"
         bg={difficultyColorCodes[2].background}
         color={difficultyColorCodes[2].text}
       >
         Easy
-      </Box>
-      <Box
+      </Flex>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
         p={1}
-        width="100px"
+        width={{ base: "60px", sm: "100px" }}
         textAlign="center"
         bg={difficultyColorCodes[3].background}
         color={difficultyColorCodes[3].text}
       >
         Normal
-      </Box>
-
-      <Box
+      </Flex>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
         p={1}
-        width="100px"
+        width={{ base: "60px", sm: "100px" }}
         textAlign="center"
         bg={difficultyColorCodes[4].background}
         color={difficultyColorCodes[4].text}
       >
         Hard
-      </Box>
-
-      <Box
+      </Flex>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
         p={1}
-        width="100px"
+        width={{ base: "60px", sm: "100px" }}
         textAlign="center"
         bg={difficultyColorCodes[5].background}
         color={difficultyColorCodes[5].text}
       >
         Very Hard
-      </Box>
+      </Flex>
     </HStack>
   </VStack>
 );
 
 const FixturesHelp = () => {
   return (
-    <Container maxW="container.lg" mt={6}>
-      <VStack spacing={4} alignItems="flex-start">
+    <Container maxW="container.lg" lineHeight="taller">
+      <VStack spacing={6} alignItems="flex-start">
         <Heading as="h1" size="xl" fontWeight="black">
-          Fixtures Difficulty Rating
+          Fixture Difficulty Rating
         </Heading>
         <Text as="p">
           Fixture Difficulty Rating here is slightly different from{" "}
@@ -85,11 +98,11 @@ const FixturesHelp = () => {
             isExternal
             href="https://fantasy.premierleague.com/fixtures/fdr"
           >
-            FPL Fixtures Difficulty Rating
+            FPL Fixture Difficulty Rating
           </A>{" "}
           but it is still relied on that data from FPL.{" "}
-          <strong>Open FPL</strong> Fixtures Difficulty Rating is calculated
-          from teams home/away attack/defence strength provided by FPL.
+          <strong>Open FPL</strong> Fixture Difficulty Rating is calculated from
+          teams home/away attack/defence strength provided by FPL.
         </Text>
 
         <DifficultyColorCodes />

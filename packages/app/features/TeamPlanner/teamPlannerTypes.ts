@@ -1,5 +1,5 @@
 import { Invalid } from "@open-fpl/app/features/Common/errorTypes";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { ChipName } from "@open-fpl/data/features/RemoteData/fplTypes";
 
 export type ChangeType =
@@ -15,7 +15,7 @@ export interface ChangePlayer {
   pick: Pick;
 }
 
-export interface FullChangePlayer extends ChangePlayer, Player {
+export interface FullChangePlayer extends ChangePlayer, ClientPlayer {
   isPlaceholder?: boolean;
 }
 

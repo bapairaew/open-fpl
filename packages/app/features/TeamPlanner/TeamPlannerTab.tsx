@@ -1,12 +1,5 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
-  Button,
   Flex,
   Icon,
   IconButton,
@@ -18,18 +11,20 @@ import {
   MenuList,
   Portal,
   TabProps,
+  Text,
   useDisclosure,
   useStyles,
   useTab,
 } from "@chakra-ui/react";
+import RemovePlanCofirmDialog from "@open-fpl/app/features/TeamPlanner/RemovePlanCofirmModal";
 import {
   ChangeEvent,
+  KeyboardEvent,
   MouseEvent,
   MouseEventHandler,
   useEffect,
   useRef,
   useState,
-  KeyboardEvent,
 } from "react";
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
 
@@ -48,17 +43,11 @@ const TeamPlannerTab = ({
   const { role, tabIndex, id, ...tabProps } = useTab(props);
   const styles = useStyles();
 
-  const cancelRemoveRef = useRef<HTMLButtonElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [isRenaming, setIsRenaming] = useState(false);
   const [name, setName] = useState(plan);
   const nameRef = useRef<HTMLInputElement>(null);
-
-  const handleConfirmRemove = (e: MouseEvent<HTMLButtonElement>) => {
-    onClose();
-    onRemoveClick(e);
-  };
 
   const handleRenameClick = () => {
     setIsRenaming(true);
@@ -85,44 +74,41 @@ const TeamPlannerTab = ({
 
   useEffect(() => setName(plan), [plan]);
 
+  const handleConfirmRemove = (e: MouseEvent<HTMLButtonElement>) => {
+    onClose();
+    onRemoveClick(e);
+  };
+
   return (
     <>
       {isOpen && (
-        <AlertDialog
+        <RemovePlanCofirmDialog
           isOpen={isOpen}
-          leastDestructiveRef={cancelRemoveRef}
+          plan={plan}
           onClose={onClose}
-        >
-          <AlertDialogOverlay>
-            <AlertDialogContent>
-              <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                Remove Team Plan
-              </AlertDialogHeader>
-              <AlertDialogBody>
-                You are removing "{plan}" team plan. Are you sure? You can't
-                undo this action afterwards.
-              </AlertDialogBody>
-              <AlertDialogFooter>
-                <Button
-                  variant="outline"
-                  ref={cancelRemoveRef}
-                  onClick={onClose}
-                >
-                  Cancel
-                </Button>
-                <Button colorScheme="red" onClick={handleConfirmRemove} ml={3}>
-                  Remove
-                </Button>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialogOverlay>
-        </AlertDialog>
+          onConfirm={handleConfirmRemove}
+        />
       )}
       <Flex position="relative" role={role} tabIndex={tabIndex} id={id}>
-        <Box as="button" sx={styles.tab} {...tabProps}>
-          <Box as="span" pr="30px">
+        <Box
+          as="button"
+          sx={{
+            ...styles.tab,
+            borderRightWidth: 0,
+            borderTopWidth: 2,
+            _notLast: { marginEnd: 0 },
+          }}
+          {...tabProps}
+        >
+          <Text
+            as="span"
+            pr="30px"
+            width="100px"
+            noOfLines={1}
+            textAlign="left"
+          >
             {name}
-          </Box>
+          </Text>
         </Box>
         {isRenaming && (
           <Box

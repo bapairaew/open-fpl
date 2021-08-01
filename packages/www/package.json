@@ -1,0 +1,35 @@
+{
+  "name": "@open-fpl/www",
+  "version": "1.1.0-pre.9",
+  "license": "Apache-2.0",
+  "scripts": {
+    "bootstrap": "lerna bootstrap && lerna link",
+    "make-og-images": "make-og-images",
+    "make-favicons": "make-favicons-config && real-favicon generate ./config.cli-real-favicon.json ./results.cli-real-favicon.json public/favicons",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.6.5",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@open-fpl/common": "1.1.0-pre.9",
+    "framer-motion": "^4",
+    "next": "^11.0.0",
+    "next-plausible": "^2.0.0",
+    "next-seo": "^4.24.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
+    "react-rough-notation": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.9",
+    "@types/react-virtualized-auto-sizer": "^1.0.0",
+    "@types/react-window": "^1.8.3",
+    "@types/sortablejs": "^1.10.6",
+    "cli-real-favicon": "^0.0.8",
+    "typescript": "^4.3.2"
+  }
+}

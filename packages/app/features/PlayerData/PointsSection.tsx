@@ -1,11 +1,11 @@
-import { Grid } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
+import CenterFlex, {
+  CenterFlexVariant,
+} from "@open-fpl/app/features/PlayerData/CenterFlex";
 import {
   PastGameweek,
   Player,
 } from "@open-fpl/data/features/AppData/playerDataTypes";
-import CenterFlex, {
-  CenterFlexVariant,
-} from "@open-fpl/app/features/PlayerData/CenterFlex";
 
 const makeEmptyGameweeks = (length: number): PastGameweek[] => {
   const gameweeks: PastGameweek[] = [];
@@ -22,25 +22,13 @@ const makeEmptyGameweeks = (length: number): PastGameweek[] => {
   return gameweeks;
 };
 
-const variants: Record<
-  CenterFlexVariant,
-  { showTeamsName: boolean; pointsFontSize: string }
-> = {
-  mini: {
-    showTeamsName: false,
-    pointsFontSize: "sm",
-  },
-  default: {
-    showTeamsName: true,
-    pointsFontSize: "md",
-  },
-};
-
 const PointsSection = ({
-  variant,
+  variant = "default",
+  showTeamsName = false,
   player,
 }: {
-  variant: CenterFlexVariant;
+  variant?: CenterFlexVariant;
+  showTeamsName?: boolean;
   player: Player;
 }) => {
   const previousGameweeks =
@@ -54,19 +42,25 @@ const PointsSection = ({
         ]
       : player.linked_data.previous_gameweeks;
 
-  const { showTeamsName, pointsFontSize } =
-    variants[variant] ?? variants.default;
+  const fontSize = variant === "mini" ? "xs" : "sm";
 
   return (
     <>
       {showTeamsName && (
-        <Grid gap={0} templateColumns="repeat(6, 1fr)" width="100%">
+        <Grid
+          gap={0}
+          templateColumns={{
+            base: variant === "mini" ? "repeat(5, 1fr)" : "repeat(6, 1fr)",
+            sm: "repeat(6, 1fr)",
+          }}
+          width="100%"
+        >
           {previousGameweeks?.map((h, i) => (
             <CenterFlex
               key={i}
-              variant={variant}
               p={0.5}
-              fontSize="sm"
+              variant={variant}
+              fontSize={fontSize}
               color="gray.600"
               bg="gray.100"
             >
@@ -79,7 +73,7 @@ const PointsSection = ({
             <CenterFlex
               p={0.5}
               variant={variant}
-              fontSize="sm"
+              fontSize={fontSize}
               color="gray.600"
               bg="gray.100"
             >
@@ -93,14 +87,30 @@ const PointsSection = ({
           <CenterFlex
             key={i}
             variant={variant}
-            fontSize={pointsFontSize}
+            fontSize={fontSize}
             bg={`rgba(0, 255, 0, ${h.bps * 2}%)`}
+            minHeight="10px"
           >
-            {h.total_points}
+            <Box
+              display={{
+                base: variant === "mini" ? "none" : "block",
+                sm: "block",
+              }}
+            >
+              {h.total_points}
+            </Box>
           </CenterFlex>
         ))}
         {previousGameweeks && (
-          <CenterFlex variant={variant} fontSize={pointsFontSize} bg="gray.100">
+          <CenterFlex
+            variant={variant}
+            fontSize={fontSize}
+            bg="gray.100"
+            display={{
+              base: variant === "mini" ? "none" : "flex",
+              sm: "flex",
+            }}
+          >
             {player.total_points}
           </CenterFlex>
         )}

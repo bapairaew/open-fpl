@@ -40,7 +40,7 @@ const GameweekChanges = ({
       >
         <Button
           variant="unstyled"
-          width="80px"
+          width={{ base: "60px", sm: "80px" }}
           height="100%"
           borderRadius="none"
           onClick={() => onMoveToGameweek(gameweek)}

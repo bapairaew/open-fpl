@@ -8,7 +8,6 @@ import {
   Team,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import getDataFromFiles from "@open-fpl/data/features/RemoteData/getDataFromFiles";
-import { TeamColorCodes } from "@open-fpl/data/features/RemoteData/teamcolorcodesTypes";
 import {
   PlayerStat,
   TeamStat,
@@ -26,7 +25,6 @@ import {
     playersLinks,
     teamsLinks,
     fplGameweeks,
-    teamcolorcodes,
   ] = await Promise.all([
     (await getDataFromFiles(
       path.resolve("./public/remote-data/fpl")
@@ -65,11 +63,6 @@ import {
         encoding: "utf-8",
       })
       .then(JSON.parse) as Promise<Event[]>,
-    fs.promises
-      .readFile(path.resolve("./public/remote-data/teamcolorcodes/data.json"), {
-        encoding: "utf-8",
-      })
-      .then(JSON.parse) as Promise<TeamColorCodes[]>,
   ]);
 
   const { players, gameweeks, fixtures } = makeAppData({
@@ -81,7 +74,6 @@ import {
     playersLinks,
     teamsLinks,
     fplGameweeks,
-    teamcolorcodes,
   });
 
   await Promise.all([

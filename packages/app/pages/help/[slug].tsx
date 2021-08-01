@@ -5,7 +5,12 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Box,
+  Divider,
+  HStack,
+  Flex,
 } from "@chakra-ui/react";
+import { AppDrawerOpenButton } from "@open-fpl/app/features/Layout/AppDrawer";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
@@ -110,22 +115,39 @@ const HelpPage = ({
       />
       <AppLayout>
         <Tabs as="main" height="100%" overflow="auto" index={index}>
-          <TabList position="sticky" top={0} bg="white" zIndex="sticky">
-            {tabs.map((tab) => (
-              <Tab
-                key={tab.slug}
-                fontWeight="bold"
-                as="a"
-                href={`/help/${tab.slug}`}
-                onClick={handleClick(`/help/${tab.slug}`)}
-              >
-                <Icon as={tab.icon} mr={2} /> {tab.label}
-              </Tab>
-            ))}
-          </TabList>
+          <HStack height="50px" spacing={0} alignItems="stretch">
+            <Flex justifyContent="center" alignItems="center">
+              <AppDrawerOpenButton />
+            </Flex>
+            <Divider orientation="vertical" />
+            <TabList
+              height="50px"
+              position="sticky"
+              top={0}
+              bg="white"
+              zIndex="sticky"
+              overflow="auto"
+            >
+              {tabs.map((tab) => (
+                <Tab
+                  key={tab.slug}
+                  height="48px"
+                  fontWeight="bold"
+                  width="180px"
+                  flexShrink={0}
+                  flexGrow={0}
+                  as="a"
+                  href={`/help/${tab.slug}`}
+                  onClick={handleClick(`/help/${tab.slug}`)}
+                >
+                  <Icon as={tab.icon} mr={2} /> {tab.label}
+                </Tab>
+              ))}
+            </TabList>
+          </HStack>
           <TabPanels>
             {tabs.map((tab) => (
-              <TabPanel key={tab.slug}>
+              <TabPanel key={tab.slug} px={0} py={8}>
                 <tab.component />
               </TabPanel>
             ))}

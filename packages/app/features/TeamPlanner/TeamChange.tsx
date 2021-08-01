@@ -1,4 +1,13 @@
-import { Box, Flex, Icon, IconButton, Text, Tooltip } from "@chakra-ui/react";
+import { Box, Flex, Icon, IconButton, Text } from "@chakra-ui/react";
+import { getChipDisplayName } from "@open-fpl/app/features/TeamPlanner/chips";
+import {
+  Change,
+  ChipChange,
+  FullChangePlayer,
+  SinglePlayerChange,
+  TwoPlayersChange,
+} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import dynamic from "next/dynamic";
 import { MouseEventHandler } from "react";
 import { IconType } from "react-icons";
 import {
@@ -10,14 +19,8 @@ import {
   IoSwapVerticalOutline,
   IoWarningOutline,
 } from "react-icons/io5";
-import {
-  Change,
-  ChipChange,
-  FullChangePlayer,
-  SinglePlayerChange,
-  TwoPlayersChange,
-} from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import { getChipDisplayName } from "@open-fpl/app/features/TeamPlanner/chips";
+
+const Tooltip = dynamic(() => import("@open-fpl/app/features/Common/Tooltip"));
 
 export type TransferChangeVariant = "invalid" | "outdated" | "default";
 
@@ -53,6 +56,7 @@ const TeamChange = ({
   const label = errorLabel || variantProp.label;
 
   let mainComponent = null;
+  const width = { base: "80px", sm: "120px" };
 
   if (change.type === "preseason") {
     mainComponent = (
@@ -69,7 +73,7 @@ const TeamChange = ({
       change.type === "swap" ? IoSwapVerticalOutline : IoArrowBackOutline;
 
     mainComponent = (
-      <Box width="120px" pr={2}>
+      <Box width={width} pr={2}>
         <Flex>
           <Icon
             as={SelectedIcon}
@@ -107,16 +111,15 @@ const TeamChange = ({
     change.type === "set-vice-captain"
   ) {
     mainComponent = (
-      <Flex width="120px" pr={2}>
+      <Flex width={width} pr={2}>
         <Box
           fontSize="xs"
           fontWeight="black"
           mr={2}
           px={1}
           borderWidth={1}
-          borderColor="brand.500"
-          color={change.type === "set-captain" ? "white" : "brand.500"}
-          bg={change.type === "set-captain" ? "brand.500" : "white"}
+          color="white"
+          bg="brand.500"
         >
           {change.type === "set-captain" ? "C" : "V"}
         </Box>
@@ -127,7 +130,7 @@ const TeamChange = ({
     );
   } else if (change.type === "use-chip") {
     mainComponent = (
-      <Flex width="120px" pr={2}>
+      <Flex width={width} pr={2}>
         <Icon
           as={IoDiscOutline}
           fontSize="xs"

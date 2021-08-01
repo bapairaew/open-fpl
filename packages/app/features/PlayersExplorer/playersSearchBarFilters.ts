@@ -1,14 +1,14 @@
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
+import { FilterOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 // @ts-ignore
 import diacritics from "diacritics";
 import Fuse from "fuse.js";
 import { SearchParserResult } from "search-query-parser";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { FilterOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 
 interface FilterParams {
-  players: Player[];
+  players: ClientPlayer[];
   filterValue: string | string[];
-  getFieldValue?: (player: Player) => any;
+  getFieldValue?: (player: ClientPlayer) => any;
 }
 
 const includeFilter = ({
@@ -42,11 +42,11 @@ const excludeFilter = ({
 };
 
 export const filterPlayers = (
-  inputPlayers: Player[],
-  freeTextFuse: Fuse<Player>,
+  inputPlayers: ClientPlayer[],
+  freeTextFuse: Fuse<ClientPlayer>,
   filterQueryObject: string | SearchParserResult,
   filterOptions: FilterOptions
-): Player[] => {
+): ClientPlayer[] => {
   if (typeof filterQueryObject === "string") {
     return filterQueryObject
       ? freeTextFuse
@@ -87,13 +87,22 @@ export const filterPlayers = (
         const getFieldValue = filterOptions.ranges.find(
           (r) => r.field === range.field
         )?.getFieldValue;
-        players = players.filter(
-          (p) =>
-            getFieldValue?.(p) >= +filterQueryObject[range.field].from &&
-            (filterQueryObject.cost.to
-              ? getFieldValue?.(p) <= filterQueryObject[range.field].to
-              : true)
-        );
+        players = players.filter((p) => {
+          const value: number | undefined = getFieldValue?.(p);
+          if (value === undefined) return false;
+          const { from, to }: { from: string; to: string } =
+            filterQueryObject[range.field];
+          if (from.startsWith(">=")) {
+            return value >= +from.substr(2);
+          } else if (from.startsWith("<=")) {
+            return value <= +from.substr(2);
+          } else if (from.startsWith(">")) {
+            return value > +from.substr(1);
+          } else if (from.startsWith("<")) {
+            return value < +from.substr(1);
+          }
+          return value >= +from && (to ? value <= +to : true);
+        });
       }
     }
     return players;

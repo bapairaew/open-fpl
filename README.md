@@ -7,8 +7,10 @@ providing statistics, data visualisation and other utility tools.
 
 ## Overview
 
-- `data/*`: Data files and its generation scripts for that application
 - `app/*`: Application code
+- `data/*`: Data files and its generation scripts for that application
+- `common/*`: Shared code accross the applications
+- `www/*`: Landing page code
 
 ## Running Locally
 

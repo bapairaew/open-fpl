@@ -8,15 +8,17 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { useMemo, useRef } from "react";
+import { AnalyticsCustomPlayer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import AddCustomPlayers from "@open-fpl/app/features/CustomPlayer/AddCustomPlayers";
 import { hydrateCustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayers";
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
 import EditableCustomPlayer from "@open-fpl/app/features/CustomPlayer/EditableCustomPlayer";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { useSettings } from "@open-fpl/app/features/Settings/SettingsContext";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
+import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { removePlayerFromPlans } from "@open-fpl/app/features/TeamPlanner/teamPlan";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { usePlausible } from "next-plausible";
+import { useMemo, useRef } from "react";
 
 const CustomPlayersModal = ({
   players,
@@ -24,13 +26,14 @@ const CustomPlayersModal = ({
   isOpen,
   onClose,
 }: {
-  players: Player[];
+  players: ClientPlayer[];
   fplTeams: Team[];
   isOpen: boolean;
   onClose: () => void;
 }) => {
+  const plausible = usePlausible<AnalyticsCustomPlayer>();
   const toast = useToast();
-  const { customPlayers, setCustomPlayers, starredPlayers, setStarredPlayers } =
+  const { customPlayers, setCustomPlayers, preference, setPreference } =
     useSettings();
   const initialFocusRef = useRef<HTMLInputElement | HTMLButtonElement | null>(
     null
@@ -41,15 +44,21 @@ const CustomPlayersModal = ({
       const templatePlayer = players.find(
         (p) => p.team.short_name === customPlayer.team.short_name
       );
-      return hydrateCustomPlayer(customPlayer, templatePlayer);
+      return hydrateCustomPlayer(customPlayer, -1, templatePlayer);
     });
   }, [customPlayers]);
 
   const handleAddPlayer = (customPlayer: CustomPlayer) => {
     if (customPlayers) {
       setCustomPlayers([...customPlayers, customPlayer]);
-      if (starredPlayers) {
-        setStarredPlayers([...starredPlayers, customPlayer.id]);
+      if (preference) {
+        setPreference({
+          ...preference,
+          starredPlayers: [
+            ...(preference.starredPlayers ?? []),
+            customPlayer.id,
+          ],
+        });
       }
       toast({
         title: "Custom player created.",
@@ -57,10 +66,11 @@ const CustomPlayersModal = ({
         status: "success",
         isClosable: true,
       });
+      plausible("custom-players-add");
     }
   };
 
-  const handleRemovePlayer = (player: Player) => {
+  const handleRemovePlayer = (player: ClientPlayer) => {
     if (customPlayers) {
       setCustomPlayers(
         customPlayers.filter((customPlayer) => customPlayer.id !== player.id)
@@ -71,12 +81,13 @@ const CustomPlayersModal = ({
         status: "success",
         isClosable: true,
       });
+      plausible("custom-players-remove");
     }
   };
 
   const handleUpdatePlayer = (
     updatedPlayer: CustomPlayer,
-    originalPlayer: Player
+    originalPlayer: ClientPlayer
   ) => {
     if (customPlayers) {
       setCustomPlayers(
@@ -99,6 +110,7 @@ const CustomPlayersModal = ({
         status: "success",
         isClosable: true,
       });
+      plausible("custom-players-update");
     }
   };
 

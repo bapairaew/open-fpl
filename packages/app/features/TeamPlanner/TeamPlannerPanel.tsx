@@ -1,18 +1,10 @@
 import { Box } from "@chakra-ui/react";
-import { ChangeEvent, useMemo, useState } from "react";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
+import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import useLocalStorage from "@open-fpl/app/features/Common/useLocalStorage";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import {
-  ChipName,
-  EntryChipPlay,
-  EntryEventHistory,
-  EntryEventPick,
-  Transfer,
-} from "@open-fpl/data/features/RemoteData/fplTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
-import TeamManager from "@open-fpl/app/features/TeamPlanner/TeamManager";
 import ChangeLog from "@open-fpl/app/features/TeamPlanner/ChangeLog";
+import TeamManager from "@open-fpl/app/features/TeamPlanner/TeamManager";
 import {
   addChange,
   dehydrateFromTeamPlan,
@@ -22,6 +14,7 @@ import {
   processPreseasonTransfer,
   removeChange,
 } from "@open-fpl/app/features/TeamPlanner/teamPlan";
+import TeamPlannerToolbar from "@open-fpl/app/features/TeamPlanner/TeamPlannerToolbar";
 import {
   Change,
   ChangePlayer,
@@ -32,39 +25,61 @@ import {
   TeamChange,
   TwoPlayersChange,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import TeamPlannerToolbar from "@open-fpl/app/features/TeamPlanner/TeamPlannerToolbar";
+import {
+  ChipName,
+  EntryChipPlay,
+  EntryEventHistory,
+  EntryEventPick,
+  Transfer,
+} from "@open-fpl/data/features/RemoteData/fplTypes";
+import { usePlausible } from "next-plausible";
+import { ChangeEvent, useMemo, useState } from "react";
 
 const TransferPlannerPanelContent = ({
   initialPicks,
   entryHistory,
   players,
-  gameweeks,
   changes,
   currentGameweek,
   gameweekDataList,
-  setTransferPlan,
+  setTeamPlan,
 }: {
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
-  players: Player[];
-  gameweeks: Gameweek[];
+  players: ClientPlayer[];
   changes: Change[];
   currentGameweek: number;
   gameweekDataList: GameweekData[];
-  setTransferPlan: (change: Change[] | null) => void;
+  setTeamPlan: (change: Change[] | null) => void;
 }) => {
+  const plausible = usePlausible<AnalyticsTeamPlanner>();
   const [gameweekDelta, setGameweekDelta] = useState(0);
 
   const isStartedFromFirstGameweek =
     initialPicks === null && entryHistory === null;
 
   const planningGameweek = currentGameweek + gameweekDelta;
-  const upcomingGameweeks = gameweeks.slice(Math.max(0, gameweekDelta));
 
   const transferManagerMode =
     planningGameweek === 1 && isStartedFromFirstGameweek
       ? "preseason"
       : "default";
+
+  const adjustedGameweekPlayers = useMemo(
+    () =>
+      players.map((player) => ({
+        ...player,
+        client_data: {
+          ...player.client_data,
+          gameweeks:
+            player.client_data.gameweeks?.slice(
+              planningGameweek,
+              planningGameweek + 5
+            ) ?? [],
+        },
+      })),
+    [players, planningGameweek]
+  );
 
   const {
     team,
@@ -74,18 +89,31 @@ const TransferPlannerPanelContent = ({
     freeTransfers,
     invalidChanges,
     teamInvalidities,
-  } = useMemo(
-    () =>
+  } = useMemo(() => {
+    const { team, ...data } =
       gameweekDataList.find((g) => g.gameweek === planningGameweek) ??
-      gameweekDataList[gameweekDataList.length - 1],
-    [gameweekDataList, planningGameweek]
-  );
+      gameweekDataList[gameweekDataList.length - 1];
+    return {
+      team: team.map((player) => ({
+        ...player,
+        client_data: {
+          ...player.client_data,
+          gameweeks:
+            player.client_data.gameweeks?.slice(
+              planningGameweek,
+              planningGameweek + 5
+            ) ?? [],
+        },
+      })),
+      ...data,
+    };
+  }, [gameweekDataList, planningGameweek]);
 
   const handleSwap = (
     selectedPlayer: ChangePlayer,
     targetPlayer: ChangePlayer
   ) =>
-    setTransferPlan(
+    setTeamPlan(
       addChange(changes, {
         type: "swap",
         selectedPlayer,
@@ -94,8 +122,11 @@ const TransferPlannerPanelContent = ({
       } as TwoPlayersChange<FullChangePlayer>)
     );
 
-  const handleTransfer = (selectedPlayer: ChangePlayer, targetPlayer: Player) =>
-    setTransferPlan(
+  const handleTransfer = (
+    selectedPlayer: ChangePlayer,
+    targetPlayer: ClientPlayer
+  ) =>
+    setTeamPlan(
       addChange(changes, {
         type: "transfer",
         selectedPlayer,
@@ -108,7 +139,7 @@ const TransferPlannerPanelContent = ({
     selectedPlayer: FullChangePlayer,
     targetPlayer: FullChangePlayer
   ) =>
-    setTransferPlan(
+    setTeamPlan(
       addChange(changes, {
         type: "preseason",
         team: processPreseasonSwap(team, selectedPlayer, targetPlayer),
@@ -118,9 +149,9 @@ const TransferPlannerPanelContent = ({
 
   const handlePreseasonTransfer = (
     selectedPlayer: FullChangePlayer,
-    targetPlayer: Player
+    targetPlayer: ClientPlayer
   ) =>
-    setTransferPlan(
+    setTeamPlan(
       addChange(changes, {
         type: "preseason",
         team: processPreseasonTransfer(team, selectedPlayer, targetPlayer),
@@ -133,7 +164,7 @@ const TransferPlannerPanelContent = ({
     type: "set-captain" | "set-vice-captain"
   ) => {
     if (transferManagerMode === "preseason") {
-      setTransferPlan(
+      setTeamPlan(
         addChange(changes, {
           type: "preseason",
           team: processPreseasonSetCaptain(team, player, type),
@@ -141,13 +172,19 @@ const TransferPlannerPanelContent = ({
         } as TeamChange<FullChangePlayer>)
       );
     } else {
-      setTransferPlan(
+      setTeamPlan(
         addChange(changes, {
           type,
           player,
           gameweek: planningGameweek,
         } as SinglePlayerChange<FullChangePlayer>)
       );
+    }
+
+    if (type === "set-captain") {
+      plausible("team-planner-set-captain");
+    } else if (type === "set-vice-captain") {
+      plausible("team-planner-set-vice-captain");
     }
   };
 
@@ -159,28 +196,51 @@ const TransferPlannerPanelContent = ({
 
   const handleChipChange = (e: ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value) {
-      setTransferPlan(
+      setTeamPlan(
         addChange(changes, {
           type: "use-chip",
           chip: e.target.value as ChipName,
           gameweek: planningGameweek,
         } as ChipChange)
       );
+      plausible("team-planner-use-chip", { props: { chip: e.target.value } });
     } else {
       const planningGameweekChip = changes.find(
         (c) => c.type === "use-chip" && c.gameweek === planningGameweek
       );
       if (planningGameweekChip) {
-        setTransferPlan(removeChange(changes, planningGameweekChip));
+        setTeamPlan(removeChange(changes, planningGameweekChip));
       }
     }
   };
 
-  const handleRemove = (change: Change) =>
-    setTransferPlan(removeChange(changes, change));
+  const handleToolbarNextGameweek = () => {
+    setGameweekDelta(gameweekDelta + 1);
+    plausible("team-planner-toolbar-navigate", {
+      props: { gameweek: currentGameweek + gameweekDelta + 1 },
+    });
+  };
 
-  const handleMoveToGameweek = (gameweek: number) =>
+  const handleToolbarPreviousGameweek = () => {
+    setGameweekDelta(gameweekDelta - 1);
+    plausible("team-planner-toolbar-navigate", {
+      props: { gameweek: currentGameweek + gameweekDelta - 1 },
+    });
+  };
+
+  const handleChangelogRemove = (change: Change) => {
+    setTeamPlan(removeChange(changes, change));
+    plausible("team-planner-changelog-remove");
+  };
+
+  const handlChangelogeMoveToGameweek = (gameweek: number) => {
     setGameweekDelta(gameweek - currentGameweek);
+    plausible("team-planner-changelog-navigate", {
+      props: {
+        gameweek: gameweek - currentGameweek,
+      },
+    });
+  };
 
   return (
     <>
@@ -191,16 +251,16 @@ const TransferPlannerPanelContent = ({
         chipUsages={chipUsages}
         currentGameweek={currentGameweek}
         planningGameweek={planningGameweek}
-        onPreviousClick={() => setGameweekDelta(gameweekDelta - 1)}
-        onNextClick={() => setGameweekDelta(gameweekDelta + 1)}
+        onPreviousClick={handleToolbarPreviousGameweek}
+        onNextClick={handleToolbarNextGameweek}
         onActivatedChipSelectChange={handleChipChange}
       />
       <ChangeLog
         currentGameweek={currentGameweek}
         changes={changes}
         invalidChanges={invalidChanges}
-        onRemove={handleRemove}
-        onMoveToGameweek={handleMoveToGameweek}
+        onRemove={handleChangelogRemove}
+        onMoveToGameweek={handlChangelogeMoveToGameweek}
         gameweekDataList={gameweekDataList}
       />
       {teamInvalidities.length > 0 && (
@@ -212,8 +272,7 @@ const TransferPlannerPanelContent = ({
         <TeamManager
           mode={transferManagerMode}
           team={team}
-          players={players}
-          gameweeks={upcomingGameweeks}
+          players={adjustedGameweekPlayers}
           onSwap={handleSwap}
           onTransfer={handleTransfer}
           onPreseasonSwap={handlePreseasonSwap}
@@ -230,27 +289,25 @@ const TeamPlannerPanel = ({
   initialPicks,
   entryHistory,
   players,
-  gameweeks,
+  currentGameweek,
   transfers,
   chips,
   teamId,
-  transferPlanKey,
+  teamPlanKey,
 }: {
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
-  players: Player[];
-  gameweeks: Gameweek[];
+  players: ClientPlayer[];
+  currentGameweek: number;
   transfers: Transfer[];
   chips: EntryChipPlay[];
   teamId: string;
-  transferPlanKey: string;
+  teamPlanKey: string;
 }) => {
-  const [teamPlan, setTransferPlan] = useLocalStorage<Change[]>(
-    getTeamPlanKey(teamId, transferPlanKey),
+  const [teamPlan, setTeamPlan] = useLocalStorage<Change[]>(
+    getTeamPlanKey(teamId, teamPlanKey),
     [] as Change[]
   );
-
-  const currentGameweek = gameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
 
   const changes: Change[] = useMemo(
     () => (teamPlan ? dehydrateFromTeamPlan(teamPlan, players) : []),
@@ -276,8 +333,7 @@ const TeamPlannerPanel = ({
       initialPicks={initialPicks}
       entryHistory={entryHistory}
       players={players}
-      gameweeks={gameweeks}
-      setTransferPlan={setTransferPlan}
+      setTeamPlan={setTeamPlan}
       changes={changes}
       currentGameweek={currentGameweek}
       gameweekDataList={gameweekDataList}

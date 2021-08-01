@@ -16,15 +16,19 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
-import { useMemo } from "react";
-import { Radar } from "react-chartjs-2";
-import AutoSizer from "react-virtualized-auto-sizer";
 import {
   assumedMax,
   getSummarytData,
 } from "@open-fpl/app/features/PlayerData/playerData";
+import theme from "@open-fpl/common/theme";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import theme from "@open-fpl/app/theme";
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
+
+const RadarChart = dynamic(
+  () => import("@open-fpl/app/features/Common/RadarChart")
+);
 
 const colors = [
   theme.colors.brand,
@@ -138,7 +142,7 @@ const ComparePlayersModal = ({
           ],
           backgroundColor: transparentize(
             colors[index % colors.length][100],
-            0.2
+            0.4
           ),
           borderColor: colors[index % colors.length][500],
           borderWidth: 1,
@@ -185,8 +189,7 @@ const ComparePlayersModal = ({
               {({ height, width }) => {
                 return (
                   <Box height={`${height}px`} width={`${width}px`}>
-                    <Radar
-                      type="radar"
+                    <RadarChart
                       height={height}
                       width={width}
                       data={chartData}

@@ -1,3 +1,4 @@
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 
 export interface FilterOptionsConfig {
@@ -23,7 +24,7 @@ export type SortOptions =
 export interface SortOptionsConfig {
   label: string;
   value: SortOptions;
-  sortFn: (a: Player, b: Player) => number;
+  sortFn: (a: ClientPlayer, b: ClientPlayer) => number;
 }
 
 export type DisplayOptions = "grid" | "table" | "chart";

@@ -1,7 +1,11 @@
 import { hydrateCustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayers";
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
+import { FullTeamFixtures } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import {
   ClientData,
+  ClientPlayer,
+} from "@open-fpl/app/features/PlayerData/playerDataTypes";
+import {
   MatchStat,
   Player,
   PlayerSummaryData,
@@ -104,23 +108,46 @@ export const getSummarytData = (player: Player): PlayerSummaryData => {
 export const hydrateClientData = (
   players: Player[],
   starredPlayers: number[],
-  customPlayers: CustomPlayer[]
-): Player[] => {
-  return [
-    ...players,
-    ...customPlayers.map((customPlayer) => {
-      const templatePlayer = players.find(
-        (p) => p.team.short_name === customPlayer.team.short_name
-      );
-      return hydrateCustomPlayer(customPlayer, templatePlayer);
-    }),
-  ].map((player) => {
+  customPlayers: CustomPlayer[],
+  fullFixtures: FullTeamFixtures[]
+): ClientPlayer[] => {
+  const clientPlayers = players.map((player) => {
+    const team = fullFixtures.find(
+      (f) => f.short_name === player.team.short_name
+    );
     return {
       ...player,
       client_data: {
-        ...player.client_data,
+        is_custom_player: false,
         starred_index: starredPlayers.indexOf(player.id),
+        gameweeks: team?.gameweeks.map((fixtures) =>
+          fixtures.map((fixture) => ({
+            event: fixture.event,
+            is_finished: fixture.is_finished,
+            is_home: fixture.is_home,
+            difficulty: ["FWD", "MID"].includes(
+              player.element_type.singular_name_short
+            )
+              ? fixture.attack_difficulty
+              : fixture.defence_difficulty,
+            opponent: fixture.opponent,
+          }))
+        ),
       } as ClientData,
-    };
+    } as ClientPlayer;
   });
+
+  return [
+    ...clientPlayers,
+    ...customPlayers.map((customPlayer) => {
+      const templatePlayer = clientPlayers.find(
+        (p) => p.team.short_name === customPlayer.team.short_name
+      );
+      return hydrateCustomPlayer(
+        customPlayer,
+        starredPlayers.indexOf(customPlayer.id),
+        templatePlayer
+      );
+    }),
+  ];
 };

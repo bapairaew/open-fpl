@@ -1,7 +1,15 @@
-import { Box, Grid } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import {
+  Box,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  Flex,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import SelectedTeam from "@open-fpl/app/features/TeamPlanner/SelectedTeam";
 import { makeTeamGroupObject } from "@open-fpl/app/features/TeamPlanner/teamGroupObject";
 import { isSwapable } from "@open-fpl/app/features/TeamPlanner/teamPlan";
@@ -9,13 +17,17 @@ import {
   ChangePlayer,
   FullChangePlayer,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import TransferMarket from "@open-fpl/app/features/TeamPlanner/TransferMarket";
+import dynamic from "next/dynamic";
+import { useMemo, useState } from "react";
+
+const TransferMarket = dynamic(
+  () => import("@open-fpl/app/features/TeamPlanner/TransferMarket")
+);
 
 const TeamManager = ({
   mode = "default",
   team,
   players,
-  gameweeks,
   onSwap,
   onTransfer,
   onPreseasonSwap,
@@ -25,17 +37,19 @@ const TeamManager = ({
 }: {
   mode?: "default" | "preseason";
   team: FullChangePlayer[];
-  players: Player[];
-  gameweeks: Gameweek[];
+  players: ClientPlayer[];
   onSwap: (selectedPlayer: ChangePlayer, targetPlayer: ChangePlayer) => void;
-  onTransfer: (selectedPlayer: ChangePlayer, targetPlayer: Player) => void;
+  onTransfer: (
+    selectedPlayer: ChangePlayer,
+    targetPlayer: ClientPlayer
+  ) => void;
   onPreseasonSwap: (
     selectedPlayer: FullChangePlayer,
     targetPlayer: FullChangePlayer
   ) => void;
   onPreseasonTransfer: (
     selectedPlayer: FullChangePlayer,
-    targetPlayer: Player
+    targetPlayer: ClientPlayer
   ) => void;
   onSetCaptain: (player: FullChangePlayer) => void;
   onSetViceCaptain: (player: FullChangePlayer) => void;
@@ -43,6 +57,7 @@ const TeamManager = ({
   const [selectedPlayer, setSelectedPlayer] = useState<FullChangePlayer | null>(
     null
   );
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const teamObject = useMemo(() => makeTeamGroupObject(team), [team, mode]);
 
@@ -55,7 +70,7 @@ const TeamManager = ({
     );
   }, [players, selectedPlayer]);
 
-  const handlePlayerSelect = (targetPlayer: FullChangePlayer | null) => {
+  const handleSwap = (targetPlayer: FullChangePlayer | null) => {
     if (!selectedPlayer) {
       setSelectedPlayer(targetPlayer);
     } else if (targetPlayer?.id === selectedPlayer.id) {
@@ -79,47 +94,76 @@ const TeamManager = ({
     }
   };
 
-  const handleTransferSectionPlayerSelect = (targetPlayer: Player | null) => {
+  const handlePlayerSub = (targetPlayer: FullChangePlayer | null) => {
+    handleSwap(targetPlayer);
+  };
+
+  const handlePlayerTransfer = (targetPlayer: FullChangePlayer | null) => {
+    handleSwap(targetPlayer);
+    onOpen();
+  };
+
+  const handleCancel = () => {
+    setSelectedPlayer(null);
+    onClose();
+  };
+
+  const handleTransferSectionPlayerSelect = (
+    targetPlayer: ClientPlayer | null
+  ) => {
     if (selectedPlayer) {
       if (!targetPlayer) {
         setSelectedPlayer(null);
+        onClose();
       } else if (mode === "preseason" || selectedPlayer.isPlaceholder) {
         onPreseasonTransfer(selectedPlayer, targetPlayer);
         setSelectedPlayer(null);
+        onClose();
       } else if (team.every((p) => p.id !== targetPlayer.id)) {
         onTransfer(selectedPlayer, targetPlayer);
         setSelectedPlayer(null);
+        onClose();
       }
     }
   };
 
   return (
-    <Grid templateColumns="auto 270px" height="100%">
-      <Box borderRightWidth={1} height="100%">
+    <>
+      <Box height="100%">
         <SelectedTeam
           teamObject={teamObject}
-          gameweeks={gameweeks}
           selectedPlayer={selectedPlayer}
-          onPlayerSelect={handlePlayerSelect}
+          onPlayerSub={handlePlayerSub}
+          onPlayerTransfer={handlePlayerTransfer}
           onSetCaptain={onSetCaptain}
           onSetViceCaptain={onSetViceCaptain}
+          onCancel={handleCancel}
         />
       </Box>
-      <Box height="100%">
-        {transferablePlayers.length > 0 ? (
-          <TransferMarket
-            team={team}
-            players={transferablePlayers}
-            gameweeks={gameweeks}
-            onPlayerSelect={handleTransferSectionPlayerSelect}
-          />
-        ) : (
-          <Box py={10} px={4} textAlign="center" color="gray.600">
-            Click on a player on the left to make a transfer
-          </Box>
-        )}
-      </Box>
-    </Grid>
+
+      {isOpen && (
+        <Drawer
+          isOpen={isOpen}
+          placement="right"
+          onClose={handleCancel}
+          size="xl"
+        >
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader />
+            <DrawerBody px={0} pb={0} pt={4}>
+              <TransferMarket
+                team={team}
+                selectedPlayer={selectedPlayer}
+                players={transferablePlayers}
+                onPlayerSelect={handleTransferSectionPlayerSelect}
+              />
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
+      )}
+    </>
   );
 };
 

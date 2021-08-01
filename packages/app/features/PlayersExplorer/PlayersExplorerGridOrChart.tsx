@@ -1,4 +1,8 @@
 import { Box, Grid, useBreakpointValue } from "@chakra-ui/react";
+import PlayerChartCard from "@open-fpl/app/features/PlayerData/PlayerChartCard";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
+import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
+import PlayerCardToolbar from "@open-fpl/app/features/PlayersExplorer/PlayerCardToolbar";
 import {
   ChangeEvent,
   CSSProperties,
@@ -8,26 +12,22 @@ import {
 } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
-import { Gameweek } from "@open-fpl/data/features/AppData/appDataTypes";
-import PlayerChartCard from "@open-fpl/app/features/PlayerData/PlayerChartCard";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
-import PlayerCardToolbar from "@open-fpl/app/features/PlayersExplorer/PlayerCardToolbar";
 
 const PlayersExplorerGridOrChart = ({
   displayedPlayers,
   display,
-  gameweeks,
   selectedPlayers,
   onSelectChange,
   onStarClick,
 }: {
-  displayedPlayers: Player[];
+  displayedPlayers: ClientPlayer[];
   display: string;
-  gameweeks: Gameweek[];
-  selectedPlayers: Player[];
-  onSelectChange: (e: ChangeEvent<HTMLInputElement>, player: Player) => void;
-  onStarClick: (e: MouseEvent<HTMLButtonElement>, player: Player) => void;
+  selectedPlayers: ClientPlayer[];
+  onSelectChange: (
+    e: ChangeEvent<HTMLInputElement>,
+    player: ClientPlayer
+  ) => void;
+  onStarClick: (e: MouseEvent<HTMLButtonElement>, player: ClientPlayer) => void;
 }) => {
   const columnsCount =
     useBreakpointValue({
@@ -59,7 +59,7 @@ const PlayersExplorerGridOrChart = ({
                 {display === "chart" ? (
                   <PlayerChartCard player={player} />
                 ) : (
-                  <PlayerGridCard player={player} gameweeks={gameweeks} />
+                  <PlayerGridCard player={player} />
                 )}
               </PlayerCardToolbar>
             );
@@ -79,14 +79,7 @@ const PlayersExplorerGridOrChart = ({
           </div>
         );
       },
-    [
-      columnsCount,
-      gameweeks,
-      displayedPlayers,
-      display,
-      selectedPlayers,
-      onStarClick,
-    ]
+    [columnsCount, displayedPlayers, display, selectedPlayers, onStarClick]
   );
 
   return (
@@ -97,7 +90,7 @@ const PlayersExplorerGridOrChart = ({
             <List
               height={height}
               width={width}
-              itemSize={288}
+              itemSize={240}
               itemCount={Math.ceil(displayedPlayers.length / columnsCount)}
             >
               {row}

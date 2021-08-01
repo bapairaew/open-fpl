@@ -1,10 +1,11 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { cache } from "@open-fpl/app/features/Cache/swrCache";
 import { host } from "@open-fpl/app/features/Navigation/internalUrls";
-import { SettingsContextProvider } from "@open-fpl/app/features/Settings/SettingsContext";
-import theme from "@open-fpl/app/theme";
+import { SettingsContextProvider } from "@open-fpl/app/features/Settings/Settings";
+import theme from "@open-fpl/common/theme";
 import PlausibleProvider from "next-plausible";
 import { AppProps } from "next/app";
+import NextNprogress from "nextjs-progressbar";
 import { SWRConfig } from "swr";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
       >
         <ChakraProvider theme={theme}>
           <SettingsContextProvider>
+            <NextNprogress color={theme.colors.brand[500]} />
             <Component {...pageProps} />
           </SettingsContextProvider>
         </ChakraProvider>

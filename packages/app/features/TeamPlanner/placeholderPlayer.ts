@@ -1,6 +1,6 @@
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { ElementStatus } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import { ElementStatus } from "@open-fpl/data/features/RemoteData/fplTypes";
 
 export const getPositionFromPlaceholderPosition = (position: number) => {
   if (position === 1 || position === 12) {
@@ -15,7 +15,7 @@ export const getPositionFromPlaceholderPosition = (position: number) => {
   return "";
 };
 
-export function makePlaceholderPlayerFromId(id: number): Player {
+export function makePlaceholderPlayerFromId(id: number): ClientPlayer {
   const position = id * -1;
   const elementType = getPositionFromPlaceholderPosition(position);
   return {
@@ -49,18 +49,12 @@ export function makePlaceholderPlayerFromId(id: number): Player {
       season_xa: null,
       season_xgi: null,
       season_xga: null,
-      teamcolorcodes: {
-        team: "",
-        background: "#fff",
-        text: "#000",
-        highlight: "#000",
-      },
       previous_gameweeks: null,
-      next_gameweeks: null,
     },
     client_data: {
       starred_index: -1,
       is_custom_player: false,
+      gameweeks: null,
     },
   };
 }

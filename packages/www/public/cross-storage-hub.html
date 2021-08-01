@@ -1,0 +1,14 @@
+<!doctype html>
+<body>
+  <!-- Note: this does not work using React: https://github.com/zendesk/cross-storage/issues/50 -->
+  <!-- Minified: https://github.com/zendesk/cross-storage/blob/master/lib/hub.js -->
+  <script>!function(e){var t={init:function(e){var r=!0;try{window.localStorage||(r=!1)}catch(e){r=!1}if(!r)try{return window.parent.postMessage("cross-storage:unavailable","*")}catch(e){return}t._permissions=e||[],t._installListener(),window.parent.postMessage("cross-storage:ready","*")},_installListener:function(){var e=t._listener;window.addEventListener?window.addEventListener("message",e,!1):window.attachEvent("onmessage",e)},_listener:function(e){var r,n,o,i,s,a,l;if(r="null"===e.origin?"file://":e.origin,"cross-storage:poll"===e.data)return window.parent.postMessage("cross-storage:ready",e.origin);if("cross-storage:ready"!==e.data){try{o=JSON.parse(e.data)}catch(e){return}if(o&&"string"==typeof o.method&&(i=o.method.split("cross-storage:")[1])){if(t._permitted(r,i))try{a=t["_"+i](o.params)}catch(e){s=e.message}else s="Invalid permissions for "+i;l=JSON.stringify({id:o.id,error:s,result:a}),n="file://"===r?"*":r,window.parent.postMessage(l,n)}}},_permitted:function(e,r){var n,o,i;if(n=["get","set","del","clear","getKeys"],!t._inArray(r,n))return!1;for(o=0;o<t._permissions.length;o++)if((i=t._permissions[o]).origin instanceof RegExp&&i.allow instanceof Array&&i.origin.test(e)&&t._inArray(r,i.allow))return!0;return!1},_set:function(e){window.localStorage.setItem(e.key,e.value)},_get:function(e){var t,r,n,o;for(t=window.localStorage,r=[],n=0;n<e.keys.length;n++){try{o=t.getItem(e.keys[n])}catch(e){o=null}r.push(o)}return r.length>1?r:r[0]},_del:function(e){for(var t=0;t<e.keys.length;t++)window.localStorage.removeItem(e.keys[t])},_clear:function(){window.localStorage.clear()},_getKeys:function(e){var t,r,n;for(n=[],r=window.localStorage.length,t=0;t<r;t++)n.push(window.localStorage.key(t));return n},_inArray:function(e,t){for(var r=0;r<t.length;r++)if(e===t[r])return!0;return!1},_now:function(){return"function"==typeof Date.now?Date.now():(new Date).getTime()}};"undefined"!=typeof module&&module.exports?module.exports=t:"undefined"!=typeof exports?exports.CrossStorageHub=t:"function"==typeof define&&define.amd?define([],function(){return t}):e.CrossStorageHub=t}(this);</script>
+  <script>
+    CrossStorageHub.init([
+      {origin: /.openfpl.com$/, allow: ['get', 'getKeys']},
+      // For vercel dashboard screenshot
+      {origin: /-bapairaew.vercel.app$/, allow: ['get', 'getKeys']}
+    ]);
+  </script>
+</body>
+</html>

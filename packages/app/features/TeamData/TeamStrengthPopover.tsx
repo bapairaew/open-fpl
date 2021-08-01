@@ -11,14 +11,18 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
-import { ReactNode } from "react";
-import { Radar } from "react-chartjs-2";
-import { TeamInfo } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import {
   assumedMax,
   assumedMin,
 } from "@open-fpl/app/features/TeamData/teamData";
-import theme from "@open-fpl/app/theme";
+import { TeamInfo } from "@open-fpl/app/features/TeamData/teamDataTypes";
+import theme from "@open-fpl/common/theme";
+import dynamic from "next/dynamic";
+import { ReactNode } from "react";
+
+const RadarChart = dynamic(
+  () => import("@open-fpl/app/features/Common/RadarChart")
+);
 
 const TeamStrengthPopover = ({
   team,
@@ -39,7 +43,7 @@ const TeamStrengthPopover = ({
           team.strength_defence_home,
           team.strength_defence_away,
         ],
-        backgroundColor: transparentize(theme.colors.brand[100], 0.2),
+        backgroundColor: transparentize(theme.colors.brand[100], 0.4),
         borderColor: theme.colors.brand[500],
         borderWidth: 1,
       },
@@ -84,11 +88,7 @@ const TeamStrengthPopover = ({
                       {team.name}
                     </PopoverHeader>
                     <PopoverBody>
-                      <Radar
-                        type="radar"
-                        data={chartData}
-                        options={chartOptions}
-                      />
+                      <RadarChart data={chartData} options={chartOptions} />
                     </PopoverBody>
                   </PopoverContent>
                 </Box>

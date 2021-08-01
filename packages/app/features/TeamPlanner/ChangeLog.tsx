@@ -11,16 +11,22 @@ import {
   Portal,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useMemo } from "react";
-import { IoEllipsisVerticalOutline } from "react-icons/io5";
-import AutoSizer from "react-virtualized-auto-sizer";
+import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import GameweekChanges from "@open-fpl/app/features/TeamPlanner/GameweekChanges";
 import {
   Change,
   GameweekData,
   InvalidChange,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import TeamSummaryModal from "@open-fpl/app/features/TeamPlanner/TeamSummaryModal";
+import { usePlausible } from "next-plausible";
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
+import { IoEllipsisVerticalOutline } from "react-icons/io5";
+import AutoSizer from "react-virtualized-auto-sizer";
+
+const TeamSummaryModal = dynamic(
+  () => import("@open-fpl/app/features/TeamPlanner/TeamSummaryModal")
+);
 
 const ChangeLog = ({
   changes,
@@ -37,6 +43,8 @@ const ChangeLog = ({
   onRemove: (change: Change) => void;
   onMoveToGameweek: (gameweek: number) => void;
 }) => {
+  const plausible = usePlausible<AnalyticsTeamPlanner>();
+
   const groupedChanges = useMemo(() => {
     const reversedChanges = [...changes].reverse(); // Latest changes within the same gameweek should be shown first
     return reversedChanges.reduce((group, change) => {
@@ -50,6 +58,11 @@ const ChangeLog = ({
   }, [changes]);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const handleViewSummary = () => {
+    onOpen();
+    plausible("team-planner-changelog-open-summary");
+  };
 
   return (
     <>
@@ -77,6 +90,7 @@ const ChangeLog = ({
                         <MenuButton
                           as={IconButton}
                           height="100%"
+                          size="sm"
                           borderRadius="none"
                           variant="ghost"
                           aria-label="options"
@@ -85,7 +99,9 @@ const ChangeLog = ({
                         {isOpen && (
                           <Portal>
                             <MenuList zIndex="popover">
-                              <MenuItem onClick={onOpen}>View summary</MenuItem>
+                              <MenuItem onClick={handleViewSummary}>
+                                View summary
+                              </MenuItem>
                             </MenuList>
                           </Portal>
                         )}

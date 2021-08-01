@@ -15,10 +15,12 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
+      "@open-fpl/app/*": ["./packages/app/*"],
+      "@open-fpl/common/*": ["./packages/common/*"],
       "@open-fpl/data/*": ["./packages/data/*"],
-      "@open-fpl/app/*": ["./packages/app/*"]
+      "@open-fpl/www/*": ["./packages/www/*"]
     }
   },
-  "include": ["node_modules/@open-fpl", "next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

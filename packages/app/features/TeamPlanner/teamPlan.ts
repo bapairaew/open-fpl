@@ -3,17 +3,11 @@ import {
   getLocalStorageItem,
   setLocalStorageItem,
 } from "@open-fpl/app/features/Common/useLocalStorage";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
+import { Preference } from "@open-fpl/app/features/Settings/settingsTypes";
 import {
-  ChipName,
-  EntryChipPlay,
-  EntryEventHistory,
-  EntryEventPick,
-  Transfer,
-} from "@open-fpl/data/features/RemoteData/fplTypes";
-import {
+  getPreferenceKey,
   getProfilesKey,
-  getTeamPlansKey,
   getTeamPlanKey,
 } from "@open-fpl/app/features/Settings/storageKeys";
 import { makePlaceholderPlayerFromId } from "@open-fpl/app/features/TeamPlanner/placeholderPlayer";
@@ -31,6 +25,14 @@ import {
   TeamChange,
   TwoPlayersChange,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import {
+  ChipName,
+  EntryChipPlay,
+  EntryEventHistory,
+  EntryEventPick,
+  Transfer,
+} from "@open-fpl/data/features/RemoteData/fplTypes";
 
 // Apply the changes against the given team
 const getGameweekPicks = (
@@ -630,7 +632,7 @@ export const processPreseasonSetCaptain = (
 // Dehydrate the reduced form teamPlan
 export const dehydrateFromTeamPlan = (
   teamPlan: Change[],
-  players: Player[]
+  players: ClientPlayer[]
 ): Change[] => {
   const changes = [] as Change[];
 
@@ -763,7 +765,10 @@ export const isSwapable = (
 
   if (isSelectedPlayerOnBench) {
     if (isTargetPlayerOnBench)
-      return selectedPlayer.element_type.singular_name_short !== "GKP";
+      return (
+        selectedPlayer.element_type.singular_name_short !== "GKP" &&
+        targetPlayer.element_type.singular_name_short !== "GKP"
+      );
     else {
       return (
         currentStartingWithSameSelectedPosition + 1 <=
@@ -789,9 +794,9 @@ export const isSwapable = (
 export const removePlayerFromPlans = (player: Player) => {
   const profiles = getLocalStorageItem<string[]>(getProfilesKey(), []) || [];
   for (const profile of profiles) {
-    const transferPlans =
-      getLocalStorageItem<string[]>(getTeamPlansKey(profile), []) || [];
-    for (const plan of transferPlans) {
+    const { teamPlans = [] } =
+      getLocalStorageItem<Preference>(getPreferenceKey(profile), {}) || {};
+    for (const plan of teamPlans) {
       const teamPlan =
         getLocalStorageItem<Change[]>(getTeamPlanKey(profile, plan), []) || [];
 

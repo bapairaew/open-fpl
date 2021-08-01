@@ -1,8 +1,11 @@
 import {
   FullTeamFixtures,
   TeamFixture,
-  TeamInfo,
 } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
+import {
+  TeamInfo,
+  TeamStrength,
+} from "@open-fpl/app/features/TeamData/teamDataTypes";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 
@@ -27,6 +30,27 @@ const makeTeamInfo = (team: Team): TeamInfo => {
   };
 };
 
+export const adjustTeamsStrength = (
+  fplTeams: Team[],
+  teamsStrength: TeamStrength[] | null
+) => {
+  if (teamsStrength && teamsStrength.length > 0) {
+    return fplTeams.map((team) => {
+      const matched = teamsStrength.find((t) => t.id === team.id);
+      if (matched) {
+        return {
+          ...team,
+          ...matched,
+        };
+      } else {
+        return team;
+      }
+    });
+  } else {
+    return fplTeams;
+  }
+};
+
 // Full mapped data for UI usage
 export const makeFullFixtures = ({
   teamFixtures,
@@ -47,13 +71,14 @@ export const makeFullFixtures = ({
         strength_attack_away: fplTeam.strength_attack_away,
         strength_defence_home: fplTeam.strength_defence_home,
         strength_defence_away: fplTeam.strength_defence_away,
-        fixtures: [] as TeamFixture[],
+        gameweeks: [] as TeamFixture[][],
       } as FullTeamFixtures;
 
       for (const history of team.history) {
         const opponent = fplTeams.find((t) => t.id === history.opponent_team);
         if (opponent) {
-          fullFixture.fixtures.push({
+          const teamFixture = {
+            event: history.round,
             is_finished: true,
             is_home: history.was_home,
             attack_difficulty: history.was_home
@@ -75,7 +100,13 @@ export const makeFullFixtures = ({
                   opponent.strength_attack_home
                 ),
             opponent: makeTeamInfo(opponent),
-          });
+          } as TeamFixture;
+
+          fullFixture.gameweeks[history.round] = fullFixture.gameweeks[
+            history.round
+          ]
+            ? [...fullFixture.gameweeks[history.round], teamFixture]
+            : [teamFixture];
         }
       }
 
@@ -84,7 +115,8 @@ export const makeFullFixtures = ({
           (t) => t.id === (fixture.is_home ? fixture.team_a : fixture.team_h)
         );
         if (opponent) {
-          fullFixture.fixtures.push({
+          const teamFixture = {
+            event: fixture.event,
             is_finished: false,
             is_home: fixture.is_home,
             attack_difficulty: fixture.is_home
@@ -106,7 +138,13 @@ export const makeFullFixtures = ({
                   opponent.strength_attack_home
                 ),
             opponent: makeTeamInfo(opponent),
-          });
+          } as TeamFixture;
+
+          fullFixture.gameweeks[fixture.event] = fullFixture.gameweeks[
+            fixture.event
+          ]
+            ? [...fullFixture.gameweeks[fixture.event], teamFixture]
+            : [teamFixture];
         }
       }
 

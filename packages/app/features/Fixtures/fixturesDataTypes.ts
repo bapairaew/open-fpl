@@ -1,13 +1,7 @@
-export interface TeamInfo {
-  name: string;
-  short_name: string;
-  strength_attack_home: number;
-  strength_attack_away: number;
-  strength_defence_home: number;
-  strength_defence_away: number;
-}
+import { TeamInfo } from "@open-fpl/app/features/TeamData/teamDataTypes";
 
 export interface TeamFixture {
+  event: number;
   is_finished: boolean;
   is_home: boolean;
   attack_difficulty: number;
@@ -16,7 +10,7 @@ export interface TeamFixture {
 }
 
 export interface FullTeamFixtures extends TeamInfo {
-  fixtures: TeamFixture[];
+  gameweeks: TeamFixture[][];
 }
 
 export interface SortableFullTeamFixtures extends FullTeamFixtures {

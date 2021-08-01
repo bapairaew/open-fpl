@@ -15,10 +15,10 @@ import {
 import Link from "next/link";
 // @ts-ignore
 import { AnnotationCalloutRect } from "react-annotation";
-import { gameweeks, player } from "@open-fpl/app/features/Help/helpData";
+import { player } from "@open-fpl/app/features/Help/helpData";
 import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
 import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerToolbar";
-import PlayerTableHeaderRow from "../PlayerData/PlayerTableHeaderRow";
+import PlayerTableHeaderRow from "@open-fpl/app/features/PlayerData/PlayerTableHeaderRow";
 
 const ComponentWithHighlight = ({
   children,
@@ -28,7 +28,12 @@ const ComponentWithHighlight = ({
   highlight: BoxProps;
 }) => (
   <Box position="relative" {...props}>
-    <Box position="absolute" bg="yellow.100" {...highlight} />
+    <Box
+      position="absolute"
+      bg="yellow.100"
+      ml={{ base: "50px", sm: 0 }}
+      {...highlight}
+    />
     {children}
   </Box>
 );
@@ -43,92 +48,82 @@ const DemoPlayerCard = () => (
     position="relative"
   >
     <Box width="400px">
-      <PlayerGridCard player={player} gameweeks={gameweeks} />
+      <PlayerGridCard player={player} />
     </Box>
     <Box as="svg" sx={{ width: 800, height: 600, position: "absolute" }}>
       <AnnotationCalloutRect
-        x={251}
-        y={176}
-        dx={-78}
-        dy={-44}
-        subject={{ width: -50, height: 32 }}
-        note={{
-          title: "Team",
-        }}
-      />
-      <AnnotationCalloutRect
-        x={251}
-        y={208}
-        dx={-139}
-        dy={-6}
-        subject={{ width: -50, height: 32 }}
-        note={{
-          title: "Position",
-        }}
-      />
-      <AnnotationCalloutRect
-        x={251}
-        y={176}
-        dx={-2}
-        dy={-98}
-        subject={{ width: 32, height: 64 }}
+        x={200}
+        y={200}
+        dx={-10}
+        dy={-40}
+        subject={{ width: 26, height: 32 }}
         note={{
           title: "Player status",
         }}
       />
       <AnnotationCalloutRect
-        x={283}
-        y={176}
-        dx={16}
+        x={226}
+        y={200}
+        dx={30}
         dy={-48}
-        subject={{ width: 139, height: 30 }}
+        subject={{ width: 194, height: 32 }}
         note={{
           title: "Player name",
         }}
       />
       <AnnotationCalloutRect
-        x={357}
-        y={210}
-        dx={96}
-        dy={-76}
-        subject={{ width: -70, height: 19 }}
+        x={420}
+        y={200}
+        dx={-10}
+        dy={-40}
+        subject={{ width: 40, height: 32 }}
         note={{
-          title: "FPL ID",
+          title: "Team",
         }}
       />
       <AnnotationCalloutRect
-        x={530}
-        y={176}
-        dx={79}
-        dy={-64}
-        subject={{ width: 70, height: 32 }}
+        x={462}
+        y={200}
+        dx={0}
+        dy={-40}
+        subject={{ width: 40, height: 32 }}
         note={{
-          title: "Cost",
+          title: "Position",
         }}
       />
       <AnnotationCalloutRect
-        x={530}
-        y={208}
-        dx={137}
-        dy={-32}
-        subject={{ width: 70, height: 32 }}
+        x={502}
+        y={200}
+        dx={30}
+        dy={-80}
+        subject={{ width: 50, height: 32 }}
         note={{
           title: "Ownership",
         }}
       />
       <AnnotationCalloutRect
+        x={552}
+        y={200}
+        dx={79}
+        dy={-64}
+        subject={{ width: 50, height: 32 }}
+        note={{
+          title: "Cost",
+        }}
+      />
+      <AnnotationCalloutRect
         x={200}
-        y={241}
+        y={232}
         dx={-57}
         dy={13}
-        subject={{ width: 400, height: 45 }}
+        subject={{ width: 400, height: 32 }}
         note={{
           title: "Next fixtures",
         }}
       />
       <AnnotationCalloutRect
         x={200}
-        y={286}
+        y={264}
         dx={-50}
         dy={52}
         subject={{ width: 400, height: 55 }}
@@ -138,22 +133,22 @@ const DemoPlayerCard = () => (
       />
       <AnnotationCalloutRect
         x={200}
-        y={366}
+        y={342}
         dx={470}
         dy={-44}
         subject={{ width: 400, height: 28 }}
         note={{
-          title: "Previous fixtures xGI",
+          title: "Previous fixtures expected goals involvement",
         }}
       />
       <AnnotationCalloutRect
         x={200}
-        y={394}
+        y={370}
         dx={465}
         dy={78}
         subject={{ width: 400, height: 29 }}
         note={{
-          title: "Previous fixtures xGC",
+          title: "Previous fixtures expected goals against",
         }}
       />
     </Box>
@@ -163,15 +158,15 @@ const DemoPlayerCard = () => (
 const PlayersExplorerHelp = () => {
   return (
     <>
-      <Container maxW="container.lg" mt={6}>
-        <VStack spacing={4} alignItems="flex-start">
+      <Container maxW="container.lg" lineHeight="taller">
+        <VStack spacing={6} alignItems="flex-start">
           <Heading as="h1" size="xl" fontWeight="black">
             Player Explorer
           </Heading>
           <Text as="p">
             This page explains the data embeded in Player Card and how to use
             each component in{" "}
-            <Link href="/players" passHref>
+            <Link href="/" passHref>
               <A color="brand.500">Player Explorer</A>
             </Link>{" "}
             page.
@@ -188,10 +183,12 @@ const PlayersExplorerHelp = () => {
         </VStack>
       </Container>
 
-      <DemoPlayerCard />
+      <Box overflow="auto">
+        <DemoPlayerCard />
+      </Box>
 
-      <Container maxW="container.lg">
-        <VStack spacing={4} alignItems="flex-start">
+      <Container maxW="container.lg" mt={6} lineHeight="taller">
+        <VStack spacing={6} alignItems="flex-start">
           <Heading as="h2" size="lg" fontWeight="black">
             Player Data
           </Heading>
@@ -414,27 +411,6 @@ const PlayersExplorerHelp = () => {
               />
             </ComponentWithHighlight>
           </Box>
-          <Text as="p">
-            You can also exclude some search results use exclusion prefix `-`
-            like shown below how to exclude Pogba from search results. Please
-            also note that range search (e.g. cost) DOES NOT support exclusion
-            yet.
-          </Text>
-          <Box pointerEvents="none">
-            <ComponentWithHighlight
-              highlight={{
-                top: "10px",
-                left: "10px",
-                width: "330px",
-                height: "30px",
-              }}
-            >
-              <PlayersExplorerToolbar
-                borderWidth={1}
-                initialSeachQuery="team:MUN position:MID -name:Pogba"
-              />
-            </ComponentWithHighlight>
-          </Box>
 
           <Heading as="h3" size="sm" fontWeight="black">
             Sorting
@@ -450,8 +426,8 @@ const PlayersExplorerHelp = () => {
             <ComponentWithHighlight
               highlight={{
                 top: 0,
-                right: 98,
-                width: "225px",
+                right: { base: 0, sm: "98px" },
+                width: { base: "50px", sm: "225px" },
                 height: "100%",
               }}
             >
