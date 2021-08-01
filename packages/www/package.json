@@ -1,6 +1,6 @@
 {
   "name": "@open-fpl/www",
-  "version": "1.1.0-pre.8",
+  "version": "1.1.0-pre.9",
   "license": "Apache-2.0",
   "scripts": {
     "bootstrap": "lerna bootstrap && lerna link",
@@ -14,7 +14,7 @@
     "@chakra-ui/react": "^1.6.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@open-fpl/common": "1.1.0-pre.8",
+    "@open-fpl/common": "1.1.0-pre.9",
     "framer-motion": "^4",
     "next": "^11.0.0",
     "next-plausible": "^2.0.0",
