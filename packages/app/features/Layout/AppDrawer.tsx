@@ -38,7 +38,7 @@ export const AppDrawerContexttProvider = ({
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerBody p={0}>
-            <SideBar />
+            <SideBar onSettingsClick={onClose} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>

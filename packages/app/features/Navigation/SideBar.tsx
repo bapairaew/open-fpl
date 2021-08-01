@@ -69,8 +69,14 @@ const SideBarItem = ({
   );
 };
 
-const SideBar = () => {
+const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
   const { onSettingsModalOpen, teamId, preference } = useSettings();
+
+  const handleSettingsClick = () => {
+    onSettingsModalOpen();
+    onSettingsClick?.();
+  };
+
   return (
     <Flex h="100%" flexDirection="column" role="navigation" as="aside">
       <Link href="/" passHref>
@@ -113,7 +119,7 @@ const SideBar = () => {
         <Button
           variant={teamId ? "ghost" : "solid"}
           width="100%"
-          onClick={onSettingsModalOpen}
+          onClick={handleSettingsClick}
           leftIcon={teamId ? <Icon as={IoSettingsOutline} /> : undefined}
         >
           {teamId ? `${preference?.name ?? teamId}` : "Set up your profile"}
