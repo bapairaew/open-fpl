@@ -62,8 +62,8 @@ const makePastMatchesSortFn =
       (sum, m) => ((m[key] as null | number) ?? 0) + sum,
       0
     );
-    if (sumA < sumB) return direction;
-    if (sumA > sumB) return -1 * direction;
+    if (sumA < sumB) return -1 * direction;
+    if (sumA > sumB) return direction;
     return 0;
   };
 
@@ -91,8 +91,8 @@ const makeXGISortFn =
       (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
       0
     );
-    if (sumA < sumB) return direction;
-    if (sumA > sumB) return -1 * direction;
+    if (sumA < sumB) return -1 * direction;
+    if (sumA > sumB) return direction;
     return 0;
   };
 

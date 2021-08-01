@@ -17,7 +17,7 @@ const sortPlayerTable = (
     if (sortResult === 0) {
       for (const column of sortColumns) {
         sortResult =
-          column.direction === "desc"
+          column.direction === "asc"
             ? configs
                 .find((c) => c.header === column.columnName)
                 ?.sortFn?.(a, b) ?? 0

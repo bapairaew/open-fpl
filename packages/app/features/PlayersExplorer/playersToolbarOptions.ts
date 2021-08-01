@@ -30,12 +30,12 @@ export const sortOptions: SortOptionsConfig[] = [
   {
     label: "Best recent xGI",
     value: "best-xgi",
-    sortFn: playersSortFunctions.xgi,
+    sortFn: playersSortFunctions.reversedXGI,
   },
   {
     label: "Best recent xGA",
     value: "best-xga",
-    sortFn: playersSortFunctions.reversedXGA,
+    sortFn: playersSortFunctions.xga,
   },
   {
     label: "Best fixtures",
