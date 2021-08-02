@@ -18,11 +18,15 @@ import PreviousStatsSection from "@open-fpl/app/features/PlayerData/PreviousStat
 import { teamColorCodes } from "@open-fpl/app/features/TeamData/teamData";
 import SwapablePlayerOptionsModal from "@open-fpl/app/features/TeamPlanner/SwapablePlayerOptionsModal";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import { positionColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
+import {
+  positionColorCodes,
+  statusColorCodes,
+} from "@open-fpl/data/features/RemoteData/fplColors";
 import { MouseEventHandler } from "react";
 import {
   IoSwapHorizontalOutline,
   IoSwapVerticalOutline,
+  IoWarningOutline,
 } from "react-icons/io5";
 
 export type SwapablePlayerVariant =
@@ -140,17 +144,38 @@ const SwapablePlayer = ({
           width={{ base: "70px", sm: "180px" }}
           height={{ base: "82px", sm: "158px" }}
         >
-          <Flex
-            fontWeight="bold"
-            width="100%"
-            px={{ base: 0, sm: 1 }}
-            pt={{ base: 0.5, sm: 1 }}
-            pb={{ base: 0, sm: 1 }}
-            fontSize={{ base: "xs", sm: "md" }}
-            justifyContent={{ base: "center", sm: "flex-start" }}
-          >
-            <Text noOfLines={1}>{player.web_name}</Text>
-          </Flex>
+          <HStack spacing={0} width="100%">
+            {player.status !== "a" && (
+              <Tooltip hasArrow label={player.news}>
+                <Flex
+                  mr={0.5}
+                  px={1}
+                  justifyContent="center"
+                  alignItems="center"
+                  height="100%"
+                  flexShrink={0}
+                  bg={statusColorCodes[player.status].bg}
+                  color={statusColorCodes[player.status].color}
+                >
+                  <Icon
+                    display={{ base: "none", sm: "flex" }}
+                    as={IoWarningOutline}
+                  />
+                </Flex>
+              </Tooltip>
+            )}
+            <Flex
+              fontWeight="bold"
+              width="100%"
+              px={{ base: 0, sm: 1 }}
+              pt={{ base: 0.5, sm: 1 }}
+              pb={{ base: 0, sm: 1 }}
+              fontSize={{ base: "xs", sm: "md" }}
+              justifyContent={{ base: "center", sm: "flex-start" }}
+            >
+              <Text noOfLines={1}>{player.web_name}</Text>
+            </Flex>
+          </HStack>
           <HStack spacing={0} width="100%" fontSize="xs" alignItems="stretch">
             <Flex
               width="41px"
