@@ -8,7 +8,9 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import findYourIDStep1Mobile from "@open-fpl/app/public/find-your-id/find-your-id-1-mobile.png";
 import findYourIDStep1 from "@open-fpl/app/public/find-your-id/find-your-id-1.png";
+import findYourIDStep2Mobile from "@open-fpl/app/public/find-your-id/find-your-id-2-mobile.png";
 import findYourIDStep2 from "@open-fpl/app/public/find-your-id/find-your-id-2.png";
 import Image from "next/image";
 import { IoOpenOutline } from "react-icons/io5";
@@ -28,10 +30,17 @@ const FindYourIDHelp = () => {
           </A>
           .
         </Text>
-        <Box py={4}>
+        <Box py={4} display={{ base: "none", sm: "block" }}>
           <Image
             placeholder="blur"
             src={findYourIDStep1}
+            alt="Find your FPL ID step 1"
+          />
+        </Box>
+        <Box py={4} display={{ base: "block", sm: "none" }}>
+          <Image
+            placeholder="blur"
+            src={findYourIDStep1Mobile}
             alt="Find your FPL ID step 1"
           />
         </Box>
@@ -42,10 +51,17 @@ const FindYourIDHelp = () => {
             https://fantasy.premierleague.com/entry/__YOUR_ID__/history
           </Code>
         </Text>
-        <Box py={4}>
+        <Box py={4} display={{ base: "none", sm: "block" }}>
           <Image
             placeholder="blur"
             src={findYourIDStep2}
+            alt="Find your FPL ID step 2"
+          />
+        </Box>
+        <Box py={4} display={{ base: "block", sm: "none" }}>
+          <Image
+            placeholder="blur"
+            src={findYourIDStep2Mobile}
             alt="Find your FPL ID step 2"
           />
         </Box>
