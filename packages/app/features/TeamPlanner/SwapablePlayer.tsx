@@ -189,16 +189,12 @@ const SwapablePlayer = ({
               bgColor={
                 teamColorCodes(colorMode)[player.team.short_name]
                   ? teamColorCodes(colorMode)[player.team.short_name].bg
-                  : colorMode === "dark"
-                  ? "gray.800"
-                  : "white"
+                  : "transparent"
               }
               color={
                 teamColorCodes(colorMode)[player.team.short_name]
                   ? teamColorCodes(colorMode)[player.team.short_name].color
-                  : colorMode === "dark"
-                  ? "white"
-                  : "black"
+                  : "transparent"
               }
             >
               {player.team.short_name}
