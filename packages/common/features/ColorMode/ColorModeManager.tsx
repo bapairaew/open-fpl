@@ -1,4 +1,4 @@
-import { ColorModeScript, useColorMode } from "@chakra-ui/react";
+import { useColorMode } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 const ColorModeManager = () => {
@@ -17,6 +17,12 @@ const ColorModeManager = () => {
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", onDarkMode);
 
+    if (window.matchMedia("(prefers-color-scheme: dark)")) {
+      setColorMode("dark");
+    } else {
+      setColorMode("light");
+    }
+
     return () => {
       window
         .matchMedia("(prefers-color-scheme: dark)")
@@ -24,11 +30,7 @@ const ColorModeManager = () => {
     };
   }, []);
 
-  return (
-    <>
-      <ColorModeScript initialColorMode="system" />
-    </>
-  );
+  return null;
 };
 
 export default ColorModeManager;

@@ -19,6 +19,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  useColorMode,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -29,12 +30,15 @@ import { IoHelpCircleOutline } from "react-icons/io5";
 
 const TeamIDHelpButton = () => {
   const { onSettingsModalClose } = useSettings();
+  const { colorMode } = useColorMode();
   return (
     <Popover strategy="fixed">
       <PopoverTrigger>
         <IconButton
           aria-label="help"
           variant="ghost"
+          borderTopLeftRadius="none"
+          borderBottomLeftRadius="none"
           icon={<Icon aria-label="help" as={IoHelpCircleOutline} />}
         />
       </PopoverTrigger>
@@ -47,7 +51,10 @@ const TeamIDHelpButton = () => {
             <PopoverBody>
               Don't know where to find it? Just follow this{" "}
               <Link href="/help/id" passHref>
-                <A color="brand.500" onClick={onSettingsModalClose}>
+                <A
+                  color={colorMode === "dark" ? "brand.200" : "brand.500"}
+                  onClick={onSettingsModalClose}
+                >
                   find your team ID guide
                 </A>
               </Link>

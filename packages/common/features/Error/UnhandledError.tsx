@@ -1,4 +1,11 @@
-import { BoxProps, Link as A, Box, Code, Flex } from "@chakra-ui/react";
+import {
+  BoxProps,
+  Link as A,
+  Box,
+  Code,
+  Flex,
+  useColorMode,
+} from "@chakra-ui/react";
 import FullScreenMessage, {
   FullScreenMessageProps,
 } from "@open-fpl/common/features/Layout/FullScreenMessage";
@@ -12,6 +19,7 @@ const UnhandledError = ({
   Wrapper?: React.FC<FullScreenMessageProps>;
   additionalInfo?: string;
 }) => {
+  const { colorMode } = useColorMode();
   return (
     <Wrapper
       symbol="(´～`)"
@@ -21,11 +29,19 @@ const UnhandledError = ({
           <Box>
             To be honest, we are not too sure what happened so please tell us
             what you did on{" "}
-            <A href={externalLinks.github} isExternal color="brand.500">
+            <A
+              href={externalLinks.github}
+              isExternal
+              color={colorMode === "dark" ? "brand.200" : "brand.500"}
+            >
               Github
             </A>{" "}
             or{" "}
-            <A href={externalLinks.twitter} isExternal color="brand.500">
+            <A
+              href={externalLinks.twitter}
+              isExternal
+              color={colorMode === "dark" ? "brand.200" : "brand.500"}
+            >
               Twitter
             </A>
             .

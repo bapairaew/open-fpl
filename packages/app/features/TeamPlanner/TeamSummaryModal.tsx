@@ -66,12 +66,20 @@ const PlayerRow = ({
             justifyContent="center"
             alignItems="center"
             borderLeftWidth={1}
-            bgColor={player.pick.is_captain ? "brand.500" : undefined}
+            bgColor={
+              player.pick.is_captain
+                ? colorMode === "dark"
+                  ? "brand.200"
+                  : "brand.500"
+                : undefined
+            }
             color={
               player.pick.is_captain
                 ? colorMode === "dark"
                   ? "gray.700"
                   : "white"
+                : colorMode === "dark"
+                ? "brand.200"
                 : "brand.500"
             }
             fontWeight="black"

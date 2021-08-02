@@ -179,6 +179,18 @@ const ComparePlayersModal = ({
       },
       scales: {
         r: {
+          grid: {
+            color:
+              colorMode === "dark"
+                ? theme.colors.whiteAlpha[300]
+                : theme.colors.gray[200],
+          },
+          angleLines: {
+            color:
+              colorMode === "dark"
+                ? theme.colors.whiteAlpha[300]
+                : theme.colors.gray[200],
+          },
           ticks: {
             backdropColor:
               colorMode === "dark" ? theme.colors.gray[700] : "white",

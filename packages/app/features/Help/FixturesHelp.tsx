@@ -1,19 +1,20 @@
 import {
-  Box,
   Container,
+  Flex,
   Heading,
   HStack,
   Icon,
   Link as A,
   Text,
+  useColorMode,
   VStack,
-  Flex,
 } from "@chakra-ui/react";
+import { difficultyColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
 import {
   IoEllipsisVerticalOutline,
   IoReorderFourOutline,
 } from "react-icons/io5";
-import { difficultyColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
+import theme from "@open-fpl/common/theme";
 
 const DifficultyColorCodes = () => (
   <VStack spacing={3} alignItems="flex-start">
@@ -85,6 +86,7 @@ const DifficultyColorCodes = () => (
 );
 
 const FixturesHelp = () => {
+  const { colorMode } = useColorMode();
   return (
     <Container maxW="container.lg" lineHeight="taller">
       <VStack spacing={6} alignItems="flex-start">
@@ -94,7 +96,7 @@ const FixturesHelp = () => {
         <Text as="p">
           Fixture Difficulty Rating here is slightly different from{" "}
           <A
-            color="brand.500"
+            color={colorMode === "dark" ? "brand.200" : "brand.500"}
             isExternal
             href="https://fantasy.premierleague.com/fixtures/fdr"
           >

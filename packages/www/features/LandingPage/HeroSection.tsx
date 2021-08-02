@@ -16,12 +16,14 @@ import theme from "@open-fpl/common/theme";
 
 const HeroSection = (props: BoxProps) => {
   const { colorMode } = useColorMode();
+  const annotationColor =
+    colorMode === "dark" ? theme.colors.brand[200] : theme.colors.brand[500];
   return (
     <Box
       bgGradient={
         colorMode === "dark"
           ? "linear(to-b, gray.800, gray.900, gray.900)"
-          : "linear(to-b, gray.800, gray.900, gray.900)"
+          : "linear(to-b, white, gray.50, gray.50)"
       }
       {...props}
     >
@@ -40,36 +42,24 @@ const HeroSection = (props: BoxProps) => {
             lineHeight={1.3}
             fontWeight="black"
             textAlign="left"
-            color="white"
+            color={colorMode === "dark" ? "gray.700" : "white"}
             textShadow={`
-          -1px -1px 0 ${theme.colors.brand[500]},  
-           1px -1px 0 ${theme.colors.brand[500]},
-           -1px 1px 0 ${theme.colors.brand[500]},
-            1px 1px 0 ${theme.colors.brand[500]}`}
+          -1px -1px 0 ${annotationColor},  
+           1px -1px 0 ${annotationColor},
+           -1px 1px 0 ${annotationColor},
+            1px 1px 0 ${annotationColor}`}
           >
-            <RoughNotation
-              show
-              type="highlight"
-              color={theme.colors.brand[500]}
-            >
+            <RoughNotation show type="highlight" color={annotationColor}>
               <Box as="span" px={{ base: 2, md: 14 }}>
                 Free <br />
               </Box>
             </RoughNotation>
-            <RoughNotation
-              show
-              type="highlight"
-              color={theme.colors.brand[500]}
-            >
+            <RoughNotation show type="highlight" color={annotationColor}>
               <Box as="span" px={{ base: 2, md: 14 }}>
                 Open-source <br />
               </Box>
             </RoughNotation>
-            <RoughNotation
-              show
-              type="highlight"
-              color={theme.colors.brand[500]}
-            >
+            <RoughNotation show type="highlight" color={annotationColor}>
               <Box as="span" px={{ base: 2, md: 14 }}>
                 FPL tools
               </Box>

@@ -10,6 +10,7 @@ import {
   Text,
   VStack,
   Button,
+  useColorMode,
 } from "@chakra-ui/react";
 import { IoShield } from "react-icons/io5";
 import { RiSwordFill } from "react-icons/ri";
@@ -30,6 +31,9 @@ const TeamStrengthEditor = ({
   onStrengthChange?: (name: keyof TeamStrength, value: number) => void;
   onResetClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }) => {
+  const { colorMode } = useColorMode();
+  const iconColor = colorMode === "dark" ? "brand.200" : "brand.500";
+
   const [homeAttack, setHomeAttack] = useState(team.strength_attack_home);
   const [homeDefence, setHomeDefence] = useState(team.strength_defence_home);
   const [awayAttack, setAwayAttack] = useState(team.strength_attack_away);
@@ -85,7 +89,7 @@ const TeamStrengthEditor = ({
                 <SliderFilledTrack />
               </SliderTrack>
               <SliderThumb boxSize={6}>
-                <Box color="brand.500" as={RiSwordFill} />
+                <Box color={iconColor} as={RiSwordFill} />
               </SliderThumb>
             </Slider>
           </Box>
@@ -110,7 +114,7 @@ const TeamStrengthEditor = ({
                 <SliderFilledTrack />
               </SliderTrack>
               <SliderThumb boxSize={6}>
-                <Box color="brand.500" as={IoShield} />
+                <Box color={iconColor} as={IoShield} />
               </SliderThumb>
             </Slider>
           </Box>
@@ -137,7 +141,7 @@ const TeamStrengthEditor = ({
                 <SliderFilledTrack />
               </SliderTrack>
               <SliderThumb boxSize={6}>
-                <Box color="brand.500" as={RiSwordFill} />
+                <Box color={iconColor} as={RiSwordFill} />
               </SliderThumb>
             </Slider>
           </Box>
@@ -162,7 +166,7 @@ const TeamStrengthEditor = ({
                 <SliderFilledTrack />
               </SliderTrack>
               <SliderThumb boxSize={6}>
-                <Box color="brand.500" as={IoShield} />
+                <Box color={iconColor} as={IoShield} />
               </SliderThumb>
             </Slider>
           </Box>

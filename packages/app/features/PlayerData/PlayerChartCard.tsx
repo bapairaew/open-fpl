@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useColorMode } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
 import NameSection from "@open-fpl/app/features/PlayerData/NameSection";
 import {
@@ -15,6 +15,8 @@ const RadarChart = dynamic(
 );
 
 const PlayerChartCard = ({ player }: { player: Player }) => {
+  const { colorMode } = useColorMode();
+  const colorLevel = colorMode === "dark" ? 200 : 500;
   const {
     recentG,
     recentA,
@@ -92,8 +94,8 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
           // seasonXGA,
           // seasonBPS,
         ],
-        backgroundColor: transparentize(theme.colors.brand[100], 0.2),
-        borderColor: theme.colors.brand[500],
+        backgroundColor: transparentize(theme.colors.brand[colorLevel], 0.4),
+        borderColor: theme.colors.brand[colorLevel],
         borderWidth: 1,
       },
     ],
@@ -118,6 +120,32 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
     },
     scales: {
       r: {
+        grid: {
+          color:
+            colorMode === "dark"
+              ? theme.colors.whiteAlpha[300]
+              : theme.colors.gray[200],
+        },
+        angleLines: {
+          color:
+            colorMode === "dark"
+              ? theme.colors.whiteAlpha[300]
+              : theme.colors.gray[200],
+        },
+        ticks: {
+          backdropColor:
+            colorMode === "dark" ? theme.colors.gray[800] : "white",
+          color:
+            colorMode === "dark"
+              ? theme.colors.whiteAlpha[800]
+              : theme.colors.gray[800],
+        },
+        pointLabels: {
+          color:
+            colorMode === "dark"
+              ? theme.colors.whiteAlpha[800]
+              : theme.colors.gray[800],
+        },
         suggestedMin: 0,
         suggestedMax: 100,
       },

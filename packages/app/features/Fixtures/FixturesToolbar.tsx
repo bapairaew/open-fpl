@@ -18,7 +18,7 @@ import {
   RadioGroup,
 } from "@chakra-ui/react";
 import { AppDrawerOpenButton } from "@open-fpl/app/features/Layout/AppDrawer";
-import { MouseEvent, useState } from "react";
+import { MouseEvent } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 
 const FixturesToolbar = ({
@@ -30,8 +30,6 @@ const FixturesToolbar = ({
   onModeChange: (mode: string) => void;
   onEditTeamsStrengthClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }) => {
-  const [optionsOpened, setOptionsOpened] = useState(false);
-  const handleOptionsClick = () => setOptionsOpened(!optionsOpened);
   return (
     <HStack
       alignItems="center"
@@ -107,8 +105,15 @@ const FixturesToolbar = ({
         height="50px"
         flexGrow={1}
         display={{ base: "none", sm: "flex" }}
+        alignItems="stretch"
       >
-        <RadioGroup px={4} value={mode} onChange={onModeChange}>
+        <RadioGroup
+          px={4}
+          display="flex"
+          alignItems="center"
+          value={mode}
+          onChange={onModeChange}
+        >
           <HStack spacing={5}>
             <Radio value="attack">Attack</Radio>
             <Radio value="defence">Defence</Radio>

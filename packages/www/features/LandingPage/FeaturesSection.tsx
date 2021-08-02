@@ -45,7 +45,10 @@ const FeaturesSection = (props: BoxProps) => {
       {...props}
     >
       <Center mb={8} height="160px">
-        <Divider orientation="vertical" borderColor="brand.500" />
+        <Divider
+          orientation="vertical"
+          borderColor={colorMode === "dark" ? "brand.200" : "brand.500"}
+        />
       </Center>
       <Container maxW="container.xl">
         <Heading as="h2" fontWeight="black" textAlign="center">
@@ -83,7 +86,7 @@ const FeaturesSection = (props: BoxProps) => {
                 {feature.description}
               </Text>
               <Link href={feature.href} passHref>
-                <A color="brand.500">
+                <A color={colorMode === "dark" ? "brand.200" : "brand.500"}>
                   Start using <Icon as={IoArrowForwardOutline} />
                 </A>
               </Link>

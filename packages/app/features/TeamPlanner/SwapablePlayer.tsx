@@ -36,14 +36,14 @@ export type SwapablePlayerVariant =
   | "swapable"
   | "disabled";
 
-const teamPlayerVariants: Record<
+const teamPlayerVariants: (mode: string) => Record<
   SwapablePlayerVariant,
   {
     buttonProps: ButtonProps;
     otherButtonsProps: ButtonProps;
     boxProps: BoxProps;
   }
-> = {
+> = (mode) => ({
   default: {
     buttonProps: {},
     otherButtonsProps: {},
@@ -60,7 +60,7 @@ const teamPlayerVariants: Record<
     boxProps: {
       bg: "highlight",
       boxShadow: "lg",
-      borderColor: "brand.500",
+      borderColor: mode === "dark" ? "brand.200" : "brand.500",
     },
   },
   swapable: {
@@ -94,7 +94,7 @@ const teamPlayerVariants: Record<
       pointerEvents: "none",
     },
   },
-};
+});
 
 const SwapablePlayer = ({
   player,
@@ -111,12 +111,13 @@ const SwapablePlayer = ({
   onSetCaptainClick?: MouseEventHandler<HTMLButtonElement>;
   onSetViceCaptainClick?: MouseEventHandler<HTMLButtonElement>;
 }) => {
+  const { colorMode } = useColorMode();
   const { buttonProps, otherButtonsProps, boxProps } =
-    teamPlayerVariants[variant] ?? teamPlayerVariants.default;
+    teamPlayerVariants(colorMode)[variant] ??
+    teamPlayerVariants(colorMode).default;
   const adjustedSellingPrice = player.pick.selling_price / 10;
   // const adjustedPurchasePrice = player.pick.purchase_price / 10;
 
-  const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -232,7 +233,7 @@ const SwapablePlayer = ({
               px={{ base: 1, sm: 2 }}
               alignItems="center"
               fontWeight="bold"
-              bgColor="brand.500"
+              bgColor={colorMode === "dark" ? "brand.200" : "brand.500"}
               color={colorMode === "dark" ? "gray.800" : "white"}
               display={
                 player.pick.is_captain || player.pick.is_vice_captain

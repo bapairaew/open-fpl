@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import { cache } from "@open-fpl/app/features/Cache/swrCache";
 import { host } from "@open-fpl/app/features/Navigation/internalUrls";
 import { SettingsContextProvider } from "@open-fpl/app/features/Settings/Settings";
@@ -12,6 +12,7 @@ import { SWRConfig } from "swr";
 export default function App({ Component, pageProps }: AppProps) {
   const plausibleDomain = host ? host.replace("www.", "") : ""; // Plausible specifically says not to put www. here
   const plausibleEnabled = host !== undefined;
+  const { colorMode } = useColorMode();
 
   return (
     <PlausibleProvider domain={plausibleDomain} enabled={plausibleEnabled}>
@@ -28,7 +29,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <ChakraProvider theme={theme}>
           <SettingsContextProvider>
             <NextNprogress
-              color={theme.colors.brand[500]}
+              color={
+                colorMode === "dark"
+                  ? theme.colors.brand[200]
+                  : theme.colors.brand[500]
+              }
               options={{ showSpinner: false }}
             />
             <ColorModeManager />

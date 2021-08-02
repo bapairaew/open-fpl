@@ -62,10 +62,20 @@ const FixturesTableHeaderRow = ({
           position="sticky"
           bgColor={colorMode === "dark" ? "gray.800" : "white"}
           textAlign="center"
-          color={sortGroup.group[0] === i + 1 ? "brand.500" : undefined}
+          color={
+            sortGroup.group[0] === i + 1
+              ? colorMode === "dark"
+                ? "brand.200"
+                : "brand.500"
+              : undefined
+          }
           boxShadow={
             sortGroup.group[0] === i + 1
-              ? `0 0 0 2px ${theme.colors.brand[500]} inset`
+              ? `0 0 0 2px ${
+                  colorMode === "dark"
+                    ? theme.colors.brand[200]
+                    : theme.colors.brand[500]
+                } inset`
               : undefined
           }
         >
@@ -100,7 +110,7 @@ const FixturesTableHeaderRow = ({
                       </MenuItem>
                     )}
                     <MenuItem
-                      color="red.600"
+                      color={colorMode === "dark" ? "red.200" : "red.600"}
                       onClick={() => onResetSortGroupClick()}
                     >
                       Cancel

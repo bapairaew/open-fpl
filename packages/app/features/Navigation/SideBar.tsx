@@ -83,6 +83,8 @@ const SideBarItem = ({
 const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
   const { onSettingsModalOpen, teamId, preference } = useSettings();
   const { colorMode } = useColorMode();
+  const annotationColor =
+    colorMode === "dark" ? theme.colors.brand[200] : theme.colors.brand[500];
 
   const handleSettingsClick = () => {
     onSettingsModalOpen();
@@ -98,14 +100,14 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
           textAlign="center"
           fontWeight="black"
           fontSize={{ base: "4xl", sm: "3xl" }}
-          color="white"
+          color={colorMode === "dark" ? "gray.700" : "white"}
           textShadow={`
-          -1px -1px 0 ${theme.colors.brand[500]},  
-           1px -1px 0 ${theme.colors.brand[500]},
-           -1px 1px 0 ${theme.colors.brand[500]},
-            1px 1px 0 ${theme.colors.brand[500]}`}
+          -1px -1px 0 ${annotationColor},  
+           1px -1px 0 ${annotationColor},
+           -1px 1px 0 ${annotationColor},
+            1px 1px 0 ${annotationColor}`}
         >
-          <RoughNotation show type="highlight" color={theme.colors.brand[500]}>
+          <RoughNotation show type="highlight" color={annotationColor}>
             <Box as="span" px={2}>
               Open FPL
             </Box>

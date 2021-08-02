@@ -157,7 +157,10 @@ const TeamPlannerTab = ({
                     <MenuItem onClick={handleRenameClick}>Rename</MenuItem>
                     <MenuItem onClick={onDuplicateClick}>Duplicate</MenuItem>
                     <MenuDivider />
-                    <MenuItem color="red.600" onClick={onOpen}>
+                    <MenuItem
+                      color={colorMode === "dark" ? "red.200" : "red.600"}
+                      onClick={onOpen}
+                    >
                       Remove
                     </MenuItem>
                   </MenuList>

@@ -34,6 +34,7 @@ const TeamStrengthPopover = ({
   children: ReactNode | string;
 }) => {
   const { colorMode } = useColorMode();
+  const colorLevel = colorMode === "dark" ? 200 : 500;
   const chartData = {
     labels: ["Attack Home", "Attack Away", "Defence Home", "Defence Away"],
     datasets: [
@@ -45,8 +46,8 @@ const TeamStrengthPopover = ({
           team.strength_defence_home,
           team.strength_defence_away,
         ],
-        backgroundColor: transparentize(theme.colors.brand[500], 0.4),
-        borderColor: theme.colors.brand[500],
+        backgroundColor: transparentize(theme.colors.brand[colorLevel], 0.4),
+        borderColor: theme.colors.brand[colorLevel],
         borderWidth: 1,
       },
     ],
@@ -56,6 +57,18 @@ const TeamStrengthPopover = ({
     animation: false,
     scales: {
       r: {
+        grid: {
+          color:
+            colorMode === "dark"
+              ? theme.colors.whiteAlpha[300]
+              : theme.colors.gray[200],
+        },
+        angleLines: {
+          color:
+            colorMode === "dark"
+              ? theme.colors.whiteAlpha[300]
+              : theme.colors.gray[200],
+        },
         ticks: {
           backdropColor:
             colorMode === "dark" ? theme.colors.gray[700] : "white",

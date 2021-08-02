@@ -4,21 +4,24 @@ import {
   Button,
   Container,
   Heading,
-  Text,
   Link as A,
+  Text,
   useColorMode,
 } from "@chakra-ui/react";
-import Link from "next/link";
-import { IoLogoGithub, IoLogoTwitter } from "react-icons/io5";
 import externalLinks from "@open-fpl/common/features/Navigation/externalLinks";
+import { IoLogoGithub, IoLogoTwitter } from "react-icons/io5";
 
 const FindUsSection = (props: BoxProps) => {
   const { colorMode } = useColorMode();
   return (
-    <Box py={20} bgColor="brand.500" {...props}>
+    <Box
+      py={20}
+      bgColor={colorMode === "dark" ? "brand.200" : "brand.500"}
+      {...props}
+    >
       <Container
         maxW="container.xl"
-        color={colorMode === "dark" ? "gray.800" : "white"}
+        color={colorMode === "dark" ? "gray.900" : "white"}
         display="flex"
         flexDirection="column"
         alignItems="center"
@@ -29,7 +32,7 @@ const FindUsSection = (props: BoxProps) => {
         </Heading>
         <Text
           my={4}
-          color={colorMode === "dark" ? "gray.700" : "gray.50"}
+          color={colorMode === "dark" ? "gray.800" : "gray.50"}
           textAlign="center"
         >
           Come find us for bugs report, features request, code contribution or
@@ -40,9 +43,11 @@ const FindUsSection = (props: BoxProps) => {
             mr={4}
             as={A}
             isExternal
-            colorScheme="twitter"
+            bgColor="twitter.500"
+            color="white"
             href={externalLinks.twitter}
-            _hover={{ textDecoration: "none" }}
+            _hover={{ textDecoration: "none", bgColor: "twitter.600" }}
+            _active={{ bgColor: "twitter.600" }}
             leftIcon={<IoLogoTwitter />}
           >
             Twitter
@@ -50,9 +55,11 @@ const FindUsSection = (props: BoxProps) => {
           <Button
             as={A}
             isExternal
-            colorScheme="github"
+            bgColor="github.500"
+            color="white"
             href={externalLinks.github}
-            _hover={{ textDecoration: "none" }}
+            _hover={{ textDecoration: "none", bgColor: "github.600" }}
+            _active={{ bgColor: "github.600" }}
             leftIcon={<IoLogoGithub />}
           >
             Github

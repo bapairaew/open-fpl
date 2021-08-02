@@ -23,6 +23,7 @@ import {
   Radio,
   RadioGroup,
   Text,
+  useColorMode,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
@@ -67,6 +68,7 @@ const TeamPlansDrawer = ({
   onRemove: (plan: string) => void;
   onRearrange: (newOrder: ItemInterface[]) => void;
 }) => {
+  const { colorMode } = useColorMode();
   const {
     isOpen: isConfirmRemoveOpen,
     onOpen: onConfirmRemoveOpen,
@@ -186,7 +188,11 @@ const TeamPlansDrawer = ({
                                   </MenuItem>
                                   <MenuDivider />
                                   <MenuItem
-                                    color="red.600"
+                                    color={
+                                      colorMode === "dark"
+                                        ? "red.200"
+                                        : "red.600"
+                                    }
                                     onClick={() =>
                                       handleRemoveClick(`${plan.id}`)
                                     }

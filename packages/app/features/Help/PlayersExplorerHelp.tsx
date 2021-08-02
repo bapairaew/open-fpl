@@ -10,6 +10,7 @@ import {
   OrderedList,
   Text,
   UnorderedList,
+  useColorMode,
   VStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
@@ -156,6 +157,7 @@ const DemoPlayerCard = () => (
 );
 
 const PlayersExplorerHelp = () => {
+  const { colorMode } = useColorMode();
   return (
     <>
       <Container maxW="container.lg" lineHeight="taller">
@@ -167,7 +169,9 @@ const PlayersExplorerHelp = () => {
             This page explains the data embeded in Player Card and how to use
             each component in{" "}
             <Link href="/" passHref>
-              <A color="brand.500">Player Explorer</A>
+              <A color={colorMode === "dark" ? "brand.200" : "brand.500"}>
+                Player Explorer
+              </A>
             </Link>{" "}
             page.
           </Text>
@@ -195,14 +199,18 @@ const PlayersExplorerHelp = () => {
           <Text as="p">
             Player data is scraped from{" "}
             <A
-              color="brand.500"
+              color={colorMode === "dark" ? "brand.200" : "brand.500"}
               isExternal
               href="https://fantasy.premierleague.com/"
             >
               FPL
             </A>{" "}
             and{" "}
-            <A color="brand.500" isExternal href="https://understat.com/">
+            <A
+              color={colorMode === "dark" ? "brand.200" : "brand.500"}
+              isExternal
+              href="https://understat.com/"
+            >
               Understat
             </A>{" "}
             which is updated once a day around 02:00 AM - 03:00 AM GMT+0.

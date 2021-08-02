@@ -269,7 +269,7 @@ const TransferPlannerPanelContent = ({
           width="100%"
           py={2}
           px={4}
-          bgColor="red.500"
+          bgColor={colorMode === "dark" ? "red.200" : "red.600"}
           color={colorMode === "dark" ? "gray.800" : "white"}
         >
           {teamInvalidities.map((i) => i.message).join(", ")}
