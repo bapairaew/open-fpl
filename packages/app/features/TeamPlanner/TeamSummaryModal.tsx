@@ -12,6 +12,7 @@ import {
   HStack,
   Text,
   VStack,
+  useColorMode,
 } from "@chakra-ui/react";
 import { Fragment } from "react";
 import { positionColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
@@ -30,12 +31,17 @@ const PlayerRow = ({
   player: FullChangePlayer;
   isOnBench?: boolean;
 }) => {
+  const { colorMode } = useColorMode();
   return (
     <>
       <Divider />
       <Flex
-        bg={isOnBench ? "gray.50" : undefined}
-        color={isOnBench ? "gray.500" : undefined}
+        bgColor={
+          isOnBench ? (colorMode ? "whiteAlpha.50" : "gray.50") : undefined
+        }
+        color={
+          isOnBench ? (colorMode ? "whiteAlpha.500" : "gray.500") : undefined
+        }
         fontSize="sm"
         width="160px"
       >
@@ -44,7 +50,7 @@ const PlayerRow = ({
             borderRightWidth={1}
             width="100%"
             height="100%"
-            bg={
+            bgColor={
               positionColorCodes[player.element_type.singular_name_short]
                 .background
             }
@@ -60,8 +66,14 @@ const PlayerRow = ({
             justifyContent="center"
             alignItems="center"
             borderLeftWidth={1}
-            bg={player.pick.is_captain ? "brand.500" : undefined}
-            color={player.pick.is_captain ? "white" : "brand.500"}
+            bgColor={player.pick.is_captain ? "brand.500" : undefined}
+            color={
+              player.pick.is_captain
+                ? colorMode === "dark"
+                  ? "gray.700"
+                  : "white"
+                : "brand.500"
+            }
             fontWeight="black"
           >
             {player.pick.is_captain

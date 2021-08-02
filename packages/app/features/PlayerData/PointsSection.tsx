@@ -1,4 +1,4 @@
-import { Box, Grid } from "@chakra-ui/react";
+import { Box, Grid, useColorMode } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
@@ -31,6 +31,7 @@ const PointsSection = ({
   showTeamsName?: boolean;
   player: Player;
 }) => {
+  const { colorMode } = useColorMode();
   const previousGameweeks =
     player.linked_data.previous_gameweeks &&
     player.linked_data.previous_gameweeks.length < 5
@@ -61,8 +62,8 @@ const PointsSection = ({
               p={0.5}
               variant={variant}
               fontSize={fontSize}
-              color="gray.600"
-              bg="gray.100"
+              color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
+              bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
             >
               {h.was_home
                 ? h.opponent_team_short_name.toUpperCase()
@@ -74,8 +75,8 @@ const PointsSection = ({
               p={0.5}
               variant={variant}
               fontSize={fontSize}
-              color="gray.600"
-              bg="gray.100"
+              color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
+              bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
             >
               Σ
             </CenterFlex>
@@ -88,7 +89,7 @@ const PointsSection = ({
             key={i}
             variant={variant}
             fontSize={fontSize}
-            bg={`rgba(0, 255, 0, ${h.bps * 2}%)`}
+            bgColor={`rgba(0, 255, 0, ${h.bps * 2}%)`}
             minHeight="10px"
           >
             <Box
@@ -105,7 +106,7 @@ const PointsSection = ({
           <CenterFlex
             variant={variant}
             fontSize={fontSize}
-            bg="gray.100"
+            bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
             display={{
               base: variant === "mini" ? "none" : "flex",
               sm: "flex",

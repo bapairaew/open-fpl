@@ -14,6 +14,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorMode,
 } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
 import {
@@ -98,6 +99,7 @@ const ComparePlayersModal = ({
   onClose: () => void;
   players: Player[];
 }) => {
+  const { colorMode } = useColorMode();
   const chartData = useMemo(
     () => ({
       labels,
@@ -141,7 +143,7 @@ const ComparePlayersModal = ({
             seasonBPS,
           ],
           backgroundColor: transparentize(
-            colors[index % colors.length][100],
+            colors[index % colors.length][500],
             0.4
           ),
           borderColor: colors[index % colors.length][500],
@@ -166,9 +168,31 @@ const ComparePlayersModal = ({
               ),
           },
         },
+        legend: {
+          labels: {
+            color:
+              colorMode === "dark"
+                ? theme.colors.whiteAlpha[800]
+                : theme.colors.gray[800],
+          },
+        },
       },
       scales: {
         r: {
+          ticks: {
+            backdropColor:
+              colorMode === "dark" ? theme.colors.gray[700] : "white",
+            color:
+              colorMode === "dark"
+                ? theme.colors.whiteAlpha[800]
+                : theme.colors.gray[800],
+          },
+          pointLabels: {
+            color:
+              colorMode === "dark"
+                ? theme.colors.whiteAlpha[800]
+                : theme.colors.gray[800],
+          },
           suggestedMin: 0,
           suggestedMax: 100,
         },
@@ -204,7 +228,11 @@ const ComparePlayersModal = ({
             <Table colorScheme="gray" fontSize="sm" size="sm" display="block">
               <Thead>
                 <Tr>
-                  <Th position="sticky" left={0} bg="white" />
+                  <Th
+                    position="sticky"
+                    left={0}
+                    bgColor={colorMode === "dark" ? "gray.700" : "white"}
+                  />
                   {players.map((p) => (
                     <Th key={p.id} textAlign="right">
                       <Text width="80px" noOfLines={1}>
@@ -217,14 +245,19 @@ const ComparePlayersModal = ({
               <Tbody>
                 {labels.map((label, rowIndex) => (
                   <Tr key={label}>
-                    <Td textAlign="right" position="sticky" left={0} bg="white">
+                    <Td
+                      textAlign="right"
+                      position="sticky"
+                      left={0}
+                      bgColor={colorMode === "dark" ? "gray.700" : "white"}
+                    >
                       <Text width="140px">{label}</Text>
                     </Td>
                     {players.map((player, columnIndex) => (
                       <Td
                         key={player.id}
                         textAlign="right"
-                        bg={`rgba(0, 255, 0, ${Math.min(
+                        bgColor={`rgba(0, 255, 0, ${Math.min(
                           100,
                           chartData.datasets[columnIndex].data[rowIndex]
                         )}%)`}

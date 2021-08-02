@@ -9,6 +9,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  useColorMode,
 } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
 import {
@@ -32,6 +33,7 @@ const TeamStrengthPopover = ({
   team: TeamInfo;
   children: ReactNode | string;
 }) => {
+  const { colorMode } = useColorMode();
   const chartData = {
     labels: ["Attack Home", "Attack Away", "Defence Home", "Defence Away"],
     datasets: [
@@ -43,7 +45,7 @@ const TeamStrengthPopover = ({
           team.strength_defence_home,
           team.strength_defence_away,
         ],
-        backgroundColor: transparentize(theme.colors.brand[100], 0.4),
+        backgroundColor: transparentize(theme.colors.brand[500], 0.4),
         borderColor: theme.colors.brand[500],
         borderWidth: 1,
       },
@@ -54,8 +56,32 @@ const TeamStrengthPopover = ({
     animation: false,
     scales: {
       r: {
+        ticks: {
+          backdropColor:
+            colorMode === "dark" ? theme.colors.gray[700] : "white",
+          color:
+            colorMode === "dark"
+              ? theme.colors.whiteAlpha[800]
+              : theme.colors.gray[800],
+        },
+        pointLabels: {
+          color:
+            colorMode === "dark"
+              ? theme.colors.whiteAlpha[800]
+              : theme.colors.gray[800],
+        },
         suggestedMin: assumedMin.teamStrength,
         suggestedMax: assumedMax.teamStrength,
+      },
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color:
+            colorMode === "dark"
+              ? theme.colors.whiteAlpha[800]
+              : theme.colors.gray[800],
+        },
       },
     },
   };

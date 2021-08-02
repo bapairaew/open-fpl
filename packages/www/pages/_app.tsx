@@ -1,6 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { host } from "@open-fpl/www/features/Navigation/internalUrls";
+import ColorModeManager from "@open-fpl/common/features/ColorMode/ColorModeManager";
 import theme from "@open-fpl/common/theme";
+import { host } from "@open-fpl/www/features/Navigation/internalUrls";
 import PlausibleProvider from "next-plausible";
 import { AppProps } from "next/app";
 
@@ -11,6 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <PlausibleProvider domain={plausibleDomain} enabled={plausibleEnabled}>
       <ChakraProvider theme={theme}>
+        <ColorModeManager />
         <Component {...pageProps} />
       </ChakraProvider>
     </PlausibleProvider>

@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Td, Tr } from "@chakra-ui/react";
+import { Box, Flex, Icon, Td, Tr, useColorMode } from "@chakra-ui/react";
 import { SortableFullTeamFixtures } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import CompareTeamsPopover from "@open-fpl/app/features/TeamData/CompareTeamsPopover";
 import TeamStrengthPopover from "@open-fpl/app/features/TeamData/TeamStrengthPopover";
@@ -14,13 +14,14 @@ const FixturesTableRow = ({
   team: SortableFullTeamFixtures;
   mode: string;
 }) => {
+  const { colorMode } = useColorMode();
   return (
     <Tr>
       <Td
         p={0}
         left={0}
         position="sticky"
-        bgColor="white"
+        bgColor={colorMode === "dark" ? "gray.800" : "white"}
         textAlign="center"
         fontWeight="black"
         borderBottomWidth={1}
@@ -60,7 +61,7 @@ const FixturesTableRow = ({
                   team={team}
                   opponent={fixture.opponent}
                   textAlign="center"
-                  bg={background}
+                  bgColor={background}
                   color={text}
                   height={`${40 / fixtures.length}px`}
                 >

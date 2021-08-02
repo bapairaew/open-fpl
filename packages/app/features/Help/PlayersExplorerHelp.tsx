@@ -30,7 +30,7 @@ const ComponentWithHighlight = ({
   <Box position="relative" {...props}>
     <Box
       position="absolute"
-      bg="yellow.100"
+      bgColor="yellow.100"
       ml={{ base: "50px", sm: 0 }}
       {...highlight}
     />

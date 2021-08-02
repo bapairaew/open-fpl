@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useColorMode } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
@@ -22,6 +22,7 @@ const PastMatchesStats = ({
   isReversedScale?: boolean;
 }) => {
   const fontSize = variant === "mini" ? "xs" : "sm";
+  const { colorMode } = useColorMode();
   return (
     <>
       {pastMatches.map((s, i) => {
@@ -38,7 +39,7 @@ const PastMatchesStats = ({
             variant={variant}
             minHeight="10px"
             fontSize={fontSize}
-            bg={`rgba(0, 255, 0, ${colorScale}%)`}
+            bgColor={`rgba(0, 255, 0, ${colorScale}%)`}
           >
             <Box
               display={{
@@ -55,7 +56,7 @@ const PastMatchesStats = ({
         <CenterFlex
           variant={variant}
           fontSize={fontSize}
-          bg="gray.100"
+          bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
           display={{
             base: variant === "mini" ? "none" : "flex",
             sm: "flex",

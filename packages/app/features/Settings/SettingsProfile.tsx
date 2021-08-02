@@ -12,6 +12,7 @@ import {
   Icon,
   IconButton,
   Text,
+  useColorMode,
   useRadio,
   UseRadioProps,
 } from "@chakra-ui/react";
@@ -75,6 +76,8 @@ const SettingsProfile = ({
     onRemoveClick(e);
   };
 
+  const { colorMode } = useColorMode();
+
   return (
     <>
       {isOpen && (
@@ -137,10 +140,16 @@ const SettingsProfile = ({
             <Heading size="sm" mb={1}>
               {displayName}
             </Heading>
-            <Text color="gray.600" fontSize="xs">
+            <Text
+              color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
+              fontSize="xs"
+            >
               Team ID: {teamId}
             </Text>
-            <Text color="gray.600" fontSize="xs">
+            <Text
+              color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
+              fontSize="xs"
+            >
               Storage size: {numberFormatter(storageSize, 1)}b
             </Text>
           </Box>

@@ -1,4 +1,11 @@
-import { Box, Flex, Icon, IconButton, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Icon,
+  IconButton,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
 import { getChipDisplayName } from "@open-fpl/app/features/TeamPlanner/chips";
 import {
   Change,
@@ -54,6 +61,8 @@ const TeamChange = ({
 }) => {
   const variantProp = changeVariants[variant] ?? changeVariants.default;
   const label = errorLabel || variantProp.label;
+
+  const { colorMode } = useColorMode();
 
   let mainComponent = null;
   const width = { base: "80px", sm: "120px" };
@@ -118,8 +127,8 @@ const TeamChange = ({
           mr={2}
           px={1}
           borderWidth={1}
-          color="white"
-          bg="brand.500"
+          color={colorMode === "dark" ? "gray.800" : "white"}
+          bgColor="brand.500"
         >
           {change.type === "set-captain" ? "C" : "V"}
         </Box>

@@ -44,7 +44,7 @@ const FixturesSection = ({
                   fontSize={fontSize}
                   variant={variant}
                   height={`${100 / fixtures.length}%`}
-                  bg={difficultyColorCodes[fixture.difficulty].background}
+                  bgColor={difficultyColorCodes[fixture.difficulty].background}
                   color={difficultyColorCodes[fixture.difficulty].text}
                 >
                   <Box display={textDisplay}>

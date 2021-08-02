@@ -6,6 +6,7 @@ import {
   IconButton,
   Link as A,
   Td,
+  useColorMode,
 } from "@chakra-ui/react";
 import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import StickyHeaderTable from "@open-fpl/app/features/Common/StickyHeaderTable";
@@ -52,10 +53,15 @@ const PlayersExplorerTable = ({
       hideHeader: true,
       hideMenu: true,
       render: ({ player }) => {
+        const { colorMode } = useColorMode();
         const isSelected = selectedPlayers.some((p) => p.id === player.id);
         const isStarred = player.client_data.starred_index > -1;
         return (
-          <Td p={0} bg="white" fontWeight="bold">
+          <Td
+            p={0}
+            bgColor={colorMode === "dark" ? "gray.800" : "white"}
+            fontWeight="bold"
+          >
             <Flex alignItems="center" px={2}>
               <Checkbox
                 mr={1}

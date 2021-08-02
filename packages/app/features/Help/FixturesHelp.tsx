@@ -31,7 +31,7 @@ const DifficultyColorCodes = () => (
         p={1}
         width={{ base: "60px", sm: "100px" }}
         textAlign="center"
-        bg={difficultyColorCodes[1].background}
+        bgColor={difficultyColorCodes[1].background}
         color={difficultyColorCodes[1].text}
       >
         Very Easy
@@ -42,7 +42,7 @@ const DifficultyColorCodes = () => (
         p={1}
         width={{ base: "60px", sm: "100px" }}
         textAlign="center"
-        bg={difficultyColorCodes[2].background}
+        bgColor={difficultyColorCodes[2].background}
         color={difficultyColorCodes[2].text}
       >
         Easy
@@ -53,7 +53,7 @@ const DifficultyColorCodes = () => (
         p={1}
         width={{ base: "60px", sm: "100px" }}
         textAlign="center"
-        bg={difficultyColorCodes[3].background}
+        bgColor={difficultyColorCodes[3].background}
         color={difficultyColorCodes[3].text}
       >
         Normal
@@ -64,7 +64,7 @@ const DifficultyColorCodes = () => (
         p={1}
         width={{ base: "60px", sm: "100px" }}
         textAlign="center"
-        bg={difficultyColorCodes[4].background}
+        bgColor={difficultyColorCodes[4].background}
         color={difficultyColorCodes[4].text}
       >
         Hard
@@ -75,7 +75,7 @@ const DifficultyColorCodes = () => (
         p={1}
         width={{ base: "60px", sm: "100px" }}
         textAlign="center"
-        bg={difficultyColorCodes[5].background}
+        bgColor={difficultyColorCodes[5].background}
         color={difficultyColorCodes[5].text}
       >
         Very Hard

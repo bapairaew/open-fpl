@@ -1,4 +1,4 @@
-import { Box, Flex, Grid } from "@chakra-ui/react";
+import { Box, Flex, Grid, useColorMode } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
@@ -61,6 +61,7 @@ export const TeamsName = ({
   pastMatches: MatchStat[];
   variant: CenterFlexVariant;
 }) => {
+  const { colorMode } = useColorMode();
   return (
     <>
       {pastMatches.map((s, i) => (
@@ -69,8 +70,8 @@ export const TeamsName = ({
           key={i}
           p={0.5}
           fontSize="sm"
-          color="gray.600"
-          bg="gray.100"
+          color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
+          bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
         >
           {s.is_home
             ? (s.opponent_short_title || "").toUpperCase()
@@ -81,8 +82,8 @@ export const TeamsName = ({
         variant={variant}
         p={0.5}
         fontSize="sm"
-        color="gray.600"
-        bg="gray.100"
+        color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
+        bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
       >
         Σ
       </CenterFlex>

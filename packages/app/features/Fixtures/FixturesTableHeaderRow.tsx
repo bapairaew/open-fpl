@@ -5,6 +5,7 @@ import {
   MenuList,
   Th,
   Tr,
+  useColorMode,
 } from "@chakra-ui/react";
 import TableCellWithMenu from "@open-fpl/app/features/Common/TableCellWithMenu";
 import { SortGroup } from "@open-fpl/app/features/Fixtures/FixturesTable";
@@ -27,6 +28,7 @@ const FixturesTableHeaderRow = ({
   onEasySortGroupClick: (gameweek: number) => void;
   onResetSortGroupClick: () => void;
 }) => {
+  const { colorMode } = useColorMode();
   return (
     <Tr>
       <Th
@@ -35,7 +37,7 @@ const FixturesTableHeaderRow = ({
         top={0}
         position="sticky"
         zIndex={2}
-        bgColor="white"
+        bgColor={colorMode === "dark" ? "gray.800" : "white"}
         textAlign="center"
       >
         <TableCellWithMenu
@@ -58,7 +60,7 @@ const FixturesTableHeaderRow = ({
           p={0}
           top={0}
           position="sticky"
-          bg="white"
+          bgColor={colorMode === "dark" ? "gray.800" : "white"}
           textAlign="center"
           color={sortGroup.group[0] === i + 1 ? "brand.500" : undefined}
           boxShadow={

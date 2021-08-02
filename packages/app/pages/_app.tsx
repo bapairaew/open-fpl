@@ -2,6 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { cache } from "@open-fpl/app/features/Cache/swrCache";
 import { host } from "@open-fpl/app/features/Navigation/internalUrls";
 import { SettingsContextProvider } from "@open-fpl/app/features/Settings/Settings";
+import ColorModeManager from "@open-fpl/common/features/ColorMode/ColorModeManager";
 import theme from "@open-fpl/common/theme";
 import PlausibleProvider from "next-plausible";
 import { AppProps } from "next/app";
@@ -26,7 +27,11 @@ export default function App({ Component, pageProps }: AppProps) {
       >
         <ChakraProvider theme={theme}>
           <SettingsContextProvider>
-            <NextNprogress color={theme.colors.brand[500]} />
+            <NextNprogress
+              color={theme.colors.brand[500]}
+              options={{ showSpinner: false }}
+            />
+            <ColorModeManager />
             <Component {...pageProps} />
           </SettingsContextProvider>
         </ChakraProvider>

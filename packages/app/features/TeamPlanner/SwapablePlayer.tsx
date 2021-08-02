@@ -9,6 +9,7 @@ import {
   IconButton,
   Text,
   Tooltip,
+  useColorMode,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
@@ -115,6 +116,7 @@ const SwapablePlayer = ({
   const adjustedSellingPrice = player.pick.selling_price / 10;
   // const adjustedPurchasePrice = player.pick.purchase_price / 10;
 
+  const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -154,7 +156,7 @@ const SwapablePlayer = ({
                   alignItems="center"
                   height="100%"
                   flexShrink={0}
-                  bg={statusColorCodes[player.status].bg}
+                  bgColor={statusColorCodes[player.status].bg}
                   color={statusColorCodes[player.status].color}
                 >
                   <Icon
@@ -184,7 +186,7 @@ const SwapablePlayer = ({
               alignItems="center"
               height="100%"
               flexShrink={0}
-              bg={
+              bgColor={
                 teamColorCodes[player.team.short_name]
                   ? teamColorCodes[player.team.short_name].bg
                   : "white"
@@ -204,7 +206,7 @@ const SwapablePlayer = ({
               alignItems="center"
               height="100%"
               flexShrink={0}
-              bg={
+              bgColor={
                 positionColorCodes[player.element_type.singular_name_short]
                   .background
               }
@@ -230,8 +232,8 @@ const SwapablePlayer = ({
               px={{ base: 1, sm: 2 }}
               alignItems="center"
               fontWeight="bold"
-              bg="brand.500"
-              color="white"
+              bgColor="brand.500"
+              color={colorMode === "dark" ? "gray.800" : "white"}
               display={
                 player.pick.is_captain || player.pick.is_vice_captain
                   ? "flex"
@@ -252,7 +254,7 @@ const SwapablePlayer = ({
           top="1px"
           right="1px"
           opacity={0.3}
-          bg="white"
+          bgColor={colorMode === "dark" ? "gray.800" : "white"}
           _groupHover={{ opacity: 1 }}
           _groupFocus={{ opacity: 1 }}
           _groupActive={{ opacity: 1 }}

@@ -10,6 +10,7 @@ import {
   Icon,
   Link as A,
   Text,
+  useColorMode,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { IoArrowForwardOutline } from "react-icons/io5";
@@ -35,52 +36,63 @@ const features = [
   },
 ];
 
-const FeaturesSection = (props: BoxProps) => (
-  <Box py={16} {...props}>
-    <Center mb={8} height="160px">
-      <Divider orientation="vertical" borderColor="brand.500" />
-    </Center>
-    <Container maxW="container.xl">
-      <Heading as="h2" fontWeight="black" textAlign="center">
-        Features
-      </Heading>
-      <Text my={4} color="gray.600" textAlign="center">
-        Collection of tools that will help level up your FPL game
-      </Text>
-      <Grid
-        my={12}
-        templateColumns={{
-          base: "repeat(1, 1fr)",
-          md: "repeat(2, 1fr)",
-          lg: "repeat(3, 1fr)",
-        }}
-        gap={4}
-      >
-        {features.map((feature) => (
-          <Flex
-            key={feature.title}
-            p={6}
-            bg="white"
-            boxShadow="lg"
-            borderRadius="md"
-            flexDirection="column"
-          >
-            <Heading as="h3" size="md" fontWeight="black">
-              {feature.title}
-            </Heading>
-            <Text as="p" my={4} flexGrow={1}>
-              {feature.description}
-            </Text>
-            <Link href={feature.href} passHref>
-              <A color="brand.500">
-                Start using <Icon as={IoArrowForwardOutline} />
-              </A>
-            </Link>
-          </Flex>
-        ))}
-      </Grid>
-    </Container>
-  </Box>
-);
+const FeaturesSection = (props: BoxProps) => {
+  const { colorMode } = useColorMode();
+  return (
+    <Box
+      py={16}
+      bgColor={colorMode === "dark" ? "gray.900" : "gray.50"}
+      {...props}
+    >
+      <Center mb={8} height="160px">
+        <Divider orientation="vertical" borderColor="brand.500" />
+      </Center>
+      <Container maxW="container.xl">
+        <Heading as="h2" fontWeight="black" textAlign="center">
+          Features
+        </Heading>
+        <Text
+          my={4}
+          color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
+          textAlign="center"
+        >
+          Collection of tools that will help level up your FPL game
+        </Text>
+        <Grid
+          my={12}
+          templateColumns={{
+            base: "repeat(1, 1fr)",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(3, 1fr)",
+          }}
+          gap={4}
+        >
+          {features.map((feature) => (
+            <Flex
+              key={feature.title}
+              p={6}
+              bgColor={colorMode === "dark" ? "gray.700" : "white"}
+              boxShadow="lg"
+              borderRadius="md"
+              flexDirection="column"
+            >
+              <Heading as="h3" size="md" fontWeight="black">
+                {feature.title}
+              </Heading>
+              <Text as="p" my={4} flexGrow={1}>
+                {feature.description}
+              </Text>
+              <Link href={feature.href} passHref>
+                <A color="brand.500">
+                  Start using <Icon as={IoArrowForwardOutline} />
+                </A>
+              </Link>
+            </Flex>
+          ))}
+        </Grid>
+      </Container>
+    </Box>
+  );
+};
 
 export default FeaturesSection;

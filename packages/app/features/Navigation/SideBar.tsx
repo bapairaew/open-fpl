@@ -9,6 +9,7 @@ import {
   ListIcon,
   ListItem,
   Text,
+  useColorMode,
   VStack,
 } from "@chakra-ui/react";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
@@ -44,6 +45,7 @@ const SideBarItem = ({
   const isActive = getIsActive
     ? getIsActive(router.route)
     : router.route === href;
+  const { colorMode } = useColorMode();
 
   return (
     <Link href={href} passHref>
@@ -57,9 +59,18 @@ const SideBarItem = ({
         borderRadius="md"
         fontSize={{ base: "md", sm: "sm" }}
         fontWeight="bold"
-        bg={isActive ? "gray.100" : "transparent"}
+        bgColor={
+          isActive
+            ? colorMode === "dark"
+              ? "whiteAlpha.100"
+              : "gray.100"
+            : "transparent"
+        }
         _hover={{
-          bg: "brand.50",
+          bgColor: colorMode === "dark" ? "whiteAlpha.50" : "gray.50",
+        }}
+        _active={{
+          bgColor: colorMode === "dark" ? "whiteAlpha.50" : "gray.50",
         }}
       >
         {icon && <ListIcon fontSize="lg" as={icon} />}
@@ -71,6 +82,7 @@ const SideBarItem = ({
 
 const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
   const { onSettingsModalOpen, teamId, preference } = useSettings();
+  const { colorMode } = useColorMode();
 
   const handleSettingsClick = () => {
     onSettingsModalOpen();
@@ -124,7 +136,11 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
         >
           {teamId ? `${preference?.name ?? teamId}` : "Set up your profile"}
         </Button>
-        <HStack color="gray.600" fontSize="xs" spacing={1}>
+        <HStack
+          color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
+          fontSize="xs"
+          spacing={1}
+        >
           <A href={externalLinks.changelog} isExternal>
             {p.version}
           </A>

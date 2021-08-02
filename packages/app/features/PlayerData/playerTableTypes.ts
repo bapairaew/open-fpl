@@ -11,6 +11,7 @@ export interface PlayerTableConfig {
   hideHeader?: boolean;
   hideMenu?: boolean;
   sticky?: number | string;
+  stickyBgColor?: string;
   sortFn?: (a: Player, b: Player) => number;
   reversedSortFn?: (a: Player, b: Player) => number;
   render: ({

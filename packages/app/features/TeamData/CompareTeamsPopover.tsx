@@ -13,6 +13,7 @@ import {
   Portal,
   Progress,
   Text,
+  useColorMode,
 } from "@chakra-ui/react";
 import { getTeamsStrengthPercent } from "@open-fpl/app/features/TeamData/teamData";
 import { TeamInfo } from "@open-fpl/app/features/TeamData/teamDataTypes";
@@ -32,6 +33,7 @@ const CompareTeamsPopover = ({
   opponent: TeamInfo;
   children: ReactNode | string;
 }) => {
+  const { colorMode } = useColorMode();
   const teamStrength =
     mode === "attack"
       ? isHome
@@ -94,7 +96,11 @@ const CompareTeamsPopover = ({
                     </PopoverHeader>
                     <PopoverBody>
                       <Box>
-                        <Flex my={2} fontSize="small" color="gray.600">
+                        <Flex
+                          my={2}
+                          fontSize="small"
+                          color={colorMode ? "whiteAlpha.600" : "gray.600"}
+                        >
                           <Text flexGrow={1}>
                             {team.short_name} {isHome ? "Home" : "Away"}{" "}
                             {mode === "attack" ? "Attack" : "Defence"} Strength:{" "}
@@ -106,7 +112,11 @@ const CompareTeamsPopover = ({
                         />
                       </Box>
                       <Box my={4}>
-                        <Flex my={2} fontSize="small" color="gray.600">
+                        <Flex
+                          my={2}
+                          fontSize="small"
+                          color={colorMode ? "whiteAlpha.600" : "gray.600"}
+                        >
                           <Text flexGrow={1}>
                             {opponent.short_name} {isHome ? "Away" : "Home"}{" "}
                             {mode === "attack" ? "Defence" : "Attack"} Strength:{" "}

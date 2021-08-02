@@ -1,17 +1,25 @@
-import { Box, Flex, Grid, Td, Text, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Grid,
+  Td,
+  Text,
+  Tooltip,
+  useColorMode,
+} from "@chakra-ui/react";
 import CenterFlex from "@open-fpl/app/features/PlayerData/CenterFlex";
+import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
+import PastMatchesStats from "@open-fpl/app/features/PlayerData/PastMatchesStats";
+import { assumedMax } from "@open-fpl/app/features/PlayerData/playerData";
 import playersSortFunctions from "@open-fpl/app/features/PlayerData/playersSortFunctions";
 import { PlayerTableConfig } from "@open-fpl/app/features/PlayerData/playerTableTypes";
+import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
 import { teamColorCodes } from "@open-fpl/app/features/TeamData/teamData";
 import {
   positionColorCodes,
   statusColorCodes,
 } from "@open-fpl/data/features/RemoteData/fplColors";
 import { IoWarningOutline } from "react-icons/io5";
-import FixturesSection from "./FixturesSection";
-import PastMatchesStats from "./PastMatchesStats";
-import { assumedMax } from "./playerData";
-import PointsSection from "./PointsSection";
 
 const playerTableConfigs = [
   {
@@ -20,33 +28,39 @@ const playerTableConfigs = [
     sticky: 0,
     sortFn: playersSortFunctions.name,
     reversedSortFn: playersSortFunctions.reversedName,
-    render: ({ player, config }) => (
-      <Td
-        p={0}
-        bg="white"
-        fontWeight="bold"
-        position="sticky"
-        left={config.sticky}
-        textTransform="none"
-      >
-        <Flex width={`${config.columnWidth}px`} alignItems="center">
-          {player.status !== "a" && (
-            <Tooltip hasArrow label={player.news}>
-              <CenterFlex
-                bg={statusColorCodes[player.status].bg}
-                color={statusColorCodes[player.status].color}
-                height="100%"
-              >
-                <IoWarningOutline />
-              </CenterFlex>
-            </Tooltip>
-          )}
-          <Text px={2} textAlign="left" fontSize="sm" noOfLines={1}>
-            {player.web_name}
-          </Text>
-        </Flex>
-      </Td>
-    ),
+    render: ({ player, config }) => {
+      const { colorMode } = useColorMode();
+      return (
+        <Td
+          p={0}
+          bgColor={
+            config.stickyBgColor ??
+            (colorMode === "dark" ? "gray.800" : "white")
+          }
+          fontWeight="bold"
+          position="sticky"
+          left={config.sticky}
+          textTransform="none"
+        >
+          <Flex width={`${config.columnWidth}px`} alignItems="center">
+            {player.status !== "a" && (
+              <Tooltip hasArrow label={player.news}>
+                <CenterFlex
+                  bgColor={statusColorCodes[player.status].bg}
+                  color={statusColorCodes[player.status].color}
+                  height="100%"
+                >
+                  <IoWarningOutline />
+                </CenterFlex>
+              </Tooltip>
+            )}
+            <Text px={2} textAlign="left" fontSize="sm" noOfLines={1}>
+              {player.web_name}
+            </Text>
+          </Flex>
+        </Td>
+      );
+    },
   },
   {
     header: "Team",
@@ -58,7 +72,7 @@ const playerTableConfigs = [
         <CenterFlex
           height="32px"
           width={`${config.columnWidth}px`}
-          bg={
+          bgColor={
             teamColorCodes[player.team.short_name]
               ? teamColorCodes[player.team.short_name].bg
               : "white"
@@ -84,7 +98,7 @@ const playerTableConfigs = [
         <CenterFlex
           height="32px"
           width={`${config.columnWidth}px`}
-          bg={
+          bgColor={
             positionColorCodes[player.element_type.singular_name_short]
               .background
           }

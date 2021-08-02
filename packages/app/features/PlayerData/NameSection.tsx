@@ -1,4 +1,4 @@
-import { Flex, HStack, Text } from "@chakra-ui/react";
+import { Flex, Text, useColorMode } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
@@ -39,6 +39,7 @@ const NameSection = ({
 }) => {
   const { nameFontSize, defaultFontSize } =
     variants[variant] ?? variants.default;
+  const { colorMode } = useColorMode();
 
   return (
     <Flex fontSize={defaultFontSize} width="100%" alignItems="stretch">
@@ -46,7 +47,7 @@ const NameSection = ({
         <Tooltip hasArrow label={player.news}>
           <CenterFlex
             variant={variant}
-            bg={statusColorCodes[player.status].bg}
+            bgColor={statusColorCodes[player.status].bg}
             color={statusColorCodes[player.status].color}
           >
             <IoWarningOutline />
@@ -66,7 +67,7 @@ const NameSection = ({
       <CenterFlex
         width="42px"
         variant={variant}
-        bg={
+        bgColor={
           teamColorCodes[player.team.short_name]
             ? teamColorCodes[player.team.short_name].bg
             : "white"
@@ -82,17 +83,25 @@ const NameSection = ({
       <CenterFlex
         width="42px"
         variant={variant}
-        bg={
+        bgColor={
           positionColorCodes[player.element_type.singular_name_short].background
         }
         color={positionColorCodes[player.element_type.singular_name_short].text}
       >
         {player.element_type.singular_name_short}
       </CenterFlex>
-      <CenterFlex variant={variant} bg="gray.100" width="48px">
+      <CenterFlex
+        variant={variant}
+        bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
+        width="48px"
+      >
         {(+player.selected_by_percent).toFixed(1)}%
       </CenterFlex>
-      <CenterFlex variant={variant} bg="gray.100" width="48px">
+      <CenterFlex
+        variant={variant}
+        bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
+        width="48px"
+      >
         £{(player.now_cost / 10).toFixed(1)}
       </CenterFlex>
     </Flex>
