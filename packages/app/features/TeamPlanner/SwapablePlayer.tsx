@@ -58,9 +58,8 @@ const teamPlayerVariants: (mode: string) => Record<
       disabled: true,
     },
     boxProps: {
-      bg: "highlight",
+      bgColor: mode === "dark" ? "brand.500" : "brand.100",
       boxShadow: "lg",
-      borderColor: mode === "dark" ? "brand.200" : "brand.500",
     },
   },
   swapable: {
@@ -68,11 +67,11 @@ const teamPlayerVariants: (mode: string) => Record<
       display: "block",
       variant: "outline",
       _hover: {
-        bg: "transparent",
+        bgColor: "transparent",
         boxShadow: "md",
       },
       _focus: {
-        bg: "transparent",
+        bgColor: "transparent",
         boxShadow: "md",
       },
     },
@@ -190,11 +189,15 @@ const SwapablePlayer = ({
               bgColor={
                 teamColorCodes(colorMode)[player.team.short_name]
                   ? teamColorCodes(colorMode)[player.team.short_name].bg
+                  : colorMode === "dark"
+                  ? "gray.800"
                   : "white"
               }
               color={
                 teamColorCodes(colorMode)[player.team.short_name]
                   ? teamColorCodes(colorMode)[player.team.short_name].color
+                  : colorMode === "dark"
+                  ? "white"
                   : "black"
               }
             >
