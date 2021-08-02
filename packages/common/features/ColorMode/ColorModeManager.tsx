@@ -17,7 +17,7 @@ const ColorModeManager = () => {
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", onDarkMode);
 
-    if (window.matchMedia("(prefers-color-scheme: dark)")) {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       setColorMode("dark");
     } else {
       setColorMode("light");
