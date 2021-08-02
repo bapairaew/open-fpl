@@ -46,7 +46,10 @@ const TeamStrengthPopover = ({
           team.strength_defence_home,
           team.strength_defence_away,
         ],
-        backgroundColor: transparentize(theme.colors.brand[colorLevel], 0.4),
+        backgroundColor: transparentize(
+          theme.colors.brand[colorLevel],
+          0.4
+        )(theme),
         borderColor: theme.colors.brand[colorLevel],
         borderWidth: 1,
       },

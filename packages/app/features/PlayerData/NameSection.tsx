@@ -47,8 +47,8 @@ const NameSection = ({
         <Tooltip hasArrow label={player.news}>
           <CenterFlex
             variant={variant}
-            bgColor={statusColorCodes[player.status].bg}
-            color={statusColorCodes[player.status].color}
+            bgColor={statusColorCodes(colorMode)[player.status].bg}
+            color={statusColorCodes(colorMode)[player.status].color}
           >
             <IoWarningOutline />
           </CenterFlex>
@@ -68,13 +68,13 @@ const NameSection = ({
         width="42px"
         variant={variant}
         bgColor={
-          teamColorCodes[player.team.short_name]
-            ? teamColorCodes[player.team.short_name].bg
+          teamColorCodes(colorMode)[player.team.short_name]
+            ? teamColorCodes(colorMode)[player.team.short_name].bg
             : "white"
         }
         color={
-          teamColorCodes[player.team.short_name]
-            ? teamColorCodes[player.team.short_name].color
+          teamColorCodes(colorMode)[player.team.short_name]
+            ? teamColorCodes(colorMode)[player.team.short_name].color
             : "black"
         }
       >
@@ -84,9 +84,13 @@ const NameSection = ({
         width="42px"
         variant={variant}
         bgColor={
-          positionColorCodes[player.element_type.singular_name_short].background
+          positionColorCodes(colorMode)[player.element_type.singular_name_short]
+            .background
         }
-        color={positionColorCodes[player.element_type.singular_name_short].text}
+        color={
+          positionColorCodes(colorMode)[player.element_type.singular_name_short]
+            .text
+        }
       >
         {player.element_type.singular_name_short}
       </CenterFlex>

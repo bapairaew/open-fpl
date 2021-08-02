@@ -39,7 +39,9 @@ const PastMatchesStats = ({
             variant={variant}
             minHeight="10px"
             fontSize={fontSize}
-            bgColor={`rgba(0, 255, 0, ${colorScale}%)`}
+            bgColor={`rgba(0, ${
+              colorMode === "dark" ? 150 : 200
+            }, 0, ${colorScale}%)`}
           >
             <Box
               display={{

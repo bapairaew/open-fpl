@@ -145,7 +145,7 @@ const ComparePlayersModal = ({
           backgroundColor: transparentize(
             colors[index % colors.length][500],
             0.4
-          ),
+          )(theme),
           borderColor: colors[index % colors.length][500],
           borderWidth: 1,
         };
@@ -269,7 +269,9 @@ const ComparePlayersModal = ({
                       <Td
                         key={player.id}
                         textAlign="right"
-                        bgColor={`rgba(0, 255, 0, ${Math.min(
+                        bgColor={`rgba(0, ${
+                          colorMode === "dark" ? 150 : 200
+                        }, 0, ${Math.min(
                           100,
                           chartData.datasets[columnIndex].data[rowIndex]
                         )}%)`}

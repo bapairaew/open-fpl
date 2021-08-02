@@ -52,7 +52,8 @@ const FixturesTableRow = ({
                 mode === "attack"
                   ? fixture.attack_difficulty
                   : fixture.defence_difficulty;
-              const { background, text } = difficultyColorCodes[difficulty];
+              const { background, text } =
+                difficultyColorCodes(colorMode)[difficulty];
               return (
                 <CompareTeamsPopover
                   key={fixture.opponent.short_name}

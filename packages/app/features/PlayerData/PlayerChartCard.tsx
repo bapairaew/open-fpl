@@ -94,7 +94,10 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
           // seasonXGA,
           // seasonBPS,
         ],
-        backgroundColor: transparentize(theme.colors.brand[colorLevel], 0.4),
+        backgroundColor: transparentize(
+          theme.colors.brand[colorLevel],
+          0.4
+        )(theme),
         borderColor: theme.colors.brand[colorLevel],
         borderWidth: 1,
       },

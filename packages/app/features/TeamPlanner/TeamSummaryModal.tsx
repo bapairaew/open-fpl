@@ -51,8 +51,9 @@ const PlayerRow = ({
             width="100%"
             height="100%"
             bgColor={
-              positionColorCodes[player.element_type.singular_name_short]
-                .background
+              positionColorCodes(colorMode)[
+                player.element_type.singular_name_short
+              ].background
             }
           />
         </Box>

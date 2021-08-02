@@ -1,4 +1,4 @@
-import { Flex, Grid, Box } from "@chakra-ui/react";
+import { Flex, Grid, Box, useColorMode } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
@@ -18,6 +18,7 @@ const FixturesSection = ({
     base: variant === "mini" ? "none" : "block",
     sm: "block",
   };
+  const { colorMode } = useColorMode();
 
   return (
     <Grid
@@ -44,8 +45,13 @@ const FixturesSection = ({
                   fontSize={fontSize}
                   variant={variant}
                   height={`${100 / fixtures.length}%`}
-                  bgColor={difficultyColorCodes[fixture.difficulty].background}
-                  color={difficultyColorCodes[fixture.difficulty].text}
+                  bgColor={
+                    difficultyColorCodes(colorMode)[fixture.difficulty]
+                      .background
+                  }
+                  color={
+                    difficultyColorCodes(colorMode)[fixture.difficulty].text
+                  }
                 >
                   <Box display={textDisplay}>
                     {fixture.is_home

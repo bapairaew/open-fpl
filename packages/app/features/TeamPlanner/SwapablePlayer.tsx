@@ -157,8 +157,8 @@ const SwapablePlayer = ({
                   alignItems="center"
                   height="100%"
                   flexShrink={0}
-                  bgColor={statusColorCodes[player.status].bg}
-                  color={statusColorCodes[player.status].color}
+                  bgColor={statusColorCodes(colorMode)[player.status].bg}
+                  color={statusColorCodes(colorMode)[player.status].color}
                 >
                   <Icon
                     display={{ base: "none", sm: "flex" }}
@@ -188,13 +188,13 @@ const SwapablePlayer = ({
               height="100%"
               flexShrink={0}
               bgColor={
-                teamColorCodes[player.team.short_name]
-                  ? teamColorCodes[player.team.short_name].bg
+                teamColorCodes(colorMode)[player.team.short_name]
+                  ? teamColorCodes(colorMode)[player.team.short_name].bg
                   : "white"
               }
               color={
-                teamColorCodes[player.team.short_name]
-                  ? teamColorCodes[player.team.short_name].color
+                teamColorCodes(colorMode)[player.team.short_name]
+                  ? teamColorCodes(colorMode)[player.team.short_name].color
                   : "black"
               }
             >
@@ -208,11 +208,14 @@ const SwapablePlayer = ({
               height="100%"
               flexShrink={0}
               bgColor={
-                positionColorCodes[player.element_type.singular_name_short]
-                  .background
+                positionColorCodes(colorMode)[
+                  player.element_type.singular_name_short
+                ].background
               }
               color={
-                positionColorCodes[player.element_type.singular_name_short].text
+                positionColorCodes(colorMode)[
+                  player.element_type.singular_name_short
+                ].text
               }
             >
               {player.element_type.singular_name_short}

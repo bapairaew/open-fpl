@@ -89,7 +89,9 @@ const PointsSection = ({
             key={i}
             variant={variant}
             fontSize={fontSize}
-            bgColor={`rgba(0, 255, 0, ${h.bps * 2}%)`}
+            bgColor={`rgba(0, ${colorMode === "dark" ? 150 : 200}, 0, ${
+              h.bps * 2
+            }%)`}
             minHeight="10px"
           >
             <Box

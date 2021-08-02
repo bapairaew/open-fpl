@@ -14,76 +14,78 @@ import {
   IoEllipsisVerticalOutline,
   IoReorderFourOutline,
 } from "react-icons/io5";
-import theme from "@open-fpl/common/theme";
 
-const DifficultyColorCodes = () => (
-  <VStack spacing={3} alignItems="flex-start">
-    <Heading as="h2" size="md">
-      Difficulty Color Codes
-    </Heading>
-    <HStack
-      spacing={0}
-      fontSize={{ base: "xs", sm: "md" }}
-      alignItems="stretch"
-    >
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        p={1}
-        width={{ base: "60px", sm: "100px" }}
-        textAlign="center"
-        bgColor={difficultyColorCodes[1].background}
-        color={difficultyColorCodes[1].text}
+const DifficultyColorCodes = () => {
+  const { colorMode } = useColorMode();
+  return (
+    <VStack spacing={3} alignItems="flex-start">
+      <Heading as="h2" size="md">
+        Difficulty Color Codes
+      </Heading>
+      <HStack
+        spacing={0}
+        fontSize={{ base: "xs", sm: "md" }}
+        alignItems="stretch"
       >
-        Very Easy
-      </Flex>
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        p={1}
-        width={{ base: "60px", sm: "100px" }}
-        textAlign="center"
-        bgColor={difficultyColorCodes[2].background}
-        color={difficultyColorCodes[2].text}
-      >
-        Easy
-      </Flex>
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        p={1}
-        width={{ base: "60px", sm: "100px" }}
-        textAlign="center"
-        bgColor={difficultyColorCodes[3].background}
-        color={difficultyColorCodes[3].text}
-      >
-        Normal
-      </Flex>
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        p={1}
-        width={{ base: "60px", sm: "100px" }}
-        textAlign="center"
-        bgColor={difficultyColorCodes[4].background}
-        color={difficultyColorCodes[4].text}
-      >
-        Hard
-      </Flex>
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        p={1}
-        width={{ base: "60px", sm: "100px" }}
-        textAlign="center"
-        bgColor={difficultyColorCodes[5].background}
-        color={difficultyColorCodes[5].text}
-      >
-        Very Hard
-      </Flex>
-    </HStack>
-  </VStack>
-);
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          p={1}
+          width={{ base: "60px", sm: "100px" }}
+          textAlign="center"
+          bgColor={difficultyColorCodes(colorMode)[1].background}
+          color={difficultyColorCodes(colorMode)[1].text}
+        >
+          Very Easy
+        </Flex>
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          p={1}
+          width={{ base: "60px", sm: "100px" }}
+          textAlign="center"
+          bgColor={difficultyColorCodes(colorMode)[2].background}
+          color={difficultyColorCodes(colorMode)[2].text}
+        >
+          Easy
+        </Flex>
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          p={1}
+          width={{ base: "60px", sm: "100px" }}
+          textAlign="center"
+          bgColor={difficultyColorCodes(colorMode)[3].background}
+          color={difficultyColorCodes(colorMode)[3].text}
+        >
+          Normal
+        </Flex>
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          p={1}
+          width={{ base: "60px", sm: "100px" }}
+          textAlign="center"
+          bgColor={difficultyColorCodes(colorMode)[4].background}
+          color={difficultyColorCodes(colorMode)[4].text}
+        >
+          Hard
+        </Flex>
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          p={1}
+          width={{ base: "60px", sm: "100px" }}
+          textAlign="center"
+          bgColor={difficultyColorCodes(colorMode)[5].background}
+          color={difficultyColorCodes(colorMode)[5].text}
+        >
+          Very Hard
+        </Flex>
+      </HStack>
+    </VStack>
+  );
+};
 
 const FixturesHelp = () => {
   const { colorMode } = useColorMode();

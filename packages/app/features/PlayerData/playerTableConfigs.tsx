@@ -46,8 +46,8 @@ const playerTableConfigs = [
             {player.status !== "a" && (
               <Tooltip hasArrow label={player.news}>
                 <CenterFlex
-                  bgColor={statusColorCodes[player.status].bg}
-                  color={statusColorCodes[player.status].color}
+                  bgColor={statusColorCodes(colorMode)[player.status].bg}
+                  color={statusColorCodes(colorMode)[player.status].color}
                   height="100%"
                 >
                   <IoWarningOutline />
@@ -67,49 +67,58 @@ const playerTableConfigs = [
     columnWidth: 80,
     sortFn: playersSortFunctions.team,
     reversedSortFn: playersSortFunctions.reversedTeam,
-    render: ({ player, config }) => (
-      <Td p={0}>
-        <CenterFlex
-          height="32px"
-          width={`${config.columnWidth}px`}
-          bgColor={
-            teamColorCodes[player.team.short_name]
-              ? teamColorCodes[player.team.short_name].bg
-              : "white"
-          }
-          color={
-            teamColorCodes[player.team.short_name]
-              ? teamColorCodes[player.team.short_name].color
-              : "black"
-          }
-        >
-          {player.team.short_name}
-        </CenterFlex>
-      </Td>
-    ),
+    render: ({ player, config }) => {
+      const { colorMode } = useColorMode();
+      return (
+        <Td p={0}>
+          <CenterFlex
+            height="32px"
+            width={`${config.columnWidth}px`}
+            bgColor={
+              teamColorCodes(colorMode)[player.team.short_name]
+                ? teamColorCodes(colorMode)[player.team.short_name].bg
+                : "white"
+            }
+            color={
+              teamColorCodes(colorMode)[player.team.short_name]
+                ? teamColorCodes(colorMode)[player.team.short_name].color
+                : "black"
+            }
+          >
+            {player.team.short_name}
+          </CenterFlex>
+        </Td>
+      );
+    },
   },
   {
     header: "Pos",
     columnWidth: 80,
     sortFn: playersSortFunctions.position,
     reversedSortFn: playersSortFunctions.reversedPosition,
-    render: ({ player, config }) => (
-      <Td p={0}>
-        <CenterFlex
-          height="32px"
-          width={`${config.columnWidth}px`}
-          bgColor={
-            positionColorCodes[player.element_type.singular_name_short]
-              .background
-          }
-          color={
-            positionColorCodes[player.element_type.singular_name_short].text
-          }
-        >
-          {player.element_type.singular_name_short}
-        </CenterFlex>
-      </Td>
-    ),
+    render: ({ player, config }) => {
+      const { colorMode } = useColorMode();
+      return (
+        <Td p={0}>
+          <CenterFlex
+            height="32px"
+            width={`${config.columnWidth}px`}
+            bgColor={
+              positionColorCodes(colorMode)[
+                player.element_type.singular_name_short
+              ].background
+            }
+            color={
+              positionColorCodes(colorMode)[
+                player.element_type.singular_name_short
+              ].text
+            }
+          >
+            {player.element_type.singular_name_short}
+          </CenterFlex>
+        </Td>
+      );
+    },
   },
   {
     header: "Cost",
