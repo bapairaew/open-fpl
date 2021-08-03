@@ -11,11 +11,6 @@ module.exports = withPlausibleProxy()({
         destination: "/help/players",
         permanent: true,
       },
-      {
-        source: "/players",
-        destination: "/",
-        permanent: false,
-      },
     ];
   },
 });

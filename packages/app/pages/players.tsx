@@ -5,7 +5,7 @@ import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import FullScreenMessageWithAppDrawer from "@open-fpl/app/features/Layout/FullScreenMessageWithAppDrawer";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
-import Dashboard from "@open-fpl/app/features/Dashboard/Dashboard";
+import PlayersExplorer from "@open-fpl/app/features/PlayersExplorer/PlayersExplorer";
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
@@ -28,13 +28,13 @@ export const getStaticProps = async () => {
       ) as Promise<Event[]>,
     ]);
 
-    const currentGameweek = fplGameweeks[0];
+    const currentGameweekId = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
 
     return {
       props: {
         teamFixtures,
         fplTeams,
-        currentGameweek,
+        currentGameweekId,
       },
     };
   } catch (e) {
@@ -49,7 +49,7 @@ export const getStaticProps = async () => {
 function PlayersExplorerPage({
   teamFixtures,
   fplTeams,
-  currentGameweek,
+  currentGameweekId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
@@ -57,7 +57,7 @@ function PlayersExplorerPage({
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
-  const isReady = [players, teamFixtures, fplTeams, currentGameweek].every(
+  const isReady = [players, teamFixtures, fplTeams, currentGameweekId].every(
     (x) => x !== undefined
   );
 
@@ -67,7 +67,15 @@ function PlayersExplorerPage({
 
   if (isLocalStorageSupported) {
     if (isReady) {
-      mainContent = <Dashboard currentGameweek={currentGameweek!} />;
+      mainContent = (
+        <PlayersExplorer
+          as="main"
+          players={players!}
+          teamFixtures={teamFixtures!}
+          fplTeams={fplTeams!}
+          currentGameweekId={currentGameweekId!}
+        />
+      );
     } else if (errors.length > 0) {
       mainContent = (
         <UnhandledError
@@ -91,22 +99,22 @@ function PlayersExplorerPage({
   return (
     <>
       <NextSeo
-        title="Dashboard - Open FPL"
-        description="Level up your FPL game with Player Statistics Explorer, Team Planner, Fixture Difficulty Rating."
-        canonical={`${origin}/`}
+        title="Player Statistics Explorer – Open FPL"
+        description="Explore Fantasy Premier League player statistics xG, xGA, and more to make a better decision on your team."
+        canonical={`${origin}/players`}
         openGraph={{
-          url: `${origin}/`,
-          title: "Open FPL",
+          url: `${origin}/players`,
+          title: "Player Statistics Explorer – Open FPL",
           description:
-            "Level up your FPL game with Player Statistics Explorer, Team Planner, Fixture Difficulty Rating.",
+            "Explore Fantasy Premier League player statistics xG, xGA, and more to make a better decision on your team.",
           images: [
             {
               url: getOgImage(
-                "Open FPL.png?width=100,height=100,fontSize=154px"
+                "Player Statistics Explorer.png?width=100,height=100,fontSize=154px"
               ),
               width: 800,
               height: 600,
-              alt: "Open FPL",
+              alt: "Player Statistics Explorer – Open FPL",
             },
           ],
           site_name: "Open FPL",

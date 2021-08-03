@@ -168,7 +168,7 @@ const PlayersExplorerHelp = () => {
           <Text as="p">
             This page explains the data embeded in Player Card and how to use
             each component in{" "}
-            <Link href="/" passHref>
+            <Link href="/players" passHref>
               <A color={colorMode === "dark" ? "brand.200" : "brand.500"}>
                 Player Explorer
               </A>

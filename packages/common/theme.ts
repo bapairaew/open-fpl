@@ -35,6 +35,18 @@ const customTheme = extendTheme(
         "900": "#040e12",
       },
     },
+    components: {
+      Stat: {
+        baseStyle: {
+          label: {
+            noOfLines: 1,
+          },
+          number: {
+            fontWeight: "bold",
+          },
+        },
+      },
+    },
   },
   withDefaultColorScheme({ colorScheme: "brand" })
 );

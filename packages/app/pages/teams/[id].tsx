@@ -51,7 +51,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     ) as Promise<Event[]>,
   ]);
 
-  const currentGameweek = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
+  const currentGameweekId = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
 
   try {
     const [
@@ -59,7 +59,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
       transfers,
       { chips = null },
     ] = await Promise.all([
-      getTeamPicks(+params!.id!, currentGameweek),
+      getTeamPicks(+params!.id!, currentGameweekId),
       getTeamTransfers(+params!.id!),
       getTeamHistory(+params!.id!),
     ]);
@@ -72,7 +72,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
         chips,
         fplTeams,
         teamFixtures,
-        currentGameweek,
+        currentGameweekId,
       },
     };
   } catch (e) {
@@ -91,7 +91,7 @@ const TransferPlannerPage = ({
   chips,
   fplTeams,
   error,
-  currentGameweek,
+  currentGameweekId,
   teamFixtures,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   useTeamPlannerRedirect();
@@ -110,7 +110,7 @@ const TransferPlannerPage = ({
     chips,
     fplTeams,
     teamFixtures,
-    currentGameweek,
+    currentGameweekId,
   ].every((x) => x !== undefined);
 
   const errors = [playersError ? "Players" : null].filter((x) => x) as string[];
@@ -133,7 +133,7 @@ const TransferPlannerPage = ({
           initialPicks={initialPicks ?? null}
           entryHistory={entry_history ?? null}
           players={players!}
-          currentGameweek={currentGameweek!}
+          currentGameweekId={currentGameweekId!}
           transfers={transfers!}
           chips={chips!}
           fplTeams={fplTeams!}
