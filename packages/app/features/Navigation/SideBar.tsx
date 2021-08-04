@@ -25,6 +25,7 @@ import {
   IoLogoGithub,
   IoLogoTwitter,
   IoPeopleCircleOutline,
+  IoRadioButtonOnOutline,
   IoSettingsOutline,
   IoSwapHorizontalOutline,
 } from "react-icons/io5";
@@ -102,7 +103,10 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
         </Box>
       </Link>
       <List flexGrow={1} role="list">
-        <SideBarItem href="/" icon={IoPeopleCircleOutline}>
+        <SideBarItem href="/" icon={IoRadioButtonOnOutline}>
+          Dashboard
+        </SideBarItem>
+        <SideBarItem href="/players" icon={IoPeopleCircleOutline}>
           Players Explorer
         </SideBarItem>
         <SideBarItem

@@ -9,7 +9,7 @@ import { Fragment } from "react";
 const GameweekChanges = ({
   height,
   gameweek,
-  currentGameweek,
+  currentGameweekId,
   invalidChanges,
   changes,
   onRemove,
@@ -17,7 +17,7 @@ const GameweekChanges = ({
 }: {
   height: number;
   gameweek: number;
-  currentGameweek: number;
+  currentGameweekId: number;
   invalidChanges: InvalidChange[];
   changes: Change[];
   onRemove: (change: Change) => void;
@@ -49,7 +49,7 @@ const GameweekChanges = ({
         </Button>
       </Flex>
       {changes.map((change, index) => {
-        const isOutdated = change.gameweek < currentGameweek;
+        const isOutdated = change.gameweek < currentGameweekId;
         const invalidity = invalidChanges.find(
           (c) => c.change.id === change.id
         );

@@ -30,14 +30,14 @@ const TeamSummaryModal = dynamic(
 
 const ChangeLog = ({
   changes,
-  currentGameweek,
+  currentGameweekId,
   invalidChanges,
   gameweekDataList,
   onRemove,
   onMoveToGameweek,
 }: {
   changes: Change[];
-  currentGameweek: number;
+  currentGameweekId: number;
   invalidChanges: InvalidChange[];
   gameweekDataList: GameweekData[];
   onRemove: (change: Change) => void;
@@ -121,7 +121,7 @@ const ChangeLog = ({
                         key={gameweek}
                         height={height}
                         gameweek={+gameweek}
-                        currentGameweek={currentGameweek}
+                        currentGameweekId={currentGameweekId}
                         invalidChanges={invalidChanges}
                         changes={groupedChanges[+gameweek]}
                         onRemove={onRemove}

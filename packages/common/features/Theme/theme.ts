@@ -205,6 +205,16 @@ const customTheme = extendTheme(
           size: "sm",
         },
       },
+      Stat: {
+        baseStyle: {
+          label: {
+            noOfLines: 1,
+          },
+          number: {
+            fontWeight: "bold",
+          },
+        },
+      },
     },
   }
 );

@@ -81,7 +81,7 @@ const TeamPlanner = ({
   initialPicks,
   entryHistory,
   players: remotePlayers,
-  currentGameweek,
+  currentGameweekId,
   transfers,
   chips,
   fplTeams,
@@ -91,7 +91,7 @@ const TeamPlanner = ({
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
   players: Player[];
-  currentGameweek: number;
+  currentGameweekId: number;
   transfers: Transfer[];
   chips: EntryChipPlay[];
   fplTeams: Team[];
@@ -374,7 +374,7 @@ const TeamPlanner = ({
                     initialPicks={initialPicks}
                     entryHistory={entryHistory}
                     players={players}
-                    currentGameweek={currentGameweek}
+                    currentGameweekId={currentGameweekId}
                     transfers={transfers}
                     chips={chips}
                   />
