@@ -1,6 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import ColorModeManager from "@open-fpl/common/features/ColorMode/ColorModeManager";
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/common/features/Theme/theme";
 import { host } from "@open-fpl/www/features/Navigation/internalUrls";
 import PlausibleProvider from "next-plausible";
 import { AppProps } from "next/app";

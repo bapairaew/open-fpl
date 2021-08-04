@@ -1,13 +1,8 @@
-import { Flex, Text, useColorMode } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
-import { teamColorCodes } from "@open-fpl/app/features/TeamData/teamData";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import {
-  positionColorCodes,
-  statusColorCodes,
-} from "@open-fpl/data/features/RemoteData/fplColors";
 import dynamic from "next/dynamic";
 import { IoWarningOutline } from "react-icons/io5";
 
@@ -39,16 +34,13 @@ const NameSection = ({
 }) => {
   const { nameFontSize, defaultFontSize } =
     variants[variant] ?? variants.default;
-  const { colorMode } = useColorMode();
-
   return (
     <Flex fontSize={defaultFontSize} width="100%" alignItems="stretch">
       {player.status !== "a" && (
         <Tooltip hasArrow label={player.news}>
           <CenterFlex
             variant={variant}
-            bgColor={statusColorCodes(colorMode)[player.status].bg}
-            color={statusColorCodes(colorMode)[player.status].color}
+            layerStyle={`fpl-status-${player.status}`}
           >
             <IoWarningOutline />
           </CenterFlex>
@@ -67,45 +59,21 @@ const NameSection = ({
       <CenterFlex
         width="42px"
         variant={variant}
-        bgColor={
-          teamColorCodes(colorMode)[player.team.short_name]
-            ? teamColorCodes(colorMode)[player.team.short_name].bg
-            : "transparent"
-        }
-        color={
-          teamColorCodes(colorMode)[player.team.short_name]
-            ? teamColorCodes(colorMode)[player.team.short_name].color
-            : "transparent"
-        }
+        layerStyle={`fpl-team-${player.team.short_name}`}
       >
         {player.team.short_name}
       </CenterFlex>
       <CenterFlex
         width="42px"
         variant={variant}
-        bgColor={
-          positionColorCodes(colorMode)[player.element_type.singular_name_short]
-            .background
-        }
-        color={
-          positionColorCodes(colorMode)[player.element_type.singular_name_short]
-            .text
-        }
+        layerStyle={`fpl-position-${player.element_type.singular_name_short}`}
       >
         {player.element_type.singular_name_short}
       </CenterFlex>
-      <CenterFlex
-        variant={variant}
-        bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
-        width="48px"
-      >
+      <CenterFlex variant={variant} width="48px" layerStyle="highlight">
         {(+player.selected_by_percent).toFixed(1)}%
       </CenterFlex>
-      <CenterFlex
-        variant={variant}
-        bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
-        width="48px"
-      >
+      <CenterFlex variant={variant} width="48px" layerStyle="highlight">
         £{(player.now_cost / 10).toFixed(1)}
       </CenterFlex>
     </Flex>

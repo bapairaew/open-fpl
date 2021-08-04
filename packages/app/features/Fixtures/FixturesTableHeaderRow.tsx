@@ -1,15 +1,14 @@
 import {
+  Divider,
   MenuDivider,
   MenuGroup,
   MenuItem,
   MenuList,
   Th,
   Tr,
-  useColorMode,
 } from "@chakra-ui/react";
-import TableCellWithMenu from "@open-fpl/app/features/Common/TableCellWithMenu";
+import TableCellWithMenu from "@open-fpl/app/features/Common/Table/TableCellWithMenu";
 import { SortGroup } from "@open-fpl/app/features/Fixtures/FixturesTable";
-import theme from "@open-fpl/common/theme";
 
 const FixturesTableHeaderRow = ({
   onResetSortClick,
@@ -28,7 +27,6 @@ const FixturesTableHeaderRow = ({
   onEasySortGroupClick: (gameweek: number) => void;
   onResetSortGroupClick: () => void;
 }) => {
-  const { colorMode } = useColorMode();
   return (
     <Tr>
       <Th
@@ -37,7 +35,6 @@ const FixturesTableHeaderRow = ({
         top={0}
         position="sticky"
         zIndex={2}
-        bgColor={colorMode === "dark" ? "gray.800" : "white"}
         textAlign="center"
       >
         <TableCellWithMenu
@@ -60,24 +57,8 @@ const FixturesTableHeaderRow = ({
           p={0}
           top={0}
           position="sticky"
-          bgColor={colorMode === "dark" ? "gray.800" : "white"}
           textAlign="center"
-          color={
-            sortGroup.group[0] === i + 1
-              ? colorMode === "dark"
-                ? "brand.200"
-                : "brand.500"
-              : undefined
-          }
-          boxShadow={
-            sortGroup.group[0] === i + 1
-              ? `0 0 0 2px ${
-                  colorMode === "dark"
-                    ? theme.colors.brand[200]
-                    : theme.colors.brand[500]
-                } inset`
-              : undefined
-          }
+          layerStyle={sortGroup.group[0] === i + 1 ? "selected" : undefined}
         >
           <TableCellWithMenu
             p={2}
@@ -109,10 +90,8 @@ const FixturesTableHeaderRow = ({
                         Hard first from GW {sortGroup.group[0]} to here
                       </MenuItem>
                     )}
-                    <MenuItem
-                      color={colorMode === "dark" ? "red.200" : "red.600"}
-                      onClick={() => onResetSortGroupClick()}
-                    >
+                    <Divider />
+                    <MenuItem onClick={() => onResetSortGroupClick()}>
                       Cancel
                     </MenuItem>
                   </MenuGroup>

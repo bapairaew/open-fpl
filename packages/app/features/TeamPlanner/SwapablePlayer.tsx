@@ -9,20 +9,14 @@ import {
   IconButton,
   Text,
   Tooltip,
-  useColorMode,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
 import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
 import PreviousStatsSection from "@open-fpl/app/features/PlayerData/PreviousStatsSection";
-import { teamColorCodes } from "@open-fpl/app/features/TeamData/teamData";
 import SwapablePlayerOptionsModal from "@open-fpl/app/features/TeamPlanner/SwapablePlayerOptionsModal";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import {
-  positionColorCodes,
-  statusColorCodes,
-} from "@open-fpl/data/features/RemoteData/fplColors";
 import { MouseEventHandler } from "react";
 import {
   IoSwapHorizontalOutline,
@@ -36,14 +30,14 @@ export type SwapablePlayerVariant =
   | "swapable"
   | "disabled";
 
-const teamPlayerVariants: (mode: string) => Record<
+const teamPlayerVariants: Record<
   SwapablePlayerVariant,
   {
     buttonProps: ButtonProps;
     otherButtonsProps: ButtonProps;
     boxProps: BoxProps;
   }
-> = (mode) => ({
+> = {
   default: {
     buttonProps: {},
     otherButtonsProps: {},
@@ -58,7 +52,7 @@ const teamPlayerVariants: (mode: string) => Record<
       disabled: true,
     },
     boxProps: {
-      bgColor: mode === "dark" ? "brand.500" : "brand.100",
+      layerStyle: "brandSolid",
       boxShadow: "lg",
     },
   },
@@ -93,7 +87,7 @@ const teamPlayerVariants: (mode: string) => Record<
       pointerEvents: "none",
     },
   },
-});
+};
 
 const SwapablePlayer = ({
   player,
@@ -110,10 +104,8 @@ const SwapablePlayer = ({
   onSetCaptainClick?: MouseEventHandler<HTMLButtonElement>;
   onSetViceCaptainClick?: MouseEventHandler<HTMLButtonElement>;
 }) => {
-  const { colorMode } = useColorMode();
   const { buttonProps, otherButtonsProps, boxProps } =
-    teamPlayerVariants(colorMode)[variant] ??
-    teamPlayerVariants(colorMode).default;
+    teamPlayerVariants[variant] ?? teamPlayerVariants.default;
   const adjustedSellingPrice = player.pick.selling_price / 10;
   // const adjustedPurchasePrice = player.pick.purchase_price / 10;
 
@@ -156,8 +148,7 @@ const SwapablePlayer = ({
                   alignItems="center"
                   height="100%"
                   flexShrink={0}
-                  bgColor={statusColorCodes(colorMode)[player.status].bg}
-                  color={statusColorCodes(colorMode)[player.status].color}
+                  layerStyle={`fpl-status-${player.status}`}
                 >
                   <Icon
                     display={{ base: "none", sm: "flex" }}
@@ -186,16 +177,7 @@ const SwapablePlayer = ({
               alignItems="center"
               height="100%"
               flexShrink={0}
-              bgColor={
-                teamColorCodes(colorMode)[player.team.short_name]
-                  ? teamColorCodes(colorMode)[player.team.short_name].bg
-                  : "transparent"
-              }
-              color={
-                teamColorCodes(colorMode)[player.team.short_name]
-                  ? teamColorCodes(colorMode)[player.team.short_name].color
-                  : "transparent"
-              }
+              layerStyle={`fpl-team-${player.team.short_name}`}
             >
               {player.team.short_name}
             </Flex>
@@ -206,16 +188,7 @@ const SwapablePlayer = ({
               alignItems="center"
               height="100%"
               flexShrink={0}
-              bgColor={
-                positionColorCodes(colorMode)[
-                  player.element_type.singular_name_short
-                ].background
-              }
-              color={
-                positionColorCodes(colorMode)[
-                  player.element_type.singular_name_short
-                ].text
-              }
+              layerStyle={`fpl-position-${player.element_type.singular_name_short}`}
             >
               {player.element_type.singular_name_short}
             </Flex>
@@ -235,8 +208,7 @@ const SwapablePlayer = ({
               px={{ base: 1, sm: 2 }}
               alignItems="center"
               fontWeight="bold"
-              bgColor={colorMode === "dark" ? "brand.200" : "brand.500"}
-              color={colorMode === "dark" ? "gray.800" : "white"}
+              layerStyle="brandSolid"
               display={
                 player.pick.is_captain || player.pick.is_vice_captain
                   ? "flex"
@@ -257,7 +229,7 @@ const SwapablePlayer = ({
           top="1px"
           right="1px"
           opacity={0.3}
-          bgColor={colorMode === "dark" ? "gray.800" : "white"}
+          layerStyle="sticky"
           _groupHover={{ opacity: 1 }}
           _groupFocus={{ opacity: 1 }}
           _groupActive={{ opacity: 1 }}

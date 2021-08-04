@@ -1,4 +1,4 @@
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/common/features/Theme/theme";
 import Document, { Head, Html, Main, NextScript } from "next/document";
 
 class AppDocument extends Document {

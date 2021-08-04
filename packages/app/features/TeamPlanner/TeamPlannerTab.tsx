@@ -12,7 +12,6 @@ import {
   Portal,
   TabProps,
   Text,
-  useColorMode,
   useDisclosure,
   useStyles,
   useTab,
@@ -44,7 +43,6 @@ const TeamPlannerTab = ({
   const { role, tabIndex, id, ...tabProps } = useTab(props);
   const styles = useStyles();
 
-  const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [isRenaming, setIsRenaming] = useState(false);
@@ -119,7 +117,7 @@ const TeamPlannerTab = ({
             m="1px"
             py={2}
             px={4}
-            bgColor={colorMode === "dark" ? "gray.800" : "white"}
+            layerStyle="sticky"
             outline={1}
             onSubmit={handleRenameDone}
           >
@@ -157,10 +155,7 @@ const TeamPlannerTab = ({
                     <MenuItem onClick={handleRenameClick}>Rename</MenuItem>
                     <MenuItem onClick={onDuplicateClick}>Duplicate</MenuItem>
                     <MenuDivider />
-                    <MenuItem
-                      color={colorMode === "dark" ? "red.200" : "red.600"}
-                      onClick={onOpen}
-                    >
+                    <MenuItem layerStyle="danger" onClick={onOpen}>
                       Remove
                     </MenuItem>
                   </MenuList>

@@ -9,7 +9,6 @@ import {
   MenuItem,
   MenuList,
   Portal,
-  useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
 import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
@@ -65,8 +64,6 @@ const ChangeLog = ({
     plausible("team-planner-changelog-open-summary");
   };
 
-  const { colorMode } = useColorMode();
-
   return (
     <>
       {isOpen && (
@@ -79,12 +76,7 @@ const ChangeLog = ({
       )}
       <Box height="50px" borderBottomWidth={1}>
         {changes.length === 0 ? (
-          <Flex
-            px={4}
-            height="100%"
-            alignItems="center"
-            color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
-          >
+          <Flex px={4} height="100%" alignItems="center" layerStyle="subtitle">
             Click on a player below to make a team change
           </Flex>
         ) : (

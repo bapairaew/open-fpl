@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { RoughNotation } from "react-rough-notation";
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/common/features/Theme/theme";
 
 const HeroSection = (props: BoxProps) => {
   const { colorMode } = useColorMode();

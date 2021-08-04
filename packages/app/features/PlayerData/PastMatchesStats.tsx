@@ -58,7 +58,7 @@ const PastMatchesStats = ({
         <CenterFlex
           variant={variant}
           fontSize={fontSize}
-          bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
+          layerStyle="highlight"
           display={{
             base: variant === "mini" ? "none" : "flex",
             sm: "flex",

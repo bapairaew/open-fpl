@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Flex,
   Heading,
   HStack,
@@ -9,18 +10,16 @@ import {
   SliderTrack,
   Text,
   VStack,
-  Button,
-  useColorMode,
 } from "@chakra-ui/react";
-import { IoShield } from "react-icons/io5";
-import { RiSwordFill } from "react-icons/ri";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import {
   assumedMax,
   assumedMin,
 } from "@open-fpl/app/features/TeamData/teamData";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { MouseEvent, useEffect, useState } from "react";
+import { IoShield } from "react-icons/io5";
+import { RiSwordFill } from "react-icons/ri";
 
 const TeamStrengthEditor = ({
   team,
@@ -31,9 +30,6 @@ const TeamStrengthEditor = ({
   onStrengthChange?: (name: keyof TeamStrength, value: number) => void;
   onResetClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }) => {
-  const { colorMode } = useColorMode();
-  const iconColor = colorMode === "dark" ? "brand.200" : "brand.500";
-
   const [homeAttack, setHomeAttack] = useState(team.strength_attack_home);
   const [homeDefence, setHomeDefence] = useState(team.strength_defence_home);
   const [awayAttack, setAwayAttack] = useState(team.strength_attack_away);
@@ -89,7 +85,7 @@ const TeamStrengthEditor = ({
                 <SliderFilledTrack />
               </SliderTrack>
               <SliderThumb boxSize={6}>
-                <Box color={iconColor} as={RiSwordFill} />
+                <Box layerStyle="brand" as={RiSwordFill} />
               </SliderThumb>
             </Slider>
           </Box>
@@ -114,7 +110,7 @@ const TeamStrengthEditor = ({
                 <SliderFilledTrack />
               </SliderTrack>
               <SliderThumb boxSize={6}>
-                <Box color={iconColor} as={IoShield} />
+                <Box layerStyle="brand" as={IoShield} />
               </SliderThumb>
             </Slider>
           </Box>
@@ -141,7 +137,7 @@ const TeamStrengthEditor = ({
                 <SliderFilledTrack />
               </SliderTrack>
               <SliderThumb boxSize={6}>
-                <Box color={iconColor} as={RiSwordFill} />
+                <Box layerStyle="brand" as={RiSwordFill} />
               </SliderThumb>
             </Slider>
           </Box>
@@ -166,7 +162,7 @@ const TeamStrengthEditor = ({
                 <SliderFilledTrack />
               </SliderTrack>
               <SliderThumb boxSize={6}>
-                <Box color={iconColor} as={IoShield} />
+                <Box layerStyle="brand" as={IoShield} />
               </SliderThumb>
             </Slider>
           </Box>

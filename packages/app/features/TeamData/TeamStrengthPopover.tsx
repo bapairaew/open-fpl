@@ -12,17 +12,18 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
+import { makeChartOptions } from "@open-fpl/app/features/Common/Chart/RadarChart";
 import {
   assumedMax,
   assumedMin,
 } from "@open-fpl/app/features/TeamData/teamData";
 import { TeamInfo } from "@open-fpl/app/features/TeamData/teamDataTypes";
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/common/features/Theme/theme";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
 const RadarChart = dynamic(
-  () => import("@open-fpl/app/features/Common/RadarChart")
+  () => import("@open-fpl/app/features/Common/Chart/RadarChart")
 );
 
 const TeamStrengthPopover = ({
@@ -56,51 +57,14 @@ const TeamStrengthPopover = ({
     ],
   };
 
-  const chartOptions = {
-    animation: false,
+  const chartOptions = makeChartOptions(colorMode, {
     scales: {
       r: {
-        grid: {
-          color:
-            colorMode === "dark"
-              ? theme.colors.whiteAlpha[300]
-              : theme.colors.gray[200],
-        },
-        angleLines: {
-          color:
-            colorMode === "dark"
-              ? theme.colors.whiteAlpha[300]
-              : theme.colors.gray[200],
-        },
-        ticks: {
-          backdropColor:
-            colorMode === "dark" ? theme.colors.gray[700] : "white",
-          color:
-            colorMode === "dark"
-              ? theme.colors.whiteAlpha[800]
-              : theme.colors.gray[800],
-        },
-        pointLabels: {
-          color:
-            colorMode === "dark"
-              ? theme.colors.whiteAlpha[800]
-              : theme.colors.gray[800],
-        },
         suggestedMin: assumedMin.teamStrength,
         suggestedMax: assumedMax.teamStrength,
       },
     },
-    plugins: {
-      legend: {
-        labels: {
-          color:
-            colorMode === "dark"
-              ? theme.colors.whiteAlpha[800]
-              : theme.colors.gray[800],
-        },
-      },
-    },
-  };
+  });
 
   return (
     <Popover strategy="fixed" isLazy placement="bottom">
@@ -130,7 +94,9 @@ const TeamStrengthPopover = ({
                       {team.name}
                     </PopoverHeader>
                     <PopoverBody>
-                      <RadarChart data={chartData} options={chartOptions} />
+                      <Box width="290px" height="290px">
+                        <RadarChart data={chartData} options={chartOptions} />
+                      </Box>
                     </PopoverBody>
                   </PopoverContent>
                 </Box>

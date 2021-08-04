@@ -5,21 +5,22 @@ import {
   Container,
   Flex,
   Heading,
+  Icon,
   Link as A,
   ListItem,
   OrderedList,
   Text,
   UnorderedList,
-  useColorMode,
   VStack,
 } from "@chakra-ui/react";
+import { player } from "@open-fpl/app/features/Help/helpData";
+import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
+import PlayerTableHeaderRow from "@open-fpl/app/features/PlayerData/PlayerTableHeaderRow";
+import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerToolbar";
 import Link from "next/link";
 // @ts-ignore
 import { AnnotationCalloutRect } from "react-annotation";
-import { player } from "@open-fpl/app/features/Help/helpData";
-import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
-import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/PlayersExplorerToolbar";
-import PlayerTableHeaderRow from "@open-fpl/app/features/PlayerData/PlayerTableHeaderRow";
+import { IoOpenOutline } from "react-icons/io5";
 
 const ComponentWithHighlight = ({
   children,
@@ -157,7 +158,6 @@ const DemoPlayerCard = () => (
 );
 
 const PlayersExplorerHelp = () => {
-  const { colorMode } = useColorMode();
   return (
     <>
       <Container maxW="container.lg" lineHeight="taller">
@@ -169,9 +169,7 @@ const PlayersExplorerHelp = () => {
             This page explains the data embeded in Player Card and how to use
             each component in{" "}
             <Link href="/" passHref>
-              <A color={colorMode === "dark" ? "brand.200" : "brand.500"}>
-                Player Explorer
-              </A>
+              <A>Player Explorer</A>
             </Link>{" "}
             page.
           </Text>
@@ -198,20 +196,12 @@ const PlayersExplorerHelp = () => {
           </Heading>
           <Text as="p">
             Player data is scraped from{" "}
-            <A
-              color={colorMode === "dark" ? "brand.200" : "brand.500"}
-              isExternal
-              href="https://fantasy.premierleague.com/"
-            >
-              FPL
+            <A isExternal href="https://fantasy.premierleague.com/">
+              FPL <Icon as={IoOpenOutline} />
             </A>{" "}
             and{" "}
-            <A
-              color={colorMode === "dark" ? "brand.200" : "brand.500"}
-              isExternal
-              href="https://understat.com/"
-            >
-              Understat
+            <A isExternal href="https://understat.com/">
+              Understat <Icon as={IoOpenOutline} />
             </A>{" "}
             which is updated once a day around 02:00 AM - 03:00 AM GMT+0.
           </Text>
@@ -457,7 +447,7 @@ const PlayersExplorerHelp = () => {
                 height: "100%",
               }}
             >
-              <PlayerTableHeaderRow />
+              <PlayerTableHeaderRow as="div" />
             </ComponentWithHighlight>
           </Box>
 
@@ -471,25 +461,23 @@ const PlayersExplorerHelp = () => {
             visualisation.
           </Text>
 
-          <Text as="p">
-            <OrderedList spacing={2}>
-              <ListItem>
-                <strong>Grid</strong> consists of the most important player
-                statistics that focuses on the recency and player form to give
-                you a quick glance of how a player has been performed and what
-                their next opponents are.
-              </ListItem>
-              <ListItem>
-                <strong>Table</strong> shows more detailed statistics for each
-                player to give your the overall player profile if you decide to
-                dig deeper in each player performance.
-              </ListItem>
-              <ListItem>
-                <strong>Chart</strong> shows alternative visualisation that aims
-                to help you compare between different players easier.
-              </ListItem>
-            </OrderedList>
-          </Text>
+          <OrderedList spacing={2} pl={4}>
+            <ListItem>
+              <strong>Grid</strong> consists of the most important player
+              statistics that focuses on the recency and player form to give you
+              a quick glance of how a player has been performed and what their
+              next opponents are.
+            </ListItem>
+            <ListItem>
+              <strong>Table</strong> shows more detailed statistics for each
+              player to give your the overall player profile if you decide to
+              dig deeper in each player performance.
+            </ListItem>
+            <ListItem>
+              <strong>Chart</strong> shows alternative visualisation that aims
+              to help you compare between different players easier.
+            </ListItem>
+          </OrderedList>
         </VStack>
       </Container>
     </>

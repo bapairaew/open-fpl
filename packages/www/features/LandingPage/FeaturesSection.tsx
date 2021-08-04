@@ -54,11 +54,7 @@ const FeaturesSection = (props: BoxProps) => {
         <Heading as="h2" fontWeight="black" textAlign="center">
           Features
         </Heading>
-        <Text
-          my={4}
-          color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
-          textAlign="center"
-        >
+        <Text my={4} layerStyle="subtitle" textAlign="center">
           Collection of tools that will help level up your FPL game
         </Text>
         <Grid
@@ -74,7 +70,7 @@ const FeaturesSection = (props: BoxProps) => {
             <Flex
               key={feature.title}
               p={6}
-              bgColor={colorMode === "dark" ? "gray.700" : "white"}
+              layerStyle="sticky"
               boxShadow="lg"
               borderRadius="md"
               flexDirection="column"
@@ -86,7 +82,7 @@ const FeaturesSection = (props: BoxProps) => {
                 {feature.description}
               </Text>
               <Link href={feature.href} passHref>
-                <A color={colorMode === "dark" ? "brand.200" : "brand.500"}>
+                <A>
                   Start using <Icon as={IoArrowForwardOutline} />
                 </A>
               </Link>

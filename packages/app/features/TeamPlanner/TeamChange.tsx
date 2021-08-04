@@ -1,11 +1,4 @@
-import {
-  Box,
-  Flex,
-  Icon,
-  IconButton,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Box, Flex, Icon, IconButton, Text } from "@chakra-ui/react";
 import { getChipDisplayName } from "@open-fpl/app/features/TeamPlanner/chips";
 import {
   Change,
@@ -33,16 +26,16 @@ export type TransferChangeVariant = "invalid" | "outdated" | "default";
 
 export const changeVariants: Record<
   TransferChangeVariant,
-  { icon?: IconType; color?: string; label?: string }
+  { icon?: IconType; layerStyle?: string; label?: string }
 > = {
   invalid: {
     icon: IoAlertCircleOutline,
-    color: "red",
+    layerStyle: "danger",
     label: "Invalid change",
   },
   outdated: {
     icon: IoWarningOutline,
-    color: "yellow",
+    layerStyle: "warning",
     label: "Outdated change",
   },
   default: {},
@@ -61,9 +54,6 @@ const TeamChange = ({
 }) => {
   const variantProp = changeVariants[variant] ?? changeVariants.default;
   const label = errorLabel || variantProp.label;
-
-  const { colorMode } = useColorMode();
-
   let mainComponent = null;
   const width = { base: "80px", sm: "120px" };
 
@@ -74,18 +64,8 @@ const TeamChange = ({
       </Text>
     );
   } else if (change.type === "swap" || change.type === "transfer") {
-    const selectedColor =
-      change.type === "swap"
-        ? undefined
-        : colorMode === "dark"
-        ? "red.200"
-        : "red.500";
-    const targetColor =
-      change.type === "swap"
-        ? undefined
-        : colorMode === "dark"
-        ? "green.200"
-        : "green.500";
+    const selectedColor = change.type === "swap" ? undefined : "danger";
+    const targetColor = change.type === "swap" ? undefined : "success";
     const SelectedIcon =
       change.type === "swap" ? IoSwapVerticalOutline : IoArrowForwardOutline;
     const TargetIcon =
@@ -99,7 +79,7 @@ const TeamChange = ({
             fontSize="xs"
             mt={0.5}
             mr={1}
-            color={selectedColor}
+            layerStyle={selectedColor}
           />
           <Text fontSize="xs" noOfLines={1}>
             {
@@ -114,7 +94,7 @@ const TeamChange = ({
             fontSize="xs"
             mt={0.5}
             mr={1}
-            color={targetColor}
+            layerStyle={targetColor}
           />
           <Text fontSize="xs" noOfLines={1}>
             {
@@ -137,8 +117,7 @@ const TeamChange = ({
           mr={2}
           px={1}
           borderWidth={1}
-          color={colorMode === "dark" ? "gray.800" : "white"}
-          bgColor={colorMode === "dark" ? "brand.200" : "brand.500"}
+          layerStyle="brandSolid"
         >
           {change.type === "set-captain" ? "C" : "V"}
         </Box>
@@ -155,7 +134,7 @@ const TeamChange = ({
           fontSize="xs"
           mt={0.5}
           mr={2}
-          color={colorMode === "dark" ? "brand.200" : "brand.500"}
+          layerStyle="brand"
         />
         <Text fontSize="xs" noOfLines={1}>
           {getChipDisplayName((change as ChipChange).chip)}
@@ -182,11 +161,7 @@ const TeamChange = ({
             alignItems="center"
           >
             <Icon
-              color={
-                colorMode === "dark"
-                  ? `${variantProp.color}.200`
-                  : `${variantProp.color}.600`
-              }
+              layerStyle={variantProp.layerStyle}
               as={variantProp.icon}
               mr={2}
             />

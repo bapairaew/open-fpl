@@ -141,13 +141,10 @@ const FixturesTable = ({
     <AutoSizer>
       {({ height, width }) => (
         <Table
-          colorScheme="gray"
-          variant="unstyled"
           display="block"
           overflow="auto"
           height={`${height}px`}
           width={`${width}px`}
-          size="sm"
         >
           <Thead>
             <FixturesTableHeaderRow

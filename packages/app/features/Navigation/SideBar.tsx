@@ -15,7 +15,7 @@ import {
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import p from "@open-fpl/app/package.json";
 import externalLinks from "@open-fpl/common/features/Navigation/externalLinks";
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/common/features/Theme/theme";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
@@ -45,7 +45,6 @@ const SideBarItem = ({
   const isActive = getIsActive
     ? getIsActive(router.route)
     : router.route === href;
-  const { colorMode } = useColorMode();
 
   return (
     <Link href={href} passHref>
@@ -59,19 +58,7 @@ const SideBarItem = ({
         borderRadius="md"
         fontSize={{ base: "md", sm: "sm" }}
         fontWeight="bold"
-        bgColor={
-          isActive
-            ? colorMode === "dark"
-              ? "whiteAlpha.100"
-              : "gray.100"
-            : "transparent"
-        }
-        _hover={{
-          bgColor: colorMode === "dark" ? "whiteAlpha.50" : "gray.50",
-        }}
-        _active={{
-          bgColor: colorMode === "dark" ? "whiteAlpha.50" : "gray.50",
-        }}
+        layerStyle={isActive ? "highlightClickable" : undefined}
       >
         {icon && <ListIcon fontSize="lg" as={icon} />}
         {children}
@@ -143,19 +130,19 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
           fontSize="xs"
           spacing={1}
         >
-          <A href={externalLinks.changelog} isExternal>
+          <A href={externalLinks.changelog} isExternal variant="plain">
             {p.version}
           </A>
           <Text>·</Text>
           <Link href="/help" passHref>
-            <A>Help</A>
+            <A variant="plain">Help</A>
           </Link>
           <Text>·</Text>
-          <A href={externalLinks.github} isExternal>
+          <A href={externalLinks.github} isExternal variant="plain">
             <Icon aria-label="Github" as={IoLogoGithub} />
           </A>
           <Text>·</Text>
-          <A href={externalLinks.twitter} isExternal>
+          <A href={externalLinks.twitter} isExternal variant="plain">
             <Icon aria-label="Twitter" as={IoLogoTwitter} />
           </A>
         </HStack>

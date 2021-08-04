@@ -1,11 +1,4 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Icon,
-  IconButton,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
 import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import SwapablePlayer, {
@@ -48,13 +41,12 @@ const SelectedTeamSection = ({
   height?: number | string;
   children: ReactNode;
 }) => {
-  const { colorMode } = useColorMode();
   return (
     <>
       <Flex
         px={4}
         py={2}
-        bgColor={colorMode === "dark" ? "gray.800" : "white"}
+        layerStyle="sticky"
         zIndex="sticky"
         position="sticky"
         top={0}
@@ -98,7 +90,6 @@ const SelectedTeam = ({
   onCancel: () => void;
 }) => {
   const plausible = usePlausible<AnalyticsTeamPlanner>();
-  const { colorMode } = useColorMode();
   const { teamPlannerPinnedBench, setTeamPlannerPinnedBench } = useSettings();
 
   const { GKP, DEF, MID, FWD, bench } = teamObject;
@@ -193,7 +184,7 @@ const SelectedTeam = ({
                 position={teamPlannerPinnedBench ? "sticky" : undefined}
                 bottom={0}
                 borderTopWidth={1}
-                bgColor={colorMode === "dark" ? "gray.800" : "white"}
+                layerStyle="sticky"
               >
                 <SelectedTeamSection
                   heading="Bench"

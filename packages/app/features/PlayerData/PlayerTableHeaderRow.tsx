@@ -7,9 +7,8 @@ import {
   TableRowProps,
   Th,
   Tr,
-  useColorMode,
 } from "@chakra-ui/react";
-import TableCellWithMenu from "@open-fpl/app/features/Common/TableCellWithMenu";
+import TableCellWithMenu from "@open-fpl/app/features/Common/Table/TableCellWithMenu";
 import {
   PlayerTableConfig,
   PlayerTableSortChangeHandler,
@@ -27,7 +26,6 @@ export const PlayerTableHeaderRow = ({
   sortColumns?: PlayerTableSortColumnConfig[];
   configs?: PlayerTableConfig[];
 } & TableRowProps) => {
-  const { colorMode } = useColorMode();
   return (
     <Tr {...props}>
       {configs?.map((config) => {
@@ -52,10 +50,6 @@ export const PlayerTableHeaderRow = ({
             top={0}
             left={config.sticky ?? undefined}
             zIndex={2 + (config.sticky !== undefined ? 1 : 0)}
-            bgColor={
-              config.stickyBgColor ??
-              (colorMode === "dark" ? "gray.800" : "white")
-            }
             textAlign="center"
           >
             <TableCellWithMenu

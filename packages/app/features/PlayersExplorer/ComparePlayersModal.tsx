@@ -17,18 +17,19 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
+import { makeChartOptions } from "@open-fpl/app/features/Common/Chart/RadarChart";
 import {
   assumedMax,
   getSummarytData,
 } from "@open-fpl/app/features/PlayerData/playerData";
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/common/features/Theme/theme";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 const RadarChart = dynamic(
-  () => import("@open-fpl/app/features/Common/RadarChart")
+  () => import("@open-fpl/app/features/Common/Chart/RadarChart")
 );
 
 const colors = [
@@ -154,64 +155,25 @@ const ComparePlayersModal = ({
     [players]
   );
 
-  const chartOptions = useMemo(
-    () => ({
-      animation: false,
-      maintainAspectRatio: false,
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: ({ label, raw }: { label: string; raw: number }) =>
-              getActualData(
-                raw,
-                chartData.labels.findIndex((l) => l === label)
-              ),
-          },
-        },
-        legend: {
-          labels: {
-            color:
-              colorMode === "dark"
-                ? theme.colors.whiteAlpha[800]
-                : theme.colors.gray[800],
-          },
+  const chartOptions = makeChartOptions(colorMode, {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: ({ label, raw }: { label: string; raw: number }) =>
+            getActualData(
+              raw,
+              chartData.labels.findIndex((l) => l === label)
+            ),
         },
       },
-      scales: {
-        r: {
-          grid: {
-            color:
-              colorMode === "dark"
-                ? theme.colors.whiteAlpha[300]
-                : theme.colors.gray[200],
-          },
-          angleLines: {
-            color:
-              colorMode === "dark"
-                ? theme.colors.whiteAlpha[300]
-                : theme.colors.gray[200],
-          },
-          ticks: {
-            backdropColor:
-              colorMode === "dark" ? theme.colors.gray[700] : "white",
-            color:
-              colorMode === "dark"
-                ? theme.colors.whiteAlpha[800]
-                : theme.colors.gray[800],
-          },
-          pointLabels: {
-            color:
-              colorMode === "dark"
-                ? theme.colors.whiteAlpha[800]
-                : theme.colors.gray[800],
-          },
-          suggestedMin: 0,
-          suggestedMax: 100,
-        },
+    },
+    scales: {
+      r: {
+        suggestedMin: 0,
+        suggestedMax: 100,
       },
-    }),
-    [chartData]
-  );
+    },
+  });
 
   return isOpen ? (
     <Drawer size="xl" placement="right" isOpen={isOpen} onClose={onClose}>
@@ -237,14 +199,10 @@ const ComparePlayersModal = ({
             </AutoSizer>
           </Flex>
           <Flex overflow="auto" mb={8}>
-            <Table colorScheme="gray" fontSize="sm" size="sm" display="block">
+            <Table fontSize="sm" display="block">
               <Thead>
                 <Tr>
-                  <Th
-                    position="sticky"
-                    left={0}
-                    bgColor={colorMode === "dark" ? "gray.700" : "white"}
-                  />
+                  <Th position="sticky" left={0} />
                   {players.map((p) => (
                     <Th key={p.id} textAlign="right">
                       <Text width="80px" noOfLines={1}>
@@ -257,14 +215,9 @@ const ComparePlayersModal = ({
               <Tbody>
                 {labels.map((label, rowIndex) => (
                   <Tr key={label}>
-                    <Td
-                      textAlign="right"
-                      position="sticky"
-                      left={0}
-                      bgColor={colorMode === "dark" ? "gray.700" : "white"}
-                    >
+                    <Th textAlign="right" position="sticky" left={0}>
                       <Text width="140px">{label}</Text>
-                    </Td>
+                    </Th>
                     {players.map((player, columnIndex) => (
                       <Td
                         key={player.id}

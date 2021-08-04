@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, useColorMode } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import TeamChange from "@open-fpl/app/features/TeamPlanner/TeamChange";
 import {
   Change,
@@ -23,13 +23,12 @@ const GameweekChanges = ({
   onRemove: (change: Change) => void;
   onMoveToGameweek: (gameweek: number) => void;
 }) => {
-  const { colorMode } = useColorMode();
   return (
     <>
       <Flex
         position="sticky"
         left={0}
-        bgColor={colorMode === "dark" ? "gray.800" : "white"}
+        layerStyle="sticky"
         zIndex="sticky"
         textAlign="center"
         alignItems="center"

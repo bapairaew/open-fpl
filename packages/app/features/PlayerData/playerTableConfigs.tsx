@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  Td,
-  Text,
-  Tooltip,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, Td, Text, Th, Tooltip } from "@chakra-ui/react";
 import CenterFlex from "@open-fpl/app/features/PlayerData/CenterFlex";
 import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
 import PastMatchesStats from "@open-fpl/app/features/PlayerData/PastMatchesStats";
@@ -14,11 +6,6 @@ import { assumedMax } from "@open-fpl/app/features/PlayerData/playerData";
 import playersSortFunctions from "@open-fpl/app/features/PlayerData/playersSortFunctions";
 import { PlayerTableConfig } from "@open-fpl/app/features/PlayerData/playerTableTypes";
 import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
-import { teamColorCodes } from "@open-fpl/app/features/TeamData/teamData";
-import {
-  positionColorCodes,
-  statusColorCodes,
-} from "@open-fpl/data/features/RemoteData/fplColors";
 import { IoWarningOutline } from "react-icons/io5";
 
 const playerTableConfigs = [
@@ -29,14 +16,9 @@ const playerTableConfigs = [
     sortFn: playersSortFunctions.name,
     reversedSortFn: playersSortFunctions.reversedName,
     render: ({ player, config }) => {
-      const { colorMode } = useColorMode();
       return (
-        <Td
+        <Th
           p={0}
-          bgColor={
-            config.stickyBgColor ??
-            (colorMode === "dark" ? "gray.800" : "white")
-          }
           fontWeight="bold"
           position="sticky"
           left={config.sticky}
@@ -46,8 +28,7 @@ const playerTableConfigs = [
             {player.status !== "a" && (
               <Tooltip hasArrow label={player.news}>
                 <CenterFlex
-                  bgColor={statusColorCodes(colorMode)[player.status].bg}
-                  color={statusColorCodes(colorMode)[player.status].color}
+                  layerStyle={`fpl-status-${player.status}`}
                   height="100%"
                 >
                   <IoWarningOutline />
@@ -58,7 +39,7 @@ const playerTableConfigs = [
               {player.web_name}
             </Text>
           </Flex>
-        </Td>
+        </Th>
       );
     },
   },
@@ -68,22 +49,12 @@ const playerTableConfigs = [
     sortFn: playersSortFunctions.team,
     reversedSortFn: playersSortFunctions.reversedTeam,
     render: ({ player, config }) => {
-      const { colorMode } = useColorMode();
       return (
         <Td p={0}>
           <CenterFlex
             height="32px"
             width={`${config.columnWidth}px`}
-            bgColor={
-              teamColorCodes(colorMode)[player.team.short_name]
-                ? teamColorCodes(colorMode)[player.team.short_name].bg
-                : "transparent"
-            }
-            color={
-              teamColorCodes(colorMode)[player.team.short_name]
-                ? teamColorCodes(colorMode)[player.team.short_name].color
-                : "transparent"
-            }
+            layerStyle={`fpl-team-${player.team.short_name}`}
           >
             {player.team.short_name}
           </CenterFlex>
@@ -97,22 +68,12 @@ const playerTableConfigs = [
     sortFn: playersSortFunctions.position,
     reversedSortFn: playersSortFunctions.reversedPosition,
     render: ({ player, config }) => {
-      const { colorMode } = useColorMode();
       return (
         <Td p={0}>
           <CenterFlex
             height="32px"
             width={`${config.columnWidth}px`}
-            bgColor={
-              positionColorCodes(colorMode)[
-                player.element_type.singular_name_short
-              ].background
-            }
-            color={
-              positionColorCodes(colorMode)[
-                player.element_type.singular_name_short
-              ].text
-            }
+            layerStyle={`fpl-position-${player.element_type.singular_name_short}`}
           >
             {player.element_type.singular_name_short}
           </CenterFlex>

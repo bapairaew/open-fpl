@@ -1,4 +1,4 @@
-import { Box, useColorMode } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import useLocalStorage from "@open-fpl/app/features/Common/useLocalStorage";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
@@ -53,7 +53,6 @@ const TransferPlannerPanelContent = ({
   setTeamPlan: (change: Change[] | null) => void;
 }) => {
   const plausible = usePlausible<AnalyticsTeamPlanner>();
-  const { colorMode } = useColorMode();
   const [gameweekDelta, setGameweekDelta] = useState(0);
 
   const isStartedFromFirstGameweek =
@@ -265,13 +264,7 @@ const TransferPlannerPanelContent = ({
         gameweekDataList={gameweekDataList}
       />
       {teamInvalidities.length > 0 && (
-        <Box
-          width="100%"
-          py={2}
-          px={4}
-          bgColor={colorMode === "dark" ? "red.200" : "red.600"}
-          color={colorMode === "dark" ? "gray.800" : "white"}
-        >
+        <Box width="100%" py={2} px={4} layerStyle="dangerSolid">
           {teamInvalidities.map((i) => i.message).join(", ")}
         </Box>
       )}

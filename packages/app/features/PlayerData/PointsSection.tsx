@@ -62,8 +62,7 @@ const PointsSection = ({
               p={0.5}
               variant={variant}
               fontSize={fontSize}
-              color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
-              bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
+              layerStyle="highlight"
             >
               {h.was_home
                 ? h.opponent_team_short_name.toUpperCase()
@@ -75,8 +74,7 @@ const PointsSection = ({
               p={0.5}
               variant={variant}
               fontSize={fontSize}
-              color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
-              bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
+              layerStyle="highlight"
             >
               Σ
             </CenterFlex>
@@ -108,7 +106,7 @@ const PointsSection = ({
           <CenterFlex
             variant={variant}
             fontSize={fontSize}
-            bgColor={colorMode === "dark" ? "whiteAlpha.100" : "gray.100"}
+            layerStyle="highlight"
             display={{
               base: variant === "mini" ? "none" : "flex",
               sm: "flex",

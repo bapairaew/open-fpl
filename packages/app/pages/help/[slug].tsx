@@ -8,7 +8,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  useColorMode,
 } from "@chakra-ui/react";
 import { AppDrawerOpenButton } from "@open-fpl/app/features/Layout/AppDrawer";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
@@ -81,7 +80,6 @@ const HelpPage = ({
   index,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
-  const { colorMode } = useColorMode();
 
   const handleClick = (href: string) => (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -126,7 +124,7 @@ const HelpPage = ({
               height="50px"
               position="sticky"
               top={0}
-              bgColor={colorMode === "dark" ? "gray.800" : "white"}
+              layerStyle="sticky"
               zIndex="sticky"
               overflow="auto"
             >

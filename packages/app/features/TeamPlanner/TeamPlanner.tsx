@@ -13,7 +13,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  useColorMode,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -99,7 +98,6 @@ const TeamPlanner = ({
   teamFixtures: TeamFixtures[];
 }) => {
   const plausible = usePlausible<AnalyticsTeamPlanner>();
-  const { colorMode } = useColorMode();
   const toast = useToast();
   const { teamId, customPlayers, preference, setPreference, teamsStrength } =
     useSettings();
@@ -275,10 +273,7 @@ const TeamPlanner = ({
           index={tabIndex}
           onChange={handleTabsChange}
         >
-          <Flex
-            bgColor={colorMode === "dark" ? "whiteAlpha.50" : "gray.50"}
-            display={{ base: "none", sm: "flex" }}
-          >
+          <Flex display={{ base: "none", sm: "flex" }}>
             <ReactSortable
               // NOTE: react-sortablejs typescript is not well-defined so just ignore it
               // @ts-ignore

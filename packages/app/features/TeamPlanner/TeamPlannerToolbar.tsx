@@ -9,7 +9,6 @@ import {
   IconButton,
   Select,
   Text,
-  useColorMode,
   VStack,
 } from "@chakra-ui/react";
 import { getChipDisplayName } from "@open-fpl/app/features/TeamPlanner/chips";
@@ -25,7 +24,6 @@ const ToolbarSection = ({
   label: ReactNode;
   children: ReactNode;
 }) => {
-  const { colorMode } = useColorMode();
   return (
     <VStack spacing={0} px={2} {...props}>
       <Heading
@@ -33,7 +31,7 @@ const ToolbarSection = ({
         fontWeight="normal"
         noOfLines={1}
         width="100%"
-        color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
+        layerStyle="subtitle"
       >
         {label}
       </Heading>

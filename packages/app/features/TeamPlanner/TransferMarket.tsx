@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Flex,
   HStack,
   Icon,
@@ -8,10 +7,9 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Td,
-  useColorMode,
+  Th,
 } from "@chakra-ui/react";
-import StickyHeaderTable from "@open-fpl/app/features/Common/StickyHeaderTable";
+import StickyHeaderTable from "@open-fpl/app/features/Common/Table/StickyHeaderTable";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
 import PlayerTableHeaderRow from "@open-fpl/app/features/PlayerData/PlayerTableHeaderRow";
@@ -27,10 +25,8 @@ import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlanner
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import {
   IoCheckmark,
-  IoCheckmarkCircleOutline,
   IoSearchOutline,
   IoSwapHorizontal,
-  IoSwapVerticalOutline,
 } from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
 
@@ -45,7 +41,6 @@ const TransferMarket = ({
   players: ClientPlayer[];
   onPlayerSelect?: (player: ClientPlayer | null) => void;
 }) => {
-  const { colorMode } = useColorMode();
   const [displayedPlayers, setDisplayedPlayers] = useState(players);
   const [sortColumns, setSortColumns] = useState(
     [] as PlayerTableSortColumnConfig[]
@@ -69,15 +64,9 @@ const TransferMarket = ({
           hideHeader: true,
           hideMenu: true,
           sticky: "0px",
-          stickyBgColor: colorMode ? "gray.700" : "white",
           render: ({ player, config }) => {
             return (
-              <Td
-                p={0}
-                position="sticky"
-                left={config.sticky}
-                bgColor={colorMode ? "gray.700" : "white"}
-              >
+              <Th p={0} position="sticky" left={config.sticky}>
                 <Flex
                   alignItems="center"
                   px={2}
@@ -103,32 +92,19 @@ const TransferMarket = ({
                       icon={<Icon as={IoSwapHorizontal} />}
                       onClick={() => onPlayerSelect?.(player)}
                     />
-                    // <Button
-                    //   size="xs"
-                    //   variant="outline"
-                    //   borderRadius="none"
-                    //   width="100%"
-                    //   onClick={() => onPlayerSelect?.(player)}
-                    // >
-                    //   Transfer
-                    // </Button>
                   )}
                 </Flex>
-              </Td>
+              </Th>
             );
           },
         },
         {
           ...playerTableConfigs[0],
           sticky: "40px",
-          stickyBgColor: colorMode ? "gray.700" : "white",
         },
-        ...playerTableConfigs.slice(1).map((c) => ({
-          ...c,
-          stickyBgColor: colorMode ? "gray.700" : "white",
-        })),
+        ...playerTableConfigs.slice(1),
       ] as PlayerTableConfig[],
-    [playerTableConfigs, colorMode]
+    [playerTableConfigs]
   );
 
   const sortedDisplayedPlayers = useMemo(

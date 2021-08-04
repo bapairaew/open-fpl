@@ -6,6 +6,7 @@
     "@chakra-ui/react": "^1.6.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@open-fpl/data": "1.2.0-pre.1",
     "framer-motion": "^4",
     "next": "^11.0.1",
     "react": "^17.0.2",

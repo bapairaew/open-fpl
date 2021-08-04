@@ -3,7 +3,7 @@ import { cache } from "@open-fpl/app/features/Cache/swrCache";
 import { host } from "@open-fpl/app/features/Navigation/internalUrls";
 import { SettingsContextProvider } from "@open-fpl/app/features/Settings/Settings";
 import ColorModeManager from "@open-fpl/common/features/ColorMode/ColorModeManager";
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/app/../common/features/Theme/theme";
 import PlausibleProvider from "next-plausible";
 import { AppProps } from "next/app";
 import NextNprogress from "nextjs-progressbar";
