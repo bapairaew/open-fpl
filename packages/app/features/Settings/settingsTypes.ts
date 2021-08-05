@@ -15,7 +15,7 @@ export interface Preference {
 export interface Settings {
   isInitialised: boolean; // If settings have been initialised from local storage
   profiles: string[] | null; // List of saved profiles team ID
-  teamId: string | null; // Active profile
+  profile: string | null; // Active profile
   isSettingsModalOpen: boolean;
   onSettingsModalOpen: () => void;
   onSettingsModalClose: () => void;
@@ -27,7 +27,7 @@ export interface Settings {
   playersExplorerDisplayOption: DisplayOptions | null; // Display options for players explorer
   playersExplorerSortOption: SortOptions | null; // Sort options for players explorer
   playersExplorerTableSortColumns: PlayerTableSortColumnConfig[] | null; // Sort columns for table view players explorer
-  setTeamId: (id: string | null) => void;
+  setProfile: (id: string | null) => void;
   setProfiles: (profiles: string[] | null) => void;
   setPreference: (preference: Preference | null) => void;
   setFixturesTeamsOrder: (order: string[] | null) => void;

@@ -69,7 +69,7 @@ const SideBarItem = ({
 };
 
 const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
-  const { onSettingsModalOpen, teamId, preference } = useSettings();
+  const { onSettingsModalOpen, profile, preference } = useSettings();
   const { colorMode } = useColorMode();
   const annotationColor =
     colorMode === "dark" ? theme.colors.brand[200] : theme.colors.brand[500];
@@ -110,7 +110,7 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
           Players Explorer
         </SideBarItem>
         <SideBarItem
-          href={teamId ? `/teams/${teamId}` : "/teams"}
+          href={profile ? `/teams/${profile}` : "/teams"}
           icon={IoSwapHorizontalOutline}
           getIsActive={(href) => href?.startsWith("/teams")}
         >
@@ -122,12 +122,12 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
       </List>
       <VStack p={3} spacing={3} borderTopWidth={1}>
         <Button
-          variant={teamId ? "ghost" : "solid"}
+          variant={profile ? "ghost" : "solid"}
           width="100%"
           onClick={handleSettingsClick}
-          leftIcon={teamId ? <Icon as={IoSettingsOutline} /> : undefined}
+          leftIcon={profile ? <Icon as={IoSettingsOutline} /> : undefined}
         >
-          {teamId ? `${preference?.name ?? teamId}` : "Set up your profile"}
+          {profile ? `${preference?.name ?? profile}` : "Set up your profile"}
         </Button>
         <HStack
           color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}

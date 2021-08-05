@@ -39,8 +39,8 @@ const SettingsContext = createContext<Settings>({
   isInitialised: false,
   profiles: null,
   setProfiles: () => {},
-  teamId: null,
-  setTeamId: () => {},
+  profile: null,
+  setProfile: () => {},
   preference: null,
   setPreference: () => {},
   fixturesTeamsOrder: null,
@@ -71,9 +71,9 @@ export const SettingsContextProvider = ({
   const [profiles, setProfiles, isInitialised] = useLocalStorage<string[]>(
     getProfilesKey()
   );
-  const [teamId, setTeamId] = useLocalStorage<string>(getActiveProfileKey());
+  const [profile, setProfile] = useLocalStorage<string>(getActiveProfileKey());
   const [_preference, setPreference] = useLocalStorage<Preference>(
-    teamId && getPreferenceKey(teamId)
+    profile && getPreferenceKey(profile)
   );
 
   // NOTE: Team plans was saved outside of perference before 1.1.0-pre.1
@@ -82,16 +82,16 @@ export const SettingsContextProvider = ({
   const patchedData = {} as { teamPlans: string[]; starredPlayers: number[] };
 
   if (_preference && !_preference.teamPlans) {
-    const teamPlans = teamId
-      ? getLocalStorageItem<string[]>(getTeamPlansKey(teamId), null)
+    const teamPlans = profile
+      ? getLocalStorageItem<string[]>(getTeamPlansKey(profile), null)
       : null;
     if (teamPlans) patchedData.teamPlans = teamPlans;
   }
 
   if (_preference && !_preference.starredPlayers) {
-    const starredPlayers = teamId
+    const starredPlayers = profile
       ? getLocalStorageItem<number[]>(
-          teamId && getStarredPlayersKey(teamId),
+          profile && getStarredPlayersKey(profile),
           null
         )
       : null;
@@ -147,8 +147,8 @@ export const SettingsContextProvider = ({
         isInitialised,
         profiles,
         setProfiles,
-        teamId,
-        setTeamId,
+        profile,
+        setProfile,
         preference,
         setPreference,
         fixturesTeamsOrder,

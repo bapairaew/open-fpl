@@ -32,13 +32,13 @@ const PlayersExplorer = ({
   players: remotePlayers,
   fplTeams,
   teamFixtures,
-  currentGameweekId,
+  nextGameweekId,
   ...props
 }: BoxProps & {
   players: Player[];
   fplTeams: Team[];
   teamFixtures: TeamFixtures[];
-  currentGameweekId: number;
+  nextGameweekId: number;
 }) => {
   const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
   const {
@@ -81,12 +81,12 @@ const PlayersExplorer = ({
           ...player.client_data,
           gameweeks:
             player.client_data.gameweeks?.slice(
-              currentGameweekId,
-              currentGameweekId + 5
+              nextGameweekId,
+              nextGameweekId + 5
             ) ?? [],
         },
       })),
-    [displayedPlayers, currentGameweekId]
+    [displayedPlayers, nextGameweekId]
   );
 
   const handleDisplayChange = (option: DisplayOptions) => {

@@ -69,7 +69,7 @@ const AddProfile = ({
     HTMLInputElement | HTMLButtonElement | null
   >;
   hasExistedProfile: boolean;
-  onAddProfile?: (teamId: string) => void;
+  onAddProfile?: (profile: string) => void;
 }) => {
   const [formTeamId, setFormTeamId] = useState("");
   const [expanded, setExpanded] = useState(!hasExistedProfile);
@@ -144,7 +144,7 @@ const AddProfile = ({
                 onClick={() => setExpanded(false)}
               />
             )}
-            <FormControl id="teamId">
+            <FormControl id="profile">
               <FormLabel>Team ID</FormLabel>
               <InputGroup>
                 <Input

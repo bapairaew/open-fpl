@@ -9,12 +9,12 @@ import { NextSeo } from "next-seo";
 import Link from "next/link";
 
 const TransferPlannerSetupPage = () => {
-  const { teamId } = useTeamPlannerRedirect();
+  const { profile } = useTeamPlannerRedirect();
   const { onSettingsModalOpen } = useSettings();
 
   let mainContent = null;
 
-  if (teamId) {
+  if (profile) {
     mainContent = (
       <FullScreenMessageWithAppDrawer
         symbol={<Spinner size="xl" />}
@@ -24,7 +24,7 @@ const TransferPlannerSetupPage = () => {
             <Text>
               Please wait while we are bringing you to your Team Planner page.
             </Text>
-            <Link href={`/teams/${teamId}`} passHref>
+            <Link href={`/teams/${profile}`} passHref>
               <A>
                 <Button size="md" onClick={onSettingsModalOpen} variant="link">
                   Click here if it does not work

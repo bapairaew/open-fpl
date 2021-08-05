@@ -1,40 +1,81 @@
 import { Spinner } from "@chakra-ui/react";
+import {
+  getEntry,
+  getFixtures,
+  getEntryPicks,
+} from "@open-fpl/data/features/RemoteData/fpl";
 import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLocalStorage";
+import Dashboard from "@open-fpl/app/features/Dashboard/Dashboard";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import FullScreenMessageWithAppDrawer from "@open-fpl/app/features/Layout/FullScreenMessageWithAppDrawer";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
-import Dashboard from "@open-fpl/app/features/Dashboard/Dashboard";
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { InferGetStaticPropsType } from "next";
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
 
-export const getStaticProps = async () => {
-  try {
-    const [teamFixtures, fplTeams, fplGameweeks] = await Promise.all([
-      fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
-        r.json()
-      ) as Promise<TeamFixtures[]>,
-      fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
-        r.json()
-      ) as Promise<Team[]>,
-      fetch(getDataUrl("/remote-data/fpl_gameweeks/data.json")).then((r) =>
-        r.json()
-      ) as Promise<Event[]>,
-    ]);
+export const getStaticPaths = () => {
+  return { paths: [], fallback: true };
+};
 
-    const currentGameweek = fplGameweeks[0];
+export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
+  if (!params || !params.id) {
+    // Next.js gets here when rendering the page initially on dev mode
+    return {
+      props: {},
+    };
+  }
+
+  if (isNaN(+params!.id)) {
+    return {
+      props: {
+        error:
+          "Invalid FPL ID: Please check help page for the instruction to find a valid FPL ID.",
+      },
+    };
+  }
+
+  const [fplTeams, fplGameweeks] = await Promise.all([
+    fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
+      r.json()
+    ) as Promise<Team[]>,
+    fetch(getDataUrl("/remote-data/fpl_gameweeks/data.json")).then((r) =>
+      r.json()
+    ) as Promise<Event[]>,
+  ]);
+
+  const currentGameweek = fplGameweeks.find((g) => g.is_current) ?? null;
+
+  const nextGameweek =
+    fplGameweeks.find((g) => g.is_next) ??
+    fplGameweeks[fplGameweeks.length - 1];
+
+  try {
+    const [currentPicks, entry, currentFixtures, nextFixtures] =
+      await Promise.all([
+        currentGameweek
+          ? getEntryPicks(+params!.id!, currentGameweek?.id).then(
+              (p) => p.picks
+            )
+          : null,
+        getEntry(+params!.id),
+        currentGameweek && getFixtures(currentGameweek.id),
+        getFixtures(nextGameweek.id),
+      ]);
 
     return {
       props: {
-        teamFixtures,
         fplTeams,
+        entry,
         currentGameweek,
+        currentFixtures,
+        currentPicks,
+        nextGameweek,
+        nextFixtures,
       },
     };
   } catch (e) {
@@ -46,10 +87,14 @@ export const getStaticProps = async () => {
   }
 };
 
-function PlayersExplorerPage({
-  teamFixtures,
+function DashboardPage({
   fplTeams,
+  entry,
   currentGameweek,
+  currentFixtures,
+  currentPicks,
+  nextGameweek,
+  nextFixtures,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
@@ -57,9 +102,16 @@ function PlayersExplorerPage({
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
-  const isReady = [players, teamFixtures, fplTeams, currentGameweek].every(
-    (x) => x !== undefined
-  );
+  const isReady = [
+    players,
+    fplTeams,
+    entry,
+    currentGameweek,
+    currentFixtures,
+    currentPicks,
+    nextGameweek,
+    nextFixtures,
+  ].every((x) => x !== undefined);
 
   const errors = [playersError ? "Players" : null].filter((x) => x) as string[];
 
@@ -67,7 +119,18 @@ function PlayersExplorerPage({
 
   if (isLocalStorageSupported) {
     if (isReady) {
-      mainContent = <Dashboard currentGameweek={currentGameweek!} />;
+      mainContent = (
+        <Dashboard
+          players={players!}
+          fplTeams={fplTeams!}
+          entry={entry!}
+          currentGameweek={currentGameweek!}
+          currentFixtures={currentFixtures!}
+          currentPicks={currentPicks!}
+          nextGameweek={nextGameweek!}
+          nextFixtures={nextFixtures!}
+        />
+      );
     } else if (errors.length > 0) {
       mainContent = (
         <UnhandledError
@@ -82,7 +145,7 @@ function PlayersExplorerPage({
           as="main"
           symbol={<Spinner size="xl" />}
           heading="One moment..."
-          text="Please wait while we are preparing players data."
+          text="Please wait while we are preparing your dashboard data."
         />
       );
     }
@@ -122,4 +185,4 @@ function PlayersExplorerPage({
   );
 }
 
-export default PlayersExplorerPage;
+export default DashboardPage;

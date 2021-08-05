@@ -3,8 +3,8 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-export interface TeamData {
+export interface EntryData {
   name: string;
 }
 
-export interface TeamApiResponse extends ApiResponse<TeamData> {}
+export interface TeamApiResponse extends ApiResponse<EntryData> {}

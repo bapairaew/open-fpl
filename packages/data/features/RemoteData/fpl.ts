@@ -1,12 +1,13 @@
-import fetch, { HeaderInit } from "node-fetch";
 import {
   Bootstrap,
   ElementSummary,
+  Entry,
   EntryEvent,
   EntryHistory,
-  Team,
+  Fixture,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
+import fetch, { HeaderInit } from "node-fetch";
 
 const headers = {
   "sec-ch-ua":
@@ -32,14 +33,14 @@ export const getFPLPlayerSummaryData = (
   }).then((r) => r.json());
 };
 
-export const getTeam = (id: number): Promise<Team> => {
+export const getEntry = (id: number): Promise<Entry> => {
   return fetch(`https://fantasy.premierleague.com/api/entry/${id}/`, {
     headers,
     method: "GET",
   }).then((r) => r.json());
 };
 
-export const getTeamPicks = (
+export const getEntryPicks = (
   id: number,
   event: number
 ): Promise<EntryEvent> => {
@@ -52,16 +53,26 @@ export const getTeamPicks = (
   ).then((r) => r.json());
 };
 
-export const getTeamTransfers = (id: number): Promise<Transfer[]> => {
+export const getEntryTransfers = (id: number): Promise<Transfer[]> => {
   return fetch(`https://fantasy.premierleague.com/api/entry/${id}/transfers/`, {
     headers,
     method: "GET",
   }).then((r) => r.json());
 };
 
-export const getTeamHistory = (id: number): Promise<EntryHistory> => {
+export const getEntryHistory = (id: number): Promise<EntryHistory> => {
   return fetch(`https://fantasy.premierleague.com/api/entry/${id}/history/`, {
     headers,
     method: "GET",
   }).then((r) => r.json());
+};
+
+export const getFixtures = (event: number): Promise<Fixture[]> => {
+  return fetch(
+    `https://fantasy.premierleague.com/api/fixtures/?event=${event}`,
+    {
+      headers,
+      method: "GET",
+    }
+  ).then((r) => r.json());
 };

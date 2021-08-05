@@ -28,13 +28,13 @@ export const getStaticProps = async () => {
       ) as Promise<Event[]>,
     ]);
 
-    const currentGameweekId = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
+    const nextGameweekId = fplGameweeks.find((g) => g.is_next)?.id ?? 38; // Show gameweek 38 at the end of the season
 
     return {
       props: {
         teamFixtures,
         fplTeams,
-        currentGameweekId,
+        nextGameweekId,
       },
     };
   } catch (e) {
@@ -49,7 +49,7 @@ export const getStaticProps = async () => {
 function PlayersExplorerPage({
   teamFixtures,
   fplTeams,
-  currentGameweekId,
+  nextGameweekId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
@@ -57,7 +57,7 @@ function PlayersExplorerPage({
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
-  const isReady = [players, teamFixtures, fplTeams, currentGameweekId].every(
+  const isReady = [players, teamFixtures, fplTeams, nextGameweekId].every(
     (x) => x !== undefined
   );
 
@@ -73,7 +73,7 @@ function PlayersExplorerPage({
           players={players!}
           teamFixtures={teamFixtures!}
           fplTeams={fplTeams!}
-          currentGameweekId={currentGameweekId!}
+          nextGameweekId={nextGameweekId!}
         />
       );
     } else if (errors.length > 0) {

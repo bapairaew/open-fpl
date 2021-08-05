@@ -40,7 +40,7 @@ const TransferPlannerPanelContent = ({
   entryHistory,
   players,
   changes,
-  currentGameweekId,
+  nextGameweekId,
   gameweekDataList,
   setTeamPlan,
 }: {
@@ -48,7 +48,7 @@ const TransferPlannerPanelContent = ({
   entryHistory: EntryEventHistory | null;
   players: ClientPlayer[];
   changes: Change[];
-  currentGameweekId: number;
+  nextGameweekId: number;
   gameweekDataList: GameweekData[];
   setTeamPlan: (change: Change[] | null) => void;
 }) => {
@@ -58,7 +58,7 @@ const TransferPlannerPanelContent = ({
   const isStartedFromFirstGameweek =
     initialPicks === null && entryHistory === null;
 
-  const planningGameweek = currentGameweekId + gameweekDelta;
+  const planningGameweek = nextGameweekId + gameweekDelta;
 
   const transferManagerMode =
     planningGameweek === 1 && isStartedFromFirstGameweek
@@ -217,14 +217,14 @@ const TransferPlannerPanelContent = ({
   const handleToolbarNextGameweek = () => {
     setGameweekDelta(gameweekDelta + 1);
     plausible("team-planner-toolbar-navigate", {
-      props: { gameweek: currentGameweekId + gameweekDelta + 1 },
+      props: { gameweek: nextGameweekId + gameweekDelta + 1 },
     });
   };
 
   const handleToolbarPreviousGameweek = () => {
     setGameweekDelta(gameweekDelta - 1);
     plausible("team-planner-toolbar-navigate", {
-      props: { gameweek: currentGameweekId + gameweekDelta - 1 },
+      props: { gameweek: nextGameweekId + gameweekDelta - 1 },
     });
   };
 
@@ -234,10 +234,10 @@ const TransferPlannerPanelContent = ({
   };
 
   const handlChangelogeMoveToGameweek = (gameweek: number) => {
-    setGameweekDelta(gameweek - currentGameweekId);
+    setGameweekDelta(gameweek - nextGameweekId);
     plausible("team-planner-changelog-navigate", {
       props: {
-        gameweek: gameweek - currentGameweekId,
+        gameweek: gameweek - nextGameweekId,
       },
     });
   };
@@ -249,14 +249,14 @@ const TransferPlannerPanelContent = ({
         hits={hits}
         freeTransfers={freeTransfers}
         chipUsages={chipUsages}
-        currentGameweekId={currentGameweekId}
+        nextGameweekId={nextGameweekId}
         planningGameweek={planningGameweek}
         onPreviousClick={handleToolbarPreviousGameweek}
         onNextClick={handleToolbarNextGameweek}
         onActivatedChipSelectChange={handleChipChange}
       />
       <ChangeLog
-        currentGameweekId={currentGameweekId}
+        nextGameweekId={nextGameweekId}
         changes={changes}
         invalidChanges={invalidChanges}
         onRemove={handleChangelogRemove}
@@ -289,23 +289,23 @@ const TeamPlannerPanel = ({
   initialPicks,
   entryHistory,
   players,
-  currentGameweekId,
+  nextGameweekId,
   transfers,
   chips,
-  teamId,
+  profile,
   teamPlanKey,
 }: {
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
   players: ClientPlayer[];
-  currentGameweekId: number;
+  nextGameweekId: number;
   transfers: Transfer[];
   chips: EntryChipPlay[];
-  teamId: string;
+  profile: string;
   teamPlanKey: string;
 }) => {
   const [teamPlan, setTeamPlan] = useLocalStorage<Change[]>(
-    getTeamPlanKey(teamId, teamPlanKey),
+    getTeamPlanKey(profile, teamPlanKey),
     [] as Change[]
   );
 
@@ -322,7 +322,7 @@ const TeamPlannerPanel = ({
         chips,
         players,
         entryHistory,
-        currentGameweekId,
+        nextGameweekId,
         changes
       ),
     [initialPicks, transfers, chips, players, entryHistory, changes]
@@ -335,7 +335,7 @@ const TeamPlannerPanel = ({
       players={players}
       setTeamPlan={setTeamPlan}
       changes={changes}
-      currentGameweekId={currentGameweekId}
+      nextGameweekId={nextGameweekId}
       gameweekDataList={gameweekDataList}
     />
   );

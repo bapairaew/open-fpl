@@ -39,11 +39,11 @@ import {
 } from "react-icons/io5";
 
 const SettingsProfile = ({
-  teamId,
+  profile,
   radioProps,
   onRemoveClick,
 }: {
-  teamId: string;
+  profile: string;
   radioProps: UseRadioProps;
   onRemoveClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
@@ -56,11 +56,11 @@ const SettingsProfile = ({
   const input = getInputProps();
   const checkbox = getCheckboxProps();
 
-  const [preference] = useLocalStorage<Preference>(getPreferenceKey(teamId));
+  const [preference] = useLocalStorage<Preference>(getPreferenceKey(profile));
 
   const storageSize = useMemo(() => {
     const allTransferPlans = preference?.teamPlans?.map((name) =>
-      getLocalStorageItem<Change[]>(getTeamPlanKey(teamId, name), [])
+      getLocalStorageItem<Change[]>(getTeamPlanKey(profile, name), [])
     );
 
     const allData = [preference, allTransferPlans];
@@ -68,7 +68,7 @@ const SettingsProfile = ({
     return new TextEncoder().encode(JSON.stringify([allData])).length;
   }, [preference]);
 
-  const displayName = preference?.name ?? `Team ${teamId}`;
+  const displayName = preference?.name ?? `Team ${profile}`;
 
   const handleConfirmRemove = (e: MouseEvent<HTMLButtonElement>) => {
     onClose();
@@ -138,7 +138,7 @@ const SettingsProfile = ({
               {displayName}
             </Heading>
             <Text fontSize="xs" layerStyle="subtitle" my={1}>
-              Team ID: {teamId}
+              Team ID: {profile}
             </Text>
             <Text fontSize="xs" layerStyle="subtitle" my={1}>
               Storage size: {numberFormatter(storageSize, 1)}b

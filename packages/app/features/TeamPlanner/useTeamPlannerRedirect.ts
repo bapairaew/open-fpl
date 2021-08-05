@@ -3,14 +3,14 @@ import { useEffect } from "react";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 
 const useTeamPlannerRedirect = () => {
-  const { teamId, isInitialised } = useSettings();
+  const { profile, isInitialised } = useSettings();
   const router = useRouter();
 
   useEffect(() => {
     if (isInitialised) {
       let redirectPath: string;
-      if (teamId) {
-        redirectPath = `/teams/${teamId}`;
+      if (profile) {
+        redirectPath = `/teams/${profile}`;
       } else {
         redirectPath = "/teams";
       }
@@ -18,9 +18,9 @@ const useTeamPlannerRedirect = () => {
         router.push(redirectPath);
       }
     }
-  }, [teamId, isInitialised]);
+  }, [profile, isInitialised]);
 
-  return { teamId, isInitialised };
+  return { profile, isInitialised };
 };
 
 export default useTeamPlannerRedirect;

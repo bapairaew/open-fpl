@@ -81,7 +81,7 @@ const TeamPlanner = ({
   initialPicks,
   entryHistory,
   players: remotePlayers,
-  currentGameweekId,
+  nextGameweekId,
   transfers,
   chips,
   fplTeams,
@@ -91,7 +91,7 @@ const TeamPlanner = ({
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
   players: Player[];
-  currentGameweekId: number;
+  nextGameweekId: number;
   transfers: Transfer[];
   chips: EntryChipPlay[];
   fplTeams: Team[];
@@ -99,7 +99,7 @@ const TeamPlanner = ({
 }) => {
   const plausible = usePlausible<AnalyticsTeamPlanner>();
   const toast = useToast();
-  const { teamId, customPlayers, preference, setPreference, teamsStrength } =
+  const { profile, customPlayers, preference, setPreference, teamsStrength } =
     useSettings();
 
   const teamPlans = preference?.teamPlans ?? ["Plan One"];
@@ -150,7 +150,7 @@ const TeamPlanner = ({
     [remotePlayers, preference?.starredPlayers, customPlayers]
   );
 
-  useEffect(() => setTabIndex(0), [teamId]);
+  useEffect(() => setTabIndex(0), [profile]);
 
   const handleTabsChange = (index: number) => setTabIndex(index);
 
@@ -179,13 +179,13 @@ const TeamPlanner = ({
         if (index !== -1) {
           nextTransferPlans[index] = newName;
           setTeamPlans(nextTransferPlans);
-          if (teamId) {
+          if (profile) {
             const data = getLocalStorageItem(
-              getTeamPlanKey(teamId, oldName),
+              getTeamPlanKey(profile, oldName),
               []
             );
-            setLocalStorageItem(getTeamPlanKey(teamId, newName), data);
-            removeLocalStorageItem(getTeamPlanKey(teamId, oldName));
+            setLocalStorageItem(getTeamPlanKey(profile, newName), data);
+            removeLocalStorageItem(getTeamPlanKey(profile, oldName));
             plausible("team-planner-plans-rename");
           }
         }
@@ -198,10 +198,10 @@ const TeamPlanner = ({
       const nextIndex = teamPlans.length;
       const name = getDefaultName(teamPlans);
       setTeamPlans([...teamPlans, name]);
-      if (teamId) {
+      if (profile) {
         setLocalStorageItem(
-          getTeamPlanKey(teamId, name),
-          getLocalStorageItem(getTeamPlanKey(teamId, plan), [])
+          getTeamPlanKey(profile, name),
+          getLocalStorageItem(getTeamPlanKey(profile, plan), [])
         );
         setTabIndex(nextIndex);
         plausible("team-planner-plans-duplicate");
@@ -223,8 +223,8 @@ const TeamPlanner = ({
         }
       }
 
-      if (teamId) {
-        removeLocalStorageItem(getTeamPlanKey(teamId, plan));
+      if (profile) {
+        removeLocalStorageItem(getTeamPlanKey(profile, plan));
         plausible("team-planner-plans-remove");
       }
     }
@@ -367,14 +367,14 @@ const TeamPlanner = ({
                 display="flex"
                 flexDirection="column"
               >
-                {teamId && (
+                {profile && (
                   <TeamPlannerPanel
-                    teamId={teamId}
+                    profile={profile}
                     teamPlanKey={plan}
                     initialPicks={initialPicks}
                     entryHistory={entryHistory}
                     players={players}
-                    currentGameweekId={currentGameweekId}
+                    nextGameweekId={nextGameweekId}
                     transfers={transfers}
                     chips={chips}
                   />

@@ -55,27 +55,27 @@ const Fixtures = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleStrengthChange = (
-    teamId: number,
+    profile: number,
     key: keyof TeamStrength,
     value: number
   ) => {
     if (teamsStrength) {
-      const matched = teamsStrength.find((t) => t.id === teamId);
+      const matched = teamsStrength.find((t) => t.id === profile);
       if (matched) {
         setTeamsStrength([
-          ...teamsStrength.filter((t) => t.id !== teamId),
+          ...teamsStrength.filter((t) => t.id !== profile),
           { ...matched, [key]: value },
         ]);
       } else {
-        setTeamsStrength([...teamsStrength, { id: teamId, [key]: value }]);
+        setTeamsStrength([...teamsStrength, { id: profile, [key]: value }]);
       }
       plausible("fixtures-adjust-team-strengths");
     }
   };
 
-  const handleResetStrength = (teamId: number) => {
+  const handleResetStrength = (profile: number) => {
     if (teamsStrength) {
-      setTeamsStrength([...teamsStrength.filter((t) => t.id !== teamId)]);
+      setTeamsStrength([...teamsStrength.filter((t) => t.id !== profile)]);
     }
   };
 

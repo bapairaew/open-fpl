@@ -3,15 +3,17 @@ import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLoc
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import FullScreenMessageWithAppDrawer from "@open-fpl/app/features/Layout/FullScreenMessageWithAppDrawer";
+import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
+import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import TeamPlanner from "@open-fpl/app/features/TeamPlanner/TeamPlanner";
 import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
-  getTeamHistory,
-  getTeamPicks,
-  getTeamTransfers,
+  getEntryHistory,
+  getEntryPicks,
+  getEntryTransfers,
 } from "@open-fpl/data/features/RemoteData/fpl";
 import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
@@ -51,7 +53,11 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     ) as Promise<Event[]>,
   ]);
 
-  const currentGameweekId = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
+  const nextGameweekId: number = fplGameweeks.find((g) => g.is_next)?.id ?? 38; // Show gameweek 38 at the end of the season
+  const picksGameweekId: number =
+    nextGameweekId === 38 || nextGameweekId === 1 // Use gw 1 for preseasons and gw 38 for the end of the season
+      ? nextGameweekId
+      : nextGameweekId - 1;
 
   try {
     const [
@@ -59,9 +65,9 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
       transfers,
       { chips = null },
     ] = await Promise.all([
-      getTeamPicks(+params!.id!, currentGameweekId),
-      getTeamTransfers(+params!.id!),
-      getTeamHistory(+params!.id!),
+      getEntryPicks(+params!.id!, picksGameweekId),
+      getEntryTransfers(+params!.id!),
+      getEntryHistory(+params!.id!),
     ]);
 
     return {
@@ -72,7 +78,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
         chips,
         fplTeams,
         teamFixtures,
-        currentGameweekId,
+        nextGameweekId,
       },
     };
   } catch (e) {
@@ -91,7 +97,7 @@ const TransferPlannerPage = ({
   chips,
   fplTeams,
   error,
-  currentGameweekId,
+  nextGameweekId,
   teamFixtures,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   useTeamPlannerRedirect();
@@ -110,7 +116,7 @@ const TransferPlannerPage = ({
     chips,
     fplTeams,
     teamFixtures,
-    currentGameweekId,
+    nextGameweekId,
   ].every((x) => x !== undefined);
 
   const errors = [playersError ? "Players" : null].filter((x) => x) as string[];
@@ -133,7 +139,7 @@ const TransferPlannerPage = ({
           initialPicks={initialPicks ?? null}
           entryHistory={entry_history ?? null}
           players={players!}
-          currentGameweekId={currentGameweekId!}
+          nextGameweekId={nextGameweekId!}
           transfers={transfers!}
           chips={chips!}
           fplTeams={fplTeams!}
@@ -166,6 +172,27 @@ const TransferPlannerPage = ({
         title="Team Planner – Open FPL"
         description="Plan your team lineup, transfer, starting lineup and your bench ahead of upcoming Fantasy Premier League gameweeks."
         noindex={true}
+        canonical={`${origin}/teams`}
+        openGraph={{
+          url: `${origin}/teams`,
+          title: "Team Planner – Open FPL",
+          description:
+            "Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks.",
+          images: [
+            {
+              url: getOgImage("Team Planner.png?width=100,height=100"),
+              width: 800,
+              height: 600,
+              alt: "Team Planner – Open FPL",
+            },
+          ],
+          site_name: "Open FPL",
+        }}
+        twitter={{
+          handle: "@openfpl",
+          site: "@openfpl",
+          cardType: "summary_large_image",
+        }}
       />
       <AppLayout>{mainContent}</AppLayout>
     </>
