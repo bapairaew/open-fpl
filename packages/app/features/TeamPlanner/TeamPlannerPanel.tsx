@@ -60,7 +60,7 @@ const TransferPlannerPanelContent = ({
 
   const planningGameweek = nextGameweekId + gameweekDelta;
 
-  const transferManagerMode =
+  const teamManagerMode =
     planningGameweek === 1 && isStartedFromFirstGameweek
       ? "preseason"
       : "default";
@@ -163,7 +163,7 @@ const TransferPlannerPanelContent = ({
     player: FullChangePlayer,
     type: "set-captain" | "set-vice-captain"
   ) => {
-    if (transferManagerMode === "preseason") {
+    if (teamManagerMode === "preseason") {
       setTeamPlan(
         addChange(changes, {
           type: "preseason",
@@ -270,7 +270,7 @@ const TransferPlannerPanelContent = ({
       )}
       <Box flexGrow={1}>
         <TeamManager
-          mode={transferManagerMode}
+          mode={teamManagerMode}
           team={team}
           players={adjustedGameweekPlayers}
           onSwap={handleSwap}
@@ -310,7 +310,13 @@ const TeamPlannerPanel = ({
   );
 
   const changes: Change[] = useMemo(
-    () => (teamPlan ? dehydrateFromTeamPlan(teamPlan, players) : []),
+    () =>
+      teamPlan
+        ? dehydrateFromTeamPlan(
+            teamPlan.filter((c) => c.gameweek >= currentGameweek),
+            players
+          )
+        : [],
     [teamPlan, players]
   );
 
