@@ -1,4 +1,3 @@
-# Trigger auto-deployment with empty commit to keep the data fresh
 name: Update data
 on:
   schedule:
@@ -28,10 +27,12 @@ jobs:
         env:
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
       - name: Trigger open-fpl-data redeploy
-        uses: distributhor/workflow-webhook@v2
-        env:
-          webhook_url: ${{ secrets.DEPLOY_DATA_HOOK }}
+        uses: satak/webrequest-action@master
+        with:
+          url: ${{ secrets.DEPLOY_DATA_HOOK }}
+          method: GET
       - name: Trigger open-fpl-data redeploy
-        uses: distributhor/workflow-webhook@v2
-        env:
-          webhook_url: ${{ secrets.DEPLOY_APP_HOOK }}
+        uses: satak/webrequest-action@master
+        with:
+          url: ${{ secrets.DEPLOY_APP_HOOK }}
+          method: GET
