@@ -1,6 +1,6 @@
 {
   "name": "open-fpl",
-  "version": "1.2.0-pre.3",
+  "version": "1.2.0-pre.4",
   "license": "Apache-2.0",
   "devDependencies": {
     "lerna": "^4.0.0"
