@@ -78,10 +78,14 @@ const strategies: StorageStrategy = {
       this.client = createClient(supabaseUrl, supabaseSecretKey!);
     },
     save: async function (type: string, data: any) {
-      const supabase = this.client as SupabaseClient;
-      await supabase
-        .from(type)
-        .insert([{ id: data.id || 1, data }], { upsert: true });
+      try {
+        const supabase = this.client as SupabaseClient;
+        await supabase
+          .from(type)
+          .insert([{ id: data.id || 1, data }], { upsert: true });
+      } catch (e) {
+        console.error(e);
+      }
     },
     getPreviousSnapshots: async function () {
       const supabase = this.client as SupabaseClient;
@@ -120,6 +124,9 @@ const strategies: StorageStrategy = {
 (async function () {
   const isSupabaseMode = supabaseSecretKey !== undefined;
   const strategy = isSupabaseMode ? strategies.supabase : strategies.disk;
+
+  if (isSupabaseMode)
+    console.log("Found Supabase key, using Supabase data storage");
 
   if (resourcesLimit !== "0") {
     const start = new Date();
