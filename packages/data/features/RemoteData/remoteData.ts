@@ -139,8 +139,9 @@ export async function fetchData(config: FetchDataConfig): Promise<any> {
         pRetry(
           async () => {
             try {
-              p.id = p.title.replace(/ /g, "_"); // title is being used as reference instead of actual id in other dataset
-              const stats = await getUnderstatTeamData(p.id);
+              const stats = await getUnderstatTeamData(
+                p.title.replace(/ /g, "_")
+              );
               const data = { ...p, ...stats };
               await saveFn?.understat_teams?.(data);
               delay?.understat_teams && (await wait(delay.understat_teams));

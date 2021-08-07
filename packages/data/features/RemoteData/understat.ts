@@ -74,8 +74,8 @@ export const getUnderstatData = (): Promise<LeagueStat> => {
     });
 };
 
-export const getUnderstatTeamData = (id: string): Promise<TeamStat> => {
-  return fetch(`https://understat.com/team/${id}`, {
+export const getUnderstatTeamData = (slug: string): Promise<TeamStat> => {
+  return fetch(`https://understat.com/team/${slug}`, {
     headers,
     method: "GET",
   })
