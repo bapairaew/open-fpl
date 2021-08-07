@@ -116,7 +116,7 @@ const TeamPlannerHelp = () => {
             In order to use Team Planner, you must first set up your team
             profile. Click the "Set up your profile" button in the bottom left
             corner of the page or you can click{" "}
-            <A role="button" color="brand.500" onClick={onSettingsModalOpen}>
+            <A role="button" onClick={onSettingsModalOpen}>
               here to set up your profile.
             </A>{" "}
             Simply input your FPL ID there and you're good to go! You can also
@@ -142,7 +142,7 @@ const TeamPlannerHelp = () => {
             Each player is respresented by a card. The anatomy of the player
             card is almost the same as described in{" "}
             <Link href="/help/players">
-              <A color="brand.500">Player Explorer</A>
+              <A>Player Explorer</A>
             </Link>{" "}
             but displayed in a more compact form. It also shows player's selling
             price instead of their actual price, and there are buttons to set up

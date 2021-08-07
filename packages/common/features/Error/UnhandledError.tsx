@@ -1,8 +1,9 @@
-import { BoxProps, Link as A, Box, Code, Flex } from "@chakra-ui/react";
+import { Box, BoxProps, Code, Flex, Icon, Link as A } from "@chakra-ui/react";
 import FullScreenMessage, {
   FullScreenMessageProps,
 } from "@open-fpl/common/features/Layout/FullScreenMessage";
 import externalLinks from "@open-fpl/common/features/Navigation/externalLinks";
+import { IoOpenOutline } from "react-icons/io5";
 
 const UnhandledError = ({
   Wrapper = FullScreenMessage,
@@ -21,12 +22,13 @@ const UnhandledError = ({
           <Box>
             To be honest, we are not too sure what happened so please tell us
             what you did on{" "}
-            <A href={externalLinks.github} isExternal color="brand.500">
-              Github
+            <A href={externalLinks.github} isExternal>
+              Github <Icon as={IoOpenOutline} />
             </A>{" "}
             or{" "}
-            <A href={externalLinks.twitter} isExternal color="brand.500">
+            <A href={externalLinks.twitter} isExternal>
               Twitter
+              <Icon as={IoOpenOutline} />
             </A>
             .
           </Box>

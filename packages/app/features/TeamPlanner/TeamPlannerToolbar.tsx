@@ -31,7 +31,7 @@ const ToolbarSection = ({
         fontWeight="normal"
         noOfLines={1}
         width="100%"
-        color="gray.600"
+        layerStyle="subtitle"
       >
         {label}
       </Heading>

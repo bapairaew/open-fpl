@@ -76,7 +76,7 @@ const ChangeLog = ({
       )}
       <Box height="50px" borderBottomWidth={1}>
         {changes.length === 0 ? (
-          <Flex px={4} height="100%" alignItems="center" color="gray.600">
+          <Flex px={4} height="100%" alignItems="center" layerStyle="subtitle">
             Click on a player below to make a team change
           </Flex>
         ) : (

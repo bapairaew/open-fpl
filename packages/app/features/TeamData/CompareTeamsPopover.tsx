@@ -94,7 +94,7 @@ const CompareTeamsPopover = ({
                     </PopoverHeader>
                     <PopoverBody>
                       <Box>
-                        <Flex my={2} fontSize="small" color="gray.600">
+                        <Flex my={2} fontSize="sm" layerStyle="subtitle">
                           <Text flexGrow={1}>
                             {team.short_name} {isHome ? "Home" : "Away"}{" "}
                             {mode === "attack" ? "Attack" : "Defence"} Strength:{" "}
@@ -106,7 +106,7 @@ const CompareTeamsPopover = ({
                         />
                       </Box>
                       <Box my={4}>
-                        <Flex my={2} fontSize="small" color="gray.600">
+                        <Flex my={2} fontSize="sm" layerStyle="subtitle">
                           <Text flexGrow={1}>
                             {opponent.short_name} {isHome ? "Away" : "Home"}{" "}
                             {mode === "attack" ? "Defence" : "Attack"} Strength:{" "}

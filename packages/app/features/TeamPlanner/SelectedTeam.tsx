@@ -46,7 +46,7 @@ const SelectedTeamSection = ({
       <Flex
         px={4}
         py={2}
-        bg="white"
+        layerStyle="sticky"
         zIndex="sticky"
         position="sticky"
         top={0}
@@ -184,7 +184,7 @@ const SelectedTeam = ({
                 position={teamPlannerPinnedBench ? "sticky" : undefined}
                 bottom={0}
                 borderTopWidth={1}
-                bg="white"
+                layerStyle="sticky"
               >
                 <SelectedTeamSection
                   heading="Bench"

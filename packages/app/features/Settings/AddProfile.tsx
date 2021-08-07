@@ -35,6 +35,8 @@ const TeamIDHelpButton = () => {
         <IconButton
           aria-label="help"
           variant="ghost"
+          borderTopLeftRadius="none"
+          borderBottomLeftRadius="none"
           icon={<Icon aria-label="help" as={IoHelpCircleOutline} />}
         />
       </PopoverTrigger>
@@ -47,9 +49,7 @@ const TeamIDHelpButton = () => {
             <PopoverBody>
               Don't know where to find it? Just follow this{" "}
               <Link href="/help/id" passHref>
-                <A color="brand.500" onClick={onSettingsModalClose}>
-                  find your team ID guide
-                </A>
+                <A onClick={onSettingsModalClose}>find your team ID guide</A>
               </Link>
               !
             </PopoverBody>

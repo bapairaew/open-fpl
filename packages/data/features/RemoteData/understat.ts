@@ -20,10 +20,12 @@ const headers = {
   "x-requested-with": "XMLHttpRequest",
 };
 
-export const getUnderstatPlayers = (): Promise<GetUnderstatPlayersResponse> => {
+export const getUnderstatPlayers = (
+  season: number = 2020
+): Promise<GetUnderstatPlayersResponse> => {
   return fetch("https://understat.com/main/getPlayersStats/", {
     headers,
-    body: "league=EPL&season=2020",
+    body: `league=EPL&season=${season}`,
     method: "POST",
   }).then((r) => r.json());
 };
@@ -72,8 +74,8 @@ export const getUnderstatData = (): Promise<LeagueStat> => {
     });
 };
 
-export const getUnderstatTeamData = (id: string): Promise<TeamStat> => {
-  return fetch(`https://understat.com/team/${id}`, {
+export const getUnderstatTeamData = (slug: string): Promise<TeamStat> => {
+  return fetch(`https://understat.com/team/${slug}`, {
     headers,
     method: "GET",
   })

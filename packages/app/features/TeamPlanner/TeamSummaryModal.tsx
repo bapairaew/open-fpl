@@ -13,8 +13,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Fragment } from "react";
-import { positionColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
 import TeamChange from "@open-fpl/app/features/TeamPlanner/TeamChange";
 import { makeTeamGroupObject } from "@open-fpl/app/features/TeamPlanner/teamGroupObject";
 import {
@@ -22,6 +20,7 @@ import {
   FullChangePlayer,
   GameweekData,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import { Fragment } from "react";
 
 const PlayerRow = ({
   player,
@@ -33,25 +32,23 @@ const PlayerRow = ({
   return (
     <>
       <Divider />
-      <Flex
-        bg={isOnBench ? "gray.50" : undefined}
-        color={isOnBench ? "gray.500" : undefined}
-        fontSize="sm"
-        width="160px"
-      >
+      <Flex fontSize="sm" width="160px">
         <Box width="5px">
           <Flex
             borderRightWidth={1}
             width="100%"
             height="100%"
-            bg={
-              positionColorCodes[player.element_type.singular_name_short]
-                .background
-            }
+            layerStyle={`fpl-position-${player.element_type.singular_name_short}`}
           />
         </Box>
         <Flex px={2} py={1} flexGrow={1}>
-          <Text noOfLines={1}>{player.web_name}</Text>
+          <Text
+            noOfLines={1}
+            fontWeight={isOnBench ? "normal" : "bold"}
+            opacity={isOnBench ? 0.7 : 1}
+          >
+            {player.web_name}
+          </Text>
         </Flex>
         {(player.pick.is_captain || player.pick.is_vice_captain) && (
           <Flex
@@ -60,8 +57,7 @@ const PlayerRow = ({
             justifyContent="center"
             alignItems="center"
             borderLeftWidth={1}
-            bg={player.pick.is_captain ? "brand.500" : undefined}
-            color={player.pick.is_captain ? "white" : "brand.500"}
+            layerStyle="brandSolid"
             fontWeight="black"
           >
             {player.pick.is_captain

@@ -9,12 +9,13 @@ import {
   ListIcon,
   ListItem,
   Text,
+  useColorMode,
   VStack,
 } from "@chakra-ui/react";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import p from "@open-fpl/app/package.json";
 import externalLinks from "@open-fpl/common/features/Navigation/externalLinks";
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/common/features/Theme/theme";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
@@ -57,10 +58,7 @@ const SideBarItem = ({
         borderRadius="md"
         fontSize={{ base: "md", sm: "sm" }}
         fontWeight="bold"
-        bg={isActive ? "gray.100" : "transparent"}
-        _hover={{
-          bg: "brand.50",
-        }}
+        layerStyle={isActive ? "highlightClickable" : undefined}
       >
         {icon && <ListIcon fontSize="lg" as={icon} />}
         {children}
@@ -71,6 +69,9 @@ const SideBarItem = ({
 
 const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
   const { onSettingsModalOpen, teamId, preference } = useSettings();
+  const { colorMode } = useColorMode();
+  const annotationColor =
+    colorMode === "dark" ? theme.colors.brand[200] : theme.colors.brand[500];
 
   const handleSettingsClick = () => {
     onSettingsModalOpen();
@@ -86,14 +87,14 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
           textAlign="center"
           fontWeight="black"
           fontSize={{ base: "4xl", sm: "3xl" }}
-          color="white"
+          color={colorMode === "dark" ? "gray.700" : "white"}
           textShadow={`
-          -1px -1px 0 ${theme.colors.brand[500]},  
-           1px -1px 0 ${theme.colors.brand[500]},
-           -1px 1px 0 ${theme.colors.brand[500]},
-            1px 1px 0 ${theme.colors.brand[500]}`}
+          -1px -1px 0 ${annotationColor},  
+           1px -1px 0 ${annotationColor},
+           -1px 1px 0 ${annotationColor},
+            1px 1px 0 ${annotationColor}`}
         >
-          <RoughNotation show type="highlight" color={theme.colors.brand[500]}>
+          <RoughNotation show type="highlight" color={annotationColor}>
             <Box as="span" px={2}>
               Open FPL
             </Box>
@@ -124,20 +125,24 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
         >
           {teamId ? `${preference?.name ?? teamId}` : "Set up your profile"}
         </Button>
-        <HStack color="gray.600" fontSize="xs" spacing={1}>
-          <A href={externalLinks.changelog} isExternal>
+        <HStack
+          color={colorMode === "dark" ? "whiteAlpha.600" : "gray.600"}
+          fontSize="xs"
+          spacing={1}
+        >
+          <A href={externalLinks.changelog} isExternal variant="plain">
             {p.version}
           </A>
           <Text>·</Text>
           <Link href="/help" passHref>
-            <A>Help</A>
+            <A variant="plain">Help</A>
           </Link>
           <Text>·</Text>
-          <A href={externalLinks.github} isExternal>
+          <A href={externalLinks.github} isExternal variant="plain">
             <Icon aria-label="Github" as={IoLogoGithub} />
           </A>
           <Text>·</Text>
-          <A href={externalLinks.twitter} isExternal>
+          <A href={externalLinks.twitter} isExternal variant="plain">
             <Icon aria-label="Twitter" as={IoLogoTwitter} />
           </A>
         </HStack>

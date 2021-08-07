@@ -1,4 +1,5 @@
 import {
+  Divider,
   MenuDivider,
   MenuGroup,
   MenuItem,
@@ -6,9 +7,8 @@ import {
   Th,
   Tr,
 } from "@chakra-ui/react";
-import TableCellWithMenu from "@open-fpl/app/features/Common/TableCellWithMenu";
+import TableCellWithMenu from "@open-fpl/app/features/Common/Table/TableCellWithMenu";
 import { SortGroup } from "@open-fpl/app/features/Fixtures/FixturesTable";
-import theme from "@open-fpl/common/theme";
 
 const FixturesTableHeaderRow = ({
   onResetSortClick,
@@ -35,7 +35,6 @@ const FixturesTableHeaderRow = ({
         top={0}
         position="sticky"
         zIndex={2}
-        bgColor="white"
         textAlign="center"
       >
         <TableCellWithMenu
@@ -58,14 +57,8 @@ const FixturesTableHeaderRow = ({
           p={0}
           top={0}
           position="sticky"
-          bg="white"
           textAlign="center"
-          color={sortGroup.group[0] === i + 1 ? "brand.500" : undefined}
-          boxShadow={
-            sortGroup.group[0] === i + 1
-              ? `0 0 0 2px ${theme.colors.brand[500]} inset`
-              : undefined
-          }
+          layerStyle={sortGroup.group[0] === i + 1 ? "selected" : undefined}
         >
           <TableCellWithMenu
             p={2}
@@ -97,10 +90,8 @@ const FixturesTableHeaderRow = ({
                         Hard first from GW {sortGroup.group[0]} to here
                       </MenuItem>
                     )}
-                    <MenuItem
-                      color="red.600"
-                      onClick={() => onResetSortGroupClick()}
-                    >
+                    <Divider />
+                    <MenuItem onClick={() => onResetSortGroupClick()}>
                       Cancel
                     </MenuItem>
                   </MenuGroup>

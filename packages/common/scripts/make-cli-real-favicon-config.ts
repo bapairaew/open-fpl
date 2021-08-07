@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node -O {"module":"commonjs"} -r tsconfig-paths/register
 
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/common/features/Theme/theme";
 import fs from "fs";
 
 const config = {

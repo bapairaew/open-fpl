@@ -15,13 +15,8 @@ import {
 import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
 import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
 import PreviousStatsSection from "@open-fpl/app/features/PlayerData/PreviousStatsSection";
-import { teamColorCodes } from "@open-fpl/app/features/TeamData/teamData";
 import SwapablePlayerOptionsModal from "@open-fpl/app/features/TeamPlanner/SwapablePlayerOptionsModal";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import {
-  positionColorCodes,
-  statusColorCodes,
-} from "@open-fpl/data/features/RemoteData/fplColors";
 import { MouseEventHandler } from "react";
 import {
   IoSwapHorizontalOutline,
@@ -57,9 +52,8 @@ const teamPlayerVariants: Record<
       disabled: true,
     },
     boxProps: {
-      bg: "highlight",
+      layerStyle: "brandSolid",
       boxShadow: "lg",
-      borderColor: "brand.500",
     },
   },
   swapable: {
@@ -67,11 +61,11 @@ const teamPlayerVariants: Record<
       display: "block",
       variant: "outline",
       _hover: {
-        bg: "transparent",
+        bgColor: "transparent",
         boxShadow: "md",
       },
       _focus: {
-        bg: "transparent",
+        bgColor: "transparent",
         boxShadow: "md",
       },
     },
@@ -154,8 +148,7 @@ const SwapablePlayer = ({
                   alignItems="center"
                   height="100%"
                   flexShrink={0}
-                  bg={statusColorCodes[player.status].bg}
-                  color={statusColorCodes[player.status].color}
+                  layerStyle={`fpl-status-${player.status}`}
                 >
                   <Icon
                     display={{ base: "none", sm: "flex" }}
@@ -184,16 +177,7 @@ const SwapablePlayer = ({
               alignItems="center"
               height="100%"
               flexShrink={0}
-              bg={
-                teamColorCodes[player.team.short_name]
-                  ? teamColorCodes[player.team.short_name].bg
-                  : "white"
-              }
-              color={
-                teamColorCodes[player.team.short_name]
-                  ? teamColorCodes[player.team.short_name].color
-                  : "black"
-              }
+              layerStyle={`fpl-team-${player.team.short_name}`}
             >
               {player.team.short_name}
             </Flex>
@@ -204,13 +188,7 @@ const SwapablePlayer = ({
               alignItems="center"
               height="100%"
               flexShrink={0}
-              bg={
-                positionColorCodes[player.element_type.singular_name_short]
-                  .background
-              }
-              color={
-                positionColorCodes[player.element_type.singular_name_short].text
-              }
+              layerStyle={`fpl-position-${player.element_type.singular_name_short}`}
             >
               {player.element_type.singular_name_short}
             </Flex>
@@ -230,8 +208,7 @@ const SwapablePlayer = ({
               px={{ base: 1, sm: 2 }}
               alignItems="center"
               fontWeight="bold"
-              bg="brand.500"
-              color="white"
+              layerStyle="brandSolid"
               display={
                 player.pick.is_captain || player.pick.is_vice_captain
                   ? "flex"
@@ -252,7 +229,7 @@ const SwapablePlayer = ({
           top="1px"
           right="1px"
           opacity={0.3}
-          bg="white"
+          layerStyle="sticky"
           _groupHover={{ opacity: 1 }}
           _groupFocus={{ opacity: 1 }}
           _groupActive={{ opacity: 1 }}

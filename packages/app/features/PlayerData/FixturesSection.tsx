@@ -1,9 +1,8 @@
-import { Flex, Grid, Box } from "@chakra-ui/react";
+import { Box, Flex, Grid } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
-import { difficultyColorCodes } from "@open-fpl/data/features/RemoteData/fplColors";
 
 const FixturesSection = ({
   variant = "default",
@@ -44,8 +43,7 @@ const FixturesSection = ({
                   fontSize={fontSize}
                   variant={variant}
                   height={`${100 / fixtures.length}%`}
-                  bg={difficultyColorCodes[fixture.difficulty].background}
-                  color={difficultyColorCodes[fixture.difficulty].text}
+                  layerStyle={`fpl-difficulty-${fixture.difficulty}`}
                 >
                   <Box display={textDisplay}>
                     {fixture.is_home

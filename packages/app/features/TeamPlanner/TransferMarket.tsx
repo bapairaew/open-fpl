@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Flex,
   HStack,
   Icon,
@@ -8,9 +7,9 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Td,
+  Th,
 } from "@chakra-ui/react";
-import StickyHeaderTable from "@open-fpl/app/features/Common/StickyHeaderTable";
+import StickyHeaderTable from "@open-fpl/app/features/Common/Table/StickyHeaderTable";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
 import PlayerTableHeaderRow from "@open-fpl/app/features/PlayerData/PlayerTableHeaderRow";
@@ -26,10 +25,8 @@ import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlanner
 import { CSSProperties, useEffect, useMemo, useState } from "react";
 import {
   IoCheckmark,
-  IoCheckmarkCircleOutline,
   IoSearchOutline,
   IoSwapHorizontal,
-  IoSwapVerticalOutline,
 } from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
 
@@ -58,58 +55,57 @@ const TransferMarket = ({
     setDisplayedPlayers(fiterThenSortFn(players));
   }, [fiterThenSortFn]);
 
-  const configs = [
-    {
-      header: "Tool",
-      columnWidth: "40px",
-      hideHeader: true,
-      hideMenu: true,
-      sticky: "0px",
-      render: ({ player, config }) => {
-        return (
-          <Td p={0} position="sticky" left={config.sticky} bg="white">
-            <Flex alignItems="center" px={2} width={`${config.columnWidth}px`}>
-              {player.id === selectedPlayer?.id ||
-              team.some((p) => p.id === player.id) ? (
-                <IconButton
-                  size="xs"
-                  variant="outline"
-                  aria-label="in team"
-                  borderRadius="none"
-                  disabled
-                  icon={<Icon as={IoCheckmark} />}
-                  onClick={() => onPlayerSelect?.(player)}
-                />
-              ) : (
-                <IconButton
-                  size="xs"
-                  variant="outline"
-                  aria-label="transfer"
-                  borderRadius="none"
-                  icon={<Icon as={IoSwapHorizontal} />}
-                  onClick={() => onPlayerSelect?.(player)}
-                />
-                // <Button
-                //   size="xs"
-                //   variant="outline"
-                //   borderRadius="none"
-                //   width="100%"
-                //   onClick={() => onPlayerSelect?.(player)}
-                // >
-                //   Transfer
-                // </Button>
-              )}
-            </Flex>
-          </Td>
-        );
-      },
-    },
-    {
-      ...playerTableConfigs[0],
-      sticky: "40px",
-    },
-    ...playerTableConfigs.slice(1),
-  ] as PlayerTableConfig[];
+  const configs = useMemo(
+    () =>
+      [
+        {
+          header: "Tool",
+          columnWidth: "40px",
+          hideHeader: true,
+          hideMenu: true,
+          sticky: "0px",
+          render: ({ player, config }) => {
+            return (
+              <Th p={0} position="sticky" left={config.sticky}>
+                <Flex
+                  alignItems="center"
+                  px={2}
+                  width={`${config.columnWidth}px`}
+                >
+                  {player.id === selectedPlayer?.id ||
+                  team.some((p) => p.id === player.id) ? (
+                    <IconButton
+                      size="xs"
+                      variant="outline"
+                      aria-label="in team"
+                      borderRadius="none"
+                      disabled
+                      icon={<Icon as={IoCheckmark} />}
+                      onClick={() => onPlayerSelect?.(player)}
+                    />
+                  ) : (
+                    <IconButton
+                      size="xs"
+                      variant="outline"
+                      aria-label="transfer"
+                      borderRadius="none"
+                      icon={<Icon as={IoSwapHorizontal} />}
+                      onClick={() => onPlayerSelect?.(player)}
+                    />
+                  )}
+                </Flex>
+              </Th>
+            );
+          },
+        },
+        {
+          ...playerTableConfigs[0],
+          sticky: "40px",
+        },
+        ...playerTableConfigs.slice(1),
+      ] as PlayerTableConfig[],
+    [playerTableConfigs]
+  );
 
   const sortedDisplayedPlayers = useMemo(
     () => sortPlayerTable(displayedPlayers, sortColumns, configs),

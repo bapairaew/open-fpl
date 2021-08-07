@@ -1,20 +1,23 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useColorMode } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
+import { makeChartOptions } from "@open-fpl/app/features/Common/Chart/RadarChart";
 import NameSection from "@open-fpl/app/features/PlayerData/NameSection";
 import {
   assumedMax,
   getSummarytData,
 } from "@open-fpl/app/features/PlayerData/playerData";
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/common/features/Theme/theme";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import dynamic from "next/dynamic";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 const RadarChart = dynamic(
-  () => import("@open-fpl/app/features/Common/RadarChart")
+  () => import("@open-fpl/app/features/Common/Chart/RadarChart")
 );
 
 const PlayerChartCard = ({ player }: { player: Player }) => {
+  const { colorMode } = useColorMode();
+  const colorLevel = colorMode === "dark" ? 200 : 500;
   const {
     recentG,
     recentA,
@@ -92,16 +95,17 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
           // seasonXGA,
           // seasonBPS,
         ],
-        backgroundColor: transparentize(theme.colors.brand[100], 0.2),
-        borderColor: theme.colors.brand[500],
+        backgroundColor: transparentize(
+          theme.colors.brand[colorLevel],
+          0.4
+        )(theme),
+        borderColor: theme.colors.brand[colorLevel],
         borderWidth: 1,
       },
     ],
   };
 
-  const chartOptions = {
-    animation: false,
-    maintainAspectRatio: false,
+  const chartOptions = makeChartOptions(colorMode, {
     plugins: {
       legend: {
         display: false,
@@ -122,7 +126,7 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
         suggestedMax: 100,
       },
     },
-  };
+  });
 
   return (
     <Flex flexDirection="column" borderWidth={1} height="205px">

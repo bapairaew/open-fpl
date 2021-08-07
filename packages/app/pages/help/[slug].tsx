@@ -1,14 +1,13 @@
 import {
+  Divider,
+  Flex,
+  HStack,
   Icon,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Box,
-  Divider,
-  HStack,
-  Flex,
 } from "@chakra-ui/react";
 import { AppDrawerOpenButton } from "@open-fpl/app/features/Layout/AppDrawer";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
@@ -81,6 +80,7 @@ const HelpPage = ({
   index,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
+
   const handleClick = (href: string) => (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     router.push(href);
@@ -124,7 +124,7 @@ const HelpPage = ({
               height="50px"
               position="sticky"
               top={0}
-              bg="white"
+              layerStyle="sticky"
               zIndex="sticky"
               overflow="auto"
             >

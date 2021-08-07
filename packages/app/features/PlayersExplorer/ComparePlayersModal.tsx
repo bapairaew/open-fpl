@@ -14,20 +14,22 @@ import {
   Th,
   Thead,
   Tr,
+  useColorMode,
 } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
+import { makeChartOptions } from "@open-fpl/app/features/Common/Chart/RadarChart";
 import {
   assumedMax,
   getSummarytData,
 } from "@open-fpl/app/features/PlayerData/playerData";
-import theme from "@open-fpl/common/theme";
+import theme from "@open-fpl/common/features/Theme/theme";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 const RadarChart = dynamic(
-  () => import("@open-fpl/app/features/Common/RadarChart")
+  () => import("@open-fpl/app/features/Common/Chart/RadarChart")
 );
 
 const colors = [
@@ -98,6 +100,7 @@ const ComparePlayersModal = ({
   onClose: () => void;
   players: Player[];
 }) => {
+  const { colorMode } = useColorMode();
   const chartData = useMemo(
     () => ({
       labels,
@@ -141,9 +144,9 @@ const ComparePlayersModal = ({
             seasonBPS,
           ],
           backgroundColor: transparentize(
-            colors[index % colors.length][100],
+            colors[index % colors.length][500],
             0.4
-          ),
+          )(theme),
           borderColor: colors[index % colors.length][500],
           borderWidth: 1,
         };
@@ -152,30 +155,25 @@ const ComparePlayersModal = ({
     [players]
   );
 
-  const chartOptions = useMemo(
-    () => ({
-      animation: false,
-      maintainAspectRatio: false,
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: ({ label, raw }: { label: string; raw: number }) =>
-              getActualData(
-                raw,
-                chartData.labels.findIndex((l) => l === label)
-              ),
-          },
+  const chartOptions = makeChartOptions(colorMode, {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: ({ label, raw }: { label: string; raw: number }) =>
+            getActualData(
+              raw,
+              chartData.labels.findIndex((l) => l === label)
+            ),
         },
       },
-      scales: {
-        r: {
-          suggestedMin: 0,
-          suggestedMax: 100,
-        },
+    },
+    scales: {
+      r: {
+        suggestedMin: 0,
+        suggestedMax: 100,
       },
-    }),
-    [chartData]
-  );
+    },
+  });
 
   return isOpen ? (
     <Drawer size="xl" placement="right" isOpen={isOpen} onClose={onClose}>
@@ -201,10 +199,10 @@ const ComparePlayersModal = ({
             </AutoSizer>
           </Flex>
           <Flex overflow="auto" mb={8}>
-            <Table colorScheme="gray" fontSize="sm" size="sm" display="block">
+            <Table fontSize="sm" display="block">
               <Thead>
                 <Tr>
-                  <Th position="sticky" left={0} bg="white" />
+                  <Th position="sticky" left={0} />
                   {players.map((p) => (
                     <Th key={p.id} textAlign="right">
                       <Text width="80px" noOfLines={1}>
@@ -217,14 +215,16 @@ const ComparePlayersModal = ({
               <Tbody>
                 {labels.map((label, rowIndex) => (
                   <Tr key={label}>
-                    <Td textAlign="right" position="sticky" left={0} bg="white">
+                    <Th textAlign="right" position="sticky" left={0}>
                       <Text width="140px">{label}</Text>
-                    </Td>
+                    </Th>
                     {players.map((player, columnIndex) => (
                       <Td
                         key={player.id}
                         textAlign="right"
-                        bg={`rgba(0, 255, 0, ${Math.min(
+                        bgColor={`rgba(0, ${
+                          colorMode === "dark" ? 150 : 200
+                        }, 0, ${Math.min(
                           100,
                           chartData.datasets[columnIndex].data[rowIndex]
                         )}%)`}

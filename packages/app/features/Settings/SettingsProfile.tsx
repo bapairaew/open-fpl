@@ -134,13 +134,13 @@ const SettingsProfile = ({
             />
           </Flex>
           <Box px={2} py={4} flexGrow={1}>
-            <Heading size="sm" mb={1}>
+            <Heading size="sm" mb={3}>
               {displayName}
             </Heading>
-            <Text color="gray.600" fontSize="xs">
+            <Text fontSize="xs" layerStyle="subtitle" my={1}>
               Team ID: {teamId}
             </Text>
-            <Text color="gray.600" fontSize="xs">
+            <Text fontSize="xs" layerStyle="subtitle" my={1}>
               Storage size: {numberFormatter(storageSize, 1)}b
             </Text>
           </Box>

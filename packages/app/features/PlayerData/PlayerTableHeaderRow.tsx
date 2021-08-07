@@ -8,7 +8,7 @@ import {
   Th,
   Tr,
 } from "@chakra-ui/react";
-import TableCellWithMenu from "@open-fpl/app/features/Common/TableCellWithMenu";
+import TableCellWithMenu from "@open-fpl/app/features/Common/Table/TableCellWithMenu";
 import {
   PlayerTableConfig,
   PlayerTableSortChangeHandler,
@@ -50,7 +50,6 @@ export const PlayerTableHeaderRow = ({
             top={0}
             left={config.sticky ?? undefined}
             zIndex={2 + (config.sticky !== undefined ? 1 : 0)}
-            bgColor="white"
             textAlign="center"
           >
             <TableCellWithMenu

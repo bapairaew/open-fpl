@@ -1,5 +1,5 @@
+import theme from "@open-fpl/common/features/Theme/theme";
 import Document, { Head, Html, Main, NextScript } from "next/document";
-import theme from "@open-fpl/common/theme";
 
 class AppDocument extends Document {
   render() {

@@ -26,16 +26,16 @@ export type TransferChangeVariant = "invalid" | "outdated" | "default";
 
 export const changeVariants: Record<
   TransferChangeVariant,
-  { icon?: IconType; color?: string; label?: string }
+  { icon?: IconType; layerStyle?: string; label?: string }
 > = {
   invalid: {
     icon: IoAlertCircleOutline,
-    color: "red.500",
+    layerStyle: "danger",
     label: "Invalid change",
   },
   outdated: {
     icon: IoWarningOutline,
-    color: "yellow.500",
+    layerStyle: "warning",
     label: "Outdated change",
   },
   default: {},
@@ -54,7 +54,6 @@ const TeamChange = ({
 }) => {
   const variantProp = changeVariants[variant] ?? changeVariants.default;
   const label = errorLabel || variantProp.label;
-
   let mainComponent = null;
   const width = { base: "80px", sm: "120px" };
 
@@ -65,8 +64,8 @@ const TeamChange = ({
       </Text>
     );
   } else if (change.type === "swap" || change.type === "transfer") {
-    const selectedColor = change.type === "swap" ? undefined : "red";
-    const targetColor = change.type === "swap" ? undefined : "green";
+    const selectedColor = change.type === "swap" ? undefined : "danger";
+    const targetColor = change.type === "swap" ? undefined : "success";
     const SelectedIcon =
       change.type === "swap" ? IoSwapVerticalOutline : IoArrowForwardOutline;
     const TargetIcon =
@@ -80,7 +79,7 @@ const TeamChange = ({
             fontSize="xs"
             mt={0.5}
             mr={1}
-            color={selectedColor}
+            layerStyle={selectedColor}
           />
           <Text fontSize="xs" noOfLines={1}>
             {
@@ -95,7 +94,7 @@ const TeamChange = ({
             fontSize="xs"
             mt={0.5}
             mr={1}
-            color={targetColor}
+            layerStyle={targetColor}
           />
           <Text fontSize="xs" noOfLines={1}>
             {
@@ -118,8 +117,7 @@ const TeamChange = ({
           mr={2}
           px={1}
           borderWidth={1}
-          color="white"
-          bg="brand.500"
+          layerStyle="brandSolid"
         >
           {change.type === "set-captain" ? "C" : "V"}
         </Box>
@@ -136,7 +134,7 @@ const TeamChange = ({
           fontSize="xs"
           mt={0.5}
           mr={2}
-          color="brand.500"
+          layerStyle="brand"
         />
         <Text fontSize="xs" noOfLines={1}>
           {getChipDisplayName((change as ChipChange).chip)}
@@ -162,7 +160,11 @@ const TeamChange = ({
             justifyContent="center"
             alignItems="center"
           >
-            <Icon color={variantProp.color} as={variantProp.icon} mr={2} />
+            <Icon
+              layerStyle={variantProp.layerStyle}
+              as={variantProp.icon}
+              mr={2}
+            />
           </Flex>
         </Tooltip>
       )}

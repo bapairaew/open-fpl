@@ -273,7 +273,7 @@ const TeamPlanner = ({
           index={tabIndex}
           onChange={handleTabsChange}
         >
-          <Flex bg="gray.50" display={{ base: "none", sm: "flex" }}>
+          <Flex display={{ base: "none", sm: "flex" }}>
             <ReactSortable
               // NOTE: react-sortablejs typescript is not well-defined so just ignore it
               // @ts-ignore

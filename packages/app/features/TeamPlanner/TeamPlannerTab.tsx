@@ -117,7 +117,7 @@ const TeamPlannerTab = ({
             m="1px"
             py={2}
             px={4}
-            bg="white"
+            layerStyle="sticky"
             outline={1}
             onSubmit={handleRenameDone}
           >
@@ -155,7 +155,7 @@ const TeamPlannerTab = ({
                     <MenuItem onClick={handleRenameClick}>Rename</MenuItem>
                     <MenuItem onClick={onDuplicateClick}>Duplicate</MenuItem>
                     <MenuDivider />
-                    <MenuItem color="red.600" onClick={onOpen}>
+                    <MenuItem layerStyle="danger" onClick={onOpen}>
                       Remove
                     </MenuItem>
                   </MenuList>

@@ -14,8 +14,3 @@ export interface TeamInfo {
   strength_defence_home: number;
   strength_defence_away: number;
 }
-
-export interface TeamColorCode {
-  bg: string;
-  color: string;
-}

@@ -28,7 +28,7 @@ const GameweekChanges = ({
       <Flex
         position="sticky"
         left={0}
-        bg="white"
+        layerStyle="sticky"
         zIndex="sticky"
         textAlign="center"
         alignItems="center"

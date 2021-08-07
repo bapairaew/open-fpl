@@ -5,10 +5,10 @@ import {
   Icon,
   IconButton,
   Link as A,
-  Td,
+  Th,
 } from "@chakra-ui/react";
 import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
-import StickyHeaderTable from "@open-fpl/app/features/Common/StickyHeaderTable";
+import StickyHeaderTable from "@open-fpl/app/features/Common/Table/StickyHeaderTable";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
 import PlayerTableHeaderRow from "@open-fpl/app/features/PlayerData/PlayerTableHeaderRow";
@@ -55,7 +55,7 @@ const PlayersExplorerTable = ({
         const isSelected = selectedPlayers.some((p) => p.id === player.id);
         const isStarred = player.client_data.starred_index > -1;
         return (
-          <Td p={0} bg="white" fontWeight="bold">
+          <Th p={0} fontWeight="bold">
             <Flex alignItems="center" px={2}>
               <Checkbox
                 mr={1}
@@ -91,7 +91,7 @@ const PlayersExplorerTable = ({
                 />
               </A>
             </Flex>
-          </Td>
+          </Th>
         );
       },
     },

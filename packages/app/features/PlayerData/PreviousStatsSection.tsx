@@ -69,8 +69,7 @@ export const TeamsName = ({
           key={i}
           p={0.5}
           fontSize="sm"
-          color="gray.600"
-          bg="gray.100"
+          layerStyle="highlight"
         >
           {s.is_home
             ? (s.opponent_short_title || "").toUpperCase()
@@ -81,8 +80,7 @@ export const TeamsName = ({
         variant={variant}
         p={0.5}
         fontSize="sm"
-        color="gray.600"
-        bg="gray.100"
+        layerStyle="highlight"
       >
         Σ
       </CenterFlex>
