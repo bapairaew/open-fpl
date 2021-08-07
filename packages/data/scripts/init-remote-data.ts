@@ -90,13 +90,22 @@ const strategies: StorageStrategy = {
     getPreviousSnapshots: async function () {
       const supabase = this.client as SupabaseClient;
       const [
-        { data: snapshot_fpl_data },
-        { data: snapshot_understat_data },
-        { data: snapshot_understat_players_data },
+        {
+          data: { data: snapshot_fpl_data },
+        },
+        {
+          data: { data: snapshot_understat_data },
+        },
+        {
+          data: { data: snapshot_understat_players_data },
+        },
       ] = await Promise.all([
-        supabase.from("snapshot_fpl_data").select("*").single(),
-        supabase.from("snapshot_understat_data").select("*").single(),
-        supabase.from("snapshot_understat_players_data").select("*").single(),
+        supabase.from("snapshot_fpl_data").select("data").single(),
+        supabase.from("snapshot_understat_data").select("data").single(),
+        supabase
+          .from("snapshot_understat_players_data")
+          .select("data")
+          .single(),
       ]);
 
       return {
