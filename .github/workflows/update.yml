@@ -2,7 +2,7 @@
 name: Update data
 on:
   schedule:
-    - cron: "40 * * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
 jobs:
   update-data:
@@ -27,3 +27,11 @@ jobs:
         run: yarn --cwd packages/data init-remote-data
         env:
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+      - name: Trigger open-fpl-data redeploy
+        uses: distributhor/workflow-webhook@v2
+        env:
+          webhook_url: ${{ secrets.DEPLOY_DATA_HOOK }}
+      - name: Trigger open-fpl-data redeploy
+        uses: distributhor/workflow-webhook@v2
+        env:
+          webhook_url: ${{ secrets.DEPLOY_APP_HOOK }}
