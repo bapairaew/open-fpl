@@ -1,12 +1,12 @@
 {
   "name": "@open-fpl/common",
-  "version": "1.2.0-pre.4",
+  "version": "1.2.0-pre.5",
   "license": "Apache-2.0",
   "dependencies": {
     "@chakra-ui/react": "^1.6.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@open-fpl/data": "1.2.0-pre.4",
+    "@open-fpl/data": "1.2.0-pre.5",
     "framer-motion": "^4",
     "next": "^11.0.1",
     "react": "^17.0.2",

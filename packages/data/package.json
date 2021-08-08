@@ -1,6 +1,6 @@
 {
   "name": "@open-fpl/data",
-  "version": "1.2.0-pre.4",
+  "version": "1.2.0-pre.5",
   "license": "Apache-2.0",
   "scripts": {
     "init-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-data.ts",
