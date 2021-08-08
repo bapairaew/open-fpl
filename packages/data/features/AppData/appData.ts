@@ -9,12 +9,11 @@ import {
 } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   ElementTypes,
-  Event,
   Team,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { AppRemoteData } from "@open-fpl/data/features/RemoteData/remoteDataTypes";
 import {
   MatchData,
-  PlayerStat,
   TeamStat,
 } from "@open-fpl/data/features/RemoteData/understatTypes";
 
@@ -48,18 +47,12 @@ export const makeAppData = ({
   fplTeams,
   fplElementTypes,
   understatTeams,
+  fplGameweeks,
   playersLinks,
   teamsLinks,
-  fplGameweeks,
-}: {
-  fpl: FPLElement[];
-  understat: PlayerStat[];
-  fplTeams: Team[];
-  fplElementTypes: ElementTypes[];
-  understatTeams: TeamStat[];
+}: AppRemoteData & {
   playersLinks: Record<string, string>;
   teamsLinks: Record<string, string>;
-  fplGameweeks: Event[];
 }): AppData => {
   const gameweeks = fplGameweeks
     .filter((g) => !g.finished && !g.is_current)

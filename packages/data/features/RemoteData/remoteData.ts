@@ -1,14 +1,13 @@
-import pRetry from "p-retry";
-// @ts-ignore
-import asyncPool from "tiny-async-pool";
+import { FPLElement } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   getFPLData,
   getFPLPlayerSummaryData,
 } from "@open-fpl/data/features/RemoteData/fpl";
+import { Element } from "@open-fpl/data/features/RemoteData/fplTypes";
 import {
-  Bootstrap,
-  Element,
-} from "@open-fpl/data/features/RemoteData/fplTypes";
+  AppRemoteData,
+  FetchDataConfig,
+} from "@open-fpl/data/features/RemoteData/remoteDataTypes";
 import {
   getUnderstatData,
   getUnderstatPlayerData,
@@ -16,39 +15,14 @@ import {
   getUnderstatTeamData,
 } from "@open-fpl/data/features/RemoteData/understat";
 import {
-  GetUnderstatPlayersResponse,
   LeagueTeamStat,
+  PlayerStat,
   PlayerStatSummary,
-  LeagueStat,
+  TeamStat,
 } from "@open-fpl/data/features/RemoteData/understatTypes";
-
-type FetchDataConfigOptions<T> = {
-  fpl?: T;
-  understat?: T;
-  understat_teams?: T;
-  fpl_teams?: T;
-  fpl_element_types?: T;
-  fpl_gameweeks?: T;
-};
-
-type GetItemToUpdateFunction = (list: any) => any[];
-
-type OnSnapShotLoadedHandler = (
-  fplData: Bootstrap,
-  underStatData: LeagueStat,
-  understatPlayersResponse: GetUnderstatPlayersResponse
-) => Promise<any> | void;
-
-type SaveItemFunction = (data: any) => Promise<any> | void;
-
-type FetchDataConfig = {
-  onSnapShotLoaded?: OnSnapShotLoadedHandler;
-  saveFn: FetchDataConfigOptions<SaveItemFunction>;
-  getItemsToUpdate?: FetchDataConfigOptions<GetItemToUpdateFunction>;
-  retries?: FetchDataConfigOptions<number>;
-  concurrent?: FetchDataConfigOptions<number>;
-  delay?: FetchDataConfigOptions<number>;
-};
+import pRetry from "p-retry";
+// @ts-ignore
+import asyncPool from "tiny-async-pool";
 
 function wait(t: number) {
   return new Promise(function (resolve) {
@@ -56,7 +30,9 @@ function wait(t: number) {
   });
 }
 
-export async function fetchData(config: FetchDataConfig): Promise<any> {
+export async function fetchData(
+  config: FetchDataConfig
+): Promise<AppRemoteData> {
   const {
     saveFn,
     retries,
@@ -77,7 +53,7 @@ export async function fetchData(config: FetchDataConfig): Promise<any> {
     elements: fplPlayers,
     teams: fplTeams,
     element_types: fplElementTypes,
-    events: fplGameWeeks,
+    events: fplGameweeks,
   } = fplData;
 
   const {
@@ -86,10 +62,14 @@ export async function fetchData(config: FetchDataConfig): Promise<any> {
 
   const { teamsData } = underStatData;
 
-  return Promise.all([
+  const fpl: FPLElement[] = [];
+  const understat: PlayerStat[] = [];
+  const understatTeams: TeamStat[] = [];
+
+  await Promise.all([
     saveFn?.fpl_teams?.(fplTeams),
     saveFn?.fpl_element_types?.(fplElementTypes),
-    saveFn?.fpl_gameweeks?.(fplGameWeeks),
+    saveFn?.fpl_gameweeks?.(fplGameweeks),
     asyncPool(
       concurrent?.fpl || 1,
       getItemsToUpdate?.fpl ? getItemsToUpdate.fpl(fplPlayers) : fplPlayers,
@@ -100,6 +80,7 @@ export async function fetchData(config: FetchDataConfig): Promise<any> {
               const summary = await getFPLPlayerSummaryData(p.id);
               const data = { ...p, ...summary };
               await saveFn?.fpl?.(data);
+              fpl.push(data);
               delay?.fpl && (await wait(delay.fpl));
               return data;
             } catch (e) {
@@ -121,6 +102,7 @@ export async function fetchData(config: FetchDataConfig): Promise<any> {
               const stats = await getUnderstatPlayerData(p.id);
               const data = { ...p, ...stats };
               await saveFn?.understat?.(data);
+              understat.push(data);
               delay?.understat && (await wait(delay.understat));
               return data;
             } catch (e) {
@@ -144,6 +126,7 @@ export async function fetchData(config: FetchDataConfig): Promise<any> {
               );
               const data = { ...p, ...stats };
               await saveFn?.understat_teams?.(data);
+              understatTeams.push(data);
               delay?.understat_teams && (await wait(delay.understat_teams));
               return data;
             } catch (e) {
@@ -154,4 +137,13 @@ export async function fetchData(config: FetchDataConfig): Promise<any> {
         )
     ),
   ]);
+
+  return {
+    fpl,
+    fplTeams,
+    fplElementTypes,
+    fplGameweeks,
+    understat,
+    understatTeams,
+  };
 }

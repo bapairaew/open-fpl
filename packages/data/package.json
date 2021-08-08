@@ -3,12 +3,10 @@
   "version": "1.2.0-pre.4",
   "license": "Apache-2.0",
   "scripts": {
-    "init-remote-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-remote-data.ts",
-    "copy-remote-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/copy-remote-data.ts",
-    "init-app-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-app-data.ts",
+    "init-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-data.ts",
     "init-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-links.ts",
     "print-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/print-links.ts",
-    "prebuild": "yarn init-remote-data && yarn copy-remote-data && yarn init-app-data",
+    "prebuild": "yarn init-data",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"

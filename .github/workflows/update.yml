@@ -3,6 +3,11 @@ on:
   schedule:
     - cron: "0 * * * *"
   workflow_dispatch:
+    inputs:
+      ignoreSnapshots:
+        description: "Ignore snapshots"
+        required: true
+        default: "false"
 jobs:
   update-data:
     runs-on: ubuntu-latest
@@ -23,14 +28,11 @@ jobs:
       - name: Install packages
         run: yarn --cwd packages/data
       - name: Update data
-        run: yarn --cwd packages/data init-remote-data
+        run: yarn --cwd packages/data init-data
         env:
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
-      - name: Trigger open-fpl-data redeploy
-        uses: satak/webrequest-action@master
-        with:
-          url: ${{ secrets.DEPLOY_DATA_HOOK }}
-          method: GET
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          IGNORE_SNAPSHOTS: ${{ github.event.inputs.ignoreSnapshots }}
       - name: Trigger open-fpl-data redeploy
         uses: satak/webrequest-action@master
         with:
