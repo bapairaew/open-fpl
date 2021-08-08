@@ -36,6 +36,7 @@ export const getStaticProps = async () => {
         fplTeams,
         currentGameweek,
       },
+      revalidate: 5 * 60, // 5 mins
     };
   } catch (e) {
     return {

@@ -26,7 +26,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
   if (!params || !params.id) {
     // Next.js gets here when rendering the page initially on dev mode
     return {
-      props: {},
+      notFound: true,
     };
   }
 
@@ -74,6 +74,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
         teamFixtures,
         currentGameweek,
       },
+      revalidate: 5 * 60, // 5 mins
     };
   } catch (e) {
     return {
