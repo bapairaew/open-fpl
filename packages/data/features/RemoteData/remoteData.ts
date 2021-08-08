@@ -5,7 +5,7 @@ import {
 } from "@open-fpl/data/features/RemoteData/fpl";
 import { Element } from "@open-fpl/data/features/RemoteData/fplTypes";
 import {
-  AppRemoteData,
+  RemoteData,
   FetchDataConfig,
 } from "@open-fpl/data/features/RemoteData/remoteDataTypes";
 import {
@@ -30,9 +30,7 @@ function wait(t: number) {
   });
 }
 
-export async function fetchData(
-  config: FetchDataConfig
-): Promise<AppRemoteData> {
+export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
   const {
     saveFn,
     retries,

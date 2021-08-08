@@ -1,14 +1,18 @@
 import { makeAppData } from "@open-fpl/data/features/AppData/appData";
+import { FPLElement } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   Bootstrap,
   Element,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
+import getDataFromFiles from "@open-fpl/data/features/RemoteData/getDataFromFiles";
 import { fetchData } from "@open-fpl/data/features/RemoteData/remoteData";
 import {
   GetUnderstatPlayersResponse,
   LeagueStat,
   LeagueTeamStat,
+  PlayerStat,
   PlayerStatSummary,
+  TeamStat,
 } from "@open-fpl/data/features/RemoteData/understatTypes";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import fs from "fs-extra";
@@ -34,6 +38,7 @@ type StorageStrategies = {
     saveAppData: (type: string, data: any) => Promise<any> | void;
     getPreviousSnapshots?: () => Promise<Snapshots> | Snapshots;
     saveSnapshots?: (snapshots: Snapshots) => Promise<any> | void;
+    retrivedRemoteData: (type: string, id?: string) => Promise<any> | any;
     finalise?: () => Promise<any> | void;
   };
 };
@@ -79,6 +84,17 @@ const strategies: StorageStrategies = {
           snapshots.snapshot_understat_players_data
         ),
       ]);
+    },
+    retrivedRemoteData: function (type: string, id?: string) {
+      if (id) {
+        return fs.promises
+          .readFile(`./public/remote-data/${type}/${id}.json`, {
+            encoding: "utf-8",
+          })
+          .then(JSON.parse);
+      } else {
+        return getDataFromFiles(path.resolve(`./public/remote-data/${type}`));
+      }
     },
     finalise: function () {
       return Promise.all([
@@ -166,6 +182,21 @@ const strategies: StorageStrategies = {
         ),
       ]);
     },
+    retrivedRemoteData: function (type: string, id?: string) {
+      const supabase = this.client as SupabaseClient;
+      if (id) {
+        return supabase
+          .from(type)
+          .select("data")
+          .single()
+          .then((res) => res.data.data);
+      } else {
+        return supabase
+          .from(type)
+          .select("data")
+          .then((res) => res.data?.map((row) => row.data));
+      }
+    },
   },
 };
 
@@ -196,7 +227,7 @@ const strategies: StorageStrategies = {
     snapshot_understat_players_data: null,
   };
 
-  const [appRemoteData, playersLinks, teamsLinks] = await Promise.all([
+  const [remoteData, playersLinks, teamsLinks] = await Promise.all([
     fetchData({
       onSnapShotLoaded: async (
         fplData,
@@ -297,8 +328,18 @@ const strategies: StorageStrategies = {
       .then(JSON.parse) as Promise<Record<string, string>>,
   ]);
 
+  // Use full remote data to generate app-data in case of some of those get skipped
+  const [fpl, understat, understatTeams] = await Promise.all([
+    strategy.retrivedRemoteData("fpl") as FPLElement[],
+    strategy.retrivedRemoteData("understat") as PlayerStat[],
+    strategy.retrivedRemoteData("understat_teams") as TeamStat[],
+  ]);
+
   const { players, gameweeks, fixtures } = makeAppData({
-    ...appRemoteData,
+    ...remoteData,
+    fpl,
+    understat,
+    understatTeams,
     playersLinks,
     teamsLinks,
   });

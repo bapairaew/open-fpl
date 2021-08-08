@@ -1,5 +1,5 @@
 import { createStandaloneToast, Link } from "@chakra-ui/react";
-import externalLinks from "@open-fpl/app/../common/features/Navigation/externalLinks";
+import externalLinks from "@open-fpl/common/features/Navigation/externalLinks";
 import { AnalyticsMigration } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   getLocalStorageItem,

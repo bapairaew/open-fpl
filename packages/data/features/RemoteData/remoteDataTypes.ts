@@ -40,7 +40,7 @@ export type FetchDataConfig = {
   delay?: FetchDataConfigOptions<number>;
 };
 
-export interface AppRemoteData {
+export interface RemoteData {
   fpl: FPLElement[];
   understat: PlayerStat[];
   fplTeams: Team[];

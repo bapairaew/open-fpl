@@ -11,7 +11,7 @@ import {
   ElementTypes,
   Team,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { AppRemoteData } from "@open-fpl/data/features/RemoteData/remoteDataTypes";
+import { RemoteData } from "@open-fpl/data/features/RemoteData/remoteDataTypes";
 import {
   MatchData,
   TeamStat,
@@ -50,7 +50,7 @@ export const makeAppData = ({
   fplGameweeks,
   playersLinks,
   teamsLinks,
-}: AppRemoteData & {
+}: RemoteData & {
   playersLinks: Record<string, string>;
   teamsLinks: Record<string, string>;
 }): AppData => {
