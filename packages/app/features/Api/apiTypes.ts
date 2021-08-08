@@ -3,8 +3,17 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-export interface EntryData {
+export interface AppEntry {
   name: string;
 }
+export interface EntryApiResponse extends ApiResponse<AppEntry> {}
 
-export interface TeamApiResponse extends ApiResponse<EntryData> {}
+export interface AppLive {
+  elements: {
+    id: number;
+    stats: {
+      bps: number;
+    };
+  }[];
+}
+export interface LiveApiResponse extends ApiResponse<AppEntry> {}

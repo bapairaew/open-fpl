@@ -1,14 +1,17 @@
-import { Grid, Box } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
+import { AppLive } from "@open-fpl/app/features/Api/apiTypes";
 import DashboardToolbar from "@open-fpl/app/features/Dashboard/DashboardToolbar";
 import DeadlineCountdown from "@open-fpl/app/features/Dashboard/DeadlineCountdown";
+import LivePoints from "@open-fpl/app/features/Dashboard/LivePoints";
+import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
-  Event,
-  Team,
   Entry,
   EntryEventPick,
+  Event,
   Fixture,
+  Team,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import useSWR from "swr";
 
 const Dashboard = ({
   players,
@@ -20,15 +23,19 @@ const Dashboard = ({
   nextGameweek,
   nextFixtures,
 }: {
-  players: Player[] | null;
-  fplTeams: Team[] | null;
-  entry: Entry | null;
-  currentGameweek: Event | null;
-  currentFixtures: Fixture[] | null;
-  currentPicks: EntryEventPick[] | null;
-  nextGameweek: Event | null;
-  nextFixtures: Fixture[] | null;
+  players: Player[];
+  fplTeams: Team[];
+  entry: Entry;
+  currentGameweek: Event;
+  currentFixtures: Fixture[];
+  currentPicks: EntryEventPick[];
+  nextGameweek: Event;
+  nextFixtures: Fixture[];
 }) => {
+  const { data: live, error: liveError } = useSWR<AppLive>(() =>
+    currentGameweek ? `/api/live/${currentGameweek.id}` : null
+  );
+
   return (
     <>
       <DashboardToolbar />
@@ -43,10 +50,11 @@ const Dashboard = ({
         }}
         gap={4}
       >
-        {nextGameweek && <DeadlineCountdown nextGameweek={nextGameweek} />}
-        <Box>Live points</Box>
+        <DeadlineCountdown nextGameweek={nextGameweek} />
+        <LivePoints live={live} entry={entry} currentPicks={currentPicks} />
         <Box>Live matches score + Live matches players points</Box>
         <Box>Other matches in this gameweek</Box>
+        {/* <pre>{JSON.stringify(entry, null, 2)}</pre> */}
       </Grid>
     </>
   );

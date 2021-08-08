@@ -313,7 +313,7 @@ const TeamPlannerPanel = ({
     () =>
       teamPlan
         ? dehydrateFromTeamPlan(
-            teamPlan.filter((c) => c.gameweek >= currentGameweek),
+            teamPlan.filter((c) => c.gameweek >= nextGameweekId),
             players
           )
         : [],

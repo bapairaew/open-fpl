@@ -5,6 +5,7 @@ import {
   EntryEvent,
   EntryHistory,
   Fixture,
+  Live,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import fetch, { HeaderInit } from "node-fetch";
@@ -75,4 +76,11 @@ export const getFixtures = (event: number): Promise<Fixture[]> => {
       method: "GET",
     }
   ).then((r) => r.json());
+};
+
+export const getLiveEvent = (id: number): Promise<Live> => {
+  return fetch(`https://fantasy.premierleague.com/api/event/${id}/live/`, {
+    headers,
+    method: "GET",
+  }).then((r) => r.json());
 };

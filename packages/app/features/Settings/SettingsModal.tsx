@@ -10,7 +10,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AnalyticsSettings } from "@open-fpl/app/features/Analytics/analyticsTypes";
-import { TeamApiResponse } from "@open-fpl/app/features/Api/apiTypes";
+import { EntryApiResponse } from "@open-fpl/app/features/Api/apiTypes";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
@@ -45,7 +45,7 @@ const SettingsModal = ({
     if (!profiles || !profiles.includes(profile)) {
       const { data: { name } = {}, error } = (await (
         await fetch(`/api/entries/${profile}`)
-      ).json()) as TeamApiResponse;
+      ).json()) as EntryApiResponse;
 
       if (error) {
         toast({

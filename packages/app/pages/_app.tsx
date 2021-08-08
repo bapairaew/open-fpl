@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <SWRConfig
         value={{
           cache,
-          // There is no realtime data in this app
+          // Realtime data in this app is minority, so we can default not to auto revalidate
           revalidateOnFocus: false,
           revalidateOnReconnect: false,
           fetcher: (resource, init) =>

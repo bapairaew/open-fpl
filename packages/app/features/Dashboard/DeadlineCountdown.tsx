@@ -1,15 +1,23 @@
-import { Skeleton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
+import {
+  Skeleton,
+  Stat,
+  StatArrow,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+} from "@chakra-ui/react";
 import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import { useEffect, useState } from "react";
 
 const DeadlineCountdown = ({ nextGameweek }: { nextGameweek: Event }) => {
   const [countDown, setCountDown] = useState<string | null>(null);
+  const deadline = new Date(nextGameweek.deadline_time);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCountDown(
-        formatDistanceToNowStrict(new Date(nextGameweek.deadline_time), {
+        formatDistanceToNowStrict(deadline, {
           roundingMethod: "floor",
         })
       );
@@ -24,6 +32,7 @@ const DeadlineCountdown = ({ nextGameweek }: { nextGameweek: Event }) => {
       <Skeleton isLoaded={countDown !== null}>
         <StatNumber>{countDown ?? "N/A"}</StatNumber>
       </Skeleton>
+      <StatHelpText>{deadline.toLocaleString()}</StatHelpText>
     </Stat>
   );
 };
