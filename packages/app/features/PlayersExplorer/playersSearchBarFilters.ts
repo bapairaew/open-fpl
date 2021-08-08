@@ -101,7 +101,7 @@ export const filterPlayers = (
           } else if (from.startsWith("<")) {
             return value < +from.substr(1);
           }
-          return value >= +from && (to ? value <= +to : true);
+          return to ? value >= +from && value <= +to : value === +from;
         });
       }
     }

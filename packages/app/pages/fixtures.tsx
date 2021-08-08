@@ -20,6 +20,7 @@ export const getStaticProps = async () => {
 
   return {
     props: { teamFixtures, fplTeams },
+    revalidate: 5 * 60, // 5 mins
   };
 };
 

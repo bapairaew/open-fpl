@@ -103,11 +103,11 @@ async function createPlayersLinks(
   const teamsLinks = await createTeamsLinks();
   const playersLinks = await createPlayersLinks(teamsLinks);
   await fs.promises.writeFile(
-    `./public/remote-data/links/teams.json`,
+    `./public/app-data/links/teams.json`,
     JSON.stringify(teamsLinks, null, 2)
   );
   await fs.promises.writeFile(
-    `./public/remote-data/links/players.json`,
+    `./public/app-data/links/players.json`,
     JSON.stringify(playersLinks, null, 2)
   );
   console.log(
