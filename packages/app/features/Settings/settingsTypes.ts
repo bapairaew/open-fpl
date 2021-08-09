@@ -10,6 +10,7 @@ export interface Preference {
   name?: string; // Profile name
   teamPlans?: string[]; // List of profile's team plans
   starredPlayers?: number[]; // List of starred players
+  selectedPlan?: number; // Selected team plan
 }
 
 export interface Settings {

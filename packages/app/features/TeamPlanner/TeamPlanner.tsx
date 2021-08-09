@@ -102,7 +102,7 @@ const TeamPlanner = ({
   const { profile, customPlayers, preference, setPreference, teamsStrength } =
     useSettings();
 
-  const teamPlans = preference?.teamPlans ?? ["Plan One"];
+  const teamPlans = preference?.teamPlans ?? ["Plan 1"];
   const setTeamPlans = (teamPlans: string[]) => {
     if (preference) {
       setPreference({
@@ -112,7 +112,16 @@ const TeamPlanner = ({
     }
   };
 
-  const [tabIndex, setTabIndex] = useState(0);
+  const tabIndex = preference?.selectedPlan ?? 0;
+  const setTabIndex = (selectedPlan: number) => {
+    if (preference) {
+      setPreference({
+        ...preference,
+        selectedPlan,
+      });
+    }
+  };
+
   const sortableTransferPlans = useMemo<ItemInterface[]>(
     () => teamPlans?.map((id) => ({ id })) ?? [],
     [teamPlans]
@@ -149,8 +158,6 @@ const TeamPlanner = ({
       ),
     [remotePlayers, preference?.starredPlayers, customPlayers]
   );
-
-  useEffect(() => setTabIndex(0), [profile]);
 
   const handleTabsChange = (index: number) => setTabIndex(index);
 
