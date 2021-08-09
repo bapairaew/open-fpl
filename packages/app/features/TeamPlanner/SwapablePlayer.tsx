@@ -9,6 +9,7 @@ import {
   IconButton,
   Text,
   Tooltip,
+  useColorMode,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
@@ -17,6 +18,7 @@ import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
 import PreviousStatsSection from "@open-fpl/app/features/PlayerData/PreviousStatsSection";
 import SwapablePlayerOptionsModal from "@open-fpl/app/features/TeamPlanner/SwapablePlayerOptionsModal";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
+import { teamColorCodes } from "@open-fpl/common/features/Theme/fplColors";
 import { MouseEventHandler } from "react";
 import {
   IoSwapHorizontalOutline,
@@ -107,9 +109,9 @@ const SwapablePlayer = ({
   const { buttonProps, otherButtonsProps, boxProps } =
     teamPlayerVariants[variant] ?? teamPlayerVariants.default;
   const adjustedSellingPrice = player.pick.selling_price / 10;
-  // const adjustedPurchasePrice = player.pick.purchase_price / 10;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode } = useColorMode();
 
   return (
     <>
@@ -138,6 +140,20 @@ const SwapablePlayer = ({
           width={{ base: "70px", sm: "180px" }}
           height={{ base: "82px", sm: "158px" }}
         >
+          <HStack
+            spacing={0}
+            width="100%"
+            display={{ base: "flex", sm: "none" }}
+          >
+            <Box
+              height="3px"
+              width="100%"
+              bgColor={
+                teamColorCodes(colorMode)[player.team.short_name]?.bgColor ??
+                "transparent"
+              }
+            />
+          </HStack>
           <HStack spacing={0} width="100%">
             {player.status !== "a" && (
               <Tooltip hasArrow label={player.news}>
