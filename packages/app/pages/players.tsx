@@ -15,36 +15,28 @@ import { NextSeo } from "next-seo";
 import useSWR from "swr";
 
 export const getStaticProps = async () => {
-  try {
-    const [teamFixtures, fplTeams, fplGameweeks] = await Promise.all([
-      fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
-        r.json()
-      ) as Promise<TeamFixtures[]>,
-      fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
-        r.json()
-      ) as Promise<Team[]>,
-      fetch(getDataUrl("/remote-data/fpl_gameweeks/data.json")).then((r) =>
-        r.json()
-      ) as Promise<Event[]>,
-    ]);
+  const [teamFixtures, fplTeams, fplGameweeks] = await Promise.all([
+    fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
+      r.json()
+    ) as Promise<TeamFixtures[]>,
+    fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
+      r.json()
+    ) as Promise<Team[]>,
+    fetch(getDataUrl("/remote-data/fpl_gameweeks/data.json")).then((r) =>
+      r.json()
+    ) as Promise<Event[]>,
+  ]);
 
-    const nextGameweekId = fplGameweeks.find((g) => g.is_next)?.id ?? 38; // Show gameweek 38 at the end of the season
+  const nextGameweekId = fplGameweeks.find((g) => g.is_next)?.id ?? 38; // Show gameweek 38 at the end of the season
 
-    return {
-      props: {
-        teamFixtures,
-        fplTeams,
-        nextGameweekId,
-      },
-      revalidate: 5 * 60, // 5 mins
-    };
-  } catch (e) {
-    return {
-      props: {
-        error: "Unexpected error while fetching data from FPL.",
-      },
-    };
-  }
+  return {
+    props: {
+      teamFixtures,
+      fplTeams,
+      nextGameweekId,
+    },
+    revalidate: 5 * 60, // 5 mins
+  };
 };
 
 function PlayersExplorerPage({
