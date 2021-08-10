@@ -17,8 +17,10 @@ providing statistics, data visualisation and other utility tools.
 ```bash
 $ git clone https://github.com/bapairaew/open-fpl.git
 $ cd open-fpl
-$ npx learn bootstrap
-$ yarn data:init
+$ npx lerna bootstrap
+
+# Depending on what you have installed globally, you might have to install "yarn" and/or "ts-node" for the steps below
+$ yarn data:init # This will take ~6+ min to download and setup remote test data
 $ yarn data:dev # On one terminal
 $ yarn app:dev # On another terminal
 ```
