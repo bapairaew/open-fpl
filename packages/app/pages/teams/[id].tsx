@@ -53,36 +53,25 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
 
   const currentGameweek = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
 
-  try {
-    const [
-      { picks = null, entry_history = null },
-      transfers,
-      { chips = null },
-    ] = await Promise.all([
+  const [{ picks = null, entry_history = null }, transfers, { chips = null }] =
+    await Promise.all([
       getTeamPicks(+params!.id!, currentGameweek),
       getTeamTransfers(+params!.id!),
       getTeamHistory(+params!.id!),
     ]);
 
-    return {
-      props: {
-        picks,
-        entry_history,
-        transfers,
-        chips,
-        fplTeams,
-        teamFixtures,
-        currentGameweek,
-      },
-      revalidate: 5 * 60, // 5 mins
-    };
-  } catch (e) {
-    return {
-      props: {
-        error: "Unexpected error while fetching data from FPL.",
-      },
-    };
-  }
+  return {
+    props: {
+      picks,
+      entry_history,
+      transfers,
+      chips,
+      fplTeams,
+      teamFixtures,
+      currentGameweek,
+    },
+    revalidate: 5 * 60, // 5 mins
+  };
 };
 
 const TransferPlannerPage = ({
