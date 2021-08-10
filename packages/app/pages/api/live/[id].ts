@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getEntry } from "@open-fpl/app/features/Api/entry";
+import { getLiveEvent } from "@open-fpl/app/features/Api/live";
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   try {
     if (req.method === "GET") {
-      res.status(200).json({ data: await getEntry(req) });
+      res.status(200).json({ data: await getLiveEvent(req) });
     } else {
       res.status(405).json({ error: "Not allowed" });
     }

@@ -182,7 +182,7 @@ const TeamPlansDrawer = ({
                                   </MenuItem>
                                   <MenuDivider />
                                   <MenuItem
-                                    layerStyle="danger"
+                                    layerStyle="red"
                                     onClick={() =>
                                       handleRemoveClick(`${plan.id}`)
                                     }

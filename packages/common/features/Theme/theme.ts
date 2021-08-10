@@ -101,7 +101,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      success: {
+      green: {
         "&": {
           color: "green.500",
           ".chakra-ui-dark &": {
@@ -109,7 +109,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      successSolid: {
+      greenSolid: {
         "&": {
           bgColor: "green.500",
           color: "white",
@@ -119,7 +119,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      warning: {
+      yellow: {
         "&": {
           color: "yellow.500",
           ".chakra-ui-dark &": {
@@ -137,7 +137,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      danger: {
+      red: {
         "&": {
           color: "red.500",
           ".chakra-ui-dark &": {
@@ -145,7 +145,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      dangerSolid: {
+      redSolid: {
         "&": {
           bgColor: "red.500",
           color: "white",
@@ -175,6 +175,12 @@ const customTheme = extendTheme(
         color: "gray.600",
         ".chakra-ui-dark &": {
           color: "whiteAlpha.600",
+        },
+      },
+      bgWithTextColor: {
+        bgColor: "gray.800",
+        ".chakra-ui-dark &": {
+          bgColor: "whiteAlpha.900",
         },
       },
       ...makeLayerStyles(difficultyColorCodes, "fpl-difficulty"),

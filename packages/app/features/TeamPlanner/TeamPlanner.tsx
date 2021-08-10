@@ -44,7 +44,7 @@ import {
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   IoAdd,
   IoChevronDownOutline,

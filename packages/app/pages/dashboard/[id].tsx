@@ -13,7 +13,11 @@ import {
   getEntryPicks,
   getFixtures,
 } from "@open-fpl/data/features/RemoteData/fpl";
-import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import {
+  Event,
+  Fixture,
+  Team,
+} from "@open-fpl/data/features/RemoteData/fplTypes";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
@@ -91,7 +95,7 @@ function DashboardPage({
   fplTeams,
   entry,
   currentGameweek,
-  currentFixtures,
+  // currentFixtures,
   currentPicks,
   nextGameweek,
   nextFixtures,
@@ -101,6 +105,136 @@ function DashboardPage({
   );
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
+
+  const currentFixtures: Fixture[] = [
+    {
+      code: 0,
+      event: 1,
+      finished: false,
+      finished_provisional: false,
+      id: 0,
+      kickoff_time: new Date().toJSON(),
+      minutes: 1,
+      provisional_start_time: false,
+      started: true,
+      team_a: 1,
+      team_a_score: 0,
+      team_h: 2,
+      team_h_score: 0,
+      stats: [
+        {
+          identifier: "bps",
+          h: [{ value: 1, element: 1 }],
+          a: [{ value: 1, element: 1 }],
+        },
+        // minutes
+        // goals_scored
+        // assists
+        // clean_sheets
+        // goals_conceded
+        // own_goals
+        // penalties_saved
+        // penalties_missed
+        // yellow_cards
+        // red_cards
+        // saves
+        // bonus
+        // bps
+      ],
+      team_h_difficulty: 1,
+      team_a_difficulty: 1,
+    },
+    {
+      code: 0,
+      event: 1,
+      finished: false,
+      finished_provisional: false,
+      id: 1,
+      kickoff_time: new Date().toJSON(),
+      minutes: 1,
+      provisional_start_time: false,
+      started: true,
+      team_a: 1,
+      team_a_score: 0,
+      team_h: 2,
+      team_h_score: 0,
+      stats: [],
+      team_h_difficulty: 1,
+      team_a_difficulty: 1,
+    },
+    {
+      code: 0,
+      event: 1,
+      finished: false,
+      finished_provisional: false,
+      id: 0,
+      kickoff_time: new Date().toJSON(),
+      minutes: 1,
+      provisional_start_time: false,
+      started: false,
+      team_a: 1,
+      team_a_score: 0,
+      team_h: 2,
+      team_h_score: 0,
+      stats: [],
+      team_h_difficulty: 1,
+      team_a_difficulty: 1,
+    },
+    {
+      code: 0,
+      event: 1,
+      finished: false,
+      finished_provisional: false,
+      id: 1,
+      kickoff_time: new Date().toJSON(),
+      minutes: 1,
+      provisional_start_time: false,
+      started: false,
+      team_a: 1,
+      team_a_score: 0,
+      team_h: 2,
+      team_h_score: 0,
+      stats: [],
+      team_h_difficulty: 1,
+      team_a_difficulty: 1,
+    },
+    {
+      code: 0,
+      event: 1,
+      finished: true,
+      finished_provisional: false,
+      id: 0,
+      kickoff_time: new Date().toJSON(),
+      minutes: 1,
+      provisional_start_time: false,
+      started: false,
+      team_a: 1,
+      team_a_score: 0,
+      team_h: 2,
+      team_h_score: 0,
+      stats: [],
+      team_h_difficulty: 1,
+      team_a_difficulty: 1,
+    },
+    {
+      code: 0,
+      event: 1,
+      finished: true,
+      finished_provisional: false,
+      id: 1,
+      kickoff_time: new Date().toJSON(),
+      minutes: 1,
+      provisional_start_time: false,
+      started: false,
+      team_a: 1,
+      team_a_score: 0,
+      team_h: 2,
+      team_h_score: 0,
+      stats: [],
+      team_h_difficulty: 1,
+      team_a_difficulty: 1,
+    },
+  ];
 
   const isReady = [
     players,
@@ -121,10 +255,11 @@ function DashboardPage({
     if (isReady) {
       mainContent = (
         <Dashboard
+          as="main"
           players={players!}
           fplTeams={fplTeams!}
           entry={entry!}
-          currentGameweek={currentGameweek!}
+          currentGameweek={currentGameweek as Event | null}
           currentFixtures={currentFixtures!}
           currentPicks={currentPicks!}
           nextGameweek={nextGameweek!}

@@ -18,7 +18,6 @@ import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
 import PreviousStatsSection from "@open-fpl/app/features/PlayerData/PreviousStatsSection";
 import SwapablePlayerOptionsModal from "@open-fpl/app/features/TeamPlanner/SwapablePlayerOptionsModal";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import { teamColorCodes } from "@open-fpl/common/features/Theme/fplColors";
 import { MouseEventHandler } from "react";
 import {
   IoSwapHorizontalOutline,
@@ -111,7 +110,6 @@ const SwapablePlayer = ({
   const adjustedSellingPrice = player.pick.selling_price / 10;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { colorMode } = useColorMode();
 
   return (
     <>
@@ -148,10 +146,7 @@ const SwapablePlayer = ({
             <Box
               height="3px"
               width="100%"
-              bgColor={
-                teamColorCodes(colorMode)[player.team.short_name]?.bgColor ??
-                "transparent"
-              }
+              layerStyle={`fpl-team-${player.team.short_name}`}
             />
           </HStack>
           <HStack spacing={0} width="100%">

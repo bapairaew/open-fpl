@@ -264,7 +264,7 @@ const TransferPlannerPanelContent = ({
         gameweekDataList={gameweekDataList}
       />
       {teamInvalidities.length > 0 && (
-        <Box width="100%" py={2} px={4} layerStyle="dangerSolid">
+        <Box width="100%" py={2} px={4} layerStyle="redSolid">
           {teamInvalidities.map((i) => i.message).join(", ")}
         </Box>
       )}

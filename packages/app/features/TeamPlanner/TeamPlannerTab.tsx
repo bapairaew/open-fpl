@@ -155,7 +155,7 @@ const TeamPlannerTab = ({
                     <MenuItem onClick={handleRenameClick}>Rename</MenuItem>
                     <MenuItem onClick={onDuplicateClick}>Duplicate</MenuItem>
                     <MenuDivider />
-                    <MenuItem layerStyle="danger" onClick={onOpen}>
+                    <MenuItem layerStyle="red" onClick={onOpen}>
                       Remove
                     </MenuItem>
                   </MenuList>

@@ -1,4 +1,4 @@
-import { Box, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, useDisclosure, BoxProps } from "@chakra-ui/react";
 import { AnalyticsFixtureDifficultyRating } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   adjustTeamsStrength,
@@ -21,7 +21,8 @@ const TeamsStrengthEditorModal = dynamic(
 const Fixtures = ({
   teamFixtures,
   fplTeams,
-}: {
+  ...props
+}: BoxProps & {
   teamFixtures: TeamFixtures[];
   fplTeams: Team[];
 }) => {
@@ -95,7 +96,7 @@ const Fixtures = ({
           onClose={onClose}
         />
       )}
-      <Flex flexDirection="column" height="100%">
+      <Flex flexDirection="column" height="100%" {...props}>
         <FixturesToolbar
           mode={mode}
           onModeChange={handleModeChange}

@@ -11,7 +11,7 @@ import {
   EntryEventPick,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 
-const LivePoints = ({
+const DashboardLivePoints = ({
   live,
   entry,
   currentPicks,
@@ -33,15 +33,15 @@ const LivePoints = ({
   const totalPoints = existingPoints + livePoints;
 
   return (
-    <Stat borderWidth={1} px={4} py={2} borderRadius="md">
+    <Stat borderWidth={1} p={4} borderRadius="md">
       <StatLabel>Live points</StatLabel>
       <StatNumber>{totalPoints.toLocaleString()}</StatNumber>
       <StatHelpText>
         {livePoints > 0 ? <StatArrow type="increase" /> : null}
-        {livePoints.toLocaleString()}
+        {livePoints > 0 ? livePoints.toLocaleString() : null}
       </StatHelpText>
     </Stat>
   );
 };
 
-export default LivePoints;
+export default DashboardLivePoints;

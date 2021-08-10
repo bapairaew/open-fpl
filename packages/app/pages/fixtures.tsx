@@ -58,7 +58,7 @@ function FixturesPage({
         }}
       />
       <AppLayout>
-        <Fixtures teamFixtures={teamFixtures} fplTeams={fplTeams} />
+        <Fixtures as="main" teamFixtures={teamFixtures} fplTeams={fplTeams} />
       </AppLayout>
     </>
   );
