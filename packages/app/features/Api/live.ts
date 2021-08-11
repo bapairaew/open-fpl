@@ -6,9 +6,12 @@ export const getLiveEvent = async (req: NextApiRequest): Promise<AppLive> => {
   const id = typeof req.query.id === "string" ? req.query.id : req.query.id[0];
   const elements = (await _getLiveEvent(+id)).elements.map((data) => ({
     id: data.id,
-    stats: {
-      bps: data.stats.bps,
-    },
+    bps: data.stats.bps,
+    goals_scored: data.stats.goals_scored,
+    assists: data.stats.assists,
+    yellow_cards: data.stats.yellow_cards,
+    red_cards: data.stats.red_cards,
+    bonus: data.stats.bonus,
   }));
   return { elements };
 };

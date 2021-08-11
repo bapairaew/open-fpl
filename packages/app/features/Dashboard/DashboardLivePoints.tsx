@@ -5,11 +5,11 @@ import {
   StatLabel,
   StatNumber,
 } from "@chakra-ui/react";
-import { AppLive } from "@open-fpl/app/features/Api/apiTypes";
 import {
-  Entry,
-  EntryEventPick,
-} from "@open-fpl/data/features/RemoteData/fplTypes";
+  AppEntry,
+  AppEntryEventPick,
+  AppLive,
+} from "@open-fpl/app/features/Api/apiTypes";
 
 const DashboardLivePoints = ({
   live,
@@ -17,24 +17,22 @@ const DashboardLivePoints = ({
   currentPicks,
 }: {
   live?: AppLive;
-  entry: Entry;
-  currentPicks: EntryEventPick[];
+  entry?: AppEntry;
+  currentPicks?: AppEntryEventPick[];
 }) => {
-  const existingPoints = entry.summary_overall_points ?? 0;
+  const existingPoints = entry?.summary_overall_points ?? 0;
   const livePoints =
     live?.elements.reduce(
       (sum, element) =>
         sum +
-        (currentPicks.some((p) => p.element === element.id)
-          ? element.stats.bps
-          : 0),
+        (currentPicks?.some((p) => p.element === element.id) ? element.bps : 0),
       0
     ) ?? 0;
   const totalPoints = existingPoints + livePoints;
 
   return (
     <Stat borderWidth={1} p={4} borderRadius="md">
-      <StatLabel>Live points</StatLabel>
+      <StatLabel>{live ? "Live points" : "Current points"}</StatLabel>
       <StatNumber>{totalPoints.toLocaleString()}</StatNumber>
       <StatHelpText>
         {livePoints > 0 ? <StatArrow type="increase" /> : null}

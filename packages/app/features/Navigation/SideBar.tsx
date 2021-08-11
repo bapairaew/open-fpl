@@ -59,7 +59,7 @@ const SideBarItem = ({
         borderRadius="md"
         fontSize={{ base: "md", sm: "sm" }}
         fontWeight="bold"
-        layerStyle={isActive ? "highlightClickable" : undefined}
+        layerStyle={isActive ? "highlightClickable" : "highlightHoverable"}
       >
         {icon && <ListIcon fontSize="lg" as={icon} />}
         {children}

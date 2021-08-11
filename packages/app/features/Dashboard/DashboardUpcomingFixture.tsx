@@ -1,10 +1,8 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
+import { AppEntryEventPick } from "@open-fpl/app/features/Api/apiTypes";
+import { getHomeAwayPicks } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import {
-  EntryEventPick,
-  Fixture,
-  Team,
-} from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Fixture, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { useMemo } from "react";
 
 const DashboardUpcomingFixture = ({
@@ -15,8 +13,8 @@ const DashboardUpcomingFixture = ({
 }: {
   fixture: Fixture;
   fplTeams: Team[];
-  currentPicks: EntryEventPick[];
   players: Player[];
+  currentPicks?: AppEntryEventPick[];
 }) => {
   const home = fplTeams.find((t) => t.id === fixture.team_h);
   const away = fplTeams.find((t) => t.id === fixture.team_a);
@@ -32,20 +30,8 @@ const DashboardUpcomingFixture = ({
   const homeDisplayPercent = 50 + 5 * strengthDiff;
   const awayDisplayPercent = 100 - homeDisplayPercent;
 
-  const homeTeamPicks: EntryEventPick[] = useMemo(
-    () =>
-      currentPicks?.filter(
-        (p) =>
-          players.find((pl) => pl.id === p.element)?.team.id === fixture.team_h
-      ) ?? [],
-    [currentPicks, fixture, players]
-  );
-  const awayTeamPicks: EntryEventPick[] = useMemo(
-    () =>
-      currentPicks?.filter(
-        (p) =>
-          players.find((pl) => pl.id === p.element)?.team.id === fixture.team_a
-      ) ?? [],
+  const { homeTeamPicks, awayTeamPicks } = useMemo(
+    () => getHomeAwayPicks(fixture, players, currentPicks),
     [currentPicks, fixture, players]
   );
 
@@ -65,7 +51,7 @@ const DashboardUpcomingFixture = ({
         flexGrow={1}
         width="100%"
         justifyContent="space-around"
-        fontSize="2xl"
+        fontSize="xl"
         fontWeight="black"
       >
         <Box>
@@ -77,7 +63,7 @@ const DashboardUpcomingFixture = ({
                 width="6px"
                 height="6px"
                 borderRadius="50%"
-                layerStyle="bgWithTextColor"
+                layerStyle="textSolid"
               />
             ))}
           </Flex>
@@ -93,7 +79,7 @@ const DashboardUpcomingFixture = ({
                 width="6px"
                 height="6px"
                 borderRadius="50%"
-                layerStyle="bgWithTextColor"
+                layerStyle="textSolid"
               />
             ))}
           </Flex>

@@ -19,9 +19,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <SWRConfig
         value={{
           cache,
-          // Realtime data in this app is minority, so we can default not to auto revalidate
-          revalidateOnFocus: false,
-          revalidateOnReconnect: false,
           fetcher: (resource, init) =>
             fetch(resource, init).then((res) => res.json()),
         }}

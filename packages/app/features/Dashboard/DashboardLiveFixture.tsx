@@ -1,17 +1,26 @@
-import { Box, Flex } from "@chakra-ui/react";
-import { AppEntryEventPick } from "@open-fpl/app/features/Api/apiTypes";
+import { Badge, Box, Flex, Icon } from "@chakra-ui/react";
+import {
+  AppEntryEventPick,
+  AppLive,
+} from "@open-fpl/app/features/Api/apiTypes";
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
-import { geStatsFromFixture } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
+import {
+  geStatsFromFixture,
+  getStatsFromLive,
+} from "@open-fpl/app/features/Dashboard/dashboardFixtures";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Fixture, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { useMemo } from "react";
+import { IoRadioButtonOnOutline } from "react-icons/io5";
 
-const DashboardFixture = ({
+const DashboardLiveFixture = ({
+  live,
   fixture,
   fplTeams,
   players,
   currentPicks,
 }: {
+  live?: AppLive;
   fixture: Fixture;
   fplTeams: Team[];
   players: Player[];
@@ -21,7 +30,9 @@ const DashboardFixture = ({
   const away = fplTeams.find((t) => t.id === fixture.team_a);
 
   const { homePlayersStat, awayPlayersStat } = useMemo(() => {
-    return geStatsFromFixture(fixture.stats, players, currentPicks);
+    return live
+      ? getStatsFromLive(live, fixture.stats, players, currentPicks)
+      : geStatsFromFixture(fixture.stats, players, currentPicks);
   }, [fixture.stats, players, currentPicks]);
 
   return (
@@ -32,34 +43,43 @@ const DashboardFixture = ({
       borderRadius="md"
       flexDirection="column"
     >
+      <Flex mt={-2} ml={-2} mb={2} fontSize="sm" textAlign="left">
+        <Badge colorScheme="red">
+          <Icon as={IoRadioButtonOnOutline} mr={0.5} mb={0.5} />
+          Live
+        </Badge>
+      </Flex>
       <Flex
         my={2}
         flexGrow={1}
         width="100%"
+        alignItems="center"
         justifyContent="space-around"
-        fontSize="2xl"
-        fontWeight="black"
       >
-        <Box>
-          <Box>{home?.short_name}</Box>
+        <Box fontWeight="black" textAlign="center">
           <Box
-            height="5px"
-            width="100%"
+            py={1}
+            px={2}
+            fontSize="sm"
             layerStyle={`fpl-team-${home?.short_name}`}
-          />
+          >
+            {home?.short_name}
+          </Box>
+          <Box fontSize="4xl">{fixture.team_h_score}</Box>
         </Box>
-        <Flex fontSize="2xl">
-          <Box>{fixture.team_h_score}</Box>
-          <Box mx={2}>-</Box>
-          <Box>{fixture.team_a_score}</Box>
-        </Flex>
-        <Box>
-          <Box>{away?.short_name}</Box>
+        <Box mx={2} fontSize="sm" layerStyle="subtitle">
+          {fixture.minutes}"
+        </Box>
+        <Box fontWeight="black" textAlign="center">
           <Box
-            height="5px"
-            width="100%"
+            py={1}
+            px={2}
+            fontSize="sm"
             layerStyle={`fpl-team-${away?.short_name}`}
-          />
+          >
+            {away?.short_name}
+          </Box>
+          <Box fontSize="4xl">{fixture.team_a_score}</Box>
         </Box>
       </Flex>
       <Flex fontSize="xs" height="120px" layerStyle="subtitle" overflow="auto">
@@ -86,4 +106,4 @@ const DashboardFixture = ({
   );
 };
 
-export default DashboardFixture;
+export default DashboardLiveFixture;

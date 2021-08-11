@@ -63,6 +63,24 @@ const customTheme = extendTheme(
           },
         },
       },
+      highlightHoverable: {
+        "&": {
+          _hover: {
+            bgColor: "gray.50",
+          },
+          _active: {
+            bgColor: "gray.50",
+          },
+          ".chakra-ui-dark &": {
+            _hover: {
+              bgColor: "whiteAlpha.50",
+            },
+            _active: {
+              bgColor: "whiteAlpha.50",
+            },
+          },
+        },
+      },
       highlightClickable: {
         "&": {
           bgColor: "gray.100",
@@ -127,7 +145,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      warningSolid: {
+      yellowSolid: {
         "&": {
           bgColor: "yellow.500",
           color: "white",
@@ -177,7 +195,13 @@ const customTheme = extendTheme(
           color: "whiteAlpha.600",
         },
       },
-      bgWithTextColor: {
+      subtitleSolid: {
+        bgColor: "gray.600",
+        ".chakra-ui-dark &": {
+          bgColor: "whiteAlpha.600",
+        },
+      },
+      textSolid: {
         bgColor: "gray.800",
         ".chakra-ui-dark &": {
           bgColor: "whiteAlpha.900",
