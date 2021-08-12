@@ -27,9 +27,11 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install packages
-        run: yarn --cwd packages/data
+        run: yarn
+        working-directory: packages/data
       - name: Update data
-        run: yarn --cwd packages/data init-data
+        run: yarn init-data
+        working-directory: packages/data
         env:
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}

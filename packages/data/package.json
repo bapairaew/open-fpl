@@ -3,9 +3,9 @@
   "version": "1.2.0-pre.5",
   "license": "Apache-2.0",
   "scripts": {
-    "init-data": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-data.ts",
-    "init-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/init-links.ts",
-    "print-links": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register scripts/print-links.ts",
+    "init-data": "ts-node -O {\\\"module\\\":\\\"commonjs\\\"} -r tsconfig-paths/register scripts/init-data.ts",
+    "init-links": "ts-node -O {\\\"module\\\":\\\"commonjs\\\"} -r tsconfig-paths/register scripts/init-links.ts",
+    "print-links": "ts-node -O {\\\"module\\\":\\\"commonjs\\\"} -r tsconfig-paths/register scripts/print-links.ts",
     "prebuild": "yarn init-data",
     "dev": "next dev",
     "build": "next build",
