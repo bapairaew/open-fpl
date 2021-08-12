@@ -21,8 +21,10 @@ import path from "path";
 const {
   SUPABASE_SECRET_KEY: supabaseSecretKey,
   SUPABASE_URL: supabaseUrl,
-  IGNORE_SNAPSHOTS: ignoreSnapshots,
+  IGNORE_SNAPSHOTS: _ignoreSnapshots,
 } = process.env;
+
+const ignoreSnapshots = _ignoreSnapshots === "true";
 
 type Snapshots = {
   snapshot_fpl_data: Bootstrap | null;
@@ -213,6 +215,8 @@ const strategies: StorageStrategies = {
 
   await strategy.init?.();
 
+  if (!ignoreSnapshots) console.log("Preparing Snapshot data...");
+
   const previousSnapshots: Snapshots = (ignoreSnapshots
     ? null
     : await strategy.getPreviousSnapshots?.()) ?? {
@@ -220,6 +224,13 @@ const strategies: StorageStrategies = {
     snapshot_understat_data: null,
     snapshot_understat_players_data: null,
   };
+
+  if (previousSnapshots.snapshot_fpl_data)
+    console.log("Using FPL Snapshot data");
+  if (previousSnapshots.snapshot_understat_data)
+    console.log("Using Understat Snapshot data");
+  if (previousSnapshots.snapshot_understat_players_data)
+    console.log("Using Understat Players Snapshot data");
 
   const currentSnapshots: Snapshots = {
     snapshot_fpl_data: null,
@@ -269,15 +280,16 @@ const strategies: StorageStrategies = {
       getItemsToUpdate: {
         fpl: (list: Element[]) => {
           // Always update
+          console.log(`Updating ${list.length} FPL elements`);
           return list;
         },
         understat: (list: PlayerStatSummary[]) => {
           let toBeUpdated = [...list];
 
-          if (previousSnapshots.snapshot_understat_data !== null) {
-            toBeUpdated = toBeUpdated.filter((player) => {
+          if (previousSnapshots.snapshot_understat_players_data !== null) {
+            toBeUpdated = toBeUpdated.filter((player, index) => {
               const matched =
-                previousSnapshots.snapshot_understat_data!.playersData.find(
+                previousSnapshots.snapshot_understat_players_data?.response.players.find(
                   (p) => p.id === player.id
                 );
 
@@ -291,6 +303,7 @@ const strategies: StorageStrategies = {
             });
           }
 
+          console.log(`Updating ${toBeUpdated.length} Understat players`);
           return toBeUpdated;
         },
         understat_teams: (list: LeagueTeamStat[]) => {
@@ -312,6 +325,7 @@ const strategies: StorageStrategies = {
             });
           }
 
+          console.log(`Updating ${toBeUpdated.length} Understat teams`);
           return toBeUpdated;
         },
       },
