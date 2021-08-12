@@ -23,6 +23,7 @@ jobs:
         with:
           node-version: "14"
           cache: "yarn"
+          cache-dependency-path: packages/data/yarn.lock
       - name: Install packages
         run: yarn
         working-directory: packages/data
