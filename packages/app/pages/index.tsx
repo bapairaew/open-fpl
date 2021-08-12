@@ -17,7 +17,6 @@ import {
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
-import mockData from "./mockData";
 
 export const getStaticProps = async () => {
   const [fplTeams, fplGameweeks] = await Promise.all([
