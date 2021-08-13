@@ -16,6 +16,7 @@ import {
 } from "@open-fpl/data/features/RemoteData/understatTypes";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import fs from "fs-extra";
+import pRetry from "p-retry";
 import path from "path";
 
 const {
@@ -107,7 +108,9 @@ const strategies: StorageStrategies = {
   },
   supabase: {
     init: function () {
-      this.client = createClient(supabaseUrl!, supabaseSecretKey!);
+      this.client = createClient(supabaseUrl!, supabaseSecretKey!, {
+        headers: {},
+      });
     },
     saveRemoteData: async function (type: string, data: any) {
       try {
@@ -354,11 +357,18 @@ const strategies: StorageStrategies = {
 
   console.log("Pulling latest remote data...");
 
-  // Use full remote data to generate app-data in case of some of those get skipped
+  // NOTE 1: Use full remote data to generate app-data in case of some of those get skipped in update process
+  // NOTE 2: Got socket hung up error quite often so pRetry is needed here
   const [fpl, understat, understatTeams] = await Promise.all([
-    strategy.retrivedRemoteData("fpl") as FPLElement[],
-    strategy.retrivedRemoteData("understat") as PlayerStat[],
-    strategy.retrivedRemoteData("understat_teams") as TeamStat[],
+    pRetry(() => strategy.retrivedRemoteData("fpl") as FPLElement[], {
+      retries: 5,
+    }),
+    pRetry(() => strategy.retrivedRemoteData("understat") as PlayerStat[], {
+      retries: 5,
+    }),
+    pRetry(() => strategy.retrivedRemoteData("understat_teams") as TeamStat[], {
+      retries: 5,
+    }),
   ]);
 
   console.log(`${fpl.length} FPL elements are pulled.`);
