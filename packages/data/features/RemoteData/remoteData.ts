@@ -75,6 +75,10 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
         pRetry(
           async () => {
             const summary = await getFPLPlayerSummaryData(p.id);
+            if (summary.fixtures === undefined)
+              throw new Error(
+                `Invalid response ${JSON.stringify(summary).slice(0, 100)}`
+              );
             const data = { ...p, ...summary };
             await saveFn?.fpl?.(data);
             fpl.push(data);
@@ -84,7 +88,7 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
           {
             retries: retries?.fpl || 5,
             onFailedAttempt: (error) => {
-              console.log(`Scraping fpl error ${error}`);
+              console.log(`Scraping fpl error ${p.id}: ${error.message}`);
             },
           }
         )
@@ -98,6 +102,10 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
         pRetry(
           async () => {
             const stats = await getUnderstatPlayerData(p.id);
+            if (stats.groupsData === undefined)
+              throw new Error(
+                `Invalid response ${JSON.stringify(stats).slice(0, 100)}`
+              );
             const data = { ...p, ...stats };
             await saveFn?.understat?.(data);
             understat.push(data);
@@ -107,7 +115,7 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
           {
             retries: retries?.understat || 5,
             onFailedAttempt: (error) => {
-              console.log(`Scraping understat error ${error}`);
+              console.log(`Scraping understat error ${p.id}: ${error.message}`);
             },
           }
         )
@@ -123,6 +131,10 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
             const stats = await getUnderstatTeamData(
               p.title.replace(/ /g, "_")
             );
+            if (stats.datesData === undefined)
+              throw new Error(
+                `Invalid response ${JSON.stringify(stats).slice(0, 100)}`
+              );
             const data = { ...p, ...stats };
             await saveFn?.understat_teams?.(data);
             understatTeams.push(data);
@@ -132,7 +144,9 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
           {
             retries: retries?.understat_teams || 5,
             onFailedAttempt: (error) => {
-              console.log(`Scraping understat_teams error ${error}`);
+              console.log(
+                `Scraping understat_teams error ${p.id}: ${error.message}`
+              );
             },
           }
         )
