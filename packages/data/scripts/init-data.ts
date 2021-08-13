@@ -16,6 +16,7 @@ import {
 } from "@open-fpl/data/features/RemoteData/understatTypes";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import fs from "fs-extra";
+import pRetry from "p-retry";
 import path from "path";
 
 const {
@@ -107,7 +108,9 @@ const strategies: StorageStrategies = {
   },
   supabase: {
     init: function () {
-      this.client = createClient(supabaseUrl!, supabaseSecretKey!);
+      this.client = createClient(supabaseUrl!, supabaseSecretKey!, {
+        headers: {},
+      });
     },
     saveRemoteData: async function (type: string, data: any) {
       try {
@@ -211,7 +214,7 @@ const strategies: StorageStrategies = {
     console.log("Found Supabase key and url, using Supabase data storage");
 
   const start = new Date();
-  console.log(`Data init started: ${start}`);
+  console.log(`Updates started: ${start}`);
 
   await strategy.init?.();
 
@@ -237,6 +240,8 @@ const strategies: StorageStrategies = {
     snapshot_understat_data: null,
     snapshot_understat_players_data: null,
   };
+
+  console.log("Updating remote data...");
 
   const [remoteData, playersLinks, teamsLinks] = await Promise.all([
     fetchData({
@@ -342,12 +347,35 @@ const strategies: StorageStrategies = {
       .then(JSON.parse) as Promise<Record<string, string>>,
   ]);
 
-  // Use full remote data to generate app-data in case of some of those get skipped
+  console.log(`${remoteData.fpl.length} FPL elements are updated.`);
+  console.log(`${remoteData.understat.length} Understat players are updated.`);
+  console.log(
+    `${remoteData.understatTeams.length} Understat teams are updated.`
+  );
+
+  console.log("Remote data update is done.");
+
+  console.log("Pulling latest remote data...");
+
+  // NOTE 1: Use full remote data to generate app-data in case of some of those get skipped in update process
+  // NOTE 2: Got socket hung up error quite often so pRetry is needed here
   const [fpl, understat, understatTeams] = await Promise.all([
-    strategy.retrivedRemoteData("fpl") as FPLElement[],
-    strategy.retrivedRemoteData("understat") as PlayerStat[],
-    strategy.retrivedRemoteData("understat_teams") as TeamStat[],
+    pRetry(() => strategy.retrivedRemoteData("fpl") as FPLElement[], {
+      retries: 5,
+    }),
+    pRetry(() => strategy.retrivedRemoteData("understat") as PlayerStat[], {
+      retries: 5,
+    }),
+    pRetry(() => strategy.retrivedRemoteData("understat_teams") as TeamStat[], {
+      retries: 5,
+    }),
   ]);
+
+  console.log(`${fpl.length} FPL elements are pulled.`);
+  console.log(`${understat.length} Understat players are pulled.`);
+  console.log(`${understatTeams.length} Understat teams are pulled.`);
+
+  console.log("Making app data...");
 
   const { players, gameweeks, fixtures } = makeAppData({
     ...remoteData,
@@ -366,5 +394,9 @@ const strategies: StorageStrategies = {
     strategy.saveAppData("fixtures", fixtures),
   ]);
 
+  console.log("App data is created.");
+
   await strategy.finalise?.();
+
+  console.log("All done.");
 })();
