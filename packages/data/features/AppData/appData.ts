@@ -18,7 +18,7 @@ import {
   TeamStat,
 } from "@open-fpl/data/features/RemoteData/understatTypes";
 
-export const makeTeamFixtures = ({
+const makeTeamFixtures = ({
   fplElements,
   fplTeams,
 }: {
@@ -53,7 +53,7 @@ export const makeTeamFixtures = ({
   return teamFixtures;
 };
 
-export const makeAppData = ({
+const makePlayers = ({
   fpl,
   understat,
   fplTeams,
@@ -65,7 +65,7 @@ export const makeAppData = ({
 }: RemoteData & {
   playersLinks: Record<string, string>;
   teamsLinks: Record<string, string>;
-}): AppData => {
+}): Player[] => {
   const gameweeks = fplGameweeks
     .filter((g) => !g.finished && !g.is_current)
     .map((gw) => ({
@@ -194,7 +194,36 @@ export const makeAppData = ({
     } as Player;
   });
 
-  const fixtures = makeTeamFixtures({ fplElements: fpl, fplTeams });
+  return players;
+};
+
+export const makeAppData = ({
+  fpl,
+  understat,
+  fplTeams,
+  fplElementTypes,
+  understatTeams,
+  fplGameweeks,
+  playersLinks,
+  teamsLinks,
+}: RemoteData & {
+  playersLinks: Record<string, string>;
+  teamsLinks: Record<string, string>;
+}): AppData => {
+  const players = makePlayers({
+    fpl,
+    understat,
+    fplTeams,
+    fplElementTypes,
+    understatTeams,
+    fplGameweeks,
+    playersLinks,
+    teamsLinks,
+  });
+  const fixtures = makeTeamFixtures({
+    fplElements: fpl,
+    fplTeams,
+  });
 
   return {
     players,
