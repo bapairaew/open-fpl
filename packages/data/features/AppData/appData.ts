@@ -186,7 +186,6 @@ export const makeAppData = ({
 
   return {
     players,
-    gameweeks,
     fixtures,
   };
 };

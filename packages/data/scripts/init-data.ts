@@ -377,7 +377,7 @@ const strategies: StorageStrategies = {
 
   console.log("Making app data...");
 
-  const { players, gameweeks, fixtures } = makeAppData({
+  const { players, fixtures } = makeAppData({
     ...remoteData,
     fpl,
     understat,
@@ -390,7 +390,6 @@ const strategies: StorageStrategies = {
     strategy.saveAppData("links/players", playersLinks),
     strategy.saveAppData("links/teams", teamsLinks),
     strategy.saveAppData("players", players),
-    strategy.saveAppData("gameweeks", gameweeks),
     strategy.saveAppData("fixtures", fixtures),
   ]);
 
