@@ -113,51 +113,57 @@ const strategies: StorageStrategies = {
       });
     },
     saveRemoteData: async function (type: string, data: any) {
-      try {
-        const supabase = this.client as SupabaseClient;
-        Promise.all([
-          supabase
-            .from(type)
-            .insert([{ id: data.id || 1, data }], { upsert: true }),
-          supabase.storage
-            .from("open-fpl")
-            .upload(
-              `remote-data/${type}/${data.id || "data"}.json`,
-              JSON.stringify(data),
-              {
-                contentType: "application/json",
-                upsert: true,
-              }
-            ),
-        ]);
-      } catch (e) {
-        console.error(e);
-      }
+      const supabase = this.client as SupabaseClient;
+      const [{ error: dbError }, { error: storageError }] = await Promise.all([
+        supabase
+          .from(type)
+          .insert([{ id: data.id ?? 1, data }], { upsert: true }),
+        supabase.storage
+          .from("open-fpl")
+          .upload(
+            `remote-data/${type}/${data.id || "data"}.json`,
+            JSON.stringify(data),
+            {
+              contentType: "application/json",
+              upsert: true,
+            }
+          ),
+      ]);
+
+      if (dbError)
+        throw new Error(`Error saving ${type} Supabase DB: ${dbError.message}`);
+
+      if (storageError)
+        throw new Error(
+          `Error saving ${type} Supabase storage: ${storageError.message}`
+        );
     },
     saveAppData: async function (type: string, data: any) {
-      try {
-        const supabase = this.client as SupabaseClient;
-        await supabase.storage
-          .from("open-fpl")
-          .upload(`app-data/${type}.json`, JSON.stringify(data), {
-            contentType: "application/json",
-            upsert: true,
-          });
-      } catch (e) {
-        console.error(e);
-      }
+      const supabase = this.client as SupabaseClient;
+      const { error } = await supabase.storage
+        .from("open-fpl")
+        .upload(`app-data/${type}.json`, JSON.stringify(data), {
+          contentType: "application/json",
+          upsert: true,
+        });
+
+      if (error)
+        throw new Error(`Save to Storage error ${type}: ${error.message}`);
     },
     getPreviousSnapshots: async function () {
       const supabase = this.client as SupabaseClient;
       const [
         {
           data: { data: snapshot_fpl_data },
+          error: fplSnapshotError,
         },
         {
           data: { data: snapshot_understat_data },
+          error: understatSnapshotError,
         },
         {
           data: { data: snapshot_understat_players_data },
+          error: understatPlayersSnapshotError,
         },
       ] = await Promise.all([
         supabase.from("snapshot_fpl_data").select("data").single(),
@@ -167,6 +173,21 @@ const strategies: StorageStrategies = {
           .select("data")
           .single(),
       ]);
+
+      if (fplSnapshotError)
+        throw new Error(
+          `Error getting snapshot_fpl_data: ${fplSnapshotError.message}`
+        );
+
+      if (understatSnapshotError)
+        throw new Error(
+          `Error getting snapshot_understat_data: ${understatSnapshotError.message}`
+        );
+
+      if (understatPlayersSnapshotError)
+        throw new Error(
+          `Error getting snapshot_understat_players_data: ${understatPlayersSnapshotError.message}`
+        );
 
       return {
         snapshot_fpl_data,
@@ -187,23 +208,25 @@ const strategies: StorageStrategies = {
         ),
       ]);
     },
-    retrivedRemoteData: function (type: string, id?: string) {
-      try {
-        const supabase = this.client as SupabaseClient;
-        if (id) {
-          return supabase
-            .from(type)
-            .select("data")
-            .single()
-            .then((res) => res.data.data);
-        } else {
-          return supabase
-            .from(type)
-            .select("data")
-            .then((res) => res.data?.map((row) => row.data));
-        }
-      } catch (e) {
-        throw e;
+    retrivedRemoteData: async function (type: string, id?: string) {
+      const supabase = this.client as SupabaseClient;
+      if (id) {
+        const { data, error } = await supabase
+          .from(type)
+          .select("data")
+          .single();
+        if (error)
+          throw new Error(
+            `Error getting ${type} ${id} from Supabase DB: ${error.message}`
+          );
+        return data.data;
+      } else {
+        const { data, error } = await supabase.from(type).select("data");
+        if (error)
+          throw new Error(
+            `Error getting ${type} from Supabase DB: ${error.message}`
+          );
+        return data?.map((row) => row.data);
       }
     },
   },
@@ -296,7 +319,7 @@ const strategies: StorageStrategies = {
           let toBeUpdated = [...list];
 
           if (previousSnapshots.snapshot_understat_players_data !== null) {
-            toBeUpdated = toBeUpdated.filter((player, index) => {
+            toBeUpdated = toBeUpdated.filter((player) => {
               const matched =
                 previousSnapshots.snapshot_understat_players_data?.response.players.find(
                   (p) => p.id === player.id
@@ -364,22 +387,22 @@ const strategies: StorageStrategies = {
   // NOTE 1: Use full remote data to generate app-data in case of some of those get skipped in update process
   // NOTE 2: Got socket hung up error quite often so pRetry is needed here
   const [fpl, understat, understatTeams] = await Promise.all([
-    pRetry(() => strategy.retrivedRemoteData("fpl") as FPLElement[], {
+    pRetry<FPLElement[]>(() => strategy.retrivedRemoteData("fpl"), {
       retries: 5,
       onFailedAttempt: (error) => {
-        console.log(`Pulling fpl error ${error}`);
+        console.log(`Pulling fpl error ${error.message}`);
       },
     }),
-    pRetry(() => strategy.retrivedRemoteData("understat") as PlayerStat[], {
+    pRetry<PlayerStat[]>(() => strategy.retrivedRemoteData("understat"), {
       retries: 5,
       onFailedAttempt: (error) => {
-        console.log(`Pulling understat error ${error}`);
+        console.log(`Pulling understat error: ${error.message}`);
       },
     }),
-    pRetry(() => strategy.retrivedRemoteData("understat_teams") as TeamStat[], {
+    pRetry<TeamStat[]>(() => strategy.retrivedRemoteData("understat_teams"), {
       retries: 5,
       onFailedAttempt: (error) => {
-        console.log(`Pulling understat_teams error ${error}`);
+        console.log(`Pulling understat_teams error ${error.message}`);
       },
     }),
   ]);
