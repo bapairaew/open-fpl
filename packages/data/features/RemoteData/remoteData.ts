@@ -97,16 +97,12 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
       (p: PlayerStatSummary) =>
         pRetry(
           async () => {
-            try {
-              const stats = await getUnderstatPlayerData(p.id);
-              const data = { ...p, ...stats };
-              await saveFn?.understat?.(data);
-              understat.push(data);
-              delay?.understat && (await wait(delay.understat));
-              return data;
-            } catch (e) {
-              throw e;
-            }
+            const stats = await getUnderstatPlayerData(p.id);
+            const data = { ...p, ...stats };
+            await saveFn?.understat?.(data);
+            understat.push(data);
+            delay?.understat && (await wait(delay.understat));
+            return data;
           },
           {
             retries: retries?.understat || 5,
@@ -124,18 +120,14 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
       (p: LeagueTeamStat) =>
         pRetry(
           async () => {
-            try {
-              const stats = await getUnderstatTeamData(
-                p.title.replace(/ /g, "_")
-              );
-              const data = { ...p, ...stats };
-              await saveFn?.understat_teams?.(data);
-              understatTeams.push(data);
-              delay?.understat_teams && (await wait(delay.understat_teams));
-              return data;
-            } catch (e) {
-              throw e;
-            }
+            const stats = await getUnderstatTeamData(
+              p.title.replace(/ /g, "_")
+            );
+            const data = { ...p, ...stats };
+            await saveFn?.understat_teams?.(data);
+            understatTeams.push(data);
+            delay?.understat_teams && (await wait(delay.understat_teams));
+            return data;
           },
           {
             retries: retries?.understat_teams || 5,
