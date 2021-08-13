@@ -361,6 +361,10 @@ const strategies: StorageStrategies = {
     strategy.retrivedRemoteData("understat_teams") as TeamStat[],
   ]);
 
+  console.log(`${fpl.length} FPL elements are pulled.`);
+  console.log(`${understat.length} Understat players are pulled.`);
+  console.log(`${understatTeams.length} Understat teams are pulled.`);
+
   console.log("Making app data...");
 
   const { players, gameweeks, fixtures } = makeAppData({
