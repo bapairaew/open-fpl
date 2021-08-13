@@ -9,11 +9,7 @@ import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { getFixtures } from "@open-fpl/data/features/RemoteData/fpl";
-import {
-  Event,
-  Fixture,
-  Team,
-} from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
@@ -63,8 +59,6 @@ function DashboardPage({
   );
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
-
-  // const currentFixtures: Fixture[] = mockData;
 
   const isReady = [
     players,
