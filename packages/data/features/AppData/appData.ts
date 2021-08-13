@@ -1,5 +1,6 @@
 import {
   AppData,
+  TeamFixture,
   TeamFixtures,
 } from "@open-fpl/data/features/AppData/appDataTypes";
 import {
@@ -29,10 +30,21 @@ export const makeTeamFixtures = ({
   for (const fplTeam of fplTeams) {
     const fplElement = fplElements.find((f) => f.team === fplTeam.id);
     if (fplElement) {
-      const { team, fixtures, history } = fplElement;
+      const { team, fixtures: _fixtures, history: _history } = fplElement;
+      const fixtures: TeamFixture[] = [
+        ..._fixtures.map((f) => ({
+          opponent_team: f.is_home ? f.team_a : f.team_h,
+          event: f.event,
+          is_home: f.is_home,
+        })),
+        ..._history.map((h) => ({
+          opponent_team: h.opponent_team,
+          event: h.round,
+          is_home: h.was_home,
+        })),
+      ];
       teamFixtures.push({
         id: team,
-        history,
         fixtures,
       });
     }

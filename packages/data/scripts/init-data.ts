@@ -3,6 +3,9 @@ import { FPLElement } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   Bootstrap,
   Element,
+  ElementTypes,
+  Event,
+  Team,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import getDataFromFiles from "@open-fpl/data/features/RemoteData/getDataFromFiles";
 import { fetchData } from "@open-fpl/data/features/RemoteData/remoteData";
@@ -23,9 +26,11 @@ const {
   SUPABASE_SECRET_KEY: supabaseSecretKey,
   SUPABASE_URL: supabaseUrl,
   IGNORE_SNAPSHOTS: _ignoreSnapshots,
+  SKIP_UPDATE: _skipUpdate,
 } = process.env;
 
 const ignoreSnapshots = _ignoreSnapshots === "true";
+const skipUpdate = _skipUpdate === "true";
 
 type Snapshots = {
   snapshot_fpl_data: Bootstrap | null;
@@ -268,100 +273,107 @@ const strategies: StorageStrategies = {
     snapshot_understat_players_data: null,
   };
 
-  console.log("Updating remote data...");
+  if (skipUpdate) {
+    console.log("Skipping update remote data...");
+  } else {
+    console.log("Updating remote data...");
+  }
 
   const [remoteData, playersLinks, teamsLinks] = await Promise.all([
-    fetchData({
-      onSnapShotLoaded: async (
-        fplData,
-        understatData,
-        understatPlayersResponse
-      ) => {
-        currentSnapshots.snapshot_fpl_data = fplData;
-        currentSnapshots.snapshot_understat_data = understatData;
-        currentSnapshots.snapshot_understat_players_data =
-          understatPlayersResponse;
+    skipUpdate
+      ? null
+      : fetchData({
+          onSnapShotLoaded: async (
+            fplData,
+            understatData,
+            understatPlayersResponse
+          ) => {
+            currentSnapshots.snapshot_fpl_data = fplData;
+            currentSnapshots.snapshot_understat_data = understatData;
+            currentSnapshots.snapshot_understat_players_data =
+              understatPlayersResponse;
 
-        await strategy.saveSnapshots?.(currentSnapshots);
-      },
-      saveFn: {
-        fpl: (data) => strategy.saveRemoteData("fpl", data),
-        fpl_element_types: (data) =>
-          strategy.saveRemoteData("fpl_element_types", data),
-        fpl_gameweeks: (data) => strategy.saveRemoteData("fpl_gameweeks", data),
-        fpl_teams: (data) => strategy.saveRemoteData("fpl_teams", data),
-        understat: (data) => strategy.saveRemoteData("understat", data),
-        understat_teams: (data) =>
-          strategy.saveRemoteData("understat_teams", data),
-      },
-      retries: {
-        fpl: 5,
-        understat: 5,
-        understat_teams: 5,
-      },
-      concurrent: {
-        fpl: 1,
-        understat: 1,
-        understat_teams: 1,
-      },
-      delay: {
-        fpl: 0,
-        understat: 0,
-        understat_teams: 0,
-      },
-      getItemsToUpdate: {
-        fpl: (list: Element[]) => {
-          // Always update
-          console.log(`Updating ${list.length} FPL elements`);
-          return list;
-        },
-        understat: (list: PlayerStatSummary[]) => {
-          let toBeUpdated = [...list];
+            await strategy.saveSnapshots?.(currentSnapshots);
+          },
+          saveFn: {
+            fpl: (data) => strategy.saveRemoteData("fpl", data),
+            fpl_element_types: (data) =>
+              strategy.saveRemoteData("fpl_element_types", data),
+            fpl_gameweeks: (data) =>
+              strategy.saveRemoteData("fpl_gameweeks", data),
+            fpl_teams: (data) => strategy.saveRemoteData("fpl_teams", data),
+            understat: (data) => strategy.saveRemoteData("understat", data),
+            understat_teams: (data) =>
+              strategy.saveRemoteData("understat_teams", data),
+          },
+          retries: {
+            fpl: 5,
+            understat: 5,
+            understat_teams: 5,
+          },
+          concurrent: {
+            fpl: 1,
+            understat: 1,
+            understat_teams: 1,
+          },
+          delay: {
+            fpl: 0,
+            understat: 0,
+            understat_teams: 0,
+          },
+          getItemsToUpdate: {
+            fpl: (list: Element[]) => {
+              // Always update
+              console.log(`Updating ${list.length} FPL elements`);
+              return list;
+            },
+            understat: (list: PlayerStatSummary[]) => {
+              let toBeUpdated = [...list];
 
-          if (previousSnapshots.snapshot_understat_players_data !== null) {
-            toBeUpdated = toBeUpdated.filter((player) => {
-              const matched =
-                previousSnapshots.snapshot_understat_players_data?.response.players.find(
-                  (p) => p.id === player.id
-                );
+              if (previousSnapshots.snapshot_understat_players_data !== null) {
+                toBeUpdated = toBeUpdated.filter((player, index) => {
+                  const matched =
+                    previousSnapshots.snapshot_understat_players_data?.response.players.find(
+                      (p) => p.id === player.id
+                    );
 
-              if (matched) {
-                // Only update if number of games played changed
-                return matched.games !== player.games;
-              } else {
-                // New players
-                return true;
+                  if (matched) {
+                    // Only update if number of games played changed
+                    return matched.games !== player.games;
+                  } else {
+                    // New players
+                    return true;
+                  }
+                });
               }
-            });
-          }
 
-          console.log(`Updating ${toBeUpdated.length} Understat players`);
-          return toBeUpdated;
-        },
-        understat_teams: (list: LeagueTeamStat[]) => {
-          let toBeUpdated = [...list];
+              console.log(`Updating ${toBeUpdated.length} Understat players`);
+              return toBeUpdated;
+            },
+            understat_teams: (list: LeagueTeamStat[]) => {
+              let toBeUpdated = [...list];
 
-          if (previousSnapshots.snapshot_understat_data !== null) {
-            toBeUpdated = toBeUpdated.filter((team) => {
-              const matched = Object.values(
-                previousSnapshots.snapshot_understat_data!.teamsData
-              ).find((t) => t.id === team.id);
+              if (previousSnapshots.snapshot_understat_data !== null) {
+                toBeUpdated = toBeUpdated.filter((team) => {
+                  const matched = Object.values(
+                    previousSnapshots.snapshot_understat_data!.teamsData
+                  ).find((t) => t.id === team.id);
 
-              if (matched) {
-                // Only update if number of games played changed
-                return matched.history.length !== team.history.length;
-              } else {
-                // New teams
-                return true;
+                  if (matched) {
+                    // Only update if number of games played changed
+                    return matched.history.length !== team.history.length;
+                  } else {
+                    // New teams
+                    return true;
+                  }
+                });
               }
-            });
-          }
 
-          console.log(`Updating ${toBeUpdated.length} Understat teams`);
-          return toBeUpdated;
-        },
-      },
-    }),
+              console.log(`Updating ${toBeUpdated.length} Understat teams`);
+              return toBeUpdated;
+            },
+          },
+        }),
     fs.promises
       .readFile(path.resolve("./public/app-data/links/players.json"), {
         encoding: "utf-8",
@@ -374,10 +386,12 @@ const strategies: StorageStrategies = {
       .then(JSON.parse) as Promise<Record<string, string>>,
   ]);
 
-  console.log(`${remoteData.fpl.length} FPL elements are updated.`);
-  console.log(`${remoteData.understat.length} Understat players are updated.`);
+  console.log(`${remoteData?.fpl.length ?? 0} FPL elements are updated.`);
   console.log(
-    `${remoteData.understatTeams.length} Understat teams are updated.`
+    `${remoteData?.understat.length ?? 0} Understat players are updated.`
+  );
+  console.log(
+    `${remoteData?.understatTeams.length ?? 0} Understat teams are updated.`
   );
 
   console.log("Remote data update is done.");
@@ -386,8 +400,15 @@ const strategies: StorageStrategies = {
 
   // NOTE 1: Use full remote data to generate app-data in case of some of those get skipped in update process
   // NOTE 2: Got socket hung up error quite often so pRetry is needed here
-  const [fpl, understat, understatTeams] = await Promise.all([
-    pRetry<FPLElement[]>(() => strategy.retrivedRemoteData("fpl"), {
+  const [
+    fpl,
+    understat,
+    understatTeams,
+    fplElementTypes,
+    fplGameweeks,
+    fplTeams,
+  ] = await Promise.all([
+    pRetry(() => strategy.retrivedRemoteData("fpl") as FPLElement[], {
       retries: 5,
       onFailedAttempt: (error) => {
         console.log(`Pulling fpl error ${error.message}`);
@@ -405,6 +426,34 @@ const strategies: StorageStrategies = {
         console.log(`Pulling understat_teams error ${error.message}`);
       },
     }),
+    pRetry(
+      () =>
+        strategy.retrivedRemoteData(
+          "fpl_element_types",
+          "data"
+        ) as ElementTypes[],
+      {
+        retries: 5,
+        onFailedAttempt: (error) => {
+          console.log(`Pulling fpl_element_types error ${error.message}`);
+        },
+      }
+    ),
+    pRetry(
+      () => strategy.retrivedRemoteData("fpl_gameweeks", "data") as Event[],
+      {
+        retries: 5,
+        onFailedAttempt: (error) => {
+          console.log(`Pulling fpl_gameweeks error ${error.message}`);
+        },
+      }
+    ),
+    pRetry(() => strategy.retrivedRemoteData("fpl_teams", "data") as Team[], {
+      retries: 5,
+      onFailedAttempt: (error) => {
+        console.log(`Pulling fpl_teams error ${error.message}`);
+      },
+    }),
   ]);
 
   console.log(`${fpl.length} FPL elements are pulled.`);
@@ -414,10 +463,12 @@ const strategies: StorageStrategies = {
   console.log("Making app data...");
 
   const { players, fixtures } = makeAppData({
-    ...remoteData,
     fpl,
     understat,
     understatTeams,
+    fplElementTypes,
+    fplGameweeks,
+    fplTeams,
     playersLinks,
     teamsLinks,
   });

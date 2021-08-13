@@ -74,46 +74,8 @@ export const makeFullFixtures = ({
         gameweeks: [] as TeamFixture[][],
       } as FullTeamFixtures;
 
-      for (const history of team.history) {
-        const opponent = fplTeams.find((t) => t.id === history.opponent_team);
-        if (opponent) {
-          const teamFixture = {
-            event: history.round,
-            is_finished: true,
-            is_home: history.was_home,
-            attack_difficulty: history.was_home
-              ? getDifficulty(
-                  fplTeam.strength_attack_home,
-                  opponent.strength_defence_away
-                )
-              : getDifficulty(
-                  fplTeam.strength_attack_away,
-                  opponent.strength_defence_home
-                ),
-            defence_difficulty: history.was_home
-              ? getDifficulty(
-                  fplTeam.strength_defence_home,
-                  opponent.strength_attack_away
-                )
-              : getDifficulty(
-                  fplTeam.strength_defence_away,
-                  opponent.strength_attack_home
-                ),
-            opponent: makeTeamInfo(opponent),
-          } as TeamFixture;
-
-          fullFixture.gameweeks[history.round] = fullFixture.gameweeks[
-            history.round
-          ]
-            ? [...fullFixture.gameweeks[history.round], teamFixture]
-            : [teamFixture];
-        }
-      }
-
       for (const fixture of team.fixtures) {
-        const opponent = fplTeams.find(
-          (t) => t.id === (fixture.is_home ? fixture.team_a : fixture.team_h)
-        );
+        const opponent = fplTeams.find((t) => t.id === fixture.opponent_team);
         if (opponent) {
           const teamFixture = {
             event: fixture.event,

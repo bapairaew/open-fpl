@@ -1,8 +1,4 @@
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import {
-  ElementSummaryFixture,
-  ElementSummaryUpcomingFixture,
-} from "@open-fpl/data/features/RemoteData/fplTypes";
 
 export interface Gameweek {
   id: number;
@@ -12,10 +8,15 @@ export interface Gameweek {
   is_next: boolean;
 }
 
+export interface TeamFixture {
+  opponent_team: number;
+  event: number;
+  is_home: boolean;
+}
+
 export interface TeamFixtures {
   id: number;
-  history: ElementSummaryFixture[];
-  fixtures: ElementSummaryUpcomingFixture[];
+  fixtures: TeamFixture[];
 }
 
 export interface AppData {
