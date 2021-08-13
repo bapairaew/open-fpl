@@ -1,9 +1,10 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, useDisclosure, Button } from "@chakra-ui/react";
 import { AppEntryEventPick } from "@open-fpl/app/features/Api/apiTypes";
 import { getHomeAwayPicks } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Fixture, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { useMemo } from "react";
+import DashboardUpcomingFixtureModal from "./DashboardUpcomingFixtureModal";
 
 const DashboardUpcomingFixture = ({
   fixture,
@@ -35,71 +36,91 @@ const DashboardUpcomingFixture = ({
     [currentPicks, fixture, players]
   );
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <Flex
-      borderWidth={1}
-      px={4}
-      py={2}
-      borderRadius="md"
-      flexDirection="column"
-    >
-      <Text my={2} layerStyle="subtitle" fontSize="xs" textAlign="left">
-        {new Date(fixture.kickoff_time).toLocaleString()}
-      </Text>
-      <Flex
-        my={2}
-        flexGrow={1}
-        width="100%"
-        justifyContent="space-around"
-        fontSize="xl"
-        fontWeight="black"
-      >
-        <Box>
-          <Flex>
-            {homeTeamPicks.map((p) => (
-              <Box
-                key={p.element}
-                mx={0.5}
-                width="6px"
-                height="6px"
-                borderRadius="50%"
-                layerStyle="textSolid"
-              />
-            ))}
+    <>
+      <DashboardUpcomingFixtureModal isOpen={isOpen} onClose={onClose} />
+      <Box position="relative">
+        <Flex
+          borderWidth={1}
+          px={4}
+          py={2}
+          borderRadius="md"
+          flexDirection="column"
+        >
+          <Text my={2} layerStyle="subtitle" fontSize="xs" textAlign="left">
+            {new Date(fixture.kickoff_time).toLocaleString()}
+          </Text>
+          <Flex
+            my={2}
+            flexGrow={1}
+            width="100%"
+            justifyContent="space-around"
+            fontSize="xl"
+            fontWeight="black"
+          >
+            <Box>
+              <Flex>
+                {homeTeamPicks.map((p) => (
+                  <Box
+                    key={p.element}
+                    mx={0.5}
+                    width="6px"
+                    height="6px"
+                    borderRadius="50%"
+                    layerStyle="textSolid"
+                  />
+                ))}
+              </Flex>
+              <Box>{home?.short_name}</Box>
+            </Box>
+            <Box>-</Box>
+            <Box>
+              <Flex justifyContent="flex-end">
+                {awayTeamPicks.map((p) => (
+                  <Box
+                    key={p.element}
+                    mx={0.5}
+                    width="6px"
+                    height="6px"
+                    borderRadius="50%"
+                    layerStyle="textSolid"
+                  />
+                ))}
+              </Flex>
+              <Box>{away?.short_name}</Box>
+            </Box>
           </Flex>
-          <Box>{home?.short_name}</Box>
-        </Box>
-        <Box>-</Box>
-        <Box>
-          <Flex justifyContent="flex-end">
-            {awayTeamPicks.map((p) => (
-              <Box
-                key={p.element}
-                mx={0.5}
-                width="6px"
-                height="6px"
-                borderRadius="50%"
-                layerStyle="textSolid"
-              />
-            ))}
+          <Flex width="100%" my={2}>
+            <Box
+              height="5px"
+              width={`${homeDisplayPercent}%`}
+              layerStyle={`fpl-team-${home?.short_name}`}
+            />
+            <Box height="5px" width="4px" layerStyle="sticky" />
+            <Box
+              height="5px"
+              width={`${awayDisplayPercent}%`}
+              layerStyle={`fpl-team-${away?.short_name}`}
+            />
           </Flex>
-          <Box>{away?.short_name}</Box>
-        </Box>
-      </Flex>
-      <Flex width="100%" my={2}>
-        <Box
-          height="5px"
-          width={`${homeDisplayPercent}%`}
-          layerStyle={`fpl-team-${home?.short_name}`}
+        </Flex>
+        <Button
+          variant="unstyled"
+          aria-label="open match details"
+          position="absolute"
+          width="100%"
+          height="100%"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          opactiy={0}
+          onClick={onOpen}
         />
-        <Box height="5px" width="4px" layerStyle="sticky" />
-        <Box
-          height="5px"
-          width={`${awayDisplayPercent}%`}
-          layerStyle={`fpl-team-${away?.short_name}`}
-        />
-      </Flex>
-    </Flex>
+      </Box>
+    </>
   );
 };
 
