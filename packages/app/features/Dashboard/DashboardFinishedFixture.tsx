@@ -6,7 +6,7 @@ import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Fixture, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { useMemo } from "react";
 
-const DashboardFixture = ({
+const DashboardFinishedFixture = ({
   fixture,
   fplTeams,
   players,
@@ -86,4 +86,4 @@ const DashboardFixture = ({
   );
 };
 
-export default DashboardFixture;
+export default DashboardFinishedFixture;

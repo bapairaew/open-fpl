@@ -12,6 +12,9 @@ export interface TeamFixture {
   opponent_team: number;
   event: number;
   is_home: boolean;
+  finished: boolean;
+  team_h_score?: number;
+  team_a_score?: number;
 }
 
 export interface TeamFixtures {

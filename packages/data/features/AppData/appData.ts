@@ -32,15 +32,19 @@ const makeTeamFixtures = ({
     if (fplElement) {
       const { team, fixtures: _fixtures, history: _history } = fplElement;
       const fixtures: TeamFixture[] = [
-        ..._fixtures.map((f) => ({
-          opponent_team: f.is_home ? f.team_a : f.team_h,
-          event: f.event,
-          is_home: f.is_home,
-        })),
         ..._history.map((h) => ({
           opponent_team: h.opponent_team,
           event: h.round,
           is_home: h.was_home,
+          team_h_score: h.team_h_score,
+          team_a_score: h.team_a_score,
+          finished: true,
+        })),
+        ..._fixtures.map((f) => ({
+          opponent_team: f.is_home ? f.team_a : f.team_h,
+          event: f.event,
+          is_home: f.is_home,
+          finished: false,
         })),
       ];
       teamFixtures.push({

@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 
-const DashboardUpcomingFixtureDrawer = ({
+const DashboardFinishedFixtureModal = ({
   isOpen,
   onClose,
   home,
@@ -51,51 +51,12 @@ const DashboardUpcomingFixtureDrawer = ({
             </Thead>
             <Tbody>
               <Tr>
-                <Th>Kickoff</Th>
-                <Td colSpan={2} textAlign="center">
-                  TODO
-                </Td>
-              </Tr>
-              <Tr>
-                <Th>Position</Th>
+                <Th>Score</Th>
                 <Td textAlign="center">{home.position}</Td>
                 <Td textAlign="center">{away.position}</Td>
               </Tr>
               <Tr>
-                <Th>Form</Th>
-                <Td textAlign="center">
-                  {home.form}
-                  <br />
-                  (DWLDWW)
-                </Td>
-                <Td textAlign="center">
-                  {away.form}
-                  <br />
-                  (DWLDWW)
-                </Td>
-              </Tr>
-              <Tr>
-                <Th>Attack</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
-              </Tr>
-              <Tr>
-                <Th>Defense</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
-              </Tr>
-              <Tr>
-                <Th>Goals</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
-              </Tr>
-              <Tr>
                 <Th>xG</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
-              </Tr>
-              <Tr>
-                <Th>G Against</Th>
                 <Td textAlign="center">TODO</Td>
                 <Td textAlign="center">TODO</Td>
               </Tr>
@@ -117,4 +78,4 @@ const DashboardUpcomingFixtureDrawer = ({
   );
 };
 
-export default DashboardUpcomingFixtureDrawer;
+export default DashboardFinishedFixtureModal;

@@ -40,7 +40,14 @@ const DashboardUpcomingFixture = ({
 
   return (
     <>
-      <DashboardUpcomingFixtureModal isOpen={isOpen} onClose={onClose} />
+      {home && away && isOpen && (
+        <DashboardUpcomingFixtureModal
+          isOpen={isOpen}
+          onClose={onClose}
+          home={home}
+          away={away}
+        />
+      )}
       <Box position="relative">
         <Flex
           borderWidth={1}

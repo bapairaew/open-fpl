@@ -4,7 +4,7 @@ import {
   AppEntryEventPick,
   AppLive,
 } from "@open-fpl/app/features/Api/apiTypes";
-import DashboardFixture from "@open-fpl/app/features/Dashboard/DashboardFixture";
+import DashboardFinishedFixture from "@open-fpl/app/features/Dashboard/DashboardFinishedFixture";
 import DashboardLiveFixture from "@open-fpl/app/features/Dashboard/DashboardLiveFixture";
 import DashboardLivePoints from "@open-fpl/app/features/Dashboard/DashboardLivePoints";
 import DashboardToolbar from "@open-fpl/app/features/Dashboard/DashboardToolbar";
@@ -144,7 +144,7 @@ const Dashboard = ({
                 }}
               >
                 {finishedCurrentFixtures.map((fixture) => (
-                  <DashboardFixture
+                  <DashboardFinishedFixture
                     key={fixture.id}
                     fixture={fixture}
                     fplTeams={adjustedTeams}
