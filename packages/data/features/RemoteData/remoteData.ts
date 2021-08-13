@@ -74,18 +74,19 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
       (p: Element) =>
         pRetry(
           async () => {
-            try {
-              const summary = await getFPLPlayerSummaryData(p.id);
-              const data = { ...p, ...summary };
-              await saveFn?.fpl?.(data);
-              fpl.push(data);
-              delay?.fpl && (await wait(delay.fpl));
-              return data;
-            } catch (e) {
-              throw e;
-            }
+            const summary = await getFPLPlayerSummaryData(p.id);
+            const data = { ...p, ...summary };
+            await saveFn?.fpl?.(data);
+            fpl.push(data);
+            delay?.fpl && (await wait(delay.fpl));
+            return data;
           },
-          { retries: retries?.fpl || 5 }
+          {
+            retries: retries?.fpl || 5,
+            onFailedAttempt: (error) => {
+              console.log(`Scraping fpl error ${error}`);
+            },
+          }
         )
     ),
     asyncPool(
@@ -107,7 +108,12 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
               throw e;
             }
           },
-          { retries: retries?.understat || 5 }
+          {
+            retries: retries?.understat || 5,
+            onFailedAttempt: (error) => {
+              console.log(`Scraping understat error ${error}`);
+            },
+          }
         )
     ),
     asyncPool(
@@ -131,7 +137,12 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
               throw e;
             }
           },
-          { retries: retries?.understat_teams || 5 }
+          {
+            retries: retries?.understat_teams || 5,
+            onFailedAttempt: (error) => {
+              console.log(`Scraping understat_teams error ${error}`);
+            },
+          }
         )
     ),
   ]);

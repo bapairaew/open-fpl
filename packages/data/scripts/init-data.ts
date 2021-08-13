@@ -188,18 +188,22 @@ const strategies: StorageStrategies = {
       ]);
     },
     retrivedRemoteData: function (type: string, id?: string) {
-      const supabase = this.client as SupabaseClient;
-      if (id) {
-        return supabase
-          .from(type)
-          .select("data")
-          .single()
-          .then((res) => res.data.data);
-      } else {
-        return supabase
-          .from(type)
-          .select("data")
-          .then((res) => res.data?.map((row) => row.data));
+      try {
+        const supabase = this.client as SupabaseClient;
+        if (id) {
+          return supabase
+            .from(type)
+            .select("data")
+            .single()
+            .then((res) => res.data.data);
+        } else {
+          return supabase
+            .from(type)
+            .select("data")
+            .then((res) => res.data?.map((row) => row.data));
+        }
+      } catch (e) {
+        throw e;
       }
     },
   },
@@ -362,12 +366,21 @@ const strategies: StorageStrategies = {
   const [fpl, understat, understatTeams] = await Promise.all([
     pRetry(() => strategy.retrivedRemoteData("fpl") as FPLElement[], {
       retries: 5,
+      onFailedAttempt: (error) => {
+        console.log(`Pulling fpl error ${error}`);
+      },
     }),
     pRetry(() => strategy.retrivedRemoteData("understat") as PlayerStat[], {
       retries: 5,
+      onFailedAttempt: (error) => {
+        console.log(`Pulling understat error ${error}`);
+      },
     }),
     pRetry(() => strategy.retrivedRemoteData("understat_teams") as TeamStat[], {
       retries: 5,
+      onFailedAttempt: (error) => {
+        console.log(`Pulling understat_teams error ${error}`);
+      },
     }),
   ]);
 
@@ -377,7 +390,7 @@ const strategies: StorageStrategies = {
 
   console.log("Making app data...");
 
-  const { players, gameweeks, fixtures } = makeAppData({
+  const { players, fixtures } = makeAppData({
     ...remoteData,
     fpl,
     understat,
@@ -390,7 +403,6 @@ const strategies: StorageStrategies = {
     strategy.saveAppData("links/players", playersLinks),
     strategy.saveAppData("links/teams", teamsLinks),
     strategy.saveAppData("players", players),
-    strategy.saveAppData("gameweeks", gameweeks),
     strategy.saveAppData("fixtures", fixtures),
   ]);
 

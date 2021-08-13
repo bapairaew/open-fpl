@@ -20,6 +20,5 @@ export interface TeamFixtures {
 
 export interface AppData {
   players: Player[];
-  gameweeks: Gameweek[];
   fixtures: TeamFixtures[];
 }
