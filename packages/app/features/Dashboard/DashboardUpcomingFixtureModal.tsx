@@ -15,16 +15,32 @@ import {
 } from "@chakra-ui/react";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 
+const nth = function (d: number) {
+  if (d > 3 && d < 21) return `${d}th`;
+  switch (d % 10) {
+    case 1:
+      return `${d}st`;
+    case 2:
+      return `${d}nd`;
+    case 3:
+      return `${d}rd`;
+    default:
+      return `${d}th`;
+  }
+};
+
 const DashboardUpcomingFixtureDrawer = ({
   isOpen,
   onClose,
   home,
   away,
+  kickoffTime,
 }: {
   isOpen: boolean;
   onClose: () => void;
   home: Team;
   away: Team;
+  kickoffTime: string;
 }) => {
   return (
     <Drawer size="lg" isOpen={isOpen} onClose={onClose}>
@@ -53,13 +69,21 @@ const DashboardUpcomingFixtureDrawer = ({
               <Tr>
                 <Th>Kickoff</Th>
                 <Td colSpan={2} textAlign="center">
-                  TODO
+                  {kickoffTime}
                 </Td>
               </Tr>
               <Tr>
-                <Th>Position</Th>
-                <Td textAlign="center">{home.position}</Td>
-                <Td textAlign="center">{away.position}</Td>
+                <Th>Table</Th>
+                <Td textAlign="center">
+                  {nth(home.position)}
+                  <br />
+                  {home.win}-{home.draw}-{home.loss}
+                </Td>
+                <Td textAlign="center">
+                  {nth(away.position)}
+                  <br />
+                  {away.win}-{away.draw}-{away.loss}
+                </Td>
               </Tr>
               <Tr>
                 <Th>Form</Th>
@@ -76,13 +100,13 @@ const DashboardUpcomingFixtureDrawer = ({
               </Tr>
               <Tr>
                 <Th>Attack</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
+                <Td textAlign="center">{home.strength_attack_home}</Td>
+                <Td textAlign="center">{away.strength_attack_away}</Td>
               </Tr>
               <Tr>
-                <Th>Defense</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
+                <Th>Defence</Th>
+                <Td textAlign="center">{home.strength_defence_home}</Td>
+                <Td textAlign="center">{away.strength_defence_away}</Td>
               </Tr>
               <Tr>
                 <Th>Goals</Th>

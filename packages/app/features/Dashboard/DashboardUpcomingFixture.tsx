@@ -37,6 +37,7 @@ const DashboardUpcomingFixture = ({
   );
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const kickOffTime = new Date(fixture.kickoff_time).toLocaleString();
 
   return (
     <>
@@ -44,6 +45,7 @@ const DashboardUpcomingFixture = ({
         <DashboardUpcomingFixtureModal
           isOpen={isOpen}
           onClose={onClose}
+          kickoffTime={kickOffTime}
           home={home}
           away={away}
         />
@@ -57,7 +59,7 @@ const DashboardUpcomingFixture = ({
           flexDirection="column"
         >
           <Text my={2} layerStyle="subtitle" fontSize="xs" textAlign="left">
-            {new Date(fixture.kickoff_time).toLocaleString()}
+            {kickOffTime}
           </Text>
           <Flex
             my={2}

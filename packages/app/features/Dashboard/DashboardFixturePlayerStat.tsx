@@ -28,8 +28,8 @@ const DashboardFixturePlayerStat = ({
     >
       {playerStat.stats.picked ? (
         <Box
-          width="8px"
-          height="8px"
+          width="5px"
+          height="5px"
           borderRadius="50%"
           layerStyle="subtitleSolid"
         />
@@ -39,7 +39,7 @@ const DashboardFixturePlayerStat = ({
         <Box textAlign="right">({playerStat.stats.bps})</Box>
       ) : null}
       {playerStat.stats.bonus > 0 ? (
-        <Badge>+{playerStat.stats.bonus}</Badge>
+        <Box layerStyle="brand">+{playerStat.stats.bonus}</Box>
       ) : null}
       <Icons
         icon={<Icon as={BiFootball} layerStyle="brand" />}
