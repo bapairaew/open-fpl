@@ -27,7 +27,7 @@ export const getStaticProps = async () => {
     ) as Promise<Event[]>,
   ]);
 
-  const currentGameweek = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
+  const currentGameweek = fplGameweeks.find((f) => f.is_next)?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
 
   return {
     props: {

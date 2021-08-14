@@ -51,11 +51,11 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     ) as Promise<Event[]>,
   ]);
 
-  const currentGameweek = fplGameweeks[0]?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
+  const currentGameweek = fplGameweeks.find((f) => f.is_next)?.id ?? 38; // Remaining gameweeks is empty when the last gameweek finished
 
   const [{ picks = null, entry_history = null }, transfers, { chips = null }] =
     await Promise.all([
-      getTeamPicks(+params!.id!, currentGameweek),
+      getTeamPicks(+params!.id!, currentGameweek - 1),
       getTeamTransfers(+params!.id!),
       getTeamHistory(+params!.id!),
     ]);
