@@ -21,23 +21,24 @@ export type StickyHeaderTableContextType = {
 };
 
 const StickyHeaderTableElementType = forwardRef<HTMLDivElement>(
-  ({ children, ...props }, ref) => (
-    <StickyHeaderTableContext.Consumer>
-      {({ headerRow }) => (
-        <Table>
-          <Thead>{headerRow}</Thead>
-          <Tbody
-            // @ts-ignore
-            ref={ref}
-            display="block"
-            {...props}
-          >
-            {children}
-          </Tbody>
-        </Table>
-      )}
-    </StickyHeaderTableContext.Consumer>
-  )
+  ({ children, ...props }, ref) => {
+    return (
+      <StickyHeaderTableContext.Consumer>
+        {({ headerRow }) => (
+          <Table {...props}>
+            <Thead>{headerRow}</Thead>
+            <Tbody
+              // @ts-ignore
+              ref={ref}
+              display="block"
+            >
+              {children}
+            </Tbody>
+          </Table>
+        )}
+      </StickyHeaderTableContext.Consumer>
+    );
+  }
 );
 
 const ItemWrapper = ({
@@ -55,7 +56,7 @@ const ItemWrapper = ({
   }
   // TODO: figure out how to surpass this warning
   // @ts-ignore
-  return <ItemRenderer index={index} style={style} />;
+  return <ItemRenderer index={index - stickyCount} style={style} />;
 };
 
 const StickyHeaderTableContext = createContext<StickyHeaderTableContextType>(
@@ -68,6 +69,7 @@ const StickyHeaderTable = ({
   children,
   headerRow,
   stickyCount = 1,
+  itemCount,
   ...props
 }: FixedSizeListProps & {
   headerRow: ReactNode;
@@ -79,6 +81,7 @@ const StickyHeaderTable = ({
     <List
       itemData={{ ItemRenderer: children, headerRow, stickyCount }}
       innerElementType={StickyHeaderTableElementType}
+      itemCount={itemCount + stickyCount}
       {...props}
     >
       {ItemWrapper}

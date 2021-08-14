@@ -1,3 +1,4 @@
+import { TableCellProps } from "@chakra-ui/react";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import {
   MatchStat,
@@ -17,10 +18,12 @@ export interface PlayerTableConfig {
     player,
     pastMatches,
     config,
+    cellProps,
   }: {
     player: ClientPlayer;
     pastMatches: MatchStat[];
     config: PlayerTableConfig;
+    cellProps?: TableCellProps;
   }) => ReactNode;
 }
 

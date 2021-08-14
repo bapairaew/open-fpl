@@ -64,9 +64,16 @@ const TransferMarket = ({
           hideHeader: true,
           hideMenu: true,
           sticky: "0px",
-          render: ({ player, config }) => {
+          render: ({ player, config, cellProps }) => {
+            const { zIndex, ...props } = cellProps ?? {};
             return (
-              <Th p={0} position="sticky" left={config.sticky}>
+              <Th
+                p={0}
+                position="sticky"
+                left={config.sticky}
+                zIndex={typeof zIndex === "number" ? (zIndex ?? 1) + 1 : zIndex}
+                {...props}
+              >
                 <Flex
                   alignItems="center"
                   px={2}
@@ -125,16 +132,16 @@ const TransferMarket = ({
   const row = useMemo(
     () =>
       ({ index, style }: { index: number; style: CSSProperties }) => {
-        const player = sortedDisplayedPlayers[index - 2];
+        const player = sortedDisplayedPlayers[index];
         const { width, ...restStyle } = style; // provided width: 100%; broke horizontal scroll with sticky items
-        return player ? (
+        return (
           <PlayerTableRow
             key={player.id}
             style={restStyle}
             player={player}
             configs={configs}
           />
-        ) : null;
+        );
       },
     [sortedDisplayedPlayers]
   );
@@ -165,7 +172,6 @@ const TransferMarket = ({
           <AutoSizer>
             {({ height, width }) => (
               <Box
-                colorScheme="gray"
                 display="block"
                 overflow="auto"
                 height={`${height}px`}
@@ -176,8 +182,8 @@ const TransferMarket = ({
                   height={height}
                   width={width}
                   itemSize={33}
-                  itemCount={sortedDisplayedPlayers.length + 2} // Pad two players for sticky header
-                  stickyCount={1}
+                  itemCount={sortedDisplayedPlayers.length}
+                  stickyCount={2}
                   headerRow={
                     <>
                       <PlayerTableHeaderRow
@@ -191,6 +197,12 @@ const TransferMarket = ({
                           player={selectedPlayer}
                           configs={configs}
                           height="30px"
+                          cellProps={{
+                            position: "sticky",
+                            layerStyle: "sticky",
+                            top: "29px",
+                            zIndex: 1,
+                          }}
                         />
                       )}
                     </>

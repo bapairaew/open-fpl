@@ -1,4 +1,13 @@
-import { Box, Flex, Grid, Td, Text, Th, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Grid,
+  TableCellProps,
+  Td,
+  Text,
+  Th,
+  Tooltip,
+} from "@chakra-ui/react";
 import CenterFlex from "@open-fpl/app/features/PlayerData/CenterFlex";
 import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
 import PastMatchesStats from "@open-fpl/app/features/PlayerData/PastMatchesStats";
@@ -8,6 +17,8 @@ import { PlayerTableConfig } from "@open-fpl/app/features/PlayerData/playerTable
 import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
 import { IoWarningOutline } from "react-icons/io5";
 
+const TableCell = (props: TableCellProps) => <Td p={0} {...props} />;
+
 const playerTableConfigs = [
   {
     header: "Name",
@@ -15,7 +26,8 @@ const playerTableConfigs = [
     sticky: 0,
     sortFn: playersSortFunctions.name,
     reversedSortFn: playersSortFunctions.reversedName,
-    render: ({ player, config }) => {
+    render: ({ player, config, cellProps }) => {
+      const { zIndex, ...props } = cellProps ?? {};
       return (
         <Th
           p={0}
@@ -23,6 +35,8 @@ const playerTableConfigs = [
           position="sticky"
           left={config.sticky}
           textTransform="none"
+          zIndex={typeof zIndex === "number" ? (zIndex ?? 1) + 1 : zIndex}
+          {...props}
         >
           <Flex width={`${config.columnWidth}px`} alignItems="center">
             {player.status !== "a" && (
@@ -48,9 +62,9 @@ const playerTableConfigs = [
     columnWidth: 80,
     sortFn: playersSortFunctions.team,
     reversedSortFn: playersSortFunctions.reversedTeam,
-    render: ({ player, config }) => {
+    render: ({ player, config, cellProps }) => {
       return (
-        <Td p={0}>
+        <TableCell {...cellProps}>
           <CenterFlex
             height="32px"
             width={`${config.columnWidth}px`}
@@ -58,7 +72,7 @@ const playerTableConfigs = [
           >
             {player.team.short_name}
           </CenterFlex>
-        </Td>
+        </TableCell>
       );
     },
   },
@@ -67,9 +81,9 @@ const playerTableConfigs = [
     columnWidth: 80,
     sortFn: playersSortFunctions.position,
     reversedSortFn: playersSortFunctions.reversedPosition,
-    render: ({ player, config }) => {
+    render: ({ player, config, cellProps }) => {
       return (
-        <Td p={0}>
+        <TableCell {...cellProps}>
           <CenterFlex
             height="32px"
             width={`${config.columnWidth}px`}
@@ -77,7 +91,7 @@ const playerTableConfigs = [
           >
             {player.element_type.singular_name_short}
           </CenterFlex>
-        </Td>
+        </TableCell>
       );
     },
   },
@@ -86,8 +100,8 @@ const playerTableConfigs = [
     columnWidth: 80,
     sortFn: playersSortFunctions.cost,
     reversedSortFn: playersSortFunctions.reversedCost,
-    render: ({ player, config }) => (
-      <Td p={0}>
+    render: ({ player, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Flex
           pr={4}
           justifyContent="flex-end"
@@ -97,7 +111,7 @@ const playerTableConfigs = [
         >
           £{(player.now_cost / 10).toFixed(1)}
         </Flex>
-      </Td>
+      </TableCell>
     ),
   },
   {
@@ -105,8 +119,8 @@ const playerTableConfigs = [
     columnWidth: 80,
     sortFn: playersSortFunctions.ownership,
     reversedSortFn: playersSortFunctions.reversedOwnership,
-    render: ({ player, config }) => (
-      <Td p={0}>
+    render: ({ player, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Flex
           pr={4}
           justifyContent="flex-end"
@@ -116,7 +130,7 @@ const playerTableConfigs = [
         >
           {(+player.selected_by_percent).toFixed(1)}%
         </Flex>
-      </Td>
+      </TableCell>
     ),
   },
   {
@@ -124,12 +138,12 @@ const playerTableConfigs = [
     columnWidth: 300,
     sortFn: playersSortFunctions.fixtures,
     reversedSortFn: playersSortFunctions.reversedFixtures,
-    render: ({ player, config }) => (
-      <Td p={0}>
+    render: ({ player, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Box width={`${config.columnWidth}px`} height="32px">
           <FixturesSection player={player} />
         </Box>
-      </Td>
+      </TableCell>
     ),
   },
   {
@@ -137,12 +151,12 @@ const playerTableConfigs = [
     columnWidth: 300,
     sortFn: playersSortFunctions.points,
     reversedSortFn: playersSortFunctions.reversedPoints,
-    render: ({ player, config }) => (
-      <Td p={0}>
+    render: ({ player, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Flex width={`${config.columnWidth}px`} height="32px">
           <PointsSection player={player} />
         </Flex>
-      </Td>
+      </TableCell>
     ),
   },
   {
@@ -150,8 +164,8 @@ const playerTableConfigs = [
     columnWidth: 300,
     sortFn: playersSortFunctions.goals,
     reversedSortFn: playersSortFunctions.reversedGoals,
-    render: ({ player, pastMatches, config }) => (
-      <Td p={0}>
+    render: ({ player, pastMatches, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Grid
           height="32px"
           gap={0}
@@ -166,7 +180,7 @@ const playerTableConfigs = [
             decimal={0}
           />
         </Grid>
-      </Td>
+      </TableCell>
     ),
   },
   {
@@ -174,8 +188,8 @@ const playerTableConfigs = [
     columnWidth: 300,
     sortFn: playersSortFunctions.assists,
     reversedSortFn: playersSortFunctions.reversedAssists,
-    render: ({ player, pastMatches, config }) => (
-      <Td p={0}>
+    render: ({ player, pastMatches, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Grid
           height="32px"
           gap={0}
@@ -190,7 +204,7 @@ const playerTableConfigs = [
             decimal={0}
           />
         </Grid>
-      </Td>
+      </TableCell>
     ),
   },
   {
@@ -198,8 +212,8 @@ const playerTableConfigs = [
     columnWidth: 300,
     sortFn: playersSortFunctions.shots,
     reversedSortFn: playersSortFunctions.reversedShots,
-    render: ({ player, pastMatches, config }) => (
-      <Td p={0}>
+    render: ({ player, pastMatches, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Grid
           height="32px"
           gap={0}
@@ -214,7 +228,7 @@ const playerTableConfigs = [
             decimal={0}
           />
         </Grid>
-      </Td>
+      </TableCell>
     ),
   },
   {
@@ -222,8 +236,8 @@ const playerTableConfigs = [
     columnWidth: 300,
     sortFn: playersSortFunctions.keyPasses,
     reversedSortFn: playersSortFunctions.reversedKeyPasses,
-    render: ({ player, pastMatches, config }) => (
-      <Td p={0}>
+    render: ({ player, pastMatches, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Grid
           height="32px"
           gap={0}
@@ -238,7 +252,7 @@ const playerTableConfigs = [
             decimal={0}
           />
         </Grid>
-      </Td>
+      </TableCell>
     ),
   },
   {
@@ -246,8 +260,8 @@ const playerTableConfigs = [
     columnWidth: 300,
     sortFn: playersSortFunctions.xg,
     reversedSortFn: playersSortFunctions.reversedXG,
-    render: ({ player, pastMatches, config }) => (
-      <Td p={0}>
+    render: ({ player, pastMatches, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Grid
           height="32px"
           gap={0}
@@ -262,7 +276,7 @@ const playerTableConfigs = [
             decimal={1}
           />
         </Grid>
-      </Td>
+      </TableCell>
     ),
   },
   {
@@ -270,8 +284,8 @@ const playerTableConfigs = [
     columnWidth: 300,
     sortFn: playersSortFunctions.xa,
     reversedSortFn: playersSortFunctions.reversedXA,
-    render: ({ player, pastMatches, config }) => (
-      <Td p={0}>
+    render: ({ player, pastMatches, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Grid
           height="32px"
           gap={0}
@@ -286,7 +300,7 @@ const playerTableConfigs = [
             decimal={1}
           />
         </Grid>
-      </Td>
+      </TableCell>
     ),
   },
   {
@@ -294,8 +308,8 @@ const playerTableConfigs = [
     columnWidth: 300,
     sortFn: playersSortFunctions.xga,
     reversedSortFn: playersSortFunctions.reversedXGA,
-    render: ({ player, pastMatches, config }) => (
-      <Td p={0}>
+    render: ({ player, pastMatches, config, cellProps }) => (
+      <TableCell {...cellProps}>
         <Grid
           height="32px"
           gap={0}
@@ -311,7 +325,7 @@ const playerTableConfigs = [
             isReversedScale
           />
         </Grid>
-      </Td>
+      </TableCell>
     ),
   },
 ] as PlayerTableConfig[];

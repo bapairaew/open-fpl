@@ -128,7 +128,7 @@ const PlayersExplorerTable = ({
   const row = useMemo(
     () =>
       ({ index, style }: { index: number; style: CSSProperties }) => {
-        const player = sortedDisplayedPlayers[index - 1];
+        const player = sortedDisplayedPlayers[index];
         const { width, ...restStyle } = style; // provided width: 100%; broke horizontal scroll with sticky items
         return (
           <PlayerTableRow
@@ -157,7 +157,7 @@ const PlayersExplorerTable = ({
               height={height}
               width={width}
               itemSize={33}
-              itemCount={sortedDisplayedPlayers.length + 1} // Pad one player for sticky header
+              itemCount={sortedDisplayedPlayers.length}
               headerRow={
                 <PlayerTableHeaderRow
                   configs={configs}
