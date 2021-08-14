@@ -361,6 +361,7 @@ export interface Live {
 }
 
 export interface ElementSummaryUpcomingFixture {
+  id: number;
   code: number;
   difficulty: number;
   event: number;

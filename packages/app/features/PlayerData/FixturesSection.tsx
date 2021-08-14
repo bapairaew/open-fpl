@@ -32,14 +32,14 @@ const FixturesSection = ({
             key={i}
             flexDirection="column"
             alignItems="stretch"
-            height="100%"
+            height="inherit"
           >
             {!fixtures ? (
               <CenterFlex variant={variant} height="100%" />
             ) : (
-              fixtures.map((fixture) => (
+              fixtures.map((fixture, index) => (
                 <CenterFlex
-                  key={`${fixture.opponent}_${fixture.is_home}_${i}`}
+                  key={`${fixture.opponent.short_name}_${fixture.is_home}_${i}_${index}`}
                   fontSize={fontSize}
                   variant={variant}
                   height={`${100 / fixtures.length}%`}
