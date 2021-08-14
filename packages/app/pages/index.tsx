@@ -42,6 +42,7 @@ export const getStaticProps = async () => {
       currentFixtures,
       nextGameweek,
       nextFixtures,
+      now: new Date().toJSON(),
     },
     revalidate: 60,
   };
@@ -53,6 +54,7 @@ function DashboardPage({
   currentFixtures,
   nextGameweek,
   nextFixtures,
+  now,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
@@ -135,7 +137,10 @@ function DashboardPage({
           cardType: "summary_large_image",
         }}
       />
-      <AppLayout>{mainContent}</AppLayout>
+      <AppLayout>
+        {now}
+        {mainContent}
+      </AppLayout>
     </>
   );
 }

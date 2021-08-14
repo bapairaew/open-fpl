@@ -18,7 +18,8 @@ import {
   Fixture,
   Team,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { useMemo } from "react";
+import Router from "next/router";
+import { useEffect, useMemo } from "react";
 import useSWR from "swr";
 
 const Dashboard = ({
@@ -39,13 +40,20 @@ const Dashboard = ({
 }) => {
   const { profile, teamsStrength } = useSettings();
 
-  const { data: liveResponse, error: liveError } = useSWR<LiveApiResponse>(
-    () => (currentGameweek ? `/api/live/${currentGameweek.id}` : null),
-    {
-      refreshInterval: 30 * 1000,
-    }
-  );
-  const live = liveResponse?.data;
+  useEffect(() => {
+    const interval = setInterval(() => {
+      Router.replace(Router.asPath);
+    }, 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // const { data: liveResponse, error: liveError } = useSWR<LiveApiResponse>(
+  //   () => (currentGameweek ? `/api/live/${currentGameweek.id}` : null),
+  //   {
+  //     refreshInterval: 30 * 1000,
+  //   }
+  // );
+  // const live = liveResponse?.data;
 
   const { data: entryResponse = {}, error: entryError } =
     useSWR<EntryApiResponse>(() =>
