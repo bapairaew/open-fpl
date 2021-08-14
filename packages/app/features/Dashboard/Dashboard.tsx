@@ -47,13 +47,13 @@ const Dashboard = ({
     return () => clearInterval(interval);
   }, []);
 
-  // const { data: liveResponse, error: liveError } = useSWR<LiveApiResponse>(
-  //   () => (currentGameweek ? `/api/live/${currentGameweek.id}` : null),
-  //   {
-  //     refreshInterval: 30 * 1000,
-  //   }
-  // );
-  // const live = liveResponse?.data;
+  const { data: liveResponse, error: liveError } = useSWR<LiveApiResponse>(
+    () => (currentGameweek ? `/api/live/${currentGameweek.id}` : null),
+    {
+      refreshInterval: 30 * 1000,
+    }
+  );
+  const live = liveResponse?.data;
 
   const { data: entryResponse = {}, error: entryError } =
     useSWR<EntryApiResponse>(() =>
