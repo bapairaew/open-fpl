@@ -14,8 +14,8 @@ export interface AppEntryEventPick {
   element: number;
   multiplier: number;
 }
-export interface AppEntryEventPickApiResponse
-  extends ApiResponse<AppEntryEventPick> {}
+export interface EntryEventPickApiResponse
+  extends ApiResponse<AppEntryEventPick[]> {}
 
 export interface AppLive {
   elements: {
@@ -28,4 +28,4 @@ export interface AppLive {
     bonus: number;
   }[];
 }
-export interface LiveApiResponse extends ApiResponse<AppEntry> {}
+export interface LiveApiResponse extends ApiResponse<AppLive> {}

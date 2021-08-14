@@ -1,8 +1,8 @@
 import { Box, BoxProps, Flex, Grid, Heading } from "@chakra-ui/react";
 import {
-  AppEntry,
-  AppEntryEventPick,
-  AppLive,
+  EntryApiResponse,
+  EntryEventPickApiResponse,
+  LiveApiResponse,
 } from "@open-fpl/app/features/Api/apiTypes";
 import DashboardFinishedFixture from "@open-fpl/app/features/Dashboard/DashboardFinishedFixture";
 import DashboardLiveFixture from "@open-fpl/app/features/Dashboard/DashboardLiveFixture";
@@ -39,24 +39,27 @@ const Dashboard = ({
 }) => {
   const { profile, teamsStrength } = useSettings();
 
-  const { data: live, error: liveError } = useSWR<AppLive>(
+  const { data: liveResponse, error: liveError } = useSWR<LiveApiResponse>(
     () => (currentGameweek ? `/api/live/${currentGameweek.id}` : null),
     {
       refreshInterval: 30 * 1000,
     }
   );
+  const live = liveResponse?.data;
 
-  const { data: entry, error: entryError } = useSWR<AppEntry>(() =>
-    profile ? `/api/entries/${profile}` : null
-  );
+  const { data: entryResponse = {}, error: entryError } =
+    useSWR<EntryApiResponse>(() =>
+      profile ? `/api/entries/${profile}` : null
+    );
+  const entry = entryResponse?.data;
 
-  const { data: currentPicks, error: currentPicksError } = useSWR<
-    AppEntryEventPick[]
-  >(() =>
-    currentGameweek && profile
-      ? `/api/entries/${profile}/picks/${currentGameweek.id}`
-      : null
-  );
+  const { data: currentPicksResponse, error: currentPicksError } =
+    useSWR<EntryEventPickApiResponse>(() =>
+      currentGameweek && profile
+        ? `/api/entries/${profile}/picks/${currentGameweek.id}`
+        : null
+    );
+  const currentPicks = currentPicksResponse?.data;
 
   const adjustedTeams = useMemo(
     () => adjustTeamsStrength(fplTeams, teamsStrength),

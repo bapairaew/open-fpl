@@ -25,7 +25,9 @@ const DashboardLivePoints = ({
     live?.elements.reduce(
       (sum, element) =>
         sum +
-        (currentPicks?.some((p) => p.element === element.id) ? element.bps : 0),
+        (currentPicks?.some((p) => p.element === element.id)
+          ? element.bonus
+          : 0),
       0
     ) ?? 0;
   const totalPoints = existingPoints + livePoints;
