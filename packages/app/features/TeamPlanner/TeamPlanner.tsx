@@ -33,7 +33,7 @@ import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
 import TeamPlannerPanel from "@open-fpl/app/features/TeamPlanner/TeamPlannerPanel";
 import TeamPlannerTab from "@open-fpl/app/features/TeamPlanner/TeamPlannerTab";
 import TeamPlansDrawer from "@open-fpl/app/features/TeamPlanner/TeamPlansDrawer";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   EntryChipPlay,

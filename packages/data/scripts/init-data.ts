@@ -160,16 +160,10 @@ const strategies: StorageStrategies = {
     getPreviousSnapshots: async function () {
       const supabase = this.client as SupabaseClient;
       const [
+        { data: fplSnapshotResponse, error: fplSnapshotError },
+        { data: understatSnapshotResponse, error: understatSnapshotError },
         {
-          data: { data: snapshot_fpl_data },
-          error: fplSnapshotError,
-        },
-        {
-          data: { data: snapshot_understat_data },
-          error: understatSnapshotError,
-        },
-        {
-          data: { data: snapshot_understat_players_data },
+          data: understatPlayersSnapshotResponse,
           error: understatPlayersSnapshotError,
         },
       ] = await Promise.all([
@@ -181,20 +175,26 @@ const strategies: StorageStrategies = {
           .single(),
       ]);
 
-      if (fplSnapshotError)
-        throw new Error(
-          `Error getting snapshot_fpl_data: ${fplSnapshotError.message}`
-        );
+      const snapshot_fpl_data = fplSnapshotResponse?.data ?? null;
+      const snapshot_understat_data = understatSnapshotResponse?.data ?? null;
+      const snapshot_understat_players_data =
+        understatPlayersSnapshotResponse?.data ?? null;
 
-      if (understatSnapshotError)
-        throw new Error(
-          `Error getting snapshot_understat_data: ${understatSnapshotError.message}`
-        );
+      // NOTE: ignore error and return null to start over instead
+      // if (fplSnapshotError)
+      //   throw new Error(
+      //     `Error getting snapshot_fpl_data: ${fplSnapshotError.message}`
+      //   );
 
-      if (understatPlayersSnapshotError)
-        throw new Error(
-          `Error getting snapshot_understat_players_data: ${understatPlayersSnapshotError.message}`
-        );
+      // if (understatSnapshotError)
+      //   throw new Error(
+      //     `Error getting snapshot_understat_data: ${understatSnapshotError.message}`
+      //   );
+
+      // if (understatPlayersSnapshotError)
+      //   throw new Error(
+      //     `Error getting snapshot_understat_players_data: ${understatPlayersSnapshotError.message}`
+      //   );
 
       return {
         snapshot_fpl_data,
@@ -294,8 +294,6 @@ const strategies: StorageStrategies = {
             currentSnapshots.snapshot_understat_data = understatData;
             currentSnapshots.snapshot_understat_players_data =
               understatPlayersResponse;
-
-            await strategy.saveSnapshots?.(currentSnapshots);
           },
           saveFn: {
             fpl: (data) => strategy.saveRemoteData("fpl", data),
@@ -396,7 +394,8 @@ const strategies: StorageStrategies = {
     `${remoteData?.understatTeams.length ?? 0} Understat teams are updated.`
   );
 
-  console.log("Remote data update is done.");
+  console.log("Saving snapshots...");
+  await strategy.saveSnapshots?.(currentSnapshots);
 
   console.log("Pulling latest remote data...");
 
@@ -464,7 +463,7 @@ const strategies: StorageStrategies = {
 
   console.log("Making app data...");
 
-  const { players, fixtures } = makeAppData({
+  const { players, fixtures, teams } = makeAppData({
     fpl,
     understat,
     understatTeams,
@@ -480,6 +479,7 @@ const strategies: StorageStrategies = {
     strategy.saveAppData("links/teams", teamsLinks),
     strategy.saveAppData("players", players),
     strategy.saveAppData("fixtures", fixtures),
+    strategy.saveAppData("teams", teams),
   ]);
 
   console.log("App data is created.");

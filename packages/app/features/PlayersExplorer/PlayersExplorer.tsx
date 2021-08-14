@@ -9,7 +9,7 @@ import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/Playe
 import { DisplayOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 import { displayOptions } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { usePlausible } from "next-plausible";

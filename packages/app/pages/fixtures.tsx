@@ -3,7 +3,7 @@ import Fixtures from "@open-fpl/app/features/Fixtures/Fixtures";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";

@@ -8,7 +8,7 @@ import FixturesTable from "@open-fpl/app/features/Fixtures/FixturesTable";
 import FixturesToolbar from "@open-fpl/app/features/Fixtures/FixturesToolbar";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";

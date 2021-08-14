@@ -7,7 +7,7 @@ import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import PlayersExplorer from "@open-fpl/app/features/PlayersExplorer/PlayersExplorer";
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";

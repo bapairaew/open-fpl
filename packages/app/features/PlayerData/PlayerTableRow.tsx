@@ -1,14 +1,16 @@
-import { TableRowProps, Tr } from "@chakra-ui/react";
+import { TableCellProps, TableRowProps, Tr } from "@chakra-ui/react";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { PlayerTableConfig } from "@open-fpl/app/features/PlayerData/playerTableTypes";
 import { getPaddedPastMatches } from "@open-fpl/app/features/PlayerData/PreviousStatsSection";
 import { Fragment } from "react";
 
 export const PlayersExplorerPlayerTableRow = ({
+  cellProps,
   player,
   configs,
   ...props
 }: TableRowProps & {
+  cellProps?: TableCellProps;
   player: ClientPlayer;
   configs: PlayerTableConfig[];
 }) => {
@@ -18,7 +20,7 @@ export const PlayersExplorerPlayerTableRow = ({
       {configs?.map((config, index) => {
         return (
           <Fragment key={index}>
-            {config.render({ player, config, pastMatches })}
+            {config.render({ player, config, pastMatches, cellProps })}
           </Fragment>
         );
       })}

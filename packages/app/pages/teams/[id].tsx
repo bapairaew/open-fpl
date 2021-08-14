@@ -8,7 +8,7 @@ import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import TeamPlanner from "@open-fpl/app/features/TeamPlanner/TeamPlanner";
 import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
   getEntryHistory,
