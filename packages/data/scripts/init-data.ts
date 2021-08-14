@@ -25,12 +25,14 @@ import path from "path";
 const {
   SUPABASE_SECRET_KEY: supabaseSecretKey,
   SUPABASE_URL: supabaseUrl,
+  SUPABASE_STORAGE_NAME: _supabaseStorageName,
   IGNORE_SNAPSHOTS: _ignoreSnapshots,
   SKIP_UPDATE: _skipUpdate,
 } = process.env;
 
 const ignoreSnapshots = _ignoreSnapshots === "true";
 const skipUpdate = _skipUpdate === "true";
+const supabaseStorageName = _supabaseStorageName ?? "open-fpl";
 
 type Snapshots = {
   snapshot_fpl_data: Bootstrap | null;
@@ -124,7 +126,7 @@ const strategies: StorageStrategies = {
           .from(type)
           .insert([{ id: data.id ?? 1, data }], { upsert: true }),
         supabase.storage
-          .from("open-fpl")
+          .from(supabaseStorageName)
           .upload(
             `remote-data/${type}/${data.id || "data"}.json`,
             JSON.stringify(data),
@@ -146,7 +148,7 @@ const strategies: StorageStrategies = {
     saveAppData: async function (type: string, data: any) {
       const supabase = this.client as SupabaseClient;
       const { error } = await supabase.storage
-        .from("open-fpl")
+        .from(supabaseStorageName)
         .upload(`app-data/${type}.json`, JSON.stringify(data), {
           contentType: "application/json",
           upsert: true,
