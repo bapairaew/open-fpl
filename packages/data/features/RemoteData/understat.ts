@@ -7,6 +7,9 @@ import {
   TeamStat,
 } from "@open-fpl/data/features/RemoteData/understatTypes";
 
+const { UNDERSTAT_SEASON: _understatSeason } = process.env;
+const understatSeason = _understatSeason ?? "2021";
+
 const headers = {
   accept: "application/json, text/javascript, */*; q=0.01",
   "accept-language": "en,th;q=0.9",
@@ -21,7 +24,7 @@ const headers = {
 };
 
 export const getUnderstatPlayers = (
-  season: number = 2020
+  season: string = understatSeason
 ): Promise<GetUnderstatPlayersResponse> => {
   return fetch("https://understat.com/main/getPlayersStats/", {
     headers,
