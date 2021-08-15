@@ -51,25 +51,33 @@ export const getStaticProps = async () => {
   };
 };
 
-function DashboardPage({
-  teams,
-  currentGameweek,
-  currentFixtures,
-  nextGameweek,
-  nextFixtures,
-  now,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
+type SWRPageProps = { pageProps: PageProps };
+
+function DashboardPage(props: PageProps) {
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
   );
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      Router.router?.prefetch(Router.router.asPath);
-      console.log(now);
-    }, 5 * 1000);
-    return () => clearInterval(interval);
+  const dataUrl = Router.router?.pageLoader.getDataHref("/", "/", true);
+
+  const { data: pageProps } = useSWR<SWRPageProps>(dataUrl, {
+    refreshInterval: 30 * 1000,
+    initialData: {
+      pageProps: props,
+    },
   });
+
+  const {
+    pageProps: {
+      teams,
+      currentGameweek,
+      currentFixtures,
+      nextGameweek,
+      nextFixtures,
+      now,
+    },
+  } = pageProps ?? { pageProps: {} };
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
@@ -148,7 +156,10 @@ function DashboardPage({
           cardType: "summary_large_image",
         }}
       />
-      <AppLayout>{now}</AppLayout>
+      <AppLayout>
+        {now}
+        {dataUrl}
+      </AppLayout>
     </>
   );
 }
