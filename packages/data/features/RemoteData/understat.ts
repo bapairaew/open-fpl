@@ -21,7 +21,7 @@ const headers = {
 };
 
 export const getUnderstatPlayers = (
-  season: number = 2020
+  season: number = 2021
 ): Promise<GetUnderstatPlayersResponse> => {
   return fetch("https://understat.com/main/getPlayersStats/", {
     headers,
