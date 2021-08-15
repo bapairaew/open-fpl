@@ -1,6 +1,7 @@
 import { Box, BoxProps, Flex, Grid, Heading } from "@chakra-ui/react";
 import {
   AppFixture,
+  AppLive,
   EntryApiResponse,
   EntryEventPickApiResponse,
   FixtureeApiResponse,
@@ -23,18 +24,20 @@ import useSWR from "swr";
 const Dashboard = ({
   players,
   teams,
+  live,
   currentGameweek,
-  currentFixtures: _currentFixtures,
+  currentFixtures,
   nextGameweek,
   nextFixtures,
   ...props
 }: BoxProps & {
   players: Player[];
   teams: Team[];
-  currentGameweek: Event | null;
-  currentFixtures: AppFixture[];
   nextGameweek: Event;
   nextFixtures: AppFixture[];
+  live: AppLive | null;
+  currentGameweek: Event | null;
+  currentFixtures: AppFixture[] | null;
 }) => {
   const { profile, teamsStrength } = useSettings();
 
@@ -42,17 +45,6 @@ const Dashboard = ({
     () => adjustTeamsStrength(teams, teamsStrength),
     [teams, teamsStrength]
   );
-
-  const { data: currentFixturesResponse, error: currentFixturesError } =
-    useSWR<FixtureeApiResponse>(
-      () =>
-        currentGameweek ? `/api/events/${currentGameweek.id}/fixtures` : null,
-      {
-        refreshInterval: 10 * 60 * 1000,
-        initialData: { data: _currentFixtures },
-      }
-    );
-  const currentFixtures = currentFixturesResponse?.data;
 
   const [liveFixtures, finishedCurrentFixtures, unfinishedCurrentFixtures] =
     useMemo(() => {
@@ -70,19 +62,6 @@ const Dashboard = ({
       });
       return [liveFixtures, finishedCurrentFixtures, unfinishedCurrentFixtures];
     }, [currentFixtures]);
-
-  const { data: liveResponse, error: liveError } = useSWR<LiveApiResponse>(
-    () =>
-      currentGameweek
-        ? `/api/events/${currentGameweek.id}/live?fixtures=${liveFixtures
-            .map((l) => l.id)
-            .join(",")}`
-        : null,
-    {
-      refreshInterval: 30 * 1000,
-    }
-  );
-  const live = liveResponse?.data;
 
   const { data: entryResponse = {}, error: entryError } =
     useSWR<EntryApiResponse>(() =>

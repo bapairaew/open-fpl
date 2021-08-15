@@ -1,5 +1,6 @@
 import { Spinner } from "@chakra-ui/react";
 import { getFixtures } from "@open-fpl/app/features/Api/fixture";
+import { getLiveEvent } from "@open-fpl/app/features/Api/live";
 import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLocalStorage";
 import Dashboard from "@open-fpl/app/features/Dashboard/Dashboard";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
@@ -14,7 +15,6 @@ import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import Router from "next/router";
-import { useEffect } from "react";
 import useSWR from "swr";
 
 export const getStaticProps = async () => {
@@ -38,14 +38,25 @@ export const getStaticProps = async () => {
     getFixtures(nextGameweek.id),
   ]);
 
+  const liveFixtures =
+    currentFixtures?.filter((f) => f.started && !f.finished_provisional) ??
+    null;
+  const live =
+    currentGameweek && liveFixtures
+      ? await getLiveEvent(
+          currentGameweek.id,
+          liveFixtures?.map((f) => f.id)
+        )
+      : null;
+
   return {
     props: {
+      live,
       teams,
       currentGameweek,
       currentFixtures,
       nextGameweek,
       nextFixtures,
-      now: new Date().toJSON(),
     },
     revalidate: 60,
   };
@@ -70,18 +81,19 @@ function DashboardPage(props: PageProps) {
 
   const {
     pageProps: {
+      live,
       teams,
       currentGameweek,
       currentFixtures,
       nextGameweek,
       nextFixtures,
-      now,
     },
   } = pageProps ?? { pageProps: {} };
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
   const isReady = [
+    live,
     players,
     teams,
     currentGameweek,
@@ -94,38 +106,39 @@ function DashboardPage(props: PageProps) {
 
   let mainContent = null;
 
-  // if (isLocalStorageSupported) {
-  //   if (isReady) {
-  //     mainContent = (
-  //       <Dashboard
-  //         as="main"
-  //         players={players!}
-  //         teams={teams!}
-  //         currentGameweek={currentGameweek as Event | null}
-  //         currentFixtures={currentFixtures!}
-  //         nextGameweek={nextGameweek!}
-  //         nextFixtures={nextFixtures!}
-  //       />
-  //     );
-  //   } else if (errors.length > 0) {
-  //     mainContent = (
-  //       <UnhandledError
-  //         Wrapper={FullScreenMessageWithAppDrawer}
-  //         as="main"
-  //         additionalInfo={`Failed to load ${errors.join(", ")}`}
-  //       />
-  //     );
-  //   } else {
-  //     mainContent = (
-  //       <FullScreenMessageWithAppDrawer
-  //         as="main"
-  //         symbol={<Spinner size="xl" />}
-  //         heading="One moment..."
-  //         text="Please wait while we are preparing your dashboard data."
-  //       />
-  //     );
-  //   }
-  // }
+  if (isLocalStorageSupported) {
+    if (isReady) {
+      mainContent = (
+        <Dashboard
+          as="main"
+          players={players!}
+          teams={teams!}
+          nextGameweek={nextGameweek!}
+          nextFixtures={nextFixtures!}
+          live={live ?? null}
+          currentFixtures={currentFixtures ?? null}
+          currentGameweek={currentGameweek ?? null}
+        />
+      );
+    } else if (errors.length > 0) {
+      mainContent = (
+        <UnhandledError
+          Wrapper={FullScreenMessageWithAppDrawer}
+          as="main"
+          additionalInfo={`Failed to load ${errors.join(", ")}`}
+        />
+      );
+    } else {
+      mainContent = (
+        <FullScreenMessageWithAppDrawer
+          as="main"
+          symbol={<Spinner size="xl" />}
+          heading="One moment..."
+          text="Please wait while we are preparing your dashboard data."
+        />
+      );
+    }
+  }
 
   return (
     <>
@@ -156,10 +169,7 @@ function DashboardPage(props: PageProps) {
           cardType: "summary_large_image",
         }}
       />
-      <AppLayout>
-        {now}
-        {dataUrl}
-      </AppLayout>
+      <AppLayout>{mainContent}</AppLayout>
     </>
   );
 }
