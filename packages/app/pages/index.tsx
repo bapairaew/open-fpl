@@ -66,9 +66,7 @@ function DashboardPage({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      router.replace(`${router.asPath}?t=${Math.random()}`, router.asPath, {
-        shallow: false,
-      });
+      router.prefetch(router.asPath);
       console.log(router.asPath);
     }, 30 * 1000);
     return () => clearInterval(interval);
