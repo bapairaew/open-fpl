@@ -17,6 +17,9 @@ import {
   TeamStat,
 } from "@open-fpl/data/features/RemoteData/understatTypes";
 
+const { UNDERSTAT_SEASON: _understatSeason } = process.env;
+const understatSeason = _understatSeason ?? "2021";
+
 export const makeTeamFixtures = ({
   fplElements,
   fplTeams,
@@ -84,7 +87,10 @@ export const makeAppData = ({
       ? understat.find((p) => p.id === playersLinks[player.id]) || null
       : null;
     const pastMatches =
-      playerUnderstat?.matchesData.slice(0, 5).reverse() || null;
+      playerUnderstat?.matchesData
+        .filter((m) => m.season === understatSeason)
+        .slice(0, 5)
+        .reverse() || null;
     // TODO: handle the case where a player moved mid-season to another PL team
     const latestPlayerEPLTeam = playerUnderstat?.groupsData?.season.find(
       (s) => understatTeamsMap[s.team]
