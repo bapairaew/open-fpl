@@ -13,7 +13,7 @@ import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import { useEffect } from "react";
 import useSWR from "swr";
 
@@ -45,6 +45,7 @@ export const getStaticProps = async () => {
       currentFixtures,
       nextGameweek,
       nextFixtures,
+      now: new Date().toJSON(),
     },
     revalidate: 60,
   };
@@ -56,11 +57,19 @@ function DashboardPage({
   currentFixtures,
   nextGameweek,
   nextFixtures,
+  now,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const router = useRouter();
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
   );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      Router.router?.prefetch(Router.router.asPath);
+      console.log(now);
+    }, 5 * 1000);
+    return () => clearInterval(interval);
+  });
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
@@ -77,38 +86,38 @@ function DashboardPage({
 
   let mainContent = null;
 
-  if (isLocalStorageSupported) {
-    if (isReady) {
-      mainContent = (
-        <Dashboard
-          as="main"
-          players={players!}
-          teams={teams!}
-          currentGameweek={currentGameweek as Event | null}
-          currentFixtures={currentFixtures!}
-          nextGameweek={nextGameweek!}
-          nextFixtures={nextFixtures!}
-        />
-      );
-    } else if (errors.length > 0) {
-      mainContent = (
-        <UnhandledError
-          Wrapper={FullScreenMessageWithAppDrawer}
-          as="main"
-          additionalInfo={`Failed to load ${errors.join(", ")}`}
-        />
-      );
-    } else {
-      mainContent = (
-        <FullScreenMessageWithAppDrawer
-          as="main"
-          symbol={<Spinner size="xl" />}
-          heading="One moment..."
-          text="Please wait while we are preparing your dashboard data."
-        />
-      );
-    }
-  }
+  // if (isLocalStorageSupported) {
+  //   if (isReady) {
+  //     mainContent = (
+  //       <Dashboard
+  //         as="main"
+  //         players={players!}
+  //         teams={teams!}
+  //         currentGameweek={currentGameweek as Event | null}
+  //         currentFixtures={currentFixtures!}
+  //         nextGameweek={nextGameweek!}
+  //         nextFixtures={nextFixtures!}
+  //       />
+  //     );
+  //   } else if (errors.length > 0) {
+  //     mainContent = (
+  //       <UnhandledError
+  //         Wrapper={FullScreenMessageWithAppDrawer}
+  //         as="main"
+  //         additionalInfo={`Failed to load ${errors.join(", ")}`}
+  //       />
+  //     );
+  //   } else {
+  //     mainContent = (
+  //       <FullScreenMessageWithAppDrawer
+  //         as="main"
+  //         symbol={<Spinner size="xl" />}
+  //         heading="One moment..."
+  //         text="Please wait while we are preparing your dashboard data."
+  //       />
+  //     );
+  //   }
+  // }
 
   return (
     <>
@@ -139,7 +148,7 @@ function DashboardPage({
           cardType: "summary_large_image",
         }}
       />
-      <AppLayout>{mainContent}</AppLayout>
+      <AppLayout>{now}</AppLayout>
     </>
   );
 }
