@@ -5,29 +5,29 @@ import {
 } from "@open-fpl/app/features/Api/apiTypes";
 import { getHomeAwayPicks } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { useMemo } from "react";
 import DashboardUpcomingFixtureModal from "./DashboardUpcomingFixtureModal";
 
 const DashboardUpcomingFixture = ({
   fixture,
-  fplTeams,
+  teams,
   currentPicks,
   players,
 }: {
   fixture: AppFixture;
-  fplTeams: Team[];
+  teams: Team[];
   players: Player[];
   currentPicks?: AppEntryEventPick[];
 }) => {
   const { home, away } = useMemo(() => {
-    const home = fplTeams.find((t) => t.id === fixture.team_h);
-    const away = fplTeams.find((t) => t.id === fixture.team_a);
+    const home = teams.find((t) => t.id === fixture.team_h);
+    const away = teams.find((t) => t.id === fixture.team_a);
     return {
       home,
       away,
     };
-  }, [fplTeams, fixture]);
+  }, [teams, fixture]);
 
   const homeTotalStrength =
     (home?.strength_attack_home ?? 0) + (home?.strength_defence_home ?? 0);
@@ -57,6 +57,7 @@ const DashboardUpcomingFixture = ({
           kickoffTime={kickOffTime}
           home={home}
           away={away}
+          players={players}
         />
       )}
       <Box position="relative">
@@ -79,7 +80,7 @@ const DashboardUpcomingFixture = ({
             fontWeight="black"
           >
             <Box>
-              <Flex>
+              <Flex height="6px">
                 {homeTeamPicks.map((p) => (
                   <Box
                     key={p.element}
@@ -95,7 +96,7 @@ const DashboardUpcomingFixture = ({
             </Box>
             <Box>-</Box>
             <Box>
-              <Flex justifyContent="flex-end">
+              <Flex justifyContent="flex-end" height="6px">
                 {awayTeamPicks.map((p) => (
                   <Box
                     key={p.element}

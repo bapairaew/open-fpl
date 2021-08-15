@@ -11,7 +11,7 @@ import { displayOptions } from "@open-fpl/app/features/PlayersExplorer/playersTo
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
@@ -30,13 +30,13 @@ const PlayersExplorerTable = dynamic(
 
 const PlayersExplorer = ({
   players: remotePlayers,
-  fplTeams,
+  teams,
   teamFixtures,
   nextGameweekId,
   ...props
 }: BoxProps & {
   players: Player[];
-  fplTeams: Team[];
+  teams: Team[];
   teamFixtures: TeamFixtures[];
   nextGameweekId: number;
 }) => {
@@ -53,9 +53,9 @@ const PlayersExplorer = ({
     () =>
       makeFullFixtures({
         teamFixtures,
-        fplTeams: adjustTeamsStrength(fplTeams, teamsStrength),
+        teams: adjustTeamsStrength(teams, teamsStrength),
       }),
-    [fplTeams, teamsStrength]
+    [teams, teamsStrength]
   );
 
   const players = useMemo(

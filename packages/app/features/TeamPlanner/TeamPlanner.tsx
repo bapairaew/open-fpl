@@ -35,11 +35,11 @@ import TeamPlannerTab from "@open-fpl/app/features/TeamPlanner/TeamPlannerTab";
 import TeamPlansDrawer from "@open-fpl/app/features/TeamPlanner/TeamPlansDrawer";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import {
   EntryChipPlay,
   EntryEventHistory,
   EntryEventPick,
-  Team,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { usePlausible } from "next-plausible";
@@ -84,7 +84,7 @@ const TeamPlanner = ({
   nextGameweekId,
   transfers,
   chips,
-  fplTeams,
+  teams,
   teamFixtures,
   ...props
 }: BoxProps & {
@@ -94,7 +94,7 @@ const TeamPlanner = ({
   nextGameweekId: number;
   transfers: Transfer[];
   chips: EntryChipPlay[];
-  fplTeams: Team[];
+  teams: Team[];
   teamFixtures: TeamFixtures[];
 }) => {
   const plausible = usePlausible<AnalyticsTeamPlanner>();
@@ -143,9 +143,9 @@ const TeamPlanner = ({
     () =>
       makeFullFixtures({
         teamFixtures,
-        fplTeams: adjustTeamsStrength(fplTeams, teamsStrength),
+        teams: adjustTeamsStrength(teams, teamsStrength),
       }),
-    [fplTeams, teamsStrength]
+    [teams, teamsStrength]
   );
 
   const players = useMemo(
@@ -251,7 +251,7 @@ const TeamPlanner = ({
       {isCustomPlayersOpen && (
         <CustomPlayersModal
           players={players}
-          fplTeams={fplTeams}
+          teams={teams}
           isOpen={isCustomPlayersOpen}
           onClose={onCustomPlayersClose}
         />

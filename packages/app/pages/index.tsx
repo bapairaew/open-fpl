@@ -9,16 +9,17 @@ import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
+import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
 
 export const getStaticProps = async () => {
-  const [fplTeams, fplGameweeks] = await Promise.all([
-    fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
-      r.json()
-    ) as Promise<Team[]>,
+  const [teams, fplGameweeks] = await Promise.all([
+    fetch(getDataUrl("/app-data/teams.json")).then((r) => r.json()) as Promise<
+      Team[]
+    >,
     fetch(getDataUrl("/remote-data/fpl_gameweeks/data.json")).then((r) =>
       r.json()
     ) as Promise<Event[]>,
@@ -37,7 +38,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      fplTeams,
+      teams,
       currentGameweek,
       currentFixtures,
       nextGameweek,
@@ -48,7 +49,7 @@ export const getStaticProps = async () => {
 };
 
 function DashboardPage({
-  fplTeams,
+  teams,
   currentGameweek,
   currentFixtures,
   nextGameweek,
@@ -62,7 +63,7 @@ function DashboardPage({
 
   const isReady = [
     players,
-    fplTeams,
+    teams,
     currentGameweek,
     currentFixtures,
     nextGameweek,
@@ -79,7 +80,7 @@ function DashboardPage({
         <Dashboard
           as="main"
           players={players!}
-          fplTeams={fplTeams!}
+          teams={teams!}
           currentGameweek={currentGameweek as Event | null}
           currentFixtures={currentFixtures!}
           nextGameweek={nextGameweek!}

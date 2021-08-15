@@ -4,12 +4,12 @@ import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 
 export const getStaticProps = async () => {
-  const [teamFixtures, fplTeams] = await Promise.all([
+  const [teamFixtures, teams] = await Promise.all([
     fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
       r.json()
     ) as Promise<TeamFixtures[]>,
@@ -19,14 +19,14 @@ export const getStaticProps = async () => {
   ]);
 
   return {
-    props: { teamFixtures, fplTeams },
+    props: { teamFixtures, teams },
     revalidate: 5 * 60, // 5 mins
   };
 };
 
 function FixturesPage({
   teamFixtures,
-  fplTeams,
+  teams,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
@@ -58,7 +58,7 @@ function FixturesPage({
         }}
       />
       <AppLayout>
-        <Fixtures as="main" teamFixtures={teamFixtures} fplTeams={fplTeams} />
+        <Fixtures as="main" teamFixtures={teamFixtures} teams={teams} />
       </AppLayout>
     </>
   );

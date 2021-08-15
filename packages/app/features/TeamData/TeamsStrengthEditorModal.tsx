@@ -7,18 +7,18 @@ import {
   DrawerOverlay,
   VStack,
 } from "@chakra-ui/react";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import TeamStrengthEditor from "@open-fpl/app/features/TeamData/TeamStrengthEditor";
 
 const TeamsStrengthEditorModal = ({
-  fplTeams,
+  teams,
   isOpen,
   onClose,
   onStrengthChange,
   onResetStrength,
 }: {
-  fplTeams: Team[];
+  teams: Team[];
   isOpen: boolean;
   onClose: () => void;
   onStrengthChange?: (
@@ -36,7 +36,7 @@ const TeamsStrengthEditorModal = ({
         <DrawerHeader fontWeight="black">Teams Strength</DrawerHeader>
         <DrawerBody>
           <VStack>
-            {fplTeams.map((team) => (
+            {teams.map((team) => (
               <TeamStrengthEditor
                 key={team.id}
                 team={team}

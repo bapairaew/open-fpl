@@ -9,7 +9,7 @@ import FixturesToolbar from "@open-fpl/app/features/Fixtures/FixturesToolbar";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
@@ -20,11 +20,11 @@ const TeamsStrengthEditorModal = dynamic(
 
 const Fixtures = ({
   teamFixtures,
-  fplTeams,
+  teams,
   ...props
 }: BoxProps & {
   teamFixtures: TeamFixtures[];
-  fplTeams: Team[];
+  teams: Team[];
 }) => {
   const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
   const {
@@ -35,14 +35,14 @@ const Fixtures = ({
   } = useSettings();
 
   const adjustedTeams = useMemo(
-    () => adjustTeamsStrength(fplTeams, teamsStrength),
-    [fplTeams, teamsStrength]
+    () => adjustTeamsStrength(teams, teamsStrength),
+    [teams, teamsStrength]
   );
 
   const fullFixtures = useMemo(() => {
     const fullFixtures = makeFullFixtures({
       teamFixtures,
-      fplTeams: adjustedTeams,
+      teams: adjustedTeams,
     });
 
     return fixturesTeamsOrder
@@ -50,7 +50,7 @@ const Fixtures = ({
           return fullFixtures.find((f) => f.short_name === o)!;
         })
       : fullFixtures;
-  }, [teamFixtures, fplTeams, teamsStrength, fixturesTeamsOrder]);
+  }, [teamFixtures, teams, teamsStrength, fixturesTeamsOrder]);
 
   const [mode, setMode] = useState("attack");
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -89,7 +89,7 @@ const Fixtures = ({
     <>
       {isOpen && (
         <TeamsStrengthEditorModal
-          fplTeams={adjustedTeams}
+          teams={adjustedTeams}
           onStrengthChange={handleStrengthChange}
           onResetStrength={handleResetStrength}
           isOpen={isOpen}

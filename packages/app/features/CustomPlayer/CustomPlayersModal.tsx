@@ -16,18 +16,18 @@ import EditableCustomPlayer from "@open-fpl/app/features/CustomPlayer/EditableCu
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { removePlayerFromPlans } from "@open-fpl/app/features/TeamPlanner/teamPlan";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { usePlausible } from "next-plausible";
 import { useMemo, useRef } from "react";
 
 const CustomPlayersModal = ({
   players,
-  fplTeams,
+  teams,
   isOpen,
   onClose,
 }: {
   players: ClientPlayer[];
-  fplTeams: Team[];
+  teams: Team[];
   isOpen: boolean;
   onClose: () => void;
 }) => {
@@ -128,7 +128,7 @@ const CustomPlayersModal = ({
         <DrawerHeader fontWeight="black">Custom Players</DrawerHeader>
         <DrawerBody>
           <AddCustomPlayers
-            fplTeams={fplTeams}
+            teams={teams}
             initialFocusRef={initialFocusRef}
             hasExistedPlayers={customPlayers ? customPlayers.length > 0 : false}
             onPlayerAdded={handleAddPlayer}
@@ -138,7 +138,7 @@ const CustomPlayersModal = ({
               <EditableCustomPlayer
                 key={customPlayer.id}
                 player={customPlayer}
-                fplTeams={fplTeams}
+                teams={teams}
                 onRemove={handleRemovePlayer}
                 onUpdate={handleUpdatePlayer}
               />

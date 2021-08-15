@@ -15,13 +15,14 @@ import DeadlineCountdown from "@open-fpl/app/features/Dashboard/DeadlineCountdow
 import { adjustTeamsStrength } from "@open-fpl/app/features/Fixtures/fixturesData";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
+import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { useMemo } from "react";
 import useSWR from "swr";
 
 const Dashboard = ({
   players,
-  fplTeams,
+  teams,
   currentGameweek,
   currentFixtures: _currentFixtures,
   nextGameweek,
@@ -29,7 +30,7 @@ const Dashboard = ({
   ...props
 }: BoxProps & {
   players: Player[];
-  fplTeams: Team[];
+  teams: Team[];
   currentGameweek: Event | null;
   currentFixtures: AppFixture[];
   nextGameweek: Event;
@@ -38,8 +39,8 @@ const Dashboard = ({
   const { profile, teamsStrength } = useSettings();
 
   const adjustedTeams = useMemo(
-    () => adjustTeamsStrength(fplTeams, teamsStrength),
-    [fplTeams, teamsStrength]
+    () => adjustTeamsStrength(teams, teamsStrength),
+    [teams, teamsStrength]
   );
 
   const { data: currentFixturesResponse, error: currentFixturesError } =
@@ -138,7 +139,7 @@ const Dashboard = ({
                     key={fixture.id}
                     live={live}
                     fixture={fixture}
-                    fplTeams={adjustedTeams}
+                    teams={adjustedTeams}
                     currentPicks={currentPicks}
                     players={players}
                   />
@@ -164,7 +165,7 @@ const Dashboard = ({
                   <DashboardFinishedFixture
                     key={fixture.id}
                     fixture={fixture}
-                    fplTeams={adjustedTeams}
+                    teams={adjustedTeams}
                     currentPicks={currentPicks}
                     players={players}
                   />
@@ -190,7 +191,7 @@ const Dashboard = ({
                   <DashboardUpcomingFixture
                     key={fixture.id}
                     fixture={fixture}
-                    fplTeams={adjustedTeams}
+                    teams={adjustedTeams}
                     currentPicks={currentPicks}
                     players={players}
                   />
@@ -225,7 +226,7 @@ const Dashboard = ({
               <DashboardUpcomingFixture
                 key={fixture.id}
                 fixture={fixture}
-                fplTeams={adjustedTeams}
+                teams={adjustedTeams}
                 currentPicks={currentPicks}
                 players={players}
               />

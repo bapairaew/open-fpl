@@ -5,7 +5,7 @@ import {
 } from "@open-fpl/app/features/Api/apiTypes";
 import { FixturePlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 
 const sortPlayerStats = (a: FixturePlayerStat, b: FixturePlayerStat) => {
   if (

@@ -13,7 +13,8 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
+import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 
 const nth = function (d: number) {
   if (d > 3 && d < 21) return `${d}th`;
@@ -29,19 +30,42 @@ const nth = function (d: number) {
   }
 };
 
-const DashboardUpcomingFixtureDrawer = ({
+const DashboardUpcomingFixtureModal = ({
   isOpen,
   onClose,
   home,
   away,
   kickoffTime,
+  players,
 }: {
   isOpen: boolean;
   onClose: () => void;
   home: Team;
   away: Team;
   kickoffTime: string;
+  players: Player[];
 }) => {
+  const homePlayers = players
+    .filter((p) => p.team.id === home.id)
+    .sort((a, b) =>
+      a.total_points > b.total_points
+        ? -1
+        : a.total_points < b.total_points
+        ? 1
+        : 0
+    )
+    .slice(0, 5);
+  const awayPlayers = players
+    .filter((p) => p.team.id === away.id)
+    .sort((a, b) =>
+      a.total_points > b.total_points
+        ? -1
+        : a.total_points < b.total_points
+        ? 1
+        : 0
+    )
+    .slice(0, 5);
+
   return (
     <Drawer size="lg" isOpen={isOpen} onClose={onClose}>
       <DrawerOverlay />
@@ -73,29 +97,37 @@ const DashboardUpcomingFixtureDrawer = ({
                 </Td>
               </Tr>
               <Tr>
-                <Th>Table</Th>
+                <Th>Position</Th>
+                <Td textAlign="center">{nth(home.stats?.position ?? 0)}</Td>
+                <Td textAlign="center">{nth(away.stats?.position ?? 0)}</Td>
+              </Tr>
+              <Tr>
+                <Th>X Position</Th>
+                <Td textAlign="center">{nth(home.stats?.xposition ?? 0)}</Td>
+                <Td textAlign="center">{nth(away.stats?.xposition ?? 0)}</Td>
+              </Tr>
+              <Tr>
+                <Th>W-D-L</Th>
                 <Td textAlign="center">
-                  {nth(home.position)}
-                  <br />
-                  {home.win}-{home.draw}-{home.loss}
+                  {home.stats?.wins ?? 0}-{home.stats?.draws ?? 0}-
+                  {home.stats?.loses ?? 0}
                 </Td>
                 <Td textAlign="center">
-                  {nth(away.position)}
-                  <br />
-                  {away.win}-{away.draw}-{away.loss}
+                  {away.stats?.wins ?? 0}-{away.stats?.draws ?? 0}-
+                  {away.stats?.loses ?? 0}
                 </Td>
               </Tr>
               <Tr>
                 <Th>Form</Th>
                 <Td textAlign="center">
-                  {home.form}
-                  <br />
-                  (DWLDWW)
+                  {home?.stats?.matches
+                    .map((m) => m.result.toUpperCase())
+                    .join("")}
                 </Td>
                 <Td textAlign="center">
-                  {away.form}
-                  <br />
-                  (DWLDWW)
+                  {away?.stats?.matches
+                    .map((m) => m.result.toUpperCase())
+                    .join("")}
                 </Td>
               </Tr>
               <Tr>
@@ -110,28 +142,32 @@ const DashboardUpcomingFixtureDrawer = ({
               </Tr>
               <Tr>
                 <Th>Goals</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
+                <Td textAlign="center">{home.stats?.g}</Td>
+                <Td textAlign="center">{away.stats?.g}</Td>
               </Tr>
               <Tr>
                 <Th>xG</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
+                <Td textAlign="center">{home.stats?.xg.toFixed(2)}</Td>
+                <Td textAlign="center">{away.stats?.xg.toFixed(2)}</Td>
               </Tr>
               <Tr>
-                <Th>G Against</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
+                <Th>GA</Th>
+                <Td textAlign="center">{home.stats?.ga}</Td>
+                <Td textAlign="center">{away.stats?.ga}</Td>
               </Tr>
               <Tr>
                 <Th>xGA</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
+                <Td textAlign="center">{home.stats?.xga.toFixed(2)}</Td>
+                <Td textAlign="center">{away.stats?.xga.toFixed(2)}</Td>
               </Tr>
               <Tr>
                 <Th>Players</Th>
-                <Td textAlign="center">TODO</Td>
-                <Td textAlign="center">TODO</Td>
+                <Td textAlign="center">
+                  {homePlayers.map((p) => `${p.web_name} (${p.total_points})`)}
+                </Td>
+                <Td textAlign="center">
+                  {awayPlayers.map((p) => `${p.web_name} (${p.total_points})`)}
+                </Td>
               </Tr>
             </Tbody>
           </Table>
@@ -141,4 +177,4 @@ const DashboardUpcomingFixtureDrawer = ({
   );
 };
 
-export default DashboardUpcomingFixtureDrawer;
+export default DashboardUpcomingFixtureModal;

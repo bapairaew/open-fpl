@@ -6,33 +6,28 @@ import {
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
 import DashboardFinishedFixtureModal from "@open-fpl/app/features/Dashboard/DashboardFinishedFixtureModal";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { useMemo } from "react";
 
 const DashboardFinishedFixture = ({
   fixture,
-  fplTeams,
+  teams,
   players,
   currentPicks,
 }: {
   fixture: AppFixture;
-  fplTeams: Team[];
+  teams: Team[];
   players: Player[];
   currentPicks?: AppEntryEventPick[];
 }) => {
   const { home, away } = useMemo(() => {
-    const home = fplTeams.find((t) => t.id === fixture.team_h);
-    const away = fplTeams.find((t) => t.id === fixture.team_a);
+    const home = teams.find((t) => t.id === fixture.team_h);
+    const away = teams.find((t) => t.id === fixture.team_a);
     return {
       home,
       away,
     };
-  }, [fplTeams, fixture]);
-
-  const { homePlayersStat, awayPlayersStat } = {
-    homePlayersStat: null,
-    awayPlayersStat: null,
-  };
+  }, [teams, fixture]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 

@@ -42,7 +42,7 @@ const DashboardLivePoints = ({
       {isOpen && <DashboardLivePointsModal isOpen={isOpen} onClose={onClose} />}
       <Box position="relative">
         <Stat borderWidth={1} p={4} borderRadius="md">
-          <StatLabel>{live ? "Live points" : "Current points"}</StatLabel>
+          <StatLabel>Points</StatLabel>
           <StatNumber>
             <Skeleton isLoaded={!!live && !!entry}>
               {totalPoints.toLocaleString()}

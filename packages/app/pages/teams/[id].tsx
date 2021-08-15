@@ -10,12 +10,13 @@ import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPl
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import {
   getEntryHistory,
   getEntryPicks,
   getEntryTransfers,
 } from "@open-fpl/data/features/RemoteData/fpl";
-import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
@@ -41,13 +42,13 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     };
   }
 
-  const [teamFixtures, fplTeams, fplGameweeks] = await Promise.all([
+  const [teamFixtures, teams, fplGameweeks] = await Promise.all([
     fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
       r.json()
     ) as Promise<TeamFixtures[]>,
-    fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
-      r.json()
-    ) as Promise<Team[]>,
+    fetch(getDataUrl("/app-data/teams.json")).then((r) => r.json()) as Promise<
+      Team[]
+    >,
     fetch(getDataUrl("/remote-data/fpl_gameweeks/data.json")).then((r) =>
       r.json()
     ) as Promise<Event[]>,
@@ -73,7 +74,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
       entry_history,
       transfers,
       chips,
-      fplTeams,
+      teams,
       teamFixtures,
       nextGameweekId,
     },
@@ -86,7 +87,7 @@ const TransferPlannerPage = ({
   entry_history,
   transfers,
   chips,
-  fplTeams,
+  teams,
   error,
   nextGameweekId,
   teamFixtures,
@@ -105,7 +106,7 @@ const TransferPlannerPage = ({
     players,
     transfers,
     chips,
-    fplTeams,
+    teams,
     teamFixtures,
     nextGameweekId,
   ].every((x) => x !== undefined);
@@ -133,7 +134,7 @@ const TransferPlannerPage = ({
           nextGameweekId={nextGameweekId!}
           transfers={transfers!}
           chips={chips!}
-          fplTeams={fplTeams!}
+          teams={teams!}
           teamFixtures={teamFixtures!}
         />
       );

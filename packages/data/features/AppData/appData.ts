@@ -227,17 +227,107 @@ const makeTeams = ({
   understatTeams: TeamStat[];
   teamsLinks: Record<string, string>;
 }): Team[] => {
-  // Goal
-  // xG
-  // GA
-  // xGA
-  // PTS
-  // xPTS
-  // Position
-  // xPosition
-  // W-D-L
-  // last 5
-  return [];
+  const teams: Team[] = [];
+
+  for (const fplTeam of fplTeams) {
+    const understatTeam = understatTeams.find(
+      (u) => u.id === teamsLinks[fplTeam.id]
+    );
+
+    teams.push({
+      id: fplTeam.id,
+      name: fplTeam.name,
+      short_name: fplTeam.short_name,
+      strength_attack_home: fplTeam.strength_attack_home,
+      strength_attack_away: fplTeam.strength_attack_away,
+      strength_defence_home: fplTeam.strength_defence_home,
+      strength_defence_away: fplTeam.strength_defence_away,
+      form: fplTeam.form,
+      stats: understatTeam
+        ? {
+            games: understatTeam.history.length,
+            g: understatTeam.history.reduce((sum, h) => h.scored + sum, 0),
+            xg: understatTeam.history.reduce((sum, h) => h.xG + sum, 0),
+            ga: understatTeam.history.reduce((sum, h) => h.missed + sum, 0),
+            xga: understatTeam.history.reduce((sum, h) => h.xGA + sum, 0),
+            pts: understatTeam.history.reduce((sum, h) => h.pts + sum, 0),
+            xpts: understatTeam.history.reduce((sum, h) => h.xpts + sum, 0),
+            position: -1,
+            xposition: -1,
+            wins: understatTeam.history.reduce((sum, h) => h.wins + sum, 0),
+            draws: understatTeam.history.reduce((sum, h) => h.draws + sum, 0),
+            loses: understatTeam.history.reduce((sum, h) => h.loses + sum, 0),
+            matches: understatTeam.history
+              .slice(0, 5)
+              .reverse()
+              .map((m) => ({
+                g: m.scored,
+                xg: m.xG,
+                ga: m.missed,
+                xga: m.xGA,
+                pts: m.pts,
+                xpts: m.xpts,
+                result: m.wins ? "w" : m.draws ? "d" : "l",
+              })),
+          }
+        : null,
+    });
+  }
+
+  const positions = [...teams].sort((a, b) => {
+    if ((a.stats?.pts ?? 0) > (b.stats?.pts ?? 0)) {
+      return -1;
+    } else if ((a.stats?.pts ?? 0) < (b.stats?.pts ?? 0)) {
+      return 1;
+    } else if (
+      (a.stats?.g ?? 0) - (a.stats?.ga ?? 0) >
+      (b.stats?.g ?? 0) - (b.stats?.ga ?? 0)
+    ) {
+      return -1;
+    } else if (
+      (a.stats?.g ?? 0) - (a.stats?.ga ?? 0) <
+      (b.stats?.g ?? 0) - (b.stats?.ga ?? 0)
+    ) {
+      return 1;
+    } else if ((a.stats?.g ?? 0) > (b.stats?.g ?? 0)) {
+      return -1;
+    } else if ((a.stats?.g ?? 0) < (b.stats?.g ?? 0)) {
+      return 1;
+    }
+    return 0;
+  });
+
+  const xpositions = [...teams].sort((a, b) => {
+    if ((a.stats?.xpts ?? 0) > (b.stats?.xpts ?? 0)) {
+      return -1;
+    } else if ((a.stats?.xpts ?? 0) < (b.stats?.xpts ?? 0)) {
+      return 1;
+    } else if (
+      (a.stats?.xg ?? 0) - (a.stats?.xga ?? 0) >
+      (b.stats?.xg ?? 0) - (b.stats?.xga ?? 0)
+    ) {
+      return -1;
+    } else if (
+      (a.stats?.xg ?? 0) - (a.stats?.xga ?? 0) <
+      (b.stats?.xg ?? 0) - (b.stats?.xga ?? 0)
+    ) {
+      return 1;
+    } else if ((a.stats?.xg ?? 0) > (b.stats?.xg ?? 0)) {
+      return -1;
+    } else if ((a.stats?.xg ?? 0) < (b.stats?.xg ?? 0)) {
+      return 1;
+    }
+    return 0;
+  });
+
+  for (const team of teams) {
+    if (team.stats) {
+      team.stats.position = positions.findIndex((t) => t.id === team.id) + 1;
+      team.stats.xposition = xpositions.findIndex((t) => t.id === team.id) + 1;
+    }
+  }
+
+  return teams;
 };
 
 export const makeAppData = ({

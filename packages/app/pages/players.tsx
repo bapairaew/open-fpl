@@ -9,19 +9,20 @@ import PlayersExplorer from "@open-fpl/app/features/PlayersExplorer/PlayersExplo
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
+import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
 
 export const getStaticProps = async () => {
-  const [teamFixtures, fplTeams, fplGameweeks] = await Promise.all([
+  const [teamFixtures, teams, fplGameweeks] = await Promise.all([
     fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
       r.json()
     ) as Promise<TeamFixtures[]>,
-    fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
-      r.json()
-    ) as Promise<Team[]>,
+    fetch(getDataUrl("/app-data/teams.json")).then((r) => r.json()) as Promise<
+      Team[]
+    >,
     fetch(getDataUrl("/remote-data/fpl_gameweeks/data.json")).then((r) =>
       r.json()
     ) as Promise<Event[]>,
@@ -32,7 +33,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       teamFixtures,
-      fplTeams,
+      teams,
       nextGameweekId,
     },
     revalidate: 5 * 60, // 5 mins
@@ -41,7 +42,7 @@ export const getStaticProps = async () => {
 
 function PlayersExplorerPage({
   teamFixtures,
-  fplTeams,
+  teams,
   nextGameweekId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data: players, error: playersError } = useSWR<Player[]>(
@@ -50,7 +51,7 @@ function PlayersExplorerPage({
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
-  const isReady = [players, teamFixtures, fplTeams, nextGameweekId].every(
+  const isReady = [players, teamFixtures, teams, nextGameweekId].every(
     (x) => x !== undefined
   );
 
@@ -65,7 +66,7 @@ function PlayersExplorerPage({
           as="main"
           players={players!}
           teamFixtures={teamFixtures!}
-          fplTeams={fplTeams!}
+          teams={teams!}
           nextGameweekId={nextGameweekId!}
         />
       );

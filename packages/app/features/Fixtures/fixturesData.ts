@@ -7,7 +7,7 @@ import {
   TeamStrength,
 } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 
 const getDifficulty = (strength: number, opponentStrength: number): number => {
   const diff = strength! - opponentStrength!;
@@ -31,11 +31,11 @@ const makeTeamInfo = (team: Team): TeamInfo => {
 };
 
 export const adjustTeamsStrength = (
-  fplTeams: Team[],
+  teams: Team[],
   teamsStrength: TeamStrength[] | null
 ) => {
   if (teamsStrength && teamsStrength.length > 0) {
-    return fplTeams.map((team) => {
+    return teams.map((team) => {
       const matched = teamsStrength.find((t) => t.id === team.id);
       if (matched) {
         return {
@@ -47,22 +47,22 @@ export const adjustTeamsStrength = (
       }
     });
   } else {
-    return fplTeams;
+    return teams;
   }
 };
 
 // Full mapped data for UI usage
 export const makeFullFixtures = ({
   teamFixtures,
-  fplTeams,
+  teams,
 }: {
   teamFixtures: TeamFixtures[];
-  fplTeams: Team[];
+  teams: Team[];
 }): FullTeamFixtures[] => {
   const fullFixtures = [] as FullTeamFixtures[];
 
   for (const team of teamFixtures) {
-    const fplTeam = fplTeams.find((t) => t.id === team.id);
+    const fplTeam = teams.find((t) => t.id === team.id);
     if (fplTeam) {
       const fullFixture = {
         name: fplTeam.name,
@@ -75,7 +75,7 @@ export const makeFullFixtures = ({
       } as FullTeamFixtures;
 
       for (const fixture of team.fixtures) {
-        const opponent = fplTeams.find((t) => t.id === fixture.opponent_team);
+        const opponent = teams.find((t) => t.id === fixture.opponent_team);
         if (opponent) {
           const teamFixture = {
             event: fixture.event,

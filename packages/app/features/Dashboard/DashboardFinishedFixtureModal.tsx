@@ -13,7 +13,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 
 const DashboardFinishedFixtureModal = ({
   isOpen,
@@ -52,8 +52,8 @@ const DashboardFinishedFixtureModal = ({
             <Tbody>
               <Tr>
                 <Th>Score</Th>
-                <Td textAlign="center">{home.position}</Td>
-                <Td textAlign="center">{away.position}</Td>
+                {/* <Td textAlign="center">{home.position}</Td>
+                <Td textAlign="center">{away.position}</Td> */}
               </Tr>
               <Tr>
                 <Th>xG</Th>

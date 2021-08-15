@@ -7,32 +7,32 @@ import {
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
 import { getStatsFromLive } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { useMemo } from "react";
 import { IoRadioButtonOnOutline } from "react-icons/io5";
 
 const DashboardLiveFixture = ({
   live,
   fixture,
-  fplTeams,
+  teams,
   players,
   currentPicks,
 }: {
   live?: AppLive;
   fixture: AppFixture;
-  fplTeams: Team[];
+  teams: Team[];
   players: Player[];
   currentPicks?: AppEntryEventPick[];
 }) => {
   const { home, away } = useMemo(() => {
-    const home = fplTeams.find((t) => t.id === fixture.team_h);
-    const away = fplTeams.find((t) => t.id === fixture.team_a);
+    const home = teams.find((t) => t.id === fixture.team_h);
+    const away = teams.find((t) => t.id === fixture.team_a);
 
     return {
       home,
       away,
     };
-  }, [fplTeams, fixture]);
+  }, [teams, fixture]);
 
   const { homePlayersStat, awayPlayersStat, minutes, homeScore, awayScore } =
     useMemo(() => {
