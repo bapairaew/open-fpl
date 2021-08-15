@@ -21,7 +21,7 @@ const DashboardLivePoints = ({
   entry,
   currentPicks,
 }: {
-  live?: AppLive;
+  live: AppLive | null;
   entry?: AppEntry;
   currentPicks?: AppEntryEventPick[];
 }) => {

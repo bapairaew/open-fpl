@@ -18,7 +18,7 @@ const DashboardLiveFixture = ({
   players,
   currentPicks,
 }: {
-  live?: AppLive;
+  live: AppLive | null;
   fixture: AppFixture;
   teams: Team[];
   players: Player[];
