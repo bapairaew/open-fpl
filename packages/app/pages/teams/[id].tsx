@@ -59,6 +59,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
       ? nextGameweekId
       : nextGameweekId - 1;
 
+  // TODO: optimise response size
   const [{ picks = null, entry_history = null }, transfers, { chips = null }] =
     await Promise.all([
       getEntryPicks(+params!.id!, picksGameweekId),

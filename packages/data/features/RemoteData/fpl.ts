@@ -78,8 +78,8 @@ export const getFixtures = (event: number): Promise<Fixture[]> => {
   ).then((r) => r.json());
 };
 
-export const getLiveEvent = (id: number): Promise<Live> => {
-  return fetch(`https://fantasy.premierleague.com/api/event/${id}/live/`, {
+export const getLiveEvent = (event: number): Promise<Live> => {
+  return fetch(`https://fantasy.premierleague.com/api/event/${event}/live/`, {
     headers,
     method: "GET",
   }).then((r) => r.json());

@@ -7,6 +7,7 @@ import {
   useDisclosure,
   Button,
   Box,
+  Skeleton,
 } from "@chakra-ui/react";
 import {
   AppEntry,
@@ -26,14 +27,12 @@ const DashboardLivePoints = ({
 }) => {
   const existingPoints = entry?.summary_overall_points ?? 0;
   const livePoints =
-    live?.elements.reduce(
-      (sum, element) =>
-        sum +
-        (currentPicks?.some((p) => p.element === element.id)
-          ? element.bonus
-          : 0),
-      0
-    ) ?? 0;
+    live?.elements.reduce((sum, element) => {
+      const matched = currentPicks?.find(
+        (p) => p.element === element.id && p.position <= 11
+      );
+      return sum + (matched ? element.total_points * matched.multiplier : 0);
+    }, 0) ?? 0;
   const totalPoints = existingPoints + livePoints;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,7 +43,11 @@ const DashboardLivePoints = ({
       <Box position="relative">
         <Stat borderWidth={1} p={4} borderRadius="md">
           <StatLabel>{live ? "Live points" : "Current points"}</StatLabel>
-          <StatNumber>{totalPoints.toLocaleString()}</StatNumber>
+          <StatNumber>
+            <Skeleton isLoaded={!!live && !!entry}>
+              {totalPoints.toLocaleString()}
+            </Skeleton>
+          </StatNumber>
           <StatHelpText>
             {livePoints > 0 ? <StatArrow type="increase" /> : null}
             {livePoints > 0 ? livePoints.toLocaleString() : null}

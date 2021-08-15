@@ -1,15 +1,13 @@
 import { Badge, Box, Flex, Icon } from "@chakra-ui/react";
 import {
   AppEntryEventPick,
+  AppFixture,
   AppLive,
 } from "@open-fpl/app/features/Api/apiTypes";
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
-import {
-  geStatsFromFixture,
-  getStatsFromLive,
-} from "@open-fpl/app/features/Dashboard/dashboardFixtures";
+import { getStatsFromLive } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Fixture, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { useMemo } from "react";
 import { IoRadioButtonOnOutline } from "react-icons/io5";
 
@@ -21,19 +19,51 @@ const DashboardLiveFixture = ({
   currentPicks,
 }: {
   live?: AppLive;
-  fixture: Fixture;
+  fixture: AppFixture;
   fplTeams: Team[];
   players: Player[];
   currentPicks?: AppEntryEventPick[];
 }) => {
-  const home = fplTeams.find((t) => t.id === fixture.team_h);
-  const away = fplTeams.find((t) => t.id === fixture.team_a);
+  const { home, away } = useMemo(() => {
+    const home = fplTeams.find((t) => t.id === fixture.team_h);
+    const away = fplTeams.find((t) => t.id === fixture.team_a);
 
-  const { homePlayersStat, awayPlayersStat } = useMemo(() => {
-    return live
-      ? getStatsFromLive(live, fixture.stats, players, currentPicks)
-      : geStatsFromFixture(fixture.stats, players, currentPicks);
-  }, [fixture.stats, players, currentPicks]);
+    return {
+      home,
+      away,
+    };
+  }, [fplTeams, fixture]);
+
+  const { homePlayersStat, awayPlayersStat, minutes, homeScore, awayScore } =
+    useMemo(() => {
+      const { homePlayersStat, awayPlayersStat } = live
+        ? getStatsFromLive(live, players, currentPicks, home, away)
+        : { homePlayersStat: null, awayPlayersStat: null };
+
+      const minutes = Math.max(
+        ...[
+          ...(homePlayersStat?.map((s) => s.stats.minutes) ?? [0]),
+          ...(awayPlayersStat?.map((s) => s.stats.minutes) ?? [0]),
+        ]
+      );
+
+      const homeScore =
+        homePlayersStat?.reduce((sum, s) => sum + s.stats.goals_scored, 0) ?? 0;
+      const awayScore =
+        awayPlayersStat?.reduce((sum, s) => sum + s.stats.goals_scored, 0) ?? 0;
+
+      return {
+        homePlayersStat,
+        awayPlayersStat,
+        minutes,
+        homeScore,
+        awayScore,
+      };
+    }, [live, players, currentPicks, home, away]);
+
+  if (fixture.id === 8) {
+    console.log(awayPlayersStat);
+  }
 
   return (
     <Flex
@@ -65,10 +95,10 @@ const DashboardLiveFixture = ({
           >
             {home?.short_name}
           </Box>
-          <Box fontSize="4xl">{fixture.team_h_score}</Box>
+          <Box fontSize="4xl">{homeScore}</Box>
         </Box>
         <Box mx={2} fontSize="sm" layerStyle="subtitle">
-          {fixture.minutes}"
+          {minutes}"
         </Box>
         <Box fontWeight="black" textAlign="center">
           <Box
@@ -79,7 +109,7 @@ const DashboardLiveFixture = ({
           >
             {away?.short_name}
           </Box>
-          <Box fontSize="4xl">{fixture.team_a_score}</Box>
+          <Box fontSize="4xl">{awayScore}</Box>
         </Box>
       </Flex>
       <Flex fontSize="xs" height="120px" layerStyle="subtitle" overflow="auto">

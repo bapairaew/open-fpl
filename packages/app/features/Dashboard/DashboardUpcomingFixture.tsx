@@ -1,8 +1,11 @@
 import { Box, Flex, Text, useDisclosure, Button } from "@chakra-ui/react";
-import { AppEntryEventPick } from "@open-fpl/app/features/Api/apiTypes";
+import {
+  AppEntryEventPick,
+  AppFixture,
+} from "@open-fpl/app/features/Api/apiTypes";
 import { getHomeAwayPicks } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Fixture, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { useMemo } from "react";
 import DashboardUpcomingFixtureModal from "./DashboardUpcomingFixtureModal";
 
@@ -12,13 +15,19 @@ const DashboardUpcomingFixture = ({
   currentPicks,
   players,
 }: {
-  fixture: Fixture;
+  fixture: AppFixture;
   fplTeams: Team[];
   players: Player[];
   currentPicks?: AppEntryEventPick[];
 }) => {
-  const home = fplTeams.find((t) => t.id === fixture.team_h);
-  const away = fplTeams.find((t) => t.id === fixture.team_a);
+  const { home, away } = useMemo(() => {
+    const home = fplTeams.find((t) => t.id === fixture.team_h);
+    const away = fplTeams.find((t) => t.id === fixture.team_a);
+    return {
+      home,
+      away,
+    };
+  }, [fplTeams, fixture]);
 
   const homeTotalStrength =
     (home?.strength_attack_home ?? 0) + (home?.strength_defence_home ?? 0);

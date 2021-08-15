@@ -1,7 +1,9 @@
 import { Box, BoxProps, Flex, Grid, Heading } from "@chakra-ui/react";
 import {
+  AppFixture,
   EntryApiResponse,
   EntryEventPickApiResponse,
+  FixtureeApiResponse,
   LiveApiResponse,
 } from "@open-fpl/app/features/Api/apiTypes";
 import DashboardFinishedFixture from "@open-fpl/app/features/Dashboard/DashboardFinishedFixture";
@@ -13,11 +15,7 @@ import DeadlineCountdown from "@open-fpl/app/features/Dashboard/DeadlineCountdow
 import { adjustTeamsStrength } from "@open-fpl/app/features/Fixtures/fixturesData";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import {
-  Event,
-  Fixture,
-  Team,
-} from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { useMemo } from "react";
 import useSWR from "swr";
 
@@ -25,7 +23,7 @@ const Dashboard = ({
   players,
   fplTeams,
   currentGameweek,
-  currentFixtures,
+  currentFixtures: _currentFixtures,
   nextGameweek,
   nextFixtures,
   ...props
@@ -33,14 +31,52 @@ const Dashboard = ({
   players: Player[];
   fplTeams: Team[];
   currentGameweek: Event | null;
-  currentFixtures: Fixture[];
+  currentFixtures: AppFixture[];
   nextGameweek: Event;
-  nextFixtures: Fixture[];
+  nextFixtures: AppFixture[];
 }) => {
   const { profile, teamsStrength } = useSettings();
 
+  const adjustedTeams = useMemo(
+    () => adjustTeamsStrength(fplTeams, teamsStrength),
+    [fplTeams, teamsStrength]
+  );
+
+  const { data: currentFixturesResponse, error: currentFixturesError } =
+    useSWR<FixtureeApiResponse>(
+      () =>
+        currentGameweek ? `/api/events/${currentGameweek.id}/fixtures` : null,
+      {
+        refreshInterval: 10 * 60 * 1000,
+        initialData: { data: _currentFixtures },
+      }
+    );
+  const currentFixtures = currentFixturesResponse?.data;
+
+  const [liveFixtures, finishedCurrentFixtures, unfinishedCurrentFixtures] =
+    useMemo(() => {
+      const liveFixtures: AppFixture[] = [];
+      const finishedCurrentFixtures: AppFixture[] = [];
+      const unfinishedCurrentFixtures: AppFixture[] = [];
+      currentFixtures?.forEach((f) => {
+        if (f.started && !f.finished_provisional) {
+          liveFixtures.push(f);
+        } else if (f.finished_provisional) {
+          finishedCurrentFixtures.push(f);
+        } else {
+          unfinishedCurrentFixtures.push(f);
+        }
+      });
+      return [liveFixtures, finishedCurrentFixtures, unfinishedCurrentFixtures];
+    }, [currentFixtures]);
+
   const { data: liveResponse, error: liveError } = useSWR<LiveApiResponse>(
-    () => (currentGameweek ? `/api/live/${currentGameweek.id}` : null),
+    () =>
+      currentGameweek
+        ? `/api/events/${currentGameweek.id}/live?fixtures=${liveFixtures
+            .map((l) => l.id)
+            .join(",")}`
+        : null,
     {
       refreshInterval: 30 * 1000,
     }
@@ -61,34 +97,12 @@ const Dashboard = ({
     );
   const currentPicks = currentPicksResponse?.data;
 
-  const adjustedTeams = useMemo(
-    () => adjustTeamsStrength(fplTeams, teamsStrength),
-    [fplTeams, teamsStrength]
-  );
-
-  const [liveFixtures, finishedCurrentFixtures, unfinishedCurrentFixtures] =
-    useMemo(() => {
-      const liveFixtures: Fixture[] = [];
-      const finishedCurrentFixtures: Fixture[] = [];
-      const unfinishedCurrentFixtures: Fixture[] = [];
-      currentFixtures?.forEach((f) => {
-        if (f.started && !f.finished) {
-          liveFixtures.push(f);
-        } else if (f.finished) {
-          finishedCurrentFixtures.push(f);
-        } else {
-          unfinishedCurrentFixtures.push(f);
-        }
-      });
-      return [liveFixtures, finishedCurrentFixtures, unfinishedCurrentFixtures];
-    }, [currentFixtures]);
-
   return (
     <Flex flexDirection="column" height="100%" {...props}>
       <DashboardToolbar />
       <Box flexGrow={1} overflow="auto">
         <Grid gap={4} p={4}>
-          {entry && (
+          {profile && (
             <Grid
               gap={4}
               templateColumns={{

@@ -7,7 +7,9 @@ export default async function handler(
 ) {
   try {
     if (req.method === "GET") {
-      res.status(200).json({ data: await getEntry(req) });
+      const id =
+        typeof req.query.id === "string" ? req.query.id : req.query.id[0];
+      res.status(200).json({ data: await getEntry(+id) });
     } else {
       res.status(405).json({ error: "Not allowed" });
     }

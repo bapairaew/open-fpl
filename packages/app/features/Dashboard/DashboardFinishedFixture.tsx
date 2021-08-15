@@ -1,10 +1,12 @@
 import { Box, Flex, Button, useDisclosure } from "@chakra-ui/react";
-import { AppEntryEventPick } from "@open-fpl/app/features/Api/apiTypes";
+import {
+  AppEntryEventPick,
+  AppFixture,
+} from "@open-fpl/app/features/Api/apiTypes";
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
 import DashboardFinishedFixtureModal from "@open-fpl/app/features/Dashboard/DashboardFinishedFixtureModal";
-import { geStatsFromFixture } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Fixture, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { useMemo } from "react";
 
 const DashboardFinishedFixture = ({
@@ -13,17 +15,24 @@ const DashboardFinishedFixture = ({
   players,
   currentPicks,
 }: {
-  fixture: Fixture;
+  fixture: AppFixture;
   fplTeams: Team[];
   players: Player[];
   currentPicks?: AppEntryEventPick[];
 }) => {
-  const home = fplTeams.find((t) => t.id === fixture.team_h);
-  const away = fplTeams.find((t) => t.id === fixture.team_a);
+  const { home, away } = useMemo(() => {
+    const home = fplTeams.find((t) => t.id === fixture.team_h);
+    const away = fplTeams.find((t) => t.id === fixture.team_a);
+    return {
+      home,
+      away,
+    };
+  }, [fplTeams, fixture]);
 
-  const { homePlayersStat, awayPlayersStat } = useMemo(() => {
-    return geStatsFromFixture(fixture.stats, players, currentPicks);
-  }, [fixture.stats, players, currentPicks]);
+  const { homePlayersStat, awayPlayersStat } = {
+    homePlayersStat: null,
+    awayPlayersStat: null,
+  };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -75,7 +84,7 @@ const DashboardFinishedFixture = ({
               />
             </Box>
           </Flex>
-          <Flex
+          {/* <Flex
             fontSize="xs"
             height="120px"
             layerStyle="subtitle"
@@ -99,7 +108,7 @@ const DashboardFinishedFixture = ({
                 />
               ))}
             </Box>
-          </Flex>
+          </Flex> */}
         </Flex>
         <Button
           variant="unstyled"

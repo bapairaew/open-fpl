@@ -1,4 +1,5 @@
 import { Spinner } from "@chakra-ui/react";
+import { getFixtures } from "@open-fpl/app/features/Api/fixture";
 import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLocalStorage";
 import Dashboard from "@open-fpl/app/features/Dashboard/Dashboard";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
@@ -8,7 +9,6 @@ import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { getFixtures } from "@open-fpl/data/features/RemoteData/fpl";
 import { Event, Team } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";

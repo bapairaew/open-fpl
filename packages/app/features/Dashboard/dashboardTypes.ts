@@ -11,5 +11,7 @@ export interface FixturePlayerStat {
     red_cards: number;
     bonus: number;
     // rank: number;
+    total_points: number;
+    minutes: number;
   };
 }

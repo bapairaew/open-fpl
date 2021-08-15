@@ -13,6 +13,7 @@ export interface EntryApiResponse extends ApiResponse<AppEntry> {}
 export interface AppEntryEventPick {
   element: number;
   multiplier: number;
+  position: number;
 }
 export interface EntryEventPickApiResponse
   extends ApiResponse<AppEntryEventPick[]> {}
@@ -26,6 +27,23 @@ export interface AppLive {
     yellow_cards: number;
     red_cards: number;
     bonus: number;
+    total_points: number;
+    minutes: number;
   }[];
 }
 export interface LiveApiResponse extends ApiResponse<AppLive> {}
+
+export interface AppFixture {
+  event: number;
+  finished: boolean;
+  finished_provisional: boolean;
+  id: number;
+  kickoff_time: string;
+  minutes: number;
+  started: boolean;
+  team_a: number;
+  team_a_score: number | null;
+  team_h: number;
+  team_h_score: number | null;
+}
+export interface FixtureeApiResponse extends ApiResponse<AppFixture[]> {}

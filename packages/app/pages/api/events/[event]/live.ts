@@ -7,7 +7,16 @@ export default async function handler(
 ) {
   try {
     if (req.method === "GET") {
-      res.status(200).json({ data: await getLiveEvent(req) });
+      const event =
+        typeof req.query.event === "string"
+          ? req.query.event
+          : req.query.event[0];
+      const fixtures = (
+        typeof req.query.fixtures === "string"
+          ? req.query.fixtures.split(",")
+          : req.query.fixtures?.[0].split(",") ?? []
+      ).map((f) => +f);
+      res.status(200).json({ data: await getLiveEvent(+event, fixtures) });
     } else {
       res.status(405).json({ error: "Not allowed" });
     }
