@@ -13,7 +13,7 @@ import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import useSWR from "swr";
 
@@ -66,9 +66,9 @@ function DashboardPage({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      router.prefetch(router.asPath);
+      router.replace(router.asPath);
       console.log(router.asPath);
-    }, 30 * 1000);
+    }, 5 * 1000);
     return () => clearInterval(interval);
   }, []);
 
