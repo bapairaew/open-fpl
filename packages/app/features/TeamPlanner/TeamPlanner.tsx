@@ -122,6 +122,19 @@ const TeamPlanner = ({
     }
   };
 
+  const setTeamPlansAndTabIndex = (
+    teamPlans: string[],
+    selectedPlan: number
+  ) => {
+    if (preference) {
+      setPreference({
+        ...preference,
+        teamPlans,
+        selectedPlan,
+      });
+    }
+  };
+
   const sortableTransferPlans = useMemo<ItemInterface[]>(
     () => teamPlans?.map((id) => ({ id })) ?? [],
     [teamPlans]
@@ -164,8 +177,10 @@ const TeamPlanner = ({
   const handleAdd = () => {
     if (teamPlans) {
       const nextIndex = teamPlans.length;
-      setTeamPlans([...teamPlans, getDefaultName(teamPlans)]);
-      setTabIndex(nextIndex);
+      setTeamPlansAndTabIndex(
+        [...teamPlans, getDefaultName(teamPlans)],
+        nextIndex
+      );
       plausible("team-planner-plans-add");
     }
   };
@@ -201,18 +216,15 @@ const TeamPlanner = ({
   };
 
   const handleDuplicate = (plan: string) => {
-    if (teamPlans) {
+    if (teamPlans && profile) {
       const nextIndex = teamPlans.length;
       const name = getDefaultName(teamPlans);
-      setTeamPlans([...teamPlans, name]);
-      if (profile) {
-        setLocalStorageItem(
-          getTeamPlanKey(profile, name),
-          getLocalStorageItem(getTeamPlanKey(profile, plan), [])
-        );
-        setTabIndex(nextIndex);
-        plausible("team-planner-plans-duplicate");
-      }
+      setTeamPlansAndTabIndex([...teamPlans, name], nextIndex);
+      setLocalStorageItem(
+        getTeamPlanKey(profile, name),
+        getLocalStorageItem(getTeamPlanKey(profile, plan), [])
+      );
+      plausible("team-planner-plans-duplicate");
     }
   };
 
@@ -221,13 +233,14 @@ const TeamPlanner = ({
       const nextTransferPlans = teamPlans?.filter((p) => p !== plan);
 
       if (nextTransferPlans.length === 0) {
-        setTeamPlans([getDefaultName(nextTransferPlans)]);
-        setTabIndex(0);
+        setTeamPlansAndTabIndex([getDefaultName(nextTransferPlans)], 0);
       } else {
-        setTeamPlans(nextTransferPlans);
-        if (tabIndex >= nextTransferPlans.length) {
-          setTabIndex(nextTransferPlans.length - 1);
-        }
+        setTeamPlansAndTabIndex(
+          nextTransferPlans,
+          tabIndex >= nextTransferPlans.length
+            ? nextTransferPlans.length - 1
+            : tabIndex
+        );
       }
 
       if (profile) {
