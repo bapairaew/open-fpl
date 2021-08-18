@@ -1,16 +1,23 @@
 import { Spinner } from "@chakra-ui/react";
-import { getFixtures } from "@open-fpl/app/features/Api/fixture";
-import { getLiveEvent } from "@open-fpl/app/features/Api/live";
 import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLocalStorage";
 import Dashboard from "@open-fpl/app/features/Dashboard/Dashboard";
+import {
+  getServerDashboardFixture,
+  getServerPlayersStats,
+} from "@open-fpl/app/features/Dashboard/dashboardFixtures";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import FullScreenMessageWithAppDrawer from "@open-fpl/app/features/Layout/FullScreenMessageWithAppDrawer";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
+import {
+  getFixtures,
+  getLiveEvent,
+} from "@open-fpl/data/features/RemoteData/fpl";
 import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
@@ -18,7 +25,13 @@ import Router from "next/router";
 import useSWR from "swr";
 
 export const getStaticProps = async () => {
-  const [teams, fplGameweeks] = await Promise.all([
+  const [players, teamFixtures, teams, fplGameweeks] = await Promise.all([
+    fetch(getDataUrl("/app-data/players.json")).then((r) =>
+      r.json()
+    ) as Promise<Player[]>,
+    fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
+      r.json()
+    ) as Promise<TeamFixtures[]>,
     fetch(getDataUrl("/app-data/teams.json")).then((r) => r.json()) as Promise<
       Team[]
     >,
@@ -33,30 +46,31 @@ export const getStaticProps = async () => {
     fplGameweeks.find((g) => g.is_next) ??
     fplGameweeks[fplGameweeks.length - 1];
 
-  const [currentFixtures, nextFixtures] = await Promise.all([
+  const [_currentFixtures, liveEvent, _nextFixtures] = await Promise.all([
     currentGameweek && getFixtures(currentGameweek.id),
+    currentGameweek && getLiveEvent(currentGameweek.id),
     getFixtures(nextGameweek.id),
   ]);
 
-  const liveFixtures =
-    currentFixtures?.filter((f) => f.started && !f.finished_provisional) ??
-    null;
-  const live =
-    currentGameweek && liveFixtures
-      ? await getLiveEvent(
-          currentGameweek.id,
-          liveFixtures?.map((f) => f.id)
-        )
-      : null;
+  const currentGameweekFixtures = _currentFixtures?.map((fixture) => {
+    return getServerDashboardFixture(
+      fixture,
+      (liveEvent && getServerPlayersStats(liveEvent, fixture, players)) ?? null
+    );
+  });
+
+  const nextGameweekFixtures = _nextFixtures.map((fixture) =>
+    getServerDashboardFixture(fixture)
+  );
 
   return {
     props: {
-      live,
       teams,
+      teamFixtures,
       currentGameweek,
-      currentFixtures,
       nextGameweek,
-      nextFixtures,
+      currentGameweekFixtures,
+      nextGameweekFixtures,
     },
     revalidate: 60,
   };
@@ -65,7 +79,7 @@ export const getStaticProps = async () => {
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
 type SWRPageProps = { pageProps: PageProps };
 
-function DashboardPage(props: PageProps) {
+function DashboardPage(initialPageProps: PageProps) {
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")
   );
@@ -75,31 +89,30 @@ function DashboardPage(props: PageProps) {
   const { data: pageProps } = useSWR<SWRPageProps>(dataUrl, {
     refreshInterval: 30 * 1000,
     initialData: {
-      pageProps: props,
+      pageProps: initialPageProps,
     },
   });
 
   const {
     pageProps: {
-      live,
       teams,
+      teamFixtures,
       currentGameweek,
-      currentFixtures,
       nextGameweek,
-      nextFixtures,
+      currentGameweekFixtures,
+      nextGameweekFixtures,
     },
   } = pageProps ?? { pageProps: {} };
 
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
   const isReady = [
-    live,
-    players,
     teams,
+    teamFixtures,
     currentGameweek,
-    currentFixtures,
     nextGameweek,
-    nextFixtures,
+    currentGameweekFixtures,
+    nextGameweekFixtures,
   ].every((x) => x !== undefined);
 
   const errors = [playersError ? "Players" : null].filter((x) => x) as string[];
@@ -113,11 +126,11 @@ function DashboardPage(props: PageProps) {
           as="main"
           players={players!}
           teams={teams!}
-          nextGameweek={nextGameweek!}
-          nextFixtures={nextFixtures!}
-          live={live ?? null}
-          currentFixtures={currentFixtures ?? null}
+          teamFixtures={teamFixtures!}
+          currentGameweekFixtures={currentGameweekFixtures ?? null}
           currentGameweek={currentGameweek ?? null}
+          nextGameweek={nextGameweek!}
+          nextGameweekFixtures={nextGameweekFixtures!}
         />
       );
     } else if (errors.length > 0) {

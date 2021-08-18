@@ -1,138 +1,117 @@
-import { Badge, Box, Flex, Icon } from "@chakra-ui/react";
-import {
-  AppEntryEventPick,
-  AppFixture,
-  AppLive,
-} from "@open-fpl/app/features/Api/apiTypes";
+import { Box, Button, Flex, useDisclosure } from "@chakra-ui/react";
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
-import { getStatsFromLive } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
-import { useMemo } from "react";
-import { IoRadioButtonOnOutline } from "react-icons/io5";
+import DashboardLiveFixtureModal from "@open-fpl/app/features/Dashboard/DashboardLiveFixtureModal";
+import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 
-const DashboardLiveFixture = ({
-  live,
-  fixture,
-  teams,
-  players,
-  currentPicks,
-}: {
-  live: AppLive | null;
-  fixture: AppFixture;
-  teams: Team[];
-  players: Player[];
-  currentPicks?: AppEntryEventPick[];
-}) => {
-  const { home, away } = useMemo(() => {
-    const home = teams.find((t) => t.id === fixture.team_h);
-    const away = teams.find((t) => t.id === fixture.team_a);
+const DashboardLiveFixture = ({ fixture }: { fixture: DashboardFixture }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-    return {
-      home,
-      away,
-    };
-  }, [teams, fixture]);
+  const minutes = Math.max(
+    ...fixture.team_h_players.map((player) => player.stats?.minutes ?? 0)
+  );
 
-  const { homePlayersStat, awayPlayersStat, minutes, homeScore, awayScore } =
-    useMemo(() => {
-      const { homePlayersStat, awayPlayersStat } = live
-        ? getStatsFromLive(live, players, currentPicks, home, away)
-        : { homePlayersStat: null, awayPlayersStat: null };
+  const homePlayers = fixture.team_h_players?.filter(
+    (p) => p.stats?.minutes ?? 0 > 0
+  );
 
-      const minutes = Math.max(
-        ...[
-          ...(homePlayersStat?.map((s) => s.stats.minutes) ?? [0]),
-          ...(awayPlayersStat?.map((s) => s.stats.minutes) ?? [0]),
-        ]
-      );
-
-      const homeScore =
-        homePlayersStat?.reduce((sum, s) => sum + s.stats.goals_scored, 0) ?? 0;
-      const awayScore =
-        awayPlayersStat?.reduce((sum, s) => sum + s.stats.goals_scored, 0) ?? 0;
-
-      return {
-        homePlayersStat,
-        awayPlayersStat,
-        minutes,
-        homeScore,
-        awayScore,
-      };
-    }, [live, players, currentPicks, home, away]);
-
-  if (fixture.id === 8) {
-    console.log(awayPlayersStat);
-  }
+  const awayPlayers = fixture.team_a_players?.filter(
+    (p) => p.stats?.minutes ?? 0 > 0
+  );
 
   return (
-    <Flex
-      borderWidth={1}
-      px={4}
-      py={2}
-      borderRadius="md"
-      flexDirection="column"
-    >
-      <Flex mt={-2} ml={-2} mb={2} fontSize="sm" textAlign="left">
-        <Badge colorScheme="red">
-          <Icon as={IoRadioButtonOnOutline} mr={0.5} mb={0.5} />
-          Live
-        </Badge>
-      </Flex>
-      <Flex
-        my={2}
-        flexGrow={1}
-        width="100%"
-        alignItems="center"
-        justifyContent="space-around"
-      >
-        <Box fontWeight="black" textAlign="center">
-          <Box
-            py={1}
-            px={2}
-            fontSize="sm"
-            layerStyle={`fpl-team-${home?.short_name}`}
+    <>
+      {isOpen && (
+        <DashboardLiveFixtureModal
+          isOpen={isOpen}
+          onClose={onClose}
+          fixture={fixture}
+          minutes={minutes}
+          homePlayers={homePlayers}
+          awayPlayers={awayPlayers}
+        />
+      )}
+      <Box position="relative">
+        <Flex
+          borderWidth={1}
+          px={4}
+          py={2}
+          borderRadius="md"
+          flexDirection="column"
+        >
+          <Flex
+            my={2}
+            flexGrow={1}
+            width="100%"
+            alignItems="center"
+            justifyContent="space-around"
           >
-            {home?.short_name}
-          </Box>
-          <Box fontSize="4xl">{homeScore}</Box>
-        </Box>
-        <Box mx={2} fontSize="sm" layerStyle="subtitle">
-          {minutes}"
-        </Box>
-        <Box fontWeight="black" textAlign="center">
-          <Box
-            py={1}
-            px={2}
-            fontSize="sm"
-            layerStyle={`fpl-team-${away?.short_name}`}
+            <Box fontWeight="black" textAlign="center">
+              <Box
+                py={1}
+                px={2}
+                fontSize="sm"
+                layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
+              >
+                {fixture.team_h?.short_name}
+              </Box>
+              <Box fontSize="4xl">{fixture.team_h_score ?? 0}</Box>
+            </Box>
+            <Box mx={2} fontSize="sm" layerStyle="subtitle">
+              {minutes}"
+            </Box>
+            <Box fontWeight="black" textAlign="center">
+              <Box
+                py={1}
+                px={2}
+                fontSize="sm"
+                layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
+              >
+                {fixture.team_a?.short_name}
+              </Box>
+              <Box fontSize="4xl">{fixture.team_a_score ?? 0}</Box>
+            </Box>
+          </Flex>
+          <Flex
+            fontSize="xs"
+            height="120px"
+            layerStyle="subtitle"
+            overflow="hidden"
           >
-            {away?.short_name}
-          </Box>
-          <Box fontSize="4xl">{awayScore}</Box>
-        </Box>
-      </Flex>
-      <Flex fontSize="xs" height="120px" layerStyle="subtitle" overflow="auto">
-        <Box width="50%">
-          {homePlayersStat?.map((e) => (
-            <DashboardFixturePlayerStat
-              key={e.player.id}
-              playerStat={e}
-              align="left"
-            />
-          ))}
-        </Box>
-        <Box width="50%">
-          {awayPlayersStat?.map((e) => (
-            <DashboardFixturePlayerStat
-              key={e.player.id}
-              playerStat={e}
-              align="right"
-            />
-          ))}
-        </Box>
-      </Flex>
-    </Flex>
+            <Box width="50%">
+              {homePlayers?.map((e) => (
+                <DashboardFixturePlayerStat
+                  key={e.player.id}
+                  playerStat={e}
+                  align="left"
+                />
+              ))}
+            </Box>
+            <Box width="50%">
+              {awayPlayers?.map((e) => (
+                <DashboardFixturePlayerStat
+                  key={e.player.id}
+                  playerStat={e}
+                  align="right"
+                />
+              ))}
+            </Box>
+          </Flex>
+        </Flex>
+        <Button
+          variant="unstyled"
+          aria-label="open match details"
+          position="absolute"
+          width="100%"
+          height="100%"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          opactiy={0}
+          onClick={onOpen}
+        />
+      </Box>
+    </>
   );
 };
 

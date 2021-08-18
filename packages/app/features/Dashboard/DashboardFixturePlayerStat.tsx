@@ -1,4 +1,4 @@
-import { Box, Icon, Stack, Text } from "@chakra-ui/react";
+import { Box, Icon, Stack, Text, Tooltip } from "@chakra-ui/react";
 import { FixturePlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import { Fragment, ReactNode } from "react";
 import { BiFootball } from "react-icons/bi";
@@ -15,9 +15,13 @@ const Icons = ({ icon, count }: { icon: ReactNode; count: number }) => {
 const DashboardFixturePlayerStat = ({
   playerStat,
   align,
+  showBPS = false,
+  fixedSizeOnDesktop = false,
 }: {
   playerStat: FixturePlayerStat;
   align: "left" | "right";
+  showBPS?: boolean;
+  fixedSizeOnDesktop?: boolean;
 }) => {
   return (
     <Stack
@@ -25,19 +29,44 @@ const DashboardFixturePlayerStat = ({
       spacing={1}
       alignItems="center"
       direction={align === "left" ? "row" : "row-reverse"}
-      fontWeight={playerStat.stats.picked ? "bold" : "normal"}
+      fontWeight={playerStat.picked ? "black" : "normal"}
     >
-      <Text noOfLines={1}>{playerStat.player.web_name}</Text>
-      <Box layerStyle="brand" textAlign="right">
-        {playerStat.stats.total_points}
-      </Box>
+      {showBPS && (
+        <Tooltip label="BPS">
+          <Text
+            width={{ base: "23px", sm: "25px" }}
+            noOfLines={1}
+            textAlign="right"
+          >
+            {playerStat.stats?.bps ?? 0}
+          </Text>
+        </Tooltip>
+      )}
+      <Tooltip label="Name">
+        <Text
+          noOfLines={1}
+          width={{ base: "auto", sm: fixedSizeOnDesktop ? "100px" : "auto" }}
+          textAlign={align}
+        >
+          {playerStat.player.web_name}
+        </Text>
+      </Tooltip>
+      <Tooltip label="Points">
+        <Text
+          layerStyle="brand"
+          width={{ base: "auto", sm: fixedSizeOnDesktop ? "25px" : "auto" }}
+          textAlign="right"
+        >
+          {playerStat.stats?.total_points ?? 0}
+        </Text>
+      </Tooltip>
       <Icons
         icon={<Icon as={BiFootball} layerStyle="brand" />}
-        count={playerStat.stats.goals_scored}
+        count={playerStat.stats?.goals_scored ?? 0}
       />
       <Icons
         icon={<Icon as={GiRunningShoe} layerStyle="brand" />}
-        count={playerStat.stats.assists}
+        count={playerStat.stats?.assists ?? 0}
       />
       <Icons
         icon={
@@ -48,7 +77,7 @@ const DashboardFixturePlayerStat = ({
             layerStyle="yellowSolid"
           />
         }
-        count={playerStat.stats.yellow_cards}
+        count={playerStat.stats?.yellow_cards ?? 0}
       />
       <Icons
         icon={
@@ -59,7 +88,7 @@ const DashboardFixturePlayerStat = ({
             layerStyle="redSolid"
           />
         }
-        count={playerStat.stats.red_cards}
+        count={playerStat.stats?.red_cards ?? 0}
       />
     </Stack>
   );

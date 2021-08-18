@@ -11,6 +11,7 @@ export interface Preference {
   teamPlans?: string[]; // List of profile's team plans
   starredPlayers?: number[]; // List of starred players
   selectedPlan?: number; // Selected team plan
+  selectedDashboardTab?: number; // Selected dashboard tab
 }
 
 export interface Settings {

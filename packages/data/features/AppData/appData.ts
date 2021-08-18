@@ -8,7 +8,10 @@ import {
   MatchStat,
   Player,
 } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
+import {
+  Team,
+  TeamMatchStat,
+} from "@open-fpl/data/features/AppData/teamDataTypes";
 import {
   ElementTypes,
   Team as FPLTeam,
@@ -86,11 +89,11 @@ const makePlayers = ({
       const fplOpponentId = Object.keys(teamsLinks).find(
         (key) => teamsLinks[key] === opponent?.id
       );
-      const xga =
-        playerUnderstatTeam!.datesData.find((d) => m.id === d.id)?.xG?.[
-          isHome ? "a" : "h"
-        ] || null;
+      const matched = playerUnderstatTeam!.datesData.find((d) => m.id === d.id);
+      const xga = matched?.xG?.[isHome ? "a" : "h"] || null;
+      const ga = matched?.goals?.[isHome ? "a" : "h"] || null;
       return {
+        opponent_id: fplOpponentId ? +fplOpponentId : null,
         opponent_short_title: fplOpponentId
           ? fplTeamsMap[+fplOpponentId]?.short_name
           : null,
@@ -103,6 +106,7 @@ const makePlayers = ({
         match_xg: +m.xG,
         match_xa: +m.xA,
         match_xgi: +m.xG + +m.xA,
+        match_ga: ga ? +ga : null,
         match_xga: xga ? +xga : null,
       };
     };
@@ -123,6 +127,7 @@ const makePlayers = ({
       transfers_in_event: player.transfers_in_event,
       transfers_out_event: player.transfers_out_event,
       selected_by_percent: player.selected_by_percent,
+      cost_change_event: player.cost_change_event,
       element_type: {
         singular_name_short:
           fplElementTypesMap[player.element_type].singular_name_short,
@@ -141,6 +146,10 @@ const makePlayers = ({
         season_game: playerUnderstat && +playerUnderstat.games,
         season_g: playerUnderstat && +playerUnderstat.goals,
         season_a: playerUnderstat && +playerUnderstat.assists,
+        season_ga:
+          playerUnderstat &&
+          playerUnderstatTeam &&
+          playerUnderstatTeam.history.reduce((x, m) => +m.missed + x, 0),
         season_shots: playerUnderstat && +playerUnderstat.shots,
         season_key_passes: playerUnderstat && +playerUnderstat.key_passes,
         season_xg: playerUnderstat && +playerUnderstat.xG,
@@ -260,15 +269,31 @@ const makeTeams = ({
             matches: understatTeam.history
               .slice(0, 5)
               .reverse()
-              .map((m) => ({
-                g: m.scored,
-                xg: m.xG,
-                ga: m.missed,
-                xga: m.xGA,
-                pts: m.pts,
-                xpts: m.xpts,
-                result: m.wins ? "w" : m.draws ? "d" : "l",
-              })),
+              .map((m) => {
+                const matched = understatTeam.datesData.find(
+                  (d) => d.datetime === m.date
+                );
+                if (matched) {
+                  const opponentSide = matched.side === "a" ? "h" : "a";
+                  const opponent = Object.entries(teamsLinks).find(
+                    ([key, value]) => value === matched[opponentSide].id
+                  )?.[0];
+                  if (opponent) {
+                    return {
+                      opponent: +opponent,
+                      g: m.scored,
+                      xg: m.xG,
+                      ga: m.missed,
+                      xga: m.xGA,
+                      pts: m.pts,
+                      xpts: m.xpts,
+                      result: m.result,
+                    };
+                  }
+                }
+                return null;
+              })
+              .filter((m) => m !== null) as TeamMatchStat[],
           }
         : null,
     });

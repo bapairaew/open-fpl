@@ -1,38 +1,18 @@
-import { Box, Flex, Text, useDisclosure, Button } from "@chakra-ui/react";
-import {
-  AppEntryEventPick,
-  AppFixture,
-} from "@open-fpl/app/features/Api/apiTypes";
-import { getHomeAwayPicks } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
-import { useMemo } from "react";
-import DashboardUpcomingFixtureModal from "./DashboardUpcomingFixtureModal";
+import { Box, Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardTypes";
+import DashboardUpcomingFixtureModal from "@open-fpl/app/features/Dashboard/DashboardUpcomingFixtureModal";
 
 const DashboardUpcomingFixture = ({
   fixture,
-  teams,
-  currentPicks,
-  players,
 }: {
-  fixture: AppFixture;
-  teams: Team[];
-  players: Player[];
-  currentPicks?: AppEntryEventPick[];
+  fixture: DashboardFixture;
 }) => {
-  const { home, away } = useMemo(() => {
-    const home = teams.find((t) => t.id === fixture.team_h);
-    const away = teams.find((t) => t.id === fixture.team_a);
-    return {
-      home,
-      away,
-    };
-  }, [teams, fixture]);
-
   const homeTotalStrength =
-    (home?.strength_attack_home ?? 0) + (home?.strength_defence_home ?? 0);
+    (fixture.team_h?.strength_attack_home ?? 0) +
+    (fixture.team_h?.strength_defence_home ?? 0);
   const awayTotalStrength =
-    (away?.strength_attack_away ?? 0) + (away?.strength_defence_away ?? 0);
+    (fixture.team_a?.strength_attack_away ?? 0) +
+    (fixture.team_a?.strength_defence_away ?? 0);
   const totalStrength = homeTotalStrength + awayTotalStrength;
   const homePercent = (homeTotalStrength / totalStrength) * 100;
   const awayPercent = (awayTotalStrength / totalStrength) * 100;
@@ -40,24 +20,20 @@ const DashboardUpcomingFixture = ({
   const homeDisplayPercent = 50 + 5 * strengthDiff;
   const awayDisplayPercent = 100 - homeDisplayPercent;
 
-  const { homeTeamPicks, awayTeamPicks } = useMemo(
-    () => getHomeAwayPicks(fixture, players, currentPicks),
-    [currentPicks, fixture, players]
-  );
+  const homePlayers = fixture.team_h_players?.filter((p) => p.picked) ?? [];
+  const awayPlayers = fixture.team_a_players?.filter((p) => p.picked) ?? [];
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const kickOffTime = new Date(fixture.kickoff_time).toLocaleString();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      {home && away && isOpen && (
+      {isOpen && (
         <DashboardUpcomingFixtureModal
           isOpen={isOpen}
           onClose={onClose}
           kickoffTime={kickOffTime}
-          home={home}
-          away={away}
-          players={players}
+          fixture={fixture}
         />
       )}
       <Box position="relative">
@@ -81,9 +57,9 @@ const DashboardUpcomingFixture = ({
           >
             <Box>
               <Flex height="6px">
-                {homeTeamPicks.map((p) => (
+                {homePlayers.map((p) => (
                   <Box
-                    key={p.element}
+                    key={p.player.id}
                     mx={0.5}
                     width="6px"
                     height="6px"
@@ -92,14 +68,14 @@ const DashboardUpcomingFixture = ({
                   />
                 ))}
               </Flex>
-              <Box>{home?.short_name}</Box>
+              <Box>{fixture.team_h?.short_name}</Box>
             </Box>
             <Box>-</Box>
             <Box>
               <Flex justifyContent="flex-end" height="6px">
-                {awayTeamPicks.map((p) => (
+                {awayPlayers.map((p) => (
                   <Box
-                    key={p.element}
+                    key={p.player.id}
                     mx={0.5}
                     width="6px"
                     height="6px"
@@ -108,20 +84,20 @@ const DashboardUpcomingFixture = ({
                   />
                 ))}
               </Flex>
-              <Box>{away?.short_name}</Box>
+              <Box>{fixture.team_a?.short_name}</Box>
             </Box>
           </Flex>
           <Flex width="100%" my={2}>
             <Box
               height="5px"
               width={`${homeDisplayPercent}%`}
-              layerStyle={`fpl-team-${home?.short_name}`}
+              layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
             />
             <Box height="5px" width="4px" layerStyle="sticky" />
             <Box
               height="5px"
               width={`${awayDisplayPercent}%`}
-              layerStyle={`fpl-team-${away?.short_name}`}
+              layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
             />
           </Flex>
         </Flex>

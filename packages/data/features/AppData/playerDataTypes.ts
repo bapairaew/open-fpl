@@ -28,11 +28,13 @@ export interface PlayerSummaryData {
 export interface FPLElement extends Element, ElementSummary {}
 
 export interface MatchStat {
+  opponent_id: number | null;
   opponent_short_title: string | null;
   is_home: boolean;
   match_time: number | null;
   match_g: number | null;
   match_a: number | null;
+  match_ga: number | null;
   match_shots: number | null;
   match_key_passes: number | null;
   match_xg: number | null;
@@ -58,6 +60,7 @@ export interface LinkedData {
   season_a: number | null;
   season_shots: number | null;
   season_key_passes: number | null;
+  season_ga: number | null;
   season_xg: number | null;
   season_xa: number | null;
   season_xgi: number | null;
@@ -77,6 +80,9 @@ export interface Player {
   cost_change_start: number;
   total_points: number;
   selected_by_percent: string;
+  cost_change_event: number | null; // Previous data version does not have this
+  transfers_in_event: number | null; // Previous data version does not have this
+  transfers_out_event: number | null; // Previous data version does not have this
   element_type: {
     singular_name_short: string;
   };

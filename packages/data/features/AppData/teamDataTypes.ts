@@ -1,4 +1,5 @@
 export interface TeamMatchStat {
+  opponent: number;
   g: number;
   xg: number;
   ga: number;

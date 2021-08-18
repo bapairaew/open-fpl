@@ -1,44 +1,25 @@
-import { Box, Flex, Button, useDisclosure } from "@chakra-ui/react";
-import {
-  AppEntryEventPick,
-  AppFixture,
-} from "@open-fpl/app/features/Api/apiTypes";
-import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
+import { Box, Button, Flex, Grid, useDisclosure } from "@chakra-ui/react";
 import DashboardFinishedFixtureModal from "@open-fpl/app/features/Dashboard/DashboardFinishedFixtureModal";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
-import { useMemo } from "react";
+import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
+import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 
 const DashboardFinishedFixture = ({
   fixture,
-  teams,
-  players,
-  currentPicks,
 }: {
-  fixture: AppFixture;
-  teams: Team[];
-  players: Player[];
-  currentPicks?: AppEntryEventPick[];
+  fixture: DashboardFixture;
 }) => {
-  const { home, away } = useMemo(() => {
-    const home = teams.find((t) => t.id === fixture.team_h);
-    const away = teams.find((t) => t.id === fixture.team_a);
-    return {
-      home,
-      away,
-    };
-  }, [teams, fixture]);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const homePlayers = fixture.team_h_players.filter((t) => t.picked);
+  const awayPlayers = fixture.team_a_players.filter((t) => t.picked);
 
   return (
     <>
-      {home && away && isOpen && (
+      {isOpen && (
         <DashboardFinishedFixtureModal
           isOpen={isOpen}
           onClose={onClose}
-          home={home}
-          away={away}
+          fixture={fixture}
         />
       )}
       <Box position="relative">
@@ -49,44 +30,44 @@ const DashboardFinishedFixture = ({
           borderRadius="md"
           flexDirection="column"
         >
-          <Flex
+          <Grid
             my={2}
+            templateColumns="repeat(3, 1fr)"
             flexGrow={1}
             width="100%"
-            justifyContent="space-around"
             fontSize="2xl"
             fontWeight="black"
           >
-            <Box>
-              <Box>{home?.short_name}</Box>
+            <Box textAlign="center">
+              <Box>
+                {fixture.team_h?.short_name}
+                <Box
+                  height="5px"
+                  width="100%"
+                  layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
+                />
+              </Box>
+            </Box>
+            <Box fontSize="2xl" textAlign="center">
+              {fixture.team_h_score} - {fixture.team_a_score}
+            </Box>
+            <Box textAlign="center">
+              <Box>{fixture.team_a?.short_name}</Box>
               <Box
                 height="5px"
                 width="100%"
-                layerStyle={`fpl-team-${home?.short_name}`}
+                layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
               />
             </Box>
-            <Flex fontSize="2xl">
-              <Box>{fixture.team_h_score}</Box>
-              <Box mx={2}>-</Box>
-              <Box>{fixture.team_a_score}</Box>
-            </Flex>
-            <Box>
-              <Box>{away?.short_name}</Box>
-              <Box
-                height="5px"
-                width="100%"
-                layerStyle={`fpl-team-${away?.short_name}`}
-              />
-            </Box>
-          </Flex>
-          {/* <Flex
+          </Grid>
+          <Flex
             fontSize="xs"
-            height="120px"
+            height="60px"
             layerStyle="subtitle"
             overflow="auto"
           >
             <Box width="50%">
-              {homePlayersStat?.map((e) => (
+              {homePlayers?.map((e) => (
                 <DashboardFixturePlayerStat
                   key={e.player.id}
                   playerStat={e}
@@ -95,7 +76,7 @@ const DashboardFinishedFixture = ({
               ))}
             </Box>
             <Box width="50%">
-              {awayPlayersStat?.map((e) => (
+              {awayPlayers?.map((e) => (
                 <DashboardFixturePlayerStat
                   key={e.player.id}
                   playerStat={e}
@@ -103,7 +84,7 @@ const DashboardFinishedFixture = ({
                 />
               ))}
             </Box>
-          </Flex> */}
+          </Flex>
         </Flex>
         <Button
           variant="unstyled"

@@ -236,14 +236,15 @@ const customTheme = extendTheme(
         },
       },
       Stat: {
-        baseStyle: {
+        baseStyle: ({ colorMode }) => ({
           label: {
             noOfLines: 1,
+            color: colorMode === "dark" ? "whiteAlpha.600" : "gray.600",
           },
           number: {
-            fontWeight: "bold",
+            fontWeight: "black",
           },
-        },
+        }),
       },
     },
   }

@@ -13,11 +13,13 @@ const makeEmptyMatches = (length: number): MatchStat[] => {
   const matches: MatchStat[] = [];
   for (let i = 0; i < length; i++) {
     matches.push({
+      opponent_id: null,
       opponent_short_title: null,
       is_home: false,
       match_time: null,
       match_g: null,
       match_a: null,
+      match_ga: null,
       match_shots: null,
       match_key_passes: null,
       match_xg: null,

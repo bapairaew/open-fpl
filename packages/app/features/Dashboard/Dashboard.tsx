@@ -1,218 +1,330 @@
-import { Box, BoxProps, Flex, Grid, Heading } from "@chakra-ui/react";
 import {
-  AppFixture,
-  AppLive,
+  Badge,
+  Box,
+  BoxProps,
+  Flex,
+  StatArrow,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
+import {
   EntryApiResponse,
   EntryEventPickApiResponse,
-  FixtureeApiResponse,
-  LiveApiResponse,
 } from "@open-fpl/app/features/Api/apiTypes";
-import DashboardFinishedFixture from "@open-fpl/app/features/Dashboard/DashboardFinishedFixture";
-import DashboardLiveFixture from "@open-fpl/app/features/Dashboard/DashboardLiveFixture";
-import DashboardLivePoints from "@open-fpl/app/features/Dashboard/DashboardLivePoints";
+import DashboardCurrentGameweek from "@open-fpl/app/features/Dashboard/DashboardCurrentGameweek";
+import { dehydrateDashboardFixtures } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
+import DashboardNextGameweek from "@open-fpl/app/features/Dashboard/DashboardNextGameweek";
 import DashboardToolbar from "@open-fpl/app/features/Dashboard/DashboardToolbar";
-import DashboardUpcomingFixture from "@open-fpl/app/features/Dashboard/DashboardUpcomingFixture";
-import DeadlineCountdown from "@open-fpl/app/features/Dashboard/DeadlineCountdown";
-import { adjustTeamsStrength } from "@open-fpl/app/features/Fixtures/fixturesData";
+import {
+  DashboardFixture,
+  FixturePlayerStat,
+  ServerDashboardFixture,
+  GameweekPlayerStat,
+} from "@open-fpl/app/features/Dashboard/dashboardTypes";
+import {
+  adjustTeamsStrength,
+  makeFullFixtures,
+} from "@open-fpl/app/features/Fixtures/fixturesData";
+import { hydrateClientData } from "@open-fpl/app/features/PlayerData/playerData";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { useMemo } from "react";
+import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
+import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 
 const Dashboard = ({
-  players,
+  players: remotePlayers,
   teams,
-  live,
+  teamFixtures,
   currentGameweek,
-  currentFixtures,
+  currentGameweekFixtures: serverCurrentGameweekFixtures,
   nextGameweek,
-  nextFixtures,
+  nextGameweekFixtures: serverNextGameweekFixtures,
   ...props
 }: BoxProps & {
   players: Player[];
   teams: Team[];
-  nextGameweek: Event;
-  nextFixtures: AppFixture[];
-  live: AppLive | null;
+  teamFixtures: TeamFixtures[];
   currentGameweek: Event | null;
-  currentFixtures: AppFixture[] | null;
+  currentGameweekFixtures: ServerDashboardFixture[] | null;
+  nextGameweek: Event;
+  nextGameweekFixtures: ServerDashboardFixture[];
 }) => {
-  const { profile, teamsStrength } = useSettings();
+  const { profile, teamsStrength, preference, setPreference } = useSettings();
+
+  const { data: entryResponse } = useSWR<EntryApiResponse>(() =>
+    profile ? `/api/entries/${profile}` : null
+  );
+  const entry = entryResponse?.data;
+
+  const { data: currentPicksResponse } = useSWR<EntryEventPickApiResponse>(() =>
+    currentGameweek && profile
+      ? `/api/entries/${profile}/picks/${currentGameweek.id}`
+      : null
+  );
+  const currentPicks = currentPicksResponse?.data;
 
   const adjustedTeams = useMemo(
     () => adjustTeamsStrength(teams, teamsStrength),
     [teams, teamsStrength]
   );
 
+  const fullFixtures = useMemo(
+    () =>
+      makeFullFixtures({
+        teamFixtures,
+        teams: adjustedTeams,
+      }),
+    [teams, teamsStrength]
+  );
+
+  const players = useMemo(
+    () =>
+      hydrateClientData(
+        remotePlayers,
+        preference?.starredPlayers || ([] as number[]),
+        [],
+        fullFixtures
+      ),
+    [remotePlayers, preference?.starredPlayers, fullFixtures]
+  );
+
+  const { currentGameweekFixtures, nextGameweekFixtures } = useMemo(() => {
+    return dehydrateDashboardFixtures(
+      serverCurrentGameweekFixtures,
+      serverNextGameweekFixtures,
+      players,
+      adjustedTeams,
+      currentPicks
+    );
+  }, [
+    serverCurrentGameweekFixtures,
+    serverNextGameweekFixtures,
+    players,
+    adjustedTeams,
+    currentPicks,
+  ]);
+
   const [liveFixtures, finishedCurrentFixtures, unfinishedCurrentFixtures] =
     useMemo(() => {
-      const liveFixtures: AppFixture[] = [];
-      const finishedCurrentFixtures: AppFixture[] = [];
-      const unfinishedCurrentFixtures: AppFixture[] = [];
-      currentFixtures?.forEach((f) => {
-        if (f.started && !f.finished_provisional) {
-          liveFixtures.push(f);
-        } else if (f.finished_provisional) {
-          finishedCurrentFixtures.push(f);
-        } else {
-          unfinishedCurrentFixtures.push(f);
-        }
+      const liveFixtures: DashboardFixture[] = [];
+      const finishedCurrentFixtures: DashboardFixture[] = [];
+      const unfinishedCurrentFixtures: DashboardFixture[] = [];
+      currentGameweekFixtures?.forEach((f) => {
+        finishedCurrentFixtures.push(f);
+        unfinishedCurrentFixtures.push(f);
+        // if (f.started && !f.finished_provisional) {
+        //   liveFixtures.push(f);
+        // } else if (f.finished_provisional) {
+        //   finishedCurrentFixtures.push(f);
+        // } else {
+        //   unfinishedCurrentFixtures.push(f);
+        // }
       });
       return [liveFixtures, finishedCurrentFixtures, unfinishedCurrentFixtures];
-    }, [currentFixtures]);
+    }, [currentGameweekFixtures]);
 
-  const { data: entryResponse = {}, error: entryError } =
-    useSWR<EntryApiResponse>(() =>
-      profile ? `/api/entries/${profile}` : null
-    );
-  const entry = entryResponse?.data;
+  const allCurrentGameweekPlayers = useMemo(() => {
+    const playerStats: GameweekPlayerStat[] = [];
+    [...finishedCurrentFixtures, ...liveFixtures].forEach((fixture) => {
+      [...fixture.team_h_players, ...fixture.team_a_players]
+        .filter((p) => p.stats?.minutes ?? 0 > 0)
+        .forEach((playerStat) => {
+          if (playerStat.stats?.minutes ?? 0 > 0) {
+            const matched = playerStats.find(
+              (ps) => ps.player.id === playerStat.player.id
+            );
+            if (matched) {
+              matched.fixtures.push(playerStat);
+              if (matched.stats) {
+                matched.stats.bps += playerStat.stats?.bps ?? 0;
+                matched.stats.goals_scored +=
+                  playerStat.stats?.goals_scored ?? 0;
+                matched.stats.assists += playerStat.stats?.assists ?? 0;
+                matched.stats.yellow_cards +=
+                  playerStat.stats?.yellow_cards ?? 0;
+                matched.stats.red_cards += playerStat.stats?.red_cards ?? 0;
+                matched.stats.bonus += playerStat.stats?.bonus ?? 0;
+                matched.stats.total_points +=
+                  playerStat.stats?.total_points ?? 0;
+                matched.stats.minutes += playerStat.stats?.minutes ?? 0;
+              }
+            } else {
+              playerStats.push({
+                player: playerStat.player,
+                picked: playerStat.picked,
+                multiplier: playerStat.multiplier,
+                live: playerStat.live,
+                stats: {
+                  bps: playerStat.stats?.bps ?? 0,
+                  goals_scored: playerStat.stats?.goals_scored ?? 0,
+                  assists: playerStat.stats?.assists ?? 0,
+                  yellow_cards: playerStat.stats?.yellow_cards ?? 0,
+                  red_cards: playerStat.stats?.red_cards ?? 0,
+                  bonus: playerStat.stats?.bonus ?? 0,
+                  total_points: playerStat.stats?.total_points ?? 0,
+                  minutes: playerStat.stats?.minutes ?? 0,
+                },
+                fixtures: [playerStat],
+              });
+            }
+          }
+        });
+    });
+    return playerStats;
+  }, [liveFixtures, finishedCurrentFixtures]);
 
-  const { data: currentPicksResponse, error: currentPicksError } =
-    useSWR<EntryEventPickApiResponse>(() =>
-      currentGameweek && profile
-        ? `/api/entries/${profile}/picks/${currentGameweek.id}`
-        : null
-    );
-  const currentPicks = currentPicksResponse?.data;
+  const existingPoints = entry?.summary_overall_points ?? 0;
+  const livePoints = useMemo(() => {
+    const livePlayers: FixturePlayerStat[] = [];
+    liveFixtures.forEach((fixture) => {
+      livePlayers.push(...fixture.team_a_players);
+      livePlayers.push(...fixture.team_h_players);
+    });
+
+    return livePlayers.reduce((sum, playerStats) => {
+      return (
+        sum +
+        (playerStats.picked && playerStats.stats
+          ? playerStats.stats.total_points * playerStats.multiplier
+          : 0)
+      );
+    }, 0);
+  }, [liveFixtures]);
+  const totalPoints = existingPoints + livePoints;
+
+  const deadline = new Date(nextGameweek.deadline_time);
+  const [countDown, setCountDown] = useState<string>(
+    formatDistanceToNowStrict(deadline, {
+      roundingMethod: "floor",
+    })
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountDown(
+        formatDistanceToNowStrict(deadline, {
+          roundingMethod: "floor",
+        })
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const tabIndex = preference?.selectedDashboardTab ?? 0;
+  const handleTabsChange = (selectedDashboardTab: number) => {
+    if (preference) {
+      setPreference({
+        ...preference,
+        selectedDashboardTab,
+      });
+    }
+  };
 
   return (
     <Flex flexDirection="column" height="100%" {...props}>
       <DashboardToolbar />
-      <Box flexGrow={1} overflow="auto">
-        <Grid gap={4} p={4}>
-          {profile && (
-            <Grid
-              gap={4}
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                sm: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
-                xl: "repeat(4, 1fr)",
-              }}
+      <Tabs
+        variant="enclosed-colored"
+        flexGrow={1}
+        overflow="hidden"
+        display="flex"
+        flexDirection="column"
+        index={tabIndex}
+        onChange={handleTabsChange}
+      >
+        <TabList>
+          <Tab
+            py={4}
+            px={6}
+            ml={{ base: 0, sm: 2 }}
+            flexBasis={{ base: "50%", sm: "200px" }}
+            flexDirection="column"
+          >
+            {entry ? (
+              <>
+                <Box
+                  as="span"
+                  fontSize="sm"
+                  alignSelf="flex-start"
+                  opacity={0.8}
+                >
+                  {liveFixtures.length > 0 ? (
+                    <>
+                      <Badge colorScheme="red" mr={1}>
+                        Live
+                      </Badge>{" "}
+                      Gameweek
+                    </>
+                  ) : (
+                    "This Gameweek"
+                  )}
+                </Box>
+                <Box as="span" alignSelf="flex-end">
+                  {liveFixtures.length > 0 ? (
+                    <Box as="span" fontSize="sm" mr={4}>
+                      <StatArrow type="increase" />
+                      {livePoints}
+                    </Box>
+                  ) : null}
+                  <Box as="span" fontSize="xl" fontWeight="black">
+                    {totalPoints}
+                  </Box>
+                </Box>
+              </>
+            ) : (
+              <Box as="span" fontWeight="bold" alignSelf="flex-start">
+                Current Gameweek
+              </Box>
+            )}
+          </Tab>
+          <Tab
+            py={4}
+            px={6}
+            flexBasis={{ base: "50%", sm: "200px" }}
+            flexDirection="column"
+            alignItems="flex-start"
+          >
+            <Box as="span" fontSize="sm" alignSelf="flex-start" opacity={0.8}>
+              Next Gameweek
+            </Box>
+            <Box
+              as="span"
+              fontSize="xl"
+              fontWeight="black"
+              alignSelf="flex-end"
             >
-              <DashboardLivePoints
-                live={live}
-                entry={entry}
-                currentPicks={currentPicks}
-              />
-            </Grid>
-          )}
-          {liveFixtures.length > 0 && (
-            <>
-              <Heading my={2} size="md" fontWeight="black">
-                Live
-              </Heading>
-              <Grid
-                gap={4}
-                templateColumns={{
-                  base: "repeat(1, 1fr)",
-                  sm: "repeat(1, 1fr)",
-                  md: "repeat(2, 1fr)",
-                  xl: "repeat(3, 1fr)",
-                }}
-              >
-                {liveFixtures.map((fixture) => (
-                  <DashboardLiveFixture
-                    key={fixture.id}
-                    live={live}
-                    fixture={fixture}
-                    teams={adjustedTeams}
-                    currentPicks={currentPicks}
-                    players={players}
-                  />
-                ))}
-              </Grid>
-            </>
-          )}
-          {finishedCurrentFixtures.length > 0 && (
-            <>
-              <Heading my={2} size="md" fontWeight="black">
-                Finished Fixtures
-              </Heading>
-              <Grid
-                gap={4}
-                templateColumns={{
-                  base: "repeat(1, 1fr)",
-                  sm: "repeat(1, 1fr)",
-                  md: "repeat(2, 1fr)",
-                  xl: "repeat(3, 1fr)",
-                }}
-              >
-                {finishedCurrentFixtures.map((fixture) => (
-                  <DashboardFinishedFixture
-                    key={fixture.id}
-                    fixture={fixture}
-                    teams={adjustedTeams}
-                    currentPicks={currentPicks}
-                    players={players}
-                  />
-                ))}
-              </Grid>
-            </>
-          )}
-          {unfinishedCurrentFixtures.length > 0 && (
-            <>
-              <Heading my={2} size="md" fontWeight="black">
-                Upcoming Fixtures
-              </Heading>
-              <Grid
-                gap={4}
-                templateColumns={{
-                  base: "repeat(1, 1fr)",
-                  sm: "repeat(2, 1fr)",
-                  md: "repeat(3, 1fr)",
-                  xl: "repeat(4, 1fr)",
-                }}
-              >
-                {unfinishedCurrentFixtures.map((fixture) => (
-                  <DashboardUpcomingFixture
-                    key={fixture.id}
-                    fixture={fixture}
-                    teams={adjustedTeams}
-                    currentPicks={currentPicks}
-                    players={players}
-                  />
-                ))}
-              </Grid>
-            </>
-          )}
-          <Heading my={2} size="md" fontWeight="black">
-            Next Gameweek
-          </Heading>
-          <Grid
-            gap={4}
-            templateColumns={{
-              base: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-              xl: "repeat(4, 1fr)",
-            }}
-          >
-            <DeadlineCountdown nextGameweek={nextGameweek} />
-          </Grid>
-          <Grid
-            gap={4}
-            templateColumns={{
-              base: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-              xl: "repeat(4, 1fr)",
-            }}
-          >
-            {nextFixtures.map((fixture) => (
-              <DashboardUpcomingFixture
-                key={fixture.id}
-                fixture={fixture}
-                teams={adjustedTeams}
-                currentPicks={currentPicks}
-                players={players}
-              />
-            ))}
-          </Grid>
-        </Grid>
-      </Box>
+              In {countDown}
+            </Box>
+          </Tab>
+        </TabList>
+        <TabPanels flexGrow={1} overflow="auto">
+          <TabPanel>
+            <DashboardCurrentGameweek
+              entry={entry}
+              totalPoints={totalPoints}
+              livePoints={livePoints}
+              liveFixtures={liveFixtures}
+              finishedCurrentFixtures={finishedCurrentFixtures}
+              unfinishedCurrentFixtures={unfinishedCurrentFixtures}
+              allCurrentGameweekPlayers={allCurrentGameweekPlayers}
+            />
+          </TabPanel>
+          <TabPanel>
+            <DashboardNextGameweek
+              countDown={countDown}
+              nextGameweekFixtures={nextGameweekFixtures}
+            />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Flex>
   );
 };
