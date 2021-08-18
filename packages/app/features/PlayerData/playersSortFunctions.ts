@@ -40,28 +40,16 @@ export type PlayersSortableKeys =
 const makePastMatchesSortFn =
   (key: keyof MatchStat, direction: -1 | 1) =>
   (a: ClientPlayer, b: ClientPlayer) => {
-    if (
-      !a.linked_data.past_matches ||
-      a.linked_data.past_matches.filter(
-        (m) => (m[key] as null | number) !== null
-      ).length < 5
-    )
-      return 1;
-    if (
-      !b.linked_data.past_matches ||
-      b.linked_data.past_matches.filter(
-        (m) => (m[key] as null | number) !== null
-      ).length < 5
-    )
-      return -1;
-    const sumA = a.linked_data.past_matches.reduce(
-      (sum, m) => ((m[key] as null | number) ?? 0) + sum,
-      0
-    );
-    const sumB = b.linked_data.past_matches.reduce(
-      (sum, m) => ((m[key] as null | number) ?? 0) + sum,
-      0
-    );
+    const sumA =
+      a.linked_data.past_matches?.reduce(
+        (sum, m) => ((m[key] as null | number) ?? 0) + sum,
+        0
+      ) ?? 0;
+    const sumB =
+      b.linked_data.past_matches?.reduce(
+        (sum, m) => ((m[key] as null | number) ?? 0) + sum,
+        0
+      ) ?? 0;
     if (sumA < sumB) return -1 * direction;
     if (sumA > sumB) return direction;
     return 0;
