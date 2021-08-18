@@ -1,22 +1,27 @@
-import { Box, Button, Flex, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  VStack,
+  Badge,
+  useDisclosure,
+} from "@chakra-ui/react";
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
 import DashboardLiveFixtureModal from "@open-fpl/app/features/Dashboard/DashboardLiveFixtureModal";
 import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 
 const DashboardLiveFixture = ({ fixture }: { fixture: DashboardFixture }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const minutes = Math.max(
     ...fixture.team_h_players.map((player) => player.stats?.minutes ?? 0)
   );
-
   const homePlayers = fixture.team_h_players?.filter(
     (p) => p.stats?.minutes ?? 0 > 0
   );
-
   const awayPlayers = fixture.team_a_players?.filter(
     (p) => p.stats?.minutes ?? 0 > 0
   );
+  const isPicked = [...homePlayers, ...awayPlayers].some((p) => p.picked);
 
   return (
     <>
@@ -56,9 +61,13 @@ const DashboardLiveFixture = ({ fixture }: { fixture: DashboardFixture }) => {
               </Box>
               <Box fontSize="4xl">{fixture.team_h_score ?? 0}</Box>
             </Box>
-            <Box mx={2} fontSize="sm" layerStyle="subtitle">
-              {minutes}"
-            </Box>
+            <VStack mx={2} textAlign="center">
+              <Badge colorScheme="red">Live</Badge>
+              <Box fontSize="sm" layerStyle="subtitle">
+                {minutes}"
+              </Box>
+              {isPicked && <Badge>Picked</Badge>}
+            </VStack>
             <Box fontWeight="black" textAlign="center">
               <Box
                 py={1}

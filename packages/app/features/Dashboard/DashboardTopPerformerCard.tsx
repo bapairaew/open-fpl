@@ -8,8 +8,8 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
+import DashboardTopPerformerModal from "@open-fpl/app/features/Dashboard/DashboardTopPerformerModal";
 import { GameweekPlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
-import DashboardTopPerformerModal from "./DashboardTopPerformerModal";
 
 const DashboardTopPerformerCard = ({
   playerStat,
@@ -28,7 +28,7 @@ const DashboardTopPerformerCard = ({
         />
       )}
       <Box position="relative">
-        <HStack colorScheme="red" position="absolute" top={0} left={2}>
+        <HStack position="absolute" top={0} left={2}>
           {playerStat.live && <Badge colorScheme="red">Live</Badge>}
           {playerStat.picked && <Badge>Picked</Badge>}
         </HStack>

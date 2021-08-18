@@ -29,7 +29,7 @@ const DashboardFixturePlayerStat = ({
       spacing={1}
       alignItems="center"
       direction={align === "left" ? "row" : "row-reverse"}
-      fontWeight={playerStat.picked ? "black" : "normal"}
+      layerStyle={playerStat.picked ? "brand" : undefined}
     >
       {showBPS && (
         <Tooltip label="BPS">
@@ -51,9 +51,13 @@ const DashboardFixturePlayerStat = ({
           {playerStat.player.web_name}
         </Text>
       </Tooltip>
+      <Box
+        display={{ base: "block", sm: fixedSizeOnDesktop ? "none" : "block" }}
+      >
+        |
+      </Box>
       <Tooltip label="Points">
         <Text
-          layerStyle="brand"
           width={{ base: "auto", sm: fixedSizeOnDesktop ? "25px" : "auto" }}
           textAlign="right"
         >
@@ -61,11 +65,11 @@ const DashboardFixturePlayerStat = ({
         </Text>
       </Tooltip>
       <Icons
-        icon={<Icon as={BiFootball} layerStyle="brand" />}
+        icon={<Icon as={BiFootball} />}
         count={playerStat.stats?.goals_scored ?? 0}
       />
       <Icons
-        icon={<Icon as={GiRunningShoe} layerStyle="brand" />}
+        icon={<Icon as={GiRunningShoe} />}
         count={playerStat.stats?.assists ?? 0}
       />
       <Icons

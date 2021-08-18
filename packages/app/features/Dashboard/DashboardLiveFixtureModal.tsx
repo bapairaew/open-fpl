@@ -100,6 +100,7 @@ const DashboardLiveFixtureModal = ({
                 <Text width={{ base: "auto", sm: "100px" }} noOfLines={1}>
                   Name
                 </Text>
+                <Box display={{ base: "block", sm: "none" }}>|</Box>
                 <Text noOfLines={1} textAlign="right">
                   Points
                 </Text>
@@ -126,6 +127,7 @@ const DashboardLiveFixtureModal = ({
                 <Text noOfLines={1} textAlign="right">
                   Points
                 </Text>
+                <Box display={{ base: "block", sm: "none" }}>|</Box>
                 <Text
                   width={{ base: "auto", sm: "100px" }}
                   noOfLines={1}
