@@ -73,10 +73,12 @@ const makeSortedFixturesOrder = (
 const FixturesTable = ({
   mode,
   fullFixtures,
+  nextGameweekId,
   onFixturesOrderChange,
 }: {
   mode: string;
   fullFixtures: FullTeamFixtures[];
+  nextGameweekId: number;
   onFixturesOrderChange: (newOrder: string[] | null) => void;
 }) => {
   const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
@@ -166,7 +168,12 @@ const FixturesTable = ({
             handle=".handle"
           >
             {sortedFullFixtures.map((team) => (
-              <FixturesTableRow key={team.short_name} team={team} mode={mode} />
+              <FixturesTableRow
+                key={team.short_name}
+                team={team}
+                mode={mode}
+                nextGameweekId={nextGameweekId}
+              />
             ))}
           </ReactSortable>
         </Table>

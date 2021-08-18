@@ -21,10 +21,12 @@ const TeamsStrengthEditorModal = dynamic(
 const Fixtures = ({
   teamFixtures,
   teams,
+  nextGameweekId,
   ...props
 }: BoxProps & {
   teamFixtures: TeamFixtures[];
   teams: Team[];
+  nextGameweekId: number;
 }) => {
   const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
   const {
@@ -106,6 +108,7 @@ const Fixtures = ({
           <FixturesTable
             mode={mode}
             fullFixtures={fullFixtures}
+            nextGameweekId={nextGameweekId}
             onFixturesOrderChange={setFixturesTeamsOrder}
           />
         </Box>
