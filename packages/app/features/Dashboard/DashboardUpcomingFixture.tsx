@@ -64,7 +64,7 @@ const DashboardUpcomingFixture = ({
                     width="6px"
                     height="6px"
                     borderRadius="50%"
-                    layerStyle="textSolid"
+                    layerStyle="brandSolid"
                   />
                 ))}
               </Flex>
@@ -80,7 +80,7 @@ const DashboardUpcomingFixture = ({
                     width="6px"
                     height="6px"
                     borderRadius="50%"
-                    layerStyle="textSolid"
+                    layerStyle="brandSolid"
                   />
                 ))}
               </Flex>

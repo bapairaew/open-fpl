@@ -10,8 +10,12 @@ import {
   Button,
   Flex,
   useDisclosure,
+  Box,
 } from "@chakra-ui/react";
-import { ApiEntry } from "@open-fpl/app/features/Api/apiTypes";
+import {
+  ApiEntry,
+  ApiEntryEventPick,
+} from "@open-fpl/app/features/Api/apiTypes";
 import DashboardFinishedFixture from "@open-fpl/app/features/Dashboard/DashboardFinishedFixture";
 import DashboardLiveFixture from "@open-fpl/app/features/Dashboard/DashboardLiveFixture";
 import DashboardTopPerformers from "@open-fpl/app/features/Dashboard/DashboardTopPerformers";
@@ -21,9 +25,11 @@ import {
 } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import DashboardUpcomingFixture from "@open-fpl/app/features/Dashboard/DashboardUpcomingFixture";
 import DashboardLivePointsModal from "@open-fpl/app/features/Dashboard/DashboardLivePointsModal";
+import DashboardTeamsheet from "@open-fpl/app/features/Dashboard/DashboardTeamsheet";
 
 const DashboardCurrentGameweek = ({
   entry,
+  currentPicks,
   totalPoints,
   livePoints,
   liveFixtures,
@@ -32,6 +38,7 @@ const DashboardCurrentGameweek = ({
   allCurrentGameweekPlayers,
 }: {
   entry?: ApiEntry;
+  currentPicks?: ApiEntryEventPick[];
   totalPoints: number;
   livePoints: number;
   liveFixtures: DashboardFixture[];
@@ -39,8 +46,6 @@ const DashboardCurrentGameweek = ({
   unfinishedCurrentFixtures: DashboardFixture[];
   allCurrentGameweekPlayers: GameweekPlayerStat[];
 }) => {
-  const gameweekPoints = entry?.summary_event_points ?? 0;
-  const gameweekTotalPoints = gameweekPoints + livePoints;
   const isLive = liveFixtures.length > 0;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -71,27 +76,22 @@ const DashboardCurrentGameweek = ({
           )}
         </Stat>
         <Stat textAlign="center">
-          <StatLabel>Gameweek points</StatLabel>
+          <StatLabel>Overall rank</StatLabel>
           <StatNumber fontSize="4xl">
-            {gameweekTotalPoints.toLocaleString()}
+            {entry?.summary_overall_rank?.toLocaleString() ?? 0}
           </StatNumber>
           {isLive && (
             <StatHelpText>
-              <StatArrow type="increase" />
-              {livePoints.toLocaleString()}
-              <Badge colorScheme="red" ml={2}>
-                Live
-              </Badge>
+              <Badge colorScheme="gray">Not live</Badge>
             </StatHelpText>
           )}
         </Stat>
-        <Stat textAlign="center" gridColumn={{ base: "span 2", sm: "auto" }}>
-          <StatLabel>Overall rank</StatLabel>
-          <StatNumber fontSize="4xl">
-            {entry?.summary_overall_rank?.toLocaleString()}
-          </StatNumber>
-          {isLive && <StatHelpText>Not live (yet)</StatHelpText>}
-        </Stat>
+        <Box>
+          <DashboardTeamsheet
+            currentPicks={currentPicks}
+            allCurrentGameweekPlayers={allCurrentGameweekPlayers}
+          />
+        </Box>
       </Grid>
       {liveFixtures.length > 0 && (
         <>
@@ -113,7 +113,7 @@ const DashboardCurrentGameweek = ({
           </Grid>
         </>
       )}
-      {finishedCurrentFixtures.length > 0 && (
+      {allCurrentGameweekPlayers.length > 0 && (
         <>
           {isOpen && (
             <DashboardLivePointsModal

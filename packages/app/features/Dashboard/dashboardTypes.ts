@@ -52,6 +52,7 @@ export interface DashboardFixture {
   team_h_score: number | null;
   team_a_players: FixturePlayerStat[];
   team_h_players: FixturePlayerStat[];
+  live: boolean;
 }
 
 export interface ServerDashboardFixture {

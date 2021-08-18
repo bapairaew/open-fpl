@@ -117,9 +117,10 @@ const Dashboard = ({
       const finishedCurrentFixtures: DashboardFixture[] = [];
       const unfinishedCurrentFixtures: DashboardFixture[] = [];
       currentGameweekFixtures?.forEach((f) => {
+        liveFixtures.push(f);
         finishedCurrentFixtures.push(f);
         unfinishedCurrentFixtures.push(f);
-        // if (f.started && !f.finished_provisional) {
+        // if (f.live) {
         //   liveFixtures.push(f);
         // } else if (f.finished_provisional) {
         //   finishedCurrentFixtures.push(f);
@@ -142,6 +143,7 @@ const Dashboard = ({
             );
             if (matched) {
               matched.fixtures.push(playerStat);
+              matched.live = matched.live || playerStat.live;
               if (matched.stats) {
                 matched.stats.bps += playerStat.stats?.bps ?? 0;
                 matched.stats.goals_scored +=
@@ -309,6 +311,7 @@ const Dashboard = ({
           <TabPanel>
             <DashboardCurrentGameweek
               entry={entry}
+              currentPicks={currentPicks}
               totalPoints={totalPoints}
               livePoints={livePoints}
               liveFixtures={liveFixtures}

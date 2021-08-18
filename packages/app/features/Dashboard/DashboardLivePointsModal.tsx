@@ -1,23 +1,25 @@
 import {
+  Box,
+  BoxProps,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  Table,
-  Tbody,
+  Flex,
   Td,
   Th,
-  Thead,
   Tr,
-  Box,
-  Flex,
 } from "@chakra-ui/react";
-import { GameweekPlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import StickyHeaderTable from "@open-fpl/app/features/Common/Table/StickyHeaderTable";
+import { GameweekPlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
+import { CSSProperties, useMemo } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { ChangeEvent, CSSProperties, MouseEvent, useMemo } from "react";
+
+const CellWrapper = (props: BoxProps) => (
+  <Flex px={2} alignItems="center" height="30px" {...props} />
+);
 
 const DashboardLivePointsModal = ({
   isOpen,
@@ -32,60 +34,78 @@ const DashboardLivePointsModal = ({
     () =>
       ({ index, style }: { index: number; style: CSSProperties }) => {
         const playerStat = allCurrentGameweekPlayers[index];
-        // const { ...restStyle } = style; // provided width: 100%; broke horizontal scroll with sticky items
+        const { width, ...restStyle } = style; // provided width: 100%; broke horizontal scroll with sticky items
         return (
-          <Tr key={playerStat.player.id} style={style}>
-            <Th position="sticky" left={0}>
-              <Box width="120px" textTransform="none">
+          <Tr key={playerStat.player.id} style={restStyle}>
+            <Th position="sticky" left={0} p={0}>
+              <CellWrapper width="120px" textTransform="none">
+                <Flex as="span" flexDirection="column" mr={2}>
+                  {playerStat.live && (
+                    <Box
+                      as="span"
+                      width="6px"
+                      height="6px"
+                      borderRadius="50%"
+                      my={0.5}
+                      layerStyle="redSolid"
+                    />
+                  )}
+                  {playerStat.picked && (
+                    <Box
+                      as="span"
+                      width="6px"
+                      height="6px"
+                      borderRadius="50%"
+                      my={0.5}
+                      layerStyle="brandSolid"
+                    />
+                  )}
+                </Flex>
                 {playerStat.player.web_name}
-              </Box>
+              </CellWrapper>
             </Th>
             <Td p={0}>
-              <Flex
+              <CellWrapper
                 width="80px"
                 justifyContent="center"
-                alignItems="center"
-                height="30px"
                 layerStyle={`fpl-team-${playerStat.player.team.short_name}`}
               >
                 {playerStat.player.team.short_name}
-              </Flex>
+              </CellWrapper>
             </Td>
             <Td p={0}>
-              <Flex
+              <CellWrapper
                 width="80px"
                 justifyContent="center"
-                alignItems="center"
-                height="30px"
                 layerStyle={`fpl-position-${playerStat.player.element_type.singular_name_short}`}
               >
                 {playerStat.player.element_type.singular_name_short}
-              </Flex>
+              </CellWrapper>
             </Td>
             <Td p={0}>
-              <Box width="80px" px={2} textAlign="right">
+              <CellWrapper width="80px" justifyContent="flex-end">
                 {playerStat.stats?.total_points}
-              </Box>
+              </CellWrapper>
             </Td>
             <Td p={0}>
-              <Box width="80px" px={2} textAlign="right">
+              <CellWrapper width="80px" justifyContent="flex-end">
                 {playerStat.stats?.bps}
-              </Box>
+              </CellWrapper>
             </Td>
             <Td p={0}>
-              <Box width="80px" px={2} textAlign="right">
+              <CellWrapper width="80px" justifyContent="flex-end">
                 {playerStat.stats?.goals_scored}
-              </Box>
+              </CellWrapper>
             </Td>
             <Td p={0}>
-              <Box width="80px" px={2} textAlign="right">
+              <CellWrapper width="80px" justifyContent="flex-end">
                 {playerStat.stats?.assists}
-              </Box>
+              </CellWrapper>
             </Td>
             <Td p={0}>
-              <Box width="80px" px={2} textAlign="right">
+              <CellWrapper width="80px" justifyContent="flex-end">
                 {playerStat.stats?.minutes}
-              </Box>
+              </CellWrapper>
             </Td>
           </Tr>
         );
@@ -98,7 +118,7 @@ const DashboardLivePointsModal = ({
       <DrawerContent>
         <DrawerHeader />
         <DrawerCloseButton />
-        <DrawerBody>
+        <DrawerBody pt={4} px={0}>
           <AutoSizer>
             {({ height, width }) => (
               <Box
@@ -115,35 +135,45 @@ const DashboardLivePointsModal = ({
                   itemCount={allCurrentGameweekPlayers.length}
                   headerRow={
                     <Tr>
-                      <Th
-                        position="sticky"
-                        top={0}
-                        left={0}
-                        zIndex={1}
-                        textAlign="center"
-                      >
-                        <Box width="120px">Name</Box>
+                      <Th p={0} position="sticky" top={0} left={0} zIndex={1}>
+                        <CellWrapper width="120px" justifyContent="center">
+                          Name
+                        </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0} textAlign="center">
-                        <Box width="80px">Team</Box>
+                      <Th position="sticky" top={0} p={0}>
+                        <CellWrapper width="80px" justifyContent="center">
+                          Team
+                        </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0} textAlign="center">
-                        <Box width="80px">Pos.</Box>
+                      <Th position="sticky" top={0} p={0}>
+                        <CellWrapper width="80px" justifyContent="center">
+                          Pos.
+                        </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0} textAlign="center">
-                        <Box width="80px">Pts.</Box>
+                      <Th position="sticky" top={0} p={0}>
+                        <CellWrapper width="80px" justifyContent="center">
+                          Pts.
+                        </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0} textAlign="center">
-                        <Box width="80px">BPS</Box>
+                      <Th position="sticky" top={0} p={0}>
+                        <CellWrapper width="80px" justifyContent="center">
+                          BPS
+                        </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0} textAlign="center">
-                        <Box width="80px">Goals</Box>
+                      <Th position="sticky" top={0} p={0}>
+                        <CellWrapper width="80px" justifyContent="center">
+                          Goals
+                        </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0} textAlign="center">
-                        <Box width="80px">Assists</Box>
+                      <Th position="sticky" top={0} p={0}>
+                        <CellWrapper width="80px" justifyContent="center">
+                          Assists
+                        </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0} textAlign="center">
-                        <Box width="80px">Mins.</Box>
+                      <Th position="sticky" top={0} p={0}>
+                        <CellWrapper width="80px" justifyContent="center">
+                          Mins.
+                        </CellWrapper>
                       </Th>
                     </Tr>
                   }

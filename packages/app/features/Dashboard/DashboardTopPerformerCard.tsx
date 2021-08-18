@@ -1,10 +1,12 @@
 import {
+  Badge,
   Box,
+  Button,
   Flex,
+  HStack,
   Text,
   useDisclosure,
   VStack,
-  Button,
 } from "@chakra-ui/react";
 import { GameweekPlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import DashboardTopPerformerModal from "./DashboardTopPerformerModal";
@@ -26,6 +28,10 @@ const DashboardTopPerformerCard = ({
         />
       )}
       <Box position="relative">
+        <HStack colorScheme="red" position="absolute" top={0} left={2}>
+          {playerStat.live && <Badge colorScheme="red">Live</Badge>}
+          {playerStat.picked && <Badge>Picked</Badge>}
+        </HStack>
         <VStack
           key={playerStat.player.id}
           minWidth="160px"
