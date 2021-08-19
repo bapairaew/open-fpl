@@ -42,7 +42,7 @@ const DashboardFixturePlayerStat = ({
       <Box
         display={{ base: "block", sm: fixedSizeOnDesktop ? "none" : "block" }}
       >
-        |
+        ·
       </Box>
       <Text
         width={{ base: "auto", sm: fixedSizeOnDesktop ? "25px" : "auto" }}

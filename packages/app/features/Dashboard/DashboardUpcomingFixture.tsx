@@ -34,6 +34,8 @@ const DashboardUpcomingFixture = ({
           onClose={onClose}
           kickoffTime={kickOffTime}
           fixture={fixture}
+          homeDisplayPercent={homeDisplayPercent}
+          awayDisplayPercent={awayDisplayPercent}
         />
       )}
       <Box position="relative">

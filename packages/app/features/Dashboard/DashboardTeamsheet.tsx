@@ -10,9 +10,11 @@ const DashboardTeamsheet = ({
   currentPicks?: ApiEntryEventPick[];
   allCurrentGameweekPlayers: GameweekPlayerStat[];
 }) => {
-  const teamsheet = (currentPicks?.map((p) => {
-    return allCurrentGameweekPlayers.find((s) => p.element === s.player.id);
-  }) ?? []) as GameweekPlayerStat[];
+  const teamsheet = (
+    currentPicks?.map((p) => {
+      return allCurrentGameweekPlayers.find((s) => p.element === s.player.id);
+    }) ?? []
+  ).filter((x) => x) as GameweekPlayerStat[];
 
   return (
     <HStack p={0.5} overflowX="scroll">

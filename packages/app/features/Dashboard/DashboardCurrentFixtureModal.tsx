@@ -17,7 +17,7 @@ import {
   FixturePlayerStat,
 } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 
-const DashboardLiveFixtureModal = ({
+const DashboardCurrentFixtureModal = ({
   isOpen,
   onClose,
   fixture,
@@ -122,7 +122,7 @@ const DashboardLiveFixtureModal = ({
                 <Text width={{ base: "auto", sm: "100px" }} noOfLines={1}>
                   Name
                 </Text>
-                <Box display={{ base: "block", sm: "none" }}>|</Box>
+                <Box display={{ base: "block", sm: "none" }}>·</Box>
                 <Text noOfLines={1} textAlign="right">
                   Points
                 </Text>
@@ -149,7 +149,7 @@ const DashboardLiveFixtureModal = ({
                 <Text noOfLines={1} textAlign="right">
                   Points
                 </Text>
-                <Box display={{ base: "block", sm: "none" }}>|</Box>
+                <Box display={{ base: "block", sm: "none" }}>·</Box>
                 <Text
                   width={{ base: "auto", sm: "100px" }}
                   noOfLines={1}
@@ -182,4 +182,4 @@ const DashboardLiveFixtureModal = ({
   );
 };
 
-export default DashboardLiveFixtureModal;
+export default DashboardCurrentFixtureModal;

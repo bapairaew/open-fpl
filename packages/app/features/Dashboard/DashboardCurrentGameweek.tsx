@@ -134,7 +134,7 @@ const DashboardCurrentGameweek = ({
           )}
           <Flex justifyContent="space-between">
             <Heading size="md" fontWeight="black">
-              Top Performers
+              Top Players
             </Heading>
             <Button variant="link" onClick={onOpen}>
               See all
