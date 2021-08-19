@@ -12,10 +12,10 @@ const DashboardNextGameweek = ({
 }) => {
   return (
     <>
+      <DeadlineCountdown countDown={countDown} />
       <Heading my={2} size="md" fontWeight="black">
         Next Gameweek
       </Heading>
-      <DeadlineCountdown countDown={countDown} />
       <Grid
         gap={4}
         templateColumns={{

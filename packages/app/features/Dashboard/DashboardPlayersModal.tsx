@@ -9,6 +9,7 @@ import {
   DrawerOverlay,
   Flex,
   Td,
+  Text,
   Th,
   Tr,
 } from "@chakra-ui/react";
@@ -21,19 +22,19 @@ const CellWrapper = (props: BoxProps) => (
   <Flex px={2} alignItems="center" height="30px" {...props} />
 );
 
-const DashboardLivePointsModal = ({
+const DashboardPlayersModal = ({
   isOpen,
   onClose,
-  allCurrentGameweekPlayers,
+  playersToDisplay,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  allCurrentGameweekPlayers: GameweekPlayerStat[];
+  playersToDisplay: GameweekPlayerStat[];
 }) => {
   const row = useMemo(
     () =>
       ({ index, style }: { index: number; style: CSSProperties }) => {
-        const playerStat = allCurrentGameweekPlayers[index];
+        const playerStat = playersToDisplay[index];
         const { width, ...restStyle } = style; // provided width: 100%; broke horizontal scroll with sticky items
         return (
           <Tr key={playerStat.player.id} style={restStyle}>
@@ -61,7 +62,7 @@ const DashboardLivePointsModal = ({
                     />
                   )}
                 </Flex>
-                {playerStat.player.web_name}
+                <Text noOfLines={1}>{playerStat.player.web_name}</Text>
               </CellWrapper>
             </Th>
             <Td p={0}>
@@ -110,7 +111,7 @@ const DashboardLivePointsModal = ({
           </Tr>
         );
       },
-    [allCurrentGameweekPlayers]
+    [playersToDisplay]
   );
   return (
     <Drawer size="lg" isOpen={isOpen} onClose={onClose}>
@@ -132,7 +133,7 @@ const DashboardLivePointsModal = ({
                   height={height}
                   width={width}
                   itemSize={33}
-                  itemCount={allCurrentGameweekPlayers.length}
+                  itemCount={playersToDisplay.length}
                   headerRow={
                     <Tr>
                       <Th p={0} position="sticky" top={0} left={0} zIndex={1}>
@@ -189,4 +190,4 @@ const DashboardLivePointsModal = ({
   );
 };
 
-export default DashboardLivePointsModal;
+export default DashboardPlayersModal;

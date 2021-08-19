@@ -38,20 +38,28 @@ const DashboardPlayerCard = ({
         </HStack>
         <VStack
           key={playerStat.player.id}
-          minWidth="160px"
-          p={4}
+          p={{ base: 2, sm: 4 }}
+          minWidth={{ base: "120px", sm: "160px" }}
           borderWidth={1}
           borderRadius="md"
           alignItems="stretch"
           spacing={2}
         >
-          <Box fontSize="4xl" fontWeight="black">
+          <Box
+            mt={{ base: 4, sm: 0 }}
+            fontSize={{ base: "xl", sm: "4xl" }}
+            fontWeight="black"
+          >
             {playerStat.stats?.total_points}
           </Box>
-          <Text fontSize="lg" fontWeight="bold" noOfLines={1}>
+          <Text
+            fontSize={{ base: "sm", sm: "lg" }}
+            fontWeight="bold"
+            noOfLines={1}
+          >
             {playerStat.player.web_name}
           </Text>
-          <Flex>
+          <Flex fontSize={{ base: "xs", sm: "md" }}>
             <Text
               flexBasis="50%"
               textAlign="center"

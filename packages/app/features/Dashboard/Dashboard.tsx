@@ -117,16 +117,16 @@ const Dashboard = ({
       const finishedCurrentFixtures: DashboardFixture[] = [];
       const unfinishedCurrentFixtures: DashboardFixture[] = [];
       currentGameweekFixtures?.forEach((f) => {
-        liveFixtures.push(f);
-        finishedCurrentFixtures.push(f);
-        unfinishedCurrentFixtures.push(f);
-        // if (f.live) {
-        //   liveFixtures.push(f);
-        // } else if (f.finished_provisional) {
-        //   finishedCurrentFixtures.push(f);
-        // } else {
-        //   unfinishedCurrentFixtures.push(f);
-        // }
+        // liveFixtures.push(f);
+        // finishedCurrentFixtures.push(f);
+        // unfinishedCurrentFixtures.push(f);
+        if (f.live) {
+          liveFixtures.push(f);
+        } else if (f.finished_provisional) {
+          finishedCurrentFixtures.push(f);
+        } else {
+          unfinishedCurrentFixtures.push(f);
+        }
       });
       return [liveFixtures, finishedCurrentFixtures, unfinishedCurrentFixtures];
     }, [currentGameweekFixtures]);
@@ -176,6 +176,14 @@ const Dashboard = ({
     });
     return playerStats;
   }, [liveFixtures, finishedCurrentFixtures]);
+
+  const currentPicksPlayers = useMemo(() => {
+    return (
+      currentPicks?.map((p) => {
+        return allCurrentGameweekPlayers.find((s) => p.element === s.player.id);
+      }) ?? []
+    ).filter((x) => x) as GameweekPlayerStat[];
+  }, [currentPicks, allCurrentGameweekPlayers]);
 
   const existingPoints = entry?.summary_overall_points ?? 0;
   const livePoints = useMemo(() => {
@@ -313,6 +321,7 @@ const Dashboard = ({
               finishedCurrentFixtures={finishedCurrentFixtures}
               unfinishedCurrentFixtures={unfinishedCurrentFixtures}
               allCurrentGameweekPlayers={allCurrentGameweekPlayers}
+              currentPicksPlayers={currentPicksPlayers}
             />
           </TabPanel>
           <TabPanel>
