@@ -11,6 +11,7 @@ import {
   Flex,
   useDisclosure,
   Box,
+  Stack,
 } from "@chakra-ui/react";
 import {
   ApiEntry,
@@ -52,47 +53,56 @@ const DashboardCurrentGameweek = ({
 
   return (
     <Grid gap={8} py={4}>
-      <Grid
-        my={8}
-        gap={4}
-        templateColumns={{
-          base: "repeat(2, 1fr)",
-          sm: "repeat(4, 1fr)",
-          md: "repeat(4, 1fr)",
-          xl: "repeat(6, 1fr)",
-        }}
-      >
-        <Stat textAlign="center">
-          <StatLabel>Total points</StatLabel>
-          <StatNumber fontSize="4xl">{totalPoints.toLocaleString()}</StatNumber>
-          {isLive && (
-            <StatHelpText>
-              <StatArrow type="increase" />
-              {livePoints.toLocaleString()}
-              <Badge colorScheme="red" ml={2}>
-                Live
-              </Badge>
-            </StatHelpText>
-          )}
-        </Stat>
-        <Stat textAlign="center">
-          <StatLabel>Overall rank</StatLabel>
-          <StatNumber fontSize="4xl">
-            {entry?.summary_overall_rank?.toLocaleString() ?? 0}
-          </StatNumber>
-          {isLive && (
-            <StatHelpText>
-              <Badge colorScheme="gray">Not live</Badge>
-            </StatHelpText>
-          )}
-        </Stat>
-        <Box>
+      {entry && (
+        <Grid
+          my={8}
+          gap={4}
+          templateColumns={{
+            base: "repeat(2, 1fr)",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(4, 1fr)",
+            xl: "repeat(6, 1fr)",
+          }}
+        >
+          <Stat textAlign="center">
+            <StatLabel>Total points</StatLabel>
+            <StatNumber fontSize="4xl">
+              {totalPoints.toLocaleString()}
+            </StatNumber>
+            {isLive && (
+              <StatHelpText>
+                <StatArrow type="increase" />
+                {livePoints.toLocaleString()}
+                <Badge colorScheme="red" ml={2}>
+                  Live
+                </Badge>
+              </StatHelpText>
+            )}
+          </Stat>
+          <Stat textAlign="center">
+            <StatLabel>Overall rank</StatLabel>
+            <StatNumber fontSize="4xl">
+              {entry?.summary_overall_rank?.toLocaleString() ?? 0}
+            </StatNumber>
+            {isLive && (
+              <StatHelpText>
+                <Badge colorScheme="gray">Update after games</Badge>
+              </StatHelpText>
+            )}
+          </Stat>
+        </Grid>
+      )}
+      {currentPicks && (
+        <>
+          <Heading size="md" fontWeight="black">
+            Your team
+          </Heading>
           <DashboardTeamsheet
             currentPicks={currentPicks}
             allCurrentGameweekPlayers={allCurrentGameweekPlayers}
           />
-        </Box>
-      </Grid>
+        </>
+      )}
       {liveFixtures.length > 0 && (
         <>
           <Heading size="md" fontWeight="black">

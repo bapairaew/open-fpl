@@ -21,7 +21,7 @@ import DashboardToolbar from "@open-fpl/app/features/Dashboard/DashboardToolbar"
 import {
   DashboardFixture,
   FixturePlayerStat,
-  ServerDashboardFixture,
+  RemoteDashboardFixture,
   GameweekPlayerStat,
 } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import {
@@ -43,18 +43,18 @@ const Dashboard = ({
   teams,
   teamFixtures,
   currentGameweek,
-  currentGameweekFixtures: serverCurrentGameweekFixtures,
+  currentGameweekFixtures: remoteCurrentGameweekFixtures,
   nextGameweek,
-  nextGameweekFixtures: serverNextGameweekFixtures,
+  nextGameweekFixtures: remoteNextGameweekFixtures,
   ...props
 }: BoxProps & {
   players: Player[];
   teams: Team[];
   teamFixtures: TeamFixtures[];
   currentGameweek: Event | null;
-  currentGameweekFixtures: ServerDashboardFixture[] | null;
+  currentGameweekFixtures: RemoteDashboardFixture[] | null;
   nextGameweek: Event;
-  nextGameweekFixtures: ServerDashboardFixture[];
+  nextGameweekFixtures: RemoteDashboardFixture[];
 }) => {
   const { profile, teamsStrength, preference, setPreference } = useSettings();
 
@@ -97,15 +97,15 @@ const Dashboard = ({
 
   const { currentGameweekFixtures, nextGameweekFixtures } = useMemo(() => {
     return dehydrateDashboardFixtures(
-      serverCurrentGameweekFixtures,
-      serverNextGameweekFixtures,
+      remoteCurrentGameweekFixtures,
+      remoteNextGameweekFixtures,
       players,
       adjustedTeams,
       currentPicks
     );
   }, [
-    serverCurrentGameweekFixtures,
-    serverNextGameweekFixtures,
+    remoteCurrentGameweekFixtures,
+    remoteNextGameweekFixtures,
     players,
     adjustedTeams,
     currentPicks,
@@ -134,50 +134,45 @@ const Dashboard = ({
   const allCurrentGameweekPlayers = useMemo(() => {
     const playerStats: GameweekPlayerStat[] = [];
     [...finishedCurrentFixtures, ...liveFixtures].forEach((fixture) => {
-      [...fixture.team_h_players, ...fixture.team_a_players]
-        .filter((p) => p.stats?.minutes ?? 0 > 0)
-        .forEach((playerStat) => {
-          if (playerStat.stats?.minutes ?? 0 > 0) {
-            const matched = playerStats.find(
-              (ps) => ps.player.id === playerStat.player.id
-            );
-            if (matched) {
-              matched.fixtures.push(playerStat);
-              matched.live = matched.live || playerStat.live;
-              if (matched.stats) {
-                matched.stats.bps += playerStat.stats?.bps ?? 0;
-                matched.stats.goals_scored +=
-                  playerStat.stats?.goals_scored ?? 0;
-                matched.stats.assists += playerStat.stats?.assists ?? 0;
-                matched.stats.yellow_cards +=
-                  playerStat.stats?.yellow_cards ?? 0;
-                matched.stats.red_cards += playerStat.stats?.red_cards ?? 0;
-                matched.stats.bonus += playerStat.stats?.bonus ?? 0;
-                matched.stats.total_points +=
-                  playerStat.stats?.total_points ?? 0;
-                matched.stats.minutes += playerStat.stats?.minutes ?? 0;
-              }
-            } else {
-              playerStats.push({
-                player: playerStat.player,
-                picked: playerStat.picked,
-                multiplier: playerStat.multiplier,
-                live: playerStat.live,
-                stats: {
-                  bps: playerStat.stats?.bps ?? 0,
-                  goals_scored: playerStat.stats?.goals_scored ?? 0,
-                  assists: playerStat.stats?.assists ?? 0,
-                  yellow_cards: playerStat.stats?.yellow_cards ?? 0,
-                  red_cards: playerStat.stats?.red_cards ?? 0,
-                  bonus: playerStat.stats?.bonus ?? 0,
-                  total_points: playerStat.stats?.total_points ?? 0,
-                  minutes: playerStat.stats?.minutes ?? 0,
-                },
-                fixtures: [playerStat],
-              });
+      [...fixture.team_h_players, ...fixture.team_a_players].forEach(
+        (playerStat) => {
+          const matched = playerStats.find(
+            (ps) => ps.player.id === playerStat.player.id
+          );
+          if (matched) {
+            matched.fixtures.push(playerStat);
+            matched.live = matched.live || playerStat.live;
+            if (matched.stats) {
+              matched.stats.bps += playerStat.stats?.bps ?? 0;
+              matched.stats.goals_scored += playerStat.stats?.goals_scored ?? 0;
+              matched.stats.assists += playerStat.stats?.assists ?? 0;
+              matched.stats.yellow_cards += playerStat.stats?.yellow_cards ?? 0;
+              matched.stats.red_cards += playerStat.stats?.red_cards ?? 0;
+              matched.stats.bonus += playerStat.stats?.bonus ?? 0;
+              matched.stats.total_points += playerStat.stats?.total_points ?? 0;
+              matched.stats.minutes += playerStat.stats?.minutes ?? 0;
             }
+          } else {
+            playerStats.push({
+              player: playerStat.player,
+              picked: playerStat.picked,
+              multiplier: playerStat.multiplier,
+              live: playerStat.live,
+              stats: {
+                bps: playerStat.stats?.bps ?? 0,
+                goals_scored: playerStat.stats?.goals_scored ?? 0,
+                assists: playerStat.stats?.assists ?? 0,
+                yellow_cards: playerStat.stats?.yellow_cards ?? 0,
+                red_cards: playerStat.stats?.red_cards ?? 0,
+                bonus: playerStat.stats?.bonus ?? 0,
+                total_points: playerStat.stats?.total_points ?? 0,
+                minutes: playerStat.stats?.minutes ?? 0,
+              },
+              fixtures: [playerStat],
+            });
           }
-        });
+        }
+      );
     });
     return playerStats;
   }, [liveFixtures, finishedCurrentFixtures]);

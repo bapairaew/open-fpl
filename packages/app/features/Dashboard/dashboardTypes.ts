@@ -55,7 +55,7 @@ export interface DashboardFixture {
   live: boolean;
 }
 
-export interface ServerDashboardFixture {
+export interface RemoteDashboardFixture {
   event: number;
   finished: boolean;
   finished_provisional: boolean;
@@ -67,10 +67,10 @@ export interface ServerDashboardFixture {
   team_a_score: number | null;
   team_h: number;
   team_h_score: number | null;
-  stats: ServerFixturePlayerStats[] | null;
+  stats: RemoteFixturePlayerStats[] | null;
 }
 
-export interface ServerFixturePlayerStats {
+export interface RemoteFixturePlayerStats {
   id: number;
   stats: {
     bps: number;

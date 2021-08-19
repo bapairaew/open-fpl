@@ -27,7 +27,7 @@ import { useMemo, Fragment } from "react";
 
 type FixtureWithStats = { fixture: FixturePlayerStat; stats: MatchStat };
 
-const DashboardTopPerformerModal = ({
+const DashboardPlayerModal = ({
   isOpen,
   onClose,
   playerStat,
@@ -147,4 +147,4 @@ const DashboardTopPerformerModal = ({
   );
 };
 
-export default DashboardTopPerformerModal;
+export default DashboardPlayerModal;

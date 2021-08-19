@@ -11,6 +11,7 @@ export interface ApiEntry {
 }
 export interface EntryApiResponse extends ApiResponse<ApiEntry> {}
 
+// NOTE: this saves very little space, should just use EntryEventPick?
 export interface ApiEntryEventPick {
   element: number;
   multiplier: number;

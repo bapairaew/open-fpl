@@ -1,16 +1,8 @@
-import { Box, Icon, Stack, Text, Tooltip } from "@chakra-ui/react";
+import { Box, Icon, Stack, Text } from "@chakra-ui/react";
+import BatchIcons from "@open-fpl/app/features/Dashboard/BatchIcons";
 import { FixturePlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
-import { Fragment, ReactNode } from "react";
 import { BiFootball } from "react-icons/bi";
 import { GiRunningShoe } from "react-icons/gi";
-
-const Icons = ({ icon, count }: { icon: ReactNode; count: number }) => {
-  const icons = [];
-  for (let i = 0; i < count; i++) {
-    icons.push(<Fragment key={i}>{icon}</Fragment>);
-  }
-  return <>{icons}</>;
-};
 
 const DashboardFixturePlayerStat = ({
   playerStat,
@@ -32,67 +24,39 @@ const DashboardFixturePlayerStat = ({
       layerStyle={playerStat.picked ? "brand" : undefined}
     >
       {showBPS && (
-        <Tooltip label="BPS">
-          <Text
-            width={{ base: "23px", sm: "25px" }}
-            noOfLines={1}
-            textAlign="right"
-          >
-            {playerStat.stats?.bps ?? 0}
-          </Text>
-        </Tooltip>
-      )}
-      <Tooltip label="Name">
         <Text
+          width={{ base: "23px", sm: "25px" }}
           noOfLines={1}
-          width={{ base: "auto", sm: fixedSizeOnDesktop ? "100px" : "auto" }}
-          textAlign={align}
+          textAlign="right"
         >
-          {playerStat.player.web_name}
+          {playerStat.stats?.bps ?? 0}
         </Text>
-      </Tooltip>
+      )}
+      <Text
+        noOfLines={1}
+        width={{ base: "auto", sm: fixedSizeOnDesktop ? "100px" : "auto" }}
+        textAlign={align}
+      >
+        {playerStat.player.web_name}
+      </Text>
       <Box
         display={{ base: "block", sm: fixedSizeOnDesktop ? "none" : "block" }}
       >
         |
       </Box>
-      <Tooltip label="Points">
-        <Text
-          width={{ base: "auto", sm: fixedSizeOnDesktop ? "25px" : "auto" }}
-          textAlign="right"
-        >
-          {playerStat.stats?.total_points ?? 0}
-        </Text>
-      </Tooltip>
-      <Icons
+      <Text
+        width={{ base: "auto", sm: fixedSizeOnDesktop ? "25px" : "auto" }}
+        textAlign="right"
+      >
+        {playerStat.stats?.total_points ?? 0}
+      </Text>
+      <BatchIcons
         icon={<Icon as={BiFootball} />}
         count={playerStat.stats?.goals_scored ?? 0}
       />
-      <Icons
+      <BatchIcons
         icon={<Icon as={GiRunningShoe} />}
         count={playerStat.stats?.assists ?? 0}
-      />
-      <Icons
-        icon={
-          <Box
-            width="8px"
-            height="8px"
-            borderRadius="50%"
-            layerStyle="yellowSolid"
-          />
-        }
-        count={playerStat.stats?.yellow_cards ?? 0}
-      />
-      <Icons
-        icon={
-          <Box
-            width="8px"
-            height="8px"
-            borderRadius="50%"
-            layerStyle="redSolid"
-          />
-        }
-        count={playerStat.stats?.red_cards ?? 0}
       />
     </Stack>
   );

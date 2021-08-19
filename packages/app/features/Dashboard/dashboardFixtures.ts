@@ -2,8 +2,8 @@ import { ApiEntryEventPick } from "@open-fpl/app/features/Api/apiTypes";
 import {
   DashboardFixture,
   FixturePlayerStat,
-  ServerDashboardFixture,
-  ServerFixturePlayerStats,
+  RemoteDashboardFixture,
+  RemoteFixturePlayerStats,
 } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
@@ -25,8 +25,8 @@ export const getServerPlayersStats = (
   live: Live,
   fixture: Fixture,
   players: Player[]
-): ServerFixturePlayerStats[] => {
-  const all: ServerFixturePlayerStats[] = [];
+): RemoteFixturePlayerStats[] => {
+  const all: RemoteFixturePlayerStats[] = [];
   let bonusAvailable = false;
 
   live.elements.forEach((e) => {
@@ -68,7 +68,7 @@ export const getServerPlayersStats = (
           explain?.stats.find((s) => s.identifier === "minutes")?.value ?? 0,
       };
 
-      const playerStats: ServerFixturePlayerStats = {
+      const playerStats: RemoteFixturePlayerStats = {
         id: player.id,
         stats,
       };
@@ -105,7 +105,7 @@ export const getServerPlayersStats = (
 
 export const getServerDashboardFixture = (
   fixture: Fixture,
-  stats?: ServerFixturePlayerStats[] | null
+  stats?: RemoteFixturePlayerStats[] | null
 ) => {
   return {
     id: fixture.id,
@@ -120,12 +120,12 @@ export const getServerDashboardFixture = (
     team_h: fixture.team_h,
     team_h_score: fixture.team_h_score,
     stats: stats ?? null,
-  } as ServerDashboardFixture;
+  } as RemoteDashboardFixture;
 };
 
 export const dehydrateDashboardFixtures = (
-  serverCurrentGameweekFixtures: ServerDashboardFixture[] | null,
-  serverNextGameweekFixtures: ServerDashboardFixture[],
+  remoteCurrentGameweekFixtures: RemoteDashboardFixture[] | null,
+  remoteNextGameweekFixtures: RemoteDashboardFixture[],
   players: ClientPlayer[],
   teams: Team[],
   currentPicks?: ApiEntryEventPick[] | null
@@ -134,7 +134,7 @@ export const dehydrateDashboardFixtures = (
   nextGameweekFixtures: DashboardFixture[];
 } => {
   const currentGameweekFixtures: DashboardFixture[] = [];
-  serverCurrentGameweekFixtures?.forEach((fixture) => {
+  remoteCurrentGameweekFixtures?.forEach((fixture) => {
     const dashboardFixture = {
       id: fixture.id,
       event: fixture.event,
@@ -194,7 +194,7 @@ export const dehydrateDashboardFixtures = (
   });
 
   const nextGameweekFixtures: DashboardFixture[] = [];
-  serverNextGameweekFixtures.forEach((fixture) => {
+  remoteNextGameweekFixtures.forEach((fixture) => {
     const dashboardFixture = {
       id: fixture.id,
       event: fixture.event,

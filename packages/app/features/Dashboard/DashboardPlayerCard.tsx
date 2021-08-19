@@ -7,11 +7,15 @@ import {
   Text,
   useDisclosure,
   VStack,
+  Icon,
 } from "@chakra-ui/react";
-import DashboardTopPerformerModal from "@open-fpl/app/features/Dashboard/DashboardTopPerformerModal";
+import BatchIcons from "@open-fpl/app/features/Dashboard/BatchIcons";
+import DashboardPlayerModal from "@open-fpl/app/features/Dashboard/DashboardPlayerModal";
 import { GameweekPlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
+import { BiFootball } from "react-icons/bi";
+import { GiRunningShoe } from "react-icons/gi";
 
-const DashboardTopPerformerCard = ({
+const DashboardPlayerCard = ({
   playerStat,
 }: {
   playerStat: GameweekPlayerStat;
@@ -21,7 +25,7 @@ const DashboardTopPerformerCard = ({
   return (
     <>
       {isOpen && (
-        <DashboardTopPerformerModal
+        <DashboardPlayerModal
           isOpen={isOpen}
           onClose={onClose}
           playerStat={playerStat}
@@ -63,28 +67,16 @@ const DashboardTopPerformerCard = ({
               {playerStat.player.element_type.singular_name_short}
             </Text>
           </Flex>
-          <Box fontSize="sm" layerStyle="subtitle">
-            <Flex>
-              <Text>Ownership</Text>
-              <Flex
-                flexGrow={1}
-                justifyContent="flex-end"
-                alignItems="flex-end"
-              >
-                <Text>{playerStat.player.selected_by_percent}%</Text>
-              </Flex>
-            </Flex>
-            <Flex>
-              <Text>Cost</Text>
-              <Flex
-                flexGrow={1}
-                justifyContent="flex-end"
-                alignItems="flex-end"
-              >
-                <Text>£{(playerStat.player.now_cost / 10).toFixed(1)}</Text>
-              </Flex>
-            </Flex>
-          </Box>
+          <HStack height="20px" spacing={1} flexWrap="wrap">
+            <BatchIcons
+              icon={<Icon as={BiFootball} />}
+              count={playerStat.stats?.goals_scored ?? 0}
+            />
+            <BatchIcons
+              icon={<Icon as={GiRunningShoe} />}
+              count={playerStat.stats?.assists ?? 0}
+            />
+          </HStack>
         </VStack>
         <Button
           variant="unstyled"
@@ -104,4 +96,4 @@ const DashboardTopPerformerCard = ({
   );
 };
 
-export default DashboardTopPerformerCard;
+export default DashboardPlayerCard;
