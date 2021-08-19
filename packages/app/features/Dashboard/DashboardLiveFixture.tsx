@@ -1,13 +1,13 @@
 import {
+  Badge,
   Box,
   Button,
   Flex,
-  VStack,
-  Badge,
   useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
+import DashboardCurrentFixtureModal from "@open-fpl/app/features/Dashboard/DashboardCurrentFixtureModal";
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
-import DashboardLiveFixtureModal from "@open-fpl/app/features/Dashboard/DashboardLiveFixtureModal";
 import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 
 const DashboardLiveFixture = ({ fixture }: { fixture: DashboardFixture }) => {
@@ -26,11 +26,12 @@ const DashboardLiveFixture = ({ fixture }: { fixture: DashboardFixture }) => {
   return (
     <>
       {isOpen && (
-        <DashboardLiveFixtureModal
+        <DashboardCurrentFixtureModal
+          live
+          minutes={minutes}
           isOpen={isOpen}
           onClose={onClose}
           fixture={fixture}
-          minutes={minutes}
           homePlayers={homePlayers}
           awayPlayers={awayPlayers}
         />

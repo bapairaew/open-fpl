@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Grid, useDisclosure } from "@chakra-ui/react";
-import DashboardFinishedFixtureModal from "@open-fpl/app/features/Dashboard/DashboardFinishedFixtureModal";
+import DashboardCurrentFixtureModal from "@open-fpl/app/features/Dashboard/DashboardCurrentFixtureModal";
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
 import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 
@@ -10,16 +10,33 @@ const DashboardFinishedFixture = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const homePlayers = fixture.team_h_players.filter((t) => t.picked);
-  const awayPlayers = fixture.team_a_players.filter((t) => t.picked);
+  const homePlayers = fixture.team_h_players?.filter(
+    (p) => p.stats?.minutes ?? 0 > 0
+  );
+  const awayPlayers = fixture.team_a_players?.filter(
+    (p) => p.stats?.minutes ?? 0 > 0
+  );
+
+  const homeXG =
+    fixture.team_h?.stats?.matches
+      .find((m) => m.opponent === fixture.team_a?.id)
+      ?.xg.toFixed(2) ?? null;
+  const awayXG =
+    fixture.team_a?.stats?.matches
+      .find((m) => m.opponent === fixture.team_h?.id)
+      ?.xg.toFixed(2) ?? null;
 
   return (
     <>
       {isOpen && (
-        <DashboardFinishedFixtureModal
+        <DashboardCurrentFixtureModal
           isOpen={isOpen}
           onClose={onClose}
           fixture={fixture}
+          homeXG={homeXG}
+          awayXG={awayXG}
+          homePlayers={homePlayers}
+          awayPlayers={awayPlayers}
         />
       )}
       <Box position="relative">
@@ -39,25 +56,34 @@ const DashboardFinishedFixture = ({
             fontWeight="black"
           >
             <Box textAlign="center">
-              <Box>
+              <Box
+                width="100%"
+                layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
+              >
                 {fixture.team_h?.short_name}
-                <Box
-                  height="5px"
-                  width="100%"
-                  layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
-                />
               </Box>
             </Box>
-            <Box fontSize="2xl" textAlign="center">
-              {fixture.team_h_score} - {fixture.team_a_score}
+            <Box>
+              <Box fontSize="2xl" textAlign="center">
+                {fixture.team_h_score} - {fixture.team_a_score}
+              </Box>
+              <Box
+                fontSize="sm"
+                layerStyle="subtitle"
+                fontWeight="normal"
+                textAlign="center"
+                height="21px"
+              >
+                {homeXG && awayXG ? `${homeXG} - ${awayXG}` : ""}
+              </Box>
             </Box>
             <Box textAlign="center">
-              <Box>{fixture.team_a?.short_name}</Box>
               <Box
-                height="5px"
                 width="100%"
                 layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
-              />
+              >
+                {fixture.team_a?.short_name}
+              </Box>
             </Box>
           </Grid>
           <Flex
@@ -67,7 +93,7 @@ const DashboardFinishedFixture = ({
             overflow="auto"
           >
             <Box width="50%">
-              {homePlayers?.map((e) => (
+              {homePlayers.map((e) => (
                 <DashboardFixturePlayerStat
                   key={e.player.id}
                   playerStat={e}
@@ -76,7 +102,7 @@ const DashboardFinishedFixture = ({
               ))}
             </Box>
             <Box width="50%">
-              {awayPlayers?.map((e) => (
+              {awayPlayers.map((e) => (
                 <DashboardFixturePlayerStat
                   key={e.player.id}
                   playerStat={e}

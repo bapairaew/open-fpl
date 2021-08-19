@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Drawer,
   DrawerBody,
@@ -10,24 +11,30 @@ import {
   HStack,
   Text,
 } from "@chakra-ui/react";
+import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
 import {
   DashboardFixture,
   FixturePlayerStat,
 } from "@open-fpl/app/features/Dashboard/dashboardTypes";
-import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
 
 const DashboardLiveFixtureModal = ({
   isOpen,
   onClose,
   fixture,
+  live = false,
   minutes,
   homePlayers,
   awayPlayers,
+  homeXG,
+  awayXG,
 }: {
   isOpen: boolean;
   onClose: () => void;
   fixture: DashboardFixture;
-  minutes: number;
+  live?: boolean;
+  minutes?: number;
+  homeXG?: string | null;
+  awayXG?: string | null;
   homePlayers: FixturePlayerStat[];
   awayPlayers: FixturePlayerStat[];
 }) => {
@@ -39,38 +46,53 @@ const DashboardLiveFixtureModal = ({
         <DrawerCloseButton />
         <DrawerBody pt={4} px={0}>
           <Flex
-            my={2}
+            my={4}
             flexGrow={1}
             width="100%"
             alignItems="center"
             justifyContent="space-around"
           >
-            <Box fontWeight="black" textAlign="center">
+            <Box textAlign="center">
               <Box
                 py={1}
                 px={2}
+                fontWeight="black"
                 layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
               >
                 {fixture.team_h?.short_name}
               </Box>
-              <Box my={4} fontSize="6xl">
+              <Box my={4} fontWeight="black" fontSize="6xl">
                 {fixture.team_h_score ?? 0}
               </Box>
+              {homeXG && (
+                <Box layerStyle="subtitle" my={4}>
+                  xG: {homeXG}
+                </Box>
+              )}
             </Box>
-            <Box mx={2} layerStyle="subtitle">
-              {minutes}"
+            <Box mx={2} textAlign="center">
+              {live && <Badge colorScheme="red">Live</Badge>}
+              {minutes !== undefined && (
+                <Box layerStyle="subtitle">{minutes}"</Box>
+              )}
             </Box>
-            <Box fontWeight="black" textAlign="center">
+            <Box textAlign="center">
               <Box
                 py={1}
                 px={2}
+                fontWeight="black"
                 layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
               >
                 {fixture.team_a?.short_name}
               </Box>
-              <Box my={4} fontSize="6xl">
+              <Box my={4} fontSize="6xl" fontWeight="black">
                 {fixture.team_a_score ?? 0}
               </Box>
+              {awayXG && (
+                <Box layerStyle="subtitle" my={4}>
+                  xG: {awayXG}
+                </Box>
+              )}
             </Box>
           </Flex>
           <Flex
