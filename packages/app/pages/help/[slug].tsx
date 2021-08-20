@@ -148,7 +148,7 @@ const HelpPage = ({
                 </Tab>
               ))}
             </TabList>
-            <TabPanels flexGrow={1} overflow="auto">
+            <TabPanels flexGrow={1} overflow="auto" py={{ base: 0, sm: 8 }}>
               {tabs.map((tab) => (
                 <TabPanel key={tab.slug} px={0} py={8}>
                   <tab.component />

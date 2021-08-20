@@ -17,9 +17,9 @@ import { IoArrowForwardOutline } from "react-icons/io5";
 
 const features = [
   {
-    title: "Live Dashboard",
+    title: '"Live" Dashboard',
     description:
-      "Follow FPL matches, player performance, Gameweek points, and transfers in real-time (almost).",
+      "Follow FPL matches, player performance, Gameweek points, and transfers in almost real-time.",
     href: "https://app.openfpl.com/",
   },
   {

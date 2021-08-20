@@ -8,7 +8,7 @@ module.exports = withPlausibleProxy()({
     return [
       {
         source: "/help",
-        destination: "/help/players",
+        destination: "/help/dashboard",
         permanent: true,
       },
     ];
