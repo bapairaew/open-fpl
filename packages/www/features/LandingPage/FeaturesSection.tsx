@@ -17,6 +17,12 @@ import { IoArrowForwardOutline } from "react-icons/io5";
 
 const features = [
   {
+    title: "Live Dashboard",
+    description:
+      "Follow FPL matches, player performance, Gameweek points, and transfers in real-time (almost).",
+    href: "https://app.openfpl.com/",
+  },
+  {
     title: "Players Statistics Explorer",
     description:
       "Explore Fantasy Premier League players statistics xG, xGA, (from Understat) and more to make a better decision on your team.",
@@ -62,7 +68,6 @@ const FeaturesSection = (props: BoxProps) => {
           templateColumns={{
             base: "repeat(1, 1fr)",
             md: "repeat(2, 1fr)",
-            lg: "repeat(3, 1fr)",
           }}
           gap={4}
         >
