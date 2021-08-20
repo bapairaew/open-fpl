@@ -207,15 +207,18 @@ const strategies: StorageStrategies = {
     },
     saveSnapshots: function (snapshots: Snapshots) {
       return Promise.all([
-        this.saveRemoteData("snapshot_fpl_data", snapshots.snapshot_fpl_data),
-        this.saveRemoteData(
-          "snapshot_understat_data",
-          snapshots.snapshot_understat_data
-        ),
-        this.saveRemoteData(
-          "snapshot_understat_players_data",
-          snapshots.snapshot_understat_players_data
-        ),
+        snapshots.snapshot_fpl_data &&
+          this.saveRemoteData("snapshot_fpl_data", snapshots.snapshot_fpl_data),
+        snapshots.snapshot_understat_data &&
+          this.saveRemoteData(
+            "snapshot_understat_data",
+            snapshots.snapshot_understat_data
+          ),
+        snapshots.snapshot_understat_players_data &&
+          this.saveRemoteData(
+            "snapshot_understat_players_data",
+            snapshots.snapshot_understat_players_data
+          ),
       ]);
     },
     retrivedRemoteData: async function (type: string, id?: string) {
