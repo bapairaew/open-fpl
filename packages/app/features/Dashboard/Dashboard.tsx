@@ -21,8 +21,8 @@ import DashboardToolbar from "@open-fpl/app/features/Dashboard/DashboardToolbar"
 import {
   DashboardFixture,
   FixturePlayerStat,
-  RemoteDashboardFixture,
   GameweekPlayerStat,
+  RemoteDashboardFixture,
 } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import {
   adjustTeamsStrength,
@@ -37,6 +37,14 @@ import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
+
+const getCountDownText = (deadline: Date) => {
+  return deadline >= new Date()
+    ? formatDistanceToNowStrict(deadline, {
+        roundingMethod: "floor",
+      })
+    : "Now";
+};
 
 const Dashboard = ({
   players: remotePlayers,
@@ -117,9 +125,6 @@ const Dashboard = ({
       const finishedCurrentFixtures: DashboardFixture[] = [];
       const unfinishedCurrentFixtures: DashboardFixture[] = [];
       currentGameweekFixtures?.forEach((f) => {
-        // liveFixtures.push(f);
-        // finishedCurrentFixtures.push(f);
-        // unfinishedCurrentFixtures.push(f);
         if (f.live) {
           liveFixtures.push(f);
         } else if (f.finished_provisional) {
@@ -205,19 +210,11 @@ const Dashboard = ({
   const totalPoints = existingPoints + livePoints;
 
   const deadline = new Date(nextGameweek.deadline_time);
-  const [countDown, setCountDown] = useState<string>(
-    formatDistanceToNowStrict(deadline, {
-      roundingMethod: "floor",
-    })
-  );
+  const [countDown, setCountDown] = useState(getCountDownText(deadline));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCountDown(
-        formatDistanceToNowStrict(deadline, {
-          roundingMethod: "floor",
-        })
-      );
+      setCountDown(getCountDownText(deadline));
     }, 1000);
 
     return () => clearInterval(interval);
@@ -326,8 +323,9 @@ const Dashboard = ({
           </TabPanel>
           <TabPanel>
             <DashboardNextGameweek
-              countDown={countDown}
+              deadline={deadline}
               nextGameweekFixtures={nextGameweekFixtures}
+              allCurrentGameweekPlayers={allCurrentGameweekPlayers}
             />
           </TabPanel>
         </TabPanels>

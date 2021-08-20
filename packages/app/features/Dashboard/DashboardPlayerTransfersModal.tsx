@@ -8,11 +8,13 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
+  StatArrow,
   Td,
   Text,
   Th,
   Tr,
 } from "@chakra-ui/react";
+import numberFormatter from "@open-fpl/app/features/Common/numberFormatter";
 import StickyHeaderTable from "@open-fpl/app/features/Common/Table/StickyHeaderTable";
 import { GameweekPlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import { CSSProperties, useMemo } from "react";
@@ -22,7 +24,7 @@ const CellWrapper = (props: BoxProps) => (
   <Flex px={2} alignItems="center" height="30px" {...props} />
 );
 
-const DashboardPlayersModal = ({
+const DashboardPlayerTransfersModal = ({
   isOpen,
   onClose,
   players,
@@ -36,10 +38,16 @@ const DashboardPlayersModal = ({
       ({ index, style }: { index: number; style: CSSProperties }) => {
         const playerStat = players[index];
         const { width, ...restStyle } = style; // provided width: 100%; broke horizontal scroll with sticky items
+
+        const transfersDelta =
+          (playerStat?.player.transfers_in_event ?? 0) -
+          (playerStat?.player.transfers_out_event ?? 0);
+        const costDelta = playerStat.player.cost_change_event ?? 0 / 10;
+
         return (
           <Tr key={playerStat.player.id} style={restStyle}>
             <Th position="sticky" left={0} p={0}>
-              <CellWrapper width="120px" textTransform="none">
+              <CellWrapper width="140px" textTransform="none">
                 <Flex as="span" flexDirection="column" mr={2}>
                   {playerStat.live && (
                     <Box
@@ -85,27 +93,29 @@ const DashboardPlayersModal = ({
             </Td>
             <Td p={0}>
               <CellWrapper width="80px" justifyContent="flex-end">
-                {playerStat.stats?.total_points}
+                {playerStat.player.selected_by_percent}%
               </CellWrapper>
             </Td>
             <Td p={0}>
               <CellWrapper width="80px" justifyContent="flex-end">
-                {playerStat.stats?.bps}
+                {transfersDelta !== 0 && (
+                  <StatArrow
+                    mr={1}
+                    type={transfersDelta > 0 ? "increase" : "decrease"}
+                  />
+                )}
+                {numberFormatter(Math.abs(transfersDelta), 0)}
               </CellWrapper>
             </Td>
             <Td p={0}>
               <CellWrapper width="80px" justifyContent="flex-end">
-                {playerStat.stats?.goals_scored}
-              </CellWrapper>
-            </Td>
-            <Td p={0}>
-              <CellWrapper width="80px" justifyContent="flex-end">
-                {playerStat.stats?.assists}
-              </CellWrapper>
-            </Td>
-            <Td p={0}>
-              <CellWrapper width="80px" justifyContent="flex-end">
-                {playerStat.stats?.minutes}
+                {costDelta !== 0 && (
+                  <StatArrow
+                    mr={1}
+                    type={transfersDelta > 0 ? "increase" : "decrease"}
+                  />
+                )}
+                £{Math.abs(costDelta).toFixed(1)}
               </CellWrapper>
             </Td>
           </Tr>
@@ -114,7 +124,7 @@ const DashboardPlayersModal = ({
     [players]
   );
   return (
-    <Drawer size="lg" isOpen={isOpen} onClose={onClose}>
+    <Drawer size="md" isOpen={isOpen} onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader />
@@ -137,7 +147,7 @@ const DashboardPlayersModal = ({
                   headerRow={
                     <Tr>
                       <Th p={0} position="sticky" top={0} left={0} zIndex={1}>
-                        <CellWrapper width="120px" justifyContent="center">
+                        <CellWrapper width="140px" justifyContent="center">
                           Name
                         </CellWrapper>
                       </Th>
@@ -153,27 +163,17 @@ const DashboardPlayersModal = ({
                       </Th>
                       <Th position="sticky" top={0} p={0}>
                         <CellWrapper width="80px" justifyContent="center">
-                          Pts.
+                          Own.
                         </CellWrapper>
                       </Th>
                       <Th position="sticky" top={0} p={0}>
                         <CellWrapper width="80px" justifyContent="center">
-                          BPS
+                          Δ xfers
                         </CellWrapper>
                       </Th>
                       <Th position="sticky" top={0} p={0}>
                         <CellWrapper width="80px" justifyContent="center">
-                          Goals
-                        </CellWrapper>
-                      </Th>
-                      <Th position="sticky" top={0} p={0}>
-                        <CellWrapper width="80px" justifyContent="center">
-                          Assists
-                        </CellWrapper>
-                      </Th>
-                      <Th position="sticky" top={0} p={0}>
-                        <CellWrapper width="80px" justifyContent="center">
-                          Mins.
+                          Δ Cost
                         </CellWrapper>
                       </Th>
                     </Tr>
@@ -190,4 +190,4 @@ const DashboardPlayersModal = ({
   );
 };
 
-export default DashboardPlayersModal;
+export default DashboardPlayerTransfersModal;

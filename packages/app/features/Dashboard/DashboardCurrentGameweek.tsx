@@ -4,6 +4,7 @@ import {
   Flex,
   Grid,
   Heading,
+  HStack,
   Stat,
   StatArrow,
   StatHelpText,
@@ -17,15 +18,14 @@ import {
 } from "@open-fpl/app/features/Api/apiTypes";
 import DashboardFinishedFixture from "@open-fpl/app/features/Dashboard/DashboardFinishedFixture";
 import DashboardLiveFixture from "@open-fpl/app/features/Dashboard/DashboardLiveFixture";
+import DashboardPlayerCard from "@open-fpl/app/features/Dashboard/DashboardPlayerCard";
 import DashboardPlayersModal from "@open-fpl/app/features/Dashboard/DashboardPlayersModal";
-import DashboardTeamsheet from "@open-fpl/app/features/Dashboard/DashboardTeamsheet";
-import DashboardTopPlayers from "@open-fpl/app/features/Dashboard/DashboardTopPlayers";
 import {
   DashboardFixture,
   GameweekPlayerStat,
 } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import DashboardUpcomingFixture from "@open-fpl/app/features/Dashboard/DashboardUpcomingFixture";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const DashboardCurrentGameweek = ({
   entry,
@@ -56,6 +56,17 @@ const DashboardCurrentGameweek = ({
     allCurrentGameweekPlayers
   );
 
+  const sortedCurrentGameweekPlayers = useMemo(() => {
+    return allCurrentGameweekPlayers.sort((a, b) => {
+      if ((a.stats?.total_points ?? 0) > (b.stats?.total_points ?? 0))
+        return -1;
+      if ((a.stats?.total_points ?? 0) < (b.stats?.total_points ?? 0)) return 1;
+      if ((a.stats?.bps ?? 0) > (b.stats?.bps ?? 0)) return -1;
+      if ((a.stats?.bps ?? 0) < (b.stats?.bps ?? 0)) return 1;
+      return 0;
+    });
+  }, [allCurrentGameweekPlayers]);
+
   const onOpenWithAllPlayers = () => {
     setPlayersToDisplay(allCurrentGameweekPlayers);
     onOpen();
@@ -71,7 +82,7 @@ const DashboardCurrentGameweek = ({
         <DashboardPlayersModal
           isOpen={isOpen}
           onClose={onClose}
-          playersToDisplay={playersToDisplay}
+          players={playersToDisplay}
         />
       )}
       <Grid gap={8} py={4}>
@@ -124,7 +135,11 @@ const DashboardCurrentGameweek = ({
                 See all
               </Button>
             </Flex>
-            <DashboardTeamsheet currentPicksPlayers={currentPicksPlayers} />
+            <HStack p={0.5} overflowX="scroll">
+              {currentPicksPlayers?.map((s) => (
+                <DashboardPlayerCard key={s.player.id} playerStat={s} />
+              ))}
+            </HStack>
           </>
         )}
         {liveFixtures.length > 0 && (
@@ -157,9 +172,11 @@ const DashboardCurrentGameweek = ({
                 See all
               </Button>
             </Flex>
-            <DashboardTopPlayers
-              allCurrentGameweekPlayers={allCurrentGameweekPlayers}
-            />
+            <HStack p={0.5} overflowX="scroll">
+              {sortedCurrentGameweekPlayers?.slice(0, 10).map((s) => (
+                <DashboardPlayerCard key={s.player.id} playerStat={s} />
+              ))}
+            </HStack>
           </>
         )}
         {finishedCurrentFixtures.length > 0 && (

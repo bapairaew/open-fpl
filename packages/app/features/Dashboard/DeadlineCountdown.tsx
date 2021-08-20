@@ -1,52 +1,38 @@
-import {
-  Box,
-  Button,
-  Stat,
-  StatLabel,
-  StatNumber,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import DeadlineCountdownModal from "@open-fpl/app/features/Dashboard/DeadlineCountdownModal";
+import { Stat, StatLabel, StatNumber } from "@chakra-ui/react";
+import formatDuration from "date-fns/formatDuration";
+import intervalToDuration from "date-fns/intervalToDuration";
+import { useEffect, useState } from "react";
 
-const DeadlineCountdown = ({
-  countDown,
-}: // players,
-{
-  countDown: string;
-  // players: Player[];
-}) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+const getCountDownText = (deadline: Date) => {
+  return deadline >= new Date()
+    ? formatDuration(
+        intervalToDuration({
+          start: deadline,
+          end: new Date(),
+        }),
+        { delimiter: "$$" }
+      )
+        .split("$$")
+        .slice(0, 3)
+        .join(" ") // Only show the first 3 parts of the duration
+    : "Now";
+};
+
+const DeadlineCountdown = ({ deadline }: { deadline: Date }) => {
+  const [countDown, setCountDown] = useState(getCountDownText(deadline));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountDown(getCountDownText(deadline));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <>
-      {/* {isOpen && (
-        <DeadlineCountdownModal
-          isOpen={isOpen}
-          onClose={onClose}
-          players={players}
-        />
-      )} */}
-      <Box position="relative">
-        <Stat borderWidth={1} p={4} borderRadius="md">
-          <StatLabel>Next GW deadline</StatLabel>
-          <StatNumber>{countDown ?? "N/A"}</StatNumber>
-        </Stat>
-        <Button
-          variant="unstyled"
-          aria-label="open match details"
-          position="absolute"
-          width="100%"
-          height="100%"
-          top={0}
-          left={0}
-          right={0}
-          bottom={0}
-          opactiy={0}
-          onClick={onOpen}
-        />
-      </Box>
-    </>
+    <Stat textAlign="center">
+      <StatLabel>Next Gameweek deadline</StatLabel>
+      <StatNumber fontSize="2xl">{countDown.toString() ?? "N/A"}</StatNumber>
+    </Stat>
   );
 };
 
