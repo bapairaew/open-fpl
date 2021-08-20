@@ -123,6 +123,7 @@ const DashboardPlayerTransfersModal = ({
       },
     [players]
   );
+
   return (
     <Drawer size="md" isOpen={isOpen} onClose={onClose}>
       <DrawerOverlay />
@@ -146,32 +147,32 @@ const DashboardPlayerTransfersModal = ({
                   itemCount={players.length}
                   headerRow={
                     <Tr>
-                      <Th p={0} position="sticky" top={0} left={0} zIndex={1}>
+                      <Th p={0} position="sticky" top={0} left={0} zIndex={2}>
                         <CellWrapper width="140px" justifyContent="center">
                           Name
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Team
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Pos.
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Own.
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Δ xfers
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Δ Cost
                         </CellWrapper>

@@ -136,42 +136,42 @@ const DashboardPlayersModal = ({
                   itemCount={players.length}
                   headerRow={
                     <Tr>
-                      <Th p={0} position="sticky" top={0} left={0} zIndex={1}>
+                      <Th p={0} position="sticky" top={0} left={0} zIndex={2}>
                         <CellWrapper width="120px" justifyContent="center">
                           Name
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Team
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Pos.
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Pts.
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           BPS
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Goals
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Assists
                         </CellWrapper>
                       </Th>
-                      <Th position="sticky" top={0} p={0}>
+                      <Th position="sticky" top={0} p={0} zIndex={1}>
                         <CellWrapper width="80px" justifyContent="center">
                           Mins.
                         </CellWrapper>
