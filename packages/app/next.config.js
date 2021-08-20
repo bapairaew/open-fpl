@@ -9,7 +9,6 @@ module.exports = withPlausibleProxy()({
       {
         source: "/help",
         destination: "/help/dashboard",
-        permanent: true,
       },
     ];
   },
