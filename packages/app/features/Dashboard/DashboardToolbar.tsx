@@ -1,7 +1,7 @@
-import { Divider, Heading, HStack } from "@chakra-ui/react";
+import { Divider, Heading, HStack, BoxProps } from "@chakra-ui/react";
 import { AppDrawerOpenButton } from "@open-fpl/app/features/Layout/AppDrawer";
 
-const DashboardToolbar = () => {
+const DashboardToolbar = (props: BoxProps) => {
   return (
     <HStack
       alignItems="center"
@@ -10,6 +10,7 @@ const DashboardToolbar = () => {
       px={1}
       spacing={1}
       borderBottomWidth={1}
+      {...props}
     >
       <HStack spacing={1} height="50px" display={{ base: "flex", sm: "none" }}>
         <AppDrawerOpenButton />

@@ -232,7 +232,7 @@ const Dashboard = ({
 
   return (
     <Flex flexDirection="column" height="100%" {...props}>
-      <DashboardToolbar />
+      <DashboardToolbar display={{ base: "flex", sm: "none" }} />
       <Tabs
         variant="enclosed-colored"
         flexGrow={1}
