@@ -129,6 +129,10 @@ export const makeAppData = ({
       };
     };
 
+    // Our Understat script does not override the player's data from last season if they have not played the current season yet
+    // Hence we override it at this level instead
+    const hasPlayedThisSeason = (pastMatches?.length ?? 0) > 0;
+
     return {
       id: player.id,
       first_name: player.first_name,
@@ -159,20 +163,38 @@ export const makeAppData = ({
           playerUnderstatTeam && pastMatches
             ? pastMatches?.map(mapPastMaches)
             : null,
-        season_time: playerUnderstat && +playerUnderstat.time,
-        season_game: playerUnderstat && +playerUnderstat.games,
-        season_g: playerUnderstat && +playerUnderstat.goals,
-        season_a: playerUnderstat && +playerUnderstat.assists,
-        season_shots: playerUnderstat && +playerUnderstat.shots,
-        season_key_passes: playerUnderstat && +playerUnderstat.key_passes,
-        season_xg: playerUnderstat && +playerUnderstat.xG,
-        season_xa: playerUnderstat && +playerUnderstat.xA,
-        season_xgi:
-          playerUnderstat && +playerUnderstat.xG + +playerUnderstat.xA,
-        season_xga:
-          playerUnderstat &&
-          playerUnderstatTeam &&
-          playerUnderstatTeam.history.reduce((x, m) => +m.xGA + x, 0),
+        season_time: hasPlayedThisSeason
+          ? playerUnderstat && +playerUnderstat.time
+          : 0,
+        season_game: hasPlayedThisSeason
+          ? playerUnderstat && +playerUnderstat.games
+          : 0,
+        season_g: hasPlayedThisSeason
+          ? playerUnderstat && +playerUnderstat.goals
+          : 0,
+        season_a: hasPlayedThisSeason
+          ? playerUnderstat && +playerUnderstat.assists
+          : 0,
+        season_shots: hasPlayedThisSeason
+          ? playerUnderstat && +playerUnderstat.shots
+          : 0,
+        season_key_passes: hasPlayedThisSeason
+          ? playerUnderstat && +playerUnderstat.key_passes
+          : 0,
+        season_xg: hasPlayedThisSeason
+          ? playerUnderstat && +playerUnderstat.xG
+          : 0,
+        season_xa: hasPlayedThisSeason
+          ? playerUnderstat && +playerUnderstat.xA
+          : 0,
+        season_xgi: hasPlayedThisSeason
+          ? playerUnderstat && +playerUnderstat.xG + +playerUnderstat.xA
+          : 0,
+        season_xga: hasPlayedThisSeason
+          ? playerUnderstat &&
+            playerUnderstatTeam &&
+            playerUnderstatTeam.history.reduce((x, m) => +m.xGA + x, 0)
+          : 0,
         previous_gameweeks: player.history
           .filter((h) => !nextGameweekIds.includes(h.round)) // Only show the game the already played
           .slice(-5)
