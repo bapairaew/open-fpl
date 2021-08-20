@@ -57,7 +57,7 @@ const DashboardCurrentGameweek = ({
   );
 
   const sortedCurrentGameweekPlayers = useMemo(() => {
-    return allCurrentGameweekPlayers.sort((a, b) => {
+    return [...allCurrentGameweekPlayers].sort((a, b) => {
       if ((a.stats?.total_points ?? 0) > (b.stats?.total_points ?? 0))
         return -1;
       if ((a.stats?.total_points ?? 0) < (b.stats?.total_points ?? 0)) return 1;

@@ -28,7 +28,7 @@ const DashboardNextGameweek = ({
 }) => {
   const sortedPlayers = useMemo(
     () =>
-      allCurrentGameweekPlayers.sort((a, b) => {
+      [...allCurrentGameweekPlayers].sort((a, b) => {
         const aAbsCost = Math.abs(a.player.cost_change_event ?? 0);
         const bAbsCost = Math.abs(b.player.cost_change_event ?? 0);
         if (aAbsCost > aAbsCost) return -1;
