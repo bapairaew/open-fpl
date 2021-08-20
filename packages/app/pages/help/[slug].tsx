@@ -1,7 +1,5 @@
 import {
-  Divider,
   Flex,
-  HStack,
   Icon,
   Tab,
   TabList,
@@ -9,7 +7,7 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { AppDrawerOpenButton } from "@open-fpl/app/features/Layout/AppDrawer";
+import HelpToolbar from "@open-fpl/app/features/Help/HelpToolbar";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
@@ -23,9 +21,18 @@ import {
   IoPeopleCircleOutline,
   IoSearchOutline,
   IoSwapHorizontalOutline,
+  IoRadioButtonOnOutline,
 } from "react-icons/io5";
 
 const tabs = [
+  {
+    label: "Dashboard",
+    icon: IoRadioButtonOnOutline,
+    slug: "dashboard",
+    component: dynamic(
+      () => import("@open-fpl/app/features/Help/DashboardHelp")
+    ),
+  },
   {
     label: "Player Explorer",
     icon: IoPeopleCircleOutline,
@@ -114,25 +121,22 @@ const HelpPage = ({
         }}
       />
       <AppLayout>
-        <Tabs as="main" height="100%" overflow="auto" index={index}>
-          <HStack height="50px" spacing={0} alignItems="stretch">
-            <Flex justifyContent="center" alignItems="center">
-              <AppDrawerOpenButton />
-            </Flex>
-            <Divider orientation="vertical" />
-            <TabList
-              height="50px"
-              position="sticky"
-              top={0}
-              layerStyle="sticky"
-              zIndex="sticky"
-              overflow="auto"
-            >
-              {tabs.map((tab) => (
+        <Flex flexDirection="column" height="100%" as="main">
+          <HelpToolbar display={{ base: "flex", sm: "none" }} />
+          <Tabs
+            variant="enclosed-colored"
+            flexGrow={1}
+            overflow="hidden"
+            display="flex"
+            flexDirection="column"
+            index={index}
+          >
+            <TabList flexShrink={0} overflowX="auto" overflowY="hidden">
+              {tabs.map((tab, index) => (
                 <Tab
                   key={tab.slug}
-                  height="48px"
-                  fontWeight="bold"
+                  borderLeftWidth={{ base: index === 0 ? 0 : 1, sm: 1 }}
+                  ml={{ base: 0, sm: index === 0 ? 2 : 0 }}
                   width="180px"
                   flexShrink={0}
                   flexGrow={0}
@@ -144,15 +148,15 @@ const HelpPage = ({
                 </Tab>
               ))}
             </TabList>
-          </HStack>
-          <TabPanels>
-            {tabs.map((tab) => (
-              <TabPanel key={tab.slug} px={0} py={8}>
-                <tab.component />
-              </TabPanel>
-            ))}
-          </TabPanels>
-        </Tabs>
+            <TabPanels flexGrow={1} overflow="auto">
+              {tabs.map((tab) => (
+                <TabPanel key={tab.slug} px={0} py={8}>
+                  <tab.component />
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </Tabs>
+        </Flex>
       </AppLayout>
     </>
   );
