@@ -107,6 +107,7 @@ function DashboardPage(initialPageProps: PageProps) {
   const isLocalStorageSupported = useIsLocalStorageSupported();
 
   const isReady = [
+    players,
     teams,
     teamFixtures,
     currentGameweek,
