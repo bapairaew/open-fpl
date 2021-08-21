@@ -3,7 +3,7 @@ import formatDuration from "date-fns/formatDuration";
 import intervalToDuration from "date-fns/intervalToDuration";
 import { useEffect, useState } from "react";
 
-const getCountDownText = (deadline: Date) => {
+const getCountdownText = (deadline: Date) => {
   return deadline >= new Date()
     ? formatDuration(
         intervalToDuration({
@@ -19,11 +19,11 @@ const getCountDownText = (deadline: Date) => {
 };
 
 const DeadlineCountdown = ({ deadline }: { deadline: Date }) => {
-  const [countDown, setCountDown] = useState(getCountDownText(deadline));
+  const [countdown, setCountdown] = useState(getCountdownText(deadline));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCountDown(getCountDownText(deadline));
+      setCountdown(getCountdownText(deadline));
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -31,7 +31,7 @@ const DeadlineCountdown = ({ deadline }: { deadline: Date }) => {
   return (
     <Stat textAlign="center">
       <StatLabel>Next Gameweek deadline</StatLabel>
-      <StatNumber fontSize="2xl">{countDown.toString() ?? "N/A"}</StatNumber>
+      <StatNumber fontSize="2xl">{countdown.toString() ?? "N/A"}</StatNumber>
     </Stat>
   );
 };

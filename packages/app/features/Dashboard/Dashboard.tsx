@@ -40,11 +40,11 @@ import { usePlausible } from "next-plausible";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 
-const getCountDownText = (deadline: Date) => {
+const getCountdownText = (deadline: Date) => {
   return deadline >= new Date()
-    ? formatDistanceToNowStrict(deadline, {
+    ? `In ${formatDistanceToNowStrict(deadline, {
         roundingMethod: "floor",
-      })
+      })}`
     : "Now";
 };
 
@@ -213,11 +213,11 @@ const Dashboard = ({
   const totalPoints = existingPoints + livePoints;
 
   const deadline = new Date(nextGameweek.deadline_time);
-  const [countDown, setCountDown] = useState(getCountDownText(deadline));
+  const [countdown, setCountdown] = useState(getCountdownText(deadline));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCountDown(getCountDownText(deadline));
+      setCountdown(getCountdownText(deadline));
     }, 1000);
 
     return () => clearInterval(interval);
@@ -317,7 +317,7 @@ const Dashboard = ({
               fontWeight="black"
               alignSelf="flex-end"
             >
-              In {countDown}
+              {countdown}
             </Box>
           </Tab>
         </TabList>
