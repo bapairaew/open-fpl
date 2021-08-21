@@ -196,7 +196,7 @@ const Dashboard = ({
   const currentPicksPlayers = useMemo(() => {
     return (
       currentPicks?.map((p) => {
-        return allCurrentGameweekPlayers.find((s) => p.element === s.player.id);
+        return allGameweekPlayers.find((s) => p.element === s.player.id);
       }) ?? []
     ).filter((x) => x) as GameweekPlayerStat[];
   }, [currentPicks, allCurrentGameweekPlayers]);

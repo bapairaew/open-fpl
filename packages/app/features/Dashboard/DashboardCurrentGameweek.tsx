@@ -30,6 +30,14 @@ import DashboardUpcomingFixture from "@open-fpl/app/features/Dashboard/Dashboard
 import { usePlausible } from "next-plausible";
 import { useMemo, useState } from "react";
 
+const sortByPoints = (a: GameweekPlayerStat, b: GameweekPlayerStat) => {
+  if ((a.stats?.total_points ?? 0) > (b.stats?.total_points ?? 0)) return -1;
+  if ((a.stats?.total_points ?? 0) < (b.stats?.total_points ?? 0)) return 1;
+  if ((a.stats?.bps ?? 0) > (b.stats?.bps ?? 0)) return -1;
+  if ((a.stats?.bps ?? 0) < (b.stats?.bps ?? 0)) return 1;
+  return 0;
+};
+
 const DashboardCurrentGameweek = ({
   entry,
   entryError,
@@ -63,18 +71,23 @@ const DashboardCurrentGameweek = ({
   );
 
   const sortedCurrentGameweekPlayers = useMemo(() => {
-    return [...allCurrentGameweekPlayers].sort((a, b) => {
-      if ((a.stats?.total_points ?? 0) > (b.stats?.total_points ?? 0))
-        return -1;
-      if ((a.stats?.total_points ?? 0) < (b.stats?.total_points ?? 0)) return 1;
-      if ((a.stats?.bps ?? 0) > (b.stats?.bps ?? 0)) return -1;
-      if ((a.stats?.bps ?? 0) < (b.stats?.bps ?? 0)) return 1;
-      return 0;
+    return [...allCurrentGameweekPlayers].sort(sortByPoints);
+  }, [allCurrentGameweekPlayers]);
+
+  const sortedCurrentPicksPlayers = useMemo(() => {
+    return [...currentPicksPlayers].sort((a, b) => {
+      if ((!a.picked && !b.picked) || (a.picked && b.picked)) {
+        return sortByPoints(a, b);
+      } else {
+        if (a.picked) return -1;
+        else if (b.picked) return 1;
+        return 0;
+      }
     });
   }, [allCurrentGameweekPlayers]);
 
   const onOpenWithAllPlayers = () => {
-    setPlayersToDisplay(allCurrentGameweekPlayers);
+    setPlayersToDisplay(sortedCurrentGameweekPlayers);
     onOpen();
     plausible("dashboard-current-gw-top-players-see-all-open");
   };
@@ -159,7 +172,7 @@ const DashboardCurrentGameweek = ({
               </Button>
             </Flex>
             <HStack p={0.5} overflowX="scroll">
-              {currentPicksPlayers?.map((s) => (
+              {sortedCurrentPicksPlayers?.map((s) => (
                 <DashboardPlayerCard
                   key={s.player.id}
                   playerStat={s}
