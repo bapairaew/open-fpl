@@ -2,8 +2,8 @@ import { Spinner } from "@chakra-ui/react";
 import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLocalStorage";
 import Dashboard from "@open-fpl/app/features/Dashboard/Dashboard";
 import {
-  getServerDashboardFixture,
-  getServerPlayersStats,
+  getRemoteDashboardFixture,
+  getRemotePlayersStats,
 } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
@@ -53,14 +53,14 @@ export const getStaticProps = async () => {
   ]);
 
   const currentGameweekFixtures = _currentFixtures?.map((fixture) => {
-    return getServerDashboardFixture(
+    return getRemoteDashboardFixture(
       fixture,
-      (liveEvent && getServerPlayersStats(liveEvent, fixture, players)) ?? null
+      (liveEvent && getRemotePlayersStats(liveEvent, fixture, players)) ?? null
     );
   });
 
   const nextGameweekFixtures = _nextFixtures.map((fixture) =>
-    getServerDashboardFixture(fixture)
+    getRemoteDashboardFixture(fixture)
   );
 
   return {

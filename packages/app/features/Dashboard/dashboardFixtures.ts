@@ -21,7 +21,7 @@ const sortPlayerStats = (a: FixturePlayerStat, b: FixturePlayerStat) => {
   return a.picked ? -1 : 1;
 };
 
-export const getServerPlayersStats = (
+export const getRemotePlayersStats = (
   live: Live,
   fixture: Fixture,
   players: Player[]
@@ -118,7 +118,7 @@ export const getServerPlayersStats = (
   return all;
 };
 
-export const getServerDashboardFixture = (
+export const getRemoteDashboardFixture = (
   fixture: Fixture,
   stats?: RemoteFixturePlayerStats[] | null
 ) => {
@@ -135,6 +135,13 @@ export const getServerDashboardFixture = (
     team_h: fixture.team_h,
     team_h_score: fixture.team_h_score,
     stats: stats ?? null,
+    // TODO: There is a gap between when finished_provisional is updated to true and /entry api return updated points
+    //       this makes a live points calculation failed since the match is considered done but still not updated yet.
+    //       This field is an attempt to find a way to identify when finished_provisional: true but /entry data is not
+    //       yet to be updated. However, there is still no solution found.
+    // calculated: fixture.stats.some(
+    //   (s) => s.identifier === "bonus" && (s.a.length > 0 || s.h.length > 0)
+    // ),
   } as RemoteDashboardFixture;
 };
 
@@ -158,6 +165,7 @@ export const dehydrateDashboardFixtures = (
       kickoff_time: fixture.kickoff_time,
       minutes: fixture.minutes,
       started: fixture.started,
+      // calculated: fixture.calculated,
       live: fixture.started && !fixture.finished_provisional,
       team_a: teams.find((t) => t.id === fixture.team_a),
       team_a_score: fixture.team_a_score,

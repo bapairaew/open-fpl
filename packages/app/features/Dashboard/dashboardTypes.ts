@@ -53,6 +53,7 @@ export interface DashboardFixture {
   team_a_players: FixturePlayerStat[];
   team_h_players: FixturePlayerStat[];
   live: boolean;
+  // calculated: boolean;
 }
 
 export interface RemoteDashboardFixture {
@@ -68,6 +69,7 @@ export interface RemoteDashboardFixture {
   team_h: number;
   team_h_score: number | null;
   stats: RemoteFixturePlayerStats[] | null;
+  // calculated: boolean;
 }
 
 export interface RemoteFixturePlayerStats {
