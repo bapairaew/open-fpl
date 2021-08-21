@@ -13,6 +13,7 @@ import {
 import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   EntryApiResponse,
+  EntryHistoryApiResponse,
   EntryEventPickApiResponse,
 } from "@open-fpl/app/features/Api/apiTypes";
 import DashboardCurrentGameweek from "@open-fpl/app/features/Dashboard/DashboardCurrentGameweek";
@@ -73,6 +74,11 @@ const Dashboard = ({
     () => (profile ? `/api/entries/${profile}` : null)
   );
   const entry = entryResponse?.data;
+
+  const { data: entryHistoryResponse } = useSWR<EntryHistoryApiResponse>(() =>
+    profile ? `/api/entries/${profile}/history` : null
+  );
+  const entryHistory = entryHistoryResponse?.data;
 
   const { data: currentPicksResponse } = useSWR<EntryEventPickApiResponse>(() =>
     currentGameweek && profile
@@ -220,6 +226,16 @@ const Dashboard = ({
   }, [liveFixtures]);
   const totalPoints = existingPoints + livePoints;
 
+  const deltaPoints =
+    totalPoints -
+    (entryHistory?.current[entryHistory.current.length - 2].total_points ??
+      totalPoints);
+  const deltaRanks =
+    (entryHistory?.current.length ?? 0) >= 2
+      ? entryHistory!.current[entryHistory!.current.length - 1].overall_rank! -
+        entryHistory!.current[entryHistory!.current.length - 2].overall_rank!
+      : 0;
+
   const deadline = new Date(nextGameweek.deadline_time);
   const [countdown, setCountdown] = useState(getCountdownText(deadline));
 
@@ -292,14 +308,14 @@ const Dashboard = ({
                   )}
                 </Box>
                 <Box as="span" alignSelf="flex-end">
-                  {liveFixtures.length > 0 ? (
+                  {deltaPoints > 0 ? (
                     <Box as="span" fontSize="sm" mr={4}>
-                      <StatArrow type="increase" />
-                      {livePoints}
+                      <StatArrow type="increase" mr={2} />
+                      {deltaPoints.toLocaleString()}
                     </Box>
                   ) : null}
                   <Box as="span" fontSize="xl" fontWeight="black">
-                    {totalPoints}
+                    {totalPoints.toLocaleString()}
                   </Box>
                 </Box>
               </>
@@ -336,7 +352,8 @@ const Dashboard = ({
               entryError={entryError}
               currentPicks={currentPicks}
               totalPoints={totalPoints}
-              livePoints={livePoints}
+              deltaPoints={deltaPoints}
+              deltaRanks={deltaRanks}
               liveFixtures={liveFixtures}
               finishedCurrentFixtures={finishedCurrentFixtures}
               unfinishedCurrentFixtures={unfinishedCurrentFixtures}

@@ -19,3 +19,11 @@ export interface ApiEntryEventPick {
 }
 export interface EntryEventPickApiResponse
   extends ApiResponse<ApiEntryEventPick[]> {}
+
+export interface ApiEntryHistory {
+  current: {
+    overall_rank: number;
+    total_points: number;
+  }[];
+}
+export interface EntryHistoryApiResponse extends ApiResponse<ApiEntryHistory> {}

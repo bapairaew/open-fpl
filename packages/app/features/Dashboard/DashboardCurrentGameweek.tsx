@@ -10,8 +10,8 @@ import {
   StatHelpText,
   StatLabel,
   StatNumber,
-  useDisclosure,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
@@ -43,7 +43,8 @@ const DashboardCurrentGameweek = ({
   entryError,
   currentPicks,
   totalPoints,
-  livePoints,
+  deltaPoints,
+  deltaRanks,
   liveFixtures,
   finishedCurrentFixtures,
   unfinishedCurrentFixtures,
@@ -54,7 +55,8 @@ const DashboardCurrentGameweek = ({
   entryError?: string;
   currentPicks?: ApiEntryEventPick[];
   totalPoints: number;
-  livePoints: number;
+  deltaPoints: number;
+  deltaRanks: number;
   liveFixtures: DashboardFixture[];
   finishedCurrentFixtures: DashboardFixture[];
   unfinishedCurrentFixtures: DashboardFixture[];
@@ -134,25 +136,30 @@ const DashboardCurrentGameweek = ({
               <StatNumber fontSize="4xl">
                 {totalPoints.toLocaleString()}
               </StatNumber>
-              {isLive && (
-                <StatHelpText>
-                  <StatArrow type="increase" />
-                  {livePoints.toLocaleString()}
+              <StatHelpText>
+                {deltaPoints > 0 && (
+                  <>
+                    <StatArrow type="increase" />
+                    {deltaPoints.toLocaleString()}
+                  </>
+                )}
+                {isLive && (
                   <Badge colorScheme="red" ml={2}>
                     Live
                   </Badge>
-                </StatHelpText>
-              )}
+                )}
+              </StatHelpText>
             </Stat>
             <Stat textAlign="center">
               <StatLabel>Overall rank</StatLabel>
               <StatNumber fontSize="4xl">
                 {entry?.summary_overall_rank?.toLocaleString() ?? 0}
               </StatNumber>
-              {isLive && (
-                <StatHelpText>
-                  <Badge colorScheme="gray">Update after games</Badge>
-                </StatHelpText>
+              {deltaRanks !== 0 && (
+                <>
+                  <StatArrow type={deltaRanks > 0 ? "decrease" : "increase"} />
+                  {Math.abs(deltaRanks).toLocaleString()}
+                </>
               )}
             </Stat>
           </Grid>

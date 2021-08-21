@@ -76,17 +76,26 @@ export const getEntryPicks = (
     });
 };
 
-// TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
-export const getEntryTransfers = (id: number): Promise<Transfer[]> => {
-  return fetch(`https://fantasy.premierleague.com/api/entry/${id}/transfers/`, {
+export const getEntryHistory = (id: number): Promise<EntryHistory | string> => {
+  return fetch(`https://fantasy.premierleague.com/api/entry/${id}/history/`, {
     headers,
     method: "GET",
-  }).then((r) => r.json());
+  })
+    .then((response) => response.text())
+    .then((text) => {
+      try {
+        const data = JSON.parse(text);
+        if (data.detail) return data.detail;
+        return data;
+      } catch (err) {
+        return text;
+      }
+    });
 };
 
 // TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
-export const getEntryHistory = (id: number): Promise<EntryHistory> => {
-  return fetch(`https://fantasy.premierleague.com/api/entry/${id}/history/`, {
+export const getEntryTransfers = (id: number): Promise<Transfer[]> => {
+  return fetch(`https://fantasy.premierleague.com/api/entry/${id}/transfers/`, {
     headers,
     method: "GET",
   }).then((r) => r.json());
