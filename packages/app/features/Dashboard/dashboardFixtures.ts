@@ -92,10 +92,13 @@ export const getServerPlayersStats = (
     all.forEach((e) => {
       if (e.stats!.bps === first) {
         e.stats!.bonus = 3;
+        e.stats!.total_points += 3;
       } else if (e.stats!.bps === second) {
         e.stats!.bonus = 2;
+        e.stats!.total_points += 2;
       } else if (e.stats!.bps === third) {
         e.stats!.bonus = 1;
+        e.stats!.total_points += 1;
       }
     });
   }
