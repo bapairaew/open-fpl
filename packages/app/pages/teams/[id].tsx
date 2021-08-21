@@ -78,7 +78,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
       teamFixtures,
       nextGameweekId,
     },
-    revalidate: 5 * 60, // 5 mins
+    revalidate: 60,
   };
 };
 

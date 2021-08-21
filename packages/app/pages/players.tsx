@@ -36,7 +36,7 @@ export const getStaticProps = async () => {
       teams,
       nextGameweekId,
     },
-    revalidate: 5 * 60, // 5 mins
+    revalidate: 60,
   };
 };
 
