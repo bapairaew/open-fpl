@@ -26,44 +26,46 @@ const DashboardHelp = () => (
           is not really real-time but it is quite close though - match results
           and player points are updated every minute while, unfortunately, ranks
           are only updated after matches finished. This is mostly due to some
-          technical limitation which keeps Open FPL free and open to everyone.
-          However, Open FPL will keep improving and maybe one day it will truly
-          be "live" while still free.
+          technical limitations which are needed to keep Open FPL free and open
+          for everyone while also does not put much workload on the data source
+          side. However, Open FPL will keep improving and maybe one day it will
+          truly be "live" while still free.
         </Text>
         <Text as="p">
           Anyway, the objective of this page is to give you a quick overview of
-          the current and future FPL Gameweeks. It packs with the information
-          that you would want to know about the ongoing matches - e.g. score,
-          and player points, automatically updated without refreshing the page.
-          It also shows you the fixtures of next gameweek, deadline and
-          gameweek's top transfers to help you follow the current trend.
+          the current and future FPL Gameweeks. It is packed with the
+          information that you would want to know about in the ongoing matches -
+          e.g. score, and player points, automatically updated without
+          refreshing the page. It also shows you the fixtures of next gameweek,
+          deadline and gameweek's top transfers to help you see the current
+          trend and make a good decision based on it.
         </Text>
 
         <Heading as="h2" size="lg" fontWeight="black">
           This Gameweek tab
         </Heading>
         <Text as="p">
-          Shows the information about the current ongoing with "live" update.
-          Auto refresh every minute but so you can just leave the page open just
-          like any other live score websites.
+          Shows the information about the current ongoing fixtures with "live"
+          update. It is auto-refreshed every minute so you can just leave the
+          page open to get the update just like any other live score websites.
         </Text>
 
         <Heading as="h3" size="md" fontWeight="black">
           Summary section
         </Heading>
         <Text as="p">
-          Shows your current overall points with live updates and overall
-          ranking which is updated after matches have ended.
+          Shows your live current overall points and update-after-match overall
+          ranking.
         </Text>
 
         <Heading as="h3" size="md" fontWeight="black">
           Your Team
         </Heading>
         <Text as="p">
-          Shows live points of your team, <Badge colorScheme="red">Live</Badge>{" "}
-          will be displayed if the player's game is live and{" "}
-          <Badge>Picked</Badge> will be shown if they are in your starting XI.
-          You can also expand a table view by clicking{" "}
+          You can find your players' live points here.{" "}
+          <Badge colorScheme="red">Live</Badge> will be displayed if the
+          player's game is live and <Badge>Picked</Badge> will be shown if they
+          are in your starting XI. You can also expand a table view by clicking{" "}
           <Box as="span" layerStyle="brand" fontWeight="bold">
             See all
           </Box>{" "}
@@ -79,8 +81,8 @@ const DashboardHelp = () => (
           <Box as="span" layerStyle="brand">
             highlighted in color
           </Box>{" "}
-          and will always be on the top of the list. You see all players live
-          BPS by clicking on the card.
+          and will always be on the top of the list. You also see players live
+          BPS by clicking on each the fixture card.
         </Text>
 
         <Heading as="h3" size="md" fontWeight="black">
@@ -93,7 +95,7 @@ const DashboardHelp = () => (
             See all
           </Box>{" "}
           button on the far right. Players in your team will be highlighed with
-          a color dot{" "}
+          a coloured dot{" "}
           <Box
             as="span"
             width="6px"
@@ -122,16 +124,15 @@ const DashboardHelp = () => (
           <A isExternal href="https://understat.com/">
             Understat <Icon as={IoOpenOutline} />
           </A>
-          . You can expand more details of the matches by clicking on the card.
+          . You can expand more details of each match by clicking on the card.
         </Text>
 
         <Heading as="h3" size="md" fontWeight="black">
           Upcoming Fixtures
         </Heading>
         <Text as="p">
-          Shows the remaining matches in the gameweek. The size of the bar below
-          the teams' name visualise difference in teams' strength calculated
-          from{" "}
+          The remaining matches in the gameweek. The size of the bar under the
+          teams' name visualise difference in teams' strength calculated from{" "}
           <Link href="/fixtures" passHref>
             <A>Fixture Difficulty Rating page</A>
           </Link>
@@ -164,7 +165,7 @@ const DashboardHelp = () => (
             See all
           </Box>{" "}
           button on the right to see all players which players on your team will
-          be highlighed with a color dot{" "}
+          be highlighed with a coloured dot{" "}
           <Box
             as="span"
             width="6px"
@@ -184,9 +185,9 @@ const DashboardHelp = () => (
           calculated from{" "}
           <Link href="/fixtures" passHref>
             <A>Fixture Difficulty Rating page</A>
-          </Link>
-          is also visualise here in on the bar under teams name. The card is
-          also clickable to expand more match details.
+          </Link>{" "}
+          is also visualise here on the bar under teams name. The card is also
+          clickable to expand more match details.
         </Text>
       </VStack>
     </Container>
