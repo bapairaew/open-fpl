@@ -10,6 +10,7 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   EntryApiResponse,
   EntryEventPickApiResponse,
@@ -35,6 +36,7 @@ import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
+import { usePlausible } from "next-plausible";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 
@@ -64,6 +66,7 @@ const Dashboard = ({
   nextGameweek: Event;
   nextGameweekFixtures: RemoteDashboardFixture[];
 }) => {
+  const plausible = usePlausible<AnalyticsDashboard>();
   const { profile, teamsStrength, preference, setPreference } = useSettings();
 
   const { data: entryResponse } = useSWR<EntryApiResponse>(() =>
@@ -231,6 +234,8 @@ const Dashboard = ({
         selectedDashboardTab,
       });
     }
+    if (selectedDashboardTab === 0) plausible("dashboard-current-gw-open");
+    if (selectedDashboardTab === 1) plausible("dashboard-next-gw-open");
   };
 
   useEffect(() => {

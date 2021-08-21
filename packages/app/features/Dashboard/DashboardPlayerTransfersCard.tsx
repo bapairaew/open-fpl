@@ -15,8 +15,10 @@ import numberFormatter from "@open-fpl/app/features/Common/numberFormatter";
 
 const DashboardPlayerTransfersCard = ({
   playerStat,
+  onOpened,
 }: {
   playerStat: GameweekPlayerStat;
+  onOpened?: (playerStat: GameweekPlayerStat) => void;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -24,6 +26,11 @@ const DashboardPlayerTransfersCard = ({
     (playerStat?.player.transfers_in_event ?? 0) -
     (playerStat?.player.transfers_out_event ?? 0);
   const costDelta = playerStat.player.cost_change_event ?? 0 / 10;
+
+  const handleOpen = () => {
+    onOpen();
+    onOpened?.(playerStat);
+  };
 
   return (
     <>
@@ -120,7 +127,7 @@ const DashboardPlayerTransfersCard = ({
           right={0}
           bottom={0}
           opactiy={0}
-          onClick={onOpen}
+          onClick={handleOpen}
         />
       </Box>
     </>

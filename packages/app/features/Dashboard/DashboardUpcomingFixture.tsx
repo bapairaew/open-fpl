@@ -4,8 +4,10 @@ import DashboardUpcomingFixtureModal from "@open-fpl/app/features/Dashboard/Dash
 
 const DashboardUpcomingFixture = ({
   fixture,
+  onOpened,
 }: {
   fixture: DashboardFixture;
+  onOpened?: (fixture: DashboardFixture) => void;
 }) => {
   const homeTotalStrength =
     (fixture.team_h?.strength_attack_home ?? 0) +
@@ -25,6 +27,11 @@ const DashboardUpcomingFixture = ({
 
   const kickOffTime = new Date(fixture.kickoff_time).toLocaleString();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleOpen = () => {
+    onOpen();
+    onOpened?.(fixture);
+  };
 
   return (
     <>
@@ -114,7 +121,7 @@ const DashboardUpcomingFixture = ({
           right={0}
           bottom={0}
           opactiy={0}
-          onClick={onOpen}
+          onClick={handleOpen}
         />
       </Box>
     </>

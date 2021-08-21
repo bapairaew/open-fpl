@@ -10,7 +10,13 @@ import DashboardCurrentFixtureModal from "@open-fpl/app/features/Dashboard/Dashb
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
 import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 
-const DashboardLiveFixture = ({ fixture }: { fixture: DashboardFixture }) => {
+const DashboardLiveFixture = ({
+  fixture,
+  onOpened,
+}: {
+  fixture: DashboardFixture;
+  onOpened?: (fixture: DashboardFixture) => void;
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const minutes = Math.max(
     ...fixture.team_h_players.map((player) => player.stats?.minutes ?? 0)
@@ -22,6 +28,11 @@ const DashboardLiveFixture = ({ fixture }: { fixture: DashboardFixture }) => {
     (p) => p.stats?.minutes ?? 0 > 0
   );
   const isPicked = [...homePlayers, ...awayPlayers].some((p) => p.picked);
+
+  const handleOpen = () => {
+    onOpen();
+    onOpened?.(fixture);
+  };
 
   return (
     <>
@@ -118,7 +129,7 @@ const DashboardLiveFixture = ({ fixture }: { fixture: DashboardFixture }) => {
           right={0}
           bottom={0}
           opactiy={0}
-          onClick={onOpen}
+          onClick={handleOpen}
         />
       </Box>
     </>

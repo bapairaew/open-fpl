@@ -12,6 +12,7 @@ import {
   StatNumber,
   useDisclosure,
 } from "@chakra-ui/react";
+import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   ApiEntry,
   ApiEntryEventPick,
@@ -25,6 +26,7 @@ import {
   GameweekPlayerStat,
 } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import DashboardUpcomingFixture from "@open-fpl/app/features/Dashboard/DashboardUpcomingFixture";
+import { usePlausible } from "next-plausible";
 import { useMemo, useState } from "react";
 
 const DashboardCurrentGameweek = ({
@@ -48,6 +50,7 @@ const DashboardCurrentGameweek = ({
   allCurrentGameweekPlayers: GameweekPlayerStat[];
   currentPicksPlayers: GameweekPlayerStat[];
 }) => {
+  const plausible = usePlausible<AnalyticsDashboard>();
   const isLive = liveFixtures.length > 0;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -70,11 +73,24 @@ const DashboardCurrentGameweek = ({
   const onOpenWithAllPlayers = () => {
     setPlayersToDisplay(allCurrentGameweekPlayers);
     onOpen();
+    plausible("dashboard-current-gw-top-players-see-all-open");
   };
   const onOpenWithPickedPlayers = () => {
     setPlayersToDisplay(currentPicksPlayers);
     onOpen();
+    plausible("dashboard-current-gw-your-team-see-all-open");
   };
+
+  const handleYourTeamPlayerOpened = () =>
+    plausible("dashboard-current-gw-your-team-player-open");
+  const handleLiveFixtureOpened = () =>
+    plausible("dashboard-current-gw-live-fixture-open");
+  const handleTopPlayerOpened = () =>
+    plausible("dashboard-current-gw-top-players-player-open");
+  const handleFinishedFixtureOpened = () =>
+    plausible("dashboard-current-gw-finished-fixture-open");
+  const handleUpcomingFixtureOpened = () =>
+    plausible("dashboard-current-gw-upcoming-fixture-open");
 
   return (
     <>
@@ -137,7 +153,11 @@ const DashboardCurrentGameweek = ({
             </Flex>
             <HStack p={0.5} overflowX="scroll">
               {currentPicksPlayers?.map((s) => (
-                <DashboardPlayerCard key={s.player.id} playerStat={s} />
+                <DashboardPlayerCard
+                  key={s.player.id}
+                  playerStat={s}
+                  onOpened={handleYourTeamPlayerOpened}
+                />
               ))}
             </HStack>
           </>
@@ -157,7 +177,11 @@ const DashboardCurrentGameweek = ({
               }}
             >
               {liveFixtures.map((fixture) => (
-                <DashboardLiveFixture key={fixture.id} fixture={fixture} />
+                <DashboardLiveFixture
+                  key={fixture.id}
+                  fixture={fixture}
+                  onOpened={handleLiveFixtureOpened}
+                />
               ))}
             </Grid>
           </>
@@ -174,7 +198,11 @@ const DashboardCurrentGameweek = ({
             </Flex>
             <HStack p={0.5} overflowX="scroll">
               {sortedCurrentGameweekPlayers?.slice(0, 10).map((s) => (
-                <DashboardPlayerCard key={s.player.id} playerStat={s} />
+                <DashboardPlayerCard
+                  key={s.player.id}
+                  playerStat={s}
+                  onOpened={handleTopPlayerOpened}
+                />
               ))}
             </HStack>
           </>
@@ -194,7 +222,11 @@ const DashboardCurrentGameweek = ({
               }}
             >
               {finishedCurrentFixtures.map((fixture) => (
-                <DashboardFinishedFixture key={fixture.id} fixture={fixture} />
+                <DashboardFinishedFixture
+                  key={fixture.id}
+                  fixture={fixture}
+                  onOpened={handleFinishedFixtureOpened}
+                />
               ))}
             </Grid>
           </>
@@ -214,7 +246,11 @@ const DashboardCurrentGameweek = ({
               }}
             >
               {unfinishedCurrentFixtures.map((fixture) => (
-                <DashboardUpcomingFixture key={fixture.id} fixture={fixture} />
+                <DashboardUpcomingFixture
+                  key={fixture.id}
+                  fixture={fixture}
+                  onOpened={handleUpcomingFixtureOpened}
+                />
               ))}
             </Grid>
           </>

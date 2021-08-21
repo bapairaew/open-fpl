@@ -16,6 +16,8 @@ import {
 import DashboardUpcomingFixture from "@open-fpl/app/features/Dashboard/DashboardUpcomingFixture";
 import DeadlineCountdown from "@open-fpl/app/features/Dashboard/DeadlineCountdown";
 import { useMemo } from "react";
+import { usePlausible } from "next-plausible";
+import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
 
 const DashboardNextGameweek = ({
   deadline,
@@ -26,6 +28,7 @@ const DashboardNextGameweek = ({
   nextGameweekFixtures: DashboardFixture[];
   allCurrentGameweekPlayers: GameweekPlayerStat[];
 }) => {
+  const plausible = usePlausible<AnalyticsDashboard>();
   const sortedPlayers = useMemo(
     () =>
       [...allCurrentGameweekPlayers].sort((a, b) => {
@@ -54,6 +57,16 @@ const DashboardNextGameweek = ({
 
   const { onOpen, isOpen, onClose } = useDisclosure();
 
+  const handleSeeAllTopTransfersOpen = () => {
+    onOpen();
+    plausible("dashboard-next-gw-top-transfers-see-all-open");
+  };
+
+  const handleTopTransfersPlayerOpened = () =>
+    plausible("dashboard-next-gw-top-transfers-player-open");
+  const handleUpcomingFixtureOpened = () =>
+    plausible("dashboard-next-gw-upcoming-fixture-open");
+
   return (
     <>
       {isOpen && (
@@ -71,13 +84,17 @@ const DashboardNextGameweek = ({
           <Heading size="md" fontWeight="black">
             Top Transfers
           </Heading>
-          <Button variant="link" onClick={onOpen}>
+          <Button variant="link" onClick={handleSeeAllTopTransfersOpen}>
             See all
           </Button>
         </Flex>
         <HStack p={0.5} overflowX="scroll">
           {sortedPlayers?.slice(0, 10).map((s) => (
-            <DashboardPlayerTransfersCard key={s.player.id} playerStat={s} />
+            <DashboardPlayerTransfersCard
+              key={s.player.id}
+              playerStat={s}
+              onOpened={handleTopTransfersPlayerOpened}
+            />
           ))}
         </HStack>
         <Heading my={2} size="md" fontWeight="black">
@@ -93,7 +110,11 @@ const DashboardNextGameweek = ({
           }}
         >
           {nextGameweekFixtures.map((fixture) => (
-            <DashboardUpcomingFixture key={fixture.id} fixture={fixture} />
+            <DashboardUpcomingFixture
+              key={fixture.id}
+              fixture={fixture}
+              onOpened={handleUpcomingFixtureOpened}
+            />
           ))}
         </Grid>
       </Grid>

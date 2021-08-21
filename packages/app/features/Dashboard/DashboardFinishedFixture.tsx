@@ -5,8 +5,10 @@ import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardType
 
 const DashboardFinishedFixture = ({
   fixture,
+  onOpened,
 }: {
   fixture: DashboardFixture;
+  onOpened: (fixture: DashboardFixture) => void;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -25,6 +27,11 @@ const DashboardFinishedFixture = ({
     fixture.team_a?.stats?.matches
       .find((m) => m.opponent === fixture.team_h?.id)
       ?.xg.toFixed(2) ?? null;
+
+  const handleOpen = () => {
+    onOpen();
+    onOpened?.(fixture);
+  };
 
   return (
     <>
@@ -123,7 +130,7 @@ const DashboardFinishedFixture = ({
           right={0}
           bottom={0}
           opactiy={0}
-          onClick={onOpen}
+          onClick={handleOpen}
         />
       </Box>
     </>

@@ -17,10 +17,16 @@ import { GiRunningShoe } from "react-icons/gi";
 
 const DashboardPlayerCard = ({
   playerStat,
+  onOpened,
 }: {
   playerStat: GameweekPlayerStat;
+  onOpened?: (playerStat: GameweekPlayerStat) => void;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleOpen = () => {
+    onOpen();
+    onOpened?.(playerStat);
+  };
 
   return (
     <>
@@ -97,7 +103,7 @@ const DashboardPlayerCard = ({
           right={0}
           bottom={0}
           opactiy={0}
-          onClick={onOpen}
+          onClick={handleOpen}
         />
       </Box>
     </>

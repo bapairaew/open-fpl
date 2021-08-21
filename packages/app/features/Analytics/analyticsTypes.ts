@@ -71,3 +71,18 @@ export type AnalyticsMigration = {
   "migration-done": never;
   "migration-fail": never;
 };
+
+export type AnalyticsDashboard = {
+  "dashboard-current-gw-open": never;
+  "dashboard-current-gw-your-team-see-all-open": never;
+  "dashboard-current-gw-your-team-player-open": never;
+  "dashboard-current-gw-live-fixture-open": never;
+  "dashboard-current-gw-top-players-see-all-open": never;
+  "dashboard-current-gw-top-players-player-open": never;
+  "dashboard-current-gw-finished-fixture-open": never;
+  "dashboard-current-gw-upcoming-fixture-open": never;
+  "dashboard-next-gw-open": never;
+  "dashboard-next-gw-top-transfers-see-all-open": never;
+  "dashboard-next-gw-top-transfers-player-open": never;
+  "dashboard-next-gw-upcoming-fixture-open": never;
+};
