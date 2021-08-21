@@ -74,8 +74,6 @@ const Dashboard = ({
   );
   const entry = entryResponse?.data;
 
-  console.log(entryResponse, entryError);
-
   const { data: currentPicksResponse } = useSWR<EntryEventPickApiResponse>(() =>
     currentGameweek && profile
       ? `/api/entries/${profile}/picks/${currentGameweek.id}`
