@@ -20,7 +20,13 @@ export default function App({ Component, pageProps }: AppProps) {
         value={{
           cache,
           fetcher: (resource, init) =>
-            fetch(resource, init).then((res) => res.json()),
+            fetch(resource, init).then((res) => {
+              if (res.ok) {
+                return res.json();
+              } else {
+                return res.text().then(Promise.reject.bind(Promise));
+              }
+            }),
         }}
       >
         <ChakraProvider theme={theme}>

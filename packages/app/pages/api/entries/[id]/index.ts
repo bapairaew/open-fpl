@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { getEntry } from "@open-fpl/app/features/Api/entry";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,7 +9,13 @@ export default async function handler(
     if (req.method === "GET") {
       const id =
         typeof req.query.id === "string" ? req.query.id : req.query.id[0];
-      res.status(200).json({ data: await getEntry(+id) });
+
+      const response = await getEntry(+id);
+      if (typeof response === "string") {
+        res.status(500).json(response);
+      } else {
+        res.status(200).json({ data: response });
+      }
     } else {
       res.status(405).json({ error: "Not allowed" });
     }

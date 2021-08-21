@@ -3,6 +3,8 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
+export type ApiError = string;
+
 export interface ApiEntry {
   name: string;
   summary_overall_points: number;

@@ -69,10 +69,12 @@ const Dashboard = ({
   const plausible = usePlausible<AnalyticsDashboard>();
   const { profile, teamsStrength, preference, setPreference } = useSettings();
 
-  const { data: entryResponse } = useSWR<EntryApiResponse>(() =>
-    profile ? `/api/entries/${profile}` : null
+  const { data: entryResponse, error: entryError } = useSWR<EntryApiResponse>(
+    () => (profile ? `/api/entries/${profile}` : null)
   );
   const entry = entryResponse?.data;
+
+  console.log(entryResponse, entryError);
 
   const { data: currentPicksResponse } = useSWR<EntryEventPickApiResponse>(() =>
     currentGameweek && profile
@@ -325,6 +327,7 @@ const Dashboard = ({
           <TabPanel>
             <DashboardCurrentGameweek
               entry={entry}
+              entryError={entryError}
               currentPicks={currentPicks}
               totalPoints={totalPoints}
               livePoints={livePoints}

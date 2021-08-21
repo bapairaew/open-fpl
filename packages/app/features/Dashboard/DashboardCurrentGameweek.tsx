@@ -11,10 +11,12 @@ import {
   StatLabel,
   StatNumber,
   useDisclosure,
+  Text,
 } from "@chakra-ui/react";
 import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   ApiEntry,
+  ApiError,
   ApiEntryEventPick,
 } from "@open-fpl/app/features/Api/apiTypes";
 import DashboardFinishedFixture from "@open-fpl/app/features/Dashboard/DashboardFinishedFixture";
@@ -31,6 +33,7 @@ import { useMemo, useState } from "react";
 
 const DashboardCurrentGameweek = ({
   entry,
+  entryError,
   currentPicks,
   totalPoints,
   livePoints,
@@ -41,6 +44,7 @@ const DashboardCurrentGameweek = ({
   currentPicksPlayers,
 }: {
   entry?: ApiEntry;
+  entryError?: ApiError;
   currentPicks?: ApiEntryEventPick[];
   totalPoints: number;
   livePoints: number;
@@ -102,7 +106,7 @@ const DashboardCurrentGameweek = ({
         />
       )}
       <Grid gap={8} py={4}>
-        {entry && (
+        {entry ? (
           <Grid
             my={8}
             gap={4}
@@ -140,7 +144,11 @@ const DashboardCurrentGameweek = ({
               )}
             </Stat>
           </Grid>
-        )}
+        ) : entryError ? (
+          <Text my={8} fontSize="2xl" textAlign="center">
+            {entryError}
+          </Text>
+        ) : null}
         {currentPicks && (
           <>
             <Flex justifyContent="space-between">
