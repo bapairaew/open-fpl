@@ -220,8 +220,11 @@ const Dashboard = ({
     return () => clearInterval(interval);
   }, []);
 
-  const tabIndex = preference?.selectedDashboardTab ?? 0;
+  const [tabIndex, setTabIndex] = useState(
+    preference?.selectedDashboardTab ?? 0
+  ); // To make changing tab work even without user profile
   const handleTabsChange = (selectedDashboardTab: number) => {
+    setTabIndex(selectedDashboardTab);
     if (preference) {
       setPreference({
         ...preference,
@@ -229,6 +232,12 @@ const Dashboard = ({
       });
     }
   };
+
+  useEffect(() => {
+    if (preference?.selectedDashboardTab !== undefined) {
+      setTabIndex(preference?.selectedDashboardTab);
+    }
+  }, [preference?.selectedDashboardTab]);
 
   return (
     <Flex flexDirection="column" height="100%" {...props}>
