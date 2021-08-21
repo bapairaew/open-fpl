@@ -1,4 +1,5 @@
-import { BoxProps, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, useDisclosure, useToast } from "@chakra-ui/react";
+import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   adjustTeamsStrength,
   makeFullFixtures,
@@ -15,7 +16,6 @@ import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
-import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 
 const ComparePlayersModal = dynamic(
   () => import("@open-fpl/app/features/PlayersExplorer/ComparePlayersModal")
@@ -41,12 +41,15 @@ const PlayersExplorer = ({
   nextGameweekId: number;
 }) => {
   const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
+  const toast = useToast();
   const {
+    profile,
     playersExplorerDisplayOption,
     setPlayersExplorerDisplayOption,
     preference,
     setPreference,
     teamsStrength,
+    onSettingsModalOpen,
   } = useSettings();
 
   const fullFixtures = useMemo(
@@ -99,21 +102,43 @@ const PlayersExplorer = ({
     e: MouseEvent<HTMLButtonElement>,
     player: ClientPlayer
   ) => {
-    if (preference) {
-      if (preference?.starredPlayers?.some((p) => p === player.id)) {
-        setPreference({
-          ...preference,
-          starredPlayers:
-            preference.starredPlayers?.filter((p) => p !== player.id) ?? [],
-        });
-        plausible("players-starred-players-remove");
-      } else {
-        setPreference({
-          ...preference,
-          starredPlayers: [...(preference?.starredPlayers ?? []), player.id],
-        });
-        plausible("players-starred-players-add");
+    if (profile) {
+      if (preference) {
+        if (preference?.starredPlayers?.some((p) => p === player.id)) {
+          setPreference({
+            ...preference,
+            starredPlayers:
+              preference.starredPlayers?.filter((p) => p !== player.id) ?? [],
+          });
+          plausible("players-starred-players-remove");
+        } else {
+          setPreference({
+            ...preference,
+            starredPlayers: [...(preference?.starredPlayers ?? []), player.id],
+          });
+          plausible("players-starred-players-add");
+        }
       }
+    } else {
+      toast({
+        title: "Please set up a profile to star a player.",
+        description: (
+          <>
+            You need to{" "}
+            <Box
+              as="span"
+              role="button"
+              textDecoration="underline"
+              onClick={onSettingsModalOpen}
+            >
+              set up
+            </Box>{" "}
+            a profile to star a player.
+          </>
+        ),
+        status: "info",
+        isClosable: true,
+      });
     }
   };
 
