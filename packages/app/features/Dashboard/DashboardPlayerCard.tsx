@@ -45,7 +45,7 @@ const DashboardPlayerCard = ({
         <VStack
           key={playerStat.player.id}
           p={{ base: 2, sm: 4 }}
-          minWidth={{ base: "120px", sm: "160px" }}
+          width={{ base: "120px", sm: "160px" }}
           borderWidth={1}
           borderRadius="md"
           alignItems="stretch"
