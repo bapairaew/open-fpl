@@ -15,7 +15,7 @@ export default async function handler(
           : req.query.event[0];
       const response = await getEntryPicks(+id, +event);
       if (typeof response === "string") {
-        res.status(500).json(response);
+        res.status(500).json({ error: response });
       } else {
         res.status(200).json({ data: response });
       }

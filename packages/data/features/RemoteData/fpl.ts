@@ -45,6 +45,7 @@ export const getEntry = (id: number): Promise<Entry | string> => {
     .then((text) => {
       try {
         const data = JSON.parse(text);
+        if (data.detail) return data.detail;
         return data;
       } catch (err) {
         return text;
@@ -67,6 +68,7 @@ export const getEntryPicks = (
     .then((text) => {
       try {
         const data = JSON.parse(text);
+        if (data.detail) return data.detail;
         return data;
       } catch (err) {
         return text;

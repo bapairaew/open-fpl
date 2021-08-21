@@ -16,7 +16,7 @@ import {
   getEntryPicks,
   getEntryTransfers,
 } from "@open-fpl/data/features/RemoteData/fpl";
-import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { EntryEvent, Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
@@ -63,7 +63,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
   // TODO: optimise response size
   const [{ picks = null, entry_history = null }, transfers, { chips = null }] =
     await Promise.all([
-      getEntryPicks(+params!.id!, picksGameweekId),
+      getEntryPicks(+params!.id!, picksGameweekId) as Promise<EntryEvent>,
       getEntryTransfers(+params!.id!),
       getEntryHistory(+params!.id!),
     ]);

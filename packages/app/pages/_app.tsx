@@ -24,7 +24,9 @@ export default function App({ Component, pageProps }: AppProps) {
               if (res.ok) {
                 return res.json();
               } else {
-                return res.text().then(Promise.reject.bind(Promise));
+                return res
+                  .json()
+                  .then((json) => Promise.reject.bind(Promise)(json.error));
               }
             }),
         }}

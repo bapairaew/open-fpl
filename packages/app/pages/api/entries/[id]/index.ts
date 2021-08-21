@@ -9,10 +9,9 @@ export default async function handler(
     if (req.method === "GET") {
       const id =
         typeof req.query.id === "string" ? req.query.id : req.query.id[0];
-
       const response = await getEntry(+id);
       if (typeof response === "string") {
-        res.status(500).json(response);
+        res.status(500).json({ error: response });
       } else {
         res.status(200).json({ data: response });
       }

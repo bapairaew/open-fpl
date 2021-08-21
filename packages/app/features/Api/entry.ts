@@ -1,14 +1,13 @@
 import {
   ApiEntry,
   ApiEntryEventPick,
-  ApiError,
 } from "@open-fpl/app/features/Api/apiTypes";
 import {
   getEntry as _getEntry,
   getEntryPicks as _getEntryPicks,
 } from "@open-fpl/data/features/RemoteData/fpl";
 
-export const getEntry = async (id: number): Promise<ApiEntry | ApiError> => {
+export const getEntry = async (id: number): Promise<ApiEntry | string> => {
   const response = await _getEntry(id);
   if (typeof response === "string") {
     return response;
@@ -31,7 +30,7 @@ export const getEntry = async (id: number): Promise<ApiEntry | ApiError> => {
 export const getEntryPicks = async (
   id: number,
   event: number
-): Promise<ApiEntryEventPick[] | ApiError> => {
+): Promise<ApiEntryEventPick[] | string> => {
   const response = await _getEntryPicks(+id, +event);
   if (typeof response === "string") {
     return response;

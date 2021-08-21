@@ -16,7 +16,6 @@ import {
 import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   ApiEntry,
-  ApiError,
   ApiEntryEventPick,
 } from "@open-fpl/app/features/Api/apiTypes";
 import DashboardFinishedFixture from "@open-fpl/app/features/Dashboard/DashboardFinishedFixture";
@@ -44,7 +43,7 @@ const DashboardCurrentGameweek = ({
   currentPicksPlayers,
 }: {
   entry?: ApiEntry;
-  entryError?: ApiError;
+  entryError?: string;
   currentPicks?: ApiEntryEventPick[];
   totalPoints: number;
   livePoints: number;

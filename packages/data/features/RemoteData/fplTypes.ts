@@ -688,3 +688,7 @@ export interface Transfer {
   event: number;
   time: string;
 }
+
+export interface ErrorResponse {
+  detail: string;
+}
