@@ -3,30 +3,37 @@ import Fixtures from "@open-fpl/app/features/Fixtures/Fixtures";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
+import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 
 export const getStaticProps = async () => {
-  const [teamFixtures, fplTeams] = await Promise.all([
+  const [teamFixtures, teams, fplGameweeks] = await Promise.all([
     fetch(getDataUrl("/app-data/fixtures.json")).then((r) =>
       r.json()
     ) as Promise<TeamFixtures[]>,
     fetch(getDataUrl("/remote-data/fpl_teams/data.json")).then((r) =>
       r.json()
     ) as Promise<Team[]>,
+    fetch(getDataUrl("/remote-data/fpl_gameweeks/data.json")).then((r) =>
+      r.json()
+    ) as Promise<Event[]>,
   ]);
 
+  const nextGameweekId: number = fplGameweeks.find((g) => g.is_next)?.id ?? 38; // Show gameweek 38 at the end of the season
+
   return {
-    props: { teamFixtures, fplTeams },
-    revalidate: 5 * 60, // 5 mins
+    props: { teamFixtures, teams, nextGameweekId },
+    revalidate: 60,
   };
 };
 
 function FixturesPage({
   teamFixtures,
-  fplTeams,
+  teams,
+  nextGameweekId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
@@ -58,7 +65,12 @@ function FixturesPage({
         }}
       />
       <AppLayout>
-        <Fixtures teamFixtures={teamFixtures} fplTeams={fplTeams} />
+        <Fixtures
+          as="main"
+          teamFixtures={teamFixtures}
+          teams={teams}
+          nextGameweekId={nextGameweekId}
+        />
       </AppLayout>
     </>
   );

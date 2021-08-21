@@ -29,6 +29,9 @@ export function makePlaceholderPlayerFromId(id: number): ClientPlayer {
     cost_change_start: 0,
     total_points: 0,
     selected_by_percent: "0",
+    transfers_in_event: 0,
+    transfers_out_event: 0,
+    cost_change_event: 0,
     element_type: {
       singular_name_short: elementType,
     },
@@ -43,6 +46,7 @@ export function makePlaceholderPlayerFromId(id: number): ClientPlayer {
       season_game: null,
       season_g: null,
       season_a: null,
+      season_ga: null,
       season_key_passes: null,
       season_shots: null,
       season_xg: null,

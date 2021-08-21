@@ -23,6 +23,9 @@ export const hydrateCustomPlayer = (
     cost_change_start: 0,
     total_points: 0,
     selected_by_percent: "0",
+    cost_change_event: 0,
+    transfers_out_event: 0,
+    transfers_in_event: 0,
     element_type: {
       singular_name_short: player.element_type.singular_name_short,
     },
@@ -39,6 +42,7 @@ export const hydrateCustomPlayer = (
       season_a: null,
       season_key_passes: null,
       season_shots: null,
+      season_ga: null,
       season_xg: null,
       season_xa: null,
       season_xgi: null,

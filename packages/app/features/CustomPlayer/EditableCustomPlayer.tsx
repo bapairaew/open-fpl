@@ -16,17 +16,17 @@ import CustomPlayerForm from "@open-fpl/app/features/CustomPlayer/CustomPlayerFo
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
 import NameSection from "@open-fpl/app/features/PlayerData/NameSection";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { useRef, useState } from "react";
 
 const EditableCustomPlayer = ({
   player,
-  fplTeams,
+  teams,
   onRemove,
   onUpdate,
 }: {
   player: ClientPlayer;
-  fplTeams: Team[];
+  teams: Team[];
   onRemove: (player: ClientPlayer) => void;
   onUpdate: (updatedPlayer: CustomPlayer, originalPlayer: ClientPlayer) => void;
 }) => {
@@ -169,7 +169,7 @@ const EditableCustomPlayer = ({
             <CustomPlayerForm
               id={`${player.id}-edit-custom-player`}
               initialPlayer={player}
-              fplTeams={fplTeams}
+              teams={teams}
               initialFocusRef={expanded ? formInitialFocusRef : undefined}
               showCloseButton
               onCloseClick={() => setExpanded(false)}

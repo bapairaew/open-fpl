@@ -30,12 +30,12 @@ export const changeVariants: Record<
 > = {
   invalid: {
     icon: IoAlertCircleOutline,
-    layerStyle: "danger",
+    layerStyle: "red",
     label: "Invalid change",
   },
   outdated: {
     icon: IoWarningOutline,
-    layerStyle: "warning",
+    layerStyle: "yellow",
     label: "Outdated change",
   },
   default: {},
@@ -64,8 +64,8 @@ const TeamChange = ({
       </Text>
     );
   } else if (change.type === "swap" || change.type === "transfer") {
-    const selectedColor = change.type === "swap" ? undefined : "danger";
-    const targetColor = change.type === "swap" ? undefined : "success";
+    const selectedColor = change.type === "swap" ? undefined : "red";
+    const targetColor = change.type === "swap" ? undefined : "green";
     const SelectedIcon =
       change.type === "swap" ? IoSwapVerticalOutline : IoArrowForwardOutline;
     const TargetIcon =

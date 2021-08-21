@@ -251,7 +251,7 @@ export const getGameweekData = (
   chips: EntryChipPlay[],
   players: Player[],
   entryHistory: EntryEventHistory | null,
-  currentGameweek: number,
+  nextGameweekId: number,
   changes: Change[],
   planningGameweek: number
 ): GameweekData => {
@@ -301,10 +301,10 @@ export const getGameweekData = (
   let freeTransfersCount = 0;
 
   if (planningGameweek !== 1) {
-    const gameweekDelta = planningGameweek - currentGameweek;
+    const gameweekDelta = planningGameweek - nextGameweekId;
     if (gameweekDelta === 0) {
       const lastGameweekTransfersCount = transfers?.filter(
-        (t) => t.event === currentGameweek - 1
+        (t) => t.event === nextGameweekId - 1
       ).length;
       const currentGameweekFreeTransfers =
         lastGameweekTransfersCount >= 1 ? 1 : 2;
@@ -355,7 +355,7 @@ export const getAllGameweekDataList = (
   chips: EntryChipPlay[],
   players: Player[],
   entryHistory: EntryEventHistory | null,
-  currentGameweek: number,
+  nextGameweekId: number,
   changes: Change[]
 ): GameweekData[] => {
   const data = [] as GameweekData[];
@@ -367,7 +367,7 @@ export const getAllGameweekDataList = (
         chips,
         players,
         entryHistory,
-        currentGameweek,
+        nextGameweekId,
         changes,
         i
       )

@@ -28,14 +28,14 @@ const SettingsProfilesList = ({
 
   return (
     <VStack {...group}>
-      {profiles?.map((teamId) => {
-        const radio = getRadioProps({ value: teamId });
+      {profiles?.map((profile) => {
+        const radio = getRadioProps({ value: profile });
         return (
           <SettingsProfile
-            key={teamId}
-            teamId={teamId}
+            key={profile}
+            profile={profile}
             radioProps={radio}
-            onRemoveClick={() => onRemoveProfile(teamId)}
+            onRemoveClick={() => onRemoveProfile(profile)}
           />
         );
       })}

@@ -11,6 +11,7 @@ import {
   OrderedList,
   Text,
   UnorderedList,
+  useColorMode,
   VStack,
 } from "@chakra-ui/react";
 import { player } from "@open-fpl/app/features/Help/helpData";
@@ -28,17 +29,20 @@ const ComponentWithHighlight = ({
   ...props
 }: BoxProps & {
   highlight: BoxProps;
-}) => (
-  <Box position="relative" {...props}>
-    <Box
-      position="absolute"
-      bgColor="yellow.100"
-      ml={{ base: "50px", sm: 0 }}
-      {...highlight}
-    />
-    {children}
-  </Box>
-);
+}) => {
+  const { colorMode } = useColorMode();
+  return (
+    <Box position="relative" {...props}>
+      <Box
+        position="absolute"
+        bgColor={colorMode === "dark" ? "yellow.800" : "yellow.100"}
+        ml={{ base: "50px", sm: 0 }}
+        {...highlight}
+      />
+      {children}
+    </Box>
+  );
+};
 
 const DemoPlayerCard = () => (
   <Flex
@@ -168,7 +172,7 @@ const PlayersExplorerHelp = () => {
           <Text as="p">
             This page explains the data embeded in Player Card and how to use
             each component in{" "}
-            <Link href="/" passHref>
+            <Link href="/players" passHref>
               <A>Player Explorer</A>
             </Link>{" "}
             page.

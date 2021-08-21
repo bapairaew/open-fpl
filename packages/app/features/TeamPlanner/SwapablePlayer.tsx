@@ -9,6 +9,7 @@ import {
   IconButton,
   Text,
   Tooltip,
+  useColorMode,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
@@ -107,7 +108,6 @@ const SwapablePlayer = ({
   const { buttonProps, otherButtonsProps, boxProps } =
     teamPlayerVariants[variant] ?? teamPlayerVariants.default;
   const adjustedSellingPrice = player.pick.selling_price / 10;
-  // const adjustedPurchasePrice = player.pick.purchase_price / 10;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -138,6 +138,17 @@ const SwapablePlayer = ({
           width={{ base: "70px", sm: "180px" }}
           height={{ base: "82px", sm: "158px" }}
         >
+          <HStack
+            spacing={0}
+            width="100%"
+            display={{ base: "flex", sm: "none" }}
+          >
+            <Box
+              height="3px"
+              width="100%"
+              layerStyle={`fpl-team-${player.team.short_name}`}
+            />
+          </HStack>
           <HStack spacing={0} width="100%">
             {player.status !== "a" && (
               <Tooltip hasArrow label={player.news}>

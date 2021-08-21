@@ -1,4 +1,4 @@
-import { Box, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, useDisclosure, BoxProps } from "@chakra-ui/react";
 import { AnalyticsFixtureDifficultyRating } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   adjustTeamsStrength,
@@ -8,8 +8,8 @@ import FixturesTable from "@open-fpl/app/features/Fixtures/FixturesTable";
 import FixturesToolbar from "@open-fpl/app/features/Fixtures/FixturesToolbar";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
@@ -20,10 +20,13 @@ const TeamsStrengthEditorModal = dynamic(
 
 const Fixtures = ({
   teamFixtures,
-  fplTeams,
-}: {
+  teams,
+  nextGameweekId,
+  ...props
+}: BoxProps & {
   teamFixtures: TeamFixtures[];
-  fplTeams: Team[];
+  teams: Team[];
+  nextGameweekId: number;
 }) => {
   const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
   const {
@@ -34,14 +37,14 @@ const Fixtures = ({
   } = useSettings();
 
   const adjustedTeams = useMemo(
-    () => adjustTeamsStrength(fplTeams, teamsStrength),
-    [fplTeams, teamsStrength]
+    () => adjustTeamsStrength(teams, teamsStrength),
+    [teams, teamsStrength]
   );
 
   const fullFixtures = useMemo(() => {
     const fullFixtures = makeFullFixtures({
       teamFixtures,
-      fplTeams: adjustedTeams,
+      teams: adjustedTeams,
     });
 
     return fixturesTeamsOrder
@@ -49,33 +52,33 @@ const Fixtures = ({
           return fullFixtures.find((f) => f.short_name === o)!;
         })
       : fullFixtures;
-  }, [teamFixtures, fplTeams, teamsStrength, fixturesTeamsOrder]);
+  }, [teamFixtures, teams, teamsStrength, fixturesTeamsOrder]);
 
   const [mode, setMode] = useState("attack");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleStrengthChange = (
-    teamId: number,
+    profile: number,
     key: keyof TeamStrength,
     value: number
   ) => {
     if (teamsStrength) {
-      const matched = teamsStrength.find((t) => t.id === teamId);
+      const matched = teamsStrength.find((t) => t.id === profile);
       if (matched) {
         setTeamsStrength([
-          ...teamsStrength.filter((t) => t.id !== teamId),
+          ...teamsStrength.filter((t) => t.id !== profile),
           { ...matched, [key]: value },
         ]);
       } else {
-        setTeamsStrength([...teamsStrength, { id: teamId, [key]: value }]);
+        setTeamsStrength([...teamsStrength, { id: profile, [key]: value }]);
       }
       plausible("fixtures-adjust-team-strengths");
     }
   };
 
-  const handleResetStrength = (teamId: number) => {
+  const handleResetStrength = (profile: number) => {
     if (teamsStrength) {
-      setTeamsStrength([...teamsStrength.filter((t) => t.id !== teamId)]);
+      setTeamsStrength([...teamsStrength.filter((t) => t.id !== profile)]);
     }
   };
 
@@ -88,14 +91,14 @@ const Fixtures = ({
     <>
       {isOpen && (
         <TeamsStrengthEditorModal
-          fplTeams={adjustedTeams}
+          teams={adjustedTeams}
           onStrengthChange={handleStrengthChange}
           onResetStrength={handleResetStrength}
           isOpen={isOpen}
           onClose={onClose}
         />
       )}
-      <Flex flexDirection="column" height="100%">
+      <Flex flexDirection="column" height="100%" {...props}>
         <FixturesToolbar
           mode={mode}
           onModeChange={handleModeChange}
@@ -105,6 +108,7 @@ const Fixtures = ({
           <FixturesTable
             mode={mode}
             fullFixtures={fullFixtures}
+            nextGameweekId={nextGameweekId}
             onFixturesOrderChange={setFixturesTeamsOrder}
           />
         </Box>

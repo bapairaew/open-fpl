@@ -69,7 +69,7 @@ const TeamPlannerToolbar = ({
   chipUsages,
   freeTransfers,
   planningGameweek,
-  currentGameweek,
+  nextGameweekId,
   onPreviousClick,
   onNextClick,
   onActivatedChipSelectChange,
@@ -79,7 +79,7 @@ const TeamPlannerToolbar = ({
   chipUsages: ChipUsage[];
   freeTransfers: number;
   planningGameweek: number;
-  currentGameweek: number;
+  nextGameweekId: number;
   onPreviousClick?: () => void;
   onNextClick?: () => void;
   onActivatedChipSelectChange: ChangeEventHandler<HTMLSelectElement>;
@@ -101,7 +101,7 @@ const TeamPlannerToolbar = ({
       >
         <IconButton
           gridArea="prev"
-          disabled={currentGameweek === planningGameweek}
+          disabled={nextGameweekId === planningGameweek}
           onClick={onPreviousClick}
           variant="ghost"
           aria-label="previous gameweek"

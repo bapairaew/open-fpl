@@ -19,11 +19,16 @@ export default function App({ Component, pageProps }: AppProps) {
       <SWRConfig
         value={{
           cache,
-          // There is no realtime data in this app
-          revalidateOnFocus: false,
-          revalidateOnReconnect: false,
           fetcher: (resource, init) =>
-            fetch(resource, init).then((res) => res.json()),
+            fetch(resource, init).then((res) => {
+              if (res.ok) {
+                return res.json();
+              } else {
+                return res
+                  .json()
+                  .then((json) => Promise.reject.bind(Promise)(json.error));
+              }
+            }),
         }}
       >
         <ChakraProvider theme={theme}>

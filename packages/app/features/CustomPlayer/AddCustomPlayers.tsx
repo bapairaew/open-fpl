@@ -1,16 +1,16 @@
 import { Button, Collapse } from "@chakra-ui/react";
-import { MutableRefObject, useEffect, useState } from "react";
 import CustomPlayerForm from "@open-fpl/app/features/CustomPlayer/CustomPlayerForm";
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
+import { MutableRefObject, useEffect, useState } from "react";
 
 const AddCustomPlayers = ({
-  fplTeams,
+  teams,
   initialFocusRef,
   hasExistedPlayers,
   onPlayerAdded,
 }: {
-  fplTeams: Team[];
+  teams: Team[];
   initialFocusRef: MutableRefObject<
     HTMLInputElement | HTMLButtonElement | null
   >;
@@ -61,7 +61,7 @@ const AddCustomPlayers = ({
         {expanded && (
           <CustomPlayerForm
             id="add-custom-player"
-            fplTeams={fplTeams}
+            teams={teams}
             initialFocusRef={
               expanded
                 ? (initialFocusRef as MutableRefObject<HTMLInputElement>)

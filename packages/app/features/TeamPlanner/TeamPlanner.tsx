@@ -33,18 +33,18 @@ import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
 import TeamPlannerPanel from "@open-fpl/app/features/TeamPlanner/TeamPlannerPanel";
 import TeamPlannerTab from "@open-fpl/app/features/TeamPlanner/TeamPlannerTab";
 import TeamPlansDrawer from "@open-fpl/app/features/TeamPlanner/TeamPlansDrawer";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import {
   EntryChipPlay,
   EntryEventHistory,
   EntryEventPick,
-  Team,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   IoAdd,
   IoChevronDownOutline,
@@ -81,28 +81,28 @@ const TeamPlanner = ({
   initialPicks,
   entryHistory,
   players: remotePlayers,
-  currentGameweek,
+  nextGameweekId,
   transfers,
   chips,
-  fplTeams,
+  teams,
   teamFixtures,
   ...props
 }: BoxProps & {
   initialPicks: EntryEventPick[] | null;
   entryHistory: EntryEventHistory | null;
   players: Player[];
-  currentGameweek: number;
+  nextGameweekId: number;
   transfers: Transfer[];
   chips: EntryChipPlay[];
-  fplTeams: Team[];
+  teams: Team[];
   teamFixtures: TeamFixtures[];
 }) => {
   const plausible = usePlausible<AnalyticsTeamPlanner>();
   const toast = useToast();
-  const { teamId, customPlayers, preference, setPreference, teamsStrength } =
+  const { profile, customPlayers, preference, setPreference, teamsStrength } =
     useSettings();
 
-  const teamPlans = preference?.teamPlans ?? ["Plan One"];
+  const teamPlans = preference?.teamPlans ?? ["Plan 1"];
   const setTeamPlans = (teamPlans: string[]) => {
     if (preference) {
       setPreference({
@@ -112,7 +112,29 @@ const TeamPlanner = ({
     }
   };
 
-  const [tabIndex, setTabIndex] = useState(0);
+  const tabIndex = preference?.selectedPlan ?? 0;
+  const setTabIndex = (selectedPlan: number) => {
+    if (preference) {
+      setPreference({
+        ...preference,
+        selectedPlan,
+      });
+    }
+  };
+
+  const setTeamPlansAndTabIndex = (
+    teamPlans: string[],
+    selectedPlan: number
+  ) => {
+    if (preference) {
+      setPreference({
+        ...preference,
+        teamPlans,
+        selectedPlan,
+      });
+    }
+  };
+
   const sortableTransferPlans = useMemo<ItemInterface[]>(
     () => teamPlans?.map((id) => ({ id })) ?? [],
     [teamPlans]
@@ -134,9 +156,9 @@ const TeamPlanner = ({
     () =>
       makeFullFixtures({
         teamFixtures,
-        fplTeams: adjustTeamsStrength(fplTeams, teamsStrength),
+        teams: adjustTeamsStrength(teams, teamsStrength),
       }),
-    [fplTeams, teamsStrength]
+    [teams, teamsStrength]
   );
 
   const players = useMemo(
@@ -150,15 +172,15 @@ const TeamPlanner = ({
     [remotePlayers, preference?.starredPlayers, customPlayers]
   );
 
-  useEffect(() => setTabIndex(0), [teamId]);
-
   const handleTabsChange = (index: number) => setTabIndex(index);
 
   const handleAdd = () => {
     if (teamPlans) {
       const nextIndex = teamPlans.length;
-      setTeamPlans([...teamPlans, getDefaultName(teamPlans)]);
-      setTabIndex(nextIndex);
+      setTeamPlansAndTabIndex(
+        [...teamPlans, getDefaultName(teamPlans)],
+        nextIndex
+      );
       plausible("team-planner-plans-add");
     }
   };
@@ -179,13 +201,13 @@ const TeamPlanner = ({
         if (index !== -1) {
           nextTransferPlans[index] = newName;
           setTeamPlans(nextTransferPlans);
-          if (teamId) {
+          if (profile) {
             const data = getLocalStorageItem(
-              getTeamPlanKey(teamId, oldName),
+              getTeamPlanKey(profile, oldName),
               []
             );
-            setLocalStorageItem(getTeamPlanKey(teamId, newName), data);
-            removeLocalStorageItem(getTeamPlanKey(teamId, oldName));
+            setLocalStorageItem(getTeamPlanKey(profile, newName), data);
+            removeLocalStorageItem(getTeamPlanKey(profile, oldName));
             plausible("team-planner-plans-rename");
           }
         }
@@ -194,18 +216,15 @@ const TeamPlanner = ({
   };
 
   const handleDuplicate = (plan: string) => {
-    if (teamPlans) {
+    if (teamPlans && profile) {
       const nextIndex = teamPlans.length;
       const name = getDefaultName(teamPlans);
-      setTeamPlans([...teamPlans, name]);
-      if (teamId) {
-        setLocalStorageItem(
-          getTeamPlanKey(teamId, name),
-          getLocalStorageItem(getTeamPlanKey(teamId, plan), [])
-        );
-        setTabIndex(nextIndex);
-        plausible("team-planner-plans-duplicate");
-      }
+      setTeamPlansAndTabIndex([...teamPlans, name], nextIndex);
+      setLocalStorageItem(
+        getTeamPlanKey(profile, name),
+        getLocalStorageItem(getTeamPlanKey(profile, plan), [])
+      );
+      plausible("team-planner-plans-duplicate");
     }
   };
 
@@ -214,17 +233,18 @@ const TeamPlanner = ({
       const nextTransferPlans = teamPlans?.filter((p) => p !== plan);
 
       if (nextTransferPlans.length === 0) {
-        setTeamPlans([getDefaultName(nextTransferPlans)]);
-        setTabIndex(0);
+        setTeamPlansAndTabIndex([getDefaultName(nextTransferPlans)], 0);
       } else {
-        setTeamPlans(nextTransferPlans);
-        if (tabIndex >= nextTransferPlans.length) {
-          setTabIndex(nextTransferPlans.length - 1);
-        }
+        setTeamPlansAndTabIndex(
+          nextTransferPlans,
+          tabIndex >= nextTransferPlans.length
+            ? nextTransferPlans.length - 1
+            : tabIndex
+        );
       }
 
-      if (teamId) {
-        removeLocalStorageItem(getTeamPlanKey(teamId, plan));
+      if (profile) {
+        removeLocalStorageItem(getTeamPlanKey(profile, plan));
         plausible("team-planner-plans-remove");
       }
     }
@@ -232,8 +252,8 @@ const TeamPlanner = ({
 
   const handleRearrange = (newOrder: ItemInterface[]) => {
     const nextTransferPlans = newOrder.map((i) => `${i.id}`);
-    setTeamPlans(nextTransferPlans);
-    setTabIndex(
+    setTeamPlansAndTabIndex(
+      nextTransferPlans,
       nextTransferPlans.findIndex((t) => t === teamPlans?.[tabIndex])
     );
     plausible("team-planner-plans-rearrange");
@@ -244,7 +264,7 @@ const TeamPlanner = ({
       {isCustomPlayersOpen && (
         <CustomPlayersModal
           players={players}
-          fplTeams={fplTeams}
+          teams={teams}
           isOpen={isCustomPlayersOpen}
           onClose={onCustomPlayersClose}
         />
@@ -367,14 +387,14 @@ const TeamPlanner = ({
                 display="flex"
                 flexDirection="column"
               >
-                {teamId && (
+                {profile && (
                   <TeamPlannerPanel
-                    teamId={teamId}
+                    profile={profile}
                     teamPlanKey={plan}
                     initialPicks={initialPicks}
                     entryHistory={entryHistory}
                     players={players}
-                    currentGameweek={currentGameweek}
+                    nextGameweekId={nextGameweekId}
                     transfers={transfers}
                     chips={chips}
                   />

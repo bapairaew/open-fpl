@@ -148,11 +148,7 @@ const TeamPlansDrawer = ({
                   {teamPlans?.map((plan) => (
                     <HStack key={plan.id} spacing={0} width="100%">
                       <Flex className="handle" cursor="grab" p={2}>
-                        <Icon
-                          size="sm"
-                          as={IoReorderFourOutline}
-                          opacity={0.5}
-                        />
+                        <Icon as={IoReorderFourOutline} opacity={0.5} />
                       </Flex>
                       <Box flexGrow={1} position="relative">
                         <Radio value={plan.id}>
@@ -186,7 +182,7 @@ const TeamPlansDrawer = ({
                                   </MenuItem>
                                   <MenuDivider />
                                   <MenuItem
-                                    layerStyle="danger"
+                                    layerStyle="red"
                                     onClick={() =>
                                       handleRemoveClick(`${plan.id}`)
                                     }

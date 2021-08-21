@@ -63,6 +63,24 @@ const customTheme = extendTheme(
           },
         },
       },
+      highlightHoverable: {
+        "&": {
+          _hover: {
+            bgColor: "gray.50",
+          },
+          _active: {
+            bgColor: "gray.50",
+          },
+          ".chakra-ui-dark &": {
+            _hover: {
+              bgColor: "whiteAlpha.50",
+            },
+            _active: {
+              bgColor: "whiteAlpha.50",
+            },
+          },
+        },
+      },
       highlightClickable: {
         "&": {
           bgColor: "gray.100",
@@ -101,7 +119,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      success: {
+      green: {
         "&": {
           color: "green.500",
           ".chakra-ui-dark &": {
@@ -109,7 +127,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      successSolid: {
+      greenSolid: {
         "&": {
           bgColor: "green.500",
           color: "white",
@@ -119,7 +137,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      warning: {
+      yellow: {
         "&": {
           color: "yellow.500",
           ".chakra-ui-dark &": {
@@ -127,7 +145,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      warningSolid: {
+      yellowSolid: {
         "&": {
           bgColor: "yellow.500",
           color: "white",
@@ -137,7 +155,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      danger: {
+      red: {
         "&": {
           color: "red.500",
           ".chakra-ui-dark &": {
@@ -145,7 +163,7 @@ const customTheme = extendTheme(
           },
         },
       },
-      dangerSolid: {
+      redSolid: {
         "&": {
           bgColor: "red.500",
           color: "white",
@@ -177,6 +195,18 @@ const customTheme = extendTheme(
           color: "whiteAlpha.600",
         },
       },
+      subtitleSolid: {
+        bgColor: "gray.600",
+        ".chakra-ui-dark &": {
+          bgColor: "whiteAlpha.600",
+        },
+      },
+      textSolid: {
+        bgColor: "gray.800",
+        ".chakra-ui-dark &": {
+          bgColor: "whiteAlpha.900",
+        },
+      },
       ...makeLayerStyles(difficultyColorCodes, "fpl-difficulty"),
       ...makeLayerStyles(positionColorCodes, "fpl-position"),
       ...makeLayerStyles(statusColorCodes, "fpl-status"),
@@ -204,6 +234,17 @@ const customTheme = extendTheme(
           colorScheme: "gray",
           size: "sm",
         },
+      },
+      Stat: {
+        baseStyle: ({ colorMode }) => ({
+          label: {
+            noOfLines: 1,
+            color: colorMode === "dark" ? "whiteAlpha.600" : "gray.600",
+          },
+          number: {
+            fontWeight: "black",
+          },
+        }),
       },
     },
   }

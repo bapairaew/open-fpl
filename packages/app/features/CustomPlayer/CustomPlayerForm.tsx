@@ -14,7 +14,7 @@ import {
 import { generateCustomPlayerId } from "@open-fpl/app/features/CustomPlayer/customPlayers";
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import {
   FormEvent,
   MouseEventHandler,
@@ -27,7 +27,7 @@ const positionOptions = ["FWD", "MID", "DEF", "GKP"];
 const CustomPlayerForm = ({
   id,
   buttonLabel,
-  fplTeams,
+  teams,
   initialFocusRef,
   showCloseButton,
   onCloseClick,
@@ -36,7 +36,7 @@ const CustomPlayerForm = ({
 }: {
   id: string;
   buttonLabel: string;
-  fplTeams: Team[];
+  teams: Team[];
   initialFocusRef?: MutableRefObject<HTMLInputElement | null>;
   showCloseButton: boolean;
   onCloseClick: MouseEventHandler<HTMLButtonElement>;
@@ -125,7 +125,7 @@ const CustomPlayerForm = ({
             placeholder="Select a team"
             onChange={(e) => setFormTeam(e.target.value)}
           >
-            {fplTeams.map((t) => (
+            {teams.map((t) => (
               <option key={t.short_name}>{t.short_name}</option>
             ))}
           </Select>

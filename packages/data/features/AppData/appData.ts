@@ -1,15 +1,20 @@
 import {
-  AppData,
+  TeamFixture,
   TeamFixtures,
-} from "@open-fpl/data/features/AppData/appDataTypes";
+} from "@open-fpl/data/features/AppData/fixtureDataTypes";
+import { AppData } from "@open-fpl/data/features/AppData/appDataTypes";
 import {
   FPLElement,
   MatchStat,
   Player,
 } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
-  ElementTypes,
   Team,
+  TeamMatchStat,
+} from "@open-fpl/data/features/AppData/teamDataTypes";
+import {
+  ElementTypes,
+  Team as FPLTeam,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { RemoteData } from "@open-fpl/data/features/RemoteData/remoteDataTypes";
 import {
@@ -20,31 +25,7 @@ import {
 const { UNDERSTAT_SEASON: _understatSeason } = process.env;
 const understatSeason = _understatSeason ?? "2021";
 
-export const makeTeamFixtures = ({
-  fplElements,
-  fplTeams,
-}: {
-  fplElements: FPLElement[];
-  fplTeams: Team[];
-}): TeamFixtures[] => {
-  const teamFixtures = [] as TeamFixtures[];
-
-  for (const fplTeam of fplTeams) {
-    const fplElement = fplElements.find((f) => f.team === fplTeam.id);
-    if (fplElement) {
-      const { team, fixtures, history } = fplElement;
-      teamFixtures.push({
-        id: team,
-        history,
-        fixtures,
-      });
-    }
-  }
-
-  return teamFixtures;
-};
-
-export const makeAppData = ({
+const makePlayers = ({
   fpl,
   understat,
   fplTeams,
@@ -56,7 +37,7 @@ export const makeAppData = ({
 }: RemoteData & {
   playersLinks: Record<string, string>;
   teamsLinks: Record<string, string>;
-}): AppData => {
+}): Player[] => {
   const gameweeks = fplGameweeks
     .filter((g) => !g.finished && !g.is_current)
     .map((gw) => ({
@@ -72,7 +53,7 @@ export const makeAppData = ({
   const fplTeamsMap = fplTeams.reduce((fplTeamsMap, t) => {
     fplTeamsMap[t.id] = t;
     return fplTeamsMap;
-  }, {} as Record<number, Team>);
+  }, {} as Record<number, FPLTeam>);
   const fplElementTypesMap = fplElementTypes.reduce((fplElementTypesMap, t) => {
     fplElementTypesMap[t.id] = t;
     return fplElementTypesMap;
@@ -108,11 +89,11 @@ export const makeAppData = ({
       const fplOpponentId = Object.keys(teamsLinks).find(
         (key) => teamsLinks[key] === opponent?.id
       );
-      const xga =
-        playerUnderstatTeam!.datesData.find((d) => m.id === d.id)?.xG?.[
-          isHome ? "a" : "h"
-        ] || null;
+      const matched = playerUnderstatTeam!.datesData.find((d) => m.id === d.id);
+      const xga = matched?.xG?.[isHome ? "a" : "h"] || null;
+      const ga = matched?.goals?.[isHome ? "a" : "h"] || null;
       return {
+        opponent_id: fplOpponentId ? +fplOpponentId : null,
         opponent_short_title: fplOpponentId
           ? fplTeamsMap[+fplOpponentId]?.short_name
           : null,
@@ -125,6 +106,7 @@ export const makeAppData = ({
         match_xg: +m.xG,
         match_xa: +m.xA,
         match_xgi: +m.xG + +m.xA,
+        match_ga: ga ? +ga : null,
         match_xga: xga ? +xga : null,
       };
     };
@@ -149,6 +131,7 @@ export const makeAppData = ({
       transfers_in_event: player.transfers_in_event,
       transfers_out_event: player.transfers_out_event,
       selected_by_percent: player.selected_by_percent,
+      cost_change_event: player.cost_change_event,
       element_type: {
         singular_name_short:
           fplElementTypesMap[player.element_type].singular_name_short,
@@ -174,6 +157,11 @@ export const makeAppData = ({
           : 0,
         season_a: hasPlayedThisSeason
           ? playerUnderstat && +playerUnderstat.assists
+          : 0,
+        season_ga: hasPlayedThisSeason
+          ? playerUnderstat &&
+            playerUnderstatTeam &&
+            playerUnderstatTeam.history.reduce((x, m) => +m.missed + x, 0)
           : 0,
         season_shots: hasPlayedThisSeason
           ? playerUnderstat && +playerUnderstat.shots
@@ -210,10 +198,220 @@ export const makeAppData = ({
     } as Player;
   });
 
-  const fixtures = makeTeamFixtures({ fplElements: fpl, fplTeams });
+  return players;
+};
+
+const makeTeamFixtures = ({
+  fplElements,
+  fplTeams,
+}: {
+  fplElements: FPLElement[];
+  fplTeams: FPLTeam[];
+}): TeamFixtures[] => {
+  const teamFixtures = [] as TeamFixtures[];
+
+  for (const fplTeam of fplTeams) {
+    const fplElement = fplElements.find((f) => f.team === fplTeam.id);
+    if (fplElement) {
+      const fixtures: TeamFixture[] = [];
+      const addedFixtures: number[] = [];
+      fplElement.history.forEach((h) => {
+        fixtures.push({
+          opponent_team: h.opponent_team,
+          event: h.round,
+          is_home: h.was_home,
+          team_h_score: h.team_h_score,
+          team_a_score: h.team_a_score,
+          finished: h.team_h_score !== null && h.team_a_score !== null,
+        });
+        addedFixtures.push(h.fixture);
+      });
+      fplElement.fixtures.forEach((f) => {
+        if (!addedFixtures.some((af) => af === f.id)) {
+          fixtures.push({
+            opponent_team: f.is_home ? f.team_a : f.team_h,
+            event: f.event,
+            is_home: f.is_home,
+            team_h_score: null,
+            team_a_score: null,
+            finished: false,
+          });
+          addedFixtures.push(f.id);
+        }
+      });
+
+      teamFixtures.push({
+        id: fplElement.team,
+        fixtures,
+      });
+    }
+  }
+
+  return teamFixtures;
+};
+
+const makeTeams = ({
+  fplTeams,
+  understatTeams,
+  teamsLinks,
+}: {
+  fplTeams: FPLTeam[];
+  understatTeams: TeamStat[];
+  teamsLinks: Record<string, string>;
+}): Team[] => {
+  const teams: Team[] = [];
+
+  for (const fplTeam of fplTeams) {
+    const understatTeam = understatTeams.find(
+      (u) => u.id === teamsLinks[fplTeam.id]
+    );
+
+    teams.push({
+      id: fplTeam.id,
+      name: fplTeam.name,
+      short_name: fplTeam.short_name,
+      strength_attack_home: fplTeam.strength_attack_home,
+      strength_attack_away: fplTeam.strength_attack_away,
+      strength_defence_home: fplTeam.strength_defence_home,
+      strength_defence_away: fplTeam.strength_defence_away,
+      form: fplTeam.form,
+      stats: understatTeam
+        ? {
+            games: understatTeam.history.length,
+            g: understatTeam.history.reduce((sum, h) => h.scored + sum, 0),
+            xg: understatTeam.history.reduce((sum, h) => h.xG + sum, 0),
+            ga: understatTeam.history.reduce((sum, h) => h.missed + sum, 0),
+            xga: understatTeam.history.reduce((sum, h) => h.xGA + sum, 0),
+            pts: understatTeam.history.reduce((sum, h) => h.pts + sum, 0),
+            xpts: understatTeam.history.reduce((sum, h) => h.xpts + sum, 0),
+            position: -1,
+            xposition: -1,
+            wins: understatTeam.history.reduce((sum, h) => h.wins + sum, 0),
+            draws: understatTeam.history.reduce((sum, h) => h.draws + sum, 0),
+            loses: understatTeam.history.reduce((sum, h) => h.loses + sum, 0),
+            matches: understatTeam.history
+              .slice(0, 5)
+              .reverse()
+              .map((m) => {
+                const matched = understatTeam.datesData.find(
+                  (d) => d.datetime === m.date
+                );
+                if (matched) {
+                  const opponentSide = matched.side === "a" ? "h" : "a";
+                  const opponent = Object.entries(teamsLinks).find(
+                    ([key, value]) => value === matched[opponentSide].id
+                  )?.[0];
+                  if (opponent) {
+                    return {
+                      opponent: +opponent,
+                      g: m.scored,
+                      xg: m.xG,
+                      ga: m.missed,
+                      xga: m.xGA,
+                      pts: m.pts,
+                      xpts: m.xpts,
+                      result: m.result,
+                    };
+                  }
+                }
+                return null;
+              })
+              .filter((m) => m !== null) as TeamMatchStat[],
+          }
+        : null,
+    });
+  }
+
+  const positions = [...teams].sort((a, b) => {
+    if ((a.stats?.pts ?? 0) > (b.stats?.pts ?? 0)) {
+      return -1;
+    } else if ((a.stats?.pts ?? 0) < (b.stats?.pts ?? 0)) {
+      return 1;
+    } else if (
+      (a.stats?.g ?? 0) - (a.stats?.ga ?? 0) >
+      (b.stats?.g ?? 0) - (b.stats?.ga ?? 0)
+    ) {
+      return -1;
+    } else if (
+      (a.stats?.g ?? 0) - (a.stats?.ga ?? 0) <
+      (b.stats?.g ?? 0) - (b.stats?.ga ?? 0)
+    ) {
+      return 1;
+    } else if ((a.stats?.g ?? 0) > (b.stats?.g ?? 0)) {
+      return -1;
+    } else if ((a.stats?.g ?? 0) < (b.stats?.g ?? 0)) {
+      return 1;
+    }
+    return 0;
+  });
+
+  const xpositions = [...teams].sort((a, b) => {
+    if ((a.stats?.xpts ?? 0) > (b.stats?.xpts ?? 0)) {
+      return -1;
+    } else if ((a.stats?.xpts ?? 0) < (b.stats?.xpts ?? 0)) {
+      return 1;
+    } else if (
+      (a.stats?.xg ?? 0) - (a.stats?.xga ?? 0) >
+      (b.stats?.xg ?? 0) - (b.stats?.xga ?? 0)
+    ) {
+      return -1;
+    } else if (
+      (a.stats?.xg ?? 0) - (a.stats?.xga ?? 0) <
+      (b.stats?.xg ?? 0) - (b.stats?.xga ?? 0)
+    ) {
+      return 1;
+    } else if ((a.stats?.xg ?? 0) > (b.stats?.xg ?? 0)) {
+      return -1;
+    } else if ((a.stats?.xg ?? 0) < (b.stats?.xg ?? 0)) {
+      return 1;
+    }
+    return 0;
+  });
+
+  for (const team of teams) {
+    if (team.stats) {
+      team.stats.position = positions.findIndex((t) => t.id === team.id) + 1;
+      team.stats.xposition = xpositions.findIndex((t) => t.id === team.id) + 1;
+    }
+  }
+
+  return teams;
+};
+
+export const makeAppData = ({
+  fpl,
+  understat,
+  fplTeams,
+  fplElementTypes,
+  understatTeams,
+  fplGameweeks,
+  playersLinks,
+  teamsLinks,
+}: RemoteData & {
+  playersLinks: Record<string, string>;
+  teamsLinks: Record<string, string>;
+}): AppData => {
+  const players = makePlayers({
+    fpl,
+    understat,
+    fplTeams,
+    fplElementTypes,
+    understatTeams,
+    fplGameweeks,
+    playersLinks,
+    teamsLinks,
+  });
+
+  const fixtures = makeTeamFixtures({
+    fplElements: fpl,
+    fplTeams,
+  });
+
+  const teams = makeTeams({ fplTeams, understatTeams, teamsLinks });
 
   return {
     players,
     fixtures,
+    teams,
   };
 };

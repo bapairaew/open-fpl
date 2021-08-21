@@ -1,4 +1,5 @@
-import { BoxProps, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, useDisclosure, useToast } from "@chakra-ui/react";
+import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   adjustTeamsStrength,
   makeFullFixtures,
@@ -9,13 +10,12 @@ import PlayersExplorerToolbar from "@open-fpl/app/features/PlayersExplorer/Playe
 import { DisplayOptions } from "@open-fpl/app/features/PlayersExplorer/playersExplorerTypes";
 import { displayOptions } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
-import { TeamFixtures } from "@open-fpl/data/features/AppData/appDataTypes";
+import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
-import { Team } from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
-import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 
 const ComparePlayersModal = dynamic(
   () => import("@open-fpl/app/features/PlayersExplorer/ComparePlayersModal")
@@ -30,32 +30,35 @@ const PlayersExplorerTable = dynamic(
 
 const PlayersExplorer = ({
   players: remotePlayers,
-  fplTeams,
+  teams,
   teamFixtures,
-  currentGameweek,
+  nextGameweekId,
   ...props
 }: BoxProps & {
   players: Player[];
-  fplTeams: Team[];
+  teams: Team[];
   teamFixtures: TeamFixtures[];
-  currentGameweek: number;
+  nextGameweekId: number;
 }) => {
   const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
+  const toast = useToast();
   const {
+    profile,
     playersExplorerDisplayOption,
     setPlayersExplorerDisplayOption,
     preference,
     setPreference,
     teamsStrength,
+    onSettingsModalOpen,
   } = useSettings();
 
   const fullFixtures = useMemo(
     () =>
       makeFullFixtures({
         teamFixtures,
-        fplTeams: adjustTeamsStrength(fplTeams, teamsStrength),
+        teams: adjustTeamsStrength(teams, teamsStrength),
       }),
-    [fplTeams, teamsStrength]
+    [teams, teamsStrength]
   );
 
   const players = useMemo(
@@ -81,12 +84,12 @@ const PlayersExplorer = ({
           ...player.client_data,
           gameweeks:
             player.client_data.gameweeks?.slice(
-              currentGameweek,
-              currentGameweek + 5
+              nextGameweekId,
+              nextGameweekId + 5
             ) ?? [],
         },
       })),
-    [displayedPlayers, currentGameweek]
+    [displayedPlayers, nextGameweekId]
   );
 
   const handleDisplayChange = (option: DisplayOptions) => {
@@ -99,21 +102,43 @@ const PlayersExplorer = ({
     e: MouseEvent<HTMLButtonElement>,
     player: ClientPlayer
   ) => {
-    if (preference) {
-      if (preference?.starredPlayers?.some((p) => p === player.id)) {
-        setPreference({
-          ...preference,
-          starredPlayers:
-            preference.starredPlayers?.filter((p) => p !== player.id) ?? [],
-        });
-        plausible("players-starred-players-remove");
-      } else {
-        setPreference({
-          ...preference,
-          starredPlayers: [...(preference?.starredPlayers ?? []), player.id],
-        });
-        plausible("players-starred-players-add");
+    if (profile) {
+      if (preference) {
+        if (preference?.starredPlayers?.some((p) => p === player.id)) {
+          setPreference({
+            ...preference,
+            starredPlayers:
+              preference.starredPlayers?.filter((p) => p !== player.id) ?? [],
+          });
+          plausible("players-starred-players-remove");
+        } else {
+          setPreference({
+            ...preference,
+            starredPlayers: [...(preference?.starredPlayers ?? []), player.id],
+          });
+          plausible("players-starred-players-add");
+        }
       }
+    } else {
+      toast({
+        title: "Please set up a profile to star a player.",
+        description: (
+          <>
+            You need to{" "}
+            <Box
+              as="span"
+              role="button"
+              textDecoration="underline"
+              onClick={onSettingsModalOpen}
+            >
+              set up
+            </Box>{" "}
+            a profile to star a player.
+          </>
+        ),
+        status: "info",
+        isClosable: true,
+      });
     }
   };
 

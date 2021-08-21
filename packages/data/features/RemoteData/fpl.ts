@@ -1,12 +1,14 @@
-import fetch, { HeaderInit } from "node-fetch";
 import {
   Bootstrap,
   ElementSummary,
+  Entry,
   EntryEvent,
   EntryHistory,
-  Team,
+  Fixture,
+  Live,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
+import fetch, { HeaderInit } from "node-fetch";
 
 const headers = {
   "sec-ch-ua":
@@ -16,6 +18,7 @@ const headers = {
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
 } as HeaderInit;
 
+// TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
 export const getFPLData = (): Promise<Bootstrap> => {
   return fetch("https://fantasy.premierleague.com/api/bootstrap-static/", {
     headers,
@@ -23,6 +26,7 @@ export const getFPLData = (): Promise<Bootstrap> => {
   }).then((r) => r.json());
 };
 
+// TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
 export const getFPLPlayerSummaryData = (
   id: number
 ): Promise<ElementSummary> => {
@@ -32,19 +36,66 @@ export const getFPLPlayerSummaryData = (
   }).then((r) => r.json());
 };
 
-export const getTeam = (id: number): Promise<Team> => {
+export const getEntry = (id: number): Promise<Entry | string> => {
   return fetch(`https://fantasy.premierleague.com/api/entry/${id}/`, {
+    headers,
+    method: "GET",
+  })
+    .then((response) => response.text())
+    .then((text) => {
+      try {
+        const data = JSON.parse(text);
+        if (data.detail) return data.detail;
+        return data;
+      } catch (err) {
+        return text;
+      }
+    });
+};
+
+export const getEntryPicks = (
+  id: number,
+  event: number
+): Promise<EntryEvent | string> => {
+  return fetch(
+    `https://fantasy.premierleague.com/api/entry/${id}/event/${event}/picks/`,
+    {
+      headers,
+      method: "GET",
+    }
+  )
+    .then((response) => response.text())
+    .then((text) => {
+      try {
+        const data = JSON.parse(text);
+        if (data.detail) return data.detail;
+        return data;
+      } catch (err) {
+        return text;
+      }
+    });
+};
+
+// TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
+export const getEntryTransfers = (id: number): Promise<Transfer[]> => {
+  return fetch(`https://fantasy.premierleague.com/api/entry/${id}/transfers/`, {
     headers,
     method: "GET",
   }).then((r) => r.json());
 };
 
-export const getTeamPicks = (
-  id: number,
-  event: number
-): Promise<EntryEvent> => {
+// TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
+export const getEntryHistory = (id: number): Promise<EntryHistory> => {
+  return fetch(`https://fantasy.premierleague.com/api/entry/${id}/history/`, {
+    headers,
+    method: "GET",
+  }).then((r) => r.json());
+};
+
+// TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
+export const getFixtures = (event: number): Promise<Fixture[]> => {
   return fetch(
-    `https://fantasy.premierleague.com/api/entry/${id}/event/${event}/picks/`,
+    `https://fantasy.premierleague.com/api/fixtures/?event=${event}`,
     {
       headers,
       method: "GET",
@@ -52,15 +103,9 @@ export const getTeamPicks = (
   ).then((r) => r.json());
 };
 
-export const getTeamTransfers = (id: number): Promise<Transfer[]> => {
-  return fetch(`https://fantasy.premierleague.com/api/entry/${id}/transfers/`, {
-    headers,
-    method: "GET",
-  }).then((r) => r.json());
-};
-
-export const getTeamHistory = (id: number): Promise<EntryHistory> => {
-  return fetch(`https://fantasy.premierleague.com/api/entry/${id}/history/`, {
+// TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
+export const getLiveEvent = (event: number): Promise<Live> => {
+  return fetch(`https://fantasy.premierleague.com/api/event/${event}/live/`, {
     headers,
     method: "GET",
   }).then((r) => r.json());

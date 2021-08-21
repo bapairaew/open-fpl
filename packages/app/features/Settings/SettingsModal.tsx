@@ -10,7 +10,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AnalyticsSettings } from "@open-fpl/app/features/Analytics/analyticsTypes";
-import { TeamApiResponse } from "@open-fpl/app/features/Api/apiTypes";
+import { EntryApiResponse } from "@open-fpl/app/features/Api/apiTypes";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
@@ -36,20 +36,20 @@ const SettingsModal = ({
 }) => {
   const plausible = usePlausible<AnalyticsSettings>();
   const toast = useToast();
-  const { teamId, setTeamId, profiles, setProfiles } = useSettings();
+  const { profile, setProfile, profiles, setProfiles } = useSettings();
   const initialFocusRef = useRef<HTMLInputElement | HTMLButtonElement | null>(
     null
   );
 
-  const handleAddProfile = async (teamId: string) => {
-    if (!profiles || !profiles.includes(teamId)) {
+  const handleAddProfile = async (profile: string) => {
+    if (!profiles || !profiles.includes(profile)) {
       const { data: { name } = {}, error } = (await (
-        await fetch(`/api/teams/${teamId}`)
-      ).json()) as TeamApiResponse;
+        await fetch(`/api/entries/${profile}`)
+      ).json()) as EntryApiResponse;
 
       if (error) {
         toast({
-          title: `Unable to create ${teamId}.`,
+          title: `Unable to create ${profile}.`,
           description: (
             <>
               There is something wrong while fetching data from FPL. Maybe your
@@ -63,16 +63,16 @@ const SettingsModal = ({
           isClosable: true,
         });
       } else {
-        setLocalStorageItem(getPreferenceKey(teamId), {
-          ...getLocalStorageItem(getPreferenceKey(teamId), {}),
+        setLocalStorageItem(getPreferenceKey(profile), {
+          ...getLocalStorageItem(getPreferenceKey(profile), {}),
           name,
         });
-        setProfiles([...(profiles ?? []), teamId]);
-        setTeamId(teamId);
+        setProfiles([...(profiles ?? []), profile]);
+        setProfile(profile);
         toast({
           title: "Profile created.",
           description: `${
-            name ?? teamId
+            name ?? profile
           } profile has been successfully created.`,
           status: "success",
           isClosable: true,
@@ -80,13 +80,13 @@ const SettingsModal = ({
         plausible("settings-profile-add");
       }
     } else {
-      setTeamId(teamId);
+      setProfile(profile);
       const { name } =
-        getLocalStorageItem<Preference>(getPreferenceKey(teamId), {}) || {};
+        getLocalStorageItem<Preference>(getPreferenceKey(profile), {}) || {};
       toast({
         title: "Profile existed.",
         description: `${
-          name ?? teamId
+          name ?? profile
         } profile is already existed so we reactivated this profile for you.`,
         status: "success",
         isClosable: true,
@@ -94,8 +94,8 @@ const SettingsModal = ({
     }
   };
 
-  const handleActiveProfileChange = (teamId: string) => {
-    setTeamId(teamId);
+  const handleActiveProfileChange = (profile: string) => {
+    setProfile(profile);
     plausible("settings-profile-select");
   };
 
@@ -108,8 +108,8 @@ const SettingsModal = ({
     teamPlans?.forEach((id) =>
       removeLocalStorageItem(getTeamPlanKey(removingTeamId, id))
     );
-    if (teamId === removingTeamId) {
-      setTeamId(null);
+    if (profile === removingTeamId) {
+      setProfile(null);
     }
     toast({
       title: "Profile removed.",
@@ -140,7 +140,7 @@ const SettingsModal = ({
           />
           <Box my={4}>
             <SettingsProfilesList
-              activeProfile={teamId}
+              activeProfile={profile}
               profiles={profiles}
               onActiveProfileChange={handleActiveProfileChange}
               onRemoveProfile={handleRemoveProfile}

@@ -9,15 +9,18 @@ const gameweeks = Array.from({ length: 38 }, (_, i) => i + 1);
 const FixturesTableRow = ({
   team,
   mode,
+  nextGameweekId,
 }: {
   team: SortableFullTeamFixtures;
   mode: string;
+  nextGameweekId: number;
 }) => {
   return (
     <Tr>
       <Th
         p={0}
         left={0}
+        zIndex={1}
         position="sticky"
         textAlign="center"
         fontWeight="black"
@@ -43,7 +46,12 @@ const FixturesTableRow = ({
       {gameweeks.map((gameweek) => {
         const fixtures = team.gameweeks[gameweek];
         return (
-          <Td key={`${gameweek}`} p={0}>
+          <Td
+            key={`${gameweek}`}
+            p={0}
+            zIndex={0}
+            opacity={gameweek < nextGameweekId ? 0.5 : 1}
+          >
             {fixtures?.map((fixture) => {
               const difficulty =
                 mode === "attack"
