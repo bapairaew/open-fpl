@@ -45,7 +45,7 @@ const getCountdownText = (deadline: Date) => {
     ? `In ${formatDistanceToNowStrict(deadline, {
         roundingMethod: "floor",
       })}`
-    : "Now";
+    : "Starting soon";
 };
 
 const Dashboard = ({

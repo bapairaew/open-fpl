@@ -15,7 +15,7 @@ const getCountdownText = (deadline: Date) => {
         .split("$$")
         .slice(0, 3)
         .join(" ") // Only show the first 3 parts of the duration
-    : "Now";
+    : "Starting soon";
 };
 
 const DeadlineCountdown = ({ deadline }: { deadline: Date }) => {
