@@ -252,8 +252,8 @@ const TeamPlanner = ({
 
   const handleRearrange = (newOrder: ItemInterface[]) => {
     const nextTransferPlans = newOrder.map((i) => `${i.id}`);
-    setTeamPlans(nextTransferPlans);
-    setTabIndex(
+    setTeamPlansAndTabIndex(
+      nextTransferPlans,
       nextTransferPlans.findIndex((t) => t === teamPlans?.[tabIndex])
     );
     plausible("team-planner-plans-rearrange");
