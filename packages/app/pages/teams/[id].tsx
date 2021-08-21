@@ -16,7 +16,11 @@ import {
   getEntryPicks,
   getEntryTransfers,
 } from "@open-fpl/data/features/RemoteData/fpl";
-import { EntryEvent, Event } from "@open-fpl/data/features/RemoteData/fplTypes";
+import {
+  EntryEvent,
+  Event,
+  EventHistory,
+} from "@open-fpl/data/features/RemoteData/fplTypes";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
@@ -65,7 +69,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     await Promise.all([
       getEntryPicks(+params!.id!, picksGameweekId) as Promise<EntryEvent>,
       getEntryTransfers(+params!.id!),
-      getEntryHistory(+params!.id!),
+      getEntryHistory(+params!.id!) as Promise<EventHistory>,
     ]);
 
   return {
