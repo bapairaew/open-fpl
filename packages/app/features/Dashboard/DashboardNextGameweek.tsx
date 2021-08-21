@@ -22,16 +22,16 @@ import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTy
 const DashboardNextGameweek = ({
   deadline,
   nextGameweekFixtures,
-  allCurrentGameweekPlayers,
+  allGameweekPlayers,
 }: {
   deadline: Date;
   nextGameweekFixtures: DashboardFixture[];
-  allCurrentGameweekPlayers: GameweekPlayerStat[];
+  allGameweekPlayers: GameweekPlayerStat[];
 }) => {
   const plausible = usePlausible<AnalyticsDashboard>();
   const sortedPlayers = useMemo(
     () =>
-      [...allCurrentGameweekPlayers].sort((a, b) => {
+      [...allGameweekPlayers].sort((a, b) => {
         const aAbsCost = Math.abs(a.player.cost_change_event ?? 0);
         const bAbsCost = Math.abs(b.player.cost_change_event ?? 0);
         if (aAbsCost > aAbsCost) return -1;
@@ -52,7 +52,7 @@ const DashboardNextGameweek = ({
           b.player.selected_by_percent
         );
       }),
-    [allCurrentGameweekPlayers]
+    [allGameweekPlayers]
   );
 
   const { onOpen, isOpen, onClose } = useDisclosure();

@@ -139,12 +139,17 @@ const Dashboard = ({
       return [liveFixtures, finishedCurrentFixtures, unfinishedCurrentFixtures];
     }, [currentGameweekFixtures]);
 
-  const allCurrentGameweekPlayers = useMemo(() => {
-    const playerStats: GameweekPlayerStat[] = [];
-    [...finishedCurrentFixtures, ...liveFixtures].forEach((fixture) => {
+  const { allCurrentGameweekPlayers, allGameweekPlayers } = useMemo(() => {
+    const allGameweekPlayers: GameweekPlayerStat[] = [];
+    const allCurrentGameweekPlayers: GameweekPlayerStat[] = [];
+    [
+      ...finishedCurrentFixtures,
+      ...liveFixtures,
+      ...unfinishedCurrentFixtures,
+    ].forEach((fixture) => {
       [...fixture.team_h_players, ...fixture.team_a_players].forEach(
         (playerStat) => {
-          const matched = playerStats.find(
+          const matched = allCurrentGameweekPlayers.find(
             (ps) => ps.player.id === playerStat.player.id
           );
           if (matched) {
@@ -161,7 +166,7 @@ const Dashboard = ({
               matched.stats.minutes += playerStat.stats?.minutes ?? 0;
             }
           } else {
-            playerStats.push({
+            const player = {
               player: playerStat.player,
               picked: playerStat.picked,
               multiplier: playerStat.multiplier,
@@ -177,12 +182,15 @@ const Dashboard = ({
                 minutes: playerStat.stats?.minutes ?? 0,
               },
               fixtures: [playerStat],
-            });
+            };
+            allGameweekPlayers.push(player);
+            if (!unfinishedCurrentFixtures.includes(fixture))
+              allCurrentGameweekPlayers.push(player);
           }
         }
       );
     });
-    return playerStats;
+    return { allGameweekPlayers, allCurrentGameweekPlayers };
   }, [liveFixtures, finishedCurrentFixtures]);
 
   const currentPicksPlayers = useMemo(() => {
@@ -195,13 +203,13 @@ const Dashboard = ({
 
   const existingPoints = entry?.summary_overall_points ?? 0;
   const livePoints = useMemo(() => {
-    const livePlayers: FixturePlayerStat[] = [];
+    const playersToCalculate: FixturePlayerStat[] = [];
     liveFixtures.forEach((fixture) => {
-      livePlayers.push(...fixture.team_a_players);
-      livePlayers.push(...fixture.team_h_players);
+      playersToCalculate.push(...fixture.team_a_players);
+      playersToCalculate.push(...fixture.team_h_players);
     });
 
-    return livePlayers.reduce((sum, playerStats) => {
+    return playersToCalculate.reduce((sum, playerStats) => {
       return (
         sum +
         (playerStats.picked && playerStats.stats
@@ -340,7 +348,7 @@ const Dashboard = ({
             <DashboardNextGameweek
               deadline={deadline}
               nextGameweekFixtures={nextGameweekFixtures}
-              allCurrentGameweekPlayers={allCurrentGameweekPlayers}
+              allGameweekPlayers={allGameweekPlayers}
             />
           </TabPanel>
         </TabPanels>
