@@ -155,12 +155,16 @@ const DashboardCurrentGameweek = ({
               <StatNumber fontSize="4xl">
                 {entry?.summary_overall_rank?.toLocaleString() ?? 0}
               </StatNumber>
-              {deltaRanks !== 0 && (
-                <>
-                  <StatArrow type={deltaRanks > 0 ? "decrease" : "increase"} />
-                  {Math.abs(deltaRanks).toLocaleString()}
-                </>
-              )}
+              <StatHelpText>
+                {deltaRanks !== 0 && (
+                  <>
+                    <StatArrow
+                      type={deltaRanks > 0 ? "decrease" : "increase"}
+                    />
+                    {Math.abs(deltaRanks).toLocaleString()}
+                  </>
+                )}
+              </StatHelpText>
             </Stat>
           </Grid>
         ) : entryError ? (
