@@ -34,3 +34,9 @@ jobs:
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           IGNORE_SNAPSHOTS: ${{ github.event.inputs.ignoreSnapshots }}
+      - name: Trigger open-fpl-data redeploy
+        uses: satak/webrequest-action@master
+        if: ${{ secrets.FIRE_DEPLOY_DATA_HOOK == "true" }}
+        with:
+          url: ${{ secrets.DEPLOY_DATA_HOOK }}
+          method: GET
