@@ -112,18 +112,34 @@ const Dashboard = ({
     [remotePlayers, preference?.starredPlayers, fullFixtures]
   );
 
+  const adjustedGameweekPlayers = useMemo(
+    () =>
+      players.map((player) => ({
+        ...player,
+        client_data: {
+          ...player.client_data,
+          gameweeks:
+            player.client_data.gameweeks?.slice(
+              nextGameweek.id,
+              nextGameweek.id + 5
+            ) ?? [],
+        },
+      })),
+    [players, nextGameweek.id]
+  );
+
   const { currentGameweekFixtures, nextGameweekFixtures } = useMemo(() => {
     return dehydrateDashboardFixtures(
       remoteCurrentGameweekFixtures,
       remoteNextGameweekFixtures,
-      players,
+      adjustedGameweekPlayers,
       adjustedTeams,
       currentPicks
     );
   }, [
     remoteCurrentGameweekFixtures,
     remoteNextGameweekFixtures,
-    players,
+    adjustedGameweekPlayers,
     adjustedTeams,
     currentPicks,
   ]);
