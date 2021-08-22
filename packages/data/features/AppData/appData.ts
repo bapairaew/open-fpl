@@ -211,7 +211,7 @@ const makeTeamFixtures = ({
   const teamFixtures = [] as TeamFixtures[];
 
   for (const fplTeam of fplTeams) {
-    const fplElement = fplElements.find((f) => f.team === fplTeam.id);
+    const fplElement = fplElements.find((f) => f.team === fplTeam.id && f.history.length + f.fixtures.length === 38);
     if (fplElement) {
       const fixtures: TeamFixture[] = [];
       const addedFixtures: number[] = [];
