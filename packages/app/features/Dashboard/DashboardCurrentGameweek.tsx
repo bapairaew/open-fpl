@@ -217,6 +217,30 @@ const DashboardCurrentGameweek = ({
             </Grid>
           </>
         )}
+        {unfinishedCurrentFixtures.length > 0 && (
+          <>
+            <Heading size="md" fontWeight="black">
+              Upcoming Fixtures
+            </Heading>
+            <Grid
+              gap={4}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+                xl: "repeat(4, 1fr)",
+              }}
+            >
+              {unfinishedCurrentFixtures.map((fixture) => (
+                <DashboardUpcomingFixture
+                  key={fixture.id}
+                  fixture={fixture}
+                  onOpened={handleUpcomingFixtureOpened}
+                />
+              ))}
+            </Grid>
+          </>
+        )}
         {allCurrentGameweekPlayers.length > 0 && (
           <>
             <Flex justifyContent="space-between">
@@ -257,30 +281,6 @@ const DashboardCurrentGameweek = ({
                   key={fixture.id}
                   fixture={fixture}
                   onOpened={handleFinishedFixtureOpened}
-                />
-              ))}
-            </Grid>
-          </>
-        )}
-        {unfinishedCurrentFixtures.length > 0 && (
-          <>
-            <Heading size="md" fontWeight="black">
-              Upcoming Fixtures
-            </Heading>
-            <Grid
-              gap={4}
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                sm: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
-                xl: "repeat(4, 1fr)",
-              }}
-            >
-              {unfinishedCurrentFixtures.map((fixture) => (
-                <DashboardUpcomingFixture
-                  key={fixture.id}
-                  fixture={fixture}
-                  onOpened={handleUpcomingFixtureOpened}
                 />
               ))}
             </Grid>
