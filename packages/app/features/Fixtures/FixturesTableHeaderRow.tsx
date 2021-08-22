@@ -57,6 +57,7 @@ const FixturesTableHeaderRow = ({
           p={0}
           top={0}
           position="sticky"
+          zIndex={1}
           textAlign="center"
           layerStyle={sortGroup.group[0] === i + 1 ? "selected" : undefined}
         >
