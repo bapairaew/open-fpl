@@ -260,6 +260,11 @@ const strategies: StorageStrategies = {
 
   await strategy.init?.();
 
+  if (forceSaveToDisk) {
+    console.log("Found force saving to disk config");
+    await strategies.disk.init?.();
+  }
+
   if (!ignoreSnapshots) console.log("Preparing Snapshot data...");
 
   const previousSnapshots: Snapshots = (ignoreSnapshots
@@ -492,6 +497,7 @@ const strategies: StorageStrategies = {
 
   // NOTE: this is used for deploying to data.openfpl.com as temporary data storage as Supabase storage become really slow
   if (forceSaveToDisk) {
+    console.log("Force saving all data to local disk...");
     await Promise.all([
       ...fpl.map((e) => {
         return strategies.disk.saveRemoteData("fpl", e);
