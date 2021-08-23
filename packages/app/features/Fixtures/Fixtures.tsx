@@ -47,7 +47,7 @@ const Fixtures = ({
       teams: adjustedTeams,
     });
 
-    return fixturesTeamsOrder
+    return fixturesTeamsOrder && fixturesTeamsOrder.length === 20
       ? fixturesTeamsOrder.map((o) => {
           return fullFixtures.find((f) => f.short_name === o)!;
         })

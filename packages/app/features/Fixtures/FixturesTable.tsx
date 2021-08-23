@@ -82,7 +82,7 @@ const FixturesTable = ({
   onFixturesOrderChange: (newOrder: string[] | null) => void;
 }) => {
   const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
-  const sortedFullFixtures = useMemo<SortableFullTeamFixtures[]>(() => {
+  const sortableFullFixtures = useMemo<SortableFullTeamFixtures[]>(() => {
     return fullFixtures.map((f) => ({ id: f.short_name, ...f }));
   }, [fullFixtures]);
 
@@ -98,13 +98,13 @@ const FixturesTable = ({
   const handleResetSortClick = () => onFixturesOrderChange(null);
   const handleHardFixtureSortClick = (gameweek: number) => {
     onFixturesOrderChange(
-      makeSortedFixturesOrder(sortedFullFixtures, mode, [gameweek], 1)
+      makeSortedFixturesOrder(sortableFullFixtures, mode, [gameweek], 1)
     );
     plausible("fixtures-column-sort");
   };
   const handleEasyFixtureSortClick = (gameweek: number) => {
     onFixturesOrderChange(
-      makeSortedFixturesOrder(sortedFullFixtures, mode, [gameweek], -1)
+      makeSortedFixturesOrder(sortableFullFixtures, mode, [gameweek], -1)
     );
     plausible("fixtures-column-sort");
   };
@@ -118,7 +118,7 @@ const FixturesTable = ({
     } else {
       const range = [...sortGroup.group, gameweek];
       onFixturesOrderChange(
-        makeSortedFixturesOrder(sortedFullFixtures, mode, range, direction)
+        makeSortedFixturesOrder(sortableFullFixtures, mode, range, direction)
       );
       handleResetSortGroupClick();
       plausible("fixtures-multi-columns-sort", {
@@ -163,11 +163,11 @@ const FixturesTable = ({
             // NOTE: react-sortablejs typescript is not well-defined so just ignore it
             // @ts-ignore
             tag={ForwardableTbody}
-            list={sortedFullFixtures}
+            list={sortableFullFixtures}
             setList={handleFixturesOrderChange}
             handle=".handle"
           >
-            {sortedFullFixtures.map((team) => (
+            {sortableFullFixtures.map((team) => (
               <FixturesTableRow
                 key={team.short_name}
                 team={team}
