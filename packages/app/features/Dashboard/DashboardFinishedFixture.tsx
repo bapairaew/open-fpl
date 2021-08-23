@@ -19,20 +19,21 @@ const DashboardFinishedFixture = ({
     (p) => p.stats?.minutes ?? 0 > 0
   );
 
-  const homeXG =
-    fixture.team_h?.stats?.matches
-      .find((m) => m.opponent === fixture.team_a?.id)
-      ?.xg.toFixed(2) ?? null;
-  const awayXG =
-    fixture.team_a?.stats?.matches
-      .find((m) => m.opponent === fixture.team_h?.id)
-      ?.xg.toFixed(2) ?? null;
+  const homeMatch = fixture.team_h?.stats?.matches.find(
+    (m) => m.opponent === fixture.team_a?.id
+  );
+  const awayMatch = fixture.team_a?.stats?.matches.find(
+    (m) => m.opponent === fixture.team_h?.id
+  );
+  const found = awayMatch && homeMatch && homeMatch.id === awayMatch.id;
+  const homeXG = found ? homeMatch?.xg.toFixed(2) ?? null : null;
+  const awayXG = found ? awayMatch?.xg.toFixed(2) ?? null : null;
+  const understatId = found ? homeMatch?.id : null;
 
   const handleOpen = () => {
     onOpen();
     onOpened?.(fixture);
   };
-
   return (
     <>
       {isOpen && (
@@ -42,6 +43,7 @@ const DashboardFinishedFixture = ({
           fixture={fixture}
           homeXG={homeXG}
           awayXG={awayXG}
+          understatId={understatId}
           homePlayers={homePlayers}
           awayPlayers={awayPlayers}
         />

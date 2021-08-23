@@ -9,6 +9,8 @@ import {
   DrawerOverlay,
   Flex,
   HStack,
+  Icon,
+  Link as A,
   Text,
 } from "@chakra-ui/react";
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
@@ -16,6 +18,7 @@ import {
   DashboardFixture,
   FixturePlayerStat,
 } from "@open-fpl/app/features/Dashboard/dashboardTypes";
+import { IoOpenOutline } from "react-icons/io5";
 
 const DashboardCurrentFixtureModal = ({
   isOpen,
@@ -27,6 +30,7 @@ const DashboardCurrentFixtureModal = ({
   awayPlayers,
   homeXG,
   awayXG,
+  understatId,
 }: {
   isOpen: boolean;
   onClose: () => void;
@@ -35,6 +39,7 @@ const DashboardCurrentFixtureModal = ({
   minutes?: number;
   homeXG?: string | null;
   awayXG?: string | null;
+  understatId?: string | null;
   homePlayers: FixturePlayerStat[];
   awayPlayers: FixturePlayerStat[];
 }) => {
@@ -95,12 +100,23 @@ const DashboardCurrentFixtureModal = ({
               )}
             </Box>
           </Flex>
+          {understatId && (
+            <Flex py={4} justifyContent="center">
+              <A
+                isExternal
+                textDecoration="underline"
+                href={`https://understat.com/match/${understatId}`}
+              >
+                Open in Understat <Icon as={IoOpenOutline} />
+              </A>
+            </Flex>
+          )}
           <Flex
             px={{ base: 1, sm: 4 }}
-            my={2}
+            my={4}
             flexGrow={1}
             width="100%"
-            alignItems="center"
+            alignItems="flex-start"
             justifyContent="space-around"
             fontSize="sm"
           >
