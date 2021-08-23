@@ -28,11 +28,13 @@ const {
   SUPABASE_STORAGE_NAME: _supabaseStorageName,
   IGNORE_SNAPSHOTS: _ignoreSnapshots,
   SKIP_UPDATE: _skipUpdate,
+  FORCE_SAVE_TO_DISK: _forceSaveToDisk,
 } = process.env;
 
 const ignoreSnapshots = _ignoreSnapshots === "true";
 const skipUpdate = _skipUpdate === "true";
 const supabaseStorageName = _supabaseStorageName ?? "open-fpl";
+const forceSaveToDisk = _forceSaveToDisk === "true";
 
 type Snapshots = {
   snapshot_fpl_data: Bootstrap | null;
@@ -487,6 +489,30 @@ const strategies: StorageStrategies = {
     strategy.saveAppData("fixtures", fixtures),
     strategy.saveAppData("teams", teams),
   ]);
+
+  // NOTE: this is used for deploying to data.openfpl.com as temporary data storage as Supabase storage become really slow
+  if (forceSaveToDisk) {
+    await Promise.all([
+      ...fpl.map((e) => {
+        return strategies.disk.saveRemoteData("fpl", e);
+      }),
+      ...understat.map((e) => {
+        return strategies.disk.saveRemoteData("understat", e);
+      }),
+      ...understatTeams.map((e) => {
+        return strategies.disk.saveRemoteData("understatTeams", e);
+      }),
+      strategies.disk.saveRemoteData("fplElementTypes", fplElementTypes),
+      strategies.disk.saveRemoteData("fplGameweeks", fplGameweeks),
+      strategies.disk.saveRemoteData("fplTeams", fplTeams),
+
+      strategies.disk.saveAppData("links/players", playersLinks),
+      strategies.disk.saveAppData("links/teams", teamsLinks),
+      strategies.disk.saveAppData("players", players),
+      strategies.disk.saveAppData("fixtures", fixtures),
+      strategies.disk.saveAppData("teams", teams),
+    ]);
+  }
 
   console.log("App data is created.");
 
