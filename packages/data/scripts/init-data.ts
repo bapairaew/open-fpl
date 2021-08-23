@@ -506,11 +506,11 @@ const strategies: StorageStrategies = {
         return strategies.disk.saveRemoteData("understat", e);
       }),
       ...understatTeams.map((e) => {
-        return strategies.disk.saveRemoteData("understatTeams", e);
+        return strategies.disk.saveRemoteData("understat_teams", e);
       }),
-      strategies.disk.saveRemoteData("fplElementTypes", fplElementTypes),
-      strategies.disk.saveRemoteData("fplGameweeks", fplGameweeks),
-      strategies.disk.saveRemoteData("fplTeams", fplTeams),
+      strategies.disk.saveRemoteData("fpl_element_types", fplElementTypes),
+      strategies.disk.saveRemoteData("fpl_gameweeks", fplGameweeks),
+      strategies.disk.saveRemoteData("fpl_teams", fplTeams),
 
       strategies.disk.saveAppData("links/players", playersLinks),
       strategies.disk.saveAppData("links/teams", teamsLinks),
