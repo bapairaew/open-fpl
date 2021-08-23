@@ -36,7 +36,9 @@ jobs:
           IGNORE_SNAPSHOTS: ${{ github.event.inputs.ignoreSnapshots }}
       - name: Trigger open-fpl-data redeploy
         uses: satak/webrequest-action@master
-        if: ${{ secrets.FIRE_DEPLOY_DATA_HOOK == "true" }}
+        env:
+          FIRE_DEPLOY_DATA_HOOK: ${{ secrets.FIRE_DEPLOY_DATA_HOOK }}
+        if: ${{ env.FIRE_DEPLOY_DATA_HOOK == "true" }}
         with:
           url: ${{ secrets.DEPLOY_DATA_HOOK }}
           method: GET
