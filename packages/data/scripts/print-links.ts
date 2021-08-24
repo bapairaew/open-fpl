@@ -93,21 +93,25 @@ async function printDuplicatedLinks({
 async function printUnlinkedPlayers({
   fpl,
   links,
+  fplTeams,
 }: {
   fpl: FPLElement[];
-  understat: PlayerStat[];
   links: Record<string, string>;
   fplTeams: Team[];
 }) {
   const tsv = fpl
     .filter((player) => links[player.id] === undefined)
-    .map((player) =>
-      [
-        player.web_name.padStart(20, " "),
-        `${player.id}`.padStart(6, " "),
-        `${player.minutes}`.padStart(6, " "),
-      ].join("\t")
-    )
+    .map((player) => [
+      player.web_name.padStart(20, " "),
+      `${player.id}`.padStart(6, " "),
+      `${fplTeams.find((t) => t.id === player.team)?.short_name}`.padStart(
+        3,
+        " "
+      ),
+      `${player.minutes}`.padStart(6, " "),
+    ])
+    .sort((a, b) => (a[3] === b[3] ? 0 : a[3] > b[3] ? -1 : 1))
+    .map((r) => r.join("\t"))
     .join("\n");
 
   await fs.promises.writeFile("./players.unlinked.temp.tsv", tsv);
@@ -136,7 +140,7 @@ async function printUnlinkedPlayers({
   ]);
   await printPlayersLink({ fpl, understat, links, fplTeams });
   await printDuplicatedLinks({ fpl, understat, links });
-  await printUnlinkedPlayers({ fpl, understat, links, fplTeams });
+  await printUnlinkedPlayers({ fpl, links, fplTeams });
   console.log(
     `Time elapsed: ${(
       new Date().getTime() - start.getTime()
