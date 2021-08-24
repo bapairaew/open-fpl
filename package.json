@@ -16,7 +16,8 @@
     "data:start": "yarn --cwd packages/data start",
     "www:dev": "yarn --cwd packages/www dev --port=3000",
     "www:build": "yarn --cwd packages/www build",
-    "www:start": "yarn --cwd packages/www start"
+    "www:start": "yarn --cwd packages/www start",
+    "test": "yarn --cwd packages/e2e cypress"
   },
   "private": true,
   "workspaces": {
