@@ -40,6 +40,10 @@ export type PlayersSortableKeys =
 const makePastMatchesSortFn =
   (key: keyof MatchStat, direction: -1 | 1) =>
   (a: ClientPlayer, b: ClientPlayer) => {
+    const lenA = a.linked_data.past_matches?.length ?? 0;
+    const lenB = b.linked_data.past_matches?.length ?? 0;
+    if (lenA < lenB) return 1;
+    if (lenA > lenB) return -1;
     const sumA =
       a.linked_data.past_matches?.reduce(
         (sum, m) => ((m[key] as null | number) ?? 0) + sum,
@@ -57,28 +61,20 @@ const makePastMatchesSortFn =
 
 const makeXGISortFn =
   (direction: -1 | 1) => (a: ClientPlayer, b: ClientPlayer) => {
-    if (
-      !a.linked_data.past_matches ||
-      a.linked_data.past_matches.filter(
-        (m) => m.match_xg !== null && m.match_xa !== null
-      ).length < 5
-    )
-      return 1;
-    if (
-      !b.linked_data.past_matches ||
-      b.linked_data.past_matches.filter(
-        (m) => m.match_xg !== null && m.match_xa !== null
-      ).length < 5
-    )
-      return -1;
-    const sumA = a.linked_data.past_matches.reduce(
-      (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
-      0
-    );
-    const sumB = b.linked_data.past_matches.reduce(
-      (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
-      0
-    );
+    const lenA = a.linked_data.past_matches?.length ?? 0;
+    const lenB = b.linked_data.past_matches?.length ?? 0;
+    if (lenA < lenB) return 1;
+    if (lenA > lenB) return -1;
+    const sumA =
+      a.linked_data.past_matches?.reduce(
+        (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
+        0
+      ) ?? 0;
+    const sumB =
+      b.linked_data.past_matches?.reduce(
+        (sum, m) => (m.match_xg ?? 0) + (m.match_xa ?? 0) + sum,
+        0
+      ) ?? 0;
     if (sumA < sumB) return -1 * direction;
     if (sumA > sumB) return direction;
     return 0;

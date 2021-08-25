@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, BoxProps } from "@chakra-ui/react";
 import { CenterFlexVariant } from "@open-fpl/app/features/PlayerData/CenterFlex";
 import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
 import NameSection from "@open-fpl/app/features/PlayerData/NameSection";
@@ -9,13 +9,14 @@ import PreviousStatsSection from "@open-fpl/app/features/PlayerData/PreviousStat
 const PlayerGridCard = ({
   variant = "default",
   player,
-}: {
+  ...props
+}: BoxProps & {
   variant?: CenterFlexVariant;
   player: ClientPlayer;
 }) => {
   const height = variant === "mini" ? "165px" : "203px";
   return (
-    <Box borderWidth={1} height={height} overflow="hidden">
+    <Box borderWidth={1} height={height} overflow="hidden" {...props}>
       <NameSection variant={variant} player={player} />
       <FixturesSection variant={variant} player={player} />
       <PointsSection showTeamsName variant={variant} player={player} />

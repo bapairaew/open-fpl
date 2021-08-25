@@ -12,6 +12,7 @@ const PastMatchesStats = ({
   sumValue,
   decimal,
   isReversedScale,
+  statLabel,
 }: {
   variant?: CenterFlexVariant;
   pastMatches: MatchStat[];
@@ -20,6 +21,7 @@ const PastMatchesStats = ({
   sumValue: number | null;
   decimal: number;
   isReversedScale?: boolean;
+  statLabel?: string;
 }) => {
   const fontSize = variant === "mini" ? "xs" : "sm";
   const { colorMode } = useColorMode();
@@ -44,6 +46,11 @@ const PastMatchesStats = ({
             }, 0, ${colorScale}%)`}
           >
             <Box
+              aria-label={
+                statLabel
+                  ? `${statLabel} against ${s.opponent_short_title}`
+                  : undefined
+              }
               display={{
                 base: variant === "mini" ? "none" : "block",
                 sm: "block",
@@ -56,6 +63,7 @@ const PastMatchesStats = ({
       })}
       {sumValue !== null && (
         <CenterFlex
+          aria-label={statLabel ? `seasonal ${statLabel}` : undefined}
           variant={variant}
           fontSize={fontSize}
           layerStyle="highlight"

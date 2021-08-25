@@ -1,4 +1,4 @@
-import { Table, Tbody, Thead } from "@chakra-ui/react";
+import { Table, TableProps, Tbody, Thead } from "@chakra-ui/react";
 import {
   ComponentType,
   createContext,
@@ -15,6 +15,7 @@ import {
 export type StickyHeaderTableContextType = {
   headerRow?: ReactNode;
   stickyCount?: number;
+  tableProps?: TableProps;
   ItemRenderer?: ComponentType<
     ListChildComponentProps<StickyHeaderTableContextType>
   >;
@@ -24,8 +25,8 @@ const StickyHeaderTableElementType = forwardRef<HTMLDivElement>(
   ({ children, ...props }, ref) => {
     return (
       <StickyHeaderTableContext.Consumer>
-        {({ headerRow }) => (
-          <Table {...props}>
+        {({ headerRow, tableProps = {} }) => (
+          <Table {...props} {...tableProps}>
             <Thead>{headerRow}</Thead>
             <Tbody
               // @ts-ignore
@@ -70,13 +71,15 @@ const StickyHeaderTable = ({
   headerRow,
   stickyCount = 1,
   itemCount,
+  tableProps,
   ...props
 }: FixedSizeListProps & {
   headerRow: ReactNode;
   stickyCount?: number;
+  tableProps?: TableProps;
 }) => (
   <StickyHeaderTableContext.Provider
-    value={{ ItemRenderer: children, headerRow, stickyCount }}
+    value={{ ItemRenderer: children, headerRow, stickyCount, tableProps }}
   >
     <List
       itemData={{ ItemRenderer: children, headerRow, stickyCount }}

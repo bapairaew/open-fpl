@@ -122,9 +122,10 @@ const PlayersExplorerToolbar = ({
             children={<IoSearchOutline />}
           />
           <Input
+            aria-label="search for players"
             borderWidth={0}
             borderRadius="none"
-            placeholder="Search for player..."
+            placeholder="Search for players..."
             value={filterQuery}
             onChange={handleQueryChange}
           />
@@ -140,10 +141,10 @@ const PlayersExplorerToolbar = ({
           {({ isOpen }) => (
             <>
               <MenuButton
+                aria-label="sort and display options"
                 as={IconButton}
                 borderRadius="none"
                 variant="ghost"
-                aria-label="options"
                 icon={<Icon as={IoSettingsOutline} />}
               />
               {isOpen && (
@@ -194,6 +195,7 @@ const PlayersExplorerToolbar = ({
         <Tooltip label={sortingTooltipLabel} hasArrow>
           <Box flexShrink={0}>
             <Select
+              aria-label="sort players"
               disabled={disabledSorting}
               borderWidth={0}
               borderRadius="none"
@@ -211,6 +213,7 @@ const PlayersExplorerToolbar = ({
         <Divider orientation="vertical" />
         <Box flexShrink={0}>
           <Select
+            aria-label="select display options"
             borderWidth={0}
             borderRadius="none"
             value={display}

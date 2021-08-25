@@ -60,12 +60,12 @@ export const TeamsName = ({
   pastMatches,
   variant,
 }: {
-  pastMatches: MatchStat[];
+  pastMatches: MatchStat[] | null;
   variant: CenterFlexVariant;
 }) => {
   return (
     <>
-      {pastMatches.map((s, i) => (
+      {pastMatches?.map((s, i) => (
         <CenterFlex
           variant={variant}
           key={i}
@@ -111,12 +111,13 @@ const PreviousStatsSection = ({
             sm: "repeat(6, 1fr)",
           }}
         >
-          {showTeamsName && player.linked_data.past_matches && (
+          {showTeamsName && (
             <TeamsName pastMatches={pastMatches} variant={variant} />
           )}
           <PastMatchesStats
             variant={variant}
             pastMatches={pastMatches}
+            statLabel="xgi"
             valueKey="match_xgi"
             maxValue={assumedMax.xgi}
             sumValue={player.linked_data.season_xgi}
@@ -125,6 +126,7 @@ const PreviousStatsSection = ({
           <PastMatchesStats
             variant={variant}
             pastMatches={pastMatches}
+            statLabel="xga"
             valueKey="match_xga"
             maxValue={assumedMax.xga}
             sumValue={player.linked_data.season_xga}

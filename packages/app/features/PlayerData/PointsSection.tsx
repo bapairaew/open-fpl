@@ -93,6 +93,7 @@ const PointsSection = ({
             minHeight="10px"
           >
             <Box
+              aria-label={`points against ${h.opponent_team_short_name}`}
               display={{
                 base: variant === "mini" ? "none" : "block",
                 sm: "block",
@@ -104,6 +105,7 @@ const PointsSection = ({
         ))}
         {previousGameweeks && (
           <CenterFlex
+            aria-label="seasonal points"
             variant={variant}
             fontSize={fontSize}
             layerStyle="highlight"

@@ -55,6 +55,9 @@ export const PlayerTableHeaderRow = ({
             <TableCellWithMenu
               px={4}
               width={`${config.columnWidth}px`}
+              menuButtonProps={{
+                "aria-label": `${config.header?.toLowerCase()} options`,
+              }}
               menu={
                 config.hideMenu ? undefined : (
                   <MenuList zIndex="modal">
@@ -91,6 +94,7 @@ export const PlayerTableHeaderRow = ({
                         >
                           {sortColumns?.map((c) => (
                             <MenuItemOption
+                              aria-label={`unsort ${c.columnName?.toLowerCase()}`}
                               key={c.columnName}
                               value={c.columnName}
                             >

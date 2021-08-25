@@ -174,6 +174,7 @@ const playerTableConfigs = [
         >
           <PastMatchesStats
             pastMatches={pastMatches}
+            statLabel="goals"
             valueKey="match_g"
             maxValue={assumedMax.g}
             sumValue={player.linked_data.season_g}
@@ -198,6 +199,7 @@ const playerTableConfigs = [
         >
           <PastMatchesStats
             pastMatches={pastMatches}
+            statLabel="assists"
             valueKey="match_a"
             maxValue={assumedMax.a}
             sumValue={player.linked_data.season_a}
@@ -222,6 +224,7 @@ const playerTableConfigs = [
         >
           <PastMatchesStats
             pastMatches={pastMatches}
+            statLabel="shots"
             valueKey="match_shots"
             maxValue={assumedMax.shots}
             sumValue={player.linked_data.season_shots}
@@ -246,6 +249,7 @@ const playerTableConfigs = [
         >
           <PastMatchesStats
             pastMatches={pastMatches}
+            statLabel="key passes"
             valueKey="match_key_passes"
             maxValue={assumedMax.keyPasses}
             sumValue={player.linked_data.season_key_passes}
@@ -270,6 +274,7 @@ const playerTableConfigs = [
         >
           <PastMatchesStats
             pastMatches={pastMatches}
+            statLabel="xg"
             valueKey="match_xg"
             maxValue={assumedMax.xg}
             sumValue={player.linked_data.season_xg}
@@ -294,6 +299,7 @@ const playerTableConfigs = [
         >
           <PastMatchesStats
             pastMatches={pastMatches}
+            statLabel="xa"
             valueKey="match_xa"
             maxValue={assumedMax.xa}
             sumValue={player.linked_data.season_xa}
@@ -318,6 +324,7 @@ const playerTableConfigs = [
         >
           <PastMatchesStats
             pastMatches={pastMatches}
+            statLabel="xga"
             valueKey="match_xga"
             maxValue={assumedMax.xga}
             sumValue={player.linked_data.season_xga}

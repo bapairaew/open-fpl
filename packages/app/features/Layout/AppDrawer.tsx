@@ -54,7 +54,7 @@ export const AppDrawerOpenButton = () => {
   return (
     <IconButton
       variant="ghost"
-      aria-label="menu"
+      aria-label="open app drawer"
       borderRadius="none"
       icon={<Icon as={IoMenuOutline} />}
       onClick={onOpenAppDrawer}
