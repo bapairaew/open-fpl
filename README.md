@@ -27,9 +27,10 @@ $ yarn app:dev # On another terminal
 
 ## Stack
 
-- [Next.js](https://nextjs.org/)
+- [Next.js](https://nextjs.org)
 - [Vercel](https://vercel.com)
-- [Chakra UI](https://chakra-ui.com/)
+- [Chakra UI](https://chakra-ui.com)
+- [Cypress](https://www.cypress.io)
 
 ## Data
 

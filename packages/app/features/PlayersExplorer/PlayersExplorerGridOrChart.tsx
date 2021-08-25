@@ -52,6 +52,8 @@ const PlayersExplorerGridOrChart = ({
               <PlayerCardToolbar
                 key={player.id}
                 m={1}
+                aria-label="player statistics"
+                role="listitem"
                 player={player}
                 isSelected={selectedPlayers.some((p) => p.id === player.id)}
                 onSelectChange={(e) => onSelectChange(e, player)}
@@ -59,17 +61,9 @@ const PlayersExplorerGridOrChart = ({
                 onStarClick={(e) => onStarClick(e, player)}
               >
                 {display === "chart" ? (
-                  <PlayerChartCard
-                    player={player}
-                    aria-label="player statistics"
-                    role="listitem"
-                  />
+                  <PlayerChartCard player={player} />
                 ) : (
-                  <PlayerGridCard
-                    player={player}
-                    aria-label="player statistics"
-                    role="listitem"
-                  />
+                  <PlayerGridCard player={player} />
                 )}
               </PlayerCardToolbar>
             );

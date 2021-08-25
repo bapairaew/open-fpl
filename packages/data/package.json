@@ -15,7 +15,7 @@
     "@chakra-ui/react": "^1.6.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@open-fpl/common": "1.2.1",
+    "@open-fpl/common": "1.2.2",
     "framer-motion": "^4",
     "next": "^11.0.0",
     "next-seo": "^4.26.0",

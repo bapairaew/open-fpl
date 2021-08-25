@@ -1,5 +1,5 @@
 {
   "baseUrl": "http://localhost:3000",
   "integrationFolder": "cypress/integration/app",
-  "fixturesFolder": false
+  "retries": 3
 }
