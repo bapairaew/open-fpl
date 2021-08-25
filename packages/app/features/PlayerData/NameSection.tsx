@@ -48,6 +48,7 @@ const NameSection = ({
       )}
       <Flex px={2} py={1} flexGrow={1}>
         <Text
+          aria-label="player name"
           noOfLines={1}
           fontSize={nameFontSize}
           fontWeight="bold"
@@ -57,6 +58,7 @@ const NameSection = ({
         </Text>
       </Flex>
       <CenterFlex
+        aria-label="player team"
         width="42px"
         variant={variant}
         layerStyle={`fpl-team-${player.team.short_name}`}
@@ -64,16 +66,27 @@ const NameSection = ({
         {player.team.short_name}
       </CenterFlex>
       <CenterFlex
+        aria-label="player position"
         width="42px"
         variant={variant}
         layerStyle={`fpl-position-${player.element_type.singular_name_short}`}
       >
         {player.element_type.singular_name_short}
       </CenterFlex>
-      <CenterFlex variant={variant} width="48px" layerStyle="highlight">
+      <CenterFlex
+        aria-label="player ownership"
+        variant={variant}
+        width="48px"
+        layerStyle="highlight"
+      >
         {(+player.selected_by_percent).toFixed(1)}%
       </CenterFlex>
-      <CenterFlex variant={variant} width="48px" layerStyle="highlight">
+      <CenterFlex
+        aria-label="player cost"
+        variant={variant}
+        width="48px"
+        layerStyle="highlight"
+      >
         £{(player.now_cost / 10).toFixed(1)}
       </CenterFlex>
     </Flex>

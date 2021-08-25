@@ -69,7 +69,9 @@ const PlayersExplorerTable = ({
               <IconButton
                 mr={1}
                 size="xs"
-                aria-label="star player"
+                aria-label={
+                  isStarred ? "remove star player" : "add star player"
+                }
                 icon={<Icon as={isStarred ? IoStar : IoStarOutline} />}
                 variant={isStarred ? "solid" : "ghost"}
                 onClick={(e) => onStarClick(e, player)}
@@ -154,6 +156,7 @@ const PlayersExplorerTable = ({
             flexGrow={1}
           >
             <StickyHeaderTable
+              tableProps={{ "aria-label": "players table" }}
               height={height}
               width={width}
               itemSize={33}

@@ -1,4 +1,4 @@
-import { Box, Flex, useColorMode } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, useColorMode } from "@chakra-ui/react";
 import { transparentize } from "@chakra-ui/theme-tools";
 import { makeChartOptions } from "@open-fpl/app/features/Common/Chart/RadarChart";
 import NameSection from "@open-fpl/app/features/PlayerData/NameSection";
@@ -15,7 +15,10 @@ const RadarChart = dynamic(
   () => import("@open-fpl/app/features/Common/Chart/RadarChart")
 );
 
-const PlayerChartCard = ({ player }: { player: Player }) => {
+const PlayerChartCard = ({
+  player,
+  ...props
+}: BoxProps & { player: Player }) => {
   const { colorMode } = useColorMode();
   const colorLevel = colorMode === "dark" ? 200 : 500;
   const {
@@ -129,7 +132,7 @@ const PlayerChartCard = ({ player }: { player: Player }) => {
   });
 
   return (
-    <Flex flexDirection="column" borderWidth={1} height="205px">
+    <Flex flexDirection="column" borderWidth={1} height="205px" {...props}>
       <NameSection player={player} />
       <Box flexGrow={1}>
         <AutoSizer>

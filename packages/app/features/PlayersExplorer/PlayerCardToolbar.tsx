@@ -47,7 +47,7 @@ const PlayerCardToolbar = ({
           <IconButton
             size="xs"
             borderRadius="none"
-            aria-label="star player"
+            aria-label={isStarred ? "remove star player" : "add star player"}
             icon={<Icon as={isStarred ? IoStar : IoStarOutline} />}
             variant={isStarred ? "solid" : "ghost"}
             onClick={onStarClick}

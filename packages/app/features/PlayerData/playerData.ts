@@ -27,7 +27,7 @@ export const assumedMax = {
   recentXG: 5,
   recentXA: 5,
   recentXGA: 10,
-  recentBPS: 3,
+  recentBPS: 150,
   seasonG: 25,
   seasonA: 25,
   seasonShots: 140,

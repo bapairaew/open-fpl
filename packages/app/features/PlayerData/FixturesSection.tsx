@@ -45,7 +45,10 @@ const FixturesSection = ({
                   height={`${100 / fixtures.length}%`}
                   layerStyle={`fpl-difficulty-${fixture.difficulty}`}
                 >
-                  <Box display={textDisplay}>
+                  <Box
+                    aria-label={`difficulty level ${fixture.difficulty} against ${fixture.opponent.short_name}`}
+                    display={textDisplay}
+                  >
                     {fixture.is_home
                       ? fixture.opponent.short_name.toUpperCase()
                       : fixture.opponent.short_name.toLowerCase()}

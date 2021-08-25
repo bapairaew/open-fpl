@@ -5,13 +5,14 @@ import {
   IconButton,
   Menu,
   MenuButton,
+  MenuButtonProps,
   Portal,
   Text,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
 
-const OptionsMenuButton = () => {
+const OptionsMenuButton = (props: MenuButtonProps) => {
   return (
     <MenuButton
       as={IconButton}
@@ -19,8 +20,9 @@ const OptionsMenuButton = () => {
       position="absolute"
       size="xs"
       variant="ghost"
-      aria-label="Options"
       icon={<Icon as={IoEllipsisVerticalOutline} />}
+      aria-label="open menu"
+      {...props}
     />
   );
 };
@@ -28,8 +30,9 @@ const OptionsMenuButton = () => {
 const TableCellWithMenu = ({
   menu,
   children,
+  menuButtonProps = {},
   ...props
-}: BoxProps & { menu?: ReactNode }) => {
+}: BoxProps & { menu?: ReactNode; menuButtonProps?: MenuButtonProps }) => {
   return (
     <Flex alignItems="center" position="relative" {...props}>
       <Text flexGrow={1}>{children}</Text>
@@ -38,7 +41,7 @@ const TableCellWithMenu = ({
           {({ isOpen }) => {
             return (
               <>
-                <OptionsMenuButton />
+                <OptionsMenuButton {...menuButtonProps} />
                 {isOpen && <Portal>{menu}</Portal>}
               </>
             );

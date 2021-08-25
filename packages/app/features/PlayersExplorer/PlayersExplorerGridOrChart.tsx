@@ -1,4 +1,4 @@
-import { Box, Grid, useBreakpointValue } from "@chakra-ui/react";
+import { Box, BoxProps, Grid, useBreakpointValue } from "@chakra-ui/react";
 import PlayerChartCard from "@open-fpl/app/features/PlayerData/PlayerChartCard";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import PlayerGridCard from "@open-fpl/app/features/PlayerData/PlayerGridCard";
@@ -19,7 +19,8 @@ const PlayersExplorerGridOrChart = ({
   selectedPlayers,
   onSelectChange,
   onStarClick,
-}: {
+  ...props
+}: BoxProps & {
   displayedPlayers: ClientPlayer[];
   display: string;
   selectedPlayers: ClientPlayer[];
@@ -50,6 +51,7 @@ const PlayersExplorerGridOrChart = ({
             content.push(
               <PlayerCardToolbar
                 key={player.id}
+                m={1}
                 player={player}
                 isSelected={selectedPlayers.some((p) => p.id === player.id)}
                 onSelectChange={(e) => onSelectChange(e, player)}
@@ -57,9 +59,17 @@ const PlayersExplorerGridOrChart = ({
                 onStarClick={(e) => onStarClick(e, player)}
               >
                 {display === "chart" ? (
-                  <PlayerChartCard player={player} />
+                  <PlayerChartCard
+                    player={player}
+                    aria-label="player statistics"
+                    role="listitem"
+                  />
                 ) : (
-                  <PlayerGridCard player={player} />
+                  <PlayerGridCard
+                    player={player}
+                    aria-label="player statistics"
+                    role="listitem"
+                  />
                 )}
               </PlayerCardToolbar>
             );
@@ -69,9 +79,11 @@ const PlayersExplorerGridOrChart = ({
         return (
           <div key={`${rowIndex}`} style={style}>
             <Grid
-              templateColumns={`repeat(${columnsCount}, 1fr)`}
-              gap={3}
-              p={2}
+              gap={0}
+              templateColumns={`repeat(${columnsCount}, ${Math.floor(
+                100 / columnsCount
+              )}%)`}
+              p={1}
               height="100%"
             >
               {content}
@@ -83,7 +95,7 @@ const PlayersExplorerGridOrChart = ({
   );
 
   return (
-    <Box flexGrow={1}>
+    <Box flexGrow={1} role="list" aria-label="players list" {...props}>
       <AutoSizer>
         {({ height, width }) => (
           <>
