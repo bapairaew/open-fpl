@@ -252,6 +252,21 @@ describe("Player Statistics Explorer", () => {
         .contains("Lukaku")
         .should("be.visible");
     });
+
+    it("remebers view and sort perference.", () => {
+      cy.get('[aria-label="name options"]').click();
+      cy.get('[role="menu"]').get('button[value="desc"]').click();
+      cy.reload();
+      cy.get("@playersTable")
+        .find("tbody tr th:nth-child(2)")
+        .each((cell, index, list) => {
+          if (index < list.length - 1) {
+            expect(
+              cell.text().localeCompare(list[index + 1].textContent)
+            ).to.eq(1);
+          }
+        });
+    });
   });
 
   describe("Card and Chart view", () => {
@@ -432,6 +447,27 @@ describe("Player Statistics Explorer", () => {
         .contains("Lukaku")
         .should("be.visible");
     });
+
+    it("remebers view and sort perference.", () => {
+      cy.get('[aria-label="select display options"]').select("grid");
+      cy.get('[aria-label="sort players"]').select("best-xga");
+      cy.reload();
+      cy.get('[aria-label="player statistics"]').each((card, index, list) => {
+        if (index < list.length - 1) {
+          const current = card
+            .find('[aria-label^="xga against"]')
+            .toArray()
+            .map((d) => +(d.textContent || "0"))
+            .reduce((sum, d) => sum + d, 0);
+          const next = Cypress.$(list[index + 1])
+            .find('[aria-label^="xga against"]')
+            .toArray()
+            .map((d) => +(d.textContent || "0"))
+            .reduce((sum, d) => sum + d, 0);
+          expect(current).to.lte(next);
+        }
+      });
+    });
   });
 
   describe("Mobile", () => {
@@ -439,7 +475,7 @@ describe("Player Statistics Explorer", () => {
       cy.viewport("iphone-x");
     });
 
-    it("shows app drawer", () => {
+    it("shows app drawer.", () => {
       cy.get('[aria-label="open app drawer"]').should("be.visible");
     });
 
