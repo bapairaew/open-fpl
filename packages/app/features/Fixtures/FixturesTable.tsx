@@ -143,6 +143,7 @@ const FixturesTable = ({
     <AutoSizer>
       {({ height, width }) => (
         <Table
+          aria-label="fixtures table"
           display="block"
           overflow="auto"
           height={`${height}px`}
@@ -154,9 +155,9 @@ const FixturesTable = ({
               onHardFixtureSortClick={handleHardFixtureSortClick}
               onEasyFixtureSortClick={handleEasyFixtureSortClick}
               sortGroup={sortGroup}
-              onHardSortGroupClick={handleHardSortGroupClick}
-              onEasySortGroupClick={handleEasySortGroupClick}
-              onResetSortGroupClick={handleResetSortGroupClick}
+              onHardRangeSortClick={handleHardSortGroupClick}
+              onEasyRangeSortClick={handleEasySortGroupClick}
+              onResetRangeSortClick={handleResetSortGroupClick}
             />
           </Thead>
           <ReactSortable

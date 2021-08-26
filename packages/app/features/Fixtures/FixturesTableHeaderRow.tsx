@@ -15,17 +15,17 @@ const FixturesTableHeaderRow = ({
   onHardFixtureSortClick,
   onEasyFixtureSortClick,
   sortGroup,
-  onHardSortGroupClick,
-  onEasySortGroupClick,
-  onResetSortGroupClick,
+  onHardRangeSortClick,
+  onEasyRangeSortClick,
+  onResetRangeSortClick,
 }: {
   onResetSortClick: () => void;
   onHardFixtureSortClick: (gameweek: number) => void;
   onEasyFixtureSortClick: (gameweek: number) => void;
   sortGroup: SortGroup;
-  onHardSortGroupClick: (gameweek: number) => void;
-  onEasySortGroupClick: (gameweek: number) => void;
-  onResetSortGroupClick: () => void;
+  onHardRangeSortClick: (gameweek: number) => void;
+  onEasyRangeSortClick: (gameweek: number) => void;
+  onResetRangeSortClick: () => void;
 }) => {
   return (
     <Tr>
@@ -54,6 +54,7 @@ const FixturesTableHeaderRow = ({
       {Array.from({ length: 38 }).map((_, i) => (
         <Th
           key={i}
+          aria-label={`Gameweek ${i + 1}`}
           p={0}
           top={0}
           position="sticky"
@@ -64,6 +65,9 @@ const FixturesTableHeaderRow = ({
           <TableCellWithMenu
             p={2}
             width="100px"
+            menuButtonProps={{
+              "aria-label": `Gameweek ${i + 1} sort options`,
+            }}
             menu={
               <MenuList zIndex="modal">
                 {sortGroup.group.length === 0 && (
@@ -80,28 +84,28 @@ const FixturesTableHeaderRow = ({
                   </>
                 )}
                 {sortGroup.group.length > 0 ? (
-                  <MenuGroup title="Group sort">
+                  <MenuGroup title="Range sort">
                     {sortGroup.direction === -1 && (
-                      <MenuItem onClick={() => onEasySortGroupClick(i + 1)}>
+                      <MenuItem onClick={() => onEasyRangeSortClick(i + 1)}>
                         Easy first from GW {sortGroup.group[0]} to here
                       </MenuItem>
                     )}
                     {sortGroup.direction === 1 && (
-                      <MenuItem onClick={() => onHardSortGroupClick(i + 1)}>
+                      <MenuItem onClick={() => onHardRangeSortClick(i + 1)}>
                         Hard first from GW {sortGroup.group[0]} to here
                       </MenuItem>
                     )}
                     <Divider />
-                    <MenuItem onClick={() => onResetSortGroupClick()}>
+                    <MenuItem onClick={() => onResetRangeSortClick()}>
                       Cancel
                     </MenuItem>
                   </MenuGroup>
                 ) : (
-                  <MenuGroup title="Group sort">
-                    <MenuItem onClick={() => onEasySortGroupClick(i + 1)}>
+                  <MenuGroup title="Range sort">
+                    <MenuItem onClick={() => onEasyRangeSortClick(i + 1)}>
                       Easy first from here...
                     </MenuItem>
-                    <MenuItem onClick={() => onHardSortGroupClick(i + 1)}>
+                    <MenuItem onClick={() => onHardRangeSortClick(i + 1)}>
                       Hard first from here...
                     </MenuItem>
                   </MenuGroup>

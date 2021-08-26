@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-Cypress.Commands.add("setUpProfile", () => {
+Cypress.Commands.add("setUpProfile", function setUpProfile() {
   cy.fixture("profiles/main.json").then((json) => {
     for (const key of Object.keys(json)) {
       window.localStorage.setItem(key, JSON.stringify(json[key]));

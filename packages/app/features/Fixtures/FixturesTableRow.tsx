@@ -25,8 +25,11 @@ const FixturesTableRow = ({
         textAlign="center"
         fontWeight="black"
         borderBottomWidth={1}
+        aria-label={`${team.name} fixtures`}
       >
         <Flex
+          aria-label={`drag to rearrange ${team.short_name}`}
+          role="button"
           className="handle"
           opacity={0.5}
           position="absolute"
@@ -68,9 +71,13 @@ const FixturesTableRow = ({
                   height={`${40 / fixtures.length}px`}
                   layerStyle={`fpl-difficulty-${difficulty}`}
                 >
-                  {fixture.is_home
-                    ? fixture.opponent.short_name.toUpperCase()
-                    : fixture.opponent.short_name.toLocaleLowerCase()}
+                  <Box
+                    aria-label={`difficulty level ${difficulty} against ${fixture.opponent.name}`}
+                  >
+                    {fixture.is_home
+                      ? fixture.opponent.short_name.toUpperCase()
+                      : fixture.opponent.short_name.toLocaleLowerCase()}
+                  </Box>
                 </CompareTeamsPopover>
               );
             })}

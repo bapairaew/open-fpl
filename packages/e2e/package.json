@@ -6,6 +6,7 @@
     "cypress": "cypress open"
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^1.8.0",
     "cypress": "^8.3.0"
   }
 }

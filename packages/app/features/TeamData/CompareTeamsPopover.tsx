@@ -56,6 +56,7 @@ const CompareTeamsPopover = ({
           <>
             <PopoverTrigger>
               <Flex
+                aria-label={`click to compare ${team.name} and ${opponent.name} strength`}
                 role="button"
                 justifyContent="center"
                 alignItems="center"
@@ -75,13 +76,13 @@ const CompareTeamsPopover = ({
                     <PopoverCloseButton />
                     <PopoverHeader fontWeight="black">
                       {isHome ? (
-                        <HStack spacing={1}>
-                          <Text textDecoration="underline">
+                        <Text>
+                          <Box as="span" textDecoration="underline">
                             {team.short_name}
-                          </Text>
-                          <Text>vs</Text>
-                          <Text>{opponent.short_name}</Text>
-                        </HStack>
+                          </Box>{" "}
+                          <Box as="span">vs</Box>{" "}
+                          <Box as="span">{opponent.short_name}</Box>
+                        </Text>
                       ) : (
                         <HStack spacing={1}>
                           <Text>{opponent.short_name}</Text>

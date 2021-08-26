@@ -53,7 +53,13 @@ const TeamStrengthEditor = ({
   );
 
   return (
-    <Box width="100%" borderWidth={1} px={4} borderRadius="md">
+    <Box
+      width="100%"
+      borderWidth={1}
+      px={4}
+      borderRadius="md"
+      aria-label={`adjust ${team.name} strength`}
+    >
       <Flex justifyContent="space-between" alignItems="center">
         <Heading my={4} size="sm">
           {team.name}

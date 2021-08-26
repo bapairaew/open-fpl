@@ -76,6 +76,7 @@ const FixturesToolbar = ({
                     <MenuOptionGroup
                       title="Mode"
                       type="radio"
+                      aria-label="difficulty rating mode"
                       value={mode}
                       onChange={(value) =>
                         typeof value === "string"
@@ -109,6 +110,7 @@ const FixturesToolbar = ({
       >
         <RadioGroup
           px={4}
+          aria-label="difficulty rating mode"
           display="flex"
           alignItems="center"
           value={mode}

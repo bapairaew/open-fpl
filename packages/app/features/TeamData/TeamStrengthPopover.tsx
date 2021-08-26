@@ -73,6 +73,7 @@ const TeamStrengthPopover = ({
           <>
             <PopoverTrigger>
               <Box
+                aria-label={`click to see ${team.name} strength`}
                 role="button"
                 textAlign="left"
                 ml="25px"

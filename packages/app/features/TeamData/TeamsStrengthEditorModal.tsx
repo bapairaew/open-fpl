@@ -22,11 +22,11 @@ const TeamsStrengthEditorModal = ({
   isOpen: boolean;
   onClose: () => void;
   onStrengthChange?: (
-    profile: number,
+    teamId: number,
     key: keyof TeamStrength,
     value: number
   ) => void;
-  onResetStrength?: (profile: number) => void;
+  onResetStrength?: (teamId: number) => void;
 }) => {
   return (
     <Drawer size="lg" placement="right" isOpen={isOpen} onClose={onClose}>

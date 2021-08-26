@@ -46,7 +46,7 @@ const FixturesSection = ({
                   layerStyle={`fpl-difficulty-${fixture.difficulty}`}
                 >
                   <Box
-                    aria-label={`difficulty level ${fixture.difficulty} against ${fixture.opponent.short_name}`}
+                    aria-label={`difficulty level ${fixture.difficulty} against ${fixture.opponent.name}`}
                     display={textDisplay}
                   >
                     {fixture.is_home
