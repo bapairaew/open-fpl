@@ -49,25 +49,20 @@ const CustomPlayersModal = ({
   }, [customPlayers]);
 
   const handleAddPlayer = (customPlayer: CustomPlayer) => {
-    if (customPlayers) {
-      setCustomPlayers([...customPlayers, customPlayer]);
-      if (preference) {
-        setPreference({
-          ...preference,
-          starredPlayers: [
-            ...(preference.starredPlayers ?? []),
-            customPlayer.id,
-          ],
-        });
-      }
-      toast({
-        title: "Custom player created.",
-        description: `${customPlayer.web_name} has been successfully created.`,
-        status: "success",
-        isClosable: true,
+    setCustomPlayers([...(customPlayers ?? []), customPlayer]);
+    if (preference) {
+      setPreference({
+        ...preference,
+        starredPlayers: [...(preference.starredPlayers ?? []), customPlayer.id],
       });
-      plausible("custom-players-add");
     }
+    toast({
+      title: "Custom player created.",
+      description: `${customPlayer.web_name} has been successfully created.`,
+      status: "success",
+      isClosable: true,
+    });
+    plausible("custom-players-add");
   };
 
   const handleRemovePlayer = (player: ClientPlayer) => {
@@ -89,29 +84,27 @@ const CustomPlayersModal = ({
     updatedPlayer: CustomPlayer,
     originalPlayer: ClientPlayer
   ) => {
-    if (customPlayers) {
-      setCustomPlayers(
-        customPlayers.map((customPlayer) =>
-          customPlayer.id === originalPlayer.id ? updatedPlayer : customPlayer
-        )
-      );
+    setCustomPlayers(
+      customPlayers?.map((customPlayer) =>
+        customPlayer.id === originalPlayer.id ? updatedPlayer : customPlayer
+      ) ?? []
+    );
 
-      if (
-        originalPlayer.team.short_name !== updatedPlayer.team.short_name ||
-        originalPlayer.element_type.singular_name_short !==
-          updatedPlayer.element_type.singular_name_short
-      ) {
-        removePlayerFromPlans(originalPlayer);
-      }
-
-      toast({
-        title: "Custom player updated.",
-        description: `${updatedPlayer.web_name} has been successfully updated.`,
-        status: "success",
-        isClosable: true,
-      });
-      plausible("custom-players-update");
+    if (
+      originalPlayer.team.short_name !== updatedPlayer.team.short_name ||
+      originalPlayer.element_type.singular_name_short !==
+        updatedPlayer.element_type.singular_name_short
+    ) {
+      removePlayerFromPlans(originalPlayer);
     }
+
+    toast({
+      title: "Custom player updated.",
+      description: `${updatedPlayer.web_name} has been successfully updated.`,
+      status: "success",
+      isClosable: true,
+    });
+    plausible("custom-players-update");
   };
 
   return (
