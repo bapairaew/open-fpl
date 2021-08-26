@@ -67,7 +67,7 @@ const FixturesToolbar = ({
                 as={IconButton}
                 borderRadius="none"
                 variant="ghost"
-                aria-label="menu options"
+                aria-label="fixtures options"
                 icon={<Icon as={IoSettingsOutline} />}
               />
               {isOpen && (

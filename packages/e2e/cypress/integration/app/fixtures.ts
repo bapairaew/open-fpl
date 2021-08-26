@@ -5,7 +5,7 @@ describe("Fixture Difficulty Rating", () => {
   });
 
   describe("Fixtures Table", () => {
-    it.skip("shows 20 teams with 38 fixtures each.", () => {
+    it("shows 20 teams with 38 fixtures each.", () => {
       cy.get("@fixturesTable").find("tbody tr").should("have.length", 20);
 
       cy.get("@fixturesTable").find("tbody tr").find("td");
@@ -36,7 +36,7 @@ describe("Fixture Difficulty Rating", () => {
         });
     });
 
-    it.skip("shows team strength popover.", { scrollBehavior: false }, () => {
+    it("shows team strength popover.", { scrollBehavior: false }, () => {
       cy.get("@fixturesTable")
         .find('[aria-label="click to see Chelsea strength"]')
         .first()
@@ -47,7 +47,7 @@ describe("Fixture Difficulty Rating", () => {
         .should("be.visible");
     });
 
-    it.skip("shows compare team strength popover.", () => {
+    it("shows compare team strength popover.", () => {
       cy.get("@fixturesTable")
         .find('[aria-label="click to compare Arsenal and Chelsea strength"]')
         .first()
@@ -58,7 +58,7 @@ describe("Fixture Difficulty Rating", () => {
         .should("be.visible");
     });
 
-    it.skip("dims past gameweeks.", () => {
+    it("dims past gameweeks.", () => {
       // get next gameweek id
       cy.request(
         "https://fantasy.premierleague.com/api/bootstrap-static/"
@@ -77,37 +77,35 @@ describe("Fixture Difficulty Rating", () => {
       });
     });
 
-    it.skip(
-      "supports attack and defense modes.",
-      { scrollBehavior: false },
-      () => {
-        const attackRating = [];
-        const defenseRating = [];
+    it("supports attack and defense modes.", { scrollBehavior: false }, () => {
+      const attackRating = [];
+      const defenseRating = [];
 
-        cy.get("@fixturesTable")
-          .find("tbody tr td > div")
-          .each((cell) => {
-            attackRating.push(cell.css("background-color"));
-          });
-        cy.get('[aria-label="difficulty rating mode"]')
-          .get('input[type="radio"]')
-          .check("defence", { force: true });
-        cy.get("@fixturesTable")
-          .find("tbody tr td > div")
-          .each((cell) => {
-            defenseRating.push(cell.css("background-color"));
-          })
-          .then(() => {
-            expect(
-              attackRating.some(
-                (attack, index) => attack !== defenseRating[index]
-              )
-            ).to.be.true;
-          });
-      }
-    );
+      cy.get("@fixturesTable")
+        .find("tbody tr td > div")
+        .each((cell) => {
+          attackRating.push(cell.css("background-color"));
+        })
+        .then(() => {
+          cy.get('[aria-label="difficulty rating mode"]')
+            .find('input[type="radio"]')
+            .check("defence", { force: true });
+          cy.get("@fixturesTable")
+            .find("tbody tr td > div")
+            .each((cell) => {
+              defenseRating.push(cell.css("background-color"));
+            })
+            .should(() => {
+              expect(
+                attackRating.some(
+                  (attack, index) => attack !== defenseRating[index]
+                )
+              ).to.be.true;
+            });
+        });
+    });
 
-    it.skip("supports manual teams sort.", { scrollBehavior: false }, () => {
+    it("supports manual teams sort.", { scrollBehavior: false }, () => {
       let sourceIndex = 0;
       cy.get("@fixturesTable")
         .find("tbody tr")
@@ -129,9 +127,9 @@ describe("Fixture Difficulty Rating", () => {
         });
     });
 
-    it.skip("supports single gameweek sort.", () => {
+    it("supports single gameweek sort.", () => {
       cy.get("@fixturesTable")
-        .find('[aria-label="Gameweek 1 sort options"]')
+        .find('[aria-label="gameweek 1 sort options"]')
         .click();
       cy.get('[role="menu"]').contains("Easy fixture first").click();
 
@@ -152,13 +150,13 @@ describe("Fixture Difficulty Rating", () => {
         });
     });
 
-    it.skip("supports range gameweeks sort.", () => {
+    it("supports range gameweeks sort.", () => {
       cy.get("@fixturesTable")
-        .find('[aria-label="Gameweek 1 sort options"]')
+        .find('[aria-label="gameweek 1 sort options"]')
         .click();
       cy.get('[role="menu"]').contains("Easy first from here...").click();
       cy.get("@fixturesTable")
-        .find('[aria-label="Gameweek 3 sort options"]')
+        .find('[aria-label="gameweek 3 sort options"]')
         .click();
       cy.get('[role="menu"]').contains("Easy first from GW 1").click();
 
@@ -195,9 +193,7 @@ describe("Fixture Difficulty Rating", () => {
         });
     });
 
-    it("supports customisable team strength.", { retries: 0 }, () => {
-      cy.setUpProfile();
-
+    it("supports customisable team strength.", () => {
       cy.get("@fixturesTable")
         .find("tbody tr:first-child td:nth-child(2)")
         .then((cell) => {
@@ -216,36 +212,77 @@ describe("Fixture Difficulty Rating", () => {
           cy.get("button").contains("Edit Teams Strength").click();
 
           cy.get(`[aria-label="adjust ${team} strength"]`)
-            .find('[aria-label="Home Attack Strength"]')
+            .find('[aria-label="home attack strength"]')
+            .first()
             .focus()
-            .type("{home}", {
+            .type("{home}{esc}", {
               waitForAnimations: true,
-              animationDistanceThreshold: 20,
             });
 
+          cy.get("button").contains("Edit Teams Strength").click();
+
           cy.get(`[aria-label="adjust ${team} strength"]`)
-            .find('[aria-label="Away Attack Strength"]')
+            .find('[aria-label="away attack strength"]')
+            .first()
             .focus()
-            .type("{home}", {
+            .type("{home}{esc}", {
               waitForAnimations: true,
-              animationDistanceThreshold: 20,
             })
-            .then(() => {
+            .should(() => {
               const afterDifficultyMatched = cell
                 .find('[aria-label^="difficulty level"]')
                 .attr("aria-label")
                 .match(/difficulty level (\d+)/);
               const afterDifficulty = afterDifficultyMatched?.[1];
 
-              expect(+beforeDifficulty).to.be.lte(+afterDifficulty);
+              expect(+beforeDifficulty).to.be.lt(+afterDifficulty);
+            });
+
+          cy.get("button").contains("Edit Teams Strength").click();
+
+          cy.get(`[aria-label="adjust ${team} strength"]`)
+            .find("button")
+            .contains("Reset")
+            .click()
+            .should(() => {
+              const resettedDifficultyMatched = cell
+                .find('[aria-label^="difficulty level"]')
+                .attr("aria-label")
+                .match(/difficulty level (\d+)/);
+              const resettedDifficulty = resettedDifficultyMatched?.[1];
+
+              expect(+beforeDifficulty).to.be.eq(+resettedDifficulty);
             });
         });
     });
 
-    it("remebers sort perference.");
+    it("remebers sort perference.", { retries: 0 }, () => {
+      cy.get("@fixturesTable")
+        .find('[aria-label="gameweek 1 sort options"]')
+        .click();
+      cy.get('[role="menu"]').contains("Easy fixture first").click();
+
+      cy.reload();
+
+      cy.get("@fixturesTable")
+        .find("tbody tr td:nth-child(2)")
+        .each((cell, index, list) => {
+          if (index < list.length - 1) {
+            const current = cell
+              .find('[aria-label^="difficulty level"]')
+              .attr("aria-label")
+              .match(/difficulty level (\d) against/)?.[1];
+            const next = Cypress.$(list[index + 1])
+              .find('[aria-label^="difficulty level"]')
+              .attr("aria-label")
+              .match(/difficulty level (\d) against/)?.[1];
+            expect(+current).to.be.lte(+next);
+          }
+        });
+    });
   });
 
-  describe.skip("Mobile", () => {
+  describe("Mobile", () => {
     beforeEach(() => {
       cy.viewport("iphone-x");
     });
@@ -254,8 +291,39 @@ describe("Fixture Difficulty Rating", () => {
       cy.get('[aria-label="open app drawer"]').should("be.visible");
     });
 
-    it("open team strength modal.");
+    it("open team strength modal.", { retries: 0 }, () => {
+      cy.get('[aria-label="fixtures options"]').click();
+      cy.get('[role="menu"]').contains("Edit teams strength").click();
+      cy.get('[role="dialog"]').should("be.visible");
+    });
 
-    it("changes modes");
+    it("changes modes.", () => {
+      const attackRating = [];
+      const defenseRating = [];
+
+      cy.get("@fixturesTable")
+        .find("tbody tr td > div")
+        .each((cell) => {
+          attackRating.push(cell.css("background-color"));
+        })
+        .then(() => {
+          cy.get('[aria-label="fixtures options"]').click();
+          cy.get('[aria-label="difficulty rating mode"]')
+            .find('input[type="radio"]')
+            .check("defence", { force: true });
+          cy.get("@fixturesTable")
+            .find("tbody tr td > div")
+            .each((cell) => {
+              defenseRating.push(cell.css("background-color"));
+            })
+            .should(() => {
+              expect(
+                attackRating.some(
+                  (attack, index) => attack !== defenseRating[index]
+                )
+              ).to.be.true;
+            });
+        });
+    });
   });
 });

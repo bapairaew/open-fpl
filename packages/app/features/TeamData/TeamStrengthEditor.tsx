@@ -80,7 +80,7 @@ const TeamStrengthEditor = ({
               step={10}
               min={assumedMin.teamStrength}
               max={assumedMax.teamStrength}
-              aria-label="Home Attack Strength"
+              aria-label="home attack strength"
               value={homeAttack}
               onChange={setHomeAttack}
               onChangeEnd={(value) =>
@@ -105,7 +105,7 @@ const TeamStrengthEditor = ({
               step={10}
               min={assumedMin.teamStrength}
               max={assumedMax.teamStrength}
-              aria-label="Home Defence Strength"
+              aria-label="home defence strength"
               value={homeDefence}
               onChange={setHomeDefence}
               onChangeEnd={(value) =>
@@ -132,7 +132,7 @@ const TeamStrengthEditor = ({
               step={10}
               min={assumedMin.teamStrength}
               max={assumedMax.teamStrength}
-              aria-label="Away Attack Strength"
+              aria-label="away attack strength"
               value={awayAttack}
               onChange={setAwayAttack}
               onChangeEnd={(value) =>
@@ -157,7 +157,7 @@ const TeamStrengthEditor = ({
               step={10}
               min={assumedMin.teamStrength}
               max={assumedMax.teamStrength}
-              aria-label="Away Defence Strength"
+              aria-label="away defence strength"
               value={awayDefence}
               onChange={setAwayDefence}
               onChangeEnd={(value) =>

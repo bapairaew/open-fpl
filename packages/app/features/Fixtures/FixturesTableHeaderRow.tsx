@@ -54,7 +54,7 @@ const FixturesTableHeaderRow = ({
       {Array.from({ length: 38 }).map((_, i) => (
         <Th
           key={i}
-          aria-label={`Gameweek ${i + 1}`}
+          aria-label={`gameweek ${i + 1}`}
           p={0}
           top={0}
           position="sticky"
@@ -66,7 +66,7 @@ const FixturesTableHeaderRow = ({
             p={2}
             width="100px"
             menuButtonProps={{
-              "aria-label": `Gameweek ${i + 1} sort options`,
+              "aria-label": `gameweek ${i + 1} sort options`,
             }}
             menu={
               <MenuList zIndex="modal">
