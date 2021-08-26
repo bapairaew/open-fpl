@@ -7,6 +7,7 @@ describe("Player Statistics Explorer", () => {
     it("asks for profile if found an attemp to star a player", () => {
       cy.get('button[aria-label="add star player"]').eq(5).click();
 
+      // Show toast if star player without profile
       cy.get("body")
         .contains("Please set up a profile to star a player.")
         .should("be.visible");
@@ -239,6 +240,7 @@ describe("Player Statistics Explorer", () => {
         .click({ force: true });
       cy.get("button").contains("Compare").click();
 
+      // 3 selected players name should be shown
       cy.get('[role="dialog"]')
         .find("th")
         .contains("Salah")
@@ -256,7 +258,10 @@ describe("Player Statistics Explorer", () => {
     it("remebers view and sort perference.", () => {
       cy.get('[aria-label="name options"]').click();
       cy.get('[role="menu"]').get('button[value="desc"]').click();
+
       cy.reload();
+
+      // Should be sorted by name after refresh
       cy.get("@playersTable")
         .find("tbody tr th:nth-child(2)")
         .each((cell, index, list) => {
@@ -434,6 +439,7 @@ describe("Player Statistics Explorer", () => {
         .click({ force: true });
       cy.get("button").contains("Compare").click();
 
+      // 3 selected players name should be shown
       cy.get('[role="dialog"]')
         .find("th")
         .contains("Salah")
@@ -451,7 +457,10 @@ describe("Player Statistics Explorer", () => {
     it("remebers view and sort perference.", () => {
       cy.get('[aria-label="select display options"]').select("grid");
       cy.get('[aria-label="sort players"]').select("best-xga");
+
       cy.reload();
+
+      // Should be sorted by xga even after refresh
       cy.get('[aria-label="player statistics"]').each((card, index, list) => {
         if (index < list.length - 1) {
           const current = card
@@ -481,9 +490,13 @@ describe("Player Statistics Explorer", () => {
 
     it("shows only display options on table view mode.", () => {
       cy.get('[aria-label="sort and display options"]').click();
+
+      // Sort options should be hidden from the menu
       cy.get('[role="menu"]')
         .find('button[value="best-xgi"]')
         .should("not.exist");
+
+      // While display options should be shown
       cy.get('[role="menu"]').find('button[value="grid"]').should("be.visible");
     });
 
@@ -491,11 +504,14 @@ describe("Player Statistics Explorer", () => {
       cy.get('[aria-label="sort and display options"]').click();
       cy.get('[role="menu"]').find('button[value="grid"]').click();
       cy.get('[aria-label="sort and display options"]').click();
+
+      // Sort options should be shown
       cy.get('[role="menu"]')
         .find('button[value="best-xgi"]')
         .should("be.visible")
         .click();
 
+      // Sort options should sort the results
       cy.get('[aria-label="player statistics"]').each((card, index, list) => {
         if (index < list.length - 1) {
           const current = card

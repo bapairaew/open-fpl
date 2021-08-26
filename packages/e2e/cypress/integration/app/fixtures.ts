@@ -6,6 +6,7 @@ describe("Fixture Difficulty Rating", () => {
 
   describe("Fixtures Table", () => {
     it("shows 20 teams with 38 fixtures each.", () => {
+      // Has 20 teams
       cy.get("@fixturesTable").find("tbody tr").should("have.length", 20);
 
       cy.get("@fixturesTable").find("tbody tr").find("td");
@@ -13,6 +14,7 @@ describe("Fixture Difficulty Rating", () => {
       cy.get("@fixturesTable")
         .find("tbody tr")
         .each((row) => {
+          // Each team has 38 fixtures
           expect(row.find('[aria-label^="difficulty level"]').length).to.be.eq(
             38
           );
@@ -31,7 +33,7 @@ describe("Fixture Difficulty Rating", () => {
             if (countMap[team] > max) max = countMap[team];
           }
 
-          // Teams should only play other same team twice
+          // Each team should play the same team twice
           expect(max).to.be.eq(2);
         });
     });
@@ -70,6 +72,7 @@ describe("Fixture Difficulty Rating", () => {
           .each((row) => {
             row.find("td").each((index, cell) => {
               const opacity = +Cypress.$(cell).css("opacity");
+              // Games before next gameweek should be dimmed
               if (index + 1 < nextGameweek) expect(opacity).to.be.lt(1);
               else expect(opacity).to.be.eq(1);
             });
@@ -96,6 +99,7 @@ describe("Fixture Difficulty Rating", () => {
               defenseRating.push(cell.css("background-color"));
             })
             .should(() => {
+              // Ratings should change after mode changed
               expect(
                 attackRating.some(
                   (attack, index) => attack !== defenseRating[index]
@@ -121,6 +125,7 @@ describe("Fixture Difficulty Rating", () => {
             force: true,
           });
 
+          // CHE should be moved from sourceIndex to 1 after drag-drop
           cy.get("@fixturesTable")
             .find("tbody tr:nth-child(1) th")
             .should("contain.text", "CHE");
@@ -145,6 +150,7 @@ describe("Fixture Difficulty Rating", () => {
               .find('[aria-label^="difficulty level"]')
               .attr("aria-label")
               .match(/difficulty level (\d) against/)?.[1];
+            // Difficulty levels should be sorted
             expect(+current).to.be.lte(+next);
           }
         });
@@ -188,6 +194,7 @@ describe("Fixture Difficulty Rating", () => {
                 }
               });
 
+            // Combined difficulty levels from gw 1 - 3 should be sorted
             expect(current).to.be.lte(next);
           }
         });
@@ -215,6 +222,7 @@ describe("Fixture Difficulty Rating", () => {
             .find('[aria-label="home attack strength"]')
             .first()
             .focus()
+            // set home strenght to 0
             .type("{home}{esc}", {
               waitForAnimations: true,
             });
@@ -225,6 +233,7 @@ describe("Fixture Difficulty Rating", () => {
             .find('[aria-label="away attack strength"]')
             .first()
             .focus()
+            // set away strenght to 0
             .type("{home}{esc}", {
               waitForAnimations: true,
             })
@@ -235,6 +244,7 @@ describe("Fixture Difficulty Rating", () => {
                 .match(/difficulty level (\d+)/);
               const afterDifficulty = afterDifficultyMatched?.[1];
 
+              // Difficulty level should change
               expect(+beforeDifficulty).to.be.lt(+afterDifficulty);
             });
 
@@ -251,6 +261,7 @@ describe("Fixture Difficulty Rating", () => {
                 .match(/difficulty level (\d+)/);
               const resettedDifficulty = resettedDifficultyMatched?.[1];
 
+              // Difficulty level should be back to the original after reset
               expect(+beforeDifficulty).to.be.eq(+resettedDifficulty);
             });
         });
@@ -264,6 +275,7 @@ describe("Fixture Difficulty Rating", () => {
 
       cy.reload();
 
+      // Should be sorted by GW 1 event after refresh
       cy.get("@fixturesTable")
         .find("tbody tr td:nth-child(2)")
         .each((cell, index, list) => {
@@ -317,6 +329,7 @@ describe("Fixture Difficulty Rating", () => {
               defenseRating.push(cell.css("background-color"));
             })
             .should(() => {
+              // Ratings should change after mode changed
               expect(
                 attackRating.some(
                   (attack, index) => attack !== defenseRating[index]
