@@ -3,7 +3,8 @@ describe("Help", () => {
     cy.visit("/help");
   });
 
-  it("navigates through tabs.", { retries: 0 }, () => {
+  it("navigates through tabs.", () => {
+    cy.get("main").contains("Dashboard").click();
     cy.url().should("include", "/help/dashboard");
 
     cy.get("main").contains("Player Explorer").click();
@@ -17,5 +18,15 @@ describe("Help", () => {
 
     cy.get("main").contains("Find your ID").click();
     cy.url().should("include", "/help/id");
+  });
+
+  describe("Mobile", () => {
+    beforeEach(() => {
+      cy.viewport("iphone-x");
+    });
+
+    it("shows app drawer.", () => {
+      cy.get('[aria-label="open app drawer"]').should("be.visible");
+    });
   });
 });

@@ -267,7 +267,7 @@ describe("Fixture Difficulty Rating", () => {
         });
     });
 
-    it("remebers sort perference.", { retries: 0 }, () => {
+    it("remebers sort perference.", () => {
       cy.get("@fixturesTable")
         .find('[aria-label="gameweek 1 sort options"]')
         .click();
@@ -303,7 +303,7 @@ describe("Fixture Difficulty Rating", () => {
       cy.get('[aria-label="open app drawer"]').should("be.visible");
     });
 
-    it("open team strength modal.", { retries: 0 }, () => {
+    it("open team strength modal.", () => {
       cy.get('[aria-label="fixtures options"]').click();
       cy.get('[role="menu"]').contains("Edit teams strength").click();
       cy.get('[role="dialog"]').should("be.visible");
