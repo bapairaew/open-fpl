@@ -3,6 +3,7 @@
   "version": "1.2.3",
   "license": "Apache-2.0",
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "lerna": "^4.0.0"
   },
   "scripts": {
@@ -17,7 +18,15 @@
     "www:dev": "yarn --cwd packages/www dev --port=3000",
     "www:build": "yarn --cwd packages/www build",
     "www:start": "yarn --cwd packages/www start",
-    "test": "yarn --cwd packages/e2e cypress"
+    "e2e:dev:server:app": "env-cmd -f packages/e2e/env/.env.app yarn app:build && env-cmd -f packages/e2e/env/.env.app yarn app:start",
+    "e2e:dev:server:data": "env-cmd -f packages/e2e/env/.env.data yarn data:build && env-cmd -f packages/e2e/env/.env.data yarn data:start",
+    "e2e:dev:server:www": "env-cmd -f packages/e2e/env/.env.www yarn www:build && env-cmd -f packages/e2e/env/.env.www yarn www:start",
+    "e2e:dev:app": "yarn --cwd packages/e2e cypress --config-file cypress/configs/dev/app.json",
+    "e2e:dev:data": "yarn --cwd packages/e2e cypress --config-file cypress/configs/dev/data.json",
+    "e2e:dev:www": "yarn --cwd packages/e2e cypress --config-file cypress/configs/dev/www.json",
+    "e2e:app": "yarn --cwd packages/e2e cypress --config-file cypress/configs/prod/app.json",
+    "e2e:data": "yarn --cwd packages/e2e cypress --config-file cypress/configs/prod/data.json",
+    "e2e:www": "yarn --cwd packages/e2e cypress --config-file cypress/configs/prod/www.json"
   },
   "private": true,
   "workspaces": {

@@ -1,0 +1,3 @@
+NEXT_PUBLIC_BASE_DATA_SOURCE_URL=https://data.openfpl.com
+NEXT_PUBLIC_CROSS_DOMAIN_HUB_URL=http://localhost:3000
+PORT=3002
