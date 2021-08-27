@@ -1,4 +1,5 @@
 import {
+  Box,
   BoxProps,
   Flex,
   Icon,
@@ -7,7 +8,6 @@ import {
   MenuButton,
   MenuButtonProps,
   Portal,
-  Text,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
@@ -35,7 +35,7 @@ const TableCellWithMenu = ({
 }: BoxProps & { menu?: ReactNode; menuButtonProps?: MenuButtonProps }) => {
   return (
     <Flex alignItems="center" position="relative" {...props}>
-      <Text flexGrow={1}>{children}</Text>
+      <Box flexGrow={1}>{children}</Box>
       {menu && (
         <Menu isLazy>
           {({ isOpen }) => {

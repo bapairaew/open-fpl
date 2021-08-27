@@ -31,31 +31,43 @@ const TeamIDHelpButton = () => {
   const { onSettingsModalClose } = useSettings();
   return (
     <Popover strategy="fixed">
-      <PopoverTrigger>
-        <IconButton
-          aria-label="help"
-          variant="ghost"
-          borderTopLeftRadius="none"
-          borderBottomLeftRadius="none"
-          icon={<Icon aria-label="help" as={IoHelpCircleOutline} />}
-        />
-      </PopoverTrigger>
-      <Portal>
-        <Box zIndex="popover" position="fixed">
-          <PopoverContent>
-            <PopoverArrow />
-            <PopoverCloseButton />
-            <PopoverHeader fontWeight="black">Find your team ID</PopoverHeader>
-            <PopoverBody>
-              Don't know where to find it? Just follow this{" "}
-              <Link href="/help/id" passHref>
-                <A onClick={onSettingsModalClose}>find your team ID guide</A>
-              </Link>
-              !
-            </PopoverBody>
-          </PopoverContent>
-        </Box>
-      </Portal>
+      {({ isOpen }) => {
+        return (
+          <>
+            <PopoverTrigger>
+              <IconButton
+                aria-label="help"
+                variant="ghost"
+                borderTopLeftRadius="none"
+                borderBottomLeftRadius="none"
+                icon={<Icon aria-label="help" as={IoHelpCircleOutline} />}
+              />
+            </PopoverTrigger>
+            {isOpen && (
+              <Portal>
+                <Box zIndex="popover" position="fixed">
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverHeader fontWeight="black">
+                      Find your team ID
+                    </PopoverHeader>
+                    <PopoverBody>
+                      Don't know where to find it? Just follow this{" "}
+                      <Link href="/help/id" passHref>
+                        <A onClick={onSettingsModalClose}>
+                          find your team ID guide
+                        </A>
+                      </Link>
+                      !
+                    </PopoverBody>
+                  </PopoverContent>
+                </Box>
+              </Portal>
+            )}
+          </>
+        );
+      }}
     </Popover>
   );
 };

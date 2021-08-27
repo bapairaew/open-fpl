@@ -21,6 +21,7 @@ import {
   getTeamPlannerPinnedBenchKey,
   getTeamPlansKey,
   getTeamsStrengthKey,
+  getProfilesKey,
 } from "@open-fpl/app/features/Settings/storageKeys";
 // @ts-ignore
 import { CrossStorageClient } from "cross-storage";
@@ -74,7 +75,7 @@ export const migrateFromWWWDomain = async () => {
         isClosable: false,
       });
 
-      const profilesString: string = await storage.get("profiles");
+      const profilesString: string = await storage.get(getProfilesKey());
       const profiles = profilesString
         ? (JSON.parse(profilesString) as string[])
         : null;
@@ -146,6 +147,8 @@ export const migrateFromWWWDomain = async () => {
             await storage.get(getPlayersExplorerTableSortColumnsKey())
           );
         }
+
+        setLocalStorageItemFromString(getProfilesKey(), profilesString);
 
         toast({
           title: "All done!",

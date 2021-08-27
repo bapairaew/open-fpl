@@ -1,5 +1,5 @@
-describe("Settings", { retries: 0 }, () => {
-  describe.skip("Profile", () => {
+describe("Settings", () => {
+  describe("Profile", () => {
     beforeEach(() => {
       cy.visit("/help/dashboard"); // Fastest page to load
       cy.get("aside").contains("Set up your profile").click();
@@ -130,10 +130,128 @@ describe("Settings", { retries: 0 }, () => {
   });
 
   describe("Migration", () => {
-    it("migrates v1.0 to v1.1.", () => {
-      // inject NEXT_PUBLIC_CROSS_DOMAIN_HUB_URL
-      // intercept NEXT_PUBLIC_CROSS_DOMAIN_HUB_URL
-      // ???
+    it("migrates www domain to app domain.", () => {
+      cy.intercept("http://localhost:3000/cross-storage-hub.html", {
+        fixture: "migration/www-to-app-domain/cross-storage-hub.html",
+      });
+
+      cy.visit("/players");
+      cy.waitForPageReload();
+
+      // Profile
+      cy.get("aside").contains("Test Account").should("be.visible").click();
+      cy.get('[aria-label="select a profile"]')
+        .contains("Test Account")
+        .should("be.visible");
+      cy.get('[aria-label="select a profile"]')
+        .contains("Another Test Account")
+        .should("be.visible");
+      cy.get('[role="dialog"]')
+        .find("header")
+        .contains("Profiles")
+        .parent()
+        .find('> [aria-label="Close"]')
+        .click();
+
+      // Display option
+      cy.get('main select[aria-label="select display options"]').should(
+        "have.value",
+        "grid"
+      );
+
+      // Sort option
+      cy.get("main")
+        .find('select[aria-label="sort players"]')
+        .should("have.value", "cost-asc");
+
+      // Table sort option
+      cy.get("main")
+        .find('select[aria-label="select display options"]')
+        .select("table");
+      cy.get('[aria-label="players table"]')
+        .find("th")
+        .contains("Pos")
+        .parent()
+        .find('[aria-label="descending"]')
+        .should("exist");
+      cy.get('[aria-label="players table"]')
+        .find("th")
+        .contains("Points")
+        .parent()
+        .find('[aria-label="descending"]')
+        .should("exist");
+
+      // Starred players
+      cy.get("main")
+        .find('[aria-label="remove star player"]')
+        .children()
+        .should("have.length", 2);
+
+      cy.visit("/teams");
+
+      // Team plans
+      cy.get("main")
+        .find('[role="tab"]')
+        .contains("Plan A")
+        .should("be.visible");
+      cy.get("main")
+        .find('[role="tab"]')
+        .contains("Plan B")
+        .should("be.visible");
+
+      // Custom players
+      cy.get("main").contains("Custom Players").click();
+      cy.get('[role="dialog"]').contains("Ronaldo").should("be.visible");
+
+      cy.get('[role="dialog"]')
+        .find("header")
+        .contains("Custom Players")
+        .parent()
+        .find('> [aria-label="Close"]')
+        .click();
+
+      cy.visit("/fixtures");
+
+      // Team sort
+      cy.get('[aria-label="fixtures table"]')
+        .find("tbody tr th")
+        .should((cells) => {
+          expect(cells.map((i, c) => c.textContent).toArray()).to.deep.equal([
+            "BHA",
+            "LEE",
+            "CHE",
+            "LIV",
+            "WHU",
+            "ARS",
+            "AVL",
+            "LEI",
+            "MCI",
+            "MUN",
+            "EVE",
+            "WOL",
+            "BUR",
+            "CRY",
+            "SOU",
+            "WAT",
+            "BRE",
+            "NEW",
+            "NOR",
+            "TOT",
+          ]);
+        });
+
+      // Team strength
+      cy.get("main").find("button").contains("Edit Teams Strength").click();
+      cy.get('[aria-label="home attack strength"]').should(
+        "have.attr",
+        "aria-valuenow",
+        "1050"
+      );
+      cy.get('[aria-label="away attack strength"]').should(
+        "have.attr",
+        "aria-valuenow",
+        "1050"
+      );
     });
   });
 });

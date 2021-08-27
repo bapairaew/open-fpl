@@ -109,7 +109,15 @@ export const PlayerTableHeaderRow = ({
               }
             >
               {config.hideHeader ? "" : key}
-              {arrow && <Icon ml={1} as={arrow!} />}
+              {arrow && (
+                <Icon
+                  aria-label={
+                    sortDirection === "asc" ? "ascending" : "descending"
+                  }
+                  ml={1}
+                  as={arrow!}
+                />
+              )}
             </TableCellWithMenu>
           </Th>
         );
