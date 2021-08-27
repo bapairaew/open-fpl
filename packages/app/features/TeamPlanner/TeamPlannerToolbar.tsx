@@ -53,6 +53,7 @@ const ToolbarStat = ({
     textAlign="right"
   >
     <Text
+      as="span"
       fontWeight="bold"
       noOfLines={1}
       width="100%"

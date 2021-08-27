@@ -70,7 +70,9 @@ const DashboardPlayerTransfersModal = ({
                     />
                   )}
                 </Flex>
-                <Text noOfLines={1}>{playerStat.player.web_name}</Text>
+                <Text as="span" noOfLines={1}>
+                  {playerStat.player.web_name}
+                </Text>
               </CellWrapper>
             </Th>
             <Td p={0}>

@@ -43,6 +43,7 @@ const PlayerRow = ({
         </Box>
         <Flex px={2} py={1} flexGrow={1}>
           <Text
+            as="span"
             noOfLines={1}
             fontWeight={isOnBench ? "normal" : "bold"}
             opacity={isOnBench ? 0.7 : 1}

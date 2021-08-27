@@ -23,7 +23,7 @@ const FindUsSection = (props: BoxProps) => {
         <Heading as="h3" fontWeight="black">
           Find us
         </Heading>
-        <Text my={4} textAlign="center">
+        <Text as="p" my={4} textAlign="center">
           Come find us for bugs report, features request, code contribution or
           any feedbacks
         </Text>

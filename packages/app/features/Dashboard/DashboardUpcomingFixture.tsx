@@ -53,7 +53,13 @@ const DashboardUpcomingFixture = ({
           borderRadius="md"
           flexDirection="column"
         >
-          <Text my={2} layerStyle="subtitle" fontSize="xs" textAlign="left">
+          <Text
+            as="span"
+            my={2}
+            layerStyle="subtitle"
+            fontSize="xs"
+            textAlign="left"
+          >
             {kickOffTime}
           </Text>
           <Flex

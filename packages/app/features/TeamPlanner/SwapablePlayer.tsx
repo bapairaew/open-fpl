@@ -177,7 +177,9 @@ const SwapablePlayer = ({
               fontSize={{ base: "xs", sm: "md" }}
               justifyContent={{ base: "center", sm: "flex-start" }}
             >
-              <Text noOfLines={1}>{player.web_name}</Text>
+              <Text as="span" noOfLines={1}>
+                {player.web_name}
+              </Text>
             </Flex>
           </HStack>
           <HStack spacing={0} width="100%" fontSize="xs" alignItems="stretch">

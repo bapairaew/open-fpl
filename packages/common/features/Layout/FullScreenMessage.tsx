@@ -35,7 +35,9 @@ const FullScreenMessage = ({
         <Heading my={4} fontWeight="black">
           {heading}
         </Heading>
-        <Text my={4}>{text}</Text>
+        <Text as="p" my={4}>
+          {text}
+        </Text>
         {linkText && linkHref && (
           <Link href={linkHref} passHref>
             <Button as="a" variant="link">

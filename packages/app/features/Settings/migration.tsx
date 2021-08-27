@@ -39,6 +39,14 @@ export const migrateFromWWWDomain = async () => {
   if (!hubUrl) return;
 
   try {
+    const response = await fetch(`${hubUrl}/cross-storage-hub.html`);
+    if (!response.ok) return;
+  } catch (e) {
+    // If cannot connect to hub, do not continue
+    return;
+  }
+
+  try {
     const isMigrated = getLocalStorageItem<boolean>(
       getIsAppDomainMigratedKey()
     );

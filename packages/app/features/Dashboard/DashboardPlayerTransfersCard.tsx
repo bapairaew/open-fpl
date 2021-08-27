@@ -76,12 +76,12 @@ const DashboardPlayerTransfersCard = ({
             fontSize="sm"
           >
             <Flex flexDirection="column" alignItems="center">
-              <Text>Own.</Text>
-              <Text>{playerStat.player.selected_by_percent}%</Text>
+              <Text as="span">Own.</Text>
+              <Text as="span">{playerStat.player.selected_by_percent}%</Text>
             </Flex>
             <Flex flexDirection="column" alignItems="center">
-              <Text>Δ Cost</Text>
-              <Text>
+              <Text as="span">Δ Cost</Text>
+              <Text as="span">
                 {costDelta !== 0 && (
                   <StatArrow
                     mr={1}
@@ -93,6 +93,7 @@ const DashboardPlayerTransfersCard = ({
             </Flex>
           </Flex>
           <Text
+            as="span"
             fontSize={{ base: "sm", sm: "lg" }}
             fontWeight="bold"
             noOfLines={1}
@@ -101,6 +102,7 @@ const DashboardPlayerTransfersCard = ({
           </Text>
           <Flex fontSize={{ base: "xs", sm: "md" }}>
             <Text
+              as="span"
               flexBasis="50%"
               textAlign="center"
               layerStyle={`fpl-team-${playerStat.player.team.short_name}`}
@@ -108,6 +110,7 @@ const DashboardPlayerTransfersCard = ({
               {playerStat.player.team.short_name}
             </Text>
             <Text
+              as="span"
               flexBasis="50%"
               textAlign="center"
               layerStyle={`fpl-position-${playerStat.player.element_type.singular_name_short}`}

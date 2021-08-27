@@ -25,6 +25,7 @@ const DashboardFixturePlayerStat = ({
     >
       {showBPS && (
         <Text
+          as="span"
           width={{ base: "23px", sm: "25px" }}
           noOfLines={1}
           textAlign="right"
@@ -33,6 +34,7 @@ const DashboardFixturePlayerStat = ({
         </Text>
       )}
       <Text
+        as="span"
         noOfLines={1}
         width={{ base: "auto", sm: fixedSizeOnDesktop ? "100px" : "auto" }}
         textAlign={align}
@@ -45,6 +47,7 @@ const DashboardFixturePlayerStat = ({
         ·
       </Box>
       <Text
+        as="span"
         width={{ base: "auto", sm: fixedSizeOnDesktop ? "25px" : "auto" }}
         textAlign="right"
       >

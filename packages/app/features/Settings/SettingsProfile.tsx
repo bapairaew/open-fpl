@@ -139,10 +139,10 @@ const SettingsProfile = ({
             <Heading size="sm" mb={3} id={labelId}>
               {displayName}
             </Heading>
-            <Text fontSize="xs" layerStyle="subtitle" my={1}>
+            <Text as="span" fontSize="xs" layerStyle="subtitle" my={1}>
               Team ID: {profile}
             </Text>
-            <Text fontSize="xs" layerStyle="subtitle" my={1}>
+            <Text as="span" fontSize="xs" layerStyle="subtitle" my={1}>
               Storage size: {numberFormatter(storageSize, 1)}b
             </Text>
           </Box>

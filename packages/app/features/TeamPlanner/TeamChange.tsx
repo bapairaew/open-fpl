@@ -59,7 +59,7 @@ const TeamChange = ({
 
   if (change.type === "preseason") {
     mainComponent = (
-      <Text width="120px" fontSize="xs" noOfLines={1} pr={2}>
+      <Text as="span" width="120px" fontSize="xs" noOfLines={1} pr={2}>
         Initial Team Setup
       </Text>
     );
@@ -81,7 +81,7 @@ const TeamChange = ({
             mr={1}
             layerStyle={selectedColor}
           />
-          <Text fontSize="xs" noOfLines={1}>
+          <Text as="span" fontSize="xs" noOfLines={1}>
             {
               (change as TwoPlayersChange<FullChangePlayer>).selectedPlayer
                 ?.web_name
@@ -96,7 +96,7 @@ const TeamChange = ({
             mr={1}
             layerStyle={targetColor}
           />
-          <Text fontSize="xs" noOfLines={1}>
+          <Text as="span" fontSize="xs" noOfLines={1}>
             {
               (change as TwoPlayersChange<FullChangePlayer>).targetPlayer
                 ?.web_name
@@ -121,7 +121,7 @@ const TeamChange = ({
         >
           {change.type === "set-captain" ? "C" : "V"}
         </Box>
-        <Text fontSize="xs" noOfLines={1}>
+        <Text as="span" fontSize="xs" noOfLines={1}>
           {(change as SinglePlayerChange<FullChangePlayer>).player?.web_name}
         </Text>
       </Flex>
@@ -136,14 +136,14 @@ const TeamChange = ({
           mr={2}
           layerStyle="brand"
         />
-        <Text fontSize="xs" noOfLines={1}>
+        <Text as="span" fontSize="xs" noOfLines={1}>
           {getChipDisplayName((change as ChipChange).chip)}
         </Text>
       </Flex>
     );
   } else {
     mainComponent = (
-      <Text fontSize="xs" noOfLines={1} pr={2}>
+      <Text as="span" fontSize="xs" noOfLines={1} pr={2}>
         Unknown Change
       </Text>
     );

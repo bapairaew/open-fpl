@@ -21,7 +21,7 @@ const TransferPlannerSetupPage = () => {
         heading="One moment..."
         text={
           <VStack spacing={6}>
-            <Text>
+            <Text as="span">
               Please wait while we are bringing you to your Team Planner page.
             </Text>
             <Link href={`/teams/${profile}`} passHref>
@@ -42,7 +42,7 @@ const TransferPlannerSetupPage = () => {
         heading="Set up a profile to get started"
         text={
           <VStack spacing={6}>
-            <Text>
+            <Text as="span">
               Set up a profile with your Team ID to access Team Planner
             </Text>
             <Button size="md" onClick={onSettingsModalOpen}>

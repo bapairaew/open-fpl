@@ -48,6 +48,7 @@ const NameSection = ({
       )}
       <Flex px={2} py={1} flexGrow={1}>
         <Text
+          as="span"
           aria-label="player name"
           noOfLines={1}
           fontSize={nameFontSize}

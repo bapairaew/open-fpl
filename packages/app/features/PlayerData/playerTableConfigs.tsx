@@ -49,7 +49,7 @@ const playerTableConfigs = [
                 </CenterFlex>
               </Tooltip>
             )}
-            <Text px={2} textAlign="left" fontSize="sm" noOfLines={1}>
+            <Text as="span" px={2} textAlign="left" fontSize="sm" noOfLines={1}>
               {player.web_name}
             </Text>
           </Flex>

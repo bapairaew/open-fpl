@@ -168,7 +168,7 @@ const DashboardCurrentGameweek = ({
             </Stat>
           </Grid>
         ) : entryError ? (
-          <Text my={8} fontSize="2xl" textAlign="center">
+          <Text as="span" my={8} fontSize="2xl" textAlign="center">
             {entryError}
           </Text>
         ) : null}

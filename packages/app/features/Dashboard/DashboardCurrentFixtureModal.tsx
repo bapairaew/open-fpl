@@ -129,17 +129,22 @@ const DashboardCurrentFixtureModal = ({
                 layerStyle="subtitle"
               >
                 <Text
+                  as="span"
                   width={{ base: "auto", sm: "25px" }}
                   noOfLines={1}
                   textAlign="right"
                 >
                   BPS
                 </Text>
-                <Text width={{ base: "auto", sm: "100px" }} noOfLines={1}>
+                <Text
+                  as="span"
+                  width={{ base: "auto", sm: "100px" }}
+                  noOfLines={1}
+                >
                   Name
                 </Text>
                 <Box display={{ base: "block", sm: "none" }}>·</Box>
-                <Text noOfLines={1} textAlign="right">
+                <Text as="span" noOfLines={1} textAlign="right">
                   Points
                 </Text>
               </HStack>
@@ -162,11 +167,12 @@ const DashboardCurrentFixtureModal = ({
                 layerStyle="subtitle"
                 justifyContent="flex-end"
               >
-                <Text noOfLines={1} textAlign="right">
+                <Text as="span" noOfLines={1} textAlign="right">
                   Points
                 </Text>
                 <Box display={{ base: "block", sm: "none" }}>·</Box>
                 <Text
+                  as="span"
                   width={{ base: "auto", sm: "100px" }}
                   noOfLines={1}
                   textAlign="right"
@@ -174,6 +180,7 @@ const DashboardCurrentFixtureModal = ({
                   Name
                 </Text>
                 <Text
+                  as="span"
                   width={{ base: "auto", sm: "25px" }}
                   noOfLines={1}
                   textAlign="right"

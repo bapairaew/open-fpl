@@ -152,7 +152,9 @@ const TeamPlansDrawer = ({
                       </Flex>
                       <Box flexGrow={1} position="relative">
                         <Radio value={plan.id}>
-                          <Text noOfLines={1}>{plan.id}</Text>
+                          <Text as="span" noOfLines={1}>
+                            {plan.id}
+                          </Text>
                         </Radio>
                       </Box>
                       <Menu isLazy>

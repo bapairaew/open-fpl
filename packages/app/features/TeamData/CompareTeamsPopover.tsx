@@ -76,7 +76,7 @@ const CompareTeamsPopover = ({
                     <PopoverCloseButton />
                     <PopoverHeader fontWeight="black">
                       {isHome ? (
-                        <Text>
+                        <Text as="span">
                           <Box as="span" textDecoration="underline">
                             {team.short_name}
                           </Box>{" "}
@@ -85,9 +85,9 @@ const CompareTeamsPopover = ({
                         </Text>
                       ) : (
                         <HStack spacing={1}>
-                          <Text>{opponent.short_name}</Text>
-                          <Text>vs</Text>
-                          <Text textDecoration="underline">
+                          <Text as="span">{opponent.short_name}</Text>
+                          <Text as="span">vs</Text>
+                          <Text as="span" textDecoration="underline">
                             {team.short_name}
                           </Text>
                         </HStack>
@@ -96,11 +96,11 @@ const CompareTeamsPopover = ({
                     <PopoverBody>
                       <Box>
                         <Flex my={2} fontSize="sm" layerStyle="subtitle">
-                          <Text flexGrow={1}>
+                          <Text as="span" flexGrow={1}>
                             {team.short_name} {isHome ? "Home" : "Away"}{" "}
                             {mode === "attack" ? "Attack" : "Defence"} Strength:{" "}
                           </Text>
-                          <Text>{teamStrength.toLocaleString()}</Text>
+                          <Text as="span">{teamStrength.toLocaleString()}</Text>
                         </Flex>
                         <Progress
                           value={getTeamsStrengthPercent(teamStrength)}
@@ -108,11 +108,13 @@ const CompareTeamsPopover = ({
                       </Box>
                       <Box my={4}>
                         <Flex my={2} fontSize="sm" layerStyle="subtitle">
-                          <Text flexGrow={1}>
+                          <Text as="span" flexGrow={1}>
                             {opponent.short_name} {isHome ? "Away" : "Home"}{" "}
                             {mode === "attack" ? "Defence" : "Attack"} Strength:{" "}
                           </Text>
-                          <Text>{opponentStrength.toLocaleString()}</Text>
+                          <Text as="span">
+                            {opponentStrength.toLocaleString()}
+                          </Text>
                         </Flex>
                         <Progress
                           value={getTeamsStrengthPercent(opponentStrength)}

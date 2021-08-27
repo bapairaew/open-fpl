@@ -205,7 +205,7 @@ const ComparePlayersModal = ({
                   <Th position="sticky" left={0} />
                   {players.map((p) => (
                     <Th key={p.id} textAlign="right">
-                      <Text width="80px" noOfLines={1}>
+                      <Text as="span" width="80px" noOfLines={1}>
                         {p.web_name}
                       </Text>
                     </Th>
@@ -216,7 +216,9 @@ const ComparePlayersModal = ({
                 {labels.map((label, rowIndex) => (
                   <Tr key={label}>
                     <Th textAlign="right" position="sticky" left={0}>
-                      <Text width="140px">{label}</Text>
+                      <Text as="span" width="140px">
+                        {label}
+                      </Text>
                     </Th>
                     {players.map((player, columnIndex) => (
                       <Td

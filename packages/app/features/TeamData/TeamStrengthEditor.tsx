@@ -72,8 +72,12 @@ const TeamStrengthEditor = ({
         <VStack width="50%" spacing={4}>
           <Box width="100%">
             <Flex justifyContent="space-between">
-              <Text fontSize="sm">Home Attack Strength</Text>
-              <Text fontSize="sm">{homeAttack.toLocaleString()}</Text>
+              <Text as="span" fontSize="sm">
+                Home Attack Strength
+              </Text>
+              <Text as="span" fontSize="sm">
+                {homeAttack.toLocaleString()}
+              </Text>
             </Flex>
             <Slider
               focusThumbOnChange={false}
@@ -97,8 +101,12 @@ const TeamStrengthEditor = ({
           </Box>
           <Box width="100%">
             <Flex justifyContent="space-between">
-              <Text fontSize="sm">Home Defence Strength</Text>
-              <Text fontSize="sm">{homeDefence.toLocaleString()}</Text>
+              <Text as="span" fontSize="sm">
+                Home Defence Strength
+              </Text>
+              <Text as="span" fontSize="sm">
+                {homeDefence.toLocaleString()}
+              </Text>
             </Flex>
             <Slider
               focusThumbOnChange={false}
@@ -124,8 +132,12 @@ const TeamStrengthEditor = ({
         <VStack width="50%" spacing={4}>
           <Box width="100%">
             <Flex justifyContent="space-between">
-              <Text fontSize="sm">Away Attack Strength</Text>
-              <Text fontSize="sm">{awayAttack.toLocaleString()}</Text>
+              <Text as="span" fontSize="sm">
+                Away Attack Strength
+              </Text>
+              <Text as="span" fontSize="sm">
+                {awayAttack.toLocaleString()}
+              </Text>
             </Flex>
             <Slider
               focusThumbOnChange={false}
@@ -149,8 +161,12 @@ const TeamStrengthEditor = ({
           </Box>
           <Box width="100%">
             <Flex justifyContent="space-between">
-              <Text fontSize="sm">Away Defence Strength</Text>
-              <Text fontSize="sm">{awayDefence.toLocaleString()}</Text>
+              <Text as="span" fontSize="sm">
+                Away Defence Strength
+              </Text>
+              <Text as="span" fontSize="sm">
+                {awayDefence.toLocaleString()}
+              </Text>
             </Flex>
             <Slider
               focusThumbOnChange={false}

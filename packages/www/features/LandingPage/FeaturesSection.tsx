@@ -60,7 +60,7 @@ const FeaturesSection = (props: BoxProps) => {
         <Heading as="h2" fontWeight="black" textAlign="center">
           Features
         </Heading>
-        <Text my={4} layerStyle="subtitle" textAlign="center">
+        <Text as="p" my={4} layerStyle="subtitle" textAlign="center">
           Collection of tools that will help level up your FPL game
         </Text>
         <Grid

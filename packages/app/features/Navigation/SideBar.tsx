@@ -140,15 +140,15 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
           <A href={externalLinks.changelog} isExternal variant="plain">
             {p.version}
           </A>
-          <Text>·</Text>
+          <Text as="span">·</Text>
           <Link href="/help" passHref>
             <A variant="plain">Help</A>
           </Link>
-          <Text>·</Text>
+          <Text as="span">·</Text>
           <A href={externalLinks.github} isExternal variant="plain">
             <Icon aria-label="Github" as={IoLogoGithub} />
           </A>
-          <Text>·</Text>
+          <Text as="span">·</Text>
           <A href={externalLinks.twitter} isExternal variant="plain">
             <Icon aria-label="Twitter" as={IoLogoTwitter} />
           </A>

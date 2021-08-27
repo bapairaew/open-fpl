@@ -59,6 +59,7 @@ const DashboardPlayerCard = ({
             {playerStat.stats?.total_points}
           </Box>
           <Text
+            as="span"
             fontSize={{ base: "sm", sm: "lg" }}
             fontWeight="bold"
             noOfLines={1}
@@ -67,6 +68,7 @@ const DashboardPlayerCard = ({
           </Text>
           <Flex fontSize={{ base: "xs", sm: "md" }}>
             <Text
+              as="span"
               flexBasis="50%"
               textAlign="center"
               layerStyle={`fpl-team-${playerStat.player.team.short_name}`}
@@ -74,6 +76,7 @@ const DashboardPlayerCard = ({
               {playerStat.player.team.short_name}
             </Text>
             <Text
+              as="span"
               flexBasis="50%"
               textAlign="center"
               layerStyle={`fpl-position-${playerStat.player.element_type.singular_name_short}`}
