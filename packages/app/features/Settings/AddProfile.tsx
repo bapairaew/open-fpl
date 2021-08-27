@@ -148,6 +148,7 @@ const AddProfile = ({
               <FormLabel>Team ID</FormLabel>
               <InputGroup>
                 <Input
+                  required
                   type="number"
                   ref={
                     expanded

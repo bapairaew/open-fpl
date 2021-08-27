@@ -75,6 +75,8 @@ const SettingsProfile = ({
     onRemoveClick(e);
   };
 
+  const labelId = `profile-${profile}`;
+
   return (
     <>
       {isOpen && (
@@ -105,7 +107,7 @@ const SettingsProfile = ({
         </AlertDialog>
       )}
       <Box as="label" width="100%">
-        <input {...input} />
+        <input aria-labelledby={labelId} {...input} />
         <Flex
           {...checkbox}
           cursor="pointer"
@@ -134,7 +136,7 @@ const SettingsProfile = ({
             />
           </Flex>
           <Box px={2} py={4} flexGrow={1}>
-            <Heading size="sm" mb={3}>
+            <Heading size="sm" mb={3} id={labelId}>
               {displayName}
             </Heading>
             <Text fontSize="xs" layerStyle="subtitle" my={1}>

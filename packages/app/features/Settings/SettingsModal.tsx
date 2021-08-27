@@ -54,8 +54,12 @@ const SettingsModal = ({
             <>
               There is something wrong while fetching data from FPL. Maybe your
               id is not correct?{" "}
-              <A href="/help/id" textDecoration="underline">
-                Check this guide to find you ID.
+              <A
+                href="/help/id"
+                textDecoration="underline"
+                layerStyle="redSolid"
+              >
+                Check this guide to find your ID.
               </A>
             </>
           ),

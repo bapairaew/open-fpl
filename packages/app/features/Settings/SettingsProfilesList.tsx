@@ -27,7 +27,7 @@ const SettingsProfilesList = ({
   const group = getRootProps();
 
   return (
-    <VStack {...group}>
+    <VStack aria-label="select a profile" {...group}>
       {profiles?.map((profile) => {
         const radio = getRadioProps({ value: profile });
         return (

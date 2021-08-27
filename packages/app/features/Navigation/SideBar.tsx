@@ -126,6 +126,9 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
           width="100%"
           onClick={handleSettingsClick}
           leftIcon={profile ? <Icon as={IoSettingsOutline} /> : undefined}
+          aria-label={
+            profile ? "open profiles settings" : "set up your profile"
+          }
         >
           {profile ? `${preference?.name ?? profile}` : "Set up your profile"}
         </Button>
