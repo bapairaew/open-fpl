@@ -201,14 +201,18 @@ describe("Player Statistics Explorer", () => {
 
       // Check if top row is starred then click
       cy.get("@playersTable")
-        .find("tbody tr th:nth-child(1) button")
+        .find("tbody tr")
+        .first()
+        .find("th:nth-child(1) button")
         .should("have.attr", "aria-label", "remove star player");
 
       cy.get('button[aria-label="remove star player"]').click();
 
       // Check if there is no starred player
       cy.get("@playersTable")
-        .find("tbody tr th:nth-child(1) button")
+        .find("tbody tr")
+        .first()
+        .find("th:nth-child(1) button")
         .should("not.have.attr", "aria-label", "remove star player");
     });
 
@@ -256,7 +260,7 @@ describe("Player Statistics Explorer", () => {
     });
 
     it("remebers view and sort perference.", () => {
-      cy.get('[aria-label="name options"]').click();
+      cy.get('[aria-label="name options"]').click({ force: true });
       cy.get('[role="menu"]').get('button[value="desc"]').click();
 
       cy.reload();
