@@ -58,32 +58,63 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     ) as Promise<Event[]>,
   ]);
 
-  const nextGameweekId: number = fplGameweeks.find((g) => g.is_next)?.id ?? 38; // Show gameweek 38 at the end of the season
+  const nextGameweekId: number = 4; // fplGameweeks.find((g) => g.is_next)?.id ?? 38; // Show gameweek 38 at the end of the season
   const picksGameweekId: number =
     nextGameweekId === 38 || nextGameweekId === 1 // Use gw 1 for preseasons and gw 38 for the end of the season
       ? nextGameweekId
       : nextGameweekId - 1;
 
-  // TODO: optimise response size
-  const [{ picks = null, entry_history = null }, transfers, { chips = null }] =
-    await Promise.all([
-      getEntryPicks(+params!.id!, picksGameweekId) as Promise<EntryEvent>,
-      getEntryTransfers(+params!.id!),
-      getEntryHistory(+params!.id!) as Promise<EntryHistory>,
-    ]);
+  try {
+    // TODO: optimise response size
+    const [entryPicksResponse, entryTransfersResponse, entryHistoryResponse] =
+      await Promise.all([
+        getEntryPicks(+params!.id!, picksGameweekId),
+        getEntryTransfers(+params!.id!),
+        getEntryHistory(+params!.id!),
+      ]);
 
-  return {
-    props: {
-      picks,
-      entry_history,
-      transfers,
-      chips,
-      teams,
-      teamFixtures,
-      nextGameweekId,
-    },
-    revalidate: 60,
-  };
+    if (
+      typeof entryPicksResponse === "string" ||
+      typeof entryTransfersResponse === "string" ||
+      typeof entryHistoryResponse === "string"
+    ) {
+      const error = [
+        entryPicksResponse,
+        entryTransfersResponse,
+        entryHistoryResponse,
+      ].find((response) => typeof response === "string");
+      return {
+        props: {
+          error,
+        },
+        revalidate: 1,
+      };
+    }
+    const { picks = null, entry_history = null } = entryPicksResponse;
+    const transfers = entryTransfersResponse;
+    const { chips = null } = entryHistoryResponse;
+
+    return {
+      props: {
+        picks,
+        entry_history,
+        transfers,
+        chips,
+        teams,
+        teamFixtures,
+        nextGameweekId,
+      },
+      revalidate: 60,
+    };
+  } catch (e) {
+    return {
+      props: {
+        error:
+          "Unable to connect to official FPL server, please check if https://fantasy.premierleague.com/ is working.",
+      },
+      revalidate: 60,
+    };
+  }
 };
 
 const TransferPlannerPage = ({
