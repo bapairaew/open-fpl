@@ -61,7 +61,7 @@ const DashboardFixturePlayerStat = ({
         alignItems="center"
         direction={align === "left" ? "row" : "row-reverse"}
         aria-label="goals"
-        aria-aria-valuetext={playerStat.stats?.goals_scored ?? 0}
+        aria-aria-valuetext={`${playerStat.stats?.goals_scored ?? 0}`}
       >
         <BatchIcons
           icon={<Icon as={BiFootball} />}
@@ -73,7 +73,7 @@ const DashboardFixturePlayerStat = ({
         alignItems="center"
         direction={align === "left" ? "row" : "row-reverse"}
         aria-label="assists"
-        aria-aria-valuetext={playerStat.stats?.assists ?? 0}
+        aria-aria-valuetext={`${playerStat.stats?.assists ?? 0}`}
       >
         <BatchIcons
           icon={<Icon as={GiRunningShoe} />}

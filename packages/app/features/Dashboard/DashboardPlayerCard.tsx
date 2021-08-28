@@ -100,7 +100,7 @@ const DashboardPlayerCard = ({
           <HStack height="20px" spacing={1} flexWrap="wrap">
             <HStack
               aria-label="player goals"
-              aria-valuetext={playerStat.stats?.goals_scored ?? 0}
+              aria-valuetext={`${playerStat.stats?.goals_scored ?? 0}`}
               spacing={1}
               flexWrap="wrap"
             >
@@ -111,7 +111,7 @@ const DashboardPlayerCard = ({
             </HStack>
             <HStack
               aria-label="player assists"
-              aria-valuetext={playerStat.stats?.assists ?? 0}
+              aria-valuetext={`${playerStat.stats?.assists ?? 0}`}
               spacing={1}
               flexWrap="wrap"
             >

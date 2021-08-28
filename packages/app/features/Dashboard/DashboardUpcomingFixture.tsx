@@ -124,7 +124,7 @@ const DashboardUpcomingFixture = ({
           <Flex width="100%" my={2} aria-label="teams strength">
             <Box
               aria-label="home team strength"
-              aria-aria-valuetext={homeDisplayPercent}
+              aria-aria-valuetext={`${homeDisplayPercent}`}
               height="5px"
               width={`${homeDisplayPercent}%`}
               layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
@@ -132,7 +132,7 @@ const DashboardUpcomingFixture = ({
             <Box height="5px" width="4px" layerStyle="sticky" />
             <Box
               aria-label="away team strength"
-              aria-aria-valuetext={awayDisplayPercent}
+              aria-aria-valuetext={`${awayDisplayPercent}`}
               height="5px"
               width={`${awayDisplayPercent}%`}
               layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
