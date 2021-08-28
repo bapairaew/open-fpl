@@ -45,33 +45,37 @@ const GameweekChanges = ({
           borderRadius="none"
           onClick={() => onMoveToGameweek(gameweek)}
         >
-          <Heading size="xs">GW {gameweek}</Heading>
+          <Heading id={`gw-${gameweek}-changes-heading`} size="xs">
+            GW {gameweek}
+          </Heading>
         </Button>
       </Flex>
-      {changes.map((change, index) => {
-        const isOutdated = change.gameweek < nextGameweekId;
-        const invalidity = invalidChanges.find(
-          (c) => c.change.id === change.id
-        );
-        const variant = isOutdated
-          ? "outdated"
-          : invalidity
-          ? "invalid"
-          : "default";
-        return (
-          <Fragment key={index}>
-            <Box borderRightWidth={1} height="100%">
-              <TeamChange
-                change={change}
-                variant={variant}
-                errorLabel={invalidity?.message}
-                onRemoveClick={() => onRemove(change)}
-              />
-            </Box>
-            <Box height="100%" px="1px" />
-          </Fragment>
-        );
-      })}
+      <Box role="list">
+        {changes.map((change, index) => {
+          const isOutdated = change.gameweek < nextGameweekId;
+          const invalidity = invalidChanges.find(
+            (c) => c.change.id === change.id
+          );
+          const variant = isOutdated
+            ? "outdated"
+            : invalidity
+            ? "invalid"
+            : "default";
+          return (
+            <Fragment key={index}>
+              <Box role="listitem" borderRightWidth={1} height="100%">
+                <TeamChange
+                  change={change}
+                  variant={variant}
+                  errorLabel={invalidity?.message}
+                  onRemoveClick={() => onRemove(change)}
+                />
+              </Box>
+              <Box height="100%" px="1px" />
+            </Fragment>
+          );
+        })}
+      </Box>
     </>
   );
 };

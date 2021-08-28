@@ -73,6 +73,7 @@ const FixturesTableRow = ({
                 >
                   <Box
                     aria-label={`difficulty level ${difficulty} against ${fixture.opponent.name}`}
+                    aria-valuetext={`${difficulty}`}
                   >
                     {fixture.is_home
                       ? fixture.opponent.short_name.toUpperCase()

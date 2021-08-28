@@ -4,6 +4,8 @@ import { AppDrawerOpenButton } from "@open-fpl/app/features/Layout/AppDrawer";
 const DashboardToolbar = (props: BoxProps) => {
   return (
     <HStack
+      as="section"
+      aria-label="dashboard toolbar"
       alignItems="center"
       height="50px"
       width="100%"
@@ -16,16 +18,9 @@ const DashboardToolbar = (props: BoxProps) => {
         <AppDrawerOpenButton />
         <Divider orientation="vertical" />
       </HStack>
-      <HStack
-        spacing={1}
-        height="50px"
-        flexGrow={{ base: 1, sm: 0 }}
-        flexBasis={{ base: "100%", sm: "auto" }}
-      >
-        <Heading px={2} fontWeight="black" fontSize="lg" flexGrow={1}>
-          Dashboard
-        </Heading>
-      </HStack>
+      <Heading px={2} fontWeight="black" fontSize="lg" flexGrow={1}>
+        Dashboard
+      </Heading>
     </HStack>
   );
 };

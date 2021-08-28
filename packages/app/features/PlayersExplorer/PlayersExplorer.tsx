@@ -173,7 +173,14 @@ const PlayersExplorer = ({
           players={selectedPlayers}
         />
       )}
-      <Flex direction="column" overflow="hidden" height="100%" {...props}>
+      <Flex
+        as="section"
+        aria-label="player statistics explorer"
+        direction="column"
+        overflow="hidden"
+        height="100%"
+        {...props}
+      >
         <PlayersExplorerToolbar
           borderBottomWidth={1}
           players={players}

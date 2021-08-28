@@ -25,7 +25,7 @@ const ToolbarSection = ({
   children: ReactNode;
 }) => {
   return (
-    <VStack spacing={0} px={2} {...props}>
+    <VStack as="section" spacing={0} px={2} {...props}>
       <Heading
         size="xs"
         fontWeight="normal"
@@ -53,7 +53,7 @@ const ToolbarStat = ({
     textAlign="right"
   >
     <Text
-      as="span"
+      as="p"
       fontWeight="bold"
       noOfLines={1}
       width="100%"
@@ -87,6 +87,8 @@ const TeamPlannerToolbar = ({
 }) => {
   return (
     <HStack
+      as="section"
+      aria-label="team planner toolbar"
       px={{ base: 0, sm: 2 }}
       spacing={{ base: 0, sm: 2 }}
       height={{ base: "60px", sm: "50px" }}
@@ -94,6 +96,8 @@ const TeamPlannerToolbar = ({
     >
       <Grid
         px={0}
+        as="section"
+        aria-label="gameweek navigator"
         gridTemplateAreas={{
           base: `"gw gw"
                  "prev next"`,
@@ -105,7 +109,7 @@ const TeamPlannerToolbar = ({
           disabled={nextGameweekId === planningGameweek}
           onClick={onPreviousClick}
           variant="ghost"
-          aria-label="previous gameweek"
+          aria-label="go to previous gameweek"
           icon={<Icon as={IoArrowBackOutline} />}
         />
         <Flex
@@ -129,7 +133,7 @@ const TeamPlannerToolbar = ({
           disabled={planningGameweek === 38}
           onClick={onNextClick}
           variant="ghost"
-          aria-label="next gameweek"
+          aria-label="go to next gameweek"
           icon={<Icon as={IoArrowForwardOutline} />}
         />
       </Grid>
@@ -142,6 +146,7 @@ const TeamPlannerToolbar = ({
       <Divider orientation="vertical" />
       <ToolbarSection label="Chip" width="160px" textAlign="left">
         <Select
+          aria-label="select a chip"
           height="20px"
           fontWeight="bold"
           variant="unstyled"

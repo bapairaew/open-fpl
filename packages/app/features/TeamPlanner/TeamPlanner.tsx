@@ -285,6 +285,7 @@ const TeamPlanner = ({
       )}
       <Box height="100%" width="100%" overflow="hidden" {...props}>
         <Tabs
+          aria-label="team plans"
           variant="enclosed-colored"
           height="100%"
           width="100%"
@@ -303,6 +304,7 @@ const TeamPlanner = ({
             >
               {sortableTransferPlans?.map(({ id: plan }) => (
                 <TeamPlannerTab
+                  aria-label={`select plan ${plan}`}
                   key={plan}
                   plan={`${plan}`}
                   onNameChange={(newName: string) =>
@@ -354,6 +356,7 @@ const TeamPlanner = ({
             <Divider orientation="vertical" />
             <Flex flexGrow={1}>
               <Button
+                aria-label="open plan options"
                 borderRadius="none"
                 variant="ghost"
                 width="100%"

@@ -110,6 +110,7 @@ const PreviousStatsSection = ({
             base: variant === "mini" ? "repeat(5, 1fr)" : "repeat(6, 1fr)",
             sm: "repeat(6, 1fr)",
           }}
+          aria-label="past matches statistics"
         >
           {showTeamsName && (
             <TeamsName pastMatches={pastMatches} variant={variant} />

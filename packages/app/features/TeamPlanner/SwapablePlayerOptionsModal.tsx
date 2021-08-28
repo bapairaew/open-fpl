@@ -38,7 +38,12 @@ const SwapablePlayerOptionsModal = ({
         <DrawerCloseButton />
         <DrawerHeader />
         <DrawerBody pt={4} px={0}>
-          <VStack mb={4} width="100%">
+          <VStack
+            as="section"
+            aria-label={`${player.web_name} team options`}
+            mb={4}
+            width="100%"
+          >
             <Box my={4}>
               <PlayerGridCard player={player} />
             </Box>

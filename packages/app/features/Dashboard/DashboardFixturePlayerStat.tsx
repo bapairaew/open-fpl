@@ -26,6 +26,7 @@ const DashboardFixturePlayerStat = ({
       {showBPS && (
         <Text
           as="span"
+          aria-label="bps"
           width={{ base: "23px", sm: "25px" }}
           noOfLines={1}
           textAlign="right"
@@ -35,6 +36,7 @@ const DashboardFixturePlayerStat = ({
       )}
       <Text
         as="span"
+        aria-label="player name"
         noOfLines={1}
         width={{ base: "auto", sm: fixedSizeOnDesktop ? "100px" : "auto" }}
         textAlign={align}
@@ -48,19 +50,36 @@ const DashboardFixturePlayerStat = ({
       </Box>
       <Text
         as="span"
+        aria-label="total points"
         width={{ base: "auto", sm: fixedSizeOnDesktop ? "25px" : "auto" }}
         textAlign="right"
       >
         {playerStat.stats?.total_points ?? 0}
       </Text>
-      <BatchIcons
-        icon={<Icon as={BiFootball} />}
-        count={playerStat.stats?.goals_scored ?? 0}
-      />
-      <BatchIcons
-        icon={<Icon as={GiRunningShoe} />}
-        count={playerStat.stats?.assists ?? 0}
-      />
+      <Stack
+        spacing={1}
+        alignItems="center"
+        direction={align === "left" ? "row" : "row-reverse"}
+        aria-label="goals"
+        aria-aria-valuetext={playerStat.stats?.goals_scored ?? 0}
+      >
+        <BatchIcons
+          icon={<Icon as={BiFootball} />}
+          count={playerStat.stats?.goals_scored ?? 0}
+        />
+      </Stack>
+      <Stack
+        spacing={1}
+        alignItems="center"
+        direction={align === "left" ? "row" : "row-reverse"}
+        aria-label="assists"
+        aria-aria-valuetext={playerStat.stats?.assists ?? 0}
+      >
+        <BatchIcons
+          icon={<Icon as={GiRunningShoe} />}
+          count={playerStat.stats?.assists ?? 0}
+        />
+      </Stack>
     </Stack>
   );
 };

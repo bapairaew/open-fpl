@@ -1,11 +1,19 @@
-import { Box, Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Button,
+  Flex,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import DashboardUpcomingFixtureModal from "@open-fpl/app/features/Dashboard/DashboardUpcomingFixtureModal";
 
 const DashboardUpcomingFixture = ({
   fixture,
   onOpened,
-}: {
+  ...props
+}: BoxProps & {
   fixture: DashboardFixture;
   onOpened?: (fixture: DashboardFixture) => void;
 }) => {
@@ -45,8 +53,10 @@ const DashboardUpcomingFixture = ({
           awayDisplayPercent={awayDisplayPercent}
         />
       )}
-      <Box position="relative">
+      <Box position="relative" {...props}>
         <Flex
+          as="section"
+          aria-label="fixture"
           borderWidth={1}
           px={4}
           py={2}
@@ -55,6 +65,7 @@ const DashboardUpcomingFixture = ({
         >
           <Text
             as="span"
+            aria-label="kick-off time"
             my={2}
             layerStyle="subtitle"
             fontSize="xs"
@@ -63,6 +74,8 @@ const DashboardUpcomingFixture = ({
             {kickOffTime}
           </Text>
           <Flex
+            as="section"
+            aria-label="teams"
             my={2}
             flexGrow={1}
             width="100%"
@@ -70,11 +83,12 @@ const DashboardUpcomingFixture = ({
             fontSize="xl"
             fontWeight="black"
           >
-            <Box>
-              <Flex height="6px">
+            <Box as="section" aria-label="home team">
+              <Flex height="6px" aria-label="selected players">
                 {homePlayers.map((p) => (
                   <Box
                     key={p.player.id}
+                    aria-label={p.player.web_name}
                     mx={0.5}
                     width="6px"
                     height="6px"
@@ -83,14 +97,19 @@ const DashboardUpcomingFixture = ({
                   />
                 ))}
               </Flex>
-              <Box>{fixture.team_h?.short_name}</Box>
+              <Box aria-label="team name">{fixture.team_h?.short_name}</Box>
             </Box>
             <Box>-</Box>
-            <Box>
-              <Flex justifyContent="flex-end" height="6px">
+            <Box as="section" aria-label="away team">
+              <Flex
+                justifyContent="flex-end"
+                height="6px"
+                aria-label="selected players"
+              >
                 {awayPlayers.map((p) => (
                   <Box
                     key={p.player.id}
+                    aria-label={p.player.web_name}
                     mx={0.5}
                     width="6px"
                     height="6px"
@@ -99,17 +118,21 @@ const DashboardUpcomingFixture = ({
                   />
                 ))}
               </Flex>
-              <Box>{fixture.team_a?.short_name}</Box>
+              <Box aria-label="team name">{fixture.team_a?.short_name}</Box>
             </Box>
           </Flex>
-          <Flex width="100%" my={2}>
+          <Flex width="100%" my={2} aria-label="teams strength">
             <Box
+              aria-label="home team strength"
+              aria-aria-valuetext={homeDisplayPercent}
               height="5px"
               width={`${homeDisplayPercent}%`}
               layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
             />
             <Box height="5px" width="4px" layerStyle="sticky" />
             <Box
+              aria-label="away team strength"
+              aria-aria-valuetext={awayDisplayPercent}
               height="5px"
               width={`${awayDisplayPercent}%`}
               layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
@@ -118,7 +141,7 @@ const DashboardUpcomingFixture = ({
         </Flex>
         <Button
           variant="unstyled"
-          aria-label="open match details"
+          aria-label="open fixture details"
           position="absolute"
           width="100%"
           height="100%"

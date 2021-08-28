@@ -70,11 +70,21 @@ const TeamChange = ({
       change.type === "swap" ? IoSwapVerticalOutline : IoArrowForwardOutline;
     const TargetIcon =
       change.type === "swap" ? IoSwapVerticalOutline : IoArrowBackOutline;
+    const selectedLabel =
+      change.type === "swap" ? "substitue out player" : "transfer out player";
+    const targetLabel =
+      change.type === "swap" ? "substitue in player" : "transfer in player";
 
     mainComponent = (
-      <Box width={width} pr={2}>
+      <Box
+        as="section"
+        aria-label={`${change.type} change`}
+        width={width}
+        pr={2}
+      >
         <Flex>
           <Icon
+            aria-label={selectedLabel}
             as={SelectedIcon}
             fontSize="xs"
             mt={0.5}
@@ -90,6 +100,7 @@ const TeamChange = ({
         </Flex>
         <Flex>
           <Icon
+            aria-label={targetLabel}
             as={TargetIcon}
             fontSize="xs"
             mt={0.5}
@@ -110,8 +121,13 @@ const TeamChange = ({
     change.type === "set-vice-captain"
   ) {
     mainComponent = (
-      <Flex width={width} pr={2}>
+      <Flex aria-label="captain change" width={width} pr={2}>
         <Box
+          aria-label={
+            change.type === "set-captain"
+              ? "captain player"
+              : "vice-captain player"
+          }
           fontSize="xs"
           fontWeight="black"
           mr={2}
@@ -130,6 +146,7 @@ const TeamChange = ({
     mainComponent = (
       <Flex width={width} pr={2}>
         <Icon
+          aria-label="chip used"
           as={IoDiscOutline}
           fontSize="xs"
           mt={0.5}
@@ -161,6 +178,7 @@ const TeamChange = ({
             alignItems="center"
           >
             <Icon
+              aria-label={label}
               layerStyle={variantProp.layerStyle}
               as={variantProp.icon}
               mr={2}
@@ -174,7 +192,7 @@ const TeamChange = ({
           onClick={onRemoveClick}
           variant="ghost"
           size="xs"
-          aria-label="remove"
+          aria-label="remove team change"
           icon={<Icon as={IoCloseOutline} />}
         />
       )}

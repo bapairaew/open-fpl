@@ -119,9 +119,10 @@ const DashboardCurrentGameweek = ({
           players={playersToDisplay}
         />
       )}
-      <Grid gap={8} py={4}>
+      <Grid as="section" aria-label="current gameweek dashboard" gap={8} py={4}>
         {entry ? (
           <Grid
+            as="section"
             my={8}
             gap={4}
             templateColumns={{
@@ -139,7 +140,7 @@ const DashboardCurrentGameweek = ({
               <StatHelpText>
                 {deltaPoints > 0 && (
                   <>
-                    <StatArrow type="increase" />
+                    <StatArrow aria-label="increase" type="increase" />
                     {deltaPoints.toLocaleString()}
                   </>
                 )}
@@ -159,6 +160,7 @@ const DashboardCurrentGameweek = ({
                 {deltaRanks !== 0 && (
                   <>
                     <StatArrow
+                      aria-label={deltaRanks > 0 ? "decrease" : "increase"}
                       type={deltaRanks > 0 ? "decrease" : "increase"}
                     />
                     {Math.abs(deltaRanks).toLocaleString()}
@@ -175,17 +177,27 @@ const DashboardCurrentGameweek = ({
         {currentPicks && (
           <>
             <Flex justifyContent="space-between">
-              <Heading size="md" fontWeight="black">
+              <Heading
+                id="your-team-section-header"
+                size="md"
+                fontWeight="black"
+              >
                 Your team
               </Heading>
               <Button variant="link" onClick={onOpenWithPickedPlayers}>
                 See all
               </Button>
             </Flex>
-            <HStack p={0.5} overflowX="scroll">
+            <HStack
+              aria-labelledby="your-team-section-header"
+              role="list"
+              p={0.5}
+              overflowX="scroll"
+            >
               {sortedCurrentPicksPlayers?.map((s) => (
                 <DashboardPlayerCard
                   key={s.player.id}
+                  role="listitem"
                   playerStat={s}
                   onOpened={handleYourTeamPlayerOpened}
                 />
@@ -195,10 +207,12 @@ const DashboardCurrentGameweek = ({
         )}
         {liveFixtures.length > 0 && (
           <>
-            <Heading size="md" fontWeight="black">
+            <Heading id="live-fixtures-header" size="md" fontWeight="black">
               Live
             </Heading>
             <Grid
+              aria-labelledby="live-fixtures-header"
+              role="list"
               gap={4}
               templateColumns={{
                 base: "repeat(1, 1fr)",
@@ -210,6 +224,7 @@ const DashboardCurrentGameweek = ({
               {liveFixtures.map((fixture) => (
                 <DashboardLiveFixture
                   key={fixture.id}
+                  role="listitem"
                   fixture={fixture}
                   onOpened={handleLiveFixtureOpened}
                 />
@@ -219,10 +234,16 @@ const DashboardCurrentGameweek = ({
         )}
         {unfinishedCurrentFixtures.length > 0 && (
           <>
-            <Heading size="md" fontWeight="black">
+            <Heading
+              aria-labelledby="upcoming-fixtures-header"
+              size="md"
+              fontWeight="black"
+            >
               Upcoming Fixtures
             </Heading>
             <Grid
+              aria-labelledby="upcoming-fixtures-header"
+              role="list"
               gap={4}
               templateColumns={{
                 base: "repeat(1, 1fr)",
@@ -234,6 +255,7 @@ const DashboardCurrentGameweek = ({
               {unfinishedCurrentFixtures.map((fixture) => (
                 <DashboardUpcomingFixture
                   key={fixture.id}
+                  role="listitem"
                   fixture={fixture}
                   onOpened={handleUpcomingFixtureOpened}
                 />
@@ -244,17 +266,27 @@ const DashboardCurrentGameweek = ({
         {allCurrentGameweekPlayers.length > 0 && (
           <>
             <Flex justifyContent="space-between">
-              <Heading size="md" fontWeight="black">
+              <Heading
+                id="top-players-section-header"
+                size="md"
+                fontWeight="black"
+              >
                 Top Players
               </Heading>
               <Button variant="link" onClick={onOpenWithAllPlayers}>
                 See all
               </Button>
             </Flex>
-            <HStack p={0.5} overflowX="scroll">
+            <HStack
+              aria-labelledby="top-players-section-header"
+              role="list"
+              p={0.5}
+              overflowX="scroll"
+            >
               {sortedCurrentGameweekPlayers?.slice(0, 10).map((s) => (
                 <DashboardPlayerCard
                   key={s.player.id}
+                  role="listitem"
                   playerStat={s}
                   onOpened={handleTopPlayerOpened}
                 />
@@ -264,10 +296,12 @@ const DashboardCurrentGameweek = ({
         )}
         {finishedCurrentFixtures.length > 0 && (
           <>
-            <Heading size="md" fontWeight="black">
+            <Heading id="finished-fixtures-header" size="md" fontWeight="black">
               Finished Fixtures
             </Heading>
             <Grid
+              aria-labelledby="finished-fixtures-header"
+              role="list"
               gap={4}
               templateColumns={{
                 base: "repeat(1, 1fr)",
@@ -279,6 +313,7 @@ const DashboardCurrentGameweek = ({
               {finishedCurrentFixtures.map((fixture) => (
                 <DashboardFinishedFixture
                   key={fixture.id}
+                  role="listitem"
                   fixture={fixture}
                   onOpened={handleFinishedFixtureOpened}
                 />

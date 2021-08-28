@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Icon, Text } from "@chakra-ui/react";
 import CenterFlex, {
   CenterFlexVariant,
 } from "@open-fpl/app/features/PlayerData/CenterFlex";
@@ -41,8 +41,9 @@ const NameSection = ({
           <CenterFlex
             variant={variant}
             layerStyle={`fpl-status-${player.status}`}
+            aria-label="player status"
           >
-            <IoWarningOutline />
+            <Icon as={IoWarningOutline} aria-label={player.news} />
           </CenterFlex>
         </Tooltip>
       )}

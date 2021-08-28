@@ -25,6 +25,7 @@ const FixturesSection = ({
       templateColumns="repeat(5, 1fr)"
       height={height}
       width="100%"
+      aria-label="next fixtures"
     >
       {player.client_data.gameweeks?.slice(0, 5).map((fixtures, i) => {
         return (
@@ -33,6 +34,9 @@ const FixturesSection = ({
             flexDirection="column"
             alignItems="stretch"
             height="inherit"
+            aria-label={
+              fixtures && fixtures[0] ? `gameweek ${fixtures[0].event}` : ""
+            }
           >
             {!fixtures ? (
               <CenterFlex variant={variant} height="100%" />
@@ -46,7 +50,8 @@ const FixturesSection = ({
                   layerStyle={`fpl-difficulty-${fixture.difficulty}`}
                 >
                   <Box
-                    aria-label={`difficulty level ${fixture.difficulty} against ${fixture.opponent.name}`}
+                    aria-label={`difficulty level against ${fixture.opponent.name}`}
+                    aria-valuetext={`${fixture.difficulty}`}
                     display={textDisplay}
                   >
                     {fixture.is_home

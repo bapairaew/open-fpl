@@ -32,13 +32,14 @@ const PlayerRow = ({
   return (
     <>
       <Divider />
-      <Flex fontSize="sm" width="160px">
+      <Flex role="listitem" fontSize="sm" width="160px">
         <Box width="5px">
           <Flex
             borderRightWidth={1}
             width="100%"
             height="100%"
             layerStyle={`fpl-position-${player.element_type.singular_name_short}`}
+            aria-label={player.element_type.singular_name_short}
           />
         </Box>
         <Flex px={2} py={1} flexGrow={1}>
@@ -47,6 +48,7 @@ const PlayerRow = ({
             noOfLines={1}
             fontWeight={isOnBench ? "normal" : "bold"}
             opacity={isOnBench ? 0.7 : 1}
+            aria-label={player.web_name}
           >
             {player.web_name}
           </Text>
@@ -60,6 +62,7 @@ const PlayerRow = ({
             borderLeftWidth={1}
             layerStyle="brandSolid"
             fontWeight="black"
+            aria-label={player.pick.is_captain ? "captain" : "vice-captain"}
           >
             {player.pick.is_captain
               ? "C"
@@ -113,10 +116,15 @@ const TeamSummaryModal = ({
                   )}
                   {gameweekData.gameweek > 1 && (
                     <>
-                      <Box borderWidth={1}>
+                      <Box
+                        as="section"
+                        aria-label="team changes"
+                        role="list"
+                        borderWidth={1}
+                      >
                         {groupedChanges[gameweekData.gameweek]?.map(
                           (change) => (
-                            <Box key={change.id} height="50px">
+                            <Box role="listitem" key={change.id} height="50px">
                               <TeamChange change={change} />
                               <Divider />
                             </Box>
@@ -128,27 +136,38 @@ const TeamSummaryModal = ({
                       </Box>
                     </>
                   )}
-                  <VStack spacing={0} borderWidth={1}>
-                    <Heading size="xs" my={2}>
+                  <VStack
+                    as="section"
+                    spacing={0}
+                    borderWidth={1}
+                    aria-labelledby="team-summary-modal-header"
+                  >
+                    <Heading size="xs" my={2} id="team-summary-modal-header">
                       Gameweek {gameweekData.gameweek}
                     </Heading>
-                    {GKP.map((player) => {
-                      return <PlayerRow key={player.id} player={player} />;
-                    })}
-                    {DEF.map((player) => {
-                      return <PlayerRow key={player.id} player={player} />;
-                    })}
-                    {MID.map((player) => {
-                      return <PlayerRow key={player.id} player={player} />;
-                    })}
-                    {FWD.map((player) => {
-                      return <PlayerRow key={player.id} player={player} />;
-                    })}
-                    {bench.map((player) => {
-                      return (
-                        <PlayerRow key={player.id} player={player} isOnBench />
-                      );
-                    })}
+                    <VStack role="listitem" spacing={0}>
+                      {GKP.map((player) => {
+                        return <PlayerRow key={player.id} player={player} />;
+                      })}
+                      {DEF.map((player) => {
+                        return <PlayerRow key={player.id} player={player} />;
+                      })}
+                      {MID.map((player) => {
+                        return <PlayerRow key={player.id} player={player} />;
+                      })}
+                      {FWD.map((player) => {
+                        return <PlayerRow key={player.id} player={player} />;
+                      })}
+                      {bench.map((player) => {
+                        return (
+                          <PlayerRow
+                            key={player.id}
+                            player={player}
+                            isOnBench
+                          />
+                        );
+                      })}
+                    </VStack>
                   </VStack>
                 </Fragment>
               );

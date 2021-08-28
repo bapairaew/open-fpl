@@ -84,7 +84,7 @@ const TransferMarket = ({
                     <IconButton
                       size="xs"
                       variant="outline"
-                      aria-label="in team"
+                      aria-label="player is already in the team"
                       borderRadius="none"
                       disabled
                       icon={<Icon as={IoCheckmark} />}
@@ -94,7 +94,7 @@ const TransferMarket = ({
                     <IconButton
                       size="xs"
                       variant="outline"
-                      aria-label="transfer"
+                      aria-label="transfer player"
                       borderRadius="none"
                       icon={<Icon as={IoSwapHorizontal} />}
                       onClick={() => onPlayerSelect?.(player)}
@@ -147,8 +147,13 @@ const TransferMarket = ({
   );
 
   return (
-    <Flex flexDirection="column" height="100%">
-      <Box p={2}>
+    <Flex
+      as="section"
+      aria-label="transfer market"
+      flexDirection="column"
+      height="100%"
+    >
+      <Box as="section" aria-label="transfer market toolbar" p={2}>
         <HStack spacing={2}>
           <InputGroup variant="filled">
             <InputLeftElement
@@ -156,6 +161,7 @@ const TransferMarket = ({
               children={<IoSearchOutline />}
             />
             <Input
+              aria-label="search for players"
               placeholder="Search"
               value={filterQuery}
               onChange={(e) => setFilterQuery(e.target.value)}
@@ -168,7 +174,13 @@ const TransferMarket = ({
           No players found
         </Box>
       ) : (
-        <Box flexGrow={1} px={2} height="100%">
+        <Box
+          as="section"
+          aria-label="players list"
+          flexGrow={1}
+          px={2}
+          height="100%"
+        >
           <AutoSizer>
             {({ height, width }) => (
               <Box
@@ -179,6 +191,7 @@ const TransferMarket = ({
                 flexGrow={1}
               >
                 <StickyHeaderTable
+                  tableProps={{ "aria-label": "players table" }}
                   height={height}
                   width={width}
                   itemSize={33}
@@ -194,6 +207,7 @@ const TransferMarket = ({
                       />
                       {selectedPlayer && (
                         <PlayerTableRow
+                          aria-label="selected player"
                           player={selectedPlayer}
                           configs={configs}
                           height="30px"

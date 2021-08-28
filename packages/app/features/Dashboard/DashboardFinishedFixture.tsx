@@ -1,4 +1,11 @@
-import { Box, Button, Flex, Grid, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Button,
+  Flex,
+  Grid,
+  useDisclosure,
+} from "@chakra-ui/react";
 import DashboardCurrentFixtureModal from "@open-fpl/app/features/Dashboard/DashboardCurrentFixtureModal";
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
 import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardTypes";
@@ -6,7 +13,8 @@ import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardType
 const DashboardFinishedFixture = ({
   fixture,
   onOpened,
-}: {
+  ...props
+}: BoxProps & {
   fixture: DashboardFixture;
   onOpened: (fixture: DashboardFixture) => void;
 }) => {
@@ -48,8 +56,10 @@ const DashboardFinishedFixture = ({
           awayPlayers={awayPlayers}
         />
       )}
-      <Box position="relative">
+      <Box position="relative" {...props}>
         <Flex
+          as="section"
+          aria-label="fixture"
           borderWidth={1}
           px={4}
           py={2}
@@ -57,6 +67,8 @@ const DashboardFinishedFixture = ({
           flexDirection="column"
         >
           <Grid
+            as="section"
+            aria-label="results"
             my={2}
             templateColumns="repeat(3, 1fr)"
             flexGrow={1}
@@ -64,7 +76,7 @@ const DashboardFinishedFixture = ({
             fontSize="2xl"
             fontWeight="black"
           >
-            <Box textAlign="center">
+            <Box textAlign="center" aria-label="home team">
               <Box
                 width="100%"
                 layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
@@ -73,7 +85,7 @@ const DashboardFinishedFixture = ({
               </Box>
             </Box>
             <Box>
-              <Box fontSize="2xl" textAlign="center">
+              <Box fontSize="2xl" textAlign="center" aria-label="score">
                 {fixture.team_h_score} - {fixture.team_a_score}
               </Box>
               <Box
@@ -82,11 +94,12 @@ const DashboardFinishedFixture = ({
                 fontWeight="normal"
                 textAlign="center"
                 height="21px"
+                aria-label="expected score"
               >
                 {homeXG && awayXG ? `${homeXG} - ${awayXG}` : ""}
               </Box>
             </Box>
-            <Box textAlign="center">
+            <Box textAlign="center" aria-label="away team">
               <Box
                 width="100%"
                 layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
@@ -96,12 +109,14 @@ const DashboardFinishedFixture = ({
             </Box>
           </Grid>
           <Flex
+            as="section"
+            aria-label="player statistics"
             fontSize="xs"
             height="60px"
             layerStyle="subtitle"
             overflow="auto"
           >
-            <Box width="50%">
+            <Box width="50%" aria-label="home team">
               {homePlayers.map((e) => (
                 <DashboardFixturePlayerStat
                   key={e.player.id}
@@ -110,7 +125,7 @@ const DashboardFinishedFixture = ({
                 />
               ))}
             </Box>
-            <Box width="50%">
+            <Box width="50%" aria-label="home team">
               {awayPlayers.map((e) => (
                 <DashboardFixturePlayerStat
                   key={e.player.id}
@@ -123,7 +138,7 @@ const DashboardFinishedFixture = ({
         </Flex>
         <Button
           variant="unstyled"
-          aria-label="open match details"
+          aria-label="open fixture details"
           position="absolute"
           width="100%"
           height="100%"

@@ -1,13 +1,14 @@
 import {
   Badge,
   Box,
+  BoxProps,
   Button,
   Flex,
   HStack,
+  Icon,
   Text,
   useDisclosure,
   VStack,
-  Icon,
 } from "@chakra-ui/react";
 import BatchIcons from "@open-fpl/app/features/Dashboard/BatchIcons";
 import DashboardPlayerModal from "@open-fpl/app/features/Dashboard/DashboardPlayerModal";
@@ -18,7 +19,8 @@ import { GiRunningShoe } from "react-icons/gi";
 const DashboardPlayerCard = ({
   playerStat,
   onOpened,
-}: {
+  ...props
+}: BoxProps & {
   playerStat: GameweekPlayerStat;
   onOpened?: (playerStat: GameweekPlayerStat) => void;
 }) => {
@@ -37,13 +39,20 @@ const DashboardPlayerCard = ({
           playerStat={playerStat}
         />
       )}
-      <Box position="relative">
-        <HStack position="absolute" top={0} left={2}>
+      <Box position="relative" {...props}>
+        <HStack
+          as="section"
+          aria-label="player status"
+          position="absolute"
+          top={0}
+          left={2}
+        >
           {playerStat.live && <Badge colorScheme="red">Live</Badge>}
           {playerStat.picked && <Badge>Picked</Badge>}
         </HStack>
         <VStack
           key={playerStat.player.id}
+          role="group"
           p={{ base: 2, sm: 4 }}
           width={{ base: "120px", sm: "160px" }}
           borderWidth={1}
@@ -52,6 +61,7 @@ const DashboardPlayerCard = ({
           spacing={2}
         >
           <Box
+            aria-label="player total points"
             mt={{ base: 4, sm: 0 }}
             fontSize={{ base: "xl", sm: "4xl" }}
             fontWeight="black"
@@ -60,6 +70,7 @@ const DashboardPlayerCard = ({
           </Box>
           <Text
             as="span"
+            aria-label="player name"
             fontSize={{ base: "sm", sm: "lg" }}
             fontWeight="bold"
             noOfLines={1}
@@ -69,6 +80,7 @@ const DashboardPlayerCard = ({
           <Flex fontSize={{ base: "xs", sm: "md" }}>
             <Text
               as="span"
+              aria-label="player team"
               flexBasis="50%"
               textAlign="center"
               layerStyle={`fpl-team-${playerStat.player.team.short_name}`}
@@ -77,6 +89,7 @@ const DashboardPlayerCard = ({
             </Text>
             <Text
               as="span"
+              aria-label="player position"
               flexBasis="50%"
               textAlign="center"
               layerStyle={`fpl-position-${playerStat.player.element_type.singular_name_short}`}
@@ -85,19 +98,33 @@ const DashboardPlayerCard = ({
             </Text>
           </Flex>
           <HStack height="20px" spacing={1} flexWrap="wrap">
-            <BatchIcons
-              icon={<Icon as={BiFootball} />}
-              count={playerStat.stats?.goals_scored ?? 0}
-            />
-            <BatchIcons
-              icon={<Icon as={GiRunningShoe} />}
-              count={playerStat.stats?.assists ?? 0}
-            />
+            <HStack
+              aria-label="player goals"
+              aria-valuetext={playerStat.stats?.goals_scored ?? 0}
+              spacing={1}
+              flexWrap="wrap"
+            >
+              <BatchIcons
+                icon={<Icon as={BiFootball} />}
+                count={playerStat.stats?.goals_scored ?? 0}
+              />
+            </HStack>
+            <HStack
+              aria-label="player assists"
+              aria-valuetext={playerStat.stats?.assists ?? 0}
+              spacing={1}
+              flexWrap="wrap"
+            >
+              <BatchIcons
+                icon={<Icon as={GiRunningShoe} />}
+                count={playerStat.stats?.assists ?? 0}
+              />
+            </HStack>
           </HStack>
         </VStack>
         <Button
           variant="unstyled"
-          aria-label="open match details"
+          aria-label="open player details"
           position="absolute"
           width="100%"
           height="100%"

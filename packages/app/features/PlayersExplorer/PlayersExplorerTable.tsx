@@ -145,7 +145,7 @@ const PlayersExplorerTable = ({
   );
 
   return (
-    <Box flexGrow={1}>
+    <Box as="section" aria-label="players statistics" flexGrow={1}>
       <AutoSizer>
         {({ height, width }) => (
           <Box

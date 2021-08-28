@@ -129,6 +129,7 @@ const TeamPlansDrawer = ({
           <DrawerBody>
             <VStack alignItems="flex-start" spacing={4}>
               <RadioGroup
+                aria-label="selected plan"
                 width="100%"
                 value={`${teamPlans[selectedIndex].id}`}
                 onChange={(value) =>
@@ -147,7 +148,12 @@ const TeamPlansDrawer = ({
                 >
                   {teamPlans?.map((plan) => (
                     <HStack key={plan.id} spacing={0} width="100%">
-                      <Flex className="handle" cursor="grab" p={2}>
+                      <Flex
+                        aria-label={`drag to rearrange ${plan.id}`}
+                        className="handle"
+                        cursor="grab"
+                        p={2}
+                      >
                         <Icon as={IoReorderFourOutline} opacity={0.5} />
                       </Flex>
                       <Box flexGrow={1} position="relative">
@@ -164,7 +170,7 @@ const TeamPlansDrawer = ({
                               as={IconButton}
                               size="xs"
                               variant="ghost"
-                              aria-label="menu"
+                              aria-label="open team plan menu"
                               icon={<Icon as={IoEllipsisVerticalOutline} />}
                             />
                             {isOpen && (

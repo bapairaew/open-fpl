@@ -89,7 +89,13 @@ const PlayersExplorerGridOrChart = ({
   );
 
   return (
-    <Box flexGrow={1} role="list" aria-label="players list" {...props}>
+    <Box
+      flexGrow={1}
+      as="section"
+      aria-label="players statistics"
+      role="list"
+      {...props}
+    >
       <AutoSizer>
         {({ height, width }) => (
           <>

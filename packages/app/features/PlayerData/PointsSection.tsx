@@ -81,7 +81,12 @@ const PointsSection = ({
           )}
         </Grid>
       )}
-      <Grid gap={0} templateColumns="repeat(6, 1fr)" width="100%">
+      <Grid
+        gap={0}
+        templateColumns="repeat(6, 1fr)"
+        width="100%"
+        aria-label="player points"
+      >
         {previousGameweeks?.map((h, i) => (
           <CenterFlex
             key={i}

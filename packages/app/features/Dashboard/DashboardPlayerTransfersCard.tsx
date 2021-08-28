@@ -1,22 +1,24 @@
 import {
   Badge,
   Box,
+  BoxProps,
   Button,
   Flex,
   HStack,
+  StatArrow,
   Text,
   useDisclosure,
   VStack,
-  StatArrow,
 } from "@chakra-ui/react";
+import numberFormatter from "@open-fpl/app/features/Common/numberFormatter";
 import DashboardPlayerModal from "@open-fpl/app/features/Dashboard/DashboardPlayerModal";
 import { GameweekPlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
-import numberFormatter from "@open-fpl/app/features/Common/numberFormatter";
 
 const DashboardPlayerTransfersCard = ({
   playerStat,
   onOpened,
-}: {
+  ...props
+}: BoxProps & {
   playerStat: GameweekPlayerStat;
   onOpened?: (playerStat: GameweekPlayerStat) => void;
 }) => {
@@ -41,12 +43,19 @@ const DashboardPlayerTransfersCard = ({
           playerStat={playerStat}
         />
       )}
-      <Box position="relative">
-        <HStack position="absolute" top={0} left={2}>
+      <Box role="group" position="relative" {...props}>
+        <HStack
+          as="section"
+          aria-label="player status"
+          position="absolute"
+          top={0}
+          left={2}
+        >
           {playerStat.live && <Badge colorScheme="red">Live</Badge>}
           {playerStat.picked && <Badge>Picked</Badge>}
         </HStack>
         <VStack
+          role="group"
           key={playerStat.player.id}
           p={{ base: 2, sm: 4 }}
           minWidth={{ base: "120px", sm: "160px" }}
@@ -56,6 +65,8 @@ const DashboardPlayerTransfersCard = ({
           spacing={2}
         >
           <Flex
+            as="section"
+            aria-label="player ownership changes"
             mt={{ base: 4, sm: 0 }}
             fontSize={{ base: "xl", sm: "2xl" }}
             fontWeight="black"
@@ -65,6 +76,7 @@ const DashboardPlayerTransfersCard = ({
             {transfersDelta !== 0 && (
               <StatArrow
                 mr={1}
+                aria-label={transfersDelta > 0 ? "increase" : "decrease"}
                 type={transfersDelta > 0 ? "increase" : "decrease"}
               />
             )}
@@ -75,17 +87,28 @@ const DashboardPlayerTransfersCard = ({
             layerStyle="subtitle"
             fontSize="sm"
           >
-            <Flex flexDirection="column" alignItems="center">
+            <Flex
+              as="section"
+              aria-label="player ownership"
+              flexDirection="column"
+              alignItems="center"
+            >
               <Text as="span">Own.</Text>
               <Text as="span">{playerStat.player.selected_by_percent}%</Text>
             </Flex>
-            <Flex flexDirection="column" alignItems="center">
+            <Flex
+              as="section"
+              aria-label="player cost changes"
+              flexDirection="column"
+              alignItems="center"
+            >
               <Text as="span">Δ Cost</Text>
               <Text as="span">
                 {costDelta !== 0 && (
                   <StatArrow
                     mr={1}
-                    type={transfersDelta > 0 ? "increase" : "decrease"}
+                    aria-label={transfersDelta > 0 ? "increase" : "decrease"}
+                    type={costDelta > 0 ? "increase" : "decrease"}
                   />
                 )}
                 £{Math.abs(costDelta).toFixed(1)}
@@ -94,6 +117,7 @@ const DashboardPlayerTransfersCard = ({
           </Flex>
           <Text
             as="span"
+            aria-label="player name"
             fontSize={{ base: "sm", sm: "lg" }}
             fontWeight="bold"
             noOfLines={1}
@@ -103,6 +127,7 @@ const DashboardPlayerTransfersCard = ({
           <Flex fontSize={{ base: "xs", sm: "md" }}>
             <Text
               as="span"
+              aria-label="player team"
               flexBasis="50%"
               textAlign="center"
               layerStyle={`fpl-team-${playerStat.player.team.short_name}`}
@@ -111,6 +136,7 @@ const DashboardPlayerTransfersCard = ({
             </Text>
             <Text
               as="span"
+              aria-label="player position"
               flexBasis="50%"
               textAlign="center"
               layerStyle={`fpl-position-${playerStat.player.element_type.singular_name_short}`}
@@ -121,7 +147,7 @@ const DashboardPlayerTransfersCard = ({
         </VStack>
         <Button
           variant="unstyled"
-          aria-label="open match details"
+          aria-label="open player details"
           position="absolute"
           width="100%"
           height="100%"

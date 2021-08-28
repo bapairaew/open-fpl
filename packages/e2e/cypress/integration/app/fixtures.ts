@@ -144,12 +144,10 @@ describe("Fixture Difficulty Rating", () => {
           if (index < list.length - 1) {
             const current = cell
               .find('[aria-label^="difficulty level"]')
-              .attr("aria-label")
-              .match(/difficulty level (\d) against/)?.[1];
+              .attr("aria-valuetext");
             const next = Cypress.$(list[index + 1])
               .find('[aria-label^="difficulty level"]')
-              .attr("aria-label")
-              .match(/difficulty level (\d) against/)?.[1];
+              .attr("aria-valuetext");
             // Difficulty levels should be sorted
             expect(+current).to.be.lte(+next);
           }
@@ -173,11 +171,9 @@ describe("Fixture Difficulty Rating", () => {
             let current = 0;
             row.find("td").each((index, cell) => {
               if (index < 3) {
-                const matched = Cypress.$(cell)
+                current += +Cypress.$(cell)
                   .find('[aria-label^="difficulty level"]')
-                  .attr("aria-label")
-                  .match(/difficulty level (\d) against/)?.[1];
-                current += +matched;
+                  .attr("aria-valuetext");
               }
             });
 
@@ -186,11 +182,9 @@ describe("Fixture Difficulty Rating", () => {
               .find("td")
               .each((index, cell) => {
                 if (index < 3) {
-                  const matched = Cypress.$(cell)
+                  next += +Cypress.$(cell)
                     .find('[aria-label^="difficulty level"]')
-                    .attr("aria-label")
-                    .match(/difficulty level (\d) against/)?.[1];
-                  next += +matched;
+                    .attr("aria-valuetext");
                 }
               });
 
@@ -210,11 +204,9 @@ describe("Fixture Difficulty Rating", () => {
             .match(/click to compare (\w+) and (\w+) strength/);
           const team = teamMatched?.[1];
 
-          const beforeDifficultyMatched = cell
+          const beforeDifficulty = cell
             .find('[aria-label^="difficulty level"]')
-            .attr("aria-label")
-            .match(/difficulty level (\d+)/);
-          const beforeDifficulty = beforeDifficultyMatched?.[1];
+            .attr("aria-valuetext");
 
           cy.get("button").contains("Edit Teams Strength").click();
 
@@ -238,11 +230,9 @@ describe("Fixture Difficulty Rating", () => {
               waitForAnimations: true,
             })
             .should(() => {
-              const afterDifficultyMatched = cell
+              const afterDifficulty = cell
                 .find('[aria-label^="difficulty level"]')
-                .attr("aria-label")
-                .match(/difficulty level (\d+)/);
-              const afterDifficulty = afterDifficultyMatched?.[1];
+                .attr("aria-valuetext");
 
               // Difficulty level should change
               expect(+beforeDifficulty).to.be.lt(+afterDifficulty);
@@ -255,11 +245,9 @@ describe("Fixture Difficulty Rating", () => {
             .contains("Reset")
             .click()
             .should(() => {
-              const resettedDifficultyMatched = cell
+              const resettedDifficulty = cell
                 .find('[aria-label^="difficulty level"]')
-                .attr("aria-label")
-                .match(/difficulty level (\d+)/);
-              const resettedDifficulty = resettedDifficultyMatched?.[1];
+                .attr("aria-valuetext");
 
               // Difficulty level should be back to the original after reset
               expect(+beforeDifficulty).to.be.eq(+resettedDifficulty);
@@ -282,12 +270,10 @@ describe("Fixture Difficulty Rating", () => {
           if (index < list.length - 1) {
             const current = cell
               .find('[aria-label^="difficulty level"]')
-              .attr("aria-label")
-              .match(/difficulty level (\d) against/)?.[1];
+              .attr("aria-valuetext");
             const next = Cypress.$(list[index + 1])
               .find('[aria-label^="difficulty level"]')
-              .attr("aria-label")
-              .match(/difficulty level (\d) against/)?.[1];
+              .attr("aria-valuetext");
             expect(+current).to.be.lte(+next);
           }
         });
@@ -304,7 +290,7 @@ describe("Fixture Difficulty Rating", () => {
     });
 
     it("open team strength modal.", () => {
-      cy.get('[aria-label="fixtures options"]').click();
+      cy.get('[aria-label="fixtures menu"]').click();
       cy.get('[role="menu"]').contains("Edit teams strength").click();
       cy.get('[role="dialog"]').should("be.visible");
     });
@@ -319,7 +305,7 @@ describe("Fixture Difficulty Rating", () => {
           attackRating.push(cell.css("background-color"));
         })
         .then(() => {
-          cy.get('[aria-label="fixtures options"]').click();
+          cy.get('[aria-label="fixtures menu"]').click();
           cy.get('[aria-label="difficulty rating mode"]')
             .find('input[type="radio"]')
             .check("defence", { force: true });

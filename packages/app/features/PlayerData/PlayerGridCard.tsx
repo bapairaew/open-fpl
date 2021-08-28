@@ -16,7 +16,13 @@ const PlayerGridCard = ({
 }) => {
   const height = variant === "mini" ? "165px" : "203px";
   return (
-    <Box borderWidth={1} height={height} overflow="hidden" {...props}>
+    <Box
+      role="group"
+      borderWidth={1}
+      height={height}
+      overflow="hidden"
+      {...props}
+    >
       <NameSection variant={variant} player={player} />
       <FixturesSection variant={variant} player={player} />
       <PointsSection showTeamsName variant={variant} player={player} />

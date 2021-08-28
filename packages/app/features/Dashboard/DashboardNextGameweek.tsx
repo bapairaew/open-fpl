@@ -76,11 +76,11 @@ const DashboardNextGameweek = ({
           players={sortedPlayers}
         />
       )}
-      <Grid gap={8} py={4}>
+      <Grid as="section" aria-label="next gameweek dashboard" gap={8} py={4}>
         <Box my={8}>
           <DeadlineCountdown deadline={deadline} />
         </Box>
-        <Flex justifyContent="space-between">
+        <Flex id="next-gameweek-top-transfers" justifyContent="space-between">
           <Heading size="md" fontWeight="black">
             Top Transfers
           </Heading>
@@ -88,19 +88,34 @@ const DashboardNextGameweek = ({
             See all
           </Button>
         </Flex>
-        <HStack p={0.5} overflowX="scroll">
+        <HStack
+          as="section"
+          role="list"
+          aria-labelledby="next-gameweek-top-transfers"
+          p={0.5}
+          overflowX="scroll"
+        >
           {sortedPlayers?.slice(0, 10).map((s) => (
             <DashboardPlayerTransfersCard
               key={s.player.id}
+              role="listitem"
               playerStat={s}
               onOpened={handleTopTransfersPlayerOpened}
             />
           ))}
         </HStack>
-        <Heading my={2} size="md" fontWeight="black">
+        <Heading
+          id="next-gameweek-fixtures"
+          my={2}
+          size="md"
+          fontWeight="black"
+        >
           Next Gameweek
         </Heading>
         <Grid
+          as="section"
+          role="list"
+          aria-labelledby="next-gameweek-fixtures"
           gap={4}
           templateColumns={{
             base: "repeat(1, 1fr)",
@@ -112,6 +127,7 @@ const DashboardNextGameweek = ({
           {nextGameweekFixtures.map((fixture) => (
             <DashboardUpcomingFixture
               key={fixture.id}
+              role="listitem"
               fixture={fixture}
               onOpened={handleUpcomingFixtureOpened}
             />

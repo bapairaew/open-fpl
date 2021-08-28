@@ -285,9 +285,16 @@ const Dashboard = ({
   }, [preference?.selectedDashboardTab]);
 
   return (
-    <Flex flexDirection="column" height="100%" {...props}>
+    <Flex
+      as="section"
+      aria-label="dashboard"
+      flexDirection="column"
+      height="100%"
+      {...props}
+    >
       <DashboardToolbar display={{ base: "flex", sm: "none" }} />
       <Tabs
+        aria-label="gameweeks"
         variant="enclosed-colored"
         flexGrow={1}
         overflow="hidden"
@@ -298,6 +305,7 @@ const Dashboard = ({
       >
         <TabList>
           <Tab
+            aria-label="current gameweek"
             py={4}
             px={6}
             ml={{ base: 0, sm: 2 }}
@@ -342,6 +350,7 @@ const Dashboard = ({
             )}
           </Tab>
           <Tab
+            aria-label="next gameweek"
             py={4}
             px={6}
             flexBasis={{ base: "50%", sm: "200px" }}

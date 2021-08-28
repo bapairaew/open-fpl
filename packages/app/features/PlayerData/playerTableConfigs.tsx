@@ -2,6 +2,7 @@ import {
   Box,
   Flex,
   Grid,
+  Icon,
   TableCellProps,
   Td,
   Text,
@@ -44,8 +45,9 @@ const playerTableConfigs = [
                 <CenterFlex
                   layerStyle={`fpl-status-${player.status}`}
                   height="100%"
+                  aria-label="player status"
                 >
-                  <IoWarningOutline />
+                  <Icon as={IoWarningOutline} aria-label={player.news} />
                 </CenterFlex>
               </Tooltip>
             )}

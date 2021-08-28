@@ -1,4 +1,11 @@
-import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+} from "@chakra-ui/react";
 import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import SwapablePlayer, {
@@ -34,15 +41,15 @@ const SelectedTeamSection = ({
   heading,
   headingRightAddon,
   height = "auto",
-  children,
-}: {
+  ...props
+}: BoxProps & {
   heading: string;
   headingRightAddon?: ReactNode;
   height?: number | string;
   children: ReactNode;
 }) => {
   return (
-    <>
+    <Box as="section">
       <Flex
         px={4}
         py={2}
@@ -65,10 +72,9 @@ const SelectedTeamSection = ({
         flexDirection="column"
         justifyContent="center"
         py={2}
-      >
-        {children}
-      </Flex>
-    </>
+        {...props}
+      />
+    </Box>
   );
 };
 
@@ -152,8 +158,14 @@ const SelectedTeam = ({
       <AutoSizer>
         {({ height, width }) => {
           return (
-            <Box overflow="auto" height={`${height}px`} width={`${width}px`}>
-              <SelectedTeamSection heading="Starting XI">
+            <Box
+              as="section"
+              aria-label="selected team"
+              overflow="auto"
+              height={`${height}px`}
+              width={`${width}px`}
+            >
+              <SelectedTeamSection role="list" heading="Starting XI">
                 {[GKP, DEF, MID, FWD].map((group, index) => {
                   return (
                     <Flex
@@ -164,6 +176,7 @@ const SelectedTeam = ({
                       {group.map((p) => (
                         <SwapablePlayer
                           key={p.id}
+                          role="listitem"
                           player={p}
                           variant={getVariant(selectedPlayer, p, teamObject)}
                           onSubstituteClick={(e) => handlePlayerSubClick(e, p)}
@@ -188,6 +201,7 @@ const SelectedTeam = ({
               >
                 <SelectedTeamSection
                   heading="Bench"
+                  role="list"
                   headingRightAddon={
                     <IconButton
                       size="xs"
@@ -202,6 +216,7 @@ const SelectedTeam = ({
                     {bench.map((p) => (
                       <SwapablePlayer
                         key={p.id}
+                        role="listitem"
                         player={p}
                         variant={getVariant(selectedPlayer, p, teamObject)}
                         onSubstituteClick={(e) => handlePlayerSubClick(e, p)}

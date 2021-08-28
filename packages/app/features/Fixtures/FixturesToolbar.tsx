@@ -32,6 +32,8 @@ const FixturesToolbar = ({
 }) => {
   return (
     <HStack
+      as="section"
+      aria-label="fixtures toolbar"
       alignItems="center"
       height="50px"
       width="100%"
@@ -67,7 +69,7 @@ const FixturesToolbar = ({
                 as={IconButton}
                 borderRadius="none"
                 variant="ghost"
-                aria-label="fixtures options"
+                aria-label="fixtures menu"
                 icon={<Icon as={IoSettingsOutline} />}
               />
               {isOpen && (

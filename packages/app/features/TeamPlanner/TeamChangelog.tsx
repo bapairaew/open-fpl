@@ -28,7 +28,7 @@ const TeamSummaryModal = dynamic(
   () => import("@open-fpl/app/features/TeamPlanner/TeamSummaryModal")
 );
 
-const ChangeLog = ({
+const TeamChangelog = ({
   changes,
   nextGameweekId,
   invalidChanges,
@@ -74,7 +74,12 @@ const ChangeLog = ({
           groupedChanges={groupedChanges}
         />
       )}
-      <Box height="50px" borderBottomWidth={1}>
+      <Box
+        as="section"
+        aria-label="team changelog"
+        height="50px"
+        borderBottomWidth={1}
+      >
         {changes.length === 0 ? (
           <Flex px={4} height="100%" alignItems="center" layerStyle="subtitle">
             Click on a player below to make a team change
@@ -84,7 +89,7 @@ const ChangeLog = ({
             {({ height, width }) => (
               <HStack height={`${height}px`} width={`${width}px`} spacing={0}>
                 <Box p="2px" height="100%">
-                  <Menu isLazy>
+                  <Menu aria-label="team changelog menu" isLazy>
                     {({ isOpen }) => (
                       <>
                         <MenuButton
@@ -110,9 +115,12 @@ const ChangeLog = ({
                   </Menu>
                 </Box>
                 <HStack
+                  as="section"
+                  aria-label="gameweeks changes"
                   height={`${height}px`}
                   overflowX="auto"
                   overflowY="hidden"
+                  alignItems="stretch"
                   spacing={0}
                 >
                   {Object.keys(groupedChanges).map((gameweek) => {
@@ -139,4 +147,4 @@ const ChangeLog = ({
   );
 };
 
-export default ChangeLog;
+export default TeamChangelog;

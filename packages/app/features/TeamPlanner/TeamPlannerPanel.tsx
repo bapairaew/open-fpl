@@ -3,7 +3,7 @@ import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analytics
 import useLocalStorage from "@open-fpl/app/features/Common/useLocalStorage";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
-import ChangeLog from "@open-fpl/app/features/TeamPlanner/ChangeLog";
+import TeamChangelog from "@open-fpl/app/features/TeamPlanner/TeamChangelog";
 import TeamManager from "@open-fpl/app/features/TeamPlanner/TeamManager";
 import {
   addChange,
@@ -255,7 +255,7 @@ const TransferPlannerPanelContent = ({
         onNextClick={handleToolbarNextGameweek}
         onActivatedChipSelectChange={handleChipChange}
       />
-      <ChangeLog
+      <TeamChangelog
         nextGameweekId={nextGameweekId}
         changes={changes}
         invalidChanges={invalidChanges}
@@ -264,7 +264,13 @@ const TransferPlannerPanelContent = ({
         gameweekDataList={gameweekDataList}
       />
       {teamInvalidities.length > 0 && (
-        <Box width="100%" py={2} px={4} layerStyle="redSolid">
+        <Box
+          aria-label="team error"
+          width="100%"
+          py={2}
+          px={4}
+          layerStyle="redSolid"
+        >
           {teamInvalidities.map((i) => i.message).join(", ")}
         </Box>
       )}

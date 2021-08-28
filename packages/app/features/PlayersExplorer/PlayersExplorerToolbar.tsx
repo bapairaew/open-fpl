@@ -87,6 +87,8 @@ const PlayersExplorerToolbar = ({
 
   return (
     <HStack
+      as="section"
+      aria-label="player statistics explorer toolbar"
       alignItems="center"
       height="50px"
       width="100%"
@@ -100,7 +102,11 @@ const PlayersExplorerToolbar = ({
       </HStack>
       {showCompareButton && (
         <>
-          <HStack flexShrink={0}>
+          <HStack
+            as="section"
+            aria-label="compare players options"
+            flexShrink={0}
+          >
             <Button borderRadius="none" onClick={onCompareClick}>
               Compare
             </Button>

@@ -99,7 +99,13 @@ const Fixtures = ({
           onClose={onClose}
         />
       )}
-      <Flex flexDirection="column" height="100%" {...props}>
+      <Flex
+        as="section"
+        aria-label="fixture difficulty rating"
+        flexDirection="column"
+        height="100%"
+        {...props}
+      >
         <FixturesToolbar
           mode={mode}
           onModeChange={handleModeChange}

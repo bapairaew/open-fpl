@@ -6,7 +6,6 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  Flex,
   useDisclosure,
 } from "@chakra-ui/react";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";

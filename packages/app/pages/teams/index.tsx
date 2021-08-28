@@ -17,6 +17,7 @@ const TransferPlannerSetupPage = () => {
   if (profile) {
     mainContent = (
       <FullScreenMessageWithAppDrawer
+        as="main"
         symbol={<Spinner size="xl" />}
         heading="One moment..."
         text={
@@ -38,6 +39,7 @@ const TransferPlannerSetupPage = () => {
   } else {
     mainContent = (
       <FullScreenMessageWithAppDrawer
+        as="main"
         symbol="((((つ•̀ω•́)つ"
         heading="Set up a profile to get started"
         text={

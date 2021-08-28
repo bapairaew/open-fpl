@@ -9,7 +9,6 @@ import {
   IconButton,
   Text,
   Tooltip,
-  useColorMode,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
@@ -24,6 +23,7 @@ import {
   IoSwapVerticalOutline,
   IoWarningOutline,
 } from "react-icons/io5";
+import { RiFileExcel2Fill } from "react-icons/ri";
 
 export type SwapablePlayerVariant =
   | "default"
@@ -97,7 +97,8 @@ const SwapablePlayer = ({
   onTransferClick,
   onSetCaptainClick,
   onSetViceCaptainClick,
-}: {
+  ...props
+}: BoxProps & {
   player: FullChangePlayer;
   variant?: SwapablePlayerVariant;
   onSubstituteClick?: MouseEventHandler<HTMLButtonElement>;
@@ -127,8 +128,8 @@ const SwapablePlayer = ({
       <Box
         position="relative"
         m={{ base: 0.5, sm: 1 }}
-        role="group"
         {...boxProps}
+        {...props}
       >
         <VStack
           spacing={0}
@@ -138,17 +139,18 @@ const SwapablePlayer = ({
           width={{ base: "70px", sm: "180px" }}
           height={{ base: "82px", sm: "158px" }}
         >
-          <HStack
-            spacing={0}
+          <Flex
             width="100%"
             display={{ base: "flex", sm: "none" }}
+            aria-label="player team"
           >
             <Box
               height="3px"
               width="100%"
               layerStyle={`fpl-team-${player.team.short_name}`}
+              aria-label={player.team.short_name}
             />
-          </HStack>
+          </Flex>
           <HStack spacing={0} width="100%">
             {player.status !== "a" && (
               <Tooltip hasArrow label={player.news}>
@@ -160,10 +162,12 @@ const SwapablePlayer = ({
                   height="100%"
                   flexShrink={0}
                   layerStyle={`fpl-status-${player.status}`}
+                  aria-label="player status"
                 >
                   <Icon
                     display={{ base: "none", sm: "flex" }}
                     as={IoWarningOutline}
+                    aria-label={player.news}
                   />
                 </Flex>
               </Tooltip>
@@ -177,7 +181,7 @@ const SwapablePlayer = ({
               fontSize={{ base: "xs", sm: "md" }}
               justifyContent={{ base: "center", sm: "flex-start" }}
             >
-              <Text as="span" noOfLines={1}>
+              <Text as="span" noOfLines={1} aria-label="player name">
                 {player.web_name}
               </Text>
             </Flex>
@@ -191,6 +195,7 @@ const SwapablePlayer = ({
               height="100%"
               flexShrink={0}
               layerStyle={`fpl-team-${player.team.short_name}`}
+              aria-label="player team"
             >
               {player.team.short_name}
             </Flex>
@@ -202,6 +207,7 @@ const SwapablePlayer = ({
               height="100%"
               flexShrink={0}
               layerStyle={`fpl-position-${player.element_type.singular_name_short}`}
+              aria-label="player position"
             >
               {player.element_type.singular_name_short}
             </Flex>
@@ -214,6 +220,7 @@ const SwapablePlayer = ({
               px={{ base: 0, sm: 1 }}
               pt={{ base: 0, sm: 1 }}
               pb={{ base: 0.5, sm: 1 }}
+              aria-label="player cost"
             >
               £{adjustedSellingPrice.toFixed(1)}
             </Flex>
@@ -227,11 +234,11 @@ const SwapablePlayer = ({
                   ? "flex"
                   : "none"
               }
+              aria-label={player.pick.is_captain ? "captain" : "vice-captain"}
             >
               {player.pick.is_captain ? "C" : "V"}
             </Flex>
           </HStack>
-
           <FixturesSection variant="mini" player={player} />
           <PointsSection variant="mini" player={player} />
           <PreviousStatsSection variant="mini" player={player} />
@@ -273,7 +280,7 @@ const SwapablePlayer = ({
           <Tooltip placement="top" label="Subsitute">
             <IconButton
               size="xs"
-              aria-label="subsitute"
+              aria-label="substitute"
               variant="ghost"
               borderRadius={0}
               icon={<Icon as={IoSwapVerticalOutline} />}
@@ -295,7 +302,7 @@ const SwapablePlayer = ({
         <Button
           display={{ base: "block", sm: "none" }}
           variant="unstyled"
-          aria-label="transfer"
+          aria-label={variant === "swapable" ? "swap" : "open player menu"}
           position="absolute"
           top={0}
           left={0}
