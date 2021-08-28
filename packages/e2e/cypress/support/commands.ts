@@ -15,7 +15,6 @@ Cypress.Commands.add("setUpProfile", function setUpProfile() {
       window.localStorage.setItem(key, JSON.stringify(json[key]));
     }
   });
-  cy.get("body").contains("Test account");
 });
 
 // https://github.com/cypress-io/cypress/issues/1805#issuecomment-714721837

@@ -193,6 +193,7 @@ describe("Player Statistics Explorer", () => {
 
     it("supports star players.", () => {
       cy.setUpProfile();
+      cy.get("body").contains("Test account");
 
       // Star non-first player
       cy.get('button[aria-label="add star player"]')
@@ -404,6 +405,7 @@ describe("Player Statistics Explorer", () => {
 
     it("supports star players.", () => {
       cy.setUpProfile();
+      cy.get("body").contains("Test account");
 
       // Star non-first player
       cy.get('button[aria-label="add star player"]')

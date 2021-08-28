@@ -285,6 +285,7 @@ const SwapablePlayer = ({
               borderRadius={0}
               icon={<Icon as={IoSwapVerticalOutline} />}
               onClick={onSubstituteClick}
+              {...buttonProps}
             />
           </Tooltip>
           <Tooltip placement="top" label="Transfer">
@@ -302,7 +303,9 @@ const SwapablePlayer = ({
         <Button
           display={{ base: "block", sm: "none" }}
           variant="unstyled"
-          aria-label={variant === "swapable" ? "swap" : "open player menu"}
+          aria-label={
+            variant === "swapable" ? "substitute" : "open player menu"
+          }
           position="absolute"
           top={0}
           left={0}
