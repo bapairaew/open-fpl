@@ -65,10 +65,21 @@ describe("Teams Planner", () => {
     });
 
     it("supports future gameweeks.", () => {
-      // Able to make future transfer
       cy.get('[aria-label="gameweek navigator"]')
         .find('[aria-label="go to next gameweek"]')
         .click();
+
+      // Show future fixtures
+      cy.get('[aria-label="selected team"]')
+        .find('[aria-label="player name"]')
+        .contains("Greenwood")
+        .first()
+        .parentsUntil('[role="listitem"]')
+        .find('[aria-label="next fixtures"]')
+        .find('[aria-label="gameweek 9"]')
+        .should("exist");
+
+      // Able to make future transfer
       cy.get('[aria-label="selected team"]')
         .find('[aria-label="player name"]')
         .contains("Greenwood")
