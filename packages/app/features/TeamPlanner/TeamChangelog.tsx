@@ -89,7 +89,7 @@ const TeamChangelog = ({
             {({ height, width }) => (
               <HStack height={`${height}px`} width={`${width}px`} spacing={0}>
                 <Box p="2px" height="100%">
-                  <Menu aria-label="team changelog menu" isLazy>
+                  <Menu isLazy>
                     {({ isOpen }) => (
                       <>
                         <MenuButton
@@ -98,7 +98,7 @@ const TeamChangelog = ({
                           size="sm"
                           borderRadius="none"
                           variant="ghost"
-                          aria-label="options"
+                          aria-label="open team changelog menu"
                           icon={<Icon as={IoEllipsisVerticalOutline} />}
                         />
                         {isOpen && (

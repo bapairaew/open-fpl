@@ -447,11 +447,16 @@ export const addChange = (changes: Change[], newChange: Change): Change[] => {
       change.type === "set-captain" ||
       change.type === "set-vice-captain"
     ) {
-      // Always replace existing set-captain / set-vice-captain changes within the same gameweek
-      cleanedChanges = cleanedChanges.filter(
-        (c) => c.gameweek !== change.gameweek || c.type !== change.type
-      );
       const singlePlayerChange = change as SinglePlayerChange<FullChangePlayer>;
+      cleanedChanges = cleanedChanges.filter((c) => {
+        if (c.gameweek !== change.gameweek) return true;
+        if (c.type === change.type) return false;
+        if (c.type === "set-captain" || c.type === "set-vice-captain") {
+          const sc = c as SinglePlayerChange<ChangePlayer>;
+          return sc.player?.id !== singlePlayerChange.player.id;
+        }
+        return true;
+      });
       const reduceSinglePlayerChange = {
         id: singlePlayerChange.id,
         type: singlePlayerChange.type,

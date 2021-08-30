@@ -45,12 +45,19 @@ const GameweekChanges = ({
           borderRadius="none"
           onClick={() => onMoveToGameweek(gameweek)}
         >
-          <Heading id={`gw-${gameweek}-changes-heading`} size="xs">
+          <Heading
+            as="span"
+            size="xs"
+            id={`changelog-gameweek-changes-${gameweek}`}
+          >
             GW {gameweek}
           </Heading>
         </Button>
       </Flex>
-      <Box role="list">
+      <Flex
+        role="list"
+        aria-labelledby={`changelog-gameweek-changes-${gameweek}`}
+      >
         {changes.map((change, index) => {
           const isOutdated = change.gameweek < nextGameweekId;
           const invalidity = invalidChanges.find(
@@ -75,7 +82,7 @@ const GameweekChanges = ({
             </Fragment>
           );
         })}
-      </Box>
+      </Flex>
     </>
   );
 };

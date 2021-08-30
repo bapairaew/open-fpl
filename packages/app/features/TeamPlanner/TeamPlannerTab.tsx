@@ -122,6 +122,7 @@ const TeamPlannerTab = ({
             onSubmit={handleRenameDone}
           >
             <Input
+              name="name"
               variant="unstyled"
               borderWidth={1}
               borderRadius="none"
@@ -146,7 +147,7 @@ const TeamPlannerTab = ({
                 size="xs"
                 zIndex="docked"
                 variant="ghost"
-                aria-label="menu"
+                aria-label="open team plan menu"
                 icon={<Icon as={IoEllipsisVerticalOutline} />}
               />
               {isOpen && (

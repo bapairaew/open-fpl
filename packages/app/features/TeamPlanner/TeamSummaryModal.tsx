@@ -118,7 +118,7 @@ const TeamSummaryModal = ({
                     <>
                       <Box
                         as="section"
-                        aria-label="team changes"
+                        aria-label={`gameweek ${gameweekData.gameweek} changes`}
                         role="list"
                         borderWidth={1}
                       >
@@ -140,9 +140,13 @@ const TeamSummaryModal = ({
                     as="section"
                     spacing={0}
                     borderWidth={1}
-                    aria-labelledby="team-summary-modal-header"
+                    aria-labelledby={`team-summary-modal-header-${gameweekData.gameweek}`}
                   >
-                    <Heading size="xs" my={2} id="team-summary-modal-header">
+                    <Heading
+                      size="xs"
+                      my={2}
+                      id={`team-summary-modal-header-${gameweekData.gameweek}`}
+                    >
                       Gameweek {gameweekData.gameweek}
                     </Heading>
                     <VStack role="listitem" spacing={0}>

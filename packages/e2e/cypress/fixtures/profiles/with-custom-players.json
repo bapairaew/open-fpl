@@ -2,7 +2,7 @@
   "profiles": ["4073"],
   "active-profile": "4073",
   "4073-preference": {
-    "name": "Test account",
+    "name": "With custom players",
     "teamPlans": ["Main Plan"],
     "starredPlayers": [
       277, 230, 359, 213, 262, 196, 233, 251, 357, 255, 63157, 54034, 27626,
@@ -11,6 +11,15 @@
     "selectedDashboardTab": 0,
     "selectedPlan": 0
   },
+  "custom-players": [
+    {
+      "id": 27166,
+      "web_name": "Kaka",
+      "now_cost": 120,
+      "element_type": { "singular_name_short": "MID" },
+      "team": { "short_name": "CHE" }
+    }
+  ],
   "4073-team-plan-Main Plan": [
     {
       "id": 0.7185775233886271,
@@ -110,6 +119,25 @@
           "purchase_price": 45
         }
       }
+    },
+    {
+      "id": 0.9894618868055594,
+      "type": "transfer",
+      "gameweek": 4,
+      "selectedPlayer": {
+        "id": 419,
+        "pick": {
+          "element": 419,
+          "position": 7,
+          "multiplier": 1,
+          "is_captain": false,
+          "is_vice_captain": false,
+          "now_cost": 63,
+          "selling_price": 62,
+          "purchase_price": 61
+        }
+      },
+      "targetPlayer": { "id": 27166 }
     }
   ]
 }

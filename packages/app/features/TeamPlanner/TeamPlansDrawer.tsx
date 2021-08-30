@@ -214,7 +214,7 @@ const TeamPlansDrawer = ({
                 leftIcon={<Icon as={IoAddOutline} />}
                 onClick={onAdd}
               >
-                Add new a plan
+                Add a new plan
               </Button>
             </VStack>
           </DrawerBody>

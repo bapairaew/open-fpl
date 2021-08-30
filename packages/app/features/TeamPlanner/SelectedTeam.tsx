@@ -127,7 +127,7 @@ const SelectedTeam = ({
     onSetCaptain(p);
   };
 
-  const onSetViceCaptainClick = (
+  const handleSetViceCaptainClick = (
     e: MouseEvent<HTMLButtonElement>,
     p: FullChangePlayer
   ) => {
@@ -172,6 +172,7 @@ const SelectedTeam = ({
                       key={index}
                       justifyContent="center"
                       alignItems="center"
+                      aria-label={`starting ${group[0].element_type.singular_name_short}`}
                     >
                       {group.map((p) => (
                         <SwapablePlayer
@@ -185,7 +186,7 @@ const SelectedTeam = ({
                           }
                           onSetCaptainClick={(e) => handleSetCaptainClick(e, p)}
                           onSetViceCaptainClick={(e) =>
-                            onSetViceCaptainClick(e, p)
+                            handleSetViceCaptainClick(e, p)
                           }
                         />
                       ))}
@@ -205,7 +206,9 @@ const SelectedTeam = ({
                   headingRightAddon={
                     <IconButton
                       size="xs"
-                      aria-label="pin bench"
+                      aria-label={
+                        teamPlannerPinnedBench ? "unpin bench" : "pin bench"
+                      }
                       icon={<Icon as={AiOutlinePushpin} />}
                       variant={teamPlannerPinnedBench ? "solid" : "ghost"}
                       onClick={handlePinnedBench}
@@ -223,7 +226,7 @@ const SelectedTeam = ({
                         onTransferClick={(e) => handlePlayerTransferClick(e, p)}
                         onSetCaptainClick={(e) => handleSetCaptainClick(e, p)}
                         onSetViceCaptainClick={(e) =>
-                          onSetViceCaptainClick(e, p)
+                          handleSetViceCaptainClick(e, p)
                         }
                       />
                     ))}

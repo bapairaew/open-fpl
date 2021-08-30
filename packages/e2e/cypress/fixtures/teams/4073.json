@@ -1,0 +1,7208 @@
+{
+  "pageProps": {
+    "picks": [
+      {
+        "element": 69,
+        "position": 1,
+        "multiplier": 1,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 237,
+        "position": 2,
+        "multiplier": 1,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 208,
+        "position": 3,
+        "multiplier": 1,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 275,
+        "position": 4,
+        "multiplier": 1,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 289,
+        "position": 5,
+        "multiplier": 1,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 277,
+        "position": 6,
+        "multiplier": 2,
+        "is_captain": true,
+        "is_vice_captain": false
+      },
+      {
+        "element": 419,
+        "position": 7,
+        "multiplier": 1,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 233,
+        "position": 8,
+        "multiplier": 1,
+        "is_captain": false,
+        "is_vice_captain": true
+      },
+      {
+        "element": 413,
+        "position": 9,
+        "multiplier": 1,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 78,
+        "position": 10,
+        "multiplier": 1,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 245,
+        "position": 11,
+        "multiplier": 1,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 481,
+        "position": 12,
+        "multiplier": 0,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 337,
+        "position": 13,
+        "multiplier": 0,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 115,
+        "position": 14,
+        "multiplier": 0,
+        "is_captain": false,
+        "is_vice_captain": false
+      },
+      {
+        "element": 67,
+        "position": 15,
+        "multiplier": 0,
+        "is_captain": false,
+        "is_vice_captain": false
+      }
+    ],
+    "entry_history": {
+      "event": 3,
+      "points": 0,
+      "total_points": 179,
+      "rank": 5942365,
+      "rank_sort": 5943620,
+      "overall_rank": 243381,
+      "bank": 14,
+      "value": 1010,
+      "event_transfers": 2,
+      "event_transfers_cost": 0,
+      "points_on_bench": 0
+    },
+    "transfers": [
+      {
+        "element_in": 419,
+        "element_in_cost": 61,
+        "element_out": 43,
+        "element_out_cost": 65,
+        "entry": 4073,
+        "event": 3,
+        "time": "2021-08-24T00:46:42.342741Z"
+      }
+    ],
+    "chips": [
+      {
+        "event": 1,
+        "name": "bboost",
+        "time": "2021-08-24T00:46:42.342741Z"
+      }
+    ],
+    "teams": [
+      {
+        "id": 1,
+        "name": "Arsenal",
+        "short_name": "ARS",
+        "strength_attack_home": 1130,
+        "strength_attack_away": 1150,
+        "strength_defence_home": 1220,
+        "strength_defence_away": 1210,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 0,
+          "xg": 1.653949,
+          "ga": 4,
+          "xga": 5.5295,
+          "pts": 0,
+          "xpts": 0.7218,
+          "position": 19,
+          "xposition": 19,
+          "wins": 0,
+          "draws": 0,
+          "loses": 2,
+          "matches": [
+            {
+              "opponent": 6,
+              "id": "16394",
+              "g": 0,
+              "xg": 0.630099,
+              "ga": 2,
+              "xga": 3.64132,
+              "pts": 0,
+              "xpts": 0.0659,
+              "result": "l"
+            },
+            {
+              "opponent": 3,
+              "id": "16376",
+              "g": 0,
+              "xg": 1.02385,
+              "ga": 2,
+              "xga": 1.88818,
+              "pts": 0,
+              "xpts": 0.6559,
+              "result": "l"
+            }
+          ]
+        }
+      },
+      {
+        "id": 2,
+        "name": "Aston Villa",
+        "short_name": "AVL",
+        "strength_attack_home": 1120,
+        "strength_attack_away": 1140,
+        "strength_defence_home": 1080,
+        "strength_defence_away": 1100,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 4,
+          "xg": 2.32144,
+          "ga": 3,
+          "xga": 1.9819900000000001,
+          "pts": 3,
+          "xpts": 3.1399999999999997,
+          "position": 10,
+          "xposition": 9,
+          "wins": 1,
+          "draws": 0,
+          "loses": 1,
+          "matches": [
+            {
+              "opponent": 14,
+              "id": "16388",
+              "g": 2,
+              "xg": 1.18426,
+              "ga": 0,
+              "xga": 0.63163,
+              "pts": 3,
+              "xpts": 1.9441,
+              "result": "w"
+            },
+            {
+              "opponent": 18,
+              "id": "16382",
+              "g": 2,
+              "xg": 1.13718,
+              "ga": 3,
+              "xga": 1.35036,
+              "pts": 0,
+              "xpts": 1.1959,
+              "result": "l"
+            }
+          ]
+        }
+      },
+      {
+        "id": 3,
+        "name": "Brentford",
+        "short_name": "BRE",
+        "strength_attack_home": 1020,
+        "strength_attack_away": 1030,
+        "strength_defence_home": 1020,
+        "strength_defence_away": 1030,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 2,
+          "xg": 2.600619,
+          "ga": 0,
+          "xga": 1.630163,
+          "pts": 4,
+          "xpts": 3.5108,
+          "position": 8,
+          "xposition": 8,
+          "wins": 1,
+          "draws": 1,
+          "loses": 0,
+          "matches": [
+            {
+              "opponent": 7,
+              "id": "16389",
+              "g": 0,
+              "xg": 0.712439,
+              "ga": 0,
+              "xga": 0.606313,
+              "pts": 1,
+              "xpts": 1.3954,
+              "result": "d"
+            },
+            {
+              "opponent": 1,
+              "id": "16376",
+              "g": 2,
+              "xg": 1.88818,
+              "ga": 0,
+              "xga": 1.02385,
+              "pts": 3,
+              "xpts": 2.1154,
+              "result": "w"
+            }
+          ]
+        }
+      },
+      {
+        "id": 4,
+        "name": "Brighton",
+        "short_name": "BHA",
+        "strength_attack_home": 1150,
+        "strength_attack_away": 1190,
+        "strength_defence_home": 1100,
+        "strength_defence_away": 1130,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 4,
+          "xg": 3.4642600000000003,
+          "ga": 1,
+          "xga": 2.2027039999999998,
+          "pts": 6,
+          "xpts": 3.7631,
+          "position": 4,
+          "xposition": 7,
+          "wins": 2,
+          "draws": 0,
+          "loses": 0,
+          "matches": [
+            {
+              "opponent": 18,
+              "id": "16391",
+              "g": 2,
+              "xg": 1.77896,
+              "ga": 0,
+              "xga": 0.407224,
+              "pts": 3,
+              "xpts": 2.5067,
+              "result": "w"
+            },
+            {
+              "opponent": 5,
+              "id": "16378",
+              "g": 2,
+              "xg": 1.6853,
+              "ga": 1,
+              "xga": 1.79548,
+              "pts": 3,
+              "xpts": 1.2564000000000002,
+              "result": "w"
+            }
+          ]
+        }
+      },
+      {
+        "id": 5,
+        "name": "Burnley",
+        "short_name": "BUR",
+        "strength_attack_home": 1040,
+        "strength_attack_away": 1090,
+        "strength_defence_home": 1040,
+        "strength_defence_away": 1080,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 1,
+          "xg": 2.485944,
+          "ga": 4,
+          "xga": 4.32475,
+          "pts": 0,
+          "xpts": 1.7547000000000001,
+          "position": 17,
+          "xposition": 13,
+          "wins": 0,
+          "draws": 0,
+          "loses": 2,
+          "matches": [
+            {
+              "opponent": 11,
+              "id": "16386",
+              "g": 0,
+              "xg": 0.690464,
+              "ga": 2,
+              "xga": 2.63945,
+              "pts": 0,
+              "xpts": 0.29879999999999995,
+              "result": "l"
+            },
+            {
+              "opponent": 4,
+              "id": "16378",
+              "g": 1,
+              "xg": 1.79548,
+              "ga": 2,
+              "xga": 1.6853,
+              "pts": 0,
+              "xpts": 1.4559000000000002,
+              "result": "l"
+            }
+          ]
+        }
+      },
+      {
+        "id": 6,
+        "name": "Chelsea",
+        "short_name": "CHE",
+        "strength_attack_home": 1260,
+        "strength_attack_away": 1300,
+        "strength_defence_home": 1250,
+        "strength_defence_away": 1310,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 5,
+          "xg": 4.82841,
+          "ga": 0,
+          "xga": 0.9518,
+          "pts": 6,
+          "xpts": 5.0983,
+          "position": 2,
+          "xposition": 1,
+          "wins": 2,
+          "draws": 0,
+          "loses": 0,
+          "matches": [
+            {
+              "opponent": 1,
+              "id": "16394",
+              "g": 2,
+              "xg": 3.64132,
+              "ga": 0,
+              "xga": 0.630099,
+              "pts": 3,
+              "xpts": 2.8946,
+              "result": "w"
+            },
+            {
+              "opponent": 7,
+              "id": "16379",
+              "g": 3,
+              "xg": 1.18709,
+              "ga": 0,
+              "xga": 0.321701,
+              "pts": 3,
+              "xpts": 2.2037,
+              "result": "w"
+            }
+          ]
+        }
+      },
+      {
+        "id": 7,
+        "name": "Crystal Palace",
+        "short_name": "CRY",
+        "strength_attack_home": 1030,
+        "strength_attack_away": 1120,
+        "strength_defence_home": 1010,
+        "strength_defence_away": 1020,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 0,
+          "xg": 0.928014,
+          "ga": 3,
+          "xga": 1.899529,
+          "pts": 1,
+          "xpts": 1.728,
+          "position": 14,
+          "xposition": 14,
+          "wins": 0,
+          "draws": 1,
+          "loses": 1,
+          "matches": [
+            {
+              "opponent": 3,
+              "id": "16389",
+              "g": 0,
+              "xg": 0.606313,
+              "ga": 0,
+              "xga": 0.712439,
+              "pts": 1,
+              "xpts": 1.2139,
+              "result": "d"
+            },
+            {
+              "opponent": 6,
+              "id": "16379",
+              "g": 0,
+              "xg": 0.321701,
+              "ga": 3,
+              "xga": 1.18709,
+              "pts": 0,
+              "xpts": 0.5141,
+              "result": "l"
+            }
+          ]
+        }
+      },
+      {
+        "id": 8,
+        "name": "Everton",
+        "short_name": "EVE",
+        "strength_attack_home": 1130,
+        "strength_attack_away": 1100,
+        "strength_defence_home": 1200,
+        "strength_defence_away": 1140,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 5,
+          "xg": 4.24576,
+          "ga": 3,
+          "xga": 1.546694,
+          "pts": 4,
+          "xpts": 4.7552,
+          "position": 7,
+          "xposition": 5,
+          "wins": 1,
+          "draws": 1,
+          "loses": 0,
+          "matches": [
+            {
+              "opponent": 10,
+              "id": "16390",
+              "g": 2,
+              "xg": 1.85713,
+              "ga": 2,
+              "xga": 0.966093,
+              "pts": 1,
+              "xpts": 2.1241000000000003,
+              "result": "d"
+            },
+            {
+              "opponent": 16,
+              "id": "16380",
+              "g": 3,
+              "xg": 2.38863,
+              "ga": 1,
+              "xga": 0.580601,
+              "pts": 3,
+              "xpts": 2.6311,
+              "result": "w"
+            }
+          ]
+        }
+      },
+      {
+        "id": 9,
+        "name": "Leicester",
+        "short_name": "LEI",
+        "strength_attack_home": 1190,
+        "strength_attack_away": 1150,
+        "strength_defence_home": 1150,
+        "strength_defence_away": 1230,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 2,
+          "xg": 1.294842,
+          "ga": 4,
+          "xga": 3.61327,
+          "pts": 3,
+          "xpts": 1.1161,
+          "position": 12,
+          "xposition": 17,
+          "wins": 1,
+          "draws": 0,
+          "loses": 1,
+          "matches": [
+            {
+              "opponent": 19,
+              "id": "16395",
+              "g": 1,
+              "xg": 0.62676,
+              "ga": 4,
+              "xga": 2.28613,
+              "pts": 0,
+              "xpts": 0.3362,
+              "result": "l"
+            },
+            {
+              "opponent": 20,
+              "id": "16381",
+              "g": 1,
+              "xg": 0.668082,
+              "ga": 0,
+              "xga": 1.32714,
+              "pts": 3,
+              "xpts": 0.7799,
+              "result": "w"
+            }
+          ]
+        }
+      },
+      {
+        "id": 10,
+        "name": "Leeds",
+        "short_name": "LEE",
+        "strength_attack_home": 1060,
+        "strength_attack_away": 1150,
+        "strength_defence_home": 1210,
+        "strength_defence_away": 1170,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 3,
+          "xg": 1.534435,
+          "ga": 7,
+          "xga": 3.4996099999999997,
+          "pts": 1,
+          "xpts": 1.1931,
+          "position": 15,
+          "xposition": 16,
+          "wins": 0,
+          "draws": 1,
+          "loses": 1,
+          "matches": [
+            {
+              "opponent": 8,
+              "id": "16390",
+              "g": 2,
+              "xg": 0.966093,
+              "ga": 2,
+              "xga": 1.85713,
+              "pts": 1,
+              "xpts": 0.6439,
+              "result": "d"
+            },
+            {
+              "opponent": 13,
+              "id": "16377",
+              "g": 1,
+              "xg": 0.568342,
+              "ga": 5,
+              "xga": 1.64248,
+              "pts": 0,
+              "xpts": 0.5492,
+              "result": "l"
+            }
+          ]
+        }
+      },
+      {
+        "id": 11,
+        "name": "Liverpool",
+        "short_name": "LIV",
+        "strength_attack_home": 1190,
+        "strength_attack_away": 1210,
+        "strength_defence_home": 1300,
+        "strength_defence_away": 1230,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 5,
+          "xg": 4.42673,
+          "ga": 0,
+          "xga": 2.023764,
+          "pts": 6,
+          "xpts": 4.274699999999999,
+          "position": 3,
+          "xposition": 6,
+          "wins": 2,
+          "draws": 0,
+          "loses": 0,
+          "matches": [
+            {
+              "opponent": 5,
+              "id": "16386",
+              "g": 2,
+              "xg": 2.63945,
+              "ga": 0,
+              "xga": 0.690464,
+              "pts": 3,
+              "xpts": 2.5683,
+              "result": "w"
+            },
+            {
+              "opponent": 15,
+              "id": "16383",
+              "g": 3,
+              "xg": 1.78728,
+              "ga": 0,
+              "xga": 1.3333,
+              "pts": 3,
+              "xpts": 1.7064,
+              "result": "w"
+            }
+          ]
+        }
+      },
+      {
+        "id": 12,
+        "name": "Man City",
+        "short_name": "MCI",
+        "strength_attack_home": 1280,
+        "strength_attack_away": 1320,
+        "strength_defence_home": 1340,
+        "strength_defence_away": 1350,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 5,
+          "xg": 4.54513,
+          "ga": 1,
+          "xga": 1.0851488,
+          "pts": 3,
+          "xpts": 5.0511,
+          "position": 9,
+          "xposition": 2,
+          "wins": 1,
+          "draws": 0,
+          "loses": 1,
+          "matches": [
+            {
+              "opponent": 15,
+              "id": "16387",
+              "g": 5,
+              "xg": 2.43928,
+              "ga": 0,
+              "xga": 0.0250088,
+              "pts": 3,
+              "xpts": 2.9245,
+              "result": "w"
+            },
+            {
+              "opponent": 17,
+              "id": "16385",
+              "g": 0,
+              "xg": 2.10585,
+              "ga": 1,
+              "xga": 1.06014,
+              "pts": 0,
+              "xpts": 2.1266000000000003,
+              "result": "l"
+            }
+          ]
+        }
+      },
+      {
+        "id": 13,
+        "name": "Man Utd",
+        "short_name": "MUN",
+        "strength_attack_home": 1250,
+        "strength_attack_away": 1280,
+        "strength_defence_home": 1240,
+        "strength_defence_away": 1310,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 6,
+          "xg": 3.90421,
+          "ga": 2,
+          "xga": 1.155868,
+          "pts": 4,
+          "xpts": 4.7981,
+          "position": 6,
+          "xposition": 3,
+          "wins": 1,
+          "draws": 1,
+          "loses": 0,
+          "matches": [
+            {
+              "opponent": 16,
+              "id": "16392",
+              "g": 1,
+              "xg": 2.26173,
+              "ga": 1,
+              "xga": 0.587526,
+              "pts": 1,
+              "xpts": 2.58,
+              "result": "d"
+            },
+            {
+              "opponent": 10,
+              "id": "16377",
+              "g": 5,
+              "xg": 1.64248,
+              "ga": 1,
+              "xga": 0.568342,
+              "pts": 3,
+              "xpts": 2.2181,
+              "result": "w"
+            }
+          ]
+        }
+      },
+      {
+        "id": 14,
+        "name": "Newcastle",
+        "short_name": "NEW",
+        "strength_attack_home": 1050,
+        "strength_attack_away": 1060,
+        "strength_defence_home": 1030,
+        "strength_defence_away": 1110,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 2,
+          "xg": 2.31089,
+          "ga": 6,
+          "xga": 4.19365,
+          "pts": 0,
+          "xpts": 1.2887,
+          "position": 18,
+          "xposition": 15,
+          "wins": 0,
+          "draws": 0,
+          "loses": 2,
+          "matches": [
+            {
+              "opponent": 2,
+              "id": "16388",
+              "g": 0,
+              "xg": 0.63163,
+              "ga": 2,
+              "xga": 1.18426,
+              "pts": 0,
+              "xpts": 0.7396,
+              "result": "l"
+            },
+            {
+              "opponent": 19,
+              "id": "16384",
+              "g": 2,
+              "xg": 1.67926,
+              "ga": 4,
+              "xga": 3.00939,
+              "pts": 0,
+              "xpts": 0.5491,
+              "result": "l"
+            }
+          ]
+        }
+      },
+      {
+        "id": 15,
+        "name": "Norwich",
+        "short_name": "NOR",
+        "strength_attack_home": 1030,
+        "strength_attack_away": 1040,
+        "strength_defence_home": 1020,
+        "strength_defence_away": 1030,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 0,
+          "xg": 1.3583087999999999,
+          "ga": 8,
+          "xga": 4.22656,
+          "pts": 0,
+          "xpts": 1.0722999999999998,
+          "position": 20,
+          "xposition": 18,
+          "wins": 0,
+          "draws": 0,
+          "loses": 2,
+          "matches": [
+            {
+              "opponent": 12,
+              "id": "16387",
+              "g": 0,
+              "xg": 0.0250088,
+              "ga": 5,
+              "xga": 2.43928,
+              "pts": 0,
+              "xpts": 0.0388,
+              "result": "l"
+            },
+            {
+              "opponent": 11,
+              "id": "16383",
+              "g": 0,
+              "xg": 1.3333,
+              "ga": 3,
+              "xga": 1.78728,
+              "pts": 0,
+              "xpts": 1.0334999999999999,
+              "result": "l"
+            }
+          ]
+        }
+      },
+      {
+        "id": 16,
+        "name": "Southampton",
+        "short_name": "SOU",
+        "strength_attack_home": 1030,
+        "strength_attack_away": 1110,
+        "strength_defence_home": 1110,
+        "strength_defence_away": 1160,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 2,
+          "xg": 1.1681270000000001,
+          "ga": 4,
+          "xga": 4.65036,
+          "pts": 1,
+          "xpts": 0.5224,
+          "position": 13,
+          "xposition": 20,
+          "wins": 0,
+          "draws": 1,
+          "loses": 1,
+          "matches": [
+            {
+              "opponent": 13,
+              "id": "16392",
+              "g": 1,
+              "xg": 0.587526,
+              "ga": 1,
+              "xga": 2.26173,
+              "pts": 1,
+              "xpts": 0.27690000000000003,
+              "result": "d"
+            },
+            {
+              "opponent": 8,
+              "id": "16380",
+              "g": 1,
+              "xg": 0.580601,
+              "ga": 3,
+              "xga": 2.38863,
+              "pts": 0,
+              "xpts": 0.2455,
+              "result": "l"
+            }
+          ]
+        }
+      },
+      {
+        "id": 17,
+        "name": "Spurs",
+        "short_name": "TOT",
+        "strength_attack_home": 1130,
+        "strength_attack_away": 1170,
+        "strength_defence_home": 1250,
+        "strength_defence_away": 1290,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 2,
+          "xg": 2.7865,
+          "ga": 0,
+          "xga": 3.61712,
+          "pts": 6,
+          "xpts": 2.2379,
+          "position": 5,
+          "xposition": 11,
+          "wins": 2,
+          "draws": 0,
+          "loses": 0,
+          "matches": [
+            {
+              "opponent": 20,
+              "id": "16393",
+              "g": 1,
+              "xg": 1.72636,
+              "ga": 0,
+              "xga": 1.51127,
+              "pts": 3,
+              "xpts": 1.5867,
+              "result": "w"
+            },
+            {
+              "opponent": 12,
+              "id": "16385",
+              "g": 1,
+              "xg": 1.06014,
+              "ga": 0,
+              "xga": 2.10585,
+              "pts": 3,
+              "xpts": 0.6512,
+              "result": "w"
+            }
+          ]
+        }
+      },
+      {
+        "id": 18,
+        "name": "Watford",
+        "short_name": "WAT",
+        "strength_attack_home": 1030,
+        "strength_attack_away": 1050,
+        "strength_defence_home": 1010,
+        "strength_defence_away": 1040,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 3,
+          "xg": 1.757584,
+          "ga": 4,
+          "xga": 2.9161400000000004,
+          "pts": 3,
+          "xpts": 1.8087,
+          "position": 11,
+          "xposition": 12,
+          "wins": 1,
+          "draws": 0,
+          "loses": 1,
+          "matches": [
+            {
+              "opponent": 4,
+              "id": "16391",
+              "g": 0,
+              "xg": 0.407224,
+              "ga": 2,
+              "xga": 1.77896,
+              "pts": 0,
+              "xpts": 0.32509999999999994,
+              "result": "l"
+            },
+            {
+              "opponent": 2,
+              "id": "16382",
+              "g": 3,
+              "xg": 1.35036,
+              "ga": 2,
+              "xga": 1.13718,
+              "pts": 3,
+              "xpts": 1.4836,
+              "result": "w"
+            }
+          ]
+        }
+      },
+      {
+        "id": 19,
+        "name": "West Ham",
+        "short_name": "WHU",
+        "strength_attack_home": 1140,
+        "strength_attack_away": 1190,
+        "strength_defence_home": 1260,
+        "strength_defence_away": 1290,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 8,
+          "xg": 5.29552,
+          "ga": 3,
+          "xga": 2.30602,
+          "pts": 6,
+          "xpts": 4.7667,
+          "position": 1,
+          "xposition": 4,
+          "wins": 2,
+          "draws": 0,
+          "loses": 0,
+          "matches": [
+            {
+              "opponent": 9,
+              "id": "16395",
+              "g": 4,
+              "xg": 2.28613,
+              "ga": 1,
+              "xga": 0.62676,
+              "pts": 3,
+              "xpts": 2.4983,
+              "result": "w"
+            },
+            {
+              "opponent": 14,
+              "id": "16384",
+              "g": 4,
+              "xg": 3.00939,
+              "ga": 2,
+              "xga": 1.67926,
+              "pts": 3,
+              "xpts": 2.2684,
+              "result": "w"
+            }
+          ]
+        }
+      },
+      {
+        "id": 20,
+        "name": "Wolves",
+        "short_name": "WOL",
+        "strength_attack_home": 1120,
+        "strength_attack_away": 1130,
+        "strength_defence_home": 1040,
+        "strength_defence_away": 1120,
+        "form": null,
+        "stats": {
+          "games": 2,
+          "g": 0,
+          "xg": 2.8384099999999997,
+          "ga": 2,
+          "xga": 2.3944419999999997,
+          "pts": 0,
+          "xpts": 3.0824000000000003,
+          "position": 16,
+          "xposition": 10,
+          "wins": 0,
+          "draws": 0,
+          "loses": 2,
+          "matches": [
+            {
+              "opponent": 17,
+              "id": "16393",
+              "g": 0,
+              "xg": 1.51127,
+              "ga": 1,
+              "xga": 1.72636,
+              "pts": 0,
+              "xpts": 1.1373000000000002,
+              "result": "l"
+            },
+            {
+              "opponent": 9,
+              "id": "16381",
+              "g": 0,
+              "xg": 1.32714,
+              "ga": 1,
+              "xga": 0.668082,
+              "pts": 0,
+              "xpts": 1.9451,
+              "result": "l"
+            }
+          ]
+        }
+      }
+    ],
+    "teamFixtures": [
+      {
+        "id": 1,
+        "fixtures": [
+          {
+            "opponent_team": 3,
+            "event": 1,
+            "is_home": false,
+            "team_h_score": 2,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 6,
+            "event": 2,
+            "is_home": true,
+            "team_h_score": 0,
+            "team_a_score": 2,
+            "finished": true
+          },
+          {
+            "opponent_team": 12,
+            "event": 3,
+            "is_home": false,
+            "team_h_score": 5,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 15,
+            "event": 4,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 5,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 6,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 7,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 8,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 9,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 10,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 11,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 12,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 13,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 14,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 15,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 16,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 17,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 18,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 19,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 20,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 21,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 22,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 23,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 24,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 25,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 26,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 27,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 28,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 29,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 30,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 31,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 32,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 33,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 34,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 35,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 36,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 37,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 38,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "fixtures": [
+          {
+            "opponent_team": 18,
+            "event": 1,
+            "is_home": false,
+            "team_h_score": 3,
+            "team_a_score": 2,
+            "finished": true
+          },
+          {
+            "opponent_team": 14,
+            "event": 2,
+            "is_home": true,
+            "team_h_score": 2,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 3,
+            "event": 3,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 4,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 5,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 6,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 7,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 8,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 9,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 10,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 11,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 12,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 13,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 14,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 15,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 16,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 17,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 18,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 19,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 20,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 21,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 22,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 23,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 24,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 25,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 26,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 27,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 28,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 29,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 30,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 31,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 32,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 33,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 34,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 35,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 36,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 37,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 38,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "fixtures": [
+          {
+            "opponent_team": 7,
+            "event": 2,
+            "is_home": false,
+            "team_h_score": 0,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 2,
+            "event": 3,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 4,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 5,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 6,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 7,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 8,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 9,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 10,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 11,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 12,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 13,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 14,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 15,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 16,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 17,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 18,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 19,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 20,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 21,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 22,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 23,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 24,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 25,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 26,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 27,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 28,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 29,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 30,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 31,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 32,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 33,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 34,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 35,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 36,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 37,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 38,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "fixtures": [
+          {
+            "opponent_team": 18,
+            "event": 2,
+            "is_home": true,
+            "team_h_score": 2,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 8,
+            "event": 3,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 4,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 5,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 6,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 7,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 8,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 9,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 10,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 11,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 12,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 13,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 14,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 15,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 16,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 17,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 18,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 19,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 20,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 21,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 22,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 23,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 24,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 25,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 26,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 27,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 28,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 29,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 30,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 31,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 32,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 33,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 34,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 35,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 36,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 37,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 38,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "fixtures": [
+          {
+            "opponent_team": 11,
+            "event": 2,
+            "is_home": false,
+            "team_h_score": 2,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 10,
+            "event": 3,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 4,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 5,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 6,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 7,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 8,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 9,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 10,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 11,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 12,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 13,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 14,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 15,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 16,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 17,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 18,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 19,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 20,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 21,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 22,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 23,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 24,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 25,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 26,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 27,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 28,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 29,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 30,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 31,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 32,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 33,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 34,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 35,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 36,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 37,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 38,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "fixtures": [
+          {
+            "opponent_team": 7,
+            "event": 1,
+            "is_home": true,
+            "team_h_score": 3,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 1,
+            "event": 2,
+            "is_home": false,
+            "team_h_score": 0,
+            "team_a_score": 2,
+            "finished": true
+          },
+          {
+            "opponent_team": 11,
+            "event": 3,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 4,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 5,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 6,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 7,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 8,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 9,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 10,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 11,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 12,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 13,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 14,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 15,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 16,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 17,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 18,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 19,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 20,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 21,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 22,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 23,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 24,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 25,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 26,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 27,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 28,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 29,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 30,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 31,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 32,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 33,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 34,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 35,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 36,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 37,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 38,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "fixtures": [
+          {
+            "opponent_team": 3,
+            "event": 2,
+            "is_home": true,
+            "team_h_score": 0,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 19,
+            "event": 3,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 4,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 5,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 6,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 7,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 8,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 9,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 10,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 11,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 12,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 13,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 14,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 15,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 16,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 17,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 18,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 19,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 20,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 21,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 22,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 23,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 24,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 25,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 26,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 27,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 28,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 29,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 30,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 31,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 32,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 33,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 34,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 35,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 36,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 37,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 38,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "fixtures": [
+          {
+            "opponent_team": 10,
+            "event": 2,
+            "is_home": false,
+            "team_h_score": 2,
+            "team_a_score": 2,
+            "finished": true
+          },
+          {
+            "opponent_team": 4,
+            "event": 3,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 4,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 5,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 6,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 7,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 8,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 9,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 10,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 11,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 12,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 13,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 14,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 15,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 16,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 17,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 18,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 19,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 20,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 21,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 22,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 23,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 24,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 25,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 26,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 27,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 28,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 29,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 30,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 31,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 32,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 33,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 34,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 35,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 36,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 37,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 38,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "fixtures": [
+          {
+            "opponent_team": 20,
+            "event": 1,
+            "is_home": true,
+            "team_h_score": 1,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 19,
+            "event": 2,
+            "is_home": false,
+            "team_h_score": 4,
+            "team_a_score": 1,
+            "finished": true
+          },
+          {
+            "opponent_team": 15,
+            "event": 3,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 4,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 5,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 6,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 7,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 8,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 9,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 10,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 11,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 12,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 13,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 14,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 15,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 16,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 17,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 18,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 19,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 20,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 21,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 22,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 23,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 24,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 25,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 26,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 27,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 28,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 29,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 30,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 31,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 32,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 33,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 34,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 35,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 36,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 37,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 38,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "fixtures": [
+          {
+            "opponent_team": 8,
+            "event": 2,
+            "is_home": true,
+            "team_h_score": 2,
+            "team_a_score": 2,
+            "finished": true
+          },
+          {
+            "opponent_team": 5,
+            "event": 3,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 4,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 5,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 6,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 7,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 8,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 9,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 10,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 11,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 12,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 13,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 14,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 15,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 16,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 17,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 18,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 19,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 20,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 21,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 22,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 23,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 24,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 25,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 26,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 27,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 28,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 29,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 30,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 31,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 32,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 33,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 34,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 35,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 36,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 37,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 38,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "fixtures": [
+          {
+            "opponent_team": 15,
+            "event": 1,
+            "is_home": false,
+            "team_h_score": 0,
+            "team_a_score": 3,
+            "finished": true
+          },
+          {
+            "opponent_team": 5,
+            "event": 2,
+            "is_home": true,
+            "team_h_score": 2,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 6,
+            "event": 3,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 4,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 5,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 6,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 7,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 8,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 9,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 10,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 11,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 12,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 13,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 14,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 15,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 16,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 17,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 18,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 19,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 20,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 21,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 22,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 23,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 24,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 25,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 26,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 27,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 28,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 29,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 30,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 31,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 32,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 33,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 34,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 35,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 36,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 37,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 38,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "fixtures": [
+          {
+            "opponent_team": 17,
+            "event": 1,
+            "is_home": false,
+            "team_h_score": 1,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 15,
+            "event": 2,
+            "is_home": true,
+            "team_h_score": 5,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 1,
+            "event": 3,
+            "is_home": true,
+            "team_h_score": 5,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 9,
+            "event": 4,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 5,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 6,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 7,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 8,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 9,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 10,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 11,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 12,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 13,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 14,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 15,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 16,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 17,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 18,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 19,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 20,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 21,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 22,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 23,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 24,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 25,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 26,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 27,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 28,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 29,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 30,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 31,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 32,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 33,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 34,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 35,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 36,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 37,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 38,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "fixtures": [
+          {
+            "opponent_team": 16,
+            "event": 2,
+            "is_home": false,
+            "team_h_score": 1,
+            "team_a_score": 1,
+            "finished": true
+          },
+          {
+            "opponent_team": 20,
+            "event": 3,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 4,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 5,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 6,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 7,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 8,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 9,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 10,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 11,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 12,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 13,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 14,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 15,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 16,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 17,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 18,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 19,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 20,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 21,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 22,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 23,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 24,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 25,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 26,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 27,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 28,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 29,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 30,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 31,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 32,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 33,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 34,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 35,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 36,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 37,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 38,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "fixtures": [
+          {
+            "opponent_team": 19,
+            "event": 1,
+            "is_home": true,
+            "team_h_score": 2,
+            "team_a_score": 4,
+            "finished": true
+          },
+          {
+            "opponent_team": 2,
+            "event": 2,
+            "is_home": false,
+            "team_h_score": 2,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 16,
+            "event": 3,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 4,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 5,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 6,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 7,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 8,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 9,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 10,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 11,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 12,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 13,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 14,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 15,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 16,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 17,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 18,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 19,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 20,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 21,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 22,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 23,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 24,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 25,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 26,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 27,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 28,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 29,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 30,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 31,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 32,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 33,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 34,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 35,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 36,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 37,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 38,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "fixtures": [
+          {
+            "opponent_team": 11,
+            "event": 1,
+            "is_home": true,
+            "team_h_score": 0,
+            "team_a_score": 3,
+            "finished": true
+          },
+          {
+            "opponent_team": 12,
+            "event": 2,
+            "is_home": false,
+            "team_h_score": 5,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 9,
+            "event": 3,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 4,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 5,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 6,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 7,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 8,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 9,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 10,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 11,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 12,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 13,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 14,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 15,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 16,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 17,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 18,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 19,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 20,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 21,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 22,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 23,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 24,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 25,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 26,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 27,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 28,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 29,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 30,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 31,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 32,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 33,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 34,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 35,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 36,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 37,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 38,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "fixtures": [
+          {
+            "opponent_team": 14,
+            "event": 3,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 4,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 5,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 6,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 7,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 8,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 9,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 10,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 11,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 12,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 13,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 14,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 15,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 16,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 17,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 18,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 19,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 20,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 21,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 22,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 23,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 24,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 25,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 26,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 27,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 28,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 29,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 30,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 31,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 32,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 33,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 34,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 35,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 36,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 37,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 38,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "fixtures": [
+          {
+            "opponent_team": 12,
+            "event": 1,
+            "is_home": true,
+            "team_h_score": 1,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 20,
+            "event": 2,
+            "is_home": false,
+            "team_h_score": 0,
+            "team_a_score": 1,
+            "finished": true
+          },
+          {
+            "opponent_team": 18,
+            "event": 3,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 4,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 5,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 6,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 7,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 8,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 9,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 10,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 11,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 12,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 13,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 14,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 15,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 16,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 17,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 18,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 19,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 20,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 21,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 22,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 23,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 24,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 25,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 26,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 27,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 28,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 29,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 30,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 31,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 32,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 33,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 34,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 35,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 36,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 37,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 38,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "fixtures": [
+          {
+            "opponent_team": 4,
+            "event": 2,
+            "is_home": false,
+            "team_h_score": 2,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 17,
+            "event": 3,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 4,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 5,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 6,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 7,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 8,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 9,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 10,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 11,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 12,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 13,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 14,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 15,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 16,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 17,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 18,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 19,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 20,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 21,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 22,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 23,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 24,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 25,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 26,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 27,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 28,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 29,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 30,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 31,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 32,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 33,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 34,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 35,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 36,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 37,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 38,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "fixtures": [
+          {
+            "opponent_team": 14,
+            "event": 1,
+            "is_home": false,
+            "team_h_score": 2,
+            "team_a_score": 4,
+            "finished": true
+          },
+          {
+            "opponent_team": 9,
+            "event": 2,
+            "is_home": true,
+            "team_h_score": 4,
+            "team_a_score": 1,
+            "finished": true
+          },
+          {
+            "opponent_team": 7,
+            "event": 3,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 4,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 5,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 6,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 7,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 8,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 9,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 10,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 11,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 12,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 13,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 14,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 15,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 16,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 17,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 18,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 19,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 20,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 21,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 22,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 23,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 24,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 25,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 26,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 20,
+            "event": 27,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 28,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 29,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 30,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 31,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 32,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 33,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 34,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 35,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 36,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 37,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 38,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "fixtures": [
+          {
+            "opponent_team": 9,
+            "event": 1,
+            "is_home": false,
+            "team_h_score": 1,
+            "team_a_score": 0,
+            "finished": true
+          },
+          {
+            "opponent_team": 17,
+            "event": 2,
+            "is_home": true,
+            "team_h_score": 0,
+            "team_a_score": 1,
+            "finished": true
+          },
+          {
+            "opponent_team": 13,
+            "event": 3,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 4,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 5,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 6,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 7,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 8,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 9,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 10,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 11,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 12,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 13,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 14,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 15,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 16,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 17,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 18,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 18,
+            "event": 19,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 20,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 13,
+            "event": 21,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 16,
+            "event": 22,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 3,
+            "event": 23,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 1,
+            "event": 24,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 17,
+            "event": 25,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 9,
+            "event": 26,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 19,
+            "event": 27,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 7,
+            "event": 28,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 8,
+            "event": 29,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 10,
+            "event": 30,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 2,
+            "event": 31,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 14,
+            "event": 32,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 12,
+            "event": 33,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 5,
+            "event": 34,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 4,
+            "event": 35,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 6,
+            "event": 36,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 15,
+            "event": 37,
+            "is_home": true,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          },
+          {
+            "opponent_team": 11,
+            "event": 38,
+            "is_home": false,
+            "team_h_score": null,
+            "team_a_score": null,
+            "finished": false
+          }
+        ]
+      }
+    ],
+    "nextGameweekId": 4
+  },
+  "__N_SSG": true
+}

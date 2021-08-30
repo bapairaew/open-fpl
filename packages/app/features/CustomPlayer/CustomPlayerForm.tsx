@@ -86,6 +86,7 @@ const CustomPlayerForm = ({
         <FormControl id={`${id}-name`} isRequired>
           <FormLabel>Name</FormLabel>
           <Input
+            name="name"
             ref={initialFocusRef}
             placeholder="Sancho"
             value={formName}
@@ -97,6 +98,7 @@ const CustomPlayerForm = ({
           <InputGroup>
             <InputLeftElement pointerEvents="none" children="£" />
             <Input
+              name="cost"
               type="number"
               placeholder="10"
               min={0}
@@ -109,6 +111,7 @@ const CustomPlayerForm = ({
         <FormControl id={`${id}-position`} isRequired>
           <FormLabel>Position</FormLabel>
           <Select
+            name="position"
             value={formPosition}
             placeholder="Select position"
             onChange={(e) => setFormPosition(e.target.value)}
@@ -121,6 +124,7 @@ const CustomPlayerForm = ({
         <FormControl id={`${id}-team`} isRequired>
           <FormLabel>Team</FormLabel>
           <Select
+            name="team"
             value={formTeam}
             placeholder="Select a team"
             onChange={(e) => setFormTeam(e.target.value)}

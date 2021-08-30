@@ -3,19 +3,22 @@ export {};
 declare global {
   namespace Cypress {
     interface Chainable {
-      setUpProfile: () => void;
+      setUpProfile: (fixture?: string) => void;
       waitForPageReload: () => void;
     }
   }
 }
 
-Cypress.Commands.add("setUpProfile", function setUpProfile() {
-  cy.fixture("profiles/main.json").then((json) => {
-    for (const key of Object.keys(json)) {
-      window.localStorage.setItem(key, JSON.stringify(json[key]));
-    }
-  });
-});
+Cypress.Commands.add(
+  "setUpProfile",
+  function setUpProfile(fixture = "profiles/main.json") {
+    cy.fixture(fixture).then((json) => {
+      for (const key of Object.keys(json)) {
+        window.localStorage.setItem(key, JSON.stringify(json[key]));
+      }
+    });
+  }
+);
 
 // https://github.com/cypress-io/cypress/issues/1805#issuecomment-714721837
 Cypress.Commands.add("waitForPageReload", function waitForPageReload() {

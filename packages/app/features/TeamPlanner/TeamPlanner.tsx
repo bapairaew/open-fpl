@@ -371,7 +371,7 @@ const TeamPlanner = ({
             <IconButton
               variant="ghost"
               borderRadius="none"
-              aria-label="custom players"
+              aria-label="open custom players menu"
               icon={<Icon as={IoPersonAddOutline} />}
               onClick={onCustomPlayersOpen}
             />

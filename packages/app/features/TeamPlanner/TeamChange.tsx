@@ -71,9 +71,9 @@ const TeamChange = ({
     const TargetIcon =
       change.type === "swap" ? IoSwapVerticalOutline : IoArrowBackOutline;
     const selectedLabel =
-      change.type === "swap" ? "substitue out player" : "transfer out player";
+      change.type === "swap" ? "substitute out player" : "transfer out player";
     const targetLabel =
-      change.type === "swap" ? "substitue in player" : "transfer in player";
+      change.type === "swap" ? "substitute in player" : "transfer in player";
 
     mainComponent = (
       <Box

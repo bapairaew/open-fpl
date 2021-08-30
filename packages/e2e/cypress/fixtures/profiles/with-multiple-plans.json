@@ -3,7 +3,7 @@
   "active-profile": "4073",
   "4073-preference": {
     "name": "Test account",
-    "teamPlans": ["Main Plan"],
+    "teamPlans": ["Main Plan", "Plan 2", "Plan 3"],
     "starredPlayers": [
       277, 230, 359, 213, 262, 196, 233, 251, 357, 255, 63157, 54034, 27626,
       52452, 64066, 69687
@@ -110,6 +110,48 @@
           "purchase_price": 45
         }
       }
+    }
+  ],
+  "4073-team-plan-Second Plan": [
+    {
+      "id": 0.7185775233886271,
+      "type": "transfer",
+      "gameweek": 4,
+      "selectedPlayer": {
+        "id": 237,
+        "pick": {
+          "element": 237,
+          "position": 2,
+          "multiplier": 1,
+          "is_captain": false,
+          "is_vice_captain": false,
+          "now_cost": 75,
+          "selling_price": 75,
+          "purchase_price": 75
+        }
+      },
+      "targetPlayer": { "id": 142 }
+    }
+  ],
+  "4073-team-plan-Third Plan": [
+    {
+      "id": 0.7185775233886271,
+      "type": "transfer",
+      "gameweek": 4,
+      "selectedPlayer": {
+        "id": 237,
+        "pick": {
+          "element": 237,
+          "position": 2,
+          "multiplier": 1,
+          "is_captain": false,
+          "is_vice_captain": false,
+          "now_cost": 75,
+          "selling_price": 75,
+          "purchase_price": 75
+        }
+      },
+      "targetPlayer": { "id": 142 }
     }
   ]
 }

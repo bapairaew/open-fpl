@@ -126,9 +126,10 @@ const CustomPlayersModal = ({
             hasExistedPlayers={customPlayers ? customPlayers.length > 0 : false}
             onPlayerAdded={handleAddPlayer}
           />
-          <VStack my={4}>
+          <VStack my={4} role="list" aria-label="custom players list">
             {hydratedCustomPlayers?.map((customPlayer) => (
               <EditableCustomPlayer
+                role="listitem"
                 key={customPlayer.id}
                 player={customPlayer}
                 teams={teams}

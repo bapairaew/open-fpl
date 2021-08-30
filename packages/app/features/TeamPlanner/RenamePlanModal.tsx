@@ -41,6 +41,7 @@ const RenamePlanModal = ({
             <FormControl id="plan-name">
               <FormLabel>Plan name</FormLabel>
               <Input
+                name="name"
                 ref={initialRef}
                 placeholder="Plan name"
                 value={name}

@@ -6,6 +6,7 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Box,
+  BoxProps,
   Button,
   Collapse,
   Divider,
@@ -24,7 +25,8 @@ const EditableCustomPlayer = ({
   teams,
   onRemove,
   onUpdate,
-}: {
+  ...props
+}: BoxProps & {
   player: ClientPlayer;
   teams: Team[];
   onRemove: (player: ClientPlayer) => void;
@@ -130,14 +132,14 @@ const EditableCustomPlayer = ({
                   Cancel
                 </Button>
                 <Button onClick={handleConfirmEdit} ml={3}>
-                  Update
+                  Continue
                 </Button>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialogOverlay>
         </AlertDialog>
       )}
-      <Box width="100%">
+      <Box width="100%" {...props}>
         <Collapse in={!expanded} animateOpacity>
           <Flex flexDirection="column" width="100%" borderWidth={1} spacing={0}>
             <NameSection player={player} />
@@ -159,7 +161,7 @@ const EditableCustomPlayer = ({
                 colorScheme="red"
                 onClick={onConfirmRemoveOpen}
               >
-                Delete
+                Remove
               </Button>
             </Flex>
           </Flex>

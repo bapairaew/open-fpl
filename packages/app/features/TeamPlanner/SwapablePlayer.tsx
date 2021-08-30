@@ -234,9 +234,19 @@ const SwapablePlayer = ({
                   ? "flex"
                   : "none"
               }
-              aria-label={player.pick.is_captain ? "captain" : "vice-captain"}
+              aria-label={
+                player.pick.is_captain
+                  ? "captain"
+                  : player.pick.is_vice_captain
+                  ? "vice captain"
+                  : ""
+              }
             >
-              {player.pick.is_captain ? "C" : "V"}
+              {player.pick.is_captain
+                ? "C"
+                : player.pick.is_vice_captain
+                ? "V"
+                : ""}
             </Flex>
           </HStack>
           <FixturesSection variant="mini" player={player} />
