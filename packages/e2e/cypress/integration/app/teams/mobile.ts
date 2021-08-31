@@ -1,4 +1,4 @@
-describe("Teams Planner", { retries: 0 }, () => {
+describe("Teams Planner", () => {
   describe("Mobile", () => {
     beforeEach(() => {
       cy.viewport("iphone-x");

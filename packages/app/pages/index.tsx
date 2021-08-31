@@ -84,9 +84,13 @@ function DashboardPage(initialPageProps: PageProps) {
     getDataUrl("/app-data/players.json")
   );
 
-  const dataUrl = Router.router?.pageLoader.getDataHref("/", "/", true);
+  const dataUrl: string | null = Router.router?.pageLoader.getDataHref(
+    "/",
+    "/",
+    true
+  );
 
-  const { data: pageProps } = useSWR<SWRPageProps>(dataUrl, {
+  const { data: pageProps } = useSWR<SWRPageProps>(() => dataUrl ?? null, {
     refreshInterval: 30 * 1000,
     initialData: {
       pageProps: initialPageProps,

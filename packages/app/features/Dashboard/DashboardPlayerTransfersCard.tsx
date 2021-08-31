@@ -67,6 +67,7 @@ const DashboardPlayerTransfersCard = ({
           <Flex
             as="section"
             aria-label="player ownership changes"
+            aria-valuetext={`${transfersDelta}`}
             mt={{ base: 4, sm: 0 }}
             fontSize={{ base: "xl", sm: "2xl" }}
             fontWeight="black"
@@ -90,6 +91,7 @@ const DashboardPlayerTransfersCard = ({
             <Flex
               as="section"
               aria-label="player ownership"
+              aria-valuetext={`${playerStat.player.selected_by_percent}%`}
               flexDirection="column"
               alignItems="center"
             >
@@ -99,6 +101,7 @@ const DashboardPlayerTransfersCard = ({
             <Flex
               as="section"
               aria-label="player cost changes"
+              aria-valuetext={`£${Math.abs(costDelta).toFixed(1)}`}
               flexDirection="column"
               alignItems="center"
             >

@@ -7,14 +7,11 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
-  Stack,
-  Text,
+  Grid,
   Stat,
-  StatArrow,
   StatHelpText,
   StatLabel,
   StatNumber,
-  Grid,
 } from "@chakra-ui/react";
 import { DashboardFixture } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 
@@ -54,10 +51,17 @@ const DashboardUpcomingFixtureModal = ({
         <DrawerHeader />
         <DrawerCloseButton />
         <DrawerBody>
-          <Box textAlign="center" layerStyle="subtitle" my={4}>
+          <Box
+            textAlign="center"
+            layerStyle="subtitle"
+            my={4}
+            aria-label="kick-off time"
+          >
             {kickoffTime}
           </Box>
           <Flex
+            as="section"
+            aria-label="teams"
             my={4}
             flexGrow={1}
             width="100%"
@@ -65,24 +69,35 @@ const DashboardUpcomingFixtureModal = ({
             fontSize="xl"
           >
             <Box
+              aria-label="home team"
               py={1}
               px={2}
               layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
             >
               {fixture.team_h?.short_name}
             </Box>
-            <Flex alignItems="stretch" flexGrow={1} mx="-1px">
+            <Flex
+              alignItems="stretch"
+              flexGrow={1}
+              mx="-1px"
+              aria-label="teams strength"
+            >
               <Box
+                aria-label="home team strength"
+                aria-valuetext={`${homeDisplayPercent}`}
                 width={`${homeDisplayPercent}%`}
                 layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
               />
-              <Box width="4px" layerStyle="sticky" />
+              <Box width="4px" />
               <Box
+                aria-label="away team strength"
+                aria-valuetext={`${awayDisplayPercent}`}
                 width={`${awayDisplayPercent}%`}
                 layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
               />
             </Flex>
             <Box
+              aria-label="away team"
               py={1}
               px={2}
               layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
@@ -90,6 +105,7 @@ const DashboardUpcomingFixtureModal = ({
               {fixture.team_a?.short_name}
             </Box>
           </Flex>
+          {/* TODO: refactor this and add test case */}
           <Grid templateColumns="repeat(2, 1fr)" gap={4}>
             <Stat textAlign="center">
               <StatLabel>Position</StatLabel>
@@ -117,21 +133,13 @@ const DashboardUpcomingFixtureModal = ({
                 {fixture.team_h?.stats?.loses ?? 0}
               </StatNumber>
               <StatHelpText>
-                {fixture.team_h?.stats?.matches.map((m, index) => (
-                  <Box
-                    key={index}
-                    as="span"
-                    layerStyle={
-                      m.result === "w"
-                        ? "green"
-                        : m.result === "l"
-                        ? "red"
-                        : undefined
-                    }
-                  >
-                    {m.result.toUpperCase()}
-                  </Box>
-                ))}
+                {[...(fixture.team_h?.stats?.matches ?? [])]
+                  .reverse()
+                  .map((m, index) => (
+                    <Box key={index} as="span">
+                      {m.result.toUpperCase()}
+                    </Box>
+                  ))}
               </StatHelpText>
             </Stat>
             <Stat textAlign="center">
@@ -142,53 +150,41 @@ const DashboardUpcomingFixtureModal = ({
                 {fixture.team_a?.stats?.loses ?? 0}
               </StatNumber>
               <StatHelpText>
-                {fixture.team_a?.stats?.matches.map((m, index) => (
-                  <Box
-                    key={index}
-                    as="span"
-                    layerStyle={
-                      m.result === "w"
-                        ? "green"
-                        : m.result === "l"
-                        ? "red"
-                        : undefined
-                    }
-                  >
-                    {m.result.toUpperCase()}
-                  </Box>
-                ))}
+                {[...(fixture.team_a?.stats?.matches ?? [])]
+                  .reverse()
+                  .map((m, index) => (
+                    <Box key={index} as="span">
+                      {m.result.toUpperCase()}
+                    </Box>
+                  ))}
               </StatHelpText>
             </Stat>
             <Stat textAlign="center">
               <StatLabel>Goals</StatLabel>
               <StatNumber>{fixture.team_h?.stats?.g}</StatNumber>
               <StatHelpText>
-                xG:
-                {fixture.team_h?.stats?.xg.toFixed(2)}
+                xG: {fixture.team_h?.stats?.xg.toFixed(2)}
               </StatHelpText>
             </Stat>
             <Stat textAlign="center">
               <StatLabel>Goals</StatLabel>
               <StatNumber>{fixture.team_a?.stats?.g}</StatNumber>
               <StatHelpText>
-                xG:
-                {fixture.team_a?.stats?.xg.toFixed(2)}
+                xG: {fixture.team_a?.stats?.xg.toFixed(2)}
               </StatHelpText>
             </Stat>
             <Stat textAlign="center">
               <StatLabel>Conceded</StatLabel>
               <StatNumber>{fixture.team_h?.stats?.ga}</StatNumber>
               <StatHelpText>
-                xGA:
-                {fixture.team_h?.stats?.xga.toFixed(2)}
+                xGA: {fixture.team_h?.stats?.xga.toFixed(2)}
               </StatHelpText>
             </Stat>
             <Stat textAlign="center">
               <StatLabel>Conceded</StatLabel>
               <StatNumber>{fixture.team_a?.stats?.ga}</StatNumber>
               <StatHelpText>
-                xGA:
-                {fixture.team_a?.stats?.xga.toFixed(2)}
+                xGA: {fixture.team_a?.stats?.xga.toFixed(2)}
               </StatHelpText>
             </Stat>
             <Stat textAlign="center">
@@ -227,57 +223,3 @@ const DashboardUpcomingFixtureModal = ({
 };
 
 export default DashboardUpcomingFixtureModal;
-
-{
-  /* <Flex
-            px={{ base: 1, sm: 4 }}
-            my={2}
-            flexGrow={1}
-            width="100%"
-            justifyContent="space-around"
-            fontSize="sm"
-          >
-            <Box flexBasis="50%">
-              <Stack spacing={0.5} direction="row" layerStyle="subtitle">
-                <Text noOfLines={1}>Name</Text>
-                <Text>·</Text>
-                <Text>Pts.</Text>
-              </Stack>
-              {fixture.team_h_players.map((s) => (
-                <Stack
-                  spacing={0.5}
-                  key={s.player.id}
-                  direction="row"
-                  layerStyle={s.picked ? "brand" : undefined}
-                >
-                  <Text noOfLines={1}>{s.player.web_name}</Text>
-                  <Text>·</Text>
-                  <Text>{s.player.total_points}</Text>
-                </Stack>
-              ))}
-            </Box>
-            <Box flexBasis="50%">
-              <Stack
-                spacing={0.5}
-                direction="row-reverse"
-                layerStyle="subtitle"
-              >
-                <Text noOfLines={1}>Name</Text>
-                <Text>·</Text>
-                <Text>Pts.</Text>
-              </Stack>
-              {fixture.team_a_players.map((s) => (
-                <Stack
-                  spacing={0.5}
-                  key={s.player.id}
-                  direction="row-reverse"
-                  layerStyle={s.picked ? "brand" : undefined}
-                >
-                  <Text noOfLines={1}>{s.player.web_name}</Text>
-                  <Text>·</Text>
-                  <Text>{s.player.total_points}</Text>
-                </Stack>
-              ))}
-            </Box>
-          </Flex> */
-}

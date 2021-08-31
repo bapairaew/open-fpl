@@ -74,7 +74,7 @@ const DashboardLiveFixture = ({
                 px={2}
                 fontSize="sm"
                 layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
-                aria-labe="team name"
+                aria-label="team name"
               >
                 {fixture.team_h?.short_name}
               </Box>
@@ -84,10 +84,18 @@ const DashboardLiveFixture = ({
             </Box>
             <VStack mx={2} textAlign="center" aria-label="fixture status">
               <Badge colorScheme="red">Live</Badge>
-              <Box fontSize="sm" layerStyle="subtitle">
+              <Box
+                aria-label="fixture minutes"
+                fontSize="sm"
+                layerStyle="subtitle"
+              >
                 {minutes}"
               </Box>
-              {isPicked && <Badge>Picked</Badge>}
+              {isPicked && (
+                <Badge aria-label="there are players in your team playing in this match">
+                  Picked
+                </Badge>
+              )}
             </VStack>
             <Box fontWeight="black" textAlign="center" aria-label="away team">
               <Box

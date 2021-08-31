@@ -12,6 +12,7 @@ import {
   Icon,
   Link as A,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import DashboardFixturePlayerStat from "@open-fpl/app/features/Dashboard/DashboardFixturePlayerStat";
 import {
@@ -43,6 +44,7 @@ const DashboardCurrentFixtureModal = ({
   homePlayers: FixturePlayerStat[];
   awayPlayers: FixturePlayerStat[];
 }) => {
+  const isPicked = [...homePlayers, ...awayPlayers].some((p) => p.picked);
   return (
     <Drawer size="lg" isOpen={isOpen} onClose={onClose}>
       <DrawerOverlay />
@@ -56,45 +58,55 @@ const DashboardCurrentFixtureModal = ({
             width="100%"
             alignItems="center"
             justifyContent="space-around"
+            aria-label="fixture results"
           >
-            <Box textAlign="center">
+            <Box textAlign="center" aria-label="home team">
               <Box
                 py={1}
                 px={2}
                 fontWeight="black"
                 layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
+                aria-label="team name"
               >
                 {fixture.team_h?.short_name}
               </Box>
-              <Box my={4} fontWeight="black" fontSize="6xl">
+              <Box my={4} fontWeight="black" fontSize="6xl" aria-label="score">
                 {fixture.team_h_score ?? 0}
               </Box>
               {homeXG && (
-                <Box layerStyle="subtitle" my={4}>
+                <Box layerStyle="subtitle" my={4} aria-label="expected score">
                   xG: {homeXG}
                 </Box>
               )}
             </Box>
-            <Box mx={2} textAlign="center">
+            <VStack mx={2} textAlign="center" aria-label="fixture status">
               {live && <Badge colorScheme="red">Live</Badge>}
               {minutes !== undefined && (
-                <Box layerStyle="subtitle">{minutes}"</Box>
+                <Box aria-label="fixture minutes" layerStyle="subtitle">
+                  {minutes}"
+                </Box>
               )}
-            </Box>
-            <Box textAlign="center">
+              {isPicked && (
+                <Badge aria-label="there are players in your team playing in this match">
+                  Picked
+                </Badge>
+              )}
+            </VStack>
+            <Box textAlign="center" aria-label="away team">
               <Box
                 py={1}
                 px={2}
                 fontWeight="black"
                 layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
+                aria-label="team name"
               >
                 {fixture.team_a?.short_name}
               </Box>
-              <Box my={4} fontSize="6xl" fontWeight="black">
+              <Box my={4} fontSize="6xl" fontWeight="black" aria-label="score">
                 {fixture.team_a_score ?? 0}
               </Box>
               {awayXG && (
-                <Box layerStyle="subtitle" my={4}>
+                <Box layerStyle="subtitle" my={4} aria-label="expected score">
                   xG: {awayXG}
                 </Box>
               )}
@@ -119,8 +131,10 @@ const DashboardCurrentFixtureModal = ({
             alignItems="flex-start"
             justifyContent="space-around"
             fontSize="sm"
+            aria-label="players statistics"
+            role="list"
           >
-            <Box flexBasis="50%">
+            <Box flexBasis="50%" aria-label="home team">
               <HStack
                 ml={0.5}
                 spacing={1}
@@ -151,6 +165,7 @@ const DashboardCurrentFixtureModal = ({
               {homePlayers.map((s) => (
                 <DashboardFixturePlayerStat
                   key={s.player.id}
+                  role="listitem"
                   playerStat={s}
                   align="left"
                   showBPS
@@ -158,7 +173,7 @@ const DashboardCurrentFixtureModal = ({
                 />
               ))}
             </Box>
-            <Box flexBasis="50%">
+            <Box flexBasis="50%" aria-label="away team">
               <HStack
                 ml={0.5}
                 spacing={1}
@@ -191,6 +206,7 @@ const DashboardCurrentFixtureModal = ({
               {awayPlayers.map((s) => (
                 <DashboardFixturePlayerStat
                   key={s.player.id}
+                  role="listitem"
                   playerStat={s}
                   align="right"
                   showBPS

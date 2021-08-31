@@ -51,6 +51,7 @@ const DashboardPlayerTransfersModal = ({
                 <Flex as="span" flexDirection="column" mr={2}>
                   {playerStat.live && (
                     <Box
+                      aria-label="this player is playing in a live match"
                       as="span"
                       width="6px"
                       height="6px"
@@ -61,6 +62,7 @@ const DashboardPlayerTransfersModal = ({
                   )}
                   {playerStat.picked && (
                     <Box
+                      aria-label="this player is in your starting XI"
                       as="span"
                       width="6px"
                       height="6px"
@@ -143,6 +145,7 @@ const DashboardPlayerTransfersModal = ({
                 flexGrow={1}
               >
                 <StickyHeaderTable
+                  tableProps={{ "aria-label": "top transferred players" }}
                   height={height}
                   width={width}
                   itemSize={33}

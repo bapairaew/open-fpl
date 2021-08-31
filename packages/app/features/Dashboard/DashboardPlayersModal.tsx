@@ -43,6 +43,7 @@ const DashboardPlayersModal = ({
                 <Flex as="span" flexDirection="column" mr={2}>
                   {playerStat.live && (
                     <Box
+                      aria-label="this player is playing in a live match"
                       as="span"
                       width="6px"
                       height="6px"
@@ -53,6 +54,7 @@ const DashboardPlayersModal = ({
                   )}
                   {playerStat.picked && (
                     <Box
+                      aria-label="this player is in your starting XI"
                       as="span"
                       width="6px"
                       height="6px"
@@ -132,6 +134,7 @@ const DashboardPlayersModal = ({
                 flexGrow={1}
               >
                 <StickyHeaderTable
+                  tableProps={{ "aria-label": "players statistics" }}
                   height={height}
                   width={width}
                   itemSize={33}

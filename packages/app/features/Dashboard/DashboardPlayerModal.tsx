@@ -60,7 +60,7 @@ const DashboardPlayerModal = ({
         <DrawerCloseButton />
         <DrawerBody p={0}>
           <Box width="100%" my={8}>
-            <Box maxWidth="300px" mx="auto">
+            <Box maxWidth="300px" mx="auto" aria-label="player statistics">
               <PlayerGridCard player={playerStat.player} />
             </Box>
           </Box>

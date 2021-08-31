@@ -1,4 +1,4 @@
-describe("Teams Planner", { retries: 0 }, () => {
+describe("Teams Planner", () => {
   describe("Multiple plans", () => {
     beforeEach(() => {
       cy.intercept("/_next/data/**/teams/4073.json", {

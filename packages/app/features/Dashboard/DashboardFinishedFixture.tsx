@@ -111,6 +111,7 @@ const DashboardFinishedFixture = ({
           <Flex
             as="section"
             aria-label="player statistics"
+            role="list"
             fontSize="xs"
             height="60px"
             layerStyle="subtitle"
@@ -120,15 +121,17 @@ const DashboardFinishedFixture = ({
               {homePlayers.map((e) => (
                 <DashboardFixturePlayerStat
                   key={e.player.id}
+                  role="listitem"
                   playerStat={e}
                   align="left"
                 />
               ))}
             </Box>
-            <Box width="50%" aria-label="home team">
+            <Box width="50%" aria-label="away team">
               {awayPlayers.map((e) => (
                 <DashboardFixturePlayerStat
                   key={e.player.id}
+                  role="listitem"
                   playerStat={e}
                   align="right"
                 />

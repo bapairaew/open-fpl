@@ -47,8 +47,19 @@ const DashboardPlayerCard = ({
           top={0}
           left={2}
         >
-          {playerStat.live && <Badge colorScheme="red">Live</Badge>}
-          {playerStat.picked && <Badge>Picked</Badge>}
+          {playerStat.live && (
+            <Badge
+              colorScheme="red"
+              aria-label="this player is playing in a live match"
+            >
+              Live
+            </Badge>
+          )}
+          {playerStat.picked && (
+            <Badge aria-label="this player is in your starting XI">
+              Picked
+            </Badge>
+          )}
         </HStack>
         <VStack
           key={playerStat.player.id}

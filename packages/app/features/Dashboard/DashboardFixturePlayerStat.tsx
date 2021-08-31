@@ -1,4 +1,4 @@
-import { Box, Icon, Stack, Text } from "@chakra-ui/react";
+import { BoxProps, Box, Icon, Stack, Text } from "@chakra-ui/react";
 import BatchIcons from "@open-fpl/app/features/Dashboard/BatchIcons";
 import { FixturePlayerStat } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import { BiFootball } from "react-icons/bi";
@@ -9,7 +9,8 @@ const DashboardFixturePlayerStat = ({
   align,
   showBPS = false,
   fixedSizeOnDesktop = false,
-}: {
+  ...props
+}: BoxProps & {
   playerStat: FixturePlayerStat;
   align: "left" | "right";
   showBPS?: boolean;
@@ -22,6 +23,12 @@ const DashboardFixturePlayerStat = ({
       alignItems="center"
       direction={align === "left" ? "row" : "row-reverse"}
       layerStyle={playerStat.picked ? "brand" : undefined}
+      aria-label={
+        playerStat.picked
+          ? "player statistics (in your team)"
+          : "player statistics"
+      }
+      {...props}
     >
       {showBPS && (
         <Text
@@ -61,7 +68,7 @@ const DashboardFixturePlayerStat = ({
         alignItems="center"
         direction={align === "left" ? "row" : "row-reverse"}
         aria-label="goals"
-        aria-aria-valuetext={`${playerStat.stats?.goals_scored ?? 0}`}
+        aria-valuetext={`${playerStat.stats?.goals_scored ?? 0}`}
       >
         <BatchIcons
           icon={<Icon as={BiFootball} />}
@@ -73,7 +80,7 @@ const DashboardFixturePlayerStat = ({
         alignItems="center"
         direction={align === "left" ? "row" : "row-reverse"}
         aria-label="assists"
-        aria-aria-valuetext={`${playerStat.stats?.assists ?? 0}`}
+        aria-valuetext={`${playerStat.stats?.assists ?? 0}`}
       >
         <BatchIcons
           icon={<Icon as={GiRunningShoe} />}

@@ -85,7 +85,7 @@ const DashboardUpcomingFixture = ({
           >
             <Box as="section" aria-label="home team">
               <Flex height="6px" aria-label="selected players">
-                {homePlayers.map((p) => (
+                {homePlayers.slice(0, 3).map((p) => (
                   <Box
                     key={p.player.id}
                     aria-label={p.player.web_name}
@@ -106,7 +106,7 @@ const DashboardUpcomingFixture = ({
                 height="6px"
                 aria-label="selected players"
               >
-                {awayPlayers.map((p) => (
+                {awayPlayers.slice(0, 3).map((p) => (
                   <Box
                     key={p.player.id}
                     aria-label={p.player.web_name}
@@ -124,7 +124,7 @@ const DashboardUpcomingFixture = ({
           <Flex width="100%" my={2} aria-label="teams strength">
             <Box
               aria-label="home team strength"
-              aria-aria-valuetext={`${homeDisplayPercent}`}
+              aria-valuetext={`${homeDisplayPercent}`}
               height="5px"
               width={`${homeDisplayPercent}%`}
               layerStyle={`fpl-team-${fixture.team_h?.short_name}`}
@@ -132,7 +132,7 @@ const DashboardUpcomingFixture = ({
             <Box height="5px" width="4px" layerStyle="sticky" />
             <Box
               aria-label="away team strength"
-              aria-aria-valuetext={`${awayDisplayPercent}`}
+              aria-valuetext={`${awayDisplayPercent}`}
               height="5px"
               width={`${awayDisplayPercent}%`}
               layerStyle={`fpl-team-${fixture.team_a?.short_name}`}
