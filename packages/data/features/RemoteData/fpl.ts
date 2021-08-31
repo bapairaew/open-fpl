@@ -111,9 +111,11 @@ export const getEntryTransfers = (id: number): Promise<Transfer[] | string> => {
 };
 
 // TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
-export const getFixtures = (event: number): Promise<Fixture[]> => {
+export const getFixtures = (event?: number): Promise<Fixture[]> => {
   return fetch(
-    `https://fantasy.premierleague.com/api/fixtures/?event=${event}`,
+    event
+      ? `https://fantasy.premierleague.com/api/fixtures/?event=${event}`
+      : `https://fantasy.premierleague.com/api/fixtures/`,
     {
       headers,
       method: "GET",

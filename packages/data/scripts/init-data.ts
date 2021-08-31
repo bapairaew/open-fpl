@@ -6,6 +6,7 @@ import {
   ElementTypes,
   Event,
   Team,
+  Fixture,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import getDataFromFiles from "@open-fpl/data/features/RemoteData/getDataFromFiles";
 import { fetchData } from "@open-fpl/data/features/RemoteData/remoteData";
@@ -66,6 +67,7 @@ const strategies: StorageStrategies = {
     init: function () {
       return Promise.all([
         makeRemoteDataFolders("fpl"),
+        makeRemoteDataFolders("fpl_fixtures"),
         makeRemoteDataFolders("fpl_teams"),
         makeRemoteDataFolders("fpl_element_types"),
         makeRemoteDataFolders("fpl_gameweeks"),
@@ -310,6 +312,8 @@ const strategies: StorageStrategies = {
           },
           saveFn: {
             fpl: (data) => strategy.saveRemoteData("fpl", data),
+            fpl_fixtures: (data) =>
+              strategy.saveRemoteData("fpl_fixtures", data),
             fpl_element_types: (data) =>
               strategy.saveRemoteData("fpl_element_types", data),
             fpl_gameweeks: (data) =>
@@ -416,6 +420,7 @@ const strategies: StorageStrategies = {
   // NOTE 2: Got socket hung up error quite often so pRetry is needed here
   const [
     fpl,
+    fplFixtures,
     understat,
     understatTeams,
     fplElementTypes,
@@ -428,6 +433,15 @@ const strategies: StorageStrategies = {
         console.log(`Pulling fpl error ${error.message}`);
       },
     }),
+    pRetry(
+      () => strategy.retrivedRemoteData("fpl_fixtures", "data") as Fixture[],
+      {
+        retries: 5,
+        onFailedAttempt: (error) => {
+          console.log(`Pulling fpl error ${error.message}`);
+        },
+      }
+    ),
     pRetry<PlayerStat[]>(() => strategy.retrivedRemoteData("understat"), {
       retries: 5,
       onFailedAttempt: (error) => {
@@ -480,6 +494,7 @@ const strategies: StorageStrategies = {
     fpl,
     understat,
     understatTeams,
+    fplFixtures,
     fplElementTypes,
     fplGameweeks,
     fplTeams,

@@ -1,5 +1,6 @@
 import { FPLElement } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
+  getFixtures,
   getFPLData,
   getFPLPlayerSummaryData,
 } from "@open-fpl/data/features/RemoteData/fpl";
@@ -39,11 +40,13 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
     getItemsToUpdate,
     onSnapShotLoaded,
   } = config;
-  const [fplData, underStatData, understatPlayersResponse] = await Promise.all([
-    getFPLData(),
-    getUnderstatData(),
-    getUnderstatPlayers(),
-  ]);
+  const [fplData, fplFixtures, underStatData, understatPlayersResponse] =
+    await Promise.all([
+      getFPLData(),
+      getFixtures(),
+      getUnderstatData(),
+      getUnderstatPlayers(),
+    ]);
 
   await onSnapShotLoaded?.(fplData, underStatData, understatPlayersResponse);
 
@@ -68,6 +71,7 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
     saveFn?.fpl_teams?.(fplTeams),
     saveFn?.fpl_element_types?.(fplElementTypes),
     saveFn?.fpl_gameweeks?.(fplGameweeks),
+    saveFn?.fpl_fixtures?.(fplFixtures),
     asyncPool(
       concurrent?.fpl || 1,
       getItemsToUpdate?.fpl ? getItemsToUpdate.fpl(fplPlayers) : fplPlayers,
@@ -155,6 +159,7 @@ export async function fetchData(config: FetchDataConfig): Promise<RemoteData> {
 
   return {
     fpl,
+    fplFixtures,
     fplTeams,
     fplElementTypes,
     fplGameweeks,
