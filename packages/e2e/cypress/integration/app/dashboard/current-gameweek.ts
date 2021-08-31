@@ -72,7 +72,7 @@ describe("Dashboard", () => {
         cy.get("aside").contains("Test account");
         cy.get("aside").contains("Dashboard").click();
 
-        cy.wait(["@getEntry", "@getHistory", "@getPicks"]);
+        cy.wait(["@getEntry", "@getHistory", "@getPicks"], { timeout: 10000 });
       });
 
       it("shows live points and rank.", () => {
@@ -97,7 +97,6 @@ describe("Dashboard", () => {
         cy.get('[aria-labelledby="live-fixtures-header"]')
           .find('[role="listitem"]')
           .find('[aria-label="fixture minutes"]')
-          .should("be.visible")
           .invoke("text")
           .should("match", /\d+/);
 

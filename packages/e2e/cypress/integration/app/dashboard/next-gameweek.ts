@@ -3,6 +3,7 @@ describe("Dashboard", () => {
     describe("With no profile", () => {
       beforeEach(() => {
         cy.visit("/");
+        cy.get('[aria-label="next gameweek"]').click();
       });
 
       it("shows countdown.", () => {
@@ -108,10 +109,10 @@ describe("Dashboard", () => {
         cy.setUpProfile();
         cy.get("aside").contains("Test account");
         cy.get('[aria-label="next gameweek"]').click();
+        cy.wait(["@getEntry", "@getHistory", "@getPicks"], { timeout: 10000 });
       });
 
       it("shows top transferred players.", () => {
-        cy.wait(["@getEntry", "@getHistory", "@getPicks"]);
         cy.get('[aria-label="next gameweek"]').click();
         cy.get('[aria-labelledby="next-gameweek-top-transfers"]')
           .find('[role="listitem"]')

@@ -3,7 +3,8 @@
   "version": "1.3.0-pre.1",
   "license": "Apache-2.0",
   "scripts": {
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "cypress:run": "cypress run"
   },
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^1.8.0",

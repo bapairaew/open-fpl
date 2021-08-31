@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://localhost:3001",
   "integrationFolder": "cypress/integration/data",
-  "retries": 3
+  "screenshotsFolder": "cypress/results/screenshots",
+  "videosFolder": "cypress/results/videos"
 }
