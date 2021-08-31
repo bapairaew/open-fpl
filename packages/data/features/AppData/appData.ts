@@ -1,10 +1,9 @@
+import { AppData } from "@open-fpl/data/features/AppData/appDataTypes";
 import {
   TeamFixture,
   TeamFixtures,
 } from "@open-fpl/data/features/AppData/fixtureDataTypes";
-import { AppData } from "@open-fpl/data/features/AppData/appDataTypes";
 import {
-  FPLElement,
   MatchStat,
   Player,
 } from "@open-fpl/data/features/AppData/playerDataTypes";
@@ -14,6 +13,7 @@ import {
 } from "@open-fpl/data/features/AppData/teamDataTypes";
 import {
   ElementTypes,
+  Fixture as FPLFixture,
   Team as FPLTeam,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { RemoteData } from "@open-fpl/data/features/RemoteData/remoteDataTypes";
@@ -202,53 +202,35 @@ const makePlayers = ({
 };
 
 const makeTeamFixtures = ({
-  fplElements,
+  fplFixtures,
   fplTeams,
 }: {
-  fplElements: FPLElement[];
+  fplFixtures: FPLFixture[];
   fplTeams: FPLTeam[];
 }): TeamFixtures[] => {
   const teamFixtures = [] as TeamFixtures[];
 
   for (const fplTeam of fplTeams) {
-    const fplElement =
-      fplElements.find(
-        (f) =>
-          f.team === fplTeam.id && f.history.length + f.fixtures.length === 38
-      ) ?? fplElements.find((f) => f.team === fplTeam.id); // TODO: find out why some elements do not have 38 history + fixtures
-    if (fplElement) {
-      const fixtures: TeamFixture[] = [];
-      const addedFixtures: number[] = [];
-      fplElement.history.forEach((h) => {
-        fixtures.push({
-          opponent_team: h.opponent_team,
-          event: h.round,
-          is_home: h.was_home,
-          team_h_score: h.team_h_score,
-          team_a_score: h.team_a_score,
-          finished: h.team_h_score !== null && h.team_a_score !== null,
-        });
-        addedFixtures.push(h.fixture);
-      });
-      fplElement.fixtures.forEach((f) => {
-        if (!addedFixtures.some((af) => af === f.id)) {
-          fixtures.push({
-            opponent_team: f.is_home ? f.team_a : f.team_h,
-            event: f.event,
-            is_home: f.is_home,
-            team_h_score: null,
-            team_a_score: null,
-            finished: false,
-          });
-          addedFixtures.push(f.id);
-        }
-      });
+    const matchedFPLFixtures = fplFixtures.filter(
+      (f) => f.team_h === fplTeam.id || f.team_a === fplTeam.id
+    );
+    const fixtures: TeamFixture[] = [];
 
-      teamFixtures.push({
-        id: fplElement.team,
-        fixtures,
+    for (const f of matchedFPLFixtures) {
+      fixtures.push({
+        opponent_team: f.team_h === fplTeam.id ? f.team_a : f.team_h,
+        event: f.event,
+        is_home: f.team_h === fplTeam.id,
+        team_h_score: f.team_h_score,
+        team_a_score: f.team_a_score,
+        finished: f.finished,
       });
     }
+
+    teamFixtures.push({
+      id: fplTeam.id,
+      fixtures,
+    });
   }
 
   return teamFixtures;
@@ -386,9 +368,10 @@ const makeTeams = ({
 export const makeAppData = ({
   fpl,
   understat,
+  understatTeams,
+  fplFixtures,
   fplTeams,
   fplElementTypes,
-  understatTeams,
   fplGameweeks,
   playersLinks,
   teamsLinks,
@@ -398,9 +381,10 @@ export const makeAppData = ({
 }): AppData => {
   const players = makePlayers({
     fpl,
-    understat,
+    fplFixtures,
     fplTeams,
     fplElementTypes,
+    understat,
     understatTeams,
     fplGameweeks,
     playersLinks,
@@ -408,7 +392,7 @@ export const makeAppData = ({
   });
 
   const fixtures = makeTeamFixtures({
-    fplElements: fpl,
+    fplFixtures,
     fplTeams,
   });
 

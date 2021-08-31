@@ -3,6 +3,7 @@ import {
   Bootstrap,
   ElementTypes,
   Event,
+  Fixture,
   Team,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import {
@@ -14,11 +15,12 @@ import {
 
 export type FetchDataConfigOptions<T> = {
   fpl?: T;
-  understat?: T;
-  understat_teams?: T;
+  fpl_fixtures?: T;
   fpl_teams?: T;
   fpl_element_types?: T;
   fpl_gameweeks?: T;
+  understat?: T;
+  understat_teams?: T;
 };
 
 export type GetItemToUpdateFunction = (list: any) => any[];
@@ -42,9 +44,10 @@ export type FetchDataConfig = {
 
 export interface RemoteData {
   fpl: FPLElement[];
-  understat: PlayerStat[];
+  fplFixtures: Fixture[];
   fplTeams: Team[];
   fplElementTypes: ElementTypes[];
-  understatTeams: TeamStat[];
   fplGameweeks: Event[];
+  understat: PlayerStat[];
+  understatTeams: TeamStat[];
 }
