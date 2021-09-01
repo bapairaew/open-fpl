@@ -2,7 +2,9 @@ name: E2E
 on: [deployment_status]
 jobs:
   app:
-    if: github.event.deployment_status.state == 'success'
+    if:
+      github.event.deployment_status.state == 'success' &&
+      github.event.deployment.environment == 'Production – open-fpl-app'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest commit
@@ -18,3 +20,49 @@ jobs:
           cache-dependency-path: yarn.lock
       - name: Run test
         run: yarn e2e:app
+  data:
+    if:
+      github.event.deployment_status.state == 'success' &&
+      github.event.deployment.environment == 'Production – open-fpl-data'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest commit
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Set up node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
+      - name: Run test
+        run: yarn e2e:data
+  www:
+    if:
+      github.event.deployment_status.state == 'success' &&
+      github.event.deployment.environment == 'Production – open-fpl-www'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest commit
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Set up node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
+      - name: Run test
+        run: yarn e2e:www
+  # remove this later
+  log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print GitHub context
+        env:
+          GITHUB: ${{ toJson(github) }}
+        run: echo "$GITHUB"
