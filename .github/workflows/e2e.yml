@@ -1,0 +1,20 @@
+name: E2E
+on: [deployment_status]
+jobs:
+  app:
+    if: github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest commit
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Set up node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
+      - name: Run test
+        run: yarn e2e:app

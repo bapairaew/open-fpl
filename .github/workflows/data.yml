@@ -1,4 +1,4 @@
-name: Update data
+name: Data
 on:
   schedule:
     - cron: "0 * * * *"
@@ -9,7 +9,7 @@ on:
         required: true
         default: "false"
 jobs:
-  update-data:
+  update:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: "14"
           cache: "yarn"
-          cache-dependency-path: packages/data/yarn.lock
+          cache-dependency-path: yarn.lock
       - name: Install packages
         run: yarn
         working-directory: packages/data
