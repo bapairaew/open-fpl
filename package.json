@@ -24,9 +24,9 @@
     "e2e:dev:app": "yarn --cwd packages/e2e cypress --config-file cypress/configs/dev/app.json",
     "e2e:dev:data": "yarn --cwd packages/e2e cypress --config-file cypress/configs/dev/data.json",
     "e2e:dev:www": "yarn --cwd packages/e2e cypress --config-file cypress/configs/dev/www.json",
-    "e2e:app": "yarn --cwd packages/e2e cypress:run --config-file cypress/configs/prod/app.json",
-    "e2e:data": "yarn --cwd packages/e2e cypress:run --config-file cypress/configs/prod/data.json",
-    "e2e:www": "yarn --cwd packages/e2e cypress:run --config-file cypress/configs/prod/www.json"
+    "e2e:app": "yarn --cwd packages/e2e cypress:run --config-file cypress/configs/production/app.json",
+    "e2e:data": "yarn --cwd packages/e2e cypress:run --config-file cypress/configs/production/data.json",
+    "e2e:www": "yarn --cwd packages/e2e cypress:run --config-file cypress/configs/production/www.json"
   },
   "private": true,
   "workspaces": {
