@@ -1,0 +1,112 @@
+{
+  "profiles": ["4073"],
+  "active-profile": "4073",
+  "4073-preference": {
+    "name": "Test account",
+    "teamPlans": ["Main Plan"],
+    "starredPlayers": [],
+    "selectedDashboardTab": 0,
+    "selectedPlan": 0
+  },
+  "4073-team-plan-Main Plan": [
+    {
+      "id": 0.7185775233886271,
+      "type": "transfer",
+      "gameweek": 4,
+      "selectedPlayer": {
+        "id": 237,
+        "pick": {
+          "element": 237,
+          "position": 2,
+          "multiplier": 1,
+          "is_captain": false,
+          "is_vice_captain": false,
+          "now_cost": 75,
+          "selling_price": 75,
+          "purchase_price": 75
+        }
+      },
+      "targetPlayer": { "id": 142 }
+    },
+    {
+      "type": "use-chip",
+      "chip": "3xc",
+      "gameweek": 5,
+      "id": 0.8409004740641681
+    },
+    {
+      "type": "use-chip",
+      "chip": "bboost",
+      "gameweek": 6,
+      "id": 0.905659500234036
+    },
+    {
+      "id": 0.07467175064566622,
+      "type": "set-vice-captain",
+      "gameweek": 4,
+      "player": { "id": 69 }
+    },
+    {
+      "id": 0.1853469599506825,
+      "type": "set-captain",
+      "gameweek": 4,
+      "player": { "id": 142 }
+    },
+    {
+      "id": 0.052456822131924596,
+      "type": "transfer",
+      "gameweek": 8,
+      "selectedPlayer": {
+        "id": 142,
+        "pick": {
+          "element": 142,
+          "position": 2,
+          "multiplier": 1,
+          "is_captain": true,
+          "is_vice_captain": false,
+          "now_cost": 56,
+          "selling_price": 56,
+          "purchase_price": 56
+        }
+      },
+      "targetPlayer": { "id": 127 }
+    },
+    {
+      "id": 0.038194734951158216,
+      "type": "set-captain",
+      "gameweek": 6,
+      "player": { "id": 419 }
+    },
+    {
+      "id": 0.18308872845288415,
+      "type": "swap",
+      "gameweek": 5,
+      "selectedPlayer": {
+        "id": 337,
+        "pick": {
+          "element": 337,
+          "position": 11,
+          "multiplier": 1,
+          "is_captain": false,
+          "is_vice_captain": false,
+          "now_cost": 81,
+          "selling_price": 80,
+          "purchase_price": 80
+        }
+      },
+      "targetPlayer": {
+        "id": 67,
+        "pick": {
+          "element": 67,
+          "position": 15,
+          "multiplier": 0,
+          "is_captain": false,
+          "is_vice_captain": false,
+          "now_cost": 44,
+          "selling_price": 44,
+          "purchase_price": 45
+        }
+      }
+    }
+  ]
+}

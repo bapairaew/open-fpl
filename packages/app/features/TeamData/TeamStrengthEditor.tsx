@@ -20,6 +20,7 @@ import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
 import { MouseEvent, useEffect, useState } from "react";
 import { IoShield } from "react-icons/io5";
 import { RiSwordFill } from "react-icons/ri";
+import { useDebouncedCallback } from "use-debounce";
 
 const TeamStrengthEditor = ({
   team,
@@ -34,6 +35,12 @@ const TeamStrengthEditor = ({
   const [homeDefence, setHomeDefence] = useState(team.strength_defence_home);
   const [awayAttack, setAwayAttack] = useState(team.strength_attack_away);
   const [awayDefence, setAwayDefence] = useState(team.strength_defence_away);
+
+  const debouncedOnStrengthChange = useDebouncedCallback(
+    (name: keyof TeamStrength, value: number) =>
+      onStrengthChange?.(name, value),
+    300
+  );
 
   useEffect(
     () => setHomeAttack(team.strength_attack_home),
@@ -88,7 +95,7 @@ const TeamStrengthEditor = ({
               value={homeAttack}
               onChange={setHomeAttack}
               onChangeEnd={(value) =>
-                onStrengthChange?.("strength_attack_home", value)
+                debouncedOnStrengthChange?.("strength_attack_home", value)
               }
             >
               <SliderTrack>
@@ -117,7 +124,7 @@ const TeamStrengthEditor = ({
               value={homeDefence}
               onChange={setHomeDefence}
               onChangeEnd={(value) =>
-                onStrengthChange?.("strength_defence_home", value)
+                debouncedOnStrengthChange?.("strength_defence_home", value)
               }
             >
               <SliderTrack>
@@ -148,7 +155,7 @@ const TeamStrengthEditor = ({
               value={awayAttack}
               onChange={setAwayAttack}
               onChangeEnd={(value) =>
-                onStrengthChange?.("strength_attack_away", value)
+                debouncedOnStrengthChange?.("strength_attack_away", value)
               }
             >
               <SliderTrack>
@@ -177,7 +184,7 @@ const TeamStrengthEditor = ({
               value={awayDefence}
               onChange={setAwayDefence}
               onChangeEnd={(value) =>
-                onStrengthChange?.("strength_defence_away", value)
+                debouncedOnStrengthChange?.("strength_defence_away", value)
               }
             >
               <SliderTrack>

@@ -53,6 +53,7 @@ describe("Teams Planner", () => {
 
       // Rearrange
       cy.get('[role="tab"]:first-child').drag('[role="tab"]:nth-child(2)', {
+        position: "center",
         force: true,
       });
       cy.get('[aria-label="team plans"]')

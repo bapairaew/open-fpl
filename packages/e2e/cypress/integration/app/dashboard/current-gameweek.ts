@@ -56,8 +56,8 @@ describe("Dashboard", () => {
     describe("With mock data", () => {
       beforeEach(() => {
         cy.intercept("/_next/data/**/index.json", {
-          fixture: "fixtures/all.json",
-        });
+          fixture: "dashboard/all.json",
+        }).as("getDashboardPageData");
         cy.intercept("/api/entries/4073", {
           fixture: "entries/general/main.json",
         }).as("getEntry");
@@ -67,22 +67,22 @@ describe("Dashboard", () => {
         cy.intercept("/api/entries/4073/picks/3", {
           fixture: "entries/picks/all.json",
         }).as("getPicks");
-        cy.visit("/help/dashboard");
+
+        cy.visit("/");
         cy.setUpProfile();
         cy.get("aside").contains("Test account");
+        cy.blurWindow();
         cy.get("aside").contains("Dashboard").click();
-
-        cy.wait(["@getEntry", "@getHistory", "@getPicks"], { timeout: 10000 });
       });
 
       it("shows live points and rank.", () => {
         cy.get('[aria-label="current gameweek dashboard"]')
           .contains("Total points")
           .next()
-          .should("have.text", "990")
+          .should("have.text", "989")
           .next()
           .invoke("text")
-          .should("match", /811/);
+          .should("match", /810/);
         cy.get('[aria-label="current gameweek dashboard"]')
           .contains("Overall rank")
           .next()

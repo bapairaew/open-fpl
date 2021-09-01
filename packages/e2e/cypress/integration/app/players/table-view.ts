@@ -181,7 +181,7 @@ describe("Player Statistics Explorer", () => {
     });
 
     it("supports star players.", () => {
-      cy.setUpProfile();
+      cy.setUpProfile("profiles/with-no-starred-players.json");
       cy.get("body").contains("Test account");
 
       // Star non-first player

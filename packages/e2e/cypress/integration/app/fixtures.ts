@@ -65,7 +65,8 @@ describe("Fixture Difficulty Rating", () => {
       cy.request(
         "https://fantasy.premierleague.com/api/bootstrap-static/"
       ).then((response) => {
-        const nextGameweek = response.body.events.find((e) => e.is_next).id;
+        const nextGameweek =
+          response.body?.events?.find((e) => e.is_next)?.id ?? 38;
 
         cy.get("@fixturesTable")
           .find("tbody tr")
@@ -122,6 +123,7 @@ describe("Fixture Difficulty Rating", () => {
           cy.get(
             `[aria-label="fixtures table"] tbody tr:nth-child(${sourceIndex}) .handle`
           ).drag('[aria-label="fixtures table"] tbody tr:nth-child(1)', {
+            position: "center",
             force: true,
           });
 
@@ -214,21 +216,20 @@ describe("Fixture Difficulty Rating", () => {
             .find('[aria-label="home attack strength"]')
             .first()
             .focus()
-            // set home strenght to 0
-            .type("{home}{esc}", {
-              waitForAnimations: true,
-            });
+            // set home strength to 0
+            .type("{home}")
+            .wait(300);
 
-          cy.get("button").contains("Edit Teams Strength").click();
+          // cy.get("button").contains("Edit Teams Strength").click();
 
           cy.get(`[aria-label="adjust ${team} strength"]`)
             .find('[aria-label="away attack strength"]')
             .first()
             .focus()
-            // set away strenght to 0
-            .type("{home}{esc}", {
-              waitForAnimations: true,
-            })
+            // set away strength to 0
+            .type("{home}")
+            .wait(300)
+            .type("{esc}")
             .should(() => {
               const afterDifficulty = cell
                 .find('[aria-label^="difficulty level"]')

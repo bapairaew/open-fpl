@@ -5,6 +5,7 @@ declare global {
     interface Chainable {
       setUpProfile: (fixture?: string) => void;
       waitForPageReload: () => void;
+      blurWindow: () => void;
     }
   }
 }
@@ -28,4 +29,12 @@ Cypress.Commands.add("waitForPageReload", function waitForPageReload() {
   });
   cy.window().should("have.prop", "beforeReload", true);
   cy.window().should("not.have.prop", "beforeReload");
+});
+
+// https://stackoverflow.com/questions/50412125/how-to-emulate-window-focus-lost-in-cypress-io
+Cypress.Commands.add("blurWindow", function waitForPageReload() {
+  cy.document().then((doc) => {
+    cy.stub(doc, "hidden").value(true);
+  });
+  cy.document().trigger("visibilitychange");
 });

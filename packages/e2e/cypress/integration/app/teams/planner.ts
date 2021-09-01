@@ -41,7 +41,7 @@ describe("Teams Planner", () => {
         .click();
       cy.get('[aria-label="transfer market"]')
         .find('[aria-label="search for players"]')
-        .type("cost:>5", { waitForAnimations: true })
+        .type("cost:>5")
         .wait(300);
       cy.get('[aria-label="transfer market"]')
         .find('table tbody tr th:nth-child(1) [aria-label="transfer player"]')

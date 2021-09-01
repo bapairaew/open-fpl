@@ -190,14 +190,8 @@ describe("Settings", () => {
       cy.visit("/teams");
 
       // Team plans
-      cy.get("main")
-        .find('[role="tab"]')
-        .contains("Plan A")
-        .should("be.visible");
-      cy.get("main")
-        .find('[role="tab"]')
-        .contains("Plan B")
-        .should("be.visible");
+      cy.get('main [role="tab"]').contains("Plan A").should("be.visible");
+      cy.get('main [role="tab"]').contains("Plan B").should("be.visible");
 
       // Custom players
       cy.get("main").contains("Custom Players").click();

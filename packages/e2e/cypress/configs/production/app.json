@@ -3,5 +3,6 @@
   "integrationFolder": "cypress/integration/app",
   "retries": 3,
   "screenshotsFolder": "cypress/results/screenshots",
-  "videosFolder": "cypress/results/videos"
+  "videosFolder": "cypress/results/videos",
+  "defaultCommandTimeout": 20000
 }

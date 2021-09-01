@@ -37,10 +37,6 @@ describe("Dashboard", () => {
                 .find('[aria-label="away team strength"]')
                 .attr("aria-valuetext")
           ).to.be.eq(100);
-          expect(
-            e.find('[aria-label="home team"] [aria-label="selected players"]')
-              .length
-          ).to.be.eq(3);
         });
 
         // Opens dialog with match details
@@ -94,8 +90,8 @@ describe("Dashboard", () => {
     describe("With mock data", () => {
       beforeEach(() => {
         cy.intercept("/_next/data/**/index.json", {
-          fixture: "fixtures/all.json",
-        });
+          fixture: "dashboard/all.json",
+        }).as("getDashboardPageData");
         cy.intercept("/api/entries/4073", {
           fixture: "entries/general/main.json",
         }).as("getEntry");
@@ -105,11 +101,12 @@ describe("Dashboard", () => {
         cy.intercept("/api/entries/4073/picks/3", {
           fixture: "entries/picks/all.json",
         }).as("getPicks");
+
         cy.visit("/");
         cy.setUpProfile();
         cy.get("aside").contains("Test account");
-        cy.get('[aria-label="next gameweek"]').click();
-        cy.wait(["@getEntry", "@getHistory", "@getPicks"], { timeout: 10000 });
+        cy.blurWindow();
+        cy.get("aside").contains("Dashboard").click();
       });
 
       it("shows top transferred players.", () => {
