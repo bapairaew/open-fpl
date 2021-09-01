@@ -3,11 +3,10 @@ import {
   setLocalStorageItemFromString,
 } from "@open-fpl/app/features/Common/useLocalStorage";
 import { compress, decompress } from "lz-string";
-import { createCache } from "swr";
 
 const cacheKey = "app-cache";
 
-function createProvider() {
+function localStorageProvider() {
   let cache: any[] = [];
   try {
     const cacheString = getLocalStorageItemString(cacheKey) ?? "";
@@ -31,9 +30,4 @@ function createProvider() {
   return map;
 }
 
-const provider = createProvider();
-
-const swrCache = createCache(provider);
-
-export const cache = swrCache.cache;
-export const mutate = swrCache.mutate;
+export default localStorageProvider;

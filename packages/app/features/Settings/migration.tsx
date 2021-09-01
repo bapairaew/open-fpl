@@ -179,7 +179,7 @@ export const migrateFromWWWDomain = async () => {
       setLocalStorageItem<boolean>(getIsAppDomainMigratedKey(), true);
       plausible("migration-done");
     }
-  } catch (e) {
+  } catch (e: any) {
     if (hubConnected) {
       toast({
         title: "Something went wrong.",

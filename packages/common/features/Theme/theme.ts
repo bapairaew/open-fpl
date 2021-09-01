@@ -1,4 +1,8 @@
-import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
+import {
+  ColorMode,
+  extendTheme,
+  withDefaultColorScheme,
+} from "@chakra-ui/react";
 import makeLayerStyles from "@open-fpl/common/features/Theme/makeLayerStyles";
 import {
   difficultyColorCodes,
@@ -219,13 +223,13 @@ const customTheme = extendTheme(
         },
         variants: {
           plain: {},
-          brand: ({ colorMode }) => ({
+          brand: ({ colorMode }: { colorMode: ColorMode }) => ({
             color: colorMode === "dark" ? "brand.200" : "brand.600",
           }),
         },
       },
       Table: {
-        baseStyle: ({ colorMode }) => ({
+        baseStyle: ({ colorMode }: { colorMode: ColorMode }) => ({
           th: {
             bgColor: colorMode === "dark" ? "gray.800" : "white",
           },
@@ -236,7 +240,7 @@ const customTheme = extendTheme(
         },
       },
       Stat: {
-        baseStyle: ({ colorMode }) => ({
+        baseStyle: ({ colorMode }: { colorMode: ColorMode }) => ({
           label: {
             noOfLines: 1,
             color: colorMode === "dark" ? "whiteAlpha.600" : "gray.600",

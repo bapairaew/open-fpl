@@ -92,7 +92,7 @@ function DashboardPage(initialPageProps: PageProps) {
 
   const { data: pageProps } = useSWR<SWRPageProps>(() => dataUrl ?? null, {
     refreshInterval: 30 * 1000,
-    initialData: {
+    fallbackData: {
       pageProps: initialPageProps,
     },
   });

@@ -94,7 +94,7 @@ const AddProfile = ({
       setIsAdding(true);
       await onAddProfile?.(formTeamId);
       setExpanded(false);
-    } catch (e) {
+    } catch (e: any) {
       toast({
         title: "Something went wrong.",
         description: e.toString(),

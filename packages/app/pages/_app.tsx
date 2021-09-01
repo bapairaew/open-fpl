@@ -1,5 +1,5 @@
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
-import { cache } from "@open-fpl/app/features/Cache/swrCache";
+import cacheProvider from "@open-fpl/app/features/Cache/swrCache";
 import { host } from "@open-fpl/app/features/Navigation/internalUrls";
 import { SettingsContextProvider } from "@open-fpl/app/features/Settings/Settings";
 import ColorModeManager from "@open-fpl/common/features/ColorMode/ColorModeManager";
@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <PlausibleProvider domain={plausibleDomain} enabled={plausibleEnabled}>
       <SWRConfig
         value={{
-          cache,
+          provider: cacheProvider,
           fetcher: (resource, init) =>
             fetch(resource, init).then((res) => {
               if (res.ok) {

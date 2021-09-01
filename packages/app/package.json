@@ -39,7 +39,7 @@
     "react-window": "^1.8.6",
     "search-query-parser": "^1.5.5",
     "sortablejs": "^1.13.0",
-    "swr": "^1.0.0-beta.8",
+    "swr": "^1.0.0",
     "use-debounce": "^6.0.1"
   },
   "devDependencies": {
