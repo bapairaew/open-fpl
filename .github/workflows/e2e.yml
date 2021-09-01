@@ -58,11 +58,3 @@ jobs:
           cache-dependency-path: yarn.lock
       - name: Run test
         run: yarn e2e:www
-  # remove this later
-  log:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print GitHub context
-        env:
-          GITHUB: ${{ toJson(github) }}
-        run: echo "$GITHUB"
