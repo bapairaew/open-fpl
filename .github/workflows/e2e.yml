@@ -17,7 +17,9 @@ jobs:
         with:
           node-version: "14"
           cache: "yarn"
-          cache-dependency-path: yarn.lock
+      - name: Install packages
+        run: yarn
+        working-directory: packages/app
       - name: Run test
         run: yarn e2e:app
   data:
@@ -36,7 +38,9 @@ jobs:
         with:
           node-version: "14"
           cache: "yarn"
-          cache-dependency-path: yarn.lock
+      - name: Install packages
+        run: yarn
+        working-directory: packages/data
       - name: Run test
         run: yarn e2e:data
   www:
@@ -55,6 +59,8 @@ jobs:
         with:
           node-version: "14"
           cache: "yarn"
-          cache-dependency-path: yarn.lock
+      - name: Install packages
+        run: yarn
+        working-directory: packages/www
       - name: Run test
         run: yarn e2e:www
