@@ -1,6 +1,6 @@
 {
   "baseUrl": "https://www.openfpl.com",
-  "integrationFolder": "cypress/integration/app",
+  "integrationFolder": "cypress/integration/www",
   "retries": 3,
   "screenshotsFolder": "cypress/results/screenshots",
   "videosFolder": "cypress/results/videos",
