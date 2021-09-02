@@ -1,11 +1,18 @@
 name: E2E
-on: [deployment_status, workflow_dispatch]
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "Package"
+        required: true
+        default: "app"
 jobs:
   app:
     if:
-      github.event_name == 'workflow_dispatch' ||
+      ${{ contains(github.event.inputs.package, 'app') ||
       (github.event.deployment_status.state == 'success' &&
-      github.event.deployment.environment == 'Production – open-fpl-app')
+      github.event.deployment.environment == 'Production – open-fpl-app') }}
     environment: Production – open-fpl-app
     runs-on: ubuntu-latest
     steps:
@@ -26,9 +33,9 @@ jobs:
         run: yarn e2e:app
   data:
     if:
-      github.event_name == 'workflow_dispatch' ||
+      ${{ contains(github.event.inputs.package, 'data') ||
       (github.event.deployment_status.state == 'success' &&
-      github.event.deployment.environment == 'Production – open-fpl-data')
+      github.event.deployment.environment == 'Production – open-fpl-data') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest commit
@@ -48,9 +55,9 @@ jobs:
         run: yarn e2e:data
   www:
     if:
-      github.event_name == 'workflow_dispatch' ||
+      ${{ contains(github.event.inputs.package, 'www') ||
       (github.event.deployment_status.state == 'success' &&
-      github.event.deployment.environment == 'Production – open-fpl-www')
+      github.event.deployment.environment == 'Production – open-fpl-www') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest commit
