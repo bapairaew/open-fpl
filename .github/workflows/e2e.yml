@@ -1,10 +1,11 @@
 name: E2E
-on: [deployment_status]
+on: [deployment_status, workflow_dispatch]
 jobs:
   app:
     if:
-      github.event.deployment_status.state == 'success' &&
-      github.event.deployment.environment == 'Production – open-fpl-app'
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+      github.event.deployment.environment == 'Production – open-fpl-app')
     environment: Production – open-fpl-app
     runs-on: ubuntu-latest
     steps:
@@ -25,8 +26,9 @@ jobs:
         run: yarn e2e:app
   data:
     if:
-      github.event.deployment_status.state == 'success' &&
-      github.event.deployment.environment == 'Production – open-fpl-data'
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+      github.event.deployment.environment == 'Production – open-fpl-data')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest commit
@@ -46,8 +48,9 @@ jobs:
         run: yarn e2e:data
   www:
     if:
-      github.event.deployment_status.state == 'success' &&
-      github.event.deployment.environment == 'Production – open-fpl-www'
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+      github.event.deployment.environment == 'Production – open-fpl-www')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest commit
