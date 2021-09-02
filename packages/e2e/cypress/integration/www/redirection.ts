@@ -4,7 +4,9 @@ describe("Redirection", () => {
       url: "/players",
       followRedirect: false,
     }).then((response) => {
-      expect(response.redirectedToUrl).to.eq("https://app.openfpl.com/players");
+      expect(response.redirectedToUrl).to.match(
+        /^https:\/\/app.openfpl.com\/players\/?$/
+      );
     });
   });
 
@@ -13,7 +15,9 @@ describe("Redirection", () => {
       url: "/teams",
       followRedirect: false,
     }).then((response) => {
-      expect(response.redirectedToUrl).to.eq("https://app.openfpl.com/teams");
+      expect(response.redirectedToUrl).to.match(
+        /^https:\/\/app.openfpl.com\/teams\/?$/
+      );
     });
   });
 
@@ -22,8 +26,8 @@ describe("Redirection", () => {
       url: "/help/players",
       followRedirect: false,
     }).then((response) => {
-      expect(response.redirectedToUrl).to.eq(
-        "https://app.openfpl.com/help/players"
+      expect(response.redirectedToUrl).to.match(
+        /^https:\/\/app.openfpl.com\/help\/players\/?$/
       );
     });
   });
