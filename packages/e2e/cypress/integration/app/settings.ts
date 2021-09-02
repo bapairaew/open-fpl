@@ -131,7 +131,7 @@ describe("Settings", () => {
 
   describe("Migration", () => {
     it("migrates www domain to app domain.", () => {
-      cy.intercept("http://localhost:3000/cross-storage-hub.html", {
+      cy.intercept("**/cross-storage-hub.html", {
         fixture: "migration/www-to-app-domain/cross-storage-hub.html",
       });
 
