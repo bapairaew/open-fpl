@@ -4,7 +4,6 @@
   "4073-preference": {
     "name": "Test account",
     "teamPlans": ["Main Plan"],
-    "starredPlayers": [],
     "selectedDashboardTab": 0,
     "selectedPlan": 0
   },
