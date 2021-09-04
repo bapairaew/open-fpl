@@ -6,7 +6,6 @@ on:
       package:
         description: "Package"
         required: true
-        default: "app"
 jobs:
   app:
     if:
