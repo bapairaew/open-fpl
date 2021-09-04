@@ -25,6 +25,15 @@ $ yarn data:dev # On one terminal
 $ yarn app:dev # On another terminal
 ```
 
+## E2E Testing
+
+```bash
+$ yarn e2e:dev:server:app # Start app server with production build for testing
+$ yarn e2e:dev:app # Start E2E testing
+```
+
+You can change `app` to other packages to test those.
+
 ## Stack
 
 - [Next.js](https://nextjs.org)
