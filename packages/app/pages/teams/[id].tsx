@@ -16,11 +16,7 @@ import {
   getEntryPicks,
   getEntryTransfers,
 } from "@open-fpl/data/features/RemoteData/fpl";
-import {
-  EntryEvent,
-  EntryHistory,
-  Event,
-} from "@open-fpl/data/features/RemoteData/fplTypes";
+import { Event } from "@open-fpl/data/features/RemoteData/fplTypes";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import useSWR from "swr";
@@ -58,7 +54,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     ) as Promise<Event[]>,
   ]);
 
-  const nextGameweekId: number = 4; // fplGameweeks.find((g) => g.is_next)?.id ?? 38; // Show gameweek 38 at the end of the season
+  const nextGameweekId: number = fplGameweeks.find((g) => g.is_next)?.id ?? 38; // Show gameweek 38 at the end of the season
   const picksGameweekId: number =
     nextGameweekId === 38 || nextGameweekId === 1 // Use gw 1 for preseasons and gw 38 for the end of the season
       ? nextGameweekId
