@@ -298,26 +298,27 @@ export const getGameweekData = (
     });
   }
 
-  let freeTransfersCount = 0;
+  let freeTransfers = 1;
 
-  if (planningGameweek !== 1) {
-    const gameweekDelta = planningGameweek - nextGameweekId;
-    if (gameweekDelta === 0) {
-      const lastGameweekTransfersCount = transfers?.filter(
-        (t) => t.event === nextGameweekId - 1
-      ).length;
-      const currentGameweekFreeTransfers =
-        lastGameweekTransfersCount >= 1 ? 1 : 2;
-      freeTransfersCount = currentGameweekFreeTransfers;
-    } else {
-      const lastGameweekTransfersCount = changes.filter(
-        (c) =>
-          (c.type === "transfer" || c.type === "preseason") &&
-          c.gameweek === planningGameweek - 1
-      ).length;
-      const currentGameweekFreeTransfers =
-        lastGameweekTransfersCount >= 1 ? 1 : 2;
-      freeTransfersCount = currentGameweekFreeTransfers;
+  if (planningGameweek === 1) {
+    freeTransfers = 0;
+  } else {
+    for (let i = 1; i <= planningGameweek; i++) {
+      const transferCount =
+        transfers?.filter((t) => t.event === i).length ||
+        changes.filter(
+          (c) =>
+            (c.type === "transfer" || c.type === "preseason") &&
+            c.gameweek === i
+        ).length;
+
+      if (transferCount === 0) {
+        freeTransfers = Math.min(2, freeTransfers + 1);
+      } else {
+        freeTransfers = Math.max(0, freeTransfers - transferCount);
+      }
+
+      console.log(planningGameweek, i, transferCount, freeTransfers);
     }
   }
 
@@ -329,12 +330,7 @@ export const getGameweekData = (
     (c) => (c.name === "wildcard" || c.name === "freehit") && c.isActive
   )
     ? 0
-    : Math.min(0, -4 * (planningGameweekTransferCount - freeTransfersCount));
-
-  const freeTransfers = Math.max(
-    0,
-    freeTransfersCount - planningGameweekTransferCount
-  );
+    : Math.min(0, -4 * (planningGameweekTransferCount - freeTransfers));
 
   return {
     team,
