@@ -317,8 +317,6 @@ export const getGameweekData = (
       } else {
         freeTransfers = Math.max(0, freeTransfers - transferCount);
       }
-
-      console.log(planningGameweek, i, transferCount, freeTransfers);
     }
   }
 
