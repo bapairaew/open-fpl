@@ -334,7 +334,6 @@ const TeamPlannerPanel = ({
         chips,
         players,
         entryHistory,
-        nextGameweekId,
         changes
       ),
     [initialPicks, transfers, chips, players, entryHistory, changes]

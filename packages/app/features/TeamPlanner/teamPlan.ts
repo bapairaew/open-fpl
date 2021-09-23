@@ -251,7 +251,6 @@ export const getGameweekData = (
   chips: EntryChipPlay[],
   players: Player[],
   entryHistory: EntryEventHistory | null,
-  nextGameweekId: number,
   changes: Change[],
   planningGameweek: number
 ): GameweekData => {
@@ -298,37 +297,24 @@ export const getGameweekData = (
     });
   }
 
-  let freeTransfers = 1;
+  let freeTransfers = 0;
+  let transferBalance = 0;
 
-  if (planningGameweek === 1) {
-    freeTransfers = 0;
-  } else {
-    for (let i = 1; i <= planningGameweek; i++) {
-      const transferCount =
-        transfers?.filter((t) => t.event === i).length ||
-        changes.filter(
-          (c) =>
-            (c.type === "transfer" || c.type === "preseason") &&
-            c.gameweek === i
-        ).length;
+  for (let i = 2; i <= planningGameweek; i++) {
+    const transferCount =
+      transfers?.filter((t) => t.event === i).length ||
+      changes.filter((c) => c.type === "transfer" && c.gameweek === i).length;
 
-      if (transferCount === 0) {
-        freeTransfers = Math.min(2, freeTransfers + 1);
-      } else {
-        freeTransfers = Math.max(0, freeTransfers - transferCount);
-      }
-    }
+    transferBalance = Math.min(2, freeTransfers + 1) - transferCount;
+    freeTransfers = Math.max(0, Math.min(2, transferBalance), transferBalance);
   }
 
-  const planningGameweekTransferCount = changes.filter(
-    (c) => c.type === "transfer" && c.gameweek === planningGameweek
-  ).length;
-
-  const hits = chipUsages.some(
-    (c) => (c.name === "wildcard" || c.name === "freehit") && c.isActive
-  )
-    ? 0
-    : Math.min(0, -4 * (planningGameweekTransferCount - freeTransfers));
+  const hits =
+    chipUsages.some(
+      (c) => (c.name === "wildcard" || c.name === "freehit") && c.isActive
+    ) || transferBalance > 0
+      ? 0
+      : transferBalance * 4;
 
   return {
     team,
@@ -349,7 +335,6 @@ export const getAllGameweekDataList = (
   chips: EntryChipPlay[],
   players: Player[],
   entryHistory: EntryEventHistory | null,
-  nextGameweekId: number,
   changes: Change[]
 ): GameweekData[] => {
   const data = [] as GameweekData[];
@@ -361,7 +346,6 @@ export const getAllGameweekDataList = (
         chips,
         players,
         entryHistory,
-        nextGameweekId,
         changes,
         i
       )
