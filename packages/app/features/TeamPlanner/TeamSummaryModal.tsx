@@ -87,12 +87,14 @@ const TeamSummaryModal = ({
   gameweekDataList: GameweekData[];
   groupedChanges: Record<number, Change[]>;
 }) => {
-  const latestGameweekWithChanges = Math.max(
-    ...Object.keys(groupedChanges).map((x) => +x)
-  );
+  const allGamweekChanges = Object.keys(groupedChanges).map((x) => +x);
+  const earliestGameweekWithChanges = Math.min(...allGamweekChanges);
+  const latestGameweekWithChanges = Math.max(...allGamweekChanges);
 
   const gameweeksToDisplay = gameweekDataList.filter(
-    (g) => g.gameweek <= latestGameweekWithChanges
+    (g) =>
+      g.gameweek >= earliestGameweekWithChanges - 1 &&
+      g.gameweek <= latestGameweekWithChanges
   );
 
   return (
