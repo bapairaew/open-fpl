@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
+// import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import useLocalStorage from "@open-fpl/app/features/Common/useLocalStorage";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import { getTeamPlanKey } from "@open-fpl/app/features/Settings/storageKeys";
@@ -32,7 +32,7 @@ import {
   EntryEventPick,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 import { ChangeEvent, useMemo, useState } from "react";
 
 const TransferPlannerPanelContent = ({
@@ -52,7 +52,7 @@ const TransferPlannerPanelContent = ({
   gameweekDataList: GameweekData[];
   setTeamPlan: (change: Change[] | null) => void;
 }) => {
-  const plausible = usePlausible<AnalyticsTeamPlanner>();
+  // const plausible = usePlausible<AnalyticsTeamPlanner>();
   const [gameweekDelta, setGameweekDelta] = useState(0);
 
   const isStartedFromFirstGameweek =
@@ -181,11 +181,11 @@ const TransferPlannerPanelContent = ({
       );
     }
 
-    if (type === "set-captain") {
-      plausible("team-planner-set-captain");
-    } else if (type === "set-vice-captain") {
-      plausible("team-planner-set-vice-captain");
-    }
+    // if (type === "set-captain") {
+    //   plausible("team-planner-set-captain");
+    // } else if (type === "set-vice-captain") {
+    //   plausible("team-planner-set-vice-captain");
+    // }
   };
 
   const handleSetCaptain = (player: FullChangePlayer) =>
@@ -203,7 +203,7 @@ const TransferPlannerPanelContent = ({
           gameweek: planningGameweek,
         } as ChipChange)
       );
-      plausible("team-planner-use-chip", { props: { chip: e.target.value } });
+      // plausible("team-planner-use-chip", { props: { chip: e.target.value } });
     } else {
       const planningGameweekChip = changes.find(
         (c) => c.type === "use-chip" && c.gameweek === planningGameweek
@@ -216,30 +216,30 @@ const TransferPlannerPanelContent = ({
 
   const handleToolbarNextGameweek = () => {
     setGameweekDelta(gameweekDelta + 1);
-    plausible("team-planner-toolbar-navigate", {
-      props: { gameweek: nextGameweekId + gameweekDelta + 1 },
-    });
+    // plausible("team-planner-toolbar-navigate", {
+    //   props: { gameweek: nextGameweekId + gameweekDelta + 1 },
+    // });
   };
 
   const handleToolbarPreviousGameweek = () => {
     setGameweekDelta(gameweekDelta - 1);
-    plausible("team-planner-toolbar-navigate", {
-      props: { gameweek: nextGameweekId + gameweekDelta - 1 },
-    });
+    // plausible("team-planner-toolbar-navigate", {
+    //   props: { gameweek: nextGameweekId + gameweekDelta - 1 },
+    // });
   };
 
   const handleChangelogRemove = (change: Change) => {
     setTeamPlan(removeChange(changes, change));
-    plausible("team-planner-changelog-remove");
+    // plausible("team-planner-changelog-remove");
   };
 
   const handlChangelogeMoveToGameweek = (gameweek: number) => {
     setGameweekDelta(gameweek - nextGameweekId);
-    plausible("team-planner-changelog-navigate", {
-      props: {
-        gameweek: gameweek - nextGameweekId,
-      },
-    });
+    // plausible("team-planner-changelog-navigate", {
+    //   props: {
+    //     gameweek: gameweek - nextGameweekId,
+    //   },
+    // });
   };
 
   return (

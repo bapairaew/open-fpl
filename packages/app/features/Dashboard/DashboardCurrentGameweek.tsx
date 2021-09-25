@@ -13,7 +13,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
+// import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   ApiEntry,
   ApiEntryEventPick,
@@ -27,7 +27,7 @@ import {
   GameweekPlayerStat,
 } from "@open-fpl/app/features/Dashboard/dashboardTypes";
 import DashboardUpcomingFixture from "@open-fpl/app/features/Dashboard/DashboardUpcomingFixture";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 import { useMemo, useState } from "react";
 
 const sortByPoints = (a: GameweekPlayerStat, b: GameweekPlayerStat) => {
@@ -63,7 +63,7 @@ const DashboardCurrentGameweek = ({
   allCurrentGameweekPlayers: GameweekPlayerStat[];
   currentPicksPlayers: GameweekPlayerStat[];
 }) => {
-  const plausible = usePlausible<AnalyticsDashboard>();
+  // const plausible = usePlausible<AnalyticsDashboard>();
   const isLive = liveFixtures.length > 0;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -91,24 +91,24 @@ const DashboardCurrentGameweek = ({
   const onOpenWithAllPlayers = () => {
     setPlayersToDisplay(sortedCurrentGameweekPlayers);
     onOpen();
-    plausible("dashboard-current-gw-top-players-see-all-open");
+    // plausible("dashboard-current-gw-top-players-see-all-open");
   };
   const onOpenWithPickedPlayers = () => {
     setPlayersToDisplay(currentPicksPlayers);
     onOpen();
-    plausible("dashboard-current-gw-your-team-see-all-open");
+    // plausible("dashboard-current-gw-your-team-see-all-open");
   };
 
-  const handleYourTeamPlayerOpened = () =>
-    plausible("dashboard-current-gw-your-team-player-open");
-  const handleLiveFixtureOpened = () =>
-    plausible("dashboard-current-gw-live-fixture-open");
-  const handleTopPlayerOpened = () =>
-    plausible("dashboard-current-gw-top-players-player-open");
-  const handleFinishedFixtureOpened = () =>
-    plausible("dashboard-current-gw-finished-fixture-open");
-  const handleUpcomingFixtureOpened = () =>
-    plausible("dashboard-current-gw-upcoming-fixture-open");
+  const handleYourTeamPlayerOpened = () => {};
+  // plausible("dashboard-current-gw-your-team-player-open");
+  const handleLiveFixtureOpened = () => {};
+  // plausible("dashboard-current-gw-live-fixture-open");
+  const handleTopPlayerOpened = () => {};
+  // plausible("dashboard-current-gw-top-players-player-open");
+  const handleFinishedFixtureOpened = () => {};
+  // plausible("dashboard-current-gw-finished-fixture-open");
+  const handleUpcomingFixtureOpened = () => {};
+  // plausible("dashboard-current-gw-upcoming-fixture-open");
 
   return (
     <>

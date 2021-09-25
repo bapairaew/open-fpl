@@ -25,7 +25,7 @@ import {
 } from "@open-fpl/app/features/Settings/storageKeys";
 // @ts-ignore
 import { CrossStorageClient } from "cross-storage";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 
 const { NEXT_PUBLIC_CROSS_DOMAIN_HUB_URL: hubUrl } = process.env;
 
@@ -34,7 +34,7 @@ const toast = createStandaloneToast();
 export const migrateFromWWWDomain = async () => {
   let notificationToast: string | number | undefined;
   let hubConnected = false;
-  const plausible = usePlausible<AnalyticsMigration>();
+  // const plausible = usePlausible<AnalyticsMigration>();
 
   if (!hubUrl) return;
 
@@ -89,7 +89,7 @@ export const migrateFromWWWDomain = async () => {
         : null;
 
       if (profiles) {
-        plausible("migration-start");
+        // plausible("migration-start");
 
         for (const profile of profiles) {
           const preferenceString = await storage.get(getPreferenceKey(profile));
@@ -177,7 +177,7 @@ export const migrateFromWWWDomain = async () => {
       }
 
       setLocalStorageItem<boolean>(getIsAppDomainMigratedKey(), true);
-      plausible("migration-done");
+      // plausible("migration-done");
     }
   } catch (e: any) {
     if (hubConnected) {
@@ -199,7 +199,7 @@ export const migrateFromWWWDomain = async () => {
         isClosable: true,
       });
     }
-    plausible("migration-fail");
+    // plausible("migration-fail");
   } finally {
     if (notificationToast !== undefined) {
       toast.close(notificationToast);

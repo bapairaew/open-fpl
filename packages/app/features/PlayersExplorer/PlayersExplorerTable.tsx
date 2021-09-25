@@ -7,7 +7,7 @@ import {
   Link as A,
   Th,
 } from "@chakra-ui/react";
-import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
+// import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import StickyHeaderTable from "@open-fpl/app/features/Common/Table/StickyHeaderTable";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
@@ -20,7 +20,7 @@ import {
 } from "@open-fpl/app/features/PlayerData/playerTableTypes";
 import sortPlayerTable from "@open-fpl/app/features/PlayerData/sortPlayerTable";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 import { ChangeEvent, CSSProperties, MouseEvent, useMemo } from "react";
 import { IoOpenOutline, IoStar, IoStarOutline } from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -39,7 +39,7 @@ const PlayersExplorerTable = ({
   ) => void;
   onStarClick: (e: MouseEvent<HTMLButtonElement>, player: ClientPlayer) => void;
 }) => {
-  const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
+  // const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
   const {
     playersExplorerTableSortColumns,
     setPlayersExplorerTableSortColumns,
@@ -106,9 +106,9 @@ const PlayersExplorerTable = ({
   const setSortColums = (sortColumns: PlayerTableSortColumnConfig[]) => {
     if (sortColumns) {
       setPlayersExplorerTableSortColumns(sortColumns);
-      plausible("players-columns-sort", {
-        props: { columns: sortColumns.map((s) => s.columnName) },
-      });
+      // plausible("players-columns-sort", {
+      //   props: { columns: sortColumns.map((s) => s.columnName) },
+      // });
     }
   };
 

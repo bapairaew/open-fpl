@@ -1,5 +1,5 @@
 import { Box, BoxProps, Flex, useDisclosure, useToast } from "@chakra-ui/react";
-import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
+// import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   adjustTeamsStrength,
   makeFullFixtures,
@@ -13,7 +13,7 @@ import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { ChangeEvent, MouseEvent, useMemo, useState } from "react";
 
@@ -40,7 +40,7 @@ const PlayersExplorer = ({
   teamFixtures: TeamFixtures[];
   nextGameweekId: number;
 }) => {
-  const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
+  // const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
   const toast = useToast();
   const {
     profile,
@@ -110,13 +110,13 @@ const PlayersExplorer = ({
             starredPlayers:
               preference.starredPlayers?.filter((p) => p !== player.id) ?? [],
           });
-          plausible("players-starred-players-remove");
+          // plausible("players-starred-players-remove");
         } else {
           setPreference({
             ...preference,
             starredPlayers: [...(preference?.starredPlayers ?? []), player.id],
           });
-          plausible("players-starred-players-add");
+          // plausible("players-starred-players-add");
         }
       }
     } else {
@@ -159,9 +159,9 @@ const PlayersExplorer = ({
 
   const handleCompareClick = () => {
     onOpen();
-    plausible("players-compare-players", {
-      props: { count: selectedPlayers.length },
-    });
+    // plausible("players-compare-players", {
+    //   props: { count: selectedPlayers.length },
+    // });
   };
 
   return (

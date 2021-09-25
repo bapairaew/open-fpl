@@ -6,7 +6,7 @@ import {
   Icon,
   IconButton,
 } from "@chakra-ui/react";
-import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
+// import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import SwapablePlayer, {
   SwapablePlayerVariant,
@@ -16,7 +16,7 @@ import {
   FullChangePlayer,
   GroupedTeam,
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 import { KeyboardEvent, MouseEvent, ReactNode } from "react";
 import { AiOutlinePushpin } from "react-icons/ai";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -95,7 +95,7 @@ const SelectedTeam = ({
   onSetViceCaptain: (player: FullChangePlayer) => void;
   onCancel: () => void;
 }) => {
-  const plausible = usePlausible<AnalyticsTeamPlanner>();
+  // const plausible = usePlausible<AnalyticsTeamPlanner>();
   const { teamPlannerPinnedBench, setTeamPlannerPinnedBench } = useSettings();
 
   const { GKP, DEF, MID, FWD, bench } = teamObject;
@@ -148,9 +148,9 @@ const SelectedTeam = ({
 
   const handlePinnedBench = () => {
     setTeamPlannerPinnedBench(!teamPlannerPinnedBench);
-    plausible("team-planner-pinned-bench", {
-      props: { pinned: !teamPlannerPinnedBench },
-    });
+    // plausible("team-planner-pinned-bench", {
+    //   props: { pinned: !teamPlannerPinnedBench },
+    // });
   };
 
   return (

@@ -18,7 +18,7 @@ import {
   Select,
   Tooltip,
 } from "@chakra-ui/react";
-import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
+// import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import { AppDrawerOpenButton } from "@open-fpl/app/features/Layout/AppDrawer";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import {
@@ -30,7 +30,7 @@ import {
   sortOptions,
 } from "@open-fpl/app/features/PlayersExplorer/playersToolbarOptions";
 import usePlayersFilterAndSort from "@open-fpl/app/features/PlayersExplorer/usePlayersFilterAndSort";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { ChangeEvent, MouseEventHandler, useEffect } from "react";
 import { IoSearchOutline, IoSettingsOutline } from "react-icons/io5";
@@ -59,7 +59,7 @@ const PlayersExplorerToolbar = ({
   onCompareClick?: MouseEventHandler<HTMLButtonElement>;
   onResetClick?: MouseEventHandler<HTMLButtonElement>;
 }) => {
-  const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
+  // const plausible = usePlausible<AnalyticsPlayerStatisticsExplorer>();
   const { filterQuery, setFilterQuery, sort, setSort, fiterThenSortFn } =
     usePlayersFilterAndSort({
       initialSeachQuery,
@@ -68,17 +68,17 @@ const PlayersExplorerToolbar = ({
 
   const handleDisplayChange = (value: string) => {
     onDisplayChange?.(value as DisplayOptions);
-    plausible("players-display", { props: { display: value } });
+    // plausible("players-display", { props: { display: value } });
   };
 
   const handleSortChange = (value: string) => {
     setSort(value as SortOptions);
-    plausible("players-sort", { props: { sort: value } });
+    // plausible("players-sort", { props: { sort: value } });
   };
 
   const handleQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFilterQuery(e.target.value);
-    plausible("players-query", { props: { query: e.target.value } });
+    // plausible("players-query", { props: { query: e.target.value } });
   };
 
   useEffect(() => {

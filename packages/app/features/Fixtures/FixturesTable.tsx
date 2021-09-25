@@ -12,7 +12,7 @@ import {
 } from "@open-fpl/app/features/Fixtures/fixturesDataTypes";
 import FixturesTableHeaderRow from "@open-fpl/app/features/Fixtures/FixturesTableHeaderRow";
 import FixturesTableRow from "@open-fpl/app/features/Fixtures/FixturesTableRow";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 import { useMemo, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -81,7 +81,7 @@ const FixturesTable = ({
   nextGameweekId: number;
   onFixturesOrderChange: (newOrder: string[] | null) => void;
 }) => {
-  const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
+  // const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
   const sortableFullFixtures = useMemo<SortableFullTeamFixtures[]>(() => {
     return fullFixtures.map((f) => ({ id: f.short_name, ...f }));
   }, [fullFixtures]);
@@ -93,20 +93,20 @@ const FixturesTable = ({
 
   const handleFixturesOrderChange = (newOrder: SortableFullTeamFixtures[]) => {
     onFixturesOrderChange(newOrder.map((f) => f.id));
-    plausible("fixtures-rearrange");
+    // plausible("fixtures-rearrange");
   };
   const handleResetSortClick = () => onFixturesOrderChange(null);
   const handleHardFixtureSortClick = (gameweek: number) => {
     onFixturesOrderChange(
       makeSortedFixturesOrder(sortableFullFixtures, mode, [gameweek], 1)
     );
-    plausible("fixtures-column-sort");
+    // plausible("fixtures-column-sort");
   };
   const handleEasyFixtureSortClick = (gameweek: number) => {
     onFixturesOrderChange(
       makeSortedFixturesOrder(sortableFullFixtures, mode, [gameweek], -1)
     );
-    plausible("fixtures-column-sort");
+    // plausible("fixtures-column-sort");
   };
 
   const handleSortGroup = (gameweek: number, direction: -1 | 1) => {
@@ -121,11 +121,11 @@ const FixturesTable = ({
         makeSortedFixturesOrder(sortableFullFixtures, mode, range, direction)
       );
       handleResetSortGroupClick();
-      plausible("fixtures-multi-columns-sort", {
-        props: {
-          length: Math.max(...range) - Math.min(...range) + 1,
-        },
-      });
+      // plausible("fixtures-multi-columns-sort", {
+      //   props: {
+      //     length: Math.max(...range) - Math.min(...range) + 1,
+      //   },
+      // });
     }
   };
   const handleHardSortGroupClick = (gameweek: number) =>

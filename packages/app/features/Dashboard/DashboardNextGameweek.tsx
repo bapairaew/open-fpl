@@ -16,8 +16,8 @@ import {
 import DashboardUpcomingFixture from "@open-fpl/app/features/Dashboard/DashboardUpcomingFixture";
 import DeadlineCountdown from "@open-fpl/app/features/Dashboard/DeadlineCountdown";
 import { useMemo } from "react";
-import { usePlausible } from "next-plausible";
-import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
+// import { usePlausible } from "next-plausible";
+// import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
 
 const DashboardNextGameweek = ({
   deadline,
@@ -28,7 +28,7 @@ const DashboardNextGameweek = ({
   nextGameweekFixtures: DashboardFixture[];
   allGameweekPlayers: GameweekPlayerStat[];
 }) => {
-  const plausible = usePlausible<AnalyticsDashboard>();
+  // const plausible = usePlausible<AnalyticsDashboard>();
   const sortedPlayers = useMemo(
     () =>
       [...allGameweekPlayers].sort((a, b) => {
@@ -59,13 +59,13 @@ const DashboardNextGameweek = ({
 
   const handleSeeAllTopTransfersOpen = () => {
     onOpen();
-    plausible("dashboard-next-gw-top-transfers-see-all-open");
+    // plausible("dashboard-next-gw-top-transfers-see-all-open");
   };
 
-  const handleTopTransfersPlayerOpened = () =>
-    plausible("dashboard-next-gw-top-transfers-player-open");
-  const handleUpcomingFixtureOpened = () =>
-    plausible("dashboard-next-gw-upcoming-fixture-open");
+  const handleTopTransfersPlayerOpened = () => {};
+  // plausible("dashboard-next-gw-top-transfers-player-open");
+  const handleUpcomingFixtureOpened = () => {};
+  // plausible("dashboard-next-gw-upcoming-fixture-open");
 
   return (
     <>

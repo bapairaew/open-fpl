@@ -8,7 +8,7 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { AnalyticsCustomPlayer } from "@open-fpl/app/features/Analytics/analyticsTypes";
+// import { AnalyticsCustomPlayer } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import AddCustomPlayers from "@open-fpl/app/features/CustomPlayer/AddCustomPlayers";
 import { hydrateCustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayers";
 import { CustomPlayer } from "@open-fpl/app/features/CustomPlayer/customPlayerTypes";
@@ -17,7 +17,7 @@ import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes"
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { removePlayerFromPlans } from "@open-fpl/app/features/TeamPlanner/teamPlan";
 import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 import { useMemo, useRef } from "react";
 
 const CustomPlayersModal = ({
@@ -31,7 +31,7 @@ const CustomPlayersModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const plausible = usePlausible<AnalyticsCustomPlayer>();
+  // const plausible = usePlausible<AnalyticsCustomPlayer>();
   const toast = useToast();
   const { customPlayers, setCustomPlayers, preference, setPreference } =
     useSettings();
@@ -62,7 +62,7 @@ const CustomPlayersModal = ({
       status: "success",
       isClosable: true,
     });
-    plausible("custom-players-add");
+    // plausible("custom-players-add");
   };
 
   const handleRemovePlayer = (player: ClientPlayer) => {
@@ -76,7 +76,7 @@ const CustomPlayersModal = ({
         status: "success",
         isClosable: true,
       });
-      plausible("custom-players-remove");
+      // plausible("custom-players-remove");
     }
   };
 
@@ -104,7 +104,7 @@ const CustomPlayersModal = ({
       status: "success",
       isClosable: true,
     });
-    plausible("custom-players-update");
+    // plausible("custom-players-update");
   };
 
   return (

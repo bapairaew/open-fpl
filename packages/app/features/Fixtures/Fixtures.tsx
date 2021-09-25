@@ -1,5 +1,5 @@
 import { Box, Flex, useDisclosure, BoxProps } from "@chakra-ui/react";
-import { AnalyticsFixtureDifficultyRating } from "@open-fpl/app/features/Analytics/analyticsTypes";
+// import { AnalyticsFixtureDifficultyRating } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   adjustTeamsStrength,
   makeFullFixtures,
@@ -10,7 +10,7 @@ import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Team } from "@open-fpl/data/features/AppData/teamDataTypes";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 
@@ -28,7 +28,7 @@ const Fixtures = ({
   teams: Team[];
   nextGameweekId: number;
 }) => {
-  const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
+  // const plausible = usePlausible<AnalyticsFixtureDifficultyRating>();
   const {
     fixturesTeamsOrder,
     setFixturesTeamsOrder,
@@ -74,7 +74,7 @@ const Fixtures = ({
         { id: teamId, [key]: value },
       ]);
     }
-    plausible("fixtures-adjust-team-strengths");
+    // plausible("fixtures-adjust-team-strengths");
   };
 
   const handleResetStrength = (teamId: number) => {
@@ -85,7 +85,7 @@ const Fixtures = ({
 
   const handleModeChange = (mode: string) => {
     setMode(mode);
-    plausible("fixtures-mode-change", { props: { mode } });
+    // plausible("fixtures-mode-change", { props: { mode } });
   };
 
   return (

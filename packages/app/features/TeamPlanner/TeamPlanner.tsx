@@ -42,7 +42,7 @@ import {
   EntryEventPick,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import { usePlausible } from "next-plausible";
+// import { usePlausible } from "next-plausible";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import {
@@ -97,7 +97,7 @@ const TeamPlanner = ({
   teams: Team[];
   teamFixtures: TeamFixtures[];
 }) => {
-  const plausible = usePlausible<AnalyticsTeamPlanner>();
+  // const plausible = usePlausible<AnalyticsTeamPlanner>();
   const toast = useToast();
   const { profile, customPlayers, preference, setPreference, teamsStrength } =
     useSettings();
@@ -181,7 +181,7 @@ const TeamPlanner = ({
         [...teamPlans, getDefaultName(teamPlans)],
         nextIndex
       );
-      plausible("team-planner-plans-add");
+      // plausible("team-planner-plans-add");
     }
   };
 
@@ -208,7 +208,7 @@ const TeamPlanner = ({
             );
             setLocalStorageItem(getTeamPlanKey(profile, newName), data);
             removeLocalStorageItem(getTeamPlanKey(profile, oldName));
-            plausible("team-planner-plans-rename");
+            // plausible("team-planner-plans-rename");
           }
         }
       }
@@ -224,7 +224,7 @@ const TeamPlanner = ({
         getTeamPlanKey(profile, name),
         getLocalStorageItem(getTeamPlanKey(profile, plan), [])
       );
-      plausible("team-planner-plans-duplicate");
+      // plausible("team-planner-plans-duplicate");
     }
   };
 
@@ -245,7 +245,7 @@ const TeamPlanner = ({
 
       if (profile) {
         removeLocalStorageItem(getTeamPlanKey(profile, plan));
-        plausible("team-planner-plans-remove");
+        // plausible("team-planner-plans-remove");
       }
     }
   };
@@ -256,7 +256,7 @@ const TeamPlanner = ({
       nextTransferPlans,
       nextTransferPlans.findIndex((t) => t === teamPlans?.[tabIndex])
     );
-    plausible("team-planner-plans-rearrange");
+    // plausible("team-planner-plans-rearrange");
   };
 
   return (
