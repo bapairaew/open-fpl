@@ -27,43 +27,46 @@ const FixturesSection = ({
       width="100%"
       aria-label="next fixtures"
     >
-      {player.client_data.gameweeks?.slice(0, 5).map((fixtures, i) => {
-        return (
-          <Flex
-            key={i}
-            flexDirection="column"
-            alignItems="stretch"
-            height="inherit"
-            aria-label={
-              fixtures && fixtures[0] ? `gameweek ${fixtures[0].event}` : ""
-            }
-          >
-            {!fixtures ? (
-              <CenterFlex variant={variant} height="100%" />
-            ) : (
-              fixtures.map((fixture, index) => (
-                <CenterFlex
-                  key={`${fixture.opponent.short_name}_${fixture.is_home}_${i}_${index}`}
-                  fontSize={fontSize}
-                  variant={variant}
-                  height={`${100 / fixtures.length}%`}
-                  layerStyle={`fpl-difficulty-${fixture.difficulty}`}
-                >
-                  <Box
-                    aria-label={`difficulty level against ${fixture.opponent.name}`}
-                    aria-valuetext={`${fixture.difficulty}`}
-                    display={textDisplay}
+      {player.client_data.gameweeks &&
+        [0, 1, 2, 3, 4].map((i) => {
+          // NOTE: player.client_data.gameweeks.map will skip `empty` element in array
+          const fixtures = player.client_data.gameweeks?.[i];
+          return (
+            <Flex
+              key={i}
+              flexDirection="column"
+              alignItems="stretch"
+              height="inherit"
+              aria-label={
+                fixtures && fixtures[0] ? `gameweek ${fixtures[0].event}` : ""
+              }
+            >
+              {!fixtures ? (
+                <CenterFlex variant={variant} height="100%" />
+              ) : (
+                fixtures.map((fixture, index) => (
+                  <CenterFlex
+                    key={`${fixture.opponent.short_name}_${fixture.is_home}_${i}_${index}`}
+                    fontSize={fontSize}
+                    variant={variant}
+                    height={`${100 / fixtures.length}%`}
+                    layerStyle={`fpl-difficulty-${fixture.difficulty}`}
                   >
-                    {fixture.is_home
-                      ? fixture.opponent.short_name.toUpperCase()
-                      : fixture.opponent.short_name.toLowerCase()}
-                  </Box>
-                </CenterFlex>
-              ))
-            )}
-          </Flex>
-        );
-      })}
+                    <Box
+                      aria-label={`difficulty level against ${fixture.opponent.name}`}
+                      aria-valuetext={`${fixture.difficulty}`}
+                      display={textDisplay}
+                    >
+                      {fixture.is_home
+                        ? fixture.opponent.short_name.toUpperCase()
+                        : fixture.opponent.short_name.toLowerCase()}
+                    </Box>
+                  </CenterFlex>
+                ))
+              )}
+            </Flex>
+          );
+        })}
     </Grid>
   );
 };

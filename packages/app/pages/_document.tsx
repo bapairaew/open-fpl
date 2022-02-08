@@ -40,6 +40,11 @@ class AppDocument extends Document {
             content="/favicons/mstile-144x144.png"
           />
           <meta name="theme-color" content="#ffffff" />
+          <style jsx global>{`
+            body {
+              overflow: hidden;
+            }
+          `}</style>
         </Head>
         <body>
           <Main />
