@@ -55,9 +55,11 @@ export const adjustTeamsStrength = (
 export const makeFullFixtures = ({
   teamFixtures,
   teams,
+  useCustomFDR,
 }: {
   teamFixtures: TeamFixtures[];
   teams: Team[];
+  useCustomFDR: boolean | null;
 }): FullTeamFixtures[] => {
   const fullFixtures = [] as FullTeamFixtures[];
 
@@ -82,23 +84,31 @@ export const makeFullFixtures = ({
             is_finished: false,
             is_home: fixture.is_home,
             attack_difficulty: fixture.is_home
+              ? useCustomFDR
+                ? getDifficulty(
+                    fplTeam.strength_attack_home,
+                    opponent.strength_defence_away
+                  )
+                : fixture.team_h_difficulty
+              : useCustomFDR
               ? getDifficulty(
-                  fplTeam.strength_attack_home,
-                  opponent.strength_defence_away
-                )
-              : getDifficulty(
                   fplTeam.strength_attack_away,
                   opponent.strength_defence_home
-                ),
-            defence_difficulty: fixture.is_home
-              ? getDifficulty(
-                  fplTeam.strength_defence_home,
-                  opponent.strength_attack_away
                 )
-              : getDifficulty(
+              : fixture.team_h_difficulty,
+            defence_difficulty: fixture.is_home
+              ? useCustomFDR
+                ? getDifficulty(
+                    fplTeam.strength_defence_home,
+                    opponent.strength_attack_away
+                  )
+                : fixture.team_a_difficulty
+              : useCustomFDR
+              ? getDifficulty(
                   fplTeam.strength_defence_away,
                   opponent.strength_attack_home
-                ),
+                )
+              : fixture.team_a_difficulty,
             opponent: makeTeamInfo(opponent),
           } as TeamFixture;
 

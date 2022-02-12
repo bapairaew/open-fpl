@@ -1,4 +1,4 @@
-import { Box, Flex, useDisclosure, BoxProps } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, useDisclosure } from "@chakra-ui/react";
 // import { AnalyticsFixtureDifficultyRating } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   adjustTeamsStrength,
@@ -34,6 +34,8 @@ const Fixtures = ({
     setFixturesTeamsOrder,
     teamsStrength,
     setTeamsStrength,
+    useCustomFDR,
+    setUseCustomFDR,
   } = useSettings();
 
   const adjustedTeams = useMemo(
@@ -45,6 +47,7 @@ const Fixtures = ({
     const fullFixtures = makeFullFixtures({
       teamFixtures,
       teams: adjustedTeams,
+      useCustomFDR,
     });
 
     return fixturesTeamsOrder && fixturesTeamsOrder.length === 20
@@ -52,10 +55,12 @@ const Fixtures = ({
           return fullFixtures.find((f) => f.short_name === o)!;
         })
       : fullFixtures;
-  }, [teamFixtures, teams, teamsStrength, fixturesTeamsOrder]);
+  }, [teamFixtures, teams, teamsStrength, fixturesTeamsOrder, useCustomFDR]);
 
   const [mode, setMode] = useState("attack");
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleUseCustomFDRChange = (value: boolean) => setUseCustomFDR(value);
 
   const handleStrengthChange = (
     teamId: number,
@@ -93,6 +98,8 @@ const Fixtures = ({
       {isOpen && (
         <TeamsStrengthEditorModal
           teams={adjustedTeams}
+          useCustomFDR={!!useCustomFDR}
+          onUseCustomFDRChange={handleUseCustomFDRChange}
           onStrengthChange={handleStrengthChange}
           onResetStrength={handleResetStrength}
           isOpen={isOpen}

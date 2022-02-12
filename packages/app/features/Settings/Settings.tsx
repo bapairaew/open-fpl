@@ -26,6 +26,7 @@ import {
   getTeamPlannerPinnedBenchKey,
   getTeamPlansKey,
   getTeamsStrengthKey,
+  getUseCustomFDR,
 } from "@open-fpl/app/features/Settings/storageKeys";
 import { TeamStrength } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import dynamic from "next/dynamic";
@@ -49,6 +50,8 @@ const SettingsContext = createContext<Settings>({
   setCustomPlayers: () => {},
   teamsStrength: null,
   setTeamsStrength: () => {},
+  useCustomFDR: false,
+  setUseCustomFDR: () => {},
   teamPlannerPinnedBench: null,
   setTeamPlannerPinnedBench: () => {},
   playersExplorerDisplayOption: null,
@@ -117,6 +120,10 @@ export const SettingsContextProvider = ({
     getTeamsStrengthKey()
   );
 
+  const [useCustomFDR, setUseCustomFDR] = useLocalStorage<boolean>(
+    getUseCustomFDR()
+  );
+
   const [teamPlannerPinnedBench, setTeamPlannerPinnedBench] =
     useLocalStorage<boolean>(getTeamPlannerPinnedBenchKey());
 
@@ -157,6 +164,8 @@ export const SettingsContextProvider = ({
         setCustomPlayers,
         teamsStrength,
         setTeamsStrength,
+        useCustomFDR,
+        setUseCustomFDR,
         teamPlannerPinnedBench,
         setTeamPlannerPinnedBench,
         playersExplorerDisplayOption,

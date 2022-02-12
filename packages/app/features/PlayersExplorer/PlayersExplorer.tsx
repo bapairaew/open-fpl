@@ -50,6 +50,7 @@ const PlayersExplorer = ({
     setPreference,
     teamsStrength,
     onSettingsModalOpen,
+    useCustomFDR,
   } = useSettings();
 
   const fullFixtures = useMemo(
@@ -57,6 +58,7 @@ const PlayersExplorer = ({
       makeFullFixtures({
         teamFixtures,
         teams: adjustTeamsStrength(teams, teamsStrength),
+        useCustomFDR,
       }),
     [teams, teamsStrength]
   );

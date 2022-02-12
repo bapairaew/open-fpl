@@ -16,7 +16,6 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
@@ -99,8 +98,14 @@ const TeamPlanner = ({
 }) => {
   // const plausible = usePlausible<AnalyticsTeamPlanner>();
   const toast = useToast();
-  const { profile, customPlayers, preference, setPreference, teamsStrength } =
-    useSettings();
+  const {
+    profile,
+    customPlayers,
+    preference,
+    setPreference,
+    teamsStrength,
+    useCustomFDR,
+  } = useSettings();
 
   const teamPlans = preference?.teamPlans ?? ["Plan 1"];
   const setTeamPlans = (teamPlans: string[]) => {
@@ -157,8 +162,9 @@ const TeamPlanner = ({
       makeFullFixtures({
         teamFixtures,
         teams: adjustTeamsStrength(teams, teamsStrength),
+        useCustomFDR,
       }),
-    [teams, teamsStrength]
+    [teams, teamsStrength, useCustomFDR]
   );
 
   const players = useMemo(

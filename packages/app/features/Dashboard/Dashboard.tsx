@@ -13,8 +13,8 @@ import {
 // import { AnalyticsDashboard } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   EntryApiResponse,
-  EntryHistoryApiResponse,
   EntryEventPickApiResponse,
+  EntryHistoryApiResponse,
 } from "@open-fpl/app/features/Api/apiTypes";
 import DashboardCurrentGameweek from "@open-fpl/app/features/Dashboard/DashboardCurrentGameweek";
 import { dehydrateDashboardFixtures } from "@open-fpl/app/features/Dashboard/dashboardFixtures";
@@ -68,7 +68,8 @@ const Dashboard = ({
   nextGameweekFixtures: RemoteDashboardFixture[];
 }) => {
   // const plausible = usePlausible<AnalyticsDashboard>();
-  const { profile, teamsStrength, preference, setPreference } = useSettings();
+  const { profile, teamsStrength, preference, setPreference, useCustomFDR } =
+    useSettings();
 
   const { data: entryResponse, error: entryError } = useSWR<EntryApiResponse>(
     () => (profile ? `/api/entries/${profile}` : null)
@@ -97,8 +98,9 @@ const Dashboard = ({
       makeFullFixtures({
         teamFixtures,
         teams: adjustedTeams,
+        useCustomFDR,
       }),
-    [teams, teamsStrength]
+    [teams, teamsStrength, useCustomFDR]
   );
 
   const players = useMemo(

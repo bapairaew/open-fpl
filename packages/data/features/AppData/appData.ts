@@ -223,6 +223,8 @@ const makeTeamFixtures = ({
         is_home: f.team_h === fplTeam.id,
         team_h_score: f.team_h_score,
         team_a_score: f.team_a_score,
+        team_h_difficulty: f.team_h_difficulty,
+        team_a_difficulty: f.team_a_difficulty,
         finished: f.finished,
       });
     }

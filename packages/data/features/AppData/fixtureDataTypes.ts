@@ -5,6 +5,8 @@ export interface TeamFixture {
   finished: boolean;
   team_h_score: number | null;
   team_a_score: number | null;
+  team_h_difficulty: number | null;
+  team_a_difficulty: number | null;
 }
 
 export interface TeamFixtures {

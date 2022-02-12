@@ -6,6 +6,7 @@ export const getTeamPlanKey = (profile: string, planName: string) =>
 export const getFixturesTeamsOrderKey = () => "fixtures-teams-order";
 export const getCustomPlayersKey = () => "custom-players";
 export const getTeamsStrengthKey = () => "teams-strength";
+export const getUseCustomFDR = () => "use-custom-fdr";
 export const getTeamPlannerPinnedBenchKey = () => "team-planner-pinned-bench";
 export const getPlayersExplorerDisplayOptionKey = () =>
   "players-explorer-display-option";
