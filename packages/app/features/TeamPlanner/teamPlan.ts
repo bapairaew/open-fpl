@@ -265,13 +265,16 @@ export const getGameweekData = (
 
   const bank = getRemainingBank(entryHistory, changes, planningGameweek);
 
-  const team = picks.map((p) => {
+  const team = picks.map((p, i) => {
     const player =
       players?.find((pl) => pl.id === p?.element) ??
       makePlaceholderPlayerFromId(p.element);
     return {
       ...player,
-      pick: p,
+      pick: {
+        ...p,
+        position: i + 1,
+      },
     };
   }) as FullChangePlayer[];
 
