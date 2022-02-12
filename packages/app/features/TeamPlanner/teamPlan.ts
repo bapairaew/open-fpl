@@ -27,12 +27,15 @@ import {
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
 import {
-  ChipName,
   EntryChipPlay,
   EntryEventHistory,
   EntryEventPick,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
+
+// HACK: This is for season 2021/22 where additional free hit is given to all players due to high amount of games being rescheduled.
+//       Should remove this after 2021/22 season is over.
+const freeHitBudget = new Date() < new Date("2022-07-01") ? 2 : 1;
 
 // Apply the changes against the given team
 const getGameweekPicks = (
@@ -91,13 +94,31 @@ const getGameweekPicks = (
     }
   }
 
-  const chipUsages = ["bboost", "3xc", "freehit", "wildcard"].map<ChipUsage>(
-    (name) => ({
-      name: name as ChipName,
+  const chipUsages: ChipUsage[] = [
+    {
+      name: "bboost",
       isActive: false,
-      isUsed: chips.some((c) => c.name === name),
-    })
-  );
+      isUsed: chips.some((c) => c.name === "bboost"),
+    },
+    {
+      name: "3xc",
+      isActive: false,
+      isUsed: chips.some((c) => c.name === "3xc"),
+    },
+    {
+      name: "freehit",
+      isActive: false,
+      isUsed: chips.filter((c) => c.name === "freehit").length >= freeHitBudget,
+    },
+    {
+      name: "wildcard",
+      isActive: false,
+      isUsed:
+        planningGameweek > 18
+          ? chips.some((c) => c.name === "wildcard" && c.event > 18)
+          : chips.some((c) => c.name === "wildcard" && c.event <= 18),
+    },
+  ];
 
   const invalidChanges = [] as InvalidChange[];
 
