@@ -1,6 +1,6 @@
 {
   "name": "open-fpl",
-  "version": "1.3.0",
+  "version": "1.4.0-pre.1",
   "license": "Apache-2.0",
   "devDependencies": {
     "env-cmd": "^10.1.0",
