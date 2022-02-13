@@ -323,7 +323,7 @@ const TeamPlannerPanel = ({
             players
           )
         : [],
-    [teamPlan, players]
+    [teamPlan, players, nextGameweekId]
   );
 
   const gameweekDataList = useMemo(

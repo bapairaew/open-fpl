@@ -86,7 +86,7 @@ const DashboardCurrentGameweek = ({
         return 0;
       }
     });
-  }, [allCurrentGameweekPlayers]);
+  }, [currentPicksPlayers]);
 
   const onOpenWithAllPlayers = () => {
     setPlayersToDisplay(sortedCurrentGameweekPlayers);

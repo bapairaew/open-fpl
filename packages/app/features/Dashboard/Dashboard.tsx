@@ -100,7 +100,7 @@ const Dashboard = ({
         teams: adjustedTeams,
         useCustomFDR,
       }),
-    [teams, teamsStrength, useCustomFDR]
+    [teamFixtures, adjustedTeams, useCustomFDR]
   );
 
   const players = useMemo(

@@ -60,7 +60,7 @@ const PlayersExplorer = ({
         teams: adjustTeamsStrength(teams, teamsStrength),
         useCustomFDR,
       }),
-    [teams, teamsStrength]
+    [teamFixtures, teams, teamsStrength]
   );
 
   const players = useMemo(

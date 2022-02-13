@@ -55,7 +55,7 @@ const Fixtures = ({
           return fullFixtures.find((f) => f.short_name === o)!;
         })
       : fullFixtures;
-  }, [teamFixtures, teams, teamsStrength, fixturesTeamsOrder, useCustomFDR]);
+  }, [teamFixtures, adjustedTeams, fixturesTeamsOrder, useCustomFDR]);
 
   const [mode, setMode] = useState("attack");
   const { isOpen, onOpen, onClose } = useDisclosure();

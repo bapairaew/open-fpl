@@ -164,7 +164,7 @@ const TeamPlanner = ({
         teams: adjustTeamsStrength(teams, teamsStrength),
         useCustomFDR,
       }),
-    [teams, teamsStrength, useCustomFDR]
+    [teamFixtures, teams, teamsStrength, useCustomFDR]
   );
 
   const players = useMemo(

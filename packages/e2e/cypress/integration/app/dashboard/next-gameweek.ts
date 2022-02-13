@@ -6,14 +6,6 @@ describe("Dashboard", () => {
         cy.get('[aria-label="next gameweek"]').click();
       });
 
-      it("shows countdown.", () => {
-        cy.get('[aria-label="next gameweek dashboard"]')
-          .contains("Next Gameweek deadline")
-          .next()
-          .invoke("text")
-          .should("match", /\d+/);
-      });
-
       it("shows player details.", () => {
         cy.get('[aria-labelledby="next-gameweek-top-transfers"]')
           .find('[role="listitem"] [aria-label="open player details"]')
@@ -74,8 +66,8 @@ describe("Dashboard", () => {
           .find('[role="listitem"]')
           .should("have.length.above", 1);
         cy.get('[aria-label="selected players"] > div').should(
-          "have.length",
-          11
+          "have.length.above",
+          1
         );
       });
 
@@ -107,6 +99,14 @@ describe("Dashboard", () => {
         cy.get("aside").contains("Test account");
         cy.blurWindow();
         cy.get("aside").contains("Dashboard").click();
+      });
+
+      it("shows countdown.", () => {
+        cy.get('[aria-label="next gameweek dashboard"]')
+          .contains("Next Gameweek deadline")
+          .next()
+          .invoke("text")
+          .should("match", /\d+/);
       });
 
       it("shows top transferred players.", () => {

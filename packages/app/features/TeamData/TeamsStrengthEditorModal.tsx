@@ -48,6 +48,7 @@ const TeamsStrengthEditorModal = ({
                 borderWidth={0}
                 isChecked={!!useCustomFDR}
                 onChange={(e) => onUseCustomFDRChange(e.target.checked)}
+                data-testid="use-custom-fdr-checkbox"
               >
                 Use Custom FDR
               </Checkbox>
