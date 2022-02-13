@@ -24,6 +24,7 @@ import {
 } from "@open-fpl/app/features/PlayerData/playerData";
 import theme from "@open-fpl/common/features/Theme/theme";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ChartOptions } from "chart.js";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -173,7 +174,7 @@ const ComparePlayersModal = ({
         suggestedMax: 100,
       },
     },
-  });
+  }) as ChartOptions<"radar">;
 
   return isOpen ? (
     <Drawer size="xl" placement="right" isOpen={isOpen} onClose={onClose}>

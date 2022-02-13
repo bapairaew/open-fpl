@@ -141,7 +141,7 @@ const EditableCustomPlayer = ({
       )}
       <Box width="100%" {...props}>
         <Collapse in={!expanded} animateOpacity>
-          <Flex flexDirection="column" width="100%" borderWidth={1} spacing={0}>
+          <Flex flexDirection="column" width="100%" borderWidth={1}>
             <NameSection player={player} />
             <Divider />
             <Flex height="41px">

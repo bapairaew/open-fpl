@@ -8,7 +8,7 @@ import {
   Live,
   Transfer,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
-import fetch, { HeaderInit } from "node-fetch";
+import fetch, { HeadersInit } from "node-fetch";
 
 const headers = {
   "sec-ch-ua":
@@ -16,14 +16,14 @@ const headers = {
   "sec-ch-ua-mobile": "?0",
   "User-Agent":
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
-} as HeaderInit;
+} as HeadersInit;
 
 // TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
 export const getFPLData = (): Promise<Bootstrap> => {
   return fetch("https://fantasy.premierleague.com/api/bootstrap-static/", {
     headers,
     method: "GET",
-  }).then((r) => r.json());
+  }).then((r) => r.json()) as Promise<Bootstrap>;
 };
 
 // TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
@@ -33,7 +33,7 @@ export const getFPLPlayerSummaryData = (
   return fetch(`https://fantasy.premierleague.com/api/element-summary/${id}/`, {
     headers,
     method: "GET",
-  }).then((r) => r.json());
+  }).then((r) => r.json()) as Promise<ElementSummary>;
 };
 
 export const getEntry = (id: number): Promise<Entry | string> => {
@@ -120,7 +120,7 @@ export const getFixtures = (event?: number): Promise<Fixture[]> => {
       headers,
       method: "GET",
     }
-  ).then((r) => r.json());
+  ).then((r) => r.json()) as Promise<Fixture[]>;
 };
 
 // TODO: handle response when the game is being updated (see getEntry/getEntryPicks)
@@ -128,5 +128,5 @@ export const getLiveEvent = (event: number): Promise<Live> => {
   return fetch(`https://fantasy.premierleague.com/api/event/${event}/live/`, {
     headers,
     method: "GET",
-  }).then((r) => r.json());
+  }).then((r) => r.json()) as Promise<Live>;
 };

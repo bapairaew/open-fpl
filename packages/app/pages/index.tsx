@@ -46,6 +46,8 @@ export const getStaticProps = async () => {
     fplGameweeks.find((g) => g.is_next) ??
     fplGameweeks[fplGameweeks.length - 1];
 
+  console.log(nextGameweek);
+
   const [_currentFixtures, liveEvent, _nextFixtures] = await Promise.all([
     currentGameweek && getFixtures(currentGameweek.id),
     currentGameweek && getLiveEvent(currentGameweek.id),
@@ -84,11 +86,11 @@ function DashboardPage(initialPageProps: PageProps) {
     getDataUrl("/app-data/players.json")
   );
 
-  const dataUrl: string | null = Router.router?.pageLoader.getDataHref(
-    "/",
-    "/",
-    true
-  );
+  const dataUrl: string | undefined = Router.router?.pageLoader.getDataHref({
+    href: "/",
+    asPath: "/",
+    ssg: true,
+  });
 
   const { data: pageProps } = useSWR<SWRPageProps>(() => dataUrl ?? null, {
     refreshInterval: 30 * 1000,

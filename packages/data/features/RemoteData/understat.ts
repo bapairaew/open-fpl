@@ -1,11 +1,11 @@
-import fetch from "node-fetch";
-import { HTMLElement, parse } from "node-html-parser";
 import {
   GetUnderstatPlayersResponse,
   LeagueStat,
   PlayerStat,
   TeamStat,
 } from "@open-fpl/data/features/RemoteData/understatTypes";
+import fetch, { HeadersInit } from "node-fetch";
+import { HTMLElement, parse } from "node-html-parser";
 
 const { UNDERSTAT_SEASON: _understatSeason } = process.env;
 const understatSeason = _understatSeason ?? "2021";
@@ -21,7 +21,7 @@ const headers = {
   "sec-fetch-mode": "cors",
   "sec-fetch-site": "same-origin",
   "x-requested-with": "XMLHttpRequest",
-};
+} as HeadersInit;
 
 export const getUnderstatPlayers = (
   season: string = understatSeason
@@ -30,7 +30,7 @@ export const getUnderstatPlayers = (
     headers,
     body: `league=EPL&season=${season}`,
     method: "POST",
-  }).then((r) => r.json());
+  }).then((r) => r.json()) as Promise<GetUnderstatPlayersResponse>;
 };
 
 function getDataFromScripts<T>(scripts: HTMLElement[]): T {

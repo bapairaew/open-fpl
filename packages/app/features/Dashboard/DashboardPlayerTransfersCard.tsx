@@ -158,7 +158,7 @@ const DashboardPlayerTransfersCard = ({
           left={0}
           right={0}
           bottom={0}
-          opactiy={0}
+          opacity={0}
           onClick={handleOpen}
         />
       </Box>

@@ -1,6 +1,6 @@
-import { Radar } from "react-chartjs-2";
 import theme from "@open-fpl/common/features/Theme/theme";
 import merge from "deepmerge";
+import { Radar } from "react-chartjs-2";
 
 export const makeChartOptions = (mode: string, options?: any) => {
   return merge(

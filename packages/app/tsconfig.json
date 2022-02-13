@@ -3,9 +3,16 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@open-fpl/app/*": ["./*"],
-      "@open-fpl/common/*": ["../common/*"],
-      "@open-fpl/data/*": ["../data/*"]
-    }
+      "@open-fpl/app/*": [
+        "./*"
+      ],
+      "@open-fpl/common/*": [
+        "../common/*"
+      ],
+      "@open-fpl/data/*": [
+        "../data/*"
+      ]
+    },
+    "incremental": true
   }
 }

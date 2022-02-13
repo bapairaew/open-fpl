@@ -19,6 +19,7 @@ import {
 } from "@open-fpl/app/features/TeamData/teamData";
 import { TeamInfo } from "@open-fpl/app/features/TeamData/teamDataTypes";
 import theme from "@open-fpl/common/features/Theme/theme";
+import { ChartOptions } from "chart.js";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
@@ -64,7 +65,7 @@ const TeamStrengthPopover = ({
         suggestedMax: assumedMax.teamStrength,
       },
     },
-  });
+  }) as ChartOptions<"radar">;
 
   return (
     <Popover strategy="fixed" isLazy placement="bottom">

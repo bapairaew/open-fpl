@@ -8,6 +8,7 @@ import {
 } from "@open-fpl/app/features/PlayerData/playerData";
 import theme from "@open-fpl/common/features/Theme/theme";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
+import { ChartOptions } from "chart.js";
 import dynamic from "next/dynamic";
 import AutoSizer from "react-virtualized-auto-sizer";
 
@@ -129,7 +130,7 @@ const PlayerChartCard = ({
         suggestedMax: 100,
       },
     },
-  });
+  }) as ChartOptions<"radar">;
 
   return (
     <Flex flexDirection="column" borderWidth={1} height="205px" {...props}>

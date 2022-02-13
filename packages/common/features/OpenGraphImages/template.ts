@@ -1,8 +1,8 @@
-import marked from "marked";
 import { ParsedRequest } from "@open-fpl/common/features/OpenGraphImages/openGraphImagestypes";
 import { sanitizeHtml } from "@open-fpl/common/features/OpenGraphImages/sanitizer";
 import theme from "@open-fpl/common/features/Theme/theme";
 import fs from "fs";
+import { marked } from "marked";
 
 const twemoji = require("twemoji");
 const twOptions = { folder: "svg", ext: ".svg" };

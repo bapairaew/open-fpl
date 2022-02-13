@@ -23,7 +23,6 @@ import {
   IoSwapVerticalOutline,
   IoWarningOutline,
 } from "react-icons/io5";
-import { RiFileExcel2Fill } from "react-icons/ri";
 
 export type SwapablePlayerVariant =
   | "default"
