@@ -3,13 +3,13 @@ import {
   extendTheme,
   withDefaultColorScheme,
 } from "@chakra-ui/react";
-import makeLayerStyles from "@open-fpl/common/features/Theme/makeLayerStyles";
 import {
   difficultyColorCodes,
   positionColorCodes,
   statusColorCodes,
   teamColorCodes,
 } from "@open-fpl/common/features/Theme/fplColors";
+import makeLayerStyles from "@open-fpl/common/features/Theme/makeLayerStyles";
 
 const customTheme = extendTheme(
   withDefaultColorScheme({ colorScheme: "brand" }),
@@ -127,7 +127,7 @@ const customTheme = extendTheme(
         "&": {
           color: "green.500",
           ".chakra-ui-dark &": {
-            color: "brand.200",
+            color: "green.200",
           },
         },
       },
@@ -145,7 +145,7 @@ const customTheme = extendTheme(
         "&": {
           color: "yellow.500",
           ".chakra-ui-dark &": {
-            color: "brand.200",
+            color: "yellow.200",
           },
         },
       },
@@ -163,7 +163,7 @@ const customTheme = extendTheme(
         "&": {
           color: "red.500",
           ".chakra-ui-dark &": {
-            color: "brand.200",
+            color: "red.200",
           },
         },
       },
