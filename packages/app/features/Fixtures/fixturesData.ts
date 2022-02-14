@@ -95,14 +95,14 @@ export const makeFullFixtures = ({
                   fplTeam.strength_attack_away,
                   opponent.strength_defence_home
                 )
-              : fixture.team_h_difficulty,
+              : fixture.team_a_difficulty,
             defence_difficulty: fixture.is_home
               ? useCustomFDR
                 ? getDifficulty(
                     fplTeam.strength_defence_home,
                     opponent.strength_attack_away
                   )
-                : fixture.team_a_difficulty
+                : fixture.team_h_difficulty
               : useCustomFDR
               ? getDifficulty(
                   fplTeam.strength_defence_away,
