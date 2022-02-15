@@ -321,16 +321,32 @@ export const getGameweekData = (
     });
   }
 
-  let freeTransfers = 0;
-  let transferBalance = 0;
+  let transferBalance = 0; // total transfer balance without cap for hit calculation
+  let freeTransfers = 0; // Actual free transfer capped at 2 and min at 0
 
   for (let i = 2; i <= planningGameweek; i++) {
-    const transferCount =
-      transfers?.filter((t) => t.event === i).length ||
-      changes.filter((c) => c.type === "transfer" && c.gameweek === i).length;
+    const useUnlimitedChanges = changes.some(
+      (c) =>
+        c.type === "use-chip" &&
+        c.gameweek === i &&
+        ["freehit", "wildcard"].includes((c as ChipChange).chip)
+    );
 
-    transferBalance = Math.min(2, freeTransfers + 1) - transferCount;
-    freeTransfers = Math.max(0, Math.min(2, transferBalance), transferBalance);
+    if (useUnlimitedChanges) {
+      transferBalance = 1;
+      freeTransfers = 0;
+    } else {
+      const transferCount =
+        transfers?.filter((t) => t.event === i).length ||
+        changes.filter((c) => c.type === "transfer" && c.gameweek === i).length;
+
+      transferBalance = Math.min(2, freeTransfers + 1) - transferCount;
+      freeTransfers = Math.max(
+        0,
+        Math.min(2, transferBalance),
+        transferBalance
+      );
+    }
   }
 
   const hits =
