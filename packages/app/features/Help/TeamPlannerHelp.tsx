@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { fullChangePlayer } from "@open-fpl/app/features/Help/helpData";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
-import SwapablePlayer from "@open-fpl/app/features/TeamPlanner/SwapablePlayer";
+import SwapablePlayer from "@open-fpl/app/features/TeamPlanner/SwapablePlayer/SwapablePlayer";
 import Link from "next/link";
 // @ts-ignore
 import { AnnotationCalloutRect } from "react-annotation";
@@ -158,7 +158,7 @@ const TeamPlannerHelp = () => {
         </VStack>
       </Container>
 
-      <DemoPlayerCard />
+      {/* <DemoPlayerCard /> */}
 
       <Container maxW="container.lg" mt={8} lineHeight="taller">
         <VStack spacing={4} alignItems="flex-start">

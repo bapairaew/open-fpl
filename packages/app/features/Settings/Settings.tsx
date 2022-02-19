@@ -23,7 +23,6 @@ import {
   getPreferenceKey,
   getProfilesKey,
   getStarredPlayersKey,
-  getTeamPlannerPinnedBenchKey,
   getTeamPlansKey,
   getTeamsStrengthKey,
   getUseCustomFDR,
@@ -52,8 +51,6 @@ const SettingsContext = createContext<Settings>({
   setTeamsStrength: () => {},
   useCustomFDR: false,
   setUseCustomFDR: () => {},
-  teamPlannerPinnedBench: null,
-  setTeamPlannerPinnedBench: () => {},
   playersExplorerDisplayOption: null,
   setPlayersExplorerDisplayOption: () => {},
   playersExplorerSortOption: null,
@@ -124,9 +121,6 @@ export const SettingsContextProvider = ({
     getUseCustomFDR()
   );
 
-  const [teamPlannerPinnedBench, setTeamPlannerPinnedBench] =
-    useLocalStorage<boolean>(getTeamPlannerPinnedBenchKey());
-
   const [playersExplorerDisplayOption, setPlayersExplorerDisplayOption] =
     useLocalStorage<DisplayOptions>(getPlayersExplorerDisplayOptionKey());
   const [playersExplorerSortOption, setPlayersExplorerSortOption] =
@@ -166,8 +160,6 @@ export const SettingsContextProvider = ({
         setTeamsStrength,
         useCustomFDR,
         setUseCustomFDR,
-        teamPlannerPinnedBench,
-        setTeamPlannerPinnedBench,
         playersExplorerDisplayOption,
         setPlayersExplorerDisplayOption,
         playersExplorerSortOption,

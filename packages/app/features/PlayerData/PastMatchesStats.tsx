@@ -13,6 +13,7 @@ const PastMatchesStats = ({
   decimal,
   isReversedScale,
   statLabel,
+  showLabel,
 }: {
   variant?: CenterFlexVariant;
   pastMatches: MatchStat[];
@@ -22,11 +23,25 @@ const PastMatchesStats = ({
   decimal: number;
   isReversedScale?: boolean;
   statLabel?: string;
+  showLabel?: boolean;
 }) => {
   const fontSize = variant === "mini" ? "xs" : "sm";
   const { colorMode } = useColorMode();
   return (
     <>
+      {showLabel && (
+        <CenterFlex
+          variant={variant}
+          fontSize="xs"
+          layerStyle="highlight"
+          display={{
+            base: variant === "mini" ? "none" : "flex",
+            sm: "flex",
+          }}
+        >
+          {statLabel}
+        </CenterFlex>
+      )}
       {pastMatches.map((s, i) => {
         const value = s[valueKey] as number | null;
         const colorScale =

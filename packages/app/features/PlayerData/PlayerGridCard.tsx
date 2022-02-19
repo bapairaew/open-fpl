@@ -26,7 +26,7 @@ const PlayerGridCard = ({
       <NameSection variant={variant} player={player} />
       <FixturesSection variant={variant} player={player} />
       <PointsSection showTeamsName variant={variant} player={player} />
-      <PreviousStatsSection variant={variant} player={player} />
+      <PreviousStatsSection variant={variant} player={player} showLabel />
     </Box>
   );
 };

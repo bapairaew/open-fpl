@@ -7,29 +7,29 @@ on:
         description: "Package"
         required: true
 jobs:
-  app:
-    if:
-      ${{ contains(github.event.inputs.package, 'app') ||
-      (github.event.deployment_status.state == 'success' &&
-      github.event.deployment.environment == 'Production – open-fpl-app') }}
-    environment: Production – open-fpl-app
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout latest commit
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-      - name: Set up node
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          # cache: "yarn" # Got "Cache service responded with 403" error
-      - name: Install packages
-        run: yarn
-        working-directory: packages/app
-      - name: Run test
-        run: yarn e2e:app
+  # app:
+  #   if:
+  #     ${{ contains(github.event.inputs.package, 'app') ||
+  #     (github.event.deployment_status.state == 'success' &&
+  #     github.event.deployment.environment == 'Production – open-fpl-app') }}
+  #   environment: Production – open-fpl-app
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout latest commit
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: ${{ github.head_ref }}
+  #         fetch-depth: 0
+  #     - name: Set up node
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: "14"
+  #         # cache: "yarn" # Got "Cache service responded with 403" error
+  #     - name: Install packages
+  #       run: yarn
+  #       working-directory: packages/app
+  #     - name: Run test
+  #       run: yarn e2e:app
   data:
     if:
       ${{ contains(github.event.inputs.package, 'data') ||

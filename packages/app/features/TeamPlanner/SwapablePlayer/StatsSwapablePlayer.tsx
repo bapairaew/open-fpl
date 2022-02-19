@@ -9,13 +9,12 @@ import {
   IconButton,
   Text,
   Tooltip,
-  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
 import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
 import PreviousStatsSection from "@open-fpl/app/features/PlayerData/PreviousStatsSection";
-import SwapablePlayerOptionsModal from "@open-fpl/app/features/TeamPlanner/SwapablePlayerOptionsModal";
+import { SwapablePlayerVariant } from "@open-fpl/app/features/TeamPlanner/SwapablePlayer/SwapablePlayer";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 import { MouseEventHandler } from "react";
 import {
@@ -23,13 +22,6 @@ import {
   IoSwapVerticalOutline,
   IoWarningOutline,
 } from "react-icons/io5";
-import { RiFileExcel2Fill } from "react-icons/ri";
-
-export type SwapablePlayerVariant =
-  | "default"
-  | "selected"
-  | "swapable"
-  | "disabled";
 
 const teamPlayerVariants: Record<
   SwapablePlayerVariant,
@@ -90,13 +82,14 @@ const teamPlayerVariants: Record<
   },
 };
 
-const SwapablePlayer = ({
+const StatsSwapablePlayer = ({
   player,
   variant = "default",
   onSubstituteClick,
   onTransferClick,
   onSetCaptainClick,
   onSetViceCaptainClick,
+  onOpenOptionsClick,
   ...props
 }: BoxProps & {
   player: FullChangePlayer;
@@ -105,26 +98,14 @@ const SwapablePlayer = ({
   onTransferClick?: MouseEventHandler<HTMLButtonElement>;
   onSetCaptainClick?: MouseEventHandler<HTMLButtonElement>;
   onSetViceCaptainClick?: MouseEventHandler<HTMLButtonElement>;
+  onOpenOptionsClick: () => void;
 }) => {
   const { buttonProps, otherButtonsProps, boxProps } =
     teamPlayerVariants[variant] ?? teamPlayerVariants.default;
   const adjustedSellingPrice = player.pick.selling_price / 10;
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <>
-      {isOpen && (
-        <SwapablePlayerOptionsModal
-          isOpen={isOpen}
-          onClose={onClose}
-          player={player}
-          onSubstituteClick={onSubstituteClick}
-          onTransferClick={onTransferClick}
-          onSetCaptainClick={onSetCaptainClick}
-          onSetViceCaptainClick={onSetViceCaptainClick}
-        />
-      )}
       <Box
         position="relative"
         m={{ base: 0.5, sm: 1 }}
@@ -251,7 +232,7 @@ const SwapablePlayer = ({
           </HStack>
           <FixturesSection variant="mini" player={player} />
           <PointsSection variant="mini" player={player} />
-          <PreviousStatsSection variant="mini" player={player} />
+          <PreviousStatsSection variant="mini" player={player} showLabel />
         </VStack>
         <HStack
           spacing={0}
@@ -322,7 +303,9 @@ const SwapablePlayer = ({
           w="100%"
           h="100%"
           borderRadius="none"
-          onClick={variant === "swapable" ? onSubstituteClick : onOpen}
+          onClick={
+            variant === "swapable" ? onSubstituteClick : onOpenOptionsClick
+          }
           {...buttonProps}
         />
       </Box>
@@ -330,4 +313,4 @@ const SwapablePlayer = ({
   );
 };
 
-export default SwapablePlayer;
+export default StatsSwapablePlayer;

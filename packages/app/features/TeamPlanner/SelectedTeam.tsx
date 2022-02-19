@@ -1,16 +1,7 @@
-import {
-  Box,
-  BoxProps,
-  Flex,
-  Heading,
-  Icon,
-  IconButton,
-} from "@chakra-ui/react";
-// import { AnalyticsTeamPlanner } from "@open-fpl/app/features/Analytics/analyticsTypes";
-import { useSettings } from "@open-fpl/app/features/Settings/Settings";
+import { Box, BoxProps, Flex, Heading } from "@chakra-ui/react";
 import SwapablePlayer, {
   SwapablePlayerVariant,
-} from "@open-fpl/app/features/TeamPlanner/SwapablePlayer";
+} from "@open-fpl/app/features/TeamPlanner/SwapablePlayer/SwapablePlayer";
 import { isSwapable } from "@open-fpl/app/features/TeamPlanner/teamPlan";
 import {
   FullChangePlayer,
@@ -18,7 +9,6 @@ import {
 } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
 // import { usePlausible } from "next-plausible";
 import { KeyboardEvent, MouseEvent, ReactNode } from "react";
-import { AiOutlinePushpin } from "react-icons/ai";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 const getVariant = (
@@ -49,16 +39,15 @@ const SelectedTeamSection = ({
   children: ReactNode;
 }) => {
   return (
-    <Box as="section">
+    <Box as="section" position="relative">
       <Flex
         px={4}
         py={2}
-        layerStyle="sticky"
+        layerStyle={{ base: "sticky", sm: undefined }}
         zIndex="sticky"
-        position="sticky"
+        position={{ base: "sticky", sm: "absolute" }}
         top={0}
-        borderBottomWidth={1}
-        borderTopWidth={0}
+        borderBottomWidth={{ base: 1, sm: 0 }}
         justifyContent="space-between"
         alignItems="center"
       >
@@ -96,7 +85,6 @@ const SelectedTeam = ({
   onCancel: () => void;
 }) => {
   // const plausible = usePlausible<AnalyticsTeamPlanner>();
-  const { teamPlannerPinnedBench, setTeamPlannerPinnedBench } = useSettings();
 
   const { GKP, DEF, MID, FWD, bench } = teamObject;
 
@@ -146,13 +134,6 @@ const SelectedTeam = ({
     }
   };
 
-  const handlePinnedBench = () => {
-    setTeamPlannerPinnedBench(!teamPlannerPinnedBench);
-    // plausible("team-planner-pinned-bench", {
-    //   props: { pinned: !teamPlannerPinnedBench },
-    // });
-  };
-
   return (
     <Box height="100%" onKeyUp={handleKeyUp} onClick={handleOutsideClick}>
       <AutoSizer>
@@ -194,27 +175,8 @@ const SelectedTeam = ({
                   );
                 })}
               </SelectedTeamSection>
-              <Box
-                position={teamPlannerPinnedBench ? "sticky" : undefined}
-                bottom={0}
-                borderTopWidth={1}
-                layerStyle="sticky"
-              >
-                <SelectedTeamSection
-                  heading="Bench"
-                  role="list"
-                  headingRightAddon={
-                    <IconButton
-                      size="xs"
-                      aria-label={
-                        teamPlannerPinnedBench ? "unpin bench" : "pin bench"
-                      }
-                      icon={<Icon as={AiOutlinePushpin} />}
-                      variant={teamPlannerPinnedBench ? "solid" : "ghost"}
-                      onClick={handlePinnedBench}
-                    />
-                  }
-                >
+              <Box bottom={0} borderTopWidth={1} layerStyle="sticky">
+                <SelectedTeamSection heading="Bench" role="list">
                   <Flex justifyContent="center" alignItems="center">
                     {bench.map((p) => (
                       <SwapablePlayer

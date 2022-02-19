@@ -19,9 +19,9 @@ import { MouseEvent } from "react";
 import {
   IoCalendarClearOutline,
   IoPeopleCircleOutline,
+  IoRadioButtonOnOutline,
   IoSearchOutline,
   IoSwapHorizontalOutline,
-  IoRadioButtonOnOutline,
 } from "react-icons/io5";
 
 const tabs = [
@@ -124,6 +124,7 @@ const HelpPage = ({
         <Flex flexDirection="column" height="100%" as="main">
           <HelpToolbar display={{ base: "flex", sm: "none" }} />
           <Tabs
+            isLazy
             variant="enclosed-colored"
             flexGrow={1}
             overflow="hidden"

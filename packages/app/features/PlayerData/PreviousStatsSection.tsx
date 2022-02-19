@@ -59,12 +59,15 @@ export const getPaddedPastMatches = (player: Player): MatchStat[] => {
 export const TeamsName = ({
   pastMatches,
   variant,
+  showLabel = false,
 }: {
   pastMatches: MatchStat[] | null;
   variant: CenterFlexVariant;
+  showLabel?: boolean;
 }) => {
   return (
     <>
+      {showLabel && <Box layerStyle="highlight" />}
       {pastMatches?.map((s, i) => (
         <CenterFlex
           variant={variant}
@@ -93,9 +96,11 @@ export const TeamsName = ({
 const PreviousStatsSection = ({
   variant,
   player,
+  showLabel = false,
 }: {
   variant: CenterFlexVariant;
   player: Player;
+  showLabel?: boolean;
 }) => {
   const pastMatches = getPaddedPastMatches(player);
 
@@ -107,32 +112,45 @@ const PreviousStatsSection = ({
         <Grid
           gap={0}
           templateColumns={{
-            base: variant === "mini" ? "repeat(5, 1fr)" : "repeat(6, 1fr)",
-            sm: "repeat(6, 1fr)",
+            base:
+              variant === "mini"
+                ? showLabel
+                  ? "30px repeat(5, 1fr)"
+                  : "repeat(5, 1fr)"
+                : showLabel
+                ? "30px repeat(6, 1fr)"
+                : "repeat(6, 1fr)",
+            sm: showLabel ? "30px repeat(6, 1fr)" : "repeat(6, 1fr)",
           }}
           aria-label="past matches statistics"
         >
           {showTeamsName && (
-            <TeamsName pastMatches={pastMatches} variant={variant} />
+            <TeamsName
+              pastMatches={pastMatches}
+              variant={variant}
+              showLabel={showLabel}
+            />
           )}
           <PastMatchesStats
             variant={variant}
             pastMatches={pastMatches}
-            statLabel="xgi"
+            statLabel="xGI"
             valueKey="match_xgi"
             maxValue={assumedMax.xgi}
             sumValue={player.linked_data.season_xgi}
             decimal={decimal}
+            showLabel={showLabel}
           />
           <PastMatchesStats
             variant={variant}
             pastMatches={pastMatches}
-            statLabel="xga"
+            statLabel="xGA"
             valueKey="match_xga"
             maxValue={assumedMax.xga}
             sumValue={player.linked_data.season_xga}
             decimal={decimal}
             isReversedScale
+            showLabel={showLabel}
           />
         </Grid>
       ) : (

@@ -26,7 +26,6 @@ export interface Settings {
   customPlayers: CustomPlayer[] | null; // List of custom players
   teamsStrength: TeamStrength[] | null; // Overridden teams strenth adjustment
   useCustomFDR: boolean | null; // Use custom FDR calculated from teamsStrength
-  teamPlannerPinnedBench: boolean | null; // If team planner's bench section always visible
   playersExplorerDisplayOption: DisplayOptions | null; // Display options for players explorer
   playersExplorerSortOption: SortOptions | null; // Sort options for players explorer
   playersExplorerTableSortColumns: PlayerTableSortColumnConfig[] | null; // Sort columns for table view players explorer
@@ -37,7 +36,6 @@ export interface Settings {
   setCustomPlayers: (ids: CustomPlayer[] | null) => void;
   setTeamsStrength: (teamsStrength: TeamStrength[] | null) => void;
   setUseCustomFDR: (useCustomFDR: boolean | null) => void;
-  setTeamPlannerPinnedBench: (pinned: boolean | null) => void;
   setPlayersExplorerDisplayOption: (
     displayOption: DisplayOptions | null
   ) => void;
