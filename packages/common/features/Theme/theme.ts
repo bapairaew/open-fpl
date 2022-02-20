@@ -59,6 +59,16 @@ const customTheme = extendTheme(
           },
         },
       },
+      unhighlight: {
+        "&": {
+          bgColor: "gray.50",
+          color: "gray.600",
+          ".chakra-ui-dark &": {
+            bgColor: "whiteAlpha.50",
+            color: "whiteAlpha.600",
+          },
+        },
+      },
       highlight: {
         "&": {
           bgColor: "gray.100",

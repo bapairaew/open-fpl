@@ -31,6 +31,7 @@ const TeamSummaryModal = dynamic(
 const TeamChangelog = ({
   changes,
   nextGameweekId,
+  planningGameweek,
   invalidChanges,
   gameweekDataList,
   onRemove,
@@ -38,6 +39,7 @@ const TeamChangelog = ({
 }: {
   changes: Change[];
   nextGameweekId: number;
+  planningGameweek: number;
   invalidChanges: InvalidChange[];
   gameweekDataList: GameweekData[];
   onRemove: (change: Change) => void;
@@ -88,7 +90,7 @@ const TeamChangelog = ({
           <AutoSizer>
             {({ height, width }) => (
               <HStack height={`${height}px`} width={`${width}px`} spacing={0}>
-                <Box p="2px" height="100%">
+                <Box height="calc(100% - 2px)" layerStyle="sticky">
                   <Menu isLazy>
                     {({ isOpen }) => (
                       <>
@@ -130,6 +132,7 @@ const TeamChangelog = ({
                         height={height}
                         gameweek={+gameweek}
                         nextGameweekId={nextGameweekId}
+                        planningGameweek={planningGameweek}
                         invalidChanges={invalidChanges}
                         changes={groupedChanges[+gameweek]}
                         onRemove={onRemove}

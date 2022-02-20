@@ -256,6 +256,7 @@ const TransferPlannerPanelContent = ({
         onActivatedChipSelectChange={handleChipChange}
       />
       <TeamChangelog
+        planningGameweek={planningGameweek}
         nextGameweekId={nextGameweekId}
         changes={changes}
         invalidChanges={invalidChanges}

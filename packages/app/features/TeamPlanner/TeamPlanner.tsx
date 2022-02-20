@@ -300,7 +300,7 @@ const TeamPlanner = ({
           index={tabIndex}
           onChange={handleTabsChange}
         >
-          <Flex display={{ base: "none", sm: "flex" }}>
+          <Flex display={{ base: "none", sm: "flex" }} layerStyle="unhighlight">
             <ReactSortable
               // NOTE: react-sortablejs typescript is not well-defined so just ignore it
               // @ts-ignore
@@ -337,7 +337,7 @@ const TeamPlanner = ({
               />
               <Flex>
                 <Divider orientation="vertical" />
-                <Box p="2px">
+                <Box p="2px" layerStyle="sticky">
                   <Button
                     size="sm"
                     height="100%"

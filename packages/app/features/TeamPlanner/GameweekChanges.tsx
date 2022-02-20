@@ -10,6 +10,7 @@ const GameweekChanges = ({
   height,
   gameweek,
   nextGameweekId,
+  planningGameweek,
   invalidChanges,
   changes,
   onRemove,
@@ -18,21 +19,23 @@ const GameweekChanges = ({
   height: number;
   gameweek: number;
   nextGameweekId: number;
+  planningGameweek: number;
   invalidChanges: InvalidChange[];
   changes: Change[];
   onRemove: (change: Change) => void;
   onMoveToGameweek: (gameweek: number) => void;
 }) => {
+  const isPlanningGameweek = planningGameweek === gameweek;
   return (
     <>
       <Flex
         position="sticky"
         left={0}
-        layerStyle="sticky"
+        p="2px"
+        layerStyle={isPlanningGameweek ? "sticky" : "unhighlight"}
         zIndex="sticky"
         textAlign="center"
         alignItems="center"
-        p="2px"
         alignSelf="flex-start"
         height={`${height - 1}px`}
         borderRightWidth={1}
@@ -70,7 +73,12 @@ const GameweekChanges = ({
             : "default";
           return (
             <Fragment key={index}>
-              <Box role="listitem" borderRightWidth={1} height="100%">
+              <Box
+                role="listitem"
+                borderRightWidth={1}
+                height="calc(100% - 1px)"
+                layerStyle={isPlanningGameweek ? "sticky" : "unhighlight"}
+              >
                 <TeamChange
                   change={change}
                   variant={variant}
@@ -78,7 +86,6 @@ const GameweekChanges = ({
                   onRemoveClick={() => onRemove(change)}
                 />
               </Box>
-              <Box height="100%" px="1px" />
             </Fragment>
           );
         })}
