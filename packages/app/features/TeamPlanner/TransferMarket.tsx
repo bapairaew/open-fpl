@@ -111,7 +111,7 @@ const TransferMarket = ({
         },
         ...playerTableConfigs.slice(1),
       ] as PlayerTableConfig[],
-    [playerTableConfigs]
+    [playerTableConfigs, onPlayerSelect]
   );
 
   const sortedDisplayedPlayers = useMemo(
@@ -143,7 +143,7 @@ const TransferMarket = ({
           />
         );
       },
-    [sortedDisplayedPlayers]
+    [sortedDisplayedPlayers, configs]
   );
 
   return (

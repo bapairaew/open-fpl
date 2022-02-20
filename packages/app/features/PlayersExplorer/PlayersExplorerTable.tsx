@@ -45,60 +45,64 @@ const PlayersExplorerTable = ({
     setPlayersExplorerTableSortColumns,
   } = useSettings();
 
-  const configs = [
-    {
-      header: "Tool",
-      columnWidth: 92,
-      hideHeader: true,
-      hideMenu: true,
-      render: ({ player }) => {
-        const isSelected = selectedPlayers.some((p) => p.id === player.id);
-        const isStarred = player.client_data.starred_index > -1;
-        return (
-          <Th p={0} fontWeight="bold">
-            <Flex alignItems="center" px={2}>
-              <Checkbox
-                mr={1}
-                size="lg"
-                aria-label="select player"
-                borderWidth={0}
-                isChecked={isSelected}
-                onChange={(e) => onSelectChange(e, player)}
-                borderRadius="none"
-              />
-              <IconButton
-                mr={1}
-                size="xs"
-                aria-label={
-                  isStarred ? "remove star player" : "add star player"
-                }
-                icon={<Icon as={isStarred ? IoStar : IoStarOutline} />}
-                variant={isStarred ? "solid" : "ghost"}
-                onClick={(e) => onStarClick(e, player)}
-              />
-              <A
-                isExternal
-                href={
-                  player.linked_data?.understat_id
-                    ? `https://understat.com/player/${player.linked_data.understat_id}`
-                    : `https://understat.com/league/EPL`
-                }
-              >
-                <IconButton
-                  as="span"
-                  size="xs"
-                  variant="ghost"
-                  aria-label="open in Understat"
-                  icon={<Icon as={IoOpenOutline} />}
-                />
-              </A>
-            </Flex>
-          </Th>
-        );
-      },
-    },
-    ...playerTableConfigs,
-  ] as PlayerTableConfig[];
+  const configs = useMemo(
+    () =>
+      [
+        {
+          header: "Tool",
+          columnWidth: 92,
+          hideHeader: true,
+          hideMenu: true,
+          render: ({ player }) => {
+            const isSelected = selectedPlayers.some((p) => p.id === player.id);
+            const isStarred = player.client_data.starred_index > -1;
+            return (
+              <Th p={0} fontWeight="bold">
+                <Flex alignItems="center" px={2}>
+                  <Checkbox
+                    mr={1}
+                    size="lg"
+                    aria-label="select player"
+                    borderWidth={0}
+                    isChecked={isSelected}
+                    onChange={(e) => onSelectChange(e, player)}
+                    borderRadius="none"
+                  />
+                  <IconButton
+                    mr={1}
+                    size="xs"
+                    aria-label={
+                      isStarred ? "remove star player" : "add star player"
+                    }
+                    icon={<Icon as={isStarred ? IoStar : IoStarOutline} />}
+                    variant={isStarred ? "solid" : "ghost"}
+                    onClick={(e) => onStarClick(e, player)}
+                  />
+                  <A
+                    isExternal
+                    href={
+                      player.linked_data?.understat_id
+                        ? `https://understat.com/player/${player.linked_data.understat_id}`
+                        : `https://understat.com/league/EPL`
+                    }
+                  >
+                    <IconButton
+                      as="span"
+                      size="xs"
+                      variant="ghost"
+                      aria-label="open in Understat"
+                      icon={<Icon as={IoOpenOutline} />}
+                    />
+                  </A>
+                </Flex>
+              </Th>
+            );
+          },
+        },
+        ...playerTableConfigs,
+      ] as PlayerTableConfig[],
+    [selectedPlayers, playerTableConfigs, onSelectChange, onStarClick]
+  );
 
   const sortColumns =
     playersExplorerTableSortColumns ?? ([] as PlayerTableSortColumnConfig[]);
@@ -114,7 +118,7 @@ const PlayersExplorerTable = ({
 
   const sortedDisplayedPlayers = useMemo(
     () => sortPlayerTable(displayedPlayers, sortColumns, configs),
-    [displayedPlayers, sortColumns]
+    [displayedPlayers, sortColumns, configs]
   );
 
   const handleSort: PlayerTableSortChangeHandler = (columnName, direction) => {
@@ -141,7 +145,7 @@ const PlayersExplorerTable = ({
           />
         );
       },
-    [selectedPlayers, sortedDisplayedPlayers]
+    [sortedDisplayedPlayers, configs]
   );
 
   return (
