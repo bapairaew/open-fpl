@@ -219,7 +219,7 @@ const SummaryStatsSwapablePlayer = ({
           <Button
             size="xs"
             aria-label="set as captain"
-            variant="ghost"
+            variant={player.pick.is_captain ? "solid" : "ghost"}
             borderRadius={0}
             onClick={onSetCaptainClick}
           >
@@ -228,7 +228,7 @@ const SummaryStatsSwapablePlayer = ({
           <Button
             size="xs"
             aria-label="set as vice captain"
-            variant="ghost"
+            variant={player.pick.is_vice_captain ? "solid" : "ghost"}
             borderRadius={0}
             onClick={onSetViceCaptainClick}
           >
