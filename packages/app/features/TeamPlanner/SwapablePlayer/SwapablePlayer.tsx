@@ -1,5 +1,5 @@
 import { BoxProps, useDisclosure } from "@chakra-ui/react";
-import SummaryStatsSwapablePlayer from "@open-fpl/app/features/TeamPlanner/SwapablePlayer/SummaryStatsSwapablePlayer";
+import KitSwapablePlayer from "@open-fpl/app/features/TeamPlanner/SwapablePlayer/KitSwapablePlayer";
 // import StatsSwapablePlayer from "@open-fpl/app/features/TeamPlanner/SwapablePlayer/StatsSwapablePlayer";
 import SwapablePlayerOptionsModal from "@open-fpl/app/features/TeamPlanner/SwapablePlayer/SwapablePlayerOptionsModal";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
@@ -42,7 +42,7 @@ const SwapablePlayer = ({
           onSetViceCaptainClick={onSetViceCaptainClick}
         />
       )}
-      <SummaryStatsSwapablePlayer
+      <KitSwapablePlayer
         player={player}
         variant={variant}
         onSubstituteClick={onSubstituteClick}

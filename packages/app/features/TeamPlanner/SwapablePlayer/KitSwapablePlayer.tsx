@@ -104,7 +104,7 @@ const kitsMap: Record<string, number> = {
   WOL: 39,
 };
 
-const SummaryStatsSwapablePlayer = ({
+const KitSwapablePlayer = ({
   player,
   variant = "default",
   onSubstituteClick,
@@ -257,4 +257,4 @@ const SummaryStatsSwapablePlayer = ({
   );
 };
 
-export default SummaryStatsSwapablePlayer;
+export default KitSwapablePlayer;
