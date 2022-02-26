@@ -63,12 +63,13 @@ const GameweekChanges = ({
         borderRightWidth={1}
       >
         <IconButton
+          size="xs"
           layerStyle="brand"
           aria-label={isChangesExpanded ? "minimize" : "expand"}
           variant="unstyled"
           height="100%"
           borderRadius="none"
-          icon={<Icon as={IoTrashOutline} fontSize="xs" />}
+          icon={<Icon as={IoTrashOutline} />}
           onClick={handleRemoveGameweekChanges}
         />
         <Button
@@ -99,16 +100,14 @@ const GameweekChanges = ({
           )}
         </Button>
         <IconButton
+          size="xs"
           layerStyle="brand"
           aria-label={isChangesExpanded ? "minimize" : "expand"}
           variant="unstyled"
           height="100%"
           borderRadius="none"
           icon={
-            <Icon
-              as={isChangesExpanded ? IoChevronBack : IoChevronForward}
-              fontSize="xs"
-            />
+            <Icon as={isChangesExpanded ? IoChevronBack : IoChevronForward} />
           }
           onClick={() => setIsChangesExpanded(!isChangesExpanded)}
         />
