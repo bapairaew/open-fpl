@@ -11,18 +11,18 @@ import TableCellWithMenu from "@open-fpl/app/features/Common/Table/TableCellWith
 import { SortGroup } from "@open-fpl/app/features/Fixtures/FixturesTable";
 
 const FixturesTableHeaderRow = ({
+  sortGroup,
   onResetSortClick,
   onHardFixtureSortClick,
   onEasyFixtureSortClick,
-  sortGroup,
   onHardRangeSortClick,
   onEasyRangeSortClick,
   onResetRangeSortClick,
 }: {
+  sortGroup: SortGroup;
   onResetSortClick: () => void;
   onHardFixtureSortClick: (gameweek: number) => void;
   onEasyFixtureSortClick: (gameweek: number) => void;
-  sortGroup: SortGroup;
   onHardRangeSortClick: (gameweek: number) => void;
   onEasyRangeSortClick: (gameweek: number) => void;
   onResetRangeSortClick: () => void;

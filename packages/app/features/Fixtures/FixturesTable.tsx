@@ -5,7 +5,6 @@ import {
   Tbody,
   Thead,
 } from "@chakra-ui/react";
-import { AnalyticsFixtureDifficultyRating } from "@open-fpl/app/features/Analytics/analyticsTypes";
 import {
   FullTeamFixtures,
   SortableFullTeamFixtures,
@@ -13,7 +12,7 @@ import {
 import FixturesTableHeaderRow from "@open-fpl/app/features/Fixtures/FixturesTableHeaderRow";
 import FixturesTableRow from "@open-fpl/app/features/Fixtures/FixturesTableRow";
 // import { usePlausible } from "next-plausible";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ReactSortable } from "react-sortablejs";
 import AutoSizer from "react-virtualized-auto-sizer";
 
@@ -139,10 +138,22 @@ const FixturesTable = ({
     });
   };
 
+  const fixtureTableRef = useRef<HTMLTableElement>(null);
+
+  useEffect(() => {
+    if (fixtureTableRef?.current) {
+      const nextGameweekElement = document.querySelector(
+        `[aria-label="gameweek ${nextGameweekId}"]`
+      );
+      nextGameweekElement?.scrollIntoView({ inline: "start" });
+    }
+  }, [fixtureTableRef?.current]);
+
   return (
     <AutoSizer>
       {({ height, width }) => (
         <Table
+          ref={fixtureTableRef}
           aria-label="fixtures table"
           display="block"
           overflow="auto"
@@ -151,10 +162,10 @@ const FixturesTable = ({
         >
           <Thead>
             <FixturesTableHeaderRow
+              sortGroup={sortGroup}
               onResetSortClick={handleResetSortClick}
               onHardFixtureSortClick={handleHardFixtureSortClick}
               onEasyFixtureSortClick={handleEasyFixtureSortClick}
-              sortGroup={sortGroup}
               onHardRangeSortClick={handleHardSortGroupClick}
               onEasyRangeSortClick={handleEasySortGroupClick}
               onResetRangeSortClick={handleResetSortGroupClick}
