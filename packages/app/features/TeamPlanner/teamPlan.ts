@@ -511,14 +511,11 @@ export const addChange = (changes: Change[], newChange: Change): Change[] => {
   return cleanedChanges;
 };
 
-// NOTE: this might be buggy if it is done in the middle of a long chain
-// (e.g. transfer in A and then transfer out A and then remove the first action)
-// TODO: may need another function to "purify" the existing changes after the removal
-export const removeChange = (
+export const removeChanges = (
   changes: Change[],
-  removingChange: Change
+  removingChanges: Change[]
 ): Change[] => {
-  return changes.filter((c) => c.id !== removingChange.id);
+  return changes.filter((c) => !removingChanges.some((r) => r.id === c.id));
 };
 
 // Handle transfer with probable placeholder players

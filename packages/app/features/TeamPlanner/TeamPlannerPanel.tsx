@@ -12,7 +12,7 @@ import {
   processPreseasonSetCaptain,
   processPreseasonSwap,
   processPreseasonTransfer,
-  removeChange,
+  removeChanges,
 } from "@open-fpl/app/features/TeamPlanner/teamPlan";
 import TeamPlannerToolbar from "@open-fpl/app/features/TeamPlanner/TeamPlannerToolbar";
 import {
@@ -209,7 +209,7 @@ const TransferPlannerPanelContent = ({
         (c) => c.type === "use-chip" && c.gameweek === planningGameweek
       );
       if (planningGameweekChip) {
-        setTeamPlan(removeChange(changes, planningGameweekChip));
+        setTeamPlan(removeChanges(changes, [planningGameweekChip]));
       }
     }
   };
@@ -228,8 +228,8 @@ const TransferPlannerPanelContent = ({
     // });
   };
 
-  const handleChangelogRemove = (change: Change) => {
-    setTeamPlan(removeChange(changes, change));
+  const handleChangelogRemove = (removingChanges: Change[]) => {
+    setTeamPlan(removeChanges(changes, removingChanges));
     // plausible("team-planner-changelog-remove");
   };
 

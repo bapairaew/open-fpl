@@ -82,7 +82,7 @@ const TeamChange = ({
         width={width}
         pr={2}
       >
-        <Flex>
+        <Flex alignItems="center">
           <Icon
             aria-label={selectedLabel}
             as={SelectedIcon}
@@ -98,7 +98,7 @@ const TeamChange = ({
             }
           </Text>
         </Flex>
-        <Flex>
+        <Flex alignItems="center">
           <Icon
             aria-label={targetLabel}
             as={TargetIcon}
@@ -121,12 +121,10 @@ const TeamChange = ({
     change.type === "set-vice-captain"
   ) {
     mainComponent = (
-      <Flex aria-label="captain change" width={width} pr={2}>
+      <Flex alignItems="center" width={width} pr={2}>
         <Box
           aria-label={
-            change.type === "set-captain"
-              ? "captain player"
-              : "vice-captain player"
+            change.type === "set-captain" ? "set captain" : "set vice-captain"
           }
           fontSize="xs"
           fontWeight="black"
@@ -144,7 +142,7 @@ const TeamChange = ({
     );
   } else if (change.type === "use-chip") {
     mainComponent = (
-      <Flex width={width} pr={2}>
+      <Flex alignItems="center" width={width} pr={2}>
         <Icon
           aria-label="chip used"
           as={IoDiscOutline}

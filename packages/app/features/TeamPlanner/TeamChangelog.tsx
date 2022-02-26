@@ -42,7 +42,7 @@ const TeamChangelog = ({
   planningGameweek: number;
   invalidChanges: InvalidChange[];
   gameweekDataList: GameweekData[];
-  onRemove: (change: Change) => void;
+  onRemove: (changes: Change[]) => void;
   onMoveToGameweek: (gameweek: number) => void;
 }) => {
   // const plausible = usePlausible<AnalyticsTeamPlanner>();
@@ -90,7 +90,11 @@ const TeamChangelog = ({
           <AutoSizer>
             {({ height, width }) => (
               <HStack height={`${height}px`} width={`${width}px`} spacing={0}>
-                <Box height="calc(100% - 2px)" layerStyle="sticky">
+                <Box
+                  height="calc(100% - 2px)"
+                  layerStyle="sticky"
+                  borderRightWidth={1}
+                >
                   <Menu isLazy>
                     {({ isOpen }) => (
                       <>
