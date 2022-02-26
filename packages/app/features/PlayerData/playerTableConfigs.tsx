@@ -1,14 +1,4 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  Icon,
-  TableCellProps,
-  Td,
-  Text,
-  Th,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, Icon, TableCellProps, Text } from "@chakra-ui/react";
 import CenterFlex from "@open-fpl/app/features/PlayerData/CenterFlex";
 import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
 import PastMatchesStats from "@open-fpl/app/features/PlayerData/PastMatchesStats";
@@ -18,7 +8,7 @@ import { PlayerTableConfig } from "@open-fpl/app/features/PlayerData/playerTable
 import PointsSection from "@open-fpl/app/features/PlayerData/PointsSection";
 import { IoWarningOutline } from "react-icons/io5";
 
-const TableCell = (props: TableCellProps) => <Td p={0} {...props} />;
+const TableCell = (props: TableCellProps) => <Box p={0} {...props} />;
 
 const playerTableConfigs = [
   {
@@ -30,7 +20,9 @@ const playerTableConfigs = [
     render: ({ player, config, cellProps }) => {
       const { zIndex, ...props } = cellProps ?? {};
       return (
-        <Th
+        <Flex
+          width={`${config.columnWidth}px`}
+          alignItems="center"
           p={0}
           fontWeight="bold"
           position="sticky"
@@ -39,23 +31,23 @@ const playerTableConfigs = [
           zIndex={typeof zIndex === "number" ? (zIndex ?? 1) + 1 : zIndex}
           {...props}
         >
-          <Flex width={`${config.columnWidth}px`} alignItems="center">
-            {player.status !== "a" && (
-              <Tooltip hasArrow label={player.news}>
-                <CenterFlex
-                  layerStyle={`fpl-status-${player.status}`}
-                  height="100%"
-                  aria-label="player status"
-                >
-                  <Icon as={IoWarningOutline} aria-label={player.news} />
-                </CenterFlex>
-              </Tooltip>
-            )}
-            <Text as="span" px={2} textAlign="left" fontSize="sm" noOfLines={1}>
-              {player.web_name}
-            </Text>
-          </Flex>
-        </Th>
+          {player.status !== "a" && (
+            <CenterFlex
+              layerStyle={`fpl-status-${player.status}`}
+              height="100%"
+              aria-label="player status"
+            >
+              <Icon
+                layerStyle={`fpl-status-${player.status}`}
+                as={IoWarningOutline}
+                aria-label={player.news}
+              />
+            </CenterFlex>
+          )}
+          <Text as="span" px={2} textAlign="left" fontSize="sm" noOfLines={1}>
+            {player.web_name}
+          </Text>
+        </Flex>
       );
     },
   },

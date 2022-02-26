@@ -1,18 +1,6 @@
-import {
-  Box,
-  Checkbox,
-  Flex,
-  Icon,
-  IconButton,
-  Link as A,
-  Th,
-} from "@chakra-ui/react";
-// import { AnalyticsPlayerStatisticsExplorer } from "@open-fpl/app/features/Analytics/analyticsTypes";
-import StickyHeaderTable from "@open-fpl/app/features/Common/Table/StickyHeaderTable";
+import { Box, Checkbox, Flex, IconButton, Link as A } from "@chakra-ui/react";
 import { ClientPlayer } from "@open-fpl/app/features/PlayerData/playerDataTypes";
 import playerTableConfigs from "@open-fpl/app/features/PlayerData/playerTableConfigs";
-import PlayerTableHeaderRow from "@open-fpl/app/features/PlayerData/PlayerTableHeaderRow";
-import PlayerTableRow from "@open-fpl/app/features/PlayerData/PlayerTableRow";
 import {
   PlayerTableConfig,
   PlayerTableSortChangeHandler,
@@ -22,8 +10,9 @@ import sortPlayerTable from "@open-fpl/app/features/PlayerData/sortPlayerTable";
 import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 // import { usePlausible } from "next-plausible";
 import { ChangeEvent, CSSProperties, MouseEvent, useMemo } from "react";
-import { IoOpenOutline, IoStar, IoStarOutline } from "react-icons/io5";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { VariableSizeGrid as Grid } from "react-window";
+import { getPaddedPastMatches } from "../PlayerData/PreviousStatsSection";
 
 const PlayersExplorerTable = ({
   displayedPlayers,
@@ -57,7 +46,7 @@ const PlayersExplorerTable = ({
             const isSelected = selectedPlayers.some((p) => p.id === player.id);
             const isStarred = player.client_data.starred_index > -1;
             return (
-              <Th p={0} fontWeight="bold">
+              <Box p={0} fontWeight="bold">
                 <Flex alignItems="center" px={2}>
                   <Checkbox
                     mr={1}
@@ -74,7 +63,7 @@ const PlayersExplorerTable = ({
                     aria-label={
                       isStarred ? "remove star player" : "add star player"
                     }
-                    icon={<Icon as={isStarred ? IoStar : IoStarOutline} />}
+                    icon={isStarred ? <>★</> : <>☆</>}
                     variant={isStarred ? "solid" : "ghost"}
                     onClick={(e) => onStarClick(e, player)}
                   />
@@ -91,11 +80,11 @@ const PlayersExplorerTable = ({
                       size="xs"
                       variant="ghost"
                       aria-label="open in Understat"
-                      icon={<Icon as={IoOpenOutline} />}
+                      icon={<>⤴</>}
                     />
                   </A>
                 </Flex>
-              </Th>
+              </Box>
             );
           },
         },
@@ -131,18 +120,29 @@ const PlayersExplorerTable = ({
     setSortColums(newSortedColumns);
   };
 
-  const row = useMemo(
+  const cell = useMemo(
     () =>
-      ({ index, style }: { index: number; style: CSSProperties }) => {
-        const player = sortedDisplayedPlayers[index];
+      ({
+        columnIndex,
+        rowIndex,
+        style,
+      }: {
+        columnIndex: number;
+        rowIndex: number;
+        style: CSSProperties;
+      }) => {
+        const config = configs[columnIndex];
+        const player = sortedDisplayedPlayers[rowIndex];
+        const pastMatches = getPaddedPastMatches(player);
         const { width, ...restStyle } = style; // provided width: 100%; broke horizontal scroll with sticky items
         return (
-          <PlayerTableRow
-            key={player.id}
-            style={restStyle}
-            player={player}
-            configs={configs}
-          />
+          <div style={restStyle}>
+            {config?.render({
+              player,
+              config,
+              pastMatches,
+            })}
+          </div>
         );
       },
     [sortedDisplayedPlayers, configs]
@@ -159,23 +159,16 @@ const PlayersExplorerTable = ({
             width={`${width}px`}
             flexGrow={1}
           >
-            <StickyHeaderTable
-              tableProps={{ "aria-label": "players table" }}
+            <Grid
+              columnCount={configs.length}
+              columnWidth={(index: number) => configs[index]?.columnWidth}
+              rowCount={sortedDisplayedPlayers.length}
+              rowHeight={() => 33}
               height={height}
               width={width}
-              itemSize={33}
-              itemCount={sortedDisplayedPlayers.length}
-              headerRow={
-                <PlayerTableHeaderRow
-                  configs={configs}
-                  onSortChange={handleSort}
-                  sortColumns={sortColumns}
-                  height="30px"
-                />
-              }
             >
-              {row}
-            </StickyHeaderTable>
+              {cell}
+            </Grid>
           </Box>
         )}
       </AutoSizer>

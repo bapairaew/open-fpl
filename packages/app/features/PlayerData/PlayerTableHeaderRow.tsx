@@ -1,12 +1,12 @@
 import {
+  Box,
+  Flex,
   Icon,
   MenuDivider,
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
   TableRowProps,
-  Th,
-  Tr,
 } from "@chakra-ui/react";
 import TableCellWithMenu from "@open-fpl/app/features/Common/Table/TableCellWithMenu";
 import {
@@ -27,7 +27,7 @@ export const PlayerTableHeaderRow = ({
   configs?: PlayerTableConfig[];
 } & TableRowProps) => {
   return (
-    <Tr {...props}>
+    <Flex {...props}>
       {configs?.map((config) => {
         const key = config.header;
 
@@ -43,7 +43,7 @@ export const PlayerTableHeaderRow = ({
             : null;
 
         return (
-          <Th
+          <Box
             key={key}
             p={0}
             position="sticky"
@@ -119,10 +119,10 @@ export const PlayerTableHeaderRow = ({
                 />
               )}
             </TableCellWithMenu>
-          </Th>
+          </Box>
         );
       })}
-    </Tr>
+    </Flex>
   );
 };
 

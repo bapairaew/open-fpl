@@ -4,7 +4,7 @@ import { PlayerTableConfig } from "@open-fpl/app/features/PlayerData/playerTable
 import { getPaddedPastMatches } from "@open-fpl/app/features/PlayerData/PreviousStatsSection";
 import { Fragment } from "react";
 
-export const PlayersExplorerPlayerTableRow = ({
+const PlayerTableRow = ({
   cellProps,
   player,
   configs,
@@ -28,4 +28,4 @@ export const PlayersExplorerPlayerTableRow = ({
   );
 };
 
-export default PlayersExplorerPlayerTableRow;
+export default PlayerTableRow;
