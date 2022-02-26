@@ -187,81 +187,6 @@ const playerTableConfigs = [
     ),
   },
   {
-    header: "Assists",
-    columnWidth: 300,
-    sortFn: playersSortFunctions.assists,
-    reversedSortFn: playersSortFunctions.reversedAssists,
-    render: ({ player, pastMatches, config, cellProps }) => (
-      <TableCell {...cellProps}>
-        <Grid
-          height="32px"
-          gap={0}
-          templateColumns="repeat(6, 1fr)"
-          width={`${config.columnWidth}px`}
-        >
-          <PastMatchesStats
-            pastMatches={pastMatches}
-            statLabel="assists"
-            valueKey="match_a"
-            maxValue={assumedMax.a}
-            sumValue={player.linked_data.season_a}
-            decimal={0}
-          />
-        </Grid>
-      </TableCell>
-    ),
-  },
-  {
-    header: "Shots",
-    columnWidth: 300,
-    sortFn: playersSortFunctions.shots,
-    reversedSortFn: playersSortFunctions.reversedShots,
-    render: ({ player, pastMatches, config, cellProps }) => (
-      <TableCell {...cellProps}>
-        <Grid
-          height="32px"
-          gap={0}
-          templateColumns="repeat(6, 1fr)"
-          width={`${config.columnWidth}px`}
-        >
-          <PastMatchesStats
-            pastMatches={pastMatches}
-            statLabel="shots"
-            valueKey="match_shots"
-            maxValue={assumedMax.shots}
-            sumValue={player.linked_data.season_shots}
-            decimal={0}
-          />
-        </Grid>
-      </TableCell>
-    ),
-  },
-  {
-    header: "Key passes",
-    columnWidth: 300,
-    sortFn: playersSortFunctions.keyPasses,
-    reversedSortFn: playersSortFunctions.reversedKeyPasses,
-    render: ({ player, pastMatches, config, cellProps }) => (
-      <TableCell {...cellProps}>
-        <Grid
-          height="32px"
-          gap={0}
-          templateColumns="repeat(6, 1fr)"
-          width={`${config.columnWidth}px`}
-        >
-          <PastMatchesStats
-            pastMatches={pastMatches}
-            statLabel="key passes"
-            valueKey="match_key_passes"
-            maxValue={assumedMax.keyPasses}
-            sumValue={player.linked_data.season_key_passes}
-            decimal={0}
-          />
-        </Grid>
-      </TableCell>
-    ),
-  },
-  {
     header: "xG",
     columnWidth: 300,
     sortFn: playersSortFunctions.xg,
@@ -281,6 +206,31 @@ const playerTableConfigs = [
             maxValue={assumedMax.xg}
             sumValue={player.linked_data.season_xg}
             decimal={1}
+          />
+        </Grid>
+      </TableCell>
+    ),
+  },
+  {
+    header: "Assists",
+    columnWidth: 300,
+    sortFn: playersSortFunctions.assists,
+    reversedSortFn: playersSortFunctions.reversedAssists,
+    render: ({ player, pastMatches, config, cellProps }) => (
+      <TableCell {...cellProps}>
+        <Grid
+          height="32px"
+          gap={0}
+          templateColumns="repeat(6, 1fr)"
+          width={`${config.columnWidth}px`}
+        >
+          <PastMatchesStats
+            pastMatches={pastMatches}
+            statLabel="assists"
+            valueKey="match_a"
+            maxValue={assumedMax.a}
+            sumValue={player.linked_data.season_a}
+            decimal={0}
           />
         </Grid>
       </TableCell>
@@ -332,6 +282,56 @@ const playerTableConfigs = [
             sumValue={player.linked_data.season_xga}
             decimal={1}
             isReversedScale
+          />
+        </Grid>
+      </TableCell>
+    ),
+  },
+  {
+    header: "Shots",
+    columnWidth: 300,
+    sortFn: playersSortFunctions.shots,
+    reversedSortFn: playersSortFunctions.reversedShots,
+    render: ({ player, pastMatches, config, cellProps }) => (
+      <TableCell {...cellProps}>
+        <Grid
+          height="32px"
+          gap={0}
+          templateColumns="repeat(6, 1fr)"
+          width={`${config.columnWidth}px`}
+        >
+          <PastMatchesStats
+            pastMatches={pastMatches}
+            statLabel="shots"
+            valueKey="match_shots"
+            maxValue={assumedMax.shots}
+            sumValue={player.linked_data.season_shots}
+            decimal={0}
+          />
+        </Grid>
+      </TableCell>
+    ),
+  },
+  {
+    header: "Key passes",
+    columnWidth: 300,
+    sortFn: playersSortFunctions.keyPasses,
+    reversedSortFn: playersSortFunctions.reversedKeyPasses,
+    render: ({ player, pastMatches, config, cellProps }) => (
+      <TableCell {...cellProps}>
+        <Grid
+          height="32px"
+          gap={0}
+          templateColumns="repeat(6, 1fr)"
+          width={`${config.columnWidth}px`}
+        >
+          <PastMatchesStats
+            pastMatches={pastMatches}
+            statLabel="key passes"
+            valueKey="match_key_passes"
+            maxValue={assumedMax.keyPasses}
+            sumValue={player.linked_data.season_key_passes}
+            decimal={0}
           />
         </Grid>
       </TableCell>
