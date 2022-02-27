@@ -1,6 +1,7 @@
 import {
   ColorMode,
   extendTheme,
+  theme,
   withDefaultColorScheme,
 } from "@chakra-ui/react";
 import {
@@ -46,6 +47,9 @@ const customTheme = extendTheme(
         "800": "#040e12",
         "900": "#040e12",
       },
+    },
+    shadows: {
+      outline: `0 0 0 2px ${theme.colors.blue[500]}`,
     },
     layerStyles: {
       selected: {

@@ -149,12 +149,11 @@ const TeamPlannerToolbar = ({
           aria-label="select a chip"
           height="20px"
           fontWeight="bold"
-          variant="unstyled"
+          variant="flushed"
           placeholder="Not used"
           rootProps={{ display: "flex" }}
-          fontSize={{ base: "xs", sm: "md" }}
+          fontSize={{ base: "sm", sm: "md" }}
           value={chipUsages.find((c) => c.isActive)?.name ?? ""}
-          onChange={onActivatedChipSelectChange}
         >
           {chipUsages.map((c) => (
             <option key={c.name} disabled={c.isUsed} value={c.name}>
