@@ -128,6 +128,7 @@ const KitSwapablePlayer = ({
   const kitImage = `https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_${kitsMap[
     player.team.short_name || "ARS"
   ]!}${player.element_type.singular_name_short === "GKP" ? "_1" : ""}-220.png`;
+  const adjustedSellingPrice = player.pick.selling_price / 10;
 
   const fixtures = player.client_data.gameweeks?.[0];
 
@@ -143,7 +144,7 @@ const KitSwapablePlayer = ({
           spacing={0}
           borderWidth={1}
           width={{ base: "70px", sm: "160px" }}
-          height={{ base: "110px", sm: "150px" }}
+          height={{ base: "110px", sm: "160px" }}
           fontSize={{ base: "xs", sm: "md" }}
         >
           <Flex flexGrow={1} width="100%" p={2}>
@@ -189,6 +190,14 @@ const KitSwapablePlayer = ({
               aria-label="player name"
             >
               {player.web_name}
+            </Text>
+            <Text
+              px={1}
+              display={{ base: "none", sm: "inline" }}
+              aria-label="player cost"
+              fontSize="xs"
+            >
+              £{adjustedSellingPrice.toFixed(1)}
             </Text>
           </HStack>
           <Flex
