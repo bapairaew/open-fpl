@@ -133,13 +133,11 @@ const DashboardUpcomingFixtureModal = ({
                 {fixture.team_h?.stats?.loses ?? 0}
               </StatNumber>
               <StatHelpText>
-                {[...(fixture.team_h?.stats?.matches ?? [])]
-                  .reverse()
-                  .map((m, index) => (
-                    <Box key={index} as="span">
-                      {m.result.toUpperCase()}
-                    </Box>
-                  ))}
+                {[...(fixture.team_h?.stats?.matches ?? [])].map((m, index) => (
+                  <Box key={index} as="span">
+                    {m.result.toUpperCase()}
+                  </Box>
+                ))}
               </StatHelpText>
             </Stat>
             <Stat textAlign="center">
@@ -150,13 +148,11 @@ const DashboardUpcomingFixtureModal = ({
                 {fixture.team_a?.stats?.loses ?? 0}
               </StatNumber>
               <StatHelpText>
-                {[...(fixture.team_a?.stats?.matches ?? [])]
-                  .reverse()
-                  .map((m, index) => (
-                    <Box key={index} as="span">
-                      {m.result.toUpperCase()}
-                    </Box>
-                  ))}
+                {[...(fixture.team_a?.stats?.matches ?? [])].map((m, index) => (
+                  <Box key={index} as="span">
+                    {m.result.toUpperCase()}
+                  </Box>
+                ))}
               </StatHelpText>
             </Stat>
             <Stat textAlign="center">
