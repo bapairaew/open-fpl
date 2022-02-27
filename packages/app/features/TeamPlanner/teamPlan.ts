@@ -108,7 +108,14 @@ const getGameweekPicks = (
     {
       name: "freehit",
       isActive: false,
-      isUsed: chips.filter((c) => c.name === "freehit").length >= freeHitBudget,
+      isUsed:
+        !!(
+          // Disallow 2 freehits consecutively
+          (
+            chips.find((c) => c.event === planningGameweek - 1)?.name ===
+            "freehit"
+          )
+        ) || chips.filter((c) => c.name === "freehit").length >= freeHitBudget,
     },
     {
       name: "wildcard",
@@ -212,15 +219,44 @@ const getGameweekPicks = (
       const chipChange = change as ChipChange;
       const matched = chipUsages.find((c) => c.name === chipChange.chip);
       if (matched) {
-        if (matched.isUsed) {
-          invalidChanges.push({
-            type: "chip_already_used",
-            message: `${matched.name} is already used.`,
-            change,
-          });
+        matched.isActive = planningGameweek === change.gameweek;
+        if (chipChange.chip === "freehit") {
+          matched.isUsed =
+            !!(
+              chips.find((c) => c.event === planningGameweek - 1)?.name ===
+                "freehit" ||
+              (
+                changes.find(
+                  (c) =>
+                    c.type === "use-chip" && c.gameweek === planningGameweek - 1
+                ) as ChipChange
+              )?.chip === "freehit"
+            ) ||
+            chips.filter((c) => c.name === "freehit").length +
+              changes.filter(
+                (c) =>
+                  c.type === "use-chip" && (c as ChipChange).chip === "freehit"
+              ).length >=
+              freeHitBudget;
+        } else if (chipChange.chip === "wildcard") {
+          matched.isUsed =
+            planningGameweek > 18
+              ? chips.some((c) => c.name === "wildcard" && c.event > 18) ||
+                changes.some(
+                  (c) =>
+                    c.type === "use-chip" &&
+                    (c as ChipChange).chip === "wildcard" &&
+                    c.gameweek > 18
+                )
+              : chips.some((c) => c.name === "wildcard" && c.event <= 18) ||
+                changes.some(
+                  (c) =>
+                    c.type === "use-chip" &&
+                    (c as ChipChange).chip === "wildcard" &&
+                    c.gameweek <= 18
+                );
         } else {
           matched.isUsed = true;
-          matched.isActive = planningGameweek === change.gameweek;
         }
       }
     }
