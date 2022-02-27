@@ -5,8 +5,8 @@ import {
   Element,
   ElementTypes,
   Event,
-  Team,
   Fixture,
+  Team,
 } from "@open-fpl/data/features/RemoteData/fplTypes";
 import getDataFromFiles from "@open-fpl/data/features/RemoteData/getDataFromFiles";
 import { fetchData } from "@open-fpl/data/features/RemoteData/remoteData";
@@ -348,7 +348,7 @@ const strategies: StorageStrategies = {
               let toBeUpdated = [...list];
 
               if (previousSnapshots.snapshot_understat_players_data !== null) {
-                toBeUpdated = toBeUpdated.filter((player, index) => {
+                toBeUpdated = toBeUpdated.filter((player) => {
                   const matched =
                     previousSnapshots.snapshot_understat_players_data?.response.players.find(
                       (p) => p.id === player.id

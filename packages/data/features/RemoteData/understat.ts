@@ -1,11 +1,11 @@
-import fetch from "node-fetch";
-import { HTMLElement, parse } from "node-html-parser";
 import {
   GetUnderstatPlayersResponse,
   LeagueStat,
+  PageTeamStat,
   PlayerStat,
-  TeamStat,
 } from "@open-fpl/data/features/RemoteData/understatTypes";
+import fetch from "node-fetch";
+import { HTMLElement, parse } from "node-html-parser";
 
 const { UNDERSTAT_SEASON: _understatSeason } = process.env;
 const understatSeason = _understatSeason ?? "2021";
@@ -77,7 +77,7 @@ export const getUnderstatData = (): Promise<LeagueStat> => {
     });
 };
 
-export const getUnderstatTeamData = (slug: string): Promise<TeamStat> => {
+export const getUnderstatTeamData = (slug: string): Promise<PageTeamStat> => {
   return fetch(`https://understat.com/team/${slug}`, {
     headers,
     method: "GET",
@@ -85,6 +85,6 @@ export const getUnderstatTeamData = (slug: string): Promise<TeamStat> => {
     .then((r) => r.text())
     .then((t) => {
       const scripts = parse(t).querySelectorAll(".block script");
-      return getDataFromScripts<TeamStat>(scripts);
+      return getDataFromScripts<PageTeamStat>(scripts);
     });
 };

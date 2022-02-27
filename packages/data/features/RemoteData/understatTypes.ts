@@ -292,10 +292,9 @@ export interface AttackSpeedTeamStat extends BaseTeamStat {
   stat: AttackSpeed;
 }
 
-export interface TeamStat {
-  id: string;
-  title: string;
-  history: TeamHistoryStat[];
+export interface TeamStat extends LeagueTeamStat, PageTeamStat {}
+
+export interface PageTeamStat {
   datesData: DatesData[];
   statisticsData: {
     situation: Record<Situation, BaseTeamStat>;

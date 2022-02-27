@@ -278,7 +278,7 @@ const makeTeams = ({
             draws: understatTeam.history.reduce((sum, h) => h.draws + sum, 0),
             loses: understatTeam.history.reduce((sum, h) => h.loses + sum, 0),
             matches: understatTeam.history
-              .slice(0, 5)
+              .slice(-5)
               .reverse()
               .map((m) => {
                 const matched = understatTeam.datesData.find(
