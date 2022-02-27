@@ -154,6 +154,7 @@ const TeamPlannerToolbar = ({
           rootProps={{ display: "flex" }}
           fontSize={{ base: "sm", sm: "md" }}
           value={chipUsages.find((c) => c.isActive)?.name ?? ""}
+          onChange={onActivatedChipSelectChange}
         >
           {chipUsages.map((c) => (
             <option key={c.name} disabled={c.isUsed} value={c.name}>
