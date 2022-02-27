@@ -1,6 +1,6 @@
 {
   "name": "@open-fpl/data",
-  "version": "2.0.0-pre.5",
+  "version": "2.0.0-pre.6",
   "license": "Apache-2.0",
   "scripts": {
     "check-data": "ts-node -O {\\\"module\\\":\\\"commonjs\\\"} -r tsconfig-paths/register scripts/check-data.ts",
@@ -16,7 +16,7 @@
     "@chakra-ui/react": "^1.6.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@open-fpl/common": "2.0.0-pre.5",
+    "@open-fpl/common": "2.0.0-pre.6",
     "framer-motion": "^4",
     "next": "^11.0.0",
     "next-seo": "^4.26.0",
