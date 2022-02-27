@@ -11,6 +11,7 @@ import {
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
+import CenterFlex from "@open-fpl/app/features/PlayerData/CenterFlex";
 import FixturesSection from "@open-fpl/app/features/PlayerData/FixturesSection";
 import { SwapablePlayerVariant } from "@open-fpl/app/features/TeamPlanner/SwapablePlayer/SwapablePlayer";
 import { FullChangePlayer } from "@open-fpl/app/features/TeamPlanner/teamPlannerTypes";
@@ -128,6 +129,8 @@ const KitSwapablePlayer = ({
     player.team.short_name || "ARS"
   ]!}${player.element_type.singular_name_short === "GKP" ? "_1" : ""}-220.png`;
 
+  const fixtures = player.client_data.gameweeks?.[0];
+
   return (
     <>
       <Box
@@ -140,7 +143,7 @@ const KitSwapablePlayer = ({
           spacing={0}
           borderWidth={1}
           width={{ base: "70px", sm: "160px" }}
-          height={{ base: "82px", sm: "150px" }}
+          height={{ base: "110px", sm: "150px" }}
           fontSize={{ base: "xs", sm: "md" }}
         >
           <Flex flexGrow={1} width="100%" p={2}>
@@ -188,6 +191,30 @@ const KitSwapablePlayer = ({
               {player.web_name}
             </Text>
           </HStack>
+          <Flex
+            width="100%"
+            height="15px"
+            fontSize="xs"
+            display={{ base: "flex", sm: "none" }}
+          >
+            {fixtures &&
+              fixtures.map((fixture, index) => (
+                <CenterFlex
+                  key={`${fixture.opponent.short_name}_${fixture.is_home}_0_${index}`}
+                  width={`${100 / fixtures.length}%`}
+                  layerStyle={`fpl-difficulty-${fixture.difficulty}`}
+                >
+                  <Box
+                    aria-label={`difficulty level against ${fixture.opponent.name}`}
+                    aria-valuetext={`${fixture.difficulty}`}
+                  >
+                    {fixture.is_home
+                      ? fixture.opponent.short_name.toUpperCase()
+                      : fixture.opponent.short_name.toLowerCase()}
+                  </Box>
+                </CenterFlex>
+              ))}
+          </Flex>
           <FixturesSection variant="mini" player={player} />
         </VStack>
         <VStack
