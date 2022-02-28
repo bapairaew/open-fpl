@@ -43,33 +43,13 @@ const getGameweekPicks = (
   transfers: Transfer[],
   chips: EntryChipPlay[],
   players: Player[],
-  allChanges: Change[],
+  effectiveChanges: Change[],
   planningGameweek: number
 ): {
   picks: Pick[];
   chipUsages: ChipUsage[];
   invalidChanges: InvalidChange[];
 } => {
-  const freeHitUsage = allChanges.find(
-    (c) => c.type === "use-chip" && (c as ChipChange).chip === "freehit"
-  );
-
-  const changes = [...allChanges]
-    .sort((a, b) =>
-      a.gameweek > b.gameweek ? 1 : a.gameweek < b.gameweek ? -1 : 0
-    )
-    .filter(
-      (c) =>
-        c.gameweek <= planningGameweek &&
-        // Ignore transfer/swap/set-captain/set-vice-captain changes in the freehitted gameweek in the following gameweeks
-        (!freeHitUsage ||
-          !["transfer", "swap", "set-captain", "set-vice-catpain"].includes(
-            c.type
-          ) ||
-          planningGameweek === freeHitUsage.gameweek ||
-          c.gameweek !== freeHitUsage.gameweek)
-    );
-
   const picks = [] as Pick[];
   if (initialPicks) {
     for (const p of initialPicks) {
@@ -129,7 +109,7 @@ const getGameweekPicks = (
 
   const invalidChanges = [] as InvalidChange[];
 
-  for (const change of changes) {
+  for (const change of effectiveChanges) {
     if (change.type === "swap" || change.type === "transfer") {
       const twoPlayersChange = change as TwoPlayersChange<FullChangePlayer>;
       const sourceIndex = picks.findIndex(
@@ -226,14 +206,14 @@ const getGameweekPicks = (
               chips.find((c) => c.event === planningGameweek - 1)?.name ===
                 "freehit" ||
               (
-                changes.find(
+                effectiveChanges.find(
                   (c) =>
                     c.type === "use-chip" && c.gameweek === planningGameweek - 1
                 ) as ChipChange
               )?.chip === "freehit"
             ) ||
             chips.filter((c) => c.name === "freehit").length +
-              changes.filter(
+              effectiveChanges.filter(
                 (c) =>
                   c.type === "use-chip" && (c as ChipChange).chip === "freehit"
               ).length >=
@@ -242,14 +222,14 @@ const getGameweekPicks = (
           matched.isUsed =
             planningGameweek > 18
               ? chips.some((c) => c.name === "wildcard" && c.event > 18) ||
-                changes.some(
+                effectiveChanges.some(
                   (c) =>
                     c.type === "use-chip" &&
                     (c as ChipChange).chip === "wildcard" &&
                     c.gameweek > 18
                 )
               : chips.some((c) => c.name === "wildcard" && c.event <= 18) ||
-                changes.some(
+                effectiveChanges.some(
                   (c) =>
                     c.type === "use-chip" &&
                     (c as ChipChange).chip === "wildcard" &&
@@ -272,14 +252,11 @@ const getGameweekPicks = (
 // Get remaining bank balance from changes
 const getRemainingBank = (
   entryHistory: EntryEventHistory | null,
-  changes: Change[],
-  planningGameweek: number
+  effectiveChanges: Change[]
 ) => {
   const currentBank = entryHistory?.bank ?? 1000; // entryHistory is null before the first gameweek
-  const transfers = changes.filter(
-    (c) =>
-      (c.type === "transfer" || c.type === "preseason") &&
-      c.gameweek <= planningGameweek
+  const transfers = effectiveChanges.filter(
+    (c) => c.type === "transfer" || c.type === "preseason"
   );
   const diff = transfers?.reduce((sum, change) => {
     if (change.type === "transfer") {
@@ -311,16 +288,36 @@ export const getGameweekData = (
   changes: Change[],
   planningGameweek: number
 ): GameweekData => {
+  const freeHitUsage = changes.find(
+    (c) => c.type === "use-chip" && (c as ChipChange).chip === "freehit"
+  );
+
+  const effectiveChanges = [...changes]
+    .sort((a, b) =>
+      a.gameweek > b.gameweek ? 1 : a.gameweek < b.gameweek ? -1 : 0
+    )
+    .filter(
+      (c) =>
+        c.gameweek <= planningGameweek &&
+        // Ignore transfer/swap/set-captain/set-vice-captain changes in the freehitted gameweek in the following gameweeks
+        (!freeHitUsage ||
+          !["transfer", "swap", "set-captain", "set-vice-catpain"].includes(
+            c.type
+          ) ||
+          planningGameweek === freeHitUsage.gameweek ||
+          c.gameweek !== freeHitUsage.gameweek)
+    );
+
   const { picks, chipUsages, invalidChanges } = getGameweekPicks(
     initialPicks,
     transfers,
     chips,
     players,
-    changes,
+    effectiveChanges,
     planningGameweek
   );
 
-  const bank = getRemainingBank(entryHistory, changes, planningGameweek);
+  const bank = getRemainingBank(entryHistory, effectiveChanges);
 
   const team = picks.map((p, i) => {
     const player =
