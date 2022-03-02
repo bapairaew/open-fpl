@@ -60,103 +60,126 @@ const IdCard = ({ name, current, past }: IdCardProps) => {
         alignItems="center"
         height="100%"
         width="100%"
+        position="relative"
       >
+        <Box
+          background={`
+          conic-gradient(
+            from 230.29deg at 51.63% 52.16%,
+            ${theme.colors.green[500]} 0deg,
+            ${theme.colors.blue[500]} 60deg,
+            ${theme.colors.pink[500]} 120deg,
+            ${theme.colors.red[500]} 180deg,
+            ${theme.colors.orange[500]} 240deg,
+            ${theme.colors.purple[500]} 300deg
+          )`}
+          filter="blur(160px)"
+          position="absolute"
+          width="100%"
+          height="100%"
+          top={0}
+          left={0}
+          opacity={0.5}
+          transform="translateZ(0)"
+        />
         <Box>
-          <Card
-            shineStrength={0.1}
-            borderRadius="5px"
-            cursorPointer={false}
-            style={{
-              "background-color":
-                colorMode === "dark"
-                  ? theme.colors.gray[700]
-                  : theme.colors.gray[50],
-              width: "500px",
-              height: "320px",
-            }}
-          >
-            <Box mx={4} my={4}>
-              <Box
-                fontWeight="black"
-                fontSize="3xl"
-                color={colorMode === "dark" ? "white" : "gray.700"}
-              >
-                {name}
-              </Box>
-            </Box>
-            <Box
-              px={4}
-              pt={4}
-              pb={6}
-              my={4}
-              textAlign="center"
-              position="relative"
-              bg={colorMode === "dark" ? "gray.800" : "gray.100"}
+          <Box boxShadow="lg">
+            <Card
+              shineStrength={0.1}
+              borderRadius="5px"
+              cursorPointer={false}
+              style={{
+                backgroundColor:
+                  colorMode === "dark"
+                    ? theme.colors.gray[700]
+                    : theme.colors.white,
+                width: "500px",
+                height: "320px",
+              }}
             >
-              <Box
-                position="absolute"
-                width="100%"
-                height="100%"
-                left={0}
-                top={0}
-                opacity={0.5}
-                zIndex={-1}
-              >
-                <Line data={data} options={options} />
-              </Box>
-              <Box
-                fontWeight="black"
-                fontSize="6xl"
-                color={colorMode === "dark" ? "white" : "gray.700"}
-              >
-                {current[current.length - 1].toLocaleString()}
-              </Box>
-              <Box
-                mt={-2}
-                opacity={0.5}
-                fontSize="lg"
-                color={colorMode === "dark" ? "white" : "gray.700"}
-              >
-                GW{current.length + 1} overall rank
-              </Box>
-            </Box>
-            <Flex mx={4} my={4} justifyContent="space-around">
-              <Box textAlign="center">
+              <Box mx={4} my={4}>
                 <Box
                   fontWeight="black"
-                  fontSize="xl"
+                  fontSize="3xl"
                   color={colorMode === "dark" ? "white" : "gray.700"}
                 >
-                  {Math.min(...current).toLocaleString()}
-                </Box>
-                <Box
-                  mt={-1}
-                  opacity={0.5}
-                  fontSize="sm"
-                  color={colorMode === "dark" ? "white" : "gray.700"}
-                >
-                  Season peak
+                  {name}
                 </Box>
               </Box>
-              <Box textAlign="center">
+              <Box
+                px={4}
+                pt={4}
+                pb={6}
+                my={4}
+                textAlign="center"
+                position="relative"
+                bg={colorMode === "dark" ? "gray.800" : "gray.100"}
+              >
+                <Box
+                  position="absolute"
+                  width="100%"
+                  height="100%"
+                  left={0}
+                  top={0}
+                  opacity={0.3}
+                  zIndex={-1}
+                >
+                  <Line data={data} options={options} />
+                </Box>
                 <Box
                   fontWeight="black"
-                  fontSize="xl"
+                  fontSize="6xl"
                   color={colorMode === "dark" ? "white" : "gray.700"}
                 >
-                  {Math.min(...past).toLocaleString()}
+                  {current[current.length - 1].toLocaleString()}
                 </Box>
                 <Box
-                  mt={-1}
+                  mt={-2}
                   opacity={0.5}
-                  fontSize="sm"
+                  fontSize="lg"
                   color={colorMode === "dark" ? "white" : "gray.700"}
                 >
-                  All time peak
+                  GW{current.length + 1} overall rank
                 </Box>
               </Box>
-            </Flex>
-          </Card>
+              <Flex mx={4} my={4} justifyContent="space-around">
+                <Box textAlign="center">
+                  <Box
+                    fontWeight="black"
+                    fontSize="xl"
+                    color={colorMode === "dark" ? "white" : "gray.700"}
+                  >
+                    {Math.min(...current).toLocaleString()}
+                  </Box>
+                  <Box
+                    mt={-1}
+                    opacity={0.5}
+                    fontSize="sm"
+                    color={colorMode === "dark" ? "white" : "gray.700"}
+                  >
+                    Season peak
+                  </Box>
+                </Box>
+                <Box textAlign="center">
+                  <Box
+                    fontWeight="black"
+                    fontSize="xl"
+                    color={colorMode === "dark" ? "white" : "gray.700"}
+                  >
+                    {Math.min(...past).toLocaleString()}
+                  </Box>
+                  <Box
+                    mt={-1}
+                    opacity={0.5}
+                    fontSize="sm"
+                    color={colorMode === "dark" ? "white" : "gray.700"}
+                  >
+                    All time peak
+                  </Box>
+                </Box>
+              </Flex>
+            </Card>
+          </Box>
           <Box textAlign="right" mt={6} opacity={0.5}>
             openfpl.com
           </Box>
