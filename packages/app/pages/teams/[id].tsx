@@ -1,12 +1,12 @@
 import { Spinner } from "@chakra-ui/react";
 import { useIsLocalStorageSupported } from "@open-fpl/app/features/Common/useLocalStorage";
+import useProfileRedirect from "@open-fpl/app/features/Common/useProfileRedirect";
 import getDataUrl from "@open-fpl/app/features/Data/getDataUrl";
 import AppLayout from "@open-fpl/app/features/Layout/AppLayout";
 import FullScreenMessageWithAppDrawer from "@open-fpl/app/features/Layout/FullScreenMessageWithAppDrawer";
 import { origin } from "@open-fpl/app/features/Navigation/internalUrls";
 import getOgImage from "@open-fpl/app/features/OpenGraphImages/getOgImage";
 import TeamPlanner from "@open-fpl/app/features/TeamPlanner/TeamPlanner";
-import useTeamPlannerRedirect from "@open-fpl/app/features/TeamPlanner/useTeamPlannerRedirect";
 import UnhandledError from "@open-fpl/common/features/Error/UnhandledError";
 import { TeamFixtures } from "@open-fpl/data/features/AppData/fixtureDataTypes";
 import { Player } from "@open-fpl/data/features/AppData/playerDataTypes";
@@ -123,7 +123,7 @@ const TransferPlannerPage = ({
   nextGameweekId,
   teamFixtures,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  useTeamPlannerRedirect();
+  useProfileRedirect("/teams");
 
   const { data: players, error: playersError } = useSWR<Player[]>(
     getDataUrl("/app-data/players.json")

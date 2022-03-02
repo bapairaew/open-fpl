@@ -8,8 +8,8 @@ import { useSettings } from "@open-fpl/app/features/Settings/Settings";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
 
-const TransferPlannerSetupPage = () => {
-  const { profile } = useProfileRedirect("/teams");
+const IdCardSetupPage = () => {
+  const { profile } = useProfileRedirect("/cards");
   const { onSettingsModalOpen } = useSettings();
 
   let mainContent = null;
@@ -23,9 +23,9 @@ const TransferPlannerSetupPage = () => {
         text={
           <VStack spacing={6}>
             <Text as="span">
-              Please wait while we are bringing you to your Team Planner page.
+              Please wait while we are bringing you to your ID Card page.
             </Text>
-            <Link href={`/teams/${profile}`} passHref>
+            <Link href={`/cards/${profile}`} passHref>
               <A>
                 <Button size="md" onClick={onSettingsModalOpen} variant="link">
                   Click here if it does not work
@@ -45,7 +45,7 @@ const TransferPlannerSetupPage = () => {
         text={
           <VStack spacing={6}>
             <Text as="span">
-              Set up a profile with your Team ID to access Team Planner
+              Set up a profile with your Team ID to access ID Card
             </Text>
             <Button size="md" onClick={onSettingsModalOpen}>
               Set up your profile
@@ -59,20 +59,20 @@ const TransferPlannerSetupPage = () => {
   return (
     <>
       <NextSeo
-        title="Team Planner – Open FPL"
-        description="Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks."
-        canonical={`${origin}/teams`}
+        title="ID Card – Open FPL"
+        description="Create your unique ID card to show off your Fantasy Premier League rankings."
+        canonical={`${origin}/cards`}
         openGraph={{
-          url: `${origin}/teams`,
-          title: "Team Planner – Open FPL",
+          url: `${origin}/cards`,
+          title: "ID Card – Open FPL",
           description:
-            "Plan your team lineup, transfers, captain and chip usage ahead of upcoming Fantasy Premier League gameweeks.",
+            "Create your unique ID card to show off your Fantasy Premier League rankings.",
           images: [
             {
-              url: getOgImage("Team Planner.png?width=100,height=100"),
+              url: getOgImage("ID Card.png?width=100,height=100"),
               width: 800,
               height: 600,
-              alt: "Team Planner – Open FPL",
+              alt: "ID Card – Open FPL",
             },
           ],
           site_name: "Open FPL",
@@ -88,4 +88,4 @@ const TransferPlannerSetupPage = () => {
   );
 };
 
-export default TransferPlannerSetupPage;
+export default IdCardSetupPage;

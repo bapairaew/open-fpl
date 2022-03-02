@@ -1,7 +1,9 @@
 import {
   Box,
   Button,
+  Divider,
   Flex,
+  Heading,
   HStack,
   Icon,
   Link as A,
@@ -22,6 +24,7 @@ import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import {
   IoCalendarClearOutline,
+  IoIdCardOutline,
   IoLogoGithub,
   IoLogoTwitter,
   IoPeopleCircleOutline,
@@ -102,6 +105,7 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
           </RoughNotation>
         </Box>
       </Link>
+      <Divider />
       <List flexGrow={1} role="list">
         <SideBarItem href="/" icon={IoRadioButtonOnOutline}>
           Dashboard
@@ -119,6 +123,17 @@ const SideBar = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
         <SideBarItem href="/fixtures" icon={IoCalendarClearOutline}>
           Fixtures
         </SideBarItem>
+        <Divider />
+        <Heading size="sm" pt={4} px={4}>
+          Labs
+        </Heading>
+        <SideBarItem href="/cards" icon={IoIdCardOutline}>
+          ID Card
+        </SideBarItem>
+        {/* <SideBarItem href="/rmt" icon={IoStarHalf}>
+          Rate my team
+        </SideBarItem> */}
+        <Divider />
       </List>
       <VStack p={3} spacing={3} borderTopWidth={1}>
         <Button
